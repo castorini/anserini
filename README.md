@@ -15,18 +15,12 @@ See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et
 
 ## Getting Started
 
+Many Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
+If you're looking for basic indexing and search capabilities, you might want to start there.
 A low-effort way to try out Anserini is to look at our [online notebooks](https://github.com/castorini/anserini-notebooks), which will allow you to get started with just a few clicks.
 For convenience, we've pre-built a few common indexes, available to download [here](https://git.uwaterloo.ca/jimmylin/anserini-indexes).
 
-If you want to build Anserini itself, then start by verifying the main dependencies:
-
-+ Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
-Maven 3.3+ is also required.
-+ Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
-Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
-As a result of this upgrade, results of all regressions have changed slightly.
-To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
-
+If you want to build Anserini itself, you'll need Java 11 and Maven 3.3+ is also required.
 After cloning our repo (use `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned), build using Maven:
 
 ```
@@ -142,6 +136,15 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 + v0.3.0: December 16, 2018 [[Release Notes](docs/release-notes/release-notes-v0.3.0.md)]
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
 + v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
+
+## Historical Notes
+
++ Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
+Maven 3.3+ is also required.
++ Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
+Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
+As a result of this upgrade, results of all regressions have changed slightly.
+To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
 
 ## References
 
