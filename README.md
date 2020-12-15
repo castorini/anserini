@@ -21,7 +21,8 @@ A low-effort way to try out Anserini is to look at our [online notebooks](https:
 For convenience, we've pre-built a few common indexes, available to download [here](https://git.uwaterloo.ca/jimmylin/anserini-indexes).
 
 If you want to build Anserini itself, you'll need Java 11 and Maven 3.3+ is also required.
-After cloning our repo (use `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned), build using Maven:
+Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned.
+Then, build using using Maven:
 
 ```
 mvn clean package appassembler:assemble
