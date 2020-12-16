@@ -65,7 +65,7 @@ public class StopRatio implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return "StopRatio";
+        return String.format("%s_StopRatio", field);
     }
 
     @Override
