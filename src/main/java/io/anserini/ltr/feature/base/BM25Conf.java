@@ -43,7 +43,7 @@ public class BM25Conf implements FeatureExtractor {
         this.collectFun = collectFun;
     }
 
-    public BM25Conf(double k, double b, String field, Pooler collectFun) {
+    public BM25Conf(Pooler collectFun, double k, double b, String field) {
         this.k1 = k;
         this.b = b;
         this.field = field;
@@ -89,7 +89,7 @@ public class BM25Conf implements FeatureExtractor {
     @Override
     public FeatureExtractor clone() {
         Pooler newFun = collectFun.clone();
-        return new BM25Conf(k1, b, field, newFun);
+        return new BM25Conf(newFun, k1, b, field);
     }
 
 }

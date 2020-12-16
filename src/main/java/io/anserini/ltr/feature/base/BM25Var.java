@@ -36,14 +36,14 @@ public class BM25Var implements FeatureExtractor {
         this.collectFun = collectFun;
     }
 
-    public BM25Var(double k, double b, Pooler collectFun) {
+    public BM25Var(Pooler collectFun, double k, double b) {
         this.k1 = k;
         this.b = b;
         this.field = IndexArgs.CONTENTS;
         this.collectFun = collectFun;
     }
 
-    public BM25Var(double k, double b, String field, Pooler collectFun) {
+    public BM25Var(Pooler collectFun, double k, double b, String field){
         this.k1 = k;
         this.b = b;
         this.field = field;
@@ -89,7 +89,7 @@ public class BM25Var implements FeatureExtractor {
     @Override
     public FeatureExtractor clone() {
         Pooler newFun = collectFun.clone();
-        return new BM25Var(k1, b, field, newFun);
+        return new BM25Var(newFun, k1, b, field);
     }
 
 }

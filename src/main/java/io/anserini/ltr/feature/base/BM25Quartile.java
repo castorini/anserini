@@ -31,26 +31,23 @@ public class BM25Quartile implements FeatureExtractor {
     private String field;
     int q;
     Pooler collectFun;
-    public BM25Quartile(Pooler collectFun, int q) {
+    public BM25Quartile(Pooler collectFun) {
         this.field = IndexArgs.CONTENTS;
         this.collectFun = collectFun;
-        this.q = q;
     }
 
-    public BM25Quartile(double k, double b, Pooler collectFun, int q) {
+    public BM25Quartile(Pooler collectFun, double k, double b) {
         this.k1 = k;
         this.b = b;
         this.field = IndexArgs.CONTENTS;
         this.collectFun = collectFun;
-        this.q = q;
     }
 
-    public BM25Quartile(double k, double b, String field, Pooler collectFun, int q) {
+    public BM25Quartile(Pooler collectFun, double k, double b, String field) {
         this.k1 = k;
         this.b = b;
         this.field = field;
         this.collectFun = collectFun;
-        this.q = q;
     }
 
     /**
@@ -73,7 +70,7 @@ public class BM25Quartile implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return String.format("%s_BM25_Quartile_k1_%.2f_b_%.2f_%s_%d",field, k1, b, collectFun.getName(),q);
+        return String.format("%s_BM25_Quartile_k1_%.2f_b_%.2f_%s",field, k1, b, collectFun.getName());
     }
 
     @Override
@@ -96,7 +93,7 @@ public class BM25Quartile implements FeatureExtractor {
     @Override
     public FeatureExtractor clone() {
         Pooler newFun = collectFun.clone();
-        return new BM25Quartile(k1, b, field, newFun,q);
+        return new BM25Quartile(newFun, k1, b, field);
     }
 
 }
