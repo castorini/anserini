@@ -117,7 +117,7 @@ public class FeatureExtractorUtils {
       List<debugOutput> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
-
+      
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
         TopDocs topDocs = searcher.search(q, 1);

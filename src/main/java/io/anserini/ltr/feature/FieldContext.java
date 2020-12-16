@@ -27,6 +27,14 @@ public class FieldContext {
     private Map<String, Map<Integer,List<Integer>>> postings;
     private Map<Pair<String, String>, Integer> bigramCollectionFreqs;
 
+    public List<Float> mean_score;
+    public List<Float> min_score;
+    public List<Float> max_score;
+    public List<Float> hmean_score;
+    public List<Float> var_score;
+    public List<Float> conf_score;
+    public List<Float> quartile_score;
+
     //todo implement local normalization here
     public Map<String, List<Float>> statsCache;
 
@@ -46,6 +54,15 @@ public class FieldContext {
         collectionFreqs = new HashMap<>();
         postings = new HashMap<>();
         bigramCollectionFreqs = new HashMap<>();
+
+        mean_score = new ArrayList<>();
+        min_score = new ArrayList<>();
+        max_score = new ArrayList<>();
+        hmean_score = new ArrayList<>();
+        var_score = new ArrayList<>();
+        conf_score = new ArrayList<>();
+        quartile_score = new ArrayList<>();
+
     }
 
     public Integer getDocFreq(String queryToken) {
@@ -241,139 +258,16 @@ public class FieldContext {
      * sum ( IDF(qi) * (df(qi,D) * (k+1)) / (df(qi,D) + k * (1-b + b*|D| / avgFL))
      * IDF and avgFL computation are described above.
      */
-    public List<Float> generateBM25Mean(List<String> terms, Double k1, Double b){
-        List<Float> score = new ArrayList<Float>();
-        double avgFL = (double)totalTermFreq/numDocs;
-        for (String queryToken : terms) {
-            //mean of ( BM25 score for a single term )
-            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
-            float totalSingleTerm = 0.0f;
-            int docFreq = this.getDocFreq(queryToken);
-            //iterate across all documents has this word
-            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
-                List<Integer> positions = entry.getValue();
-                long termFreq = positions.size();
-                double numerator = (k1 + 1) * termFreq;
-                double docLengthFactor = b * (docSize / avgFL);
-                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
-                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
-                totalSingleTerm += idf * numerator / denominator;
-            }
-            totalSingleTerm = totalSingleTerm / post.size();
-            score.add(totalSingleTerm);
-        }
-        return score;
-    }
-
-    public List<Float> generateBM25Min(List<String> terms, Double k1, Double b){
-        List<Float> score = new ArrayList<Float>();
-        double avgFL = (double)totalTermFreq/numDocs;
-        for (String queryToken : terms) {
-            //mean of ( BM25 score for a single term )
-            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
-            List<Double> totalSingleTermList = new ArrayList<Double>();
-            int docFreq = this.getDocFreq(queryToken);
-            //iterate across all documents has this word
-            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
-                List<Integer> positions = entry.getValue();
-                long termFreq = positions.size();
-                double numerator = (k1 + 1) * termFreq;
-                double docLengthFactor = b * (docSize / avgFL);
-                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
-                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
-                totalSingleTermList.add((idf * numerator / denominator));
-            }
-            double min =Collections.min(totalSingleTermList);
-            score.add((float) min);
-        }
-        return score;
-    }
-
-    public List<Float> generateBM25Max(List<String> terms, Double k1, Double b){
-        List<Float> score = new ArrayList<Float>();
-        double avgFL = (double)totalTermFreq/numDocs;
-        for (String queryToken : terms) {
-            //mean of ( BM25 score for a single term )
-            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
-            List<Double> totalSingleTermList = new ArrayList<Double>();
-            int docFreq = this.getDocFreq(queryToken);
-            //iterate across all documents has this word
-            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
-                List<Integer> positions = entry.getValue();
-                long termFreq = positions.size();
-                double numerator = (k1 + 1) * termFreq;
-                double docLengthFactor = b * (docSize / avgFL);
-                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
-                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
-                totalSingleTermList.add((idf * numerator / denominator));
-            }
-            double max =Collections.max(totalSingleTermList);
-            score.add((float) max);
-        }
-        return score;
-    }
-
-    public List<Float> generateBM25HMean(List<String> terms, Double k1, Double b){
-        List<Float> score = new ArrayList<Float>();
-        double avgFL = (double)totalTermFreq/numDocs;
-        for (String queryToken : terms) {
-            //mean of ( BM25 score for a single term )
-            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
-            List<Double> totalSingleTermList = new ArrayList<Double>();
-            float totalSingleTerm = 0.0f;
-            int docFreq = this.getDocFreq(queryToken);
-            //iterate across all documents has this word
-            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
-                List<Integer> positions = entry.getValue();
-                long termFreq = positions.size();
-                double numerator = (k1 + 1) * termFreq;
-                double docLengthFactor = b * (docSize / avgFL);
-                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
-                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
-                totalSingleTerm += 1/(idf * numerator / denominator);
-            }
-            totalSingleTerm =  post.size() / totalSingleTerm ;
-            score.add(totalSingleTerm);
-        }
-        return score;
-    }
-
-    public List<Float> generateBM25Var(List<String> terms, Double k1, Double b){
-        List<Float> score = new ArrayList<Float>();
-        double avgFL = (double)totalTermFreq/numDocs;
-        for (String queryToken : terms) {
-            //mean of ( BM25 score for a single term )
-            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
-            List<Double> totalSingleTermList = new ArrayList<Double>();
-            float totalSingleTerm = 0.0f;
-            float totalSingleTerm_sumsqr = 0.0f;
-            int docFreq = this.getDocFreq(queryToken);
-            //iterate across all documents has this word
-            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
-                List<Integer> positions = entry.getValue();
-                long termFreq = positions.size();
-                double numerator = (k1 + 1) * termFreq;
-                double docLengthFactor = b * (docSize / avgFL);
-                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
-                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
-                totalSingleTerm += (idf * numerator / denominator);
-                totalSingleTerm_sumsqr += (idf * numerator / denominator) * (idf * numerator / denominator);
-            }
-            float totalSingleTermVar =  (totalSingleTerm_sumsqr / post.size()) - totalSingleTerm*totalSingleTerm;
-            score.add(totalSingleTermVar);
-        }
-        return score;
-    }
-
-
-    public List<Float> generateBM25Conf(List<String> terms, Double k1, Double b){
-        List<Float> score = new ArrayList<Float>();
+    public void generateBM25Stat(List<String> terms){
         double avgFL = (double)totalTermFreq/numDocs;
         double zeta = 1.960f;
+        double k1 = 0.9f;
+        double b = 0.4f;
         for (String queryToken : terms) {
             //mean of ( BM25 score for a single term )
             Map<Integer, List<Integer>> post = this.getPostings(queryToken);
             List<Double> totalSingleTermList = new ArrayList<Double>();
+            float totalTerm_Hmean = 0.0f;
             float totalSingleTerm = 0.0f;
             float totalSingleTerm_sumsqr = 0.0f;
             int docFreq = this.getDocFreq(queryToken);
@@ -385,45 +279,37 @@ public class FieldContext {
                 double docLengthFactor = b * (docSize / avgFL);
                 double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
                 double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
-                totalSingleTerm += (idf * numerator / denominator);
-                totalSingleTerm_sumsqr += (idf * numerator / denominator) * (idf * numerator / denominator);
-            }
-            float totalSingleTermVar =  (totalSingleTerm_sumsqr / post.size()) - totalSingleTerm*totalSingleTerm;
-            float totalSingleTermConf = (float) (zeta * ( Math.sqrt(totalSingleTermVar)/ Math.sqrt(post.size())));
-            score.add(totalSingleTermConf);
-        }
-        return score;
-    }
-
-    public List<Float> generateBM25Quartile(List<String> terms, Double k1, Double b, int quantile){
-        List<Float> score = new ArrayList<Float>();
-        double avgFL = (double)totalTermFreq/numDocs;
-        for (String queryToken : terms) {
-            //mean of ( BM25 score for a single term )
-            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
-            List<Double> totalSingleTermList = new ArrayList<Double>();
-            int docFreq = this.getDocFreq(queryToken);
-            //iterate across all documents has this word
-            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
-                List<Integer> positions = entry.getValue();
-                long termFreq = positions.size();
-                double numerator = (k1 + 1) * termFreq;
-                double docLengthFactor = b * (docSize / avgFL);
-                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
-                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
                 totalSingleTermList.add((idf * numerator / denominator));
+                totalSingleTerm += (idf * numerator / denominator);
+                totalTerm_Hmean += 1/(idf * numerator / denominator);
+                totalSingleTerm_sumsqr +=  totalSingleTerm * totalSingleTerm;
             }
+            Collections.sort(totalSingleTermList);
+            totalSingleTerm += totalSingleTerm / post.size();
+            mean_score.add(totalSingleTerm);
+
+            double min =totalSingleTermList.get(0);
+            min_score.add((float) min);
+
+            double max =totalSingleTermList.get(post.size()-1);
+            max_score.add((float) max);
+
+            totalTerm_Hmean =  post.size() / totalTerm_Hmean ;
+            hmean_score.add(totalTerm_Hmean);
+
+            float totalSingleTermVar =  (totalSingleTerm_sumsqr / post.size()) - totalSingleTerm*totalSingleTerm;
+            var_score.add(totalSingleTermVar);
+
+            float totalSingleTermConf = (float) (zeta * ( Math.sqrt(totalSingleTermVar)/ Math.sqrt(post.size())));
+            conf_score.add(totalSingleTermConf);
+
             int len = totalSingleTermList.size();
             double q1 = (len + 1) / 4;
-            double q = q1 * quantile;
+            double q2 = 3*(len + 1) / 4;
             double num = 0.0d;
-            if (q % 1 == 0){
-                num = totalSingleTermList.get((int)q);
-            } else {
-                num = (totalSingleTermList.get((int) Math.ceil(q)) + totalSingleTermList.get((int) Math.floor(q)))/2;
-            }
-            score.add((float) num);
+            num = (totalSingleTermList.get((int) q1) - totalSingleTermList.get((int) q2));
+            quartile_score.add((float) num);
         }
-        return score;
     }
+
 }
