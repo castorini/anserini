@@ -54,6 +54,15 @@ public class FieldContext {
         collectionFreqs = new HashMap<>();
         postings = new HashMap<>();
         bigramCollectionFreqs = new HashMap<>();
+
+        mean_score = new ArrayList<>();
+        min_score = new ArrayList<>();
+        max_score = new ArrayList<>();
+        hmean_score = new ArrayList<>();
+        var_score = new ArrayList<>();
+        conf_score = new ArrayList<>();
+        quartile_score = new ArrayList<>();
+
     }
 
     public Integer getDocFreq(String queryToken) {
