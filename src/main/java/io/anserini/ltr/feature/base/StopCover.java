@@ -62,7 +62,7 @@ public class StopCover implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return "StopCover";
+        return String.format("%s_StopCover", field);
     }
 
     @Override

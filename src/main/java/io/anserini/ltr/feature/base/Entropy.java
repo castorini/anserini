@@ -65,7 +65,7 @@ public class Entropy implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return "Entropy";
+        return String.format("%s_Entropy", field);
     }
 
     @Override
