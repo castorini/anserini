@@ -86,13 +86,15 @@ public class FeatureExtractorUtils {
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
-  public ArrayList<output> extract(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException, JsonProcessingException {
+  public ArrayList<output> extract(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds,List<String> queryTextUnlemma, List<String> queryBert) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     input root = new input();
     root.qid = qid;
     root.queryText = queryText;
     root.queryTokens = queryTokens;
     root.docIds = docIds;
+    root.queryTextUnlemma = queryTextUnlemma;
+    root.queryBert = queryBert;
     this.lazyExtract(mapper.writeValueAsString(root));
     String res = this.getResult(root.qid);
     TypeReference<ArrayList<output>> typeref = new TypeReference<ArrayList<output>>() {};
@@ -105,7 +107,7 @@ public class FeatureExtractorUtils {
    * @param queryTokens tokenized query text
    * @param docIds external document ids that you wish to collect; users need to make sure it is present
    */
-  public void addDebugTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) {
+  public void addDebugTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds, List<String> queryUnlemma, List<String> queryBert) {
     if(tasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
     tasks.put(qid, pool.submit(() -> {
@@ -116,7 +118,7 @@ public class FeatureExtractorUtils {
       ObjectMapper mapper = new ObjectMapper();
       List<debugOutput> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
+      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens,queryUnlemma,queryBert);
       
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -147,7 +149,7 @@ public class FeatureExtractorUtils {
     }));
   }
 
-  public void addTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) {
+  public void addTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds, List<String> queryUnlemma, List<String> queryBert) {
     if(tasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
     tasks.put(qid, pool.submit(() -> {
@@ -158,7 +160,7 @@ public class FeatureExtractorUtils {
       ObjectMapper mapper = new ObjectMapper();
       List<output> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
+      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens,queryUnlemma,queryBert);
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -193,7 +195,7 @@ public class FeatureExtractorUtils {
   public String lazyExtract(String jsonString) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     input root = mapper.readValue(jsonString, input.class);
-    this.addTask(root.qid, root.queryText, root.queryTokens, root.docIds);
+    this.addTask(root.qid, root.queryText, root.queryTokens, root.docIds,root.queryTextUnlemma,root.queryBert);
     return root.qid;
   }
 
@@ -205,7 +207,7 @@ public class FeatureExtractorUtils {
   public String debugExtract(String jsonString) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     input root = mapper.readValue(jsonString, input.class);
-    this.addDebugTask(root.qid, root.queryText,root.queryTokens, root.docIds);
+    this.addDebugTask(root.qid, root.queryText, root.queryTokens, root.docIds,root.queryTextUnlemma,root.queryBert);
     return root.qid;
   }
 
@@ -280,6 +282,8 @@ class input{
   String qid;
   List<String> queryText;
   List<String> queryTokens;
+  List<String> queryTextUnlemma;
+  List<String> queryBert;
   List<String> docIds;
 
   input(){}
@@ -300,6 +304,12 @@ class input{
     return queryTokens;
   }
 
+  public List<String> getqueryTextUnlemma(){
+    return queryTextUnlemma;
+  }
+
+  public List<String> getQueryBert() { return queryBert; }
+
   public void setQid(String qid) {
     this.qid = qid;
   }
@@ -314,6 +324,14 @@ class input{
 
   public void setQueryTokens(List<String> queryTokens) {
     this.queryTokens = queryTokens;
+  }
+
+  public void setqueryTextUnlemma(List<String> queryUnlemma) {
+    this.queryTextUnlemma = queryTextUnlemma;
+  }
+
+  public void setQueryBert(List<String> queryBert) {
+    this.queryBert = queryBert;
   }
 }
 

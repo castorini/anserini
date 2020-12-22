@@ -8,6 +8,8 @@ public class QueryContext {
     public String qid;
     public List<String> queryText;
     public List<String> queryTokens;
+    public List<String> queryTextUnlemma;
+    public List<String> queryBert;
     public Map<String,Integer> queryFreqs;
     public int querySize;
 
@@ -16,10 +18,12 @@ public class QueryContext {
 
     private Map<String, Map<String, Float>> featureLog;
 
-    public QueryContext(String qid, List<String> queryText, List<String> queryTokens){
+    public QueryContext(String qid, List<String> queryText, List<String> queryTokens, List<String> queryTextUnlemma, List<String> queryBert){
         this.qid = qid;
         this.queryTokens = queryTokens;
         this.queryText = queryText;
+        this.queryTextUnlemma = queryTextUnlemma;
+        this.queryBert = queryBert;
         this.querySize = queryTokens.size();
         this.queryFreqs = new HashMap<>();
         for (String token : queryTokens)

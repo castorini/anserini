@@ -154,9 +154,16 @@ public class IBMModel1 implements FeatureExtractor {
         long totalTermFreq = context.totalTermFreq;
         float score = 0;
         if(docSize==0) return 0;
-        for (String queryToken : queryContext.queryTokens) {
-            double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-            score += computeQuery(queryToken, context.termFreqs, context.docSize, collectProb);
+        if(field== "Unlemma") {
+            for (String queryToken : queryContext.queryTextUnlemma) {
+                double collectProb = (double) context.getCollectionFreq(queryToken) / totalTermFreq;
+                score += computeQuery(queryToken, context.termFreqs, context.docSize, collectProb);
+            }
+        }else{
+            for (String queryToken : queryContext.queryBert) {
+                double collectProb = (double) context.getCollectionFreq(queryToken) / totalTermFreq;
+                score += computeQuery(queryToken, context.termFreqs, context.docSize, collectProb);
+            }
         }
         return score;
     }
