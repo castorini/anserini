@@ -21,6 +21,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.analysis.IBMModelAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
@@ -749,6 +750,7 @@ public final class IndexCollection {
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
+      final IBMModelAnalyzer ibmmodelAnalyzer = new IBMModelAnalyzer();
       final DefaultEnglishAnalyzer analyzer;
       if (args.keepStopwords) {
         analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET);
@@ -778,6 +780,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(germanAnalyzer);
       } else if (args.language.equals("es")) {
         config = new IndexWriterConfig(spanishAnalyzer);
+      } else if (args.language.equals("en_ws")) {
+        config = new IndexWriterConfig(ibmmodelAnalyzer);
       } else {
         config = new IndexWriterConfig(analyzer);
       }

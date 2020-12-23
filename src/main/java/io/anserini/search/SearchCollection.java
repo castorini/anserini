@@ -18,6 +18,7 @@ package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.analysis.IBMModelAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexReaderUtils;
@@ -289,6 +290,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("es")) {
       analyzer = new SpanishAnalyzer();
       LOG.info("Language: es");
+    } else if (args.language.equals("en_ws")) {
+      analyzer = new IBMModelAnalyzer();
+      LOG.info("Language: en_ws");
     } else {
       // Default to English
       analyzer = args.keepstop ?
