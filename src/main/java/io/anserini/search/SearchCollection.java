@@ -18,7 +18,6 @@ package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.analysis.IBMModelAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexReaderUtils;
@@ -48,6 +47,7 @@ import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
@@ -291,7 +291,7 @@ public final class SearchCollection implements Closeable {
       analyzer = new SpanishAnalyzer();
       LOG.info("Language: es");
     } else if (args.language.equals("en_ws")) {
-      analyzer = new IBMModelAnalyzer();
+      analyzer = new WhitespaceAnalyzer();
       LOG.info("Language: en_ws");
     } else {
       // Default to English
