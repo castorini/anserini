@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class IBMModel1 implements FeatureExtractor {
-    private ConcurrentHashMap<Integer, Pair<Integer, String>> sourceVoc;
-    private ConcurrentHashMap<String, Integer> sourceLookup;
-    private ConcurrentHashMap<Integer, Pair<Integer, String>> targetVoc;
-    private ConcurrentHashMap<String, Integer> targetLookup;
-    private ConcurrentHashMap<Integer, Map<Integer, Float>> tran;
+    static private ConcurrentHashMap<Integer, Pair<Integer, String>> sourceVoc;
+    static private ConcurrentHashMap<String, Integer> sourceLookup;
+    static private ConcurrentHashMap<Integer, Pair<Integer, String>> targetVoc;
+    static private ConcurrentHashMap<String, Integer> targetLookup;
+    static private ConcurrentHashMap<Integer, Map<Integer, Float>> tran;
     private double selfTrans = 0.05;
     private double lambda = 0.1;
     private double minProb = 5e-4;
@@ -119,10 +119,13 @@ public class IBMModel1 implements FeatureExtractor {
         if (targetLookup.containsKey(queryWord)) {
             int queryWordId = targetLookup.get(queryWord);
             for (String docTerm : docFreq.keySet()) {
-                int docWordId = sourceLookup.get(docTerm);
                 float tranProb = 0;
+                int docWordId = 0;
                 if (queryWord.equals(docTerm)) {
                     tranProb = (float) selfTrans;
+                    if (sourceLookup.containsKey(docTerm)) {
+                        docWordId = sourceLookup.get(docTerm);
+                    }
                     if (tran.containsKey(docWordId)) {
                         Map<Integer, Float> targetMap = tran.get(docWordId);
                         if (targetMap.containsKey(queryWordId)) {
@@ -130,6 +133,9 @@ public class IBMModel1 implements FeatureExtractor {
                         }
                     }
                 } else {
+                    if (sourceLookup.containsKey(docTerm)) {
+                        docWordId = sourceLookup.get(docTerm);
+                    }
                     if (tran.containsKey(docWordId)) {
                         Map<Integer, Float> targetMap = tran.get(docWordId);
                         if (targetMap.containsKey(queryWordId)) {
@@ -149,12 +155,19 @@ public class IBMModel1 implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) throws FileNotFoundException, IOException {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        FieldContext context = null;
+        if (field == "Unlemma") {
+            context = documentContext.fieldContexts.get("text_unlemm");
+        }else{
+            context = documentContext.fieldContexts.get("text_bert_tok");
+        }
+//        context=documentContext.fieldContexts.get("contents");
         long docSize = context.docSize;
         long totalTermFreq = context.totalTermFreq;
         float score = 0;
         if(docSize==0) return 0;
         if(field== "Unlemma") {
+
             for (String queryToken : queryContext.queryTextUnlemma) {
                 double collectProb = (double) context.getCollectionFreq(queryToken) / totalTermFreq;
                 score += computeQuery(queryToken, context.termFreqs, context.docSize, collectProb);
@@ -185,6 +198,11 @@ public class IBMModel1 implements FeatureExtractor {
 
     @Override
     public String getField() {
-        return field;
+        if(field== "Unlemma") {
+            return "text_unlemm";
+        }else{
+            return "text_bert_tok";
+        }
+//        return "contents";
     }
 }

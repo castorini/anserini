@@ -119,17 +119,17 @@ public class FeatureExtractorUtils {
       List<debugOutput> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, queryText, queryTokens,queryUnlemma,queryBert);
-      
+
       for(String docId: docIds) {
+        System.out.println("debug");
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
         TopDocs topDocs = searcher.search(q, 1);
         if (topDocs.totalHits.value == 0) {
           throw new IOException(String.format("Document Id %s expected but not found in index", docId));
         }
-
+        System.out.println("debug2");
         ScoreDoc hit = topDocs.scoreDocs[0];
         documentContext.updateDoc(docId, hit.doc);
-
         List<Float> features = new ArrayList<>();
         long[] time = new long[localExtractors.size()];
         for(int i = 0; i < localExtractors.size(); i++){
@@ -141,10 +141,12 @@ public class FeatureExtractorUtils {
           long end = System.nanoTime();
           time[i] += end - start;
         }
-
+        System.out.println(features);
         result.add(new debugOutput(docId,features, time));
+        System.out.println(result);
         queryContext.logExtract(docId, features, list());
       }
+      System.out.println("debug3");
       return mapper.writeValueAsString(result);
     }));
   }
@@ -161,26 +163,25 @@ public class FeatureExtractorUtils {
       List<output> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, queryText, queryTokens,queryUnlemma,queryBert);
-
       for(String docId: docIds) {
-        Query q = new TermQuery(new Term(IndexArgs.ID, docId));
-        TopDocs topDocs = searcher.search(q, 1);
-        if (topDocs.totalHits.value == 0) {
-          throw new IOException(String.format("Document Id %s expected but not found in index", docId));
+          Query q = new TermQuery(new Term(IndexArgs.ID, docId));
+          TopDocs topDocs = searcher.search(q, 1);
+          if (topDocs.totalHits.value == 0) {
+            throw new IOException(String.format("Document Id %s expected but not found in index", docId));
+          }
+
+          ScoreDoc hit = topDocs.scoreDocs[0];
+          documentContext.updateDoc(docId, hit.doc);
+
+          List<Float> features = new ArrayList<>();
+
+          for (int i = 0; i < localExtractors.size(); i++) {
+            features.add(localExtractors.get(i).extract(documentContext, queryContext));
+          }
+
+          result.add(new output(docId,features));
+          queryContext.logExtract(docId, features, list());
         }
-
-        ScoreDoc hit = topDocs.scoreDocs[0];
-        documentContext.updateDoc(docId, hit.doc);
-
-        List<Float> features = new ArrayList<>();
-
-        for (int i = 0; i < localExtractors.size(); i++) {
-          features.add(localExtractors.get(i).extract(documentContext, queryContext));
-        }
-
-        result.add(new output(docId,features));
-        queryContext.logExtract(docId, features, list());
-      }
       return mapper.writeValueAsString(result);
     }));
   }
@@ -207,6 +208,9 @@ public class FeatureExtractorUtils {
   public String debugExtract(String jsonString) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     input root = mapper.readValue(jsonString, input.class);
+    System.out.println("LazyExtract");
+    System.out.println(root.queryTextUnlemma);
+    System.out.println(root.queryBert);
     this.addDebugTask(root.qid, root.queryText, root.queryTokens, root.docIds,root.queryTextUnlemma,root.queryBert);
     return root.qid;
   }
@@ -326,7 +330,7 @@ class input{
     this.queryTokens = queryTokens;
   }
 
-  public void setqueryTextUnlemma(List<String> queryUnlemma) {
+  public void setQueryTextUnlemma(List<String> queryTextUnlemma) {
     this.queryTextUnlemma = queryTextUnlemma;
   }
 

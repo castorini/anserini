@@ -140,6 +140,9 @@ public class FeatureExtractorCli {
     utils.add(new OrderedQueryPairs(3));
     utils.add(new OrderedQueryPairs(8));
     utils.add(new OrderedQueryPairs(15));
+//
+//    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/body","Unlemma"));
+    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert"));
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -156,11 +159,15 @@ public class FeatureExtractorCli {
     long executionStart = System.nanoTime();
     while((line=reader.readLine())!=null&&offset<10000){
       qids.add(utils.debugExtract(line));
+      System.out.println(line);
+      System.out.println(qids);
       if(qids.size()>=100){
         try{
           while(qids.size()>0) {
             lastQid = qids.remove(0);
             String allResult = utils.getResult(lastQid);
+            System.out.println(lastQid);
+            System.out.println(allResult);
             TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
             List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
             for(debugOutput res:outputArray){
@@ -179,20 +186,43 @@ public class FeatureExtractorCli {
       }
 
     }
-    long executionEnd = System.nanoTime();
-    long sumtime = 0;
-    for(int i = 0; i < names.size(); i++){
-      sumtime += time[i];
+    if(qids.size()>=0){
+      try{
+        while(qids.size()>0) {
+          lastQid = qids.remove(0);
+          String allResult = utils.getResult(lastQid);
+          System.out.println(lastQid);
+          System.out.println(allResult);
+          TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
+          List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
+          for(debugOutput res:outputArray){
+            for(int i = 0; i < names.size(); i++){
+              time[i] += res.time.get(i);
+            }
+          }
+          offset++;
+          System.out.println(offset);
+
+        }
+      } catch (Exception e) {
+        System.out.println("the offset is:"+offset+"at qid:"+lastQid);
+        throw e;
+      }
     }
-    for(int i = 0; i < names.size(); i++){
-      System.out.println(names.get(i)+" takes "+String.format("%.2f",time[i]/1000000000.0) + "s, accounts for "+ String.format("%.2f", time[i]*100.0/sumtime) + "%");
-    }
+//    long executionEnd = System.nanoTime();
+//    long sumtime = 0;
+//    for(int i = 0; i < names.size(); i++){
+//      sumtime += time[i];
+//    }
+//    for(int i = 0; i < names.size(); i++){
+//      System.out.println(names.get(i)+" takes "+String.format("%.2f",time[i]/1000000000.0) + "s, accounts for "+ String.format("%.2f", time[i]*100.0/sumtime) + "%");
+//    }
     utils.close();
     reader.close();
-
-    long end = System.nanoTime();
-    long overallTime = end - start;
-    long overhead = overallTime-(executionEnd - executionStart);
-    System.out.println("The program takes "+String.format("%.2f",overallTime/1000000000.0) + "s, where the overhead takes " + String.format("%.2f",overhead/1000000000.0) +"s");
+//
+//    long end = System.nanoTime();
+//    long overallTime = end - start;
+//    long overhead = overallTime-(executionEnd - executionStart);
+//    System.out.println("The program takes "+String.format("%.2f",overallTime/1000000000.0) + "s, where the overhead takes " + String.format("%.2f",overhead/1000000000.0) +"s");
   }
 }
