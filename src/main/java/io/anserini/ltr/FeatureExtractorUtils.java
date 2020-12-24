@@ -18,6 +18,7 @@ package io.anserini.ltr;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.DocumentContext;
@@ -104,7 +105,7 @@ public class FeatureExtractorUtils {
    * @param qid unique query id; users need to make sure it is not duplicated
    * @param docIds external document ids that you wish to collect; users need to make sure it is present
    */
-  public void addDebugTask(String qid, List<String> docIds, Map<String,Object> jsonQuery) {
+  public void addDebugTask(String qid, List<String> docIds, JsonNode jsonQuery) {
     if(tasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
     tasks.put(qid, pool.submit(() -> {
@@ -160,7 +161,7 @@ public class FeatureExtractorUtils {
     }));
   }
 
-  public void addTask(String qid, List<String> docIds, Map<String,Object> jsonQuery) {
+  public void addTask(String qid, List<String> docIds, JsonNode jsonQuery) {
     if(tasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
     tasks.put(qid, pool.submit(() -> {
@@ -212,9 +213,11 @@ public class FeatureExtractorUtils {
    */
   public String lazyExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    Map<String,Object> root = mapper.readValue(jsonInput, HashMap.class);
-    this.addTask((String)root.get("qid"), (List<String>)root.get("docIds"), root);
-    return (String) root.get("qid");
+    JsonNode root = mapper.readValue(jsonInput, JsonNode.class);
+    String qid = root.get("qid").asText();
+    List<String> docIds = mapper.convertValue(root.get("docIds"), ArrayList.class);
+    this.addTask(qid, docIds, root);
+    return qid;
   }
 
   /**
@@ -224,9 +227,11 @@ public class FeatureExtractorUtils {
   public String debugExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     System.out.println("LazyExtract");
-    Map<String,Object> root = mapper.readValue(jsonInput, HashMap.class);
-    this.addDebugTask((String)root.get("qid"), (List<String>)root.get("docIds"), root);
-    return (String) root.get("qid");
+    JsonNode root = mapper.readValue(jsonInput, JsonNode.class);
+    String qid = root.get("qid").asText();
+    List<String> docIds = mapper.convertValue(root.get("docIds"), ArrayList.class);
+    this.addDebugTask(qid, docIds, root);
+    return qid;
   }
 
   /**

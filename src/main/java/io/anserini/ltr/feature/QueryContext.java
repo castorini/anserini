@@ -1,5 +1,7 @@
 package io.anserini.ltr.feature;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -18,15 +20,17 @@ public class QueryContext {
 
     private Map<String, Map<String, Float>> featureLog;
 
-    public QueryContext(String qid, Map<String,Object> json){
+    public QueryContext(String qid, JsonNode root){
         this.qid = qid;
-        this.queryTokens = (List<String>) json.get("analyzed");
+        ObjectMapper mapper = new ObjectMapper();
+
+        this.queryTokens = mapper.convertValue(root.get("analyzed"), ArrayList.class);
         if(this.queryTokens==null) this.queryTokens = new ArrayList<>();
-        this.queryText = (List<String>) json.get("text");
+        this.queryText = mapper.convertValue(root.get("text"), ArrayList.class);
         if(this.queryText==null) this.queryText = new ArrayList<>();
-        this.queryTextUnlemma = (List<String>) json.get("text_unlemm");
+        this.queryTextUnlemma = mapper.convertValue(root.get("text_unlemm"), ArrayList.class);
         if(this.queryTextUnlemma==null) this.queryTextUnlemma = new ArrayList<>();
-        this.queryBert = (List<String>) json.get("text_bert_tok");
+        this.queryBert = mapper.convertValue(root.get("text_bert_tok"), ArrayList.class);
         if(this.queryBert==null) this.queryBert = new ArrayList<>();
         this.querySize = queryTokens.size();
         this.queryFreqs = new HashMap<>();
