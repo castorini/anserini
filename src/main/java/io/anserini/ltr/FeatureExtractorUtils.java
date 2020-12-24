@@ -92,7 +92,7 @@ public class FeatureExtractorUtils {
     Map<String, Object> json = new HashMap();
     json.put("qid", qid);
     json.put("docIds", docIds);
-    json.put("queryTokens", queryTokens);
+    json.put("analyzed", queryTokens);
     this.lazyExtract(mapper.writeValueAsString(json));
     String res = this.getResult(qid);
     TypeReference<ArrayList<output>> typeref = new TypeReference<ArrayList<output>>() {};
