@@ -20,13 +20,13 @@ public class QueryContext {
 
     public QueryContext(String qid, Map<String,Object> json){
         this.qid = qid;
-        this.queryTokens = (List<String>) json.get("queryTokens");
+        this.queryTokens = (List<String>) json.get("analyzed");
         if(this.queryTokens==null) this.queryTokens = new ArrayList<>();
-        this.queryText = (List<String>) json.get("queryText");
+        this.queryText = (List<String>) json.get("text");
         if(this.queryText==null) this.queryText = new ArrayList<>();
-        this.queryTextUnlemma = (List<String>) json.get("queryTextUnlemma");
+        this.queryTextUnlemma = (List<String>) json.get("text_unlemm");
         if(this.queryTextUnlemma==null) this.queryTextUnlemma = new ArrayList<>();
-        this.queryBert = (List<String>) json.get("queryBert");
+        this.queryBert = (List<String>) json.get("text_bert_tok");
         if(this.queryBert==null) this.queryBert = new ArrayList<>();
         this.querySize = queryTokens.size();
         this.queryFreqs = new HashMap<>();
