@@ -141,8 +141,8 @@ public class FeatureExtractorCli {
     utils.add(new OrderedQueryPairs(8));
     utils.add(new OrderedQueryPairs(15));
 //
-//    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/body","Unlemma"));
-    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert"));
+//    utils.add(new IBMModel1("FlexNeuART/collections/msmarco_doc/derived_data/giza/body","Unlemma"));
+    utils.add(new IBMModel1("../FlexNeuART/collections/msmarco_doc/derived_data/giza/text_bert_tok","Bert"));
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
