@@ -90,6 +90,7 @@ public class FieldContext {
     public void updateDoc(int internalId){
         try {
             Terms termVector = reader.getTermVector(internalId, fieldName);
+            if(termVector == null) throw new IOException("empty field");
             docSize = termVector.getSumTotalTermFreq();
             termCount = termVector.size();
 
@@ -129,6 +130,7 @@ public class FieldContext {
 
             termFreqs = new HashMap<>();
             termPositions = new HashMap<>();
+            positionTerm = new ArrayList<>();
 
             statsCache = new HashMap<>();
         }
