@@ -73,30 +73,28 @@ public class FeatureExtractorUtils {
 
   public List<String> list() {
     List<String> nameList = new ArrayList<>();
-    nameList.addAll(featureNames);
+    for (int i = 0; i < extractors.size(); i++) {
+      nameList.add(extractors.get(i).getName());
+    }
     return nameList;
   }
 
   /**
    * mainly used for testing
-   * @param queryTokens tokenized query text
    * @param docIds external document ids that you wish to collect; users need to make sure it is present
    * @return
    * @throws ExecutionException
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
-  public ArrayList<output> extract(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds,List<String> queryTextUnlemma, List<String> queryBert) throws ExecutionException, InterruptedException, JsonProcessingException {
+  public ArrayList<output> extract(String qid, List<String> docIds, List<String> queryTokens) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    input root = new input();
-    root.qid = qid;
-    root.queryText = queryText;
-    root.queryTokens = queryTokens;
-    root.docIds = docIds;
-    root.queryTextUnlemma = queryTextUnlemma;
-    root.queryBert = queryBert;
-    this.lazyExtract(mapper.writeValueAsString(root));
-    String res = this.getResult(root.qid);
+    Map<String, Object> json = new HashMap();
+    json.put("qid", qid);
+    json.put("docIds", docIds);
+    json.put("queryTokens", queryTokens);
+    this.lazyExtract(mapper.writeValueAsString(json));
+    String res = this.getResult(qid);
     TypeReference<ArrayList<output>> typeref = new TypeReference<ArrayList<output>>() {};
     return mapper.readValue(res, typeref);
   }
@@ -104,10 +102,9 @@ public class FeatureExtractorUtils {
   /**
    * submit tasks to workers
    * @param qid unique query id; users need to make sure it is not duplicated
-   * @param queryTokens tokenized query text
    * @param docIds external document ids that you wish to collect; users need to make sure it is present
    */
-  public void addDebugTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds, List<String> queryUnlemma, List<String> queryBert) {
+  public void addDebugTask(String qid, List<String> docIds, Map<String,Object> jsonQuery) {
     if(tasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
     tasks.put(qid, pool.submit(() -> {
@@ -116,9 +113,9 @@ public class FeatureExtractorUtils {
         localExtractors.add(e.clone());
       }
       ObjectMapper mapper = new ObjectMapper();
-      List<debugOutput> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens,queryUnlemma,queryBert);
+      QueryContext queryContext = new QueryContext(qid, jsonQuery);
+      Map<String, List<Long>> times = new HashMap<>();
 
       for(String docId: docIds) {
         System.out.println("debug");
@@ -131,27 +128,39 @@ public class FeatureExtractorUtils {
         ScoreDoc hit = topDocs.scoreDocs[0];
         documentContext.updateDoc(docId, hit.doc);
         List<Float> features = new ArrayList<>();
-        long[] time = new long[localExtractors.size()];
+        List<Long> time = new ArrayList<>();
         for(int i = 0; i < localExtractors.size(); i++){
-          time[i] = 0;
+          time.add(0L);
         }
         for (int i = 0; i < localExtractors.size(); i++) {
           long start = System.nanoTime();
           features.add(localExtractors.get(i).extract(documentContext, queryContext));
           long end = System.nanoTime();
-          time[i] += end - start;
+          time.set(i, time.get(i) + end - start);
         }
         System.out.println(features);
-        result.add(new debugOutput(docId,features, time));
-        System.out.println(result);
+        times.put(docId, time);
         queryContext.logExtract(docId, features, list());
       }
+
+      List<debugOutput> result = new ArrayList<>();
+      for(String docId: docIds) {
+        List<Float> features = new ArrayList<>();
+
+        for (int i = 0; i < localExtractors.size(); i++) {
+          features.add(localExtractors.get(i).postEdit(documentContext, queryContext));
+        }
+
+        result.add(new debugOutput(docId,features, times.get(docId)));
+        System.out.println(result);
+      }
+
       System.out.println("debug3");
       return mapper.writeValueAsString(result);
     }));
   }
 
-  public void addTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds, List<String> queryUnlemma, List<String> queryBert) {
+  public void addTask(String qid, List<String> docIds, Map<String,Object> jsonQuery) {
     if(tasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
     tasks.put(qid, pool.submit(() -> {
@@ -160,9 +169,8 @@ public class FeatureExtractorUtils {
         localExtractors.add(e.clone());
       }
       ObjectMapper mapper = new ObjectMapper();
-      List<output> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens,queryUnlemma,queryBert);
+      QueryContext queryContext = new QueryContext(qid, jsonQuery);
       for(String docId: docIds) {
           Query q = new TermQuery(new Term(IndexArgs.ID, docId));
           TopDocs topDocs = searcher.search(q, 1);
@@ -179,9 +187,19 @@ public class FeatureExtractorUtils {
             features.add(localExtractors.get(i).extract(documentContext, queryContext));
           }
 
-          result.add(new output(docId,features));
           queryContext.logExtract(docId, features, list());
+      }
+
+      List<output> result = new ArrayList<>();
+      for(String docId: docIds) {
+        List<Float> features = new ArrayList<>();
+
+        for (int i = 0; i < localExtractors.size(); i++) {
+          features.add(localExtractors.get(i).postEdit(documentContext, queryContext));
         }
+
+        result.add(new output(docId,features));
+      }
       return mapper.writeValueAsString(result);
     }));
   }
@@ -190,29 +208,25 @@ public class FeatureExtractorUtils {
 
   /**
    * submit tasks to workers, exposed in Pyserini
-   * @param jsonString
    * @throws JsonProcessingException
    */
-  public String lazyExtract(String jsonString) throws JsonProcessingException {
+  public String lazyExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    input root = mapper.readValue(jsonString, input.class);
-    this.addTask(root.qid, root.queryText, root.queryTokens, root.docIds,root.queryTextUnlemma,root.queryBert);
-    return root.qid;
+    Map<String,Object> root = mapper.readValue(jsonInput, HashMap.class);
+    this.addTask((String)root.get("qid"), (List<String>)root.get("docIds"), root);
+    return (String) root.get("qid");
   }
 
   /**
    * submit tasks to workers, exposed in Pyserini
-   * @param jsonString
    * @throws JsonProcessingException
    */
-  public String debugExtract(String jsonString) throws JsonProcessingException {
+  public String debugExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    input root = mapper.readValue(jsonString, input.class);
     System.out.println("LazyExtract");
-    System.out.println(root.queryTextUnlemma);
-    System.out.println(root.queryBert);
-    this.addDebugTask(root.qid, root.queryText, root.queryTokens, root.docIds,root.queryTextUnlemma,root.queryBert);
-    return root.qid;
+    Map<String,Object> root = mapper.readValue(jsonInput, HashMap.class);
+    this.addDebugTask((String)root.get("qid"), (List<String>)root.get("docIds"), root);
+    return (String) root.get("qid");
   }
 
   /**
@@ -282,63 +296,6 @@ public class FeatureExtractorUtils {
 
 }
 
-class input{
-  String qid;
-  List<String> queryText;
-  List<String> queryTokens;
-  List<String> queryTextUnlemma;
-  List<String> queryBert;
-  List<String> docIds;
-
-  input(){}
-
-  public String getQid() {
-    return qid;
-  }
-
-  public List<String> getDocIds() {
-    return docIds;
-  }
-
-  public List<String> getQueryText(){
-    return queryText;
-  }
-
-  public List<String> getQueryTokens() {
-    return queryTokens;
-  }
-
-  public List<String> getqueryTextUnlemma(){
-    return queryTextUnlemma;
-  }
-
-  public List<String> getQueryBert() { return queryBert; }
-
-  public void setQid(String qid) {
-    this.qid = qid;
-  }
-
-  public void setDocIds(List<String> docIds) {
-    this.docIds = docIds;
-  }
-
-  public void setQueryText(List<String> queryText) {
-    this.queryText = queryText;
-  }
-
-  public void setQueryTokens(List<String> queryTokens) {
-    this.queryTokens = queryTokens;
-  }
-
-  public void setQueryTextUnlemma(List<String> queryTextUnlemma) {
-    this.queryTextUnlemma = queryTextUnlemma;
-  }
-
-  public void setQueryBert(List<String> queryBert) {
-    this.queryBert = queryBert;
-  }
-}
-
 class output{
   String pid;
   List<Float> features;
@@ -375,12 +332,10 @@ class debugOutput{
 
   debugOutput(){}
 
-  debugOutput(String pid, List<Float> features, long[] time){
+  debugOutput(String pid, List<Float> features, List<Long> time){
     this.pid = pid;
     this.features = features;
-    this.time = new ArrayList<>();
-    for(int i=0;i<time.length;i++)
-      this.time.add(time[i]);
+    this.time = time;
   }
 
   public String getPid() {

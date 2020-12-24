@@ -31,7 +31,7 @@ public class QueryLengthNonStopWords implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        return queryContext.queryTokens.size();
+        return queryContext.queryText.size();
     }
 
     @Override

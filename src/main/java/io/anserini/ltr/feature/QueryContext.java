@@ -18,12 +18,16 @@ public class QueryContext {
 
     private Map<String, Map<String, Float>> featureLog;
 
-    public QueryContext(String qid, List<String> queryText, List<String> queryTokens, List<String> queryTextUnlemma, List<String> queryBert){
+    public QueryContext(String qid, Map<String,Object> json){
         this.qid = qid;
-        this.queryTokens = queryTokens;
-        this.queryText = queryText;
-        this.queryTextUnlemma = queryTextUnlemma;
-        this.queryBert = queryBert;
+        this.queryTokens = (List<String>) json.get("queryTokens");
+        if(this.queryTokens==null) this.queryTokens = new ArrayList<>();
+        this.queryText = (List<String>) json.get("queryText");
+        if(this.queryText==null) this.queryText = new ArrayList<>();
+        this.queryTextUnlemma = (List<String>) json.get("queryTextUnlemma");
+        if(this.queryTextUnlemma==null) this.queryTextUnlemma = new ArrayList<>();
+        this.queryBert = (List<String>) json.get("queryBert");
+        if(this.queryBert==null) this.queryBert = new ArrayList<>();
         this.querySize = queryTokens.size();
         this.queryFreqs = new HashMap<>();
         for (String token : queryTokens)

@@ -29,7 +29,7 @@ public class QueryLength implements FeatureExtractor {
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    return queryContext.queryText.size();
+    return queryContext.queryTokens.size();
   }
 
   @Override
