@@ -116,7 +116,7 @@ public class FeatureExtractorUtils {
       ObjectMapper mapper = new ObjectMapper();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, jsonQuery);
-      Map<String, List<Long>> times = new HashMap<>();
+      List<debugOutput> result = new ArrayList<>();
 
       for(String docId: docIds) {
         System.out.println("debug");
@@ -140,22 +140,9 @@ public class FeatureExtractorUtils {
           time.set(i, time.get(i) + end - start);
         }
         System.out.println(features);
-        times.put(docId, time);
-        queryContext.logExtract(docId, features, list());
-      }
-
-      List<debugOutput> result = new ArrayList<>();
-      for(String docId: docIds) {
-        List<Float> features = new ArrayList<>();
-
-        for (int i = 0; i < localExtractors.size(); i++) {
-          features.add(localExtractors.get(i).postEdit(documentContext, queryContext));
-        }
-
-        result.add(new debugOutput(docId,features, times.get(docId)));
+        result.add(new debugOutput(docId,features, time));
         System.out.println(result);
       }
-
       System.out.println("debug3");
       return mapper.writeValueAsString(result);
     }));
@@ -172,6 +159,8 @@ public class FeatureExtractorUtils {
       ObjectMapper mapper = new ObjectMapper();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, jsonQuery);
+      List<output> result = new ArrayList<>();
+
       for(String docId: docIds) {
           Query q = new TermQuery(new Term(IndexArgs.ID, docId));
           TopDocs topDocs = searcher.search(q, 1);
@@ -188,18 +177,8 @@ public class FeatureExtractorUtils {
             features.add(localExtractors.get(i).extract(documentContext, queryContext));
           }
 
-          queryContext.logExtract(docId, features, list());
-      }
+          result.add(new output(docId,features));
 
-      List<output> result = new ArrayList<>();
-      for(String docId: docIds) {
-        List<Float> features = new ArrayList<>();
-
-        for (int i = 0; i < localExtractors.size(); i++) {
-          features.add(localExtractors.get(i).postEdit(documentContext, queryContext));
-        }
-
-        result.add(new output(docId,features));
       }
       return mapper.writeValueAsString(result);
     }));
