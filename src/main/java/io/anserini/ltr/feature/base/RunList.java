@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  */
 public class RunList implements FeatureExtractor {
-    private static final ConcurrentHashMap<Pair<String, String>, Pair<Integer, Float>> lookup = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Pair<String, String>, Pair<Integer, Float>> lookup = new ConcurrentHashMap<>();
     private String tag;
 
     public RunList(String file, String tag) throws IOException {
@@ -53,7 +53,8 @@ public class RunList implements FeatureExtractor {
         reader.close();
     }
 
-    public RunList(String tag) {
+    public RunList(String tag, ConcurrentHashMap<Pair<String, String>, Pair<Integer, Float>> lookup) {
+        this.lookup = lookup;
         this.tag = tag;
     }
 
@@ -82,7 +83,7 @@ public class RunList implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new RunList(this.tag);
+        return new RunList(this.tag, this.lookup);
     }
 }
 

@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class IBMModel1 implements FeatureExtractor {
-    static private ConcurrentHashMap<Integer, Pair<Integer, String>> sourceVoc;
-    static private ConcurrentHashMap<String, Integer> sourceLookup;
-    static private ConcurrentHashMap<Integer, Pair<Integer, String>> targetVoc;
-    static private ConcurrentHashMap<String, Integer> targetLookup;
-    static private ConcurrentHashMap<Integer, Map<Integer, Float>> tran;
+    private ConcurrentHashMap<Integer, Pair<Integer, String>> sourceVoc;
+    private ConcurrentHashMap<String, Integer> sourceLookup;
+    private ConcurrentHashMap<Integer, Pair<Integer, String>> targetVoc;
+    private ConcurrentHashMap<String, Integer> targetLookup;
+    private ConcurrentHashMap<Integer, Map<Integer, Float>> tran;
     private double selfTrans = 0.05;
     private double lambda = 0.1;
     private double minProb = 5e-4;
@@ -37,9 +37,20 @@ public class IBMModel1 implements FeatureExtractor {
         this.tag = tag;
     }
 
-    public IBMModel1(String field, String tag) {
+    public IBMModel1(String field, String tag,
+                     ConcurrentHashMap<Integer, Pair<Integer, String>> sourceVoc,
+                     ConcurrentHashMap<String, Integer> sourceLookup,
+                     ConcurrentHashMap<Integer, Pair<Integer, String>> targetVoc,
+                     ConcurrentHashMap<String, Integer> targetLookup,
+                     ConcurrentHashMap<Integer, Map<Integer, Float>> tran) {
+        this.sourceVoc = sourceVoc;
+        this.sourceLookup = sourceLookup;
+        this.targetVoc = targetVoc;
+        this.targetLookup = targetLookup;
+        this.tran = tran;
         this.field = field;
         this.tag = tag;
+
     }
 
     public ConcurrentHashMap<Integer, Pair<Integer, String>> loadVoc(String fileName) throws IOException {
@@ -191,7 +202,7 @@ public class IBMModel1 implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new IBMModel1(field, tag);
+        return new IBMModel1(field, tag, sourceVoc, sourceLookup, targetVoc, targetLookup, tran);
     }
 
     @Override
