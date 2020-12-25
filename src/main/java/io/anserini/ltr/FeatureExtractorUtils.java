@@ -119,13 +119,11 @@ public class FeatureExtractorUtils {
       List<debugOutput> result = new ArrayList<>();
 
       for(String docId: docIds) {
-        System.out.println("debug");
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
         TopDocs topDocs = searcher.search(q, 1);
         if (topDocs.totalHits.value == 0) {
           throw new IOException(String.format("Document Id %s expected but not found in index", docId));
         }
-        System.out.println("debug2");
         ScoreDoc hit = topDocs.scoreDocs[0];
         documentContext.updateDoc(docId, hit.doc);
         List<Float> features = new ArrayList<>();
@@ -139,11 +137,8 @@ public class FeatureExtractorUtils {
           long end = System.nanoTime();
           time.set(i, time.get(i) + end - start);
         }
-        System.out.println(features);
         result.add(new debugOutput(docId,features, time));
-        System.out.println(result);
       }
-      System.out.println("debug3");
       return mapper.writeValueAsString(result);
     }));
   }
@@ -205,7 +200,6 @@ public class FeatureExtractorUtils {
    */
   public String debugExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    System.out.println("LazyExtract");
     JsonNode root = mapper.readValue(jsonInput, JsonNode.class);
     String qid = root.get("qid").asText();
     List<String> docIds = mapper.convertValue(root.get("docIds"), ArrayList.class);
