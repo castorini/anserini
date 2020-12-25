@@ -22,8 +22,9 @@ public class IBMModel1 implements FeatureExtractor {
     private double lambda = 0.1;
     private double minProb = 5e-4;
     private String field;
+    private String tag;
 
-    public IBMModel1(String dir, String field) throws IOException {
+    public IBMModel1(String dir, String field, String tag) throws IOException {
         sourceVoc = this.loadVoc(dir + File.separator + "source.vcb");
         assert !sourceVoc.containsKey("@NULL@");
         sourceVoc.put(0,Pair.of(0,"@NULL@"));
@@ -33,10 +34,12 @@ public class IBMModel1 implements FeatureExtractor {
         tran = this.loadTran(dir + File.separator + "output.t1.5.bin");
         this.rescale();
         this.field = field;
+        this.tag = tag;
     }
 
-    public IBMModel1(String field) {
+    public IBMModel1(String field, String tag) {
         this.field = field;
+        this.tag = tag;
     }
 
     public ConcurrentHashMap<Integer, Pair<Integer, String>> loadVoc(String fileName) throws IOException {
@@ -144,7 +147,7 @@ public class IBMModel1 implements FeatureExtractor {
                     }
                 }
                 if (tranProb >= minProb) {
-                    totTranProb += tranProb * (docFreq.get(docTerm) / docSize);
+                    totTranProb += tranProb * ((1.0*docFreq.get(docTerm)) / docSize);
                 }
             }
         }
@@ -188,12 +191,12 @@ public class IBMModel1 implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new IBMModel1(field);
+        return new IBMModel1(field, tag);
     }
 
     @Override
     public String getName() {
-        return String.format("%s_IBMModel1",field);
+        return String.format("%s_IBMModel1_%s",field, tag);
     }
 
     @Override
