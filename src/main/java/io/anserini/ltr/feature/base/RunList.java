@@ -20,6 +20,7 @@ import io.anserini.ltr.FeatureExtractorUtils;
 import io.anserini.ltr.feature.DocumentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.QueryFieldContext;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  */
 public class RunList implements FeatureExtractor {
+    private String qfield = "analyzed";
     private ConcurrentHashMap<Pair<String, String>, Pair<Integer, Float>> lookup = new ConcurrentHashMap<>();
     private String tag;
 
@@ -68,12 +70,18 @@ public class RunList implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getField() {
         return null;
+    }
+
+    @Override
+    public String getQField() {
+        return qfield;
     }
 
     @Override

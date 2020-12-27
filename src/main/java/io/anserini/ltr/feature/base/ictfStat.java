@@ -13,25 +13,29 @@ import java.util.List;
  */
 public class ictfStat implements FeatureExtractor {
   private String field;
+  private String qfield;
 
   Pooler collectFun;
   public ictfStat(Pooler collectFun) {
     this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
-  public ictfStat(Pooler collectFun, String field) {
+  public ictfStat(Pooler collectFun, String field, String qfield) {
     this.collectFun = collectFun;
     this.field = field;
+    this.qfield = qfield;
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     long collectionSize = context.totalTermFreq;
     List<Float> score = new ArrayList<>();
 
-    for (String queryToken : queryContext.queryTokens) {
+    for (String queryToken : queryFieldContext.queryTokens) {
       long collectionFreq = context.getCollectionFreq(queryToken);
       double ictf = Math.log((double)collectionSize/(collectionFreq+1));
       score.add((float)ictf);
@@ -41,12 +45,13 @@ public class ictfStat implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_ICTF_%s", field, collectFun.getName());
+    return String.format("%s_%s_ICTF_%s", field, qfield, collectFun.getName());
   }
 
   @Override
@@ -55,8 +60,13 @@ public class ictfStat implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new ictfStat(newFun, field);
+    return new ictfStat(newFun, field, qfield);
   }
 }

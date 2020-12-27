@@ -17,10 +17,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 /**
  * Computes the number of query terms that are found in the document. If there are three terms in
@@ -28,16 +25,24 @@ import io.anserini.ltr.feature.QueryContext;
  */
 public class MatchingTermCount implements FeatureExtractor {
   private String field;
+  private String qfield;
 
-  public MatchingTermCount() { this.field = IndexArgs.CONTENTS; }
+  public MatchingTermCount() {
+    this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
+  }
 
-  public MatchingTermCount(String field) { this.field = field; }
+  public MatchingTermCount(String field, String qfield) {
+    this.field = field;
+    this.qfield = qfield;
+  }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     int matching = 0;
-    for(String queryToken : queryContext.queryTokens) {
+    for(String queryToken : queryFieldContext.queryTokens) {
       long tf = context.getTermFreq(queryToken);
       if(tf!=0)
         matching++;
@@ -47,12 +52,13 @@ public class MatchingTermCount implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_MatchingTermCount", field);
+    return String.format("%s_%s_MatchingTermCount", field, qfield);
   }
 
   @Override
@@ -61,7 +67,12 @@ public class MatchingTermCount implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
-    return new MatchingTermCount(field);
+    return new MatchingTermCount(field, qfield);
   }
 }

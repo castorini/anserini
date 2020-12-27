@@ -10,21 +10,25 @@ todo discuss tfidf
 */
 public class tfIdfStat implements FeatureExtractor {
   private String field;
+  private String qfield;
 
   Pooler collectFun;
   public tfIdfStat(Pooler collectFun) {
     this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
-  public tfIdfStat(Pooler collectFun, String field) {
+  public tfIdfStat(Pooler collectFun, String field, String qfield) {
     this.collectFun = collectFun;
     this.field = field;
+    this.qfield = qfield;
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     List<Float> score;
     if(context.statsCache.containsKey("TFIDF")){
       score = context.statsCache.get("TFIDF");
@@ -32,7 +36,7 @@ public class tfIdfStat implements FeatureExtractor {
       long numDocs = context.numDocs;
       score = new ArrayList<>();
 
-      for (String queryToken : queryContext.queryTokens) {
+      for (String queryToken : queryFieldContext.queryTokens) {
         int docFreq = context.getDocFreq(queryToken);
         long termFreq = context.getTermFreq(queryToken);
         if(termFreq==0) {
@@ -48,12 +52,13 @@ public class tfIdfStat implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_TFIDF_%s", field, collectFun.getName());
+    return String.format("%s_%s_TFIDF_%s", field, qfield, collectFun.getName());
   }
 
   @Override
@@ -62,8 +67,13 @@ public class tfIdfStat implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new tfIdfStat(newFun, field);
+    return new tfIdfStat(newFun, field, qfield);
   }
 }

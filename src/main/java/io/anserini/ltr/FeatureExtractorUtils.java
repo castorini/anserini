@@ -52,6 +52,7 @@ public class FeatureExtractorUtils {
   private Set<String> featureNames = new HashSet<>();
   private List<FeatureExtractor> extractors = new ArrayList<>();
   private Set<String> fieldsToLoad = new HashSet<>();
+  private Set<String> qfieldsToLoad = new HashSet<>();
   private ExecutorService pool;
   private Map<String, Future<String>> tasks = new HashMap<>();
 
@@ -67,8 +68,11 @@ public class FeatureExtractorUtils {
     featureNames.add(extractor.getName());
     extractors.add(extractor);
     String field = extractor.getField();
+    String qfield = extractor.getQField();
     if(field!=null)
       fieldsToLoad.add(field);
+    if(qfield != null)
+      qfieldsToLoad.add(qfield);
     return this;
   }
 
@@ -115,7 +119,7 @@ public class FeatureExtractorUtils {
       }
       ObjectMapper mapper = new ObjectMapper();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(qid, jsonQuery);
+      QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<debugOutput> result = new ArrayList<>();
 
       for(String docId: docIds) {
@@ -153,7 +157,7 @@ public class FeatureExtractorUtils {
       }
       ObjectMapper mapper = new ObjectMapper();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(qid, jsonQuery);
+      QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<output> result = new ArrayList<>();
 
       for(String docId: docIds) {

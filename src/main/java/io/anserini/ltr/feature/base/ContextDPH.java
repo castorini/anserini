@@ -5,6 +5,7 @@ import io.anserini.ltr.feature.*;
 
 public class ContextDPH implements FeatureExtractor {
   private String field;
+  private String qfield = "analyzed";
 
   Pooler collectFun;
   public ContextDPH(Pooler collectFun) {
@@ -24,7 +25,8 @@ public class ContextDPH implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return collectFun.pool(queryContext.getOthersLog(context.docId, String.format("%s_DPH", field)));
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return collectFun.pool(queryFieldContext.getOthersLog(context.docId, String.format("%s_%s_DPH", field, qfield)));
   }
 
   @Override
@@ -35,6 +37,11 @@ public class ContextDPH implements FeatureExtractor {
   @Override
   public String getField() {
     return field;
+  }
+
+  @Override
+  public String getQField() {
+    return qfield;
   }
 
   @Override

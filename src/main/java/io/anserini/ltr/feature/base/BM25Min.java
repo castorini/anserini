@@ -30,6 +30,8 @@ public class BM25Min implements FeatureExtractor {
     private double k1 = 0.9;
     private double b = 0.4;
     private String field;
+    private String qfield = "analyzed";
+
     Pooler collectFun;
     public BM25Min(Pooler collectFun) {
         this.field = IndexArgs.CONTENTS;
@@ -65,7 +67,8 @@ public class BM25Min implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
@@ -76,6 +79,11 @@ public class BM25Min implements FeatureExtractor {
     @Override
     public String getField() {
         return field;
+    }
+
+    @Override
+    public String getQField() {
+        return qfield;
     }
 
     public double getK1() {

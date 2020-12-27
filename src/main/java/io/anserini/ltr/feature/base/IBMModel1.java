@@ -1,10 +1,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.*;
@@ -22,9 +19,10 @@ public class IBMModel1 implements FeatureExtractor {
     private double lambda = 0.1;
     private double minProb = 5e-4;
     private String field;
+    private String qfield;
     private String tag;
 
-    public IBMModel1(String dir, String field, String tag) throws IOException {
+    public IBMModel1(String dir, String field, String tag, String qfield) throws IOException {
         sourceVoc = this.loadVoc(dir + File.separator + "source.vcb");
         assert !sourceVoc.containsKey("@NULL@");
         sourceVoc.put(0,Pair.of(0,"@NULL@"));
@@ -35,9 +33,10 @@ public class IBMModel1 implements FeatureExtractor {
         this.rescale();
         this.field = field;
         this.tag = tag;
+        this.qfield = qfield;
     }
 
-    public IBMModel1(String field, String tag,
+    public IBMModel1(String field, String tag, String qfield,
                      ConcurrentHashMap<Integer, Pair<Integer, String>> sourceVoc,
                      ConcurrentHashMap<String, Integer> sourceLookup,
                      ConcurrentHashMap<Integer, Pair<Integer, String>> targetVoc,
@@ -50,6 +49,7 @@ public class IBMModel1 implements FeatureExtractor {
         this.tran = tran;
         this.field = field;
         this.tag = tag;
+        this.qfield = qfield;
 
     }
 
@@ -170,6 +170,7 @@ public class IBMModel1 implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) throws FileNotFoundException, IOException {
         FieldContext context = null;
+        QueryFieldContext queryFieldContext = null;
         if (field == "Unlemma") {
             context = documentContext.fieldContexts.get("text_unlemm");
         }else{
@@ -180,34 +181,28 @@ public class IBMModel1 implements FeatureExtractor {
         long totalTermFreq = context.totalTermFreq;
         float score = 0;
         if(docSize==0) return 0;
-        if(field== "Unlemma") {
-
-            for (String queryToken : queryContext.queryTextUnlemma) {
-                double collectProb = (double) context.getCollectionFreq(queryToken) / totalTermFreq;
-                score += computeQuery(queryToken, context.termFreqs, context.docSize, collectProb);
-            }
-        }else{
-            for (String queryToken : queryContext.queryBert) {
-                double collectProb = (double) context.getCollectionFreq(queryToken) / totalTermFreq;
-                score += computeQuery(queryToken, context.termFreqs, context.docSize, collectProb);
-            }
+        queryFieldContext = queryContext.fieldContexts.get(qfield);// text_unlemm
+        for (String queryToken : queryFieldContext.queryTokens) {
+            double collectProb = (double) context.getCollectionFreq(queryToken) / totalTermFreq;
+            score += computeQuery(queryToken, context.termFreqs, context.docSize, collectProb);
         }
         return score;
     }
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public FeatureExtractor clone() {
-        return new IBMModel1(field, tag, sourceVoc, sourceLookup, targetVoc, targetLookup, tran);
+        return new IBMModel1(field, tag, qfield, sourceVoc, sourceLookup, targetVoc, targetLookup, tran);
     }
 
     @Override
     public String getName() {
-        return String.format("%s_IBMModel1_%s",field, tag);
+        return String.format("%s_%s_IBMModel1_%s",field, qfield, tag);
     }
 
     @Override
@@ -218,5 +213,10 @@ public class IBMModel1 implements FeatureExtractor {
             return "text_bert_tok";
         }
 //        return "contents";
+    }
+
+    @Override
+    public String getQField() {
+        return qfield;
     }
 }

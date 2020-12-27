@@ -1,10 +1,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -14,19 +11,27 @@ import java.util.List;
 
 public class Proximity implements FeatureExtractor {
     private String field;
+    private String qfield;
 
-    public Proximity() { this.field = IndexArgs.CONTENTS; }
+    public Proximity() {
+        this.field = IndexArgs.CONTENTS;
+        this.qfield = "analyzed";
+    }
 
-    public Proximity(String field) { this.field = field; }
+    public Proximity(String field, String qfield) {
+        this.field = field;
+        this.qfield = qfield;
+    }
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         FieldContext context = documentContext.fieldContexts.get(field);
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         float score = 0.0f;
         /* Store condensed direct file */
         List<Pair<String, Integer>> cdf = new ArrayList<>();
         int s = 0;
-        for (String queryToken : queryContext.queryTokens) {
+        for (String queryToken : queryFieldContext.queryTokens) {
             if (context.termFreqs.containsKey(queryToken)) {
                 ++s;
                 List<Integer> termPos = context.termPositions.get(queryToken);
@@ -57,13 +62,13 @@ public class Proximity implements FeatureExtractor {
                 /* skip if same term for bigram */
                 if (rhs.getKey() == lhs.getKey()) continue;
                 if(dist > 0 && dist <= window){
-                    int queryFreq = queryContext.queryFreqs.get(lhs.getKey());
+                    int queryFreq = queryFieldContext.queryFreqs.get(lhs.getKey());
                     float idf = (float) Math.max(epsilon,Math.log(context.numDocs/context.getDocFreq(lhs.getKey()))*queryFreq);
                     float avgDocLen = context.totalTermFreq / context.numDocs;
                     float tf = k1*((1-b) + (b*(context.docSize / avgDocLen)));
                     score += ((k1+1)*context.getTermFreq(lhs.getKey()) / (tf + context.getTermFreq(lhs.getKey()))) * idf;
 
-                    float queryFreqB = queryContext.queryFreqs.get(rhs.getKey());
+                    float queryFreqB = queryFieldContext.queryFreqs.get(rhs.getKey());
                     float idfB = (float)Math.max(epsilon, Math.log(context.numDocs/context.getDocFreq(rhs.getKey()))*queryFreqB);
                     score += ((k1+1)*context.getTermFreq(rhs.getKey()) / (tf + context.getTermFreq(rhs.getKey()))) * idfB;
                 }
@@ -75,12 +80,13 @@ public class Proximity implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return String.format("%s_Proximity", field);
+        return String.format("%s_%s_Proximity", field, qfield);
     }
 
     @Override
@@ -89,7 +95,12 @@ public class Proximity implements FeatureExtractor {
     }
 
     @Override
+    public String getQField() {
+        return qfield;
+    }
+
+    @Override
     public FeatureExtractor clone() {
-        return new Proximity(field);
+        return new Proximity(field, qfield);
     }
 }

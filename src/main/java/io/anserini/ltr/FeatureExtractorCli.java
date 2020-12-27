@@ -43,106 +43,107 @@ public class FeatureExtractorCli {
     }
 
     FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
-    
-//    utils.add(new BM25(0.9,0.4));
-//    utils.add(new BM25(1.2,0.75));
-//    utils.add(new BM25(2.0,0.75));
-//
-//    utils.add(new LMDir(1000));
-//    utils.add(new LMDir(1500));
-//    utils.add(new LMDir(2500));
-//
-//    utils.add(new LMJM(0.1));
-//    utils.add(new LMJM(0.4));
-//    utils.add(new LMJM(0.7));
-//
-//    utils.add(new NTFIDF());
-//    utils.add(new ProbalitySum());
-//
-//    utils.add(new DFR_GL2());
-//    utils.add(new DFR_In_expB2());
-//    utils.add(new DPH());
-//
-//    utils.add(new ContextDFR_GL2(new AvgPooler()));
-//    utils.add(new ContextDFR_GL2(new VarPooler()));
-//    utils.add(new ContextDFR_In_expB2(new AvgPooler()));
-//    utils.add(new ContextDFR_In_expB2(new VarPooler()));
-//    utils.add(new ContextDPH(new AvgPooler()));
-//    utils.add(new ContextDPH(new VarPooler()));
-//
-//    utils.add(new Proximity());
-//    utils.add(new TPscore());
-//    utils.add(new tpDist());
-////    utils.add(new SDM());
-//
-//    utils.add(new DocSize());
-//    utils.add(new Entropy());
-//    utils.add(new StopCover());
-//    utils.add(new StopRatio());
-//
-//    utils.add(new QueryLength());
-//    utils.add(new QueryLengthNonStopWords());
-//    utils.add(new QueryCoverageRatio());
-//    utils.add(new UniqueTermCount());
-//    utils.add(new MatchingTermCount());
-//    utils.add(new SCS());
-//
-//    utils.add(new tfStat(new AvgPooler()));
-//    utils.add(new tfStat(new SumPooler()));
-//    utils.add(new tfStat(new MinPooler()));
-//    utils.add(new tfStat(new MaxPooler()));
-//    utils.add(new tfStat(new VarPooler()));
-//    utils.add(new tfIdfStat(new AvgPooler()));
-//    utils.add(new tfIdfStat(new SumPooler()));
-//    utils.add(new tfIdfStat(new MinPooler()));
-//    utils.add(new tfIdfStat(new MaxPooler()));
-//    utils.add(new tfIdfStat(new VarPooler()));
-//    utils.add(new scqStat(new AvgPooler()));
-//    utils.add(new scqStat(new SumPooler()));
-//    utils.add(new scqStat(new MinPooler()));
-//    utils.add(new scqStat(new MaxPooler()));
-//    utils.add(new scqStat(new VarPooler()));
-//    utils.add(new normalizedTfStat(new AvgPooler()));
-//    utils.add(new normalizedTfStat(new SumPooler()));
-//    utils.add(new normalizedTfStat(new MinPooler()));
-//    utils.add(new normalizedTfStat(new MaxPooler()));
-//    utils.add(new normalizedTfStat(new VarPooler()));
-//    utils.add(new normalizedDocSizeStat(new AvgPooler()));
-//    utils.add(new normalizedDocSizeStat(new SumPooler()));
-//    utils.add(new normalizedDocSizeStat(new MinPooler()));
-//    utils.add(new normalizedDocSizeStat(new MaxPooler()));
-//    utils.add(new normalizedDocSizeStat(new VarPooler()));
-//
-//    utils.add(new idfStat(new AvgPooler()));
-//    utils.add(new idfStat(new SumPooler()));
-//    utils.add(new idfStat(new MinPooler()));
-//    utils.add(new idfStat(new MaxPooler()));
-//    utils.add(new idfStat(new VarPooler()));
-//    utils.add(new idfStat(new MaxMinRatioPooler()));
-//    utils.add(new idfStat(new ConfidencePooler()));
-//    utils.add(new ictfStat(new AvgPooler()));
-//    utils.add(new ictfStat(new SumPooler()));
-//    utils.add(new ictfStat(new MinPooler()));
-//    utils.add(new ictfStat(new MaxPooler()));
-//    utils.add(new ictfStat(new VarPooler()));
-//    utils.add(new ictfStat(new MaxMinRatioPooler()));
-//    utils.add(new ictfStat(new ConfidencePooler()));
-//
-//    utils.add(new UnorderedSequentialPairs(3));
-//    utils.add(new UnorderedSequentialPairs(8));
-//    utils.add(new UnorderedSequentialPairs(15));
-//    utils.add(new OrderedSequentialPairs(3));
-//    utils.add(new OrderedSequentialPairs(8));
-//    utils.add(new OrderedSequentialPairs(15));
-//    utils.add(new UnorderedQueryPairs(3));
-//    utils.add(new UnorderedQueryPairs(8));
-//    utils.add(new UnorderedQueryPairs(15));
-//    utils.add(new OrderedQueryPairs(3));
-//    utils.add(new OrderedQueryPairs(8));
-//    utils.add(new OrderedQueryPairs(15));
-//
-    utils.add(new IBMModel1("C:\\Users\\nsndi\\PycharmProjects\\pyserini\\FlexNeuART\\derived_data\\giza\\title_unlemm","Unlemma","Body"));
-    utils.add(new IBMModel1("C:\\Users\\nsndi\\PycharmProjects\\pyserini\\FlexNeuART\\derived_data\\giza\\text_bert_tok","Bert","BERT"));
+
+    utils.add(new BM25(0.9,0.4));
+    utils.add(new BM25(1.2,0.75));
+    utils.add(new BM25(2.0,0.75));
+
+    utils.add(new LMDir(1000));
+    utils.add(new LMDir(1500));
+    utils.add(new LMDir(2500));
+
+    utils.add(new LMJM(0.1));
+    utils.add(new LMJM(0.4));
+    utils.add(new LMJM(0.7));
+
+    utils.add(new NTFIDF());
+    utils.add(new ProbalitySum());
+
+    utils.add(new DFR_GL2());
+    utils.add(new DFR_In_expB2());
+    utils.add(new DPH());
+    /**
+    utils.add(new ContextDFR_GL2(new AvgPooler()));
+    utils.add(new ContextDFR_GL2(new VarPooler()));
+    utils.add(new ContextDFR_In_expB2(new AvgPooler()));
+    utils.add(new ContextDFR_In_expB2(new VarPooler()));
+    utils.add(new ContextDPH(new AvgPooler()));
+    utils.add(new ContextDPH(new VarPooler()));
+     **/
+
+
+    utils.add(new Proximity());
+    utils.add(new TPscore());
+    utils.add(new tpDist());
+    //utils.add(new SDM());
+
+    utils.add(new DocSize());
+    utils.add(new Entropy());
+    utils.add(new StopCover());
+    utils.add(new StopRatio());
+
+    utils.add(new QueryLength());
+    //utils.add(new QueryLengthNonStopWords());
+    utils.add(new QueryCoverageRatio());
+    utils.add(new UniqueTermCount());
+    utils.add(new MatchingTermCount());
+    utils.add(new SCS());
+    utils.add(new tfStat(new AvgPooler()));
+    utils.add(new tfStat(new SumPooler()));
+    utils.add(new tfStat(new MinPooler()));
+    utils.add(new tfStat(new MaxPooler()));
+    utils.add(new tfStat(new VarPooler()));
+    utils.add(new tfIdfStat(new AvgPooler()));
+    utils.add(new tfIdfStat(new SumPooler()));
+    utils.add(new tfIdfStat(new MinPooler()));
+    utils.add(new tfIdfStat(new MaxPooler()));
+    utils.add(new tfIdfStat(new VarPooler()));
+    utils.add(new scqStat(new AvgPooler()));
+    utils.add(new scqStat(new SumPooler()));
+    utils.add(new scqStat(new MinPooler()));
+    utils.add(new scqStat(new MaxPooler()));
+    utils.add(new scqStat(new VarPooler()));
+    utils.add(new normalizedTfStat(new AvgPooler()));
+    utils.add(new normalizedTfStat(new SumPooler()));
+    utils.add(new normalizedTfStat(new MinPooler()));
+    utils.add(new normalizedTfStat(new MaxPooler()));
+    utils.add(new normalizedTfStat(new VarPooler()));
+    utils.add(new normalizedDocSizeStat(new AvgPooler()));
+    utils.add(new normalizedDocSizeStat(new SumPooler()));
+    utils.add(new normalizedDocSizeStat(new MinPooler()));
+    utils.add(new normalizedDocSizeStat(new MaxPooler()));
+    utils.add(new normalizedDocSizeStat(new VarPooler()));
+
+    utils.add(new idfStat(new AvgPooler()));
+    utils.add(new idfStat(new SumPooler()));
+    utils.add(new idfStat(new MinPooler()));
+    utils.add(new idfStat(new MaxPooler()));
+    utils.add(new idfStat(new VarPooler()));
+    utils.add(new idfStat(new MaxMinRatioPooler()));
+    utils.add(new idfStat(new ConfidencePooler()));
+    utils.add(new ictfStat(new AvgPooler()));
+    utils.add(new ictfStat(new SumPooler()));
+    utils.add(new ictfStat(new MinPooler()));
+    utils.add(new ictfStat(new MaxPooler()));
+    utils.add(new ictfStat(new VarPooler()));
+    utils.add(new ictfStat(new MaxMinRatioPooler()));
+    utils.add(new ictfStat(new ConfidencePooler()));
+
+    utils.add(new UnorderedSequentialPairs(3));
+    utils.add(new UnorderedSequentialPairs(8));
+    utils.add(new UnorderedSequentialPairs(15));
+    utils.add(new OrderedSequentialPairs(3));
+    utils.add(new OrderedSequentialPairs(8));
+    utils.add(new OrderedSequentialPairs(15));
+    utils.add(new UnorderedQueryPairs(3));
+    utils.add(new UnorderedQueryPairs(8));
+    utils.add(new UnorderedQueryPairs(15));
+    utils.add(new OrderedQueryPairs(3));
+    utils.add(new OrderedQueryPairs(8));
+    utils.add(new OrderedQueryPairs(15));
+
+
+    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));

@@ -16,10 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,27 +25,33 @@ import java.util.Set;
  * Count of unique query terms
  */
 public class UniqueTermCount implements FeatureExtractor {
+  private String qfield;
+  public UniqueTermCount() { this.qfield = "analyzed";}
+
+  public UniqueTermCount(String qfield) { this.qfield = qfield; }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    if(queryContext.cache.containsKey(getName())){
-      return queryContext.cache.get(getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    if(queryFieldContext.cache.containsKey(getName())){
+      return queryFieldContext.cache.get(getName());
     } else {
-      Set<String> queryTokenSet = new HashSet<>(queryContext.queryTokens);
+      Set<String> queryTokenSet = new HashSet<>(queryFieldContext.queryTokens);
       float uniqueQueryTerms = queryTokenSet.size();
-      queryContext.cache.put(getName(), uniqueQueryTerms);
+      queryFieldContext.cache.put(getName(), uniqueQueryTerms);
       return uniqueQueryTerms;
     }
   }
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return "UniqueQueryTerms";
+    return String.format("%s_UniqueQueryTerms", qfield);
   }
 
   @Override
@@ -57,7 +60,12 @@ public class UniqueTermCount implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
-    return new UniqueTermCount();
+    return new UniqueTermCount(qfield);
   }
 }

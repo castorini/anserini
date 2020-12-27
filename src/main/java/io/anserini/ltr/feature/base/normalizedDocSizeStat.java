@@ -8,21 +8,25 @@ import java.util.List;
 
 public class normalizedDocSizeStat implements FeatureExtractor {
   private String field;
+  private String qfield;
 
   Pooler collectFun;
   public normalizedDocSizeStat(Pooler collectFun) {
     this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
-  public normalizedDocSizeStat(Pooler collectFun, String field) {
+  public normalizedDocSizeStat(Pooler collectFun, String field, String qfield) {
     this.collectFun = collectFun;
     this.field = field;
+    this.qfield = qfield;
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     List<Float> score;
     if(context.statsCache.containsKey("normalizedDocSize")){
       score = context.statsCache.get("normalizedDocSize");
@@ -30,7 +34,7 @@ public class normalizedDocSizeStat implements FeatureExtractor {
       score = new ArrayList<>();
       long docSize = context.docSize;
 
-      for (String queryToken : queryContext.queryTokens) {
+      for (String queryToken : queryFieldContext.queryTokens) {
         long termFreq = context.getTermFreq(queryToken);
         if(termFreq==0) {
           score.add(0f);
@@ -45,12 +49,13 @@ public class normalizedDocSizeStat implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_normalizedDocSize_%s",field, collectFun.getName());
+    return String.format("%s_%s_normalizedDocSize_%s",field, qfield, collectFun.getName());
   }
 
   @Override
@@ -59,8 +64,13 @@ public class normalizedDocSizeStat implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new normalizedTfStat(newFun, field);
+    return new normalizedDocSizeStat(newFun, field, qfield);
   }
 }

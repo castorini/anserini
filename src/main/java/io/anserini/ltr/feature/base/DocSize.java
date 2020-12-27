@@ -17,16 +17,14 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 /**
  * Returns the size of the document
  */
 public class DocSize implements FeatureExtractor {
   private String field;
+  private String qfield = "analyzed";
 
   public DocSize() { this.field = IndexArgs.CONTENTS; }
 
@@ -40,17 +38,23 @@ public class DocSize implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_DocSize", field);
+    return String.format("%s_%s_DocSize", field, qfield);
   }
 
   @Override
   public String getField() {
     return field;
+  }
+
+  @Override
+  public String getQField() {
+    return qfield;
   }
 
   @Override

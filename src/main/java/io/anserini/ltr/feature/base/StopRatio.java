@@ -18,10 +18,7 @@ package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.StopWords;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 import java.util.List;
 
@@ -31,6 +28,7 @@ import java.util.List;
  */
 public class StopRatio implements FeatureExtractor {
     private String field;
+    private String qfield = "analyzed";
 
     public StopRatio(String field) {
         this.field = field;
@@ -60,17 +58,23 @@ public class StopRatio implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return String.format("%s_StopRatio", field);
+        return String.format("%s_%s_StopRatio", field, qfield);
     }
 
     @Override
     public String getField() {
         return field;
+    }
+
+    @Override
+    public String getQField() {
+        return qfield;
     }
 
     @Override

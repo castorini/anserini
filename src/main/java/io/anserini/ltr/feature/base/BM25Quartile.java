@@ -29,6 +29,7 @@ public class BM25Quartile implements FeatureExtractor {
     private double k1 = 0.9;
     private double b = 0.4;
     private String field;
+    private String qfield = "analyzed";
     int q;
     Pooler collectFun;
     public BM25Quartile(Pooler collectFun) {
@@ -65,17 +66,23 @@ public class BM25Quartile implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return String.format("%s_BM25_Quartile_k1_%.2f_b_%.2f_%s",field, k1, b, collectFun.getName());
+        return String.format("%s_%s_BM25_Quartile_k1_%.2f_b_%.2f_%s",field, qfield, k1, b, collectFun.getName());
     }
 
     @Override
     public String getField() {
         return field;
+    }
+
+    @Override
+    public String getQField() {
+        return qfield;
     }
 
     public double getK1() {
