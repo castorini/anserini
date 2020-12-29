@@ -52,6 +52,7 @@ public class FeatureExtractorUtils {
   private Set<String> qfieldsToLoad = new HashSet<>();
   private ExecutorService pool;
   private Map<String, Future<String>> tasks = new HashMap<>();
+  private Boolean executeBM25Stat = false;
 
   /**
    * set up the feature we wish to extract
@@ -118,8 +119,11 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<debugOutput> result = new ArrayList<>();
-      QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
-      documentContext.generateBM25Stat(qcontext.queryTokens);
+      if (executeBM25Stat ==false){
+        executeBM25Stat =true;
+        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
+        documentContext.generateBM25Stat(qcontext.queryTokens);
+      }
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -160,8 +164,11 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<output> result = new ArrayList<>();
-      QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
-      documentContext.generateBM25Stat(qcontext.queryTokens);
+      if (executeBM25Stat ==false){
+        executeBM25Stat =true;
+        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
+        documentContext.generateBM25Stat(qcontext.queryTokens);
+      }
 
       for(String docId: docIds) {
           Query q = new TermQuery(new Term(IndexArgs.ID, docId));
