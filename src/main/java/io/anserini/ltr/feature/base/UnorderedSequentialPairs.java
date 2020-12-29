@@ -69,7 +69,7 @@ public class UnorderedSequentialPairs implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_UnorderedSequentialPairs_%d", field, this.gapSize);
+    return String.format("%s_%s_UnorderedSequentialPairs_%d", field, qfield, this.gapSize);
   }
 
   @Override

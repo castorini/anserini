@@ -29,24 +29,19 @@ public class normalizedTfStat implements FeatureExtractor {
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
-    List<Float> score;
-    if(context.statsCache.containsKey("NormalizedTF")){
-      score = context.statsCache.get("NormalizedTF");
-    } else {
-      score = new ArrayList<>();
-      long docSize = context.docSize;
+    List<Float> score = new ArrayList<>();
+    long docSize = context.docSize;
 
-      for (String queryToken : queryFieldContext.queryTokens) {
-        long termFreq = context.getTermFreq(queryToken);
-        double tfn;
-        //todo need discuss this
-        if(termFreq==0) {
-          tfn = (double) docSize / 0.5;
-        } else {
-          tfn = (double) docSize / termFreq;
-        }
-        score.add((float)Math.log(tfn));
+    for (String queryToken : queryFieldContext.queryTokens) {
+      long termFreq = context.getTermFreq(queryToken);
+      double tfn;
+      //todo need discuss this
+      if(termFreq==0) {
+        tfn = (double) docSize / 0.5;
+      } else {
+        tfn = (double) docSize / termFreq;
       }
+      score.add((float)Math.log(tfn));
     }
     return collectFun.pool(score);
   }

@@ -29,24 +29,20 @@ public class tfIdfStat implements FeatureExtractor {
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
-    List<Float> score;
-    if(context.statsCache.containsKey("TFIDF")){
-      score = context.statsCache.get("TFIDF");
-    } else {
-      long numDocs = context.numDocs;
-      score = new ArrayList<>();
+    List<Float> score = new ArrayList<>();
+    long numDocs = context.numDocs;
 
-      for (String queryToken : queryFieldContext.queryTokens) {
-        int docFreq = context.getDocFreq(queryToken);
-        long termFreq = context.getTermFreq(queryToken);
-        if(termFreq==0) {
-          score.add(0f);
-          continue;
-        }
-        double idf = Math.log(numDocs/docFreq);
-        score.add((float)(idf*termFreq));
+    for (String queryToken : queryFieldContext.queryTokens) {
+      int docFreq = context.getDocFreq(queryToken);
+      long termFreq = context.getTermFreq(queryToken);
+      if(termFreq==0) {
+        score.add(0f);
+        continue;
       }
+      double idf = Math.log(numDocs/docFreq);
+      score.add((float)(idf*termFreq));
     }
+
     return collectFun.pool(score);
   }
 

@@ -78,8 +78,8 @@ public class FeatureExtractorCli {
 
     utils.add(new DocSize());
     utils.add(new Entropy());
-    utils.add(new StopCover());
-    utils.add(new StopRatio());
+//    utils.add(new StopCover());
+//    utils.add(new StopRatio());
 
     utils.add(new QueryLength());
     //utils.add(new QueryLengthNonStopWords());
@@ -141,6 +141,7 @@ public class FeatureExtractorCli {
     utils.add(new OrderedQueryPairs(8));
     utils.add(new OrderedQueryPairs(15));
 
+
     utils.add(new BM25Mean(new MaxPooler()));
     utils.add(new BM25Mean(new MinPooler()));
     utils.add(new BM25Min(new MaxPooler()));
@@ -177,7 +178,7 @@ public class FeatureExtractorCli {
           while(qids.size()>0) {
             lastQid = qids.remove(0);
             String allResult = utils.getResult(lastQid);
-            System.out.println(lastQid);
+            System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
             System.out.println(allResult);
             TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
             List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
@@ -200,7 +201,7 @@ public class FeatureExtractorCli {
         while(qids.size()>0) {
           lastQid = qids.remove(0);
           String allResult = utils.getResult(lastQid);
-          System.out.println(lastQid);
+          System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
           System.out.println(allResult);
           TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
           List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
@@ -210,8 +211,6 @@ public class FeatureExtractorCli {
             }
           }
           offset++;
-          System.out.println(offset);
-
         }
       } catch (Exception e) {
         System.out.println("the offset is:"+offset+"at qid:"+lastQid);

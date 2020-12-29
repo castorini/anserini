@@ -27,23 +27,20 @@ public class normalizedDocSizeStat implements FeatureExtractor {
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
-    List<Float> score;
-    if(context.statsCache.containsKey("normalizedDocSize")){
-      score = context.statsCache.get("normalizedDocSize");
-    } else {
-      score = new ArrayList<>();
-      long docSize = context.docSize;
+    List<Float> score = new ArrayList<>();
 
-      for (String queryToken : queryFieldContext.queryTokens) {
-        long termFreq = context.getTermFreq(queryToken);
-        if(termFreq==0) {
-          score.add(0f);
-          continue;
-        }
-        double tfn = (double)docSize/termFreq;
-        score.add((float)tfn);
+    long docSize = context.docSize;
+
+    for (String queryToken : queryFieldContext.queryTokens) {
+      long termFreq = context.getTermFreq(queryToken);
+      if(termFreq==0) {
+        score.add(0f);
+        continue;
       }
+      double tfn = (double)docSize/termFreq;
+      score.add((float)tfn);
     }
+
     return collectFun.pool(score);
   }
 
