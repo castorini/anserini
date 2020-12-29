@@ -45,12 +45,13 @@ public class Entropy implements FeatureExtractor {
             Long freq = entry.getValue();
             //todo need discuss this
             if(freq == 0) continue;
-            float p = freq / context.docSize;
+            float p = (1.0f*freq) / context.docSize;
             score += p * Math.log(p);
         }
         if (score >0) {
             score = -score;
         }
+        assert score == score;
         return score;
     }
 

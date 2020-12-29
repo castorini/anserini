@@ -10,7 +10,6 @@ public class QueryFieldContext {
     public List<String> queryTokens;
     public Map<String,Integer> queryFreqs;
     public int querySize;
-    public Map<String, Float> cache;
 
     private Map<String, Map<String, Float>> featureLog;
     public QueryFieldContext(String fieldName, JsonNode root){
@@ -21,7 +20,6 @@ public class QueryFieldContext {
         this.queryFreqs = new HashMap<>();
         for (String token : queryTokens)
             queryFreqs.put(token, queryFreqs.getOrDefault(token,0)+1);
-        this.cache = new HashMap<>();
         this.featureLog = new HashMap<>();
     }
     public List<Pair<String, String>> genQueryPair() {

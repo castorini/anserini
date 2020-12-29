@@ -79,8 +79,8 @@ public class FeatureExtractorCli {
 
     utils.add(new DocSize());
     utils.add(new Entropy());
-    utils.add(new StopCover());
-    utils.add(new StopRatio());
+//    utils.add(new StopCover());
+//    utils.add(new StopRatio());
 
     utils.add(new QueryLength());
     //utils.add(new QueryLengthNonStopWords());
@@ -143,7 +143,7 @@ public class FeatureExtractorCli {
     utils.add(new OrderedQueryPairs(15));
 
 
-    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
+//    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -165,7 +165,7 @@ public class FeatureExtractorCli {
           while(qids.size()>0) {
             lastQid = qids.remove(0);
             String allResult = utils.getResult(lastQid);
-            System.out.println(lastQid);
+            System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
             System.out.println(allResult);
             TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
             List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
@@ -188,7 +188,7 @@ public class FeatureExtractorCli {
         while(qids.size()>0) {
           lastQid = qids.remove(0);
           String allResult = utils.getResult(lastQid);
-          System.out.println(lastQid);
+          System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
           System.out.println(allResult);
           TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
           List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
@@ -198,8 +198,6 @@ public class FeatureExtractorCli {
             }
           }
           offset++;
-          System.out.println(offset);
-
         }
       } catch (Exception e) {
         System.out.println("the offset is:"+offset+"at qid:"+lastQid);

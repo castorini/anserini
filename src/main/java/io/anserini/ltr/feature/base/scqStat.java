@@ -33,23 +33,18 @@ public class scqStat implements FeatureExtractor {
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
-    List<Float> score;
-    if(context.statsCache.containsKey("SCQ")){
-      score = context.statsCache.get("SCQ");
-    } else {
-      long numDocs = context.numDocs;
-      score = new ArrayList<>();
+    List<Float> score = new ArrayList<>();
+    long numDocs = context.numDocs;
 
-      for (String queryToken : queryFieldContext.queryTokens) {
-        long docFreq = context.getDocFreq(queryToken);
-        long termFreq = context.getCollectionFreq(queryToken);
-        if (termFreq == 0) {
-          score.add(0f);
-          continue;
-        }
-        double scq = (1 + Math.log(termFreq)) * Math.log(numDocs / docFreq);
-        score.add((float) scq);
+    for (String queryToken : queryFieldContext.queryTokens) {
+      long docFreq = context.getDocFreq(queryToken);
+      long termFreq = context.getCollectionFreq(queryToken);
+      if (termFreq == 0) {
+        score.add(0f);
+        continue;
       }
+      double scq = (1 + Math.log(termFreq)) * Math.log(numDocs / docFreq);
+      score.add((float) scq);
     }
     return collectFun.pool(score);
   }

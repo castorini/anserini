@@ -34,9 +34,6 @@ public class FieldContext {
     public Map<String,List<Float>> var_score;
     public Map<String,List<Float>>  quartile_score;
 
-    //todo implement local normalization here
-    public Map<String, List<Float>> statsCache;
-
     public FieldContext(IndexReader reader, IndexSearcher searcher, String fieldName){
         this.reader = reader;
         this.searcher = searcher;
@@ -95,7 +92,6 @@ public class FieldContext {
             termFreqs = new HashMap<>();
             termPositions = new HashMap<>();
             positionTerm = new ArrayList<>();
-            statsCache = new HashMap<>();
 
             TermsEnum termIter = termVector.iterator();
             PostingsEnum positionIter = null;
@@ -129,8 +125,6 @@ public class FieldContext {
             termFreqs = new HashMap<>();
             termPositions = new HashMap<>();
             positionTerm = new ArrayList<>();
-
-            statsCache = new HashMap<>();
         }
 
     }

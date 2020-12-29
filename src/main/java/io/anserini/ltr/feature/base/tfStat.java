@@ -27,20 +27,15 @@ public class tfStat implements FeatureExtractor {
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
-    List<Float> score;
-    if(context.statsCache.containsKey("TF")){
-      score = context.statsCache.get("TF");
-    } else {
-      score = new ArrayList<>();
+    List<Float> score = new ArrayList<>();
 
-      for (String queryToken : queryFieldContext.queryTokens) {
-        long termFreq = context.getTermFreq(queryToken);
-        if(termFreq==0) {
-          score.add(0f);
-          continue;
-        }
-        score.add((float)termFreq);
+    for (String queryToken : queryFieldContext.queryTokens) {
+      long termFreq = context.getTermFreq(queryToken);
+      if(termFreq==0) {
+        score.add(0f);
+        continue;
       }
+      score.add((float)termFreq);
     }
     return collectFun.pool(score);
   }

@@ -127,6 +127,7 @@ public class FeatureExtractorUtils {
         }
         ScoreDoc hit = topDocs.scoreDocs[0];
         documentContext.updateDoc(docId, hit.doc);
+
         QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
         documentContext.generateBM25Stat(documentContext.docId,qcontext.queryTokens);
         List<Float> features = new ArrayList<>();
@@ -136,7 +137,9 @@ public class FeatureExtractorUtils {
         }
         for (int i = 0; i < localExtractors.size(); i++) {
           long start = System.nanoTime();
-          features.add(localExtractors.get(i).extract(documentContext, queryContext));
+          float extractedFeature = localExtractors.get(i).extract(documentContext, queryContext);
+          assert extractedFeature == extractedFeature;
+          features.add(extractedFeature);
           long end = System.nanoTime();
           time.set(i, time.get(i) + end - start);
         }
