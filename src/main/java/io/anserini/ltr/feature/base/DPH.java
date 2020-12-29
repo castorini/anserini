@@ -56,6 +56,9 @@ public class DPH implements FeatureExtractor {
             if(termFreq==0) continue;
             double collectionFreqs = context.getCollectionFreq(queryToken);
             double relativeFreq = (double)termFreq/docSize;
+            if (relativeFreq == 1d) { // to fix bug if relativeFreq is 1, score is NaN
+                relativeFreq = 0.99;
+            }
             double norm = (1d-relativeFreq) * (1d -relativeFreq)/(termFreq+1d);
             double Pt = collectionFreqs/totalTermFreq;
             score += norm * (termFreq* Math.log((relativeFreq/Pt)) +
