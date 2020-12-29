@@ -288,29 +288,40 @@ public class FieldContext {
             }
             Collections.sort(totalSingleTermList);
             totalSingleTerm += totalSingleTerm / post.size();
-            mean_score.add(totalSingleTerm);
 
-            double min =totalSingleTermList.get(0);
-            min_score.add((float) min);
-
-            double max =totalSingleTermList.get(post.size()-1);
-            max_score.add((float) max);
-
-            totalTerm_Hmean =  post.size() / totalTerm_Hmean ;
+            totalTerm_Hmean = post.size() / totalTerm_Hmean;
             hmean_score.add(totalTerm_Hmean);
 
-            float totalSingleTermVar =  (totalSingleTerm_sumsqr / post.size()) - totalSingleTerm*totalSingleTerm;
+            float totalSingleTermVar = (totalSingleTerm_sumsqr / post.size()) - totalSingleTerm * totalSingleTerm;
             var_score.add(totalSingleTermVar);
 
-            float totalSingleTermConf = (float) (zeta * ( Math.sqrt(totalSingleTermVar)/ Math.sqrt(post.size())));
+            float totalSingleTermConf = (float) (zeta * (Math.sqrt(totalSingleTermVar) / Math.sqrt(post.size())));
             conf_score.add(totalSingleTermConf);
 
             int len = totalSingleTermList.size();
-            double q1 = (len + 1) / 4;
-            double q2 = 3*(len + 1) / 4;
-            double num = 0.0d;
-            num = (totalSingleTermList.get((int) q1) - totalSingleTermList.get((int) q2));
-            quartile_score.add((float) num);
+            if (len>0) {
+                mean_score.add(totalSingleTerm);
+                double min = totalSingleTermList.get(0);
+                min_score.add((float) min);
+
+                double max = totalSingleTermList.get(post.size() - 1);
+                max_score.add((float) max);
+
+                double q1 = (len + 1) / 4;
+                double q2 = 3 * (len + 1) / 4;
+                double num = 0.0d;
+                if (q1>0 && q2>0){
+                    num = (totalSingleTermList.get((int) q1 -1) - totalSingleTermList.get((int) q2 -1));
+                    quartile_score.add((float) num);
+                }else{
+                    quartile_score.add(0.0f);
+                }
+            }else{
+                mean_score.add(0.0f);
+                min_score.add(0.0f);
+                max_score.add(0.0f);
+                quartile_score.add(0.0f);
+            }
         }
     }
 
