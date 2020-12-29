@@ -27,12 +27,12 @@ public class FieldContext {
     private Map<String, Map<Integer,List<Integer>>> postings;
     private Map<Pair<String, String>, Integer> bigramCollectionFreqs;
 
-    public Map<String,List<Float>> mean_score;
-    public Map<String,List<Float>>  min_score;
-    public Map<String,List<Float>>  max_score;
-    public Map<String,List<Float>>  hmean_score;
-    public Map<String,List<Float>> var_score;
-    public Map<String,List<Float>>  quartile_score;
+    public List<Float> mean_score;
+    public List<Float>  min_score;
+    public List<Float>  max_score;
+    public List<Float>  hmean_score;
+    public List<Float> var_score;
+    public List<Float>  quartile_score;
 
     //todo implement local normalization here
     public Map<String, List<Float>> statsCache;
@@ -54,12 +54,12 @@ public class FieldContext {
         postings = new HashMap<>();
         bigramCollectionFreqs = new HashMap<>();
 
-        mean_score = new HashMap<>();
-        min_score =new HashMap<>();
-        max_score = new HashMap<>();
-        hmean_score = new HashMap<>();
-        var_score = new HashMap<>();
-        quartile_score = new HashMap<>();
+        mean_score = new ArrayList<>();
+        min_score =new ArrayList<>();
+        max_score = new ArrayList<>();
+        hmean_score = new ArrayList<>();
+        var_score = new ArrayList<>();
+        quartile_score = new ArrayList<>();
 
     }
 
@@ -258,17 +258,11 @@ public class FieldContext {
      * sum ( IDF(qi) * (df(qi,D) * (k+1)) / (df(qi,D) + k * (1-b + b*|D| / avgFL))
      * IDF and avgFL computation are described above.
      */
-    public void generateBM25Stat(String docId, List<String> terms){
+    public void generateBM25Stat(List<String> terms){
         double avgFL = (double)totalTermFreq/numDocs;
         double zeta = 1.960f;
         double k1 = 0.9f;
         double b = 0.4f;
-        List<Float> totalTerm_HmeanList = new ArrayList<>();
-        List<Float> totalSingleTermVarList = new ArrayList<>();
-        List<Float> totalSingleTerm_MEAN_List = new ArrayList<>();
-        List<Float> totalSingleTerm_MIN_List = new ArrayList<>();
-        List<Float> totalSingleTerm_MAX_List = new ArrayList<>();
-        List<Float> totalSingleTerm_QUAR_List = new ArrayList<>();
 
         for (String queryToken : terms) {
             //mean of ( BM25 score for a single term )
@@ -292,39 +286,33 @@ public class FieldContext {
                 totalSingleTerm_sumsqr +=  totalSingleTerm * totalSingleTerm;
             }
             Collections.sort(totalSingleTermList);
-            totalSingleTerm += totalSingleTerm / post.size();
+            totalSingleTerm = totalSingleTerm / post.size();
 
             totalTerm_Hmean = post.size() / totalTerm_Hmean;
-            totalTerm_HmeanList.add(totalTerm_Hmean);
+            hmean_score.add(totalTerm_Hmean);
 
             float totalSingleTermVar = (totalSingleTerm_sumsqr / post.size()) - totalSingleTerm * totalSingleTerm;
-            totalSingleTermVarList.add(totalSingleTermVar);
+            var_score.add(totalSingleTermVar);
 
 
             int len = totalSingleTermList.size();
             if (len>0) {
-                totalSingleTerm_MEAN_List.add(totalSingleTerm);
+                mean_score.add(totalSingleTerm);
                 double min = totalSingleTermList.get(0);
-                totalSingleTerm_MIN_List.add((float) min);
+                min_score.add((float) min);
 
                 double max = totalSingleTermList.get(post.size() - 1);
-                totalSingleTerm_MAX_List.add((float) max);
+                max_score.add((float) max);
 
                 double q1 = (len + 1) / 4;
                 double q2 = 3 * (len + 1) / 4;
                 double num = 0.0d;
                 if (q1>0 && q2>0){
                     num = (totalSingleTermList.get((int) q1 -1) - totalSingleTermList.get((int) q2 -1));
-                    totalSingleTerm_QUAR_List.add((float) num);
+                    quartile_score.add((float) num);
                 }
             }
         }
-        mean_score.put(docId,totalSingleTerm_MEAN_List);
-        min_score.put(docId,totalSingleTerm_MIN_List);
-        max_score.put(docId,totalSingleTerm_MAX_List);
-        hmean_score.put(docId,totalTerm_HmeanList);
-        var_score.put(docId,totalSingleTermVarList);
-        quartile_score.put(docId,totalSingleTerm_QUAR_List);
     }
 
 }

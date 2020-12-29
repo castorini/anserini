@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MaxPooler implements Pooler {
   public float pool(List<Float> array) {
-    float max = 0;
+    float max = Float.MIN_VALUE;
     for (float v : array) {
       if (v > max)
         max = v;

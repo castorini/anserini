@@ -60,7 +60,7 @@ public class BM25HMean implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         FieldContext context = documentContext.fieldContexts.get(field);
-        List<Float> scores = context.hmean_score.get(documentContext.docId);
+        List<Float> scores = context.hmean_score;
         return collectFun.pool(scores);
     }
 

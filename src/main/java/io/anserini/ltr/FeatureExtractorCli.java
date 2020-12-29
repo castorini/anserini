@@ -43,7 +43,6 @@ public class FeatureExtractorCli {
     }
 
     FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
-
     utils.add(new BM25(0.9,0.4));
     utils.add(new BM25(1.2,0.75));
     utils.add(new BM25(2.0,0.75));
@@ -142,8 +141,21 @@ public class FeatureExtractorCli {
     utils.add(new OrderedQueryPairs(8));
     utils.add(new OrderedQueryPairs(15));
 
+    utils.add(new BM25Mean(new MaxPooler()));
+    utils.add(new BM25Mean(new MinPooler()));
+    utils.add(new BM25Min(new MaxPooler()));
+    utils.add(new BM25Min(new MinPooler()));
+    utils.add(new BM25Max(new MaxPooler()));
+    utils.add(new BM25Max(new MinPooler()));
+    utils.add(new BM25HMean(new MaxPooler()));
+    utils.add(new BM25HMean(new MinPooler()));
+    utils.add(new BM25Var(new MaxPooler()));
+    utils.add(new BM25Var(new MinPooler()));
+    utils.add(new BM25Quartile(new MaxPooler()));
+    utils.add(new BM25Quartile(new MinPooler()));
 
-    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
+
+//    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));

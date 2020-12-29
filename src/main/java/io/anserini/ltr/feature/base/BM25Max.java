@@ -60,7 +60,7 @@ public class BM25Max implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         FieldContext context = documentContext.fieldContexts.get(field);
-        List<Float> scores = context.max_score.get(documentContext.docId);
+        List<Float> scores = context.max_score;
         return collectFun.pool(scores);
     }
 

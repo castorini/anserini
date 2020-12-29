@@ -33,8 +33,8 @@ public class DocumentContext {
       fieldContexts.get(fieldName).updateDoc(internalId);
   }
 
-  public void generateBM25Stat(String docId,List<String> terms) throws IOException {
+  public void generateBM25Stat(List<String> terms) throws IOException {
     for(String fieldName: fieldsToLoad)
-      fieldContexts.get(fieldName).generateBM25Stat(docId,terms);
+      fieldContexts.get(fieldName).generateBM25Stat(terms);
   }
 }

@@ -60,7 +60,7 @@ public class BM25Var implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         FieldContext context = documentContext.fieldContexts.get(field);
-        List<Float> scores = context.var_score.get(documentContext.docId);
+        List<Float> scores = context.var_score;
         return collectFun.pool(scores);
     }
 
