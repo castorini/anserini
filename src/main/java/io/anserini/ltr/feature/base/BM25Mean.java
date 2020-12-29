@@ -60,7 +60,7 @@ public class BM25Mean implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         FieldContext context = documentContext.fieldContexts.get(field);
-        List<Float> scores = context.mean_score;
+        List<Float> scores = context.mean_score.get(documentContext.docId);
         return collectFun.pool(scores);
     }
 

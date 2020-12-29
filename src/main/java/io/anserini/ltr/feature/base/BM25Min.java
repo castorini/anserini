@@ -61,7 +61,7 @@ public class BM25Min implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         FieldContext context = documentContext.fieldContexts.get(field);
-        List<Float> scores = context.min_score;
+        List<Float> scores = context.min_score.get(documentContext.docId);
         return collectFun.pool(scores);
     }
 

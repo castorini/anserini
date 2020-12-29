@@ -52,7 +52,6 @@ public class FeatureExtractorUtils {
   private Set<String> qfieldsToLoad = new HashSet<>();
   private ExecutorService pool;
   private Map<String, Future<String>> tasks = new HashMap<>();
-  private Boolean executeBM25Stat = false;
 
   /**
    * set up the feature we wish to extract
@@ -119,11 +118,6 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<debugOutput> result = new ArrayList<>();
-      if (executeBM25Stat == false) {
-        executeBM25Stat = true;
-        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
-        documentContext.generateBM25Stat(qcontext.queryTokens);
-      }
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -133,6 +127,8 @@ public class FeatureExtractorUtils {
         }
         ScoreDoc hit = topDocs.scoreDocs[0];
         documentContext.updateDoc(docId, hit.doc);
+        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
+        documentContext.generateBM25Stat(documentContext.docId,qcontext.queryTokens);
         List<Float> features = new ArrayList<>();
         List<Long> time = new ArrayList<>();
         for(int i = 0; i < localExtractors.size(); i++){
@@ -162,11 +158,7 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<output> result = new ArrayList<>();
-      if (executeBM25Stat == false) {
-        executeBM25Stat = true;
-        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
-        documentContext.generateBM25Stat(qcontext.queryTokens);
-      }
+
 
       for(String docId: docIds) {
           Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -177,6 +169,8 @@ public class FeatureExtractorUtils {
 
           ScoreDoc hit = topDocs.scoreDocs[0];
           documentContext.updateDoc(docId, hit.doc);
+          QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
+          documentContext.generateBM25Stat(documentContext.docId,qcontext.queryTokens);
 
           List<Float> features = new ArrayList<>();
 
