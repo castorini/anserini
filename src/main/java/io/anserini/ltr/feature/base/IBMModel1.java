@@ -169,19 +169,12 @@ public class IBMModel1 implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) throws FileNotFoundException, IOException {
-        FieldContext context = null;
-        QueryFieldContext queryFieldContext = null;
-        if (field == "Unlemma") {
-            context = documentContext.fieldContexts.get("text_unlemm");
-        }else{
-            context = documentContext.fieldContexts.get("text_bert_tok");
-        }
-//        context=documentContext.fieldContexts.get("contents");
+        FieldContext context = documentContext.fieldContexts.get(field);
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         long docSize = context.docSize;
         long totalTermFreq = context.totalTermFreq;
         float score = 0;
         if(docSize==0) return 0;
-        queryFieldContext = queryContext.fieldContexts.get(qfield);// text_unlemm
         for (String queryToken : queryFieldContext.queryTokens) {
             double collectProb = (double) context.getCollectionFreq(queryToken) / totalTermFreq;
             score += computeQuery(queryToken, context.termFreqs, context.docSize, collectProb);
@@ -207,12 +200,7 @@ public class IBMModel1 implements FeatureExtractor {
 
     @Override
     public String getField() {
-        if(field== "Unlemma") {
-            return "text_unlemm";
-        }else{
-            return "text_bert_tok";
-        }
-//        return "contents";
+        return field;
     }
 
     @Override
