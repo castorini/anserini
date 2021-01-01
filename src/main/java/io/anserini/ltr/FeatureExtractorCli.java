@@ -177,7 +177,7 @@ public class FeatureExtractorCli {
         try{
           while(qids.size()>0) {
             lastQid = qids.remove(0);
-            String allResult = utils.getResult(lastQid);
+            String allResult = utils.getDebugResult(lastQid);
             System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
             System.out.println(allResult);
             TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
@@ -200,7 +200,7 @@ public class FeatureExtractorCli {
       try{
         while(qids.size()>0) {
           lastQid = qids.remove(0);
-          String allResult = utils.getResult(lastQid);
+          String allResult = utils.getDebugResult(lastQid);
           System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
           System.out.println(allResult);
           TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};

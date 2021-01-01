@@ -152,9 +152,9 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
     String docIdToExtract = String.format("doc%s", docToExtract);
 
 
-    ArrayList<output> extractedFeatureValues = utils.extract(qid, Arrays.asList(docIdToExtract), AnalyzerUtils.analyze(TEST_ANALYZER, queryText));
+    ArrayList<debugOutput> extractedFeatureValues = utils.extract(qid, Arrays.asList(docIdToExtract), AnalyzerUtils.analyze(TEST_ANALYZER, queryText));
     List<Float> extractFeatures = null;
-    for(output doc: extractedFeatureValues) {
+    for(debugOutput doc: extractedFeatureValues) {
       if(doc.pid.equals(docIdToExtract))
         if(extractFeatures == null)
           extractFeatures = doc.features;
