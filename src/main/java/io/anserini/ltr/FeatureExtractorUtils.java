@@ -306,35 +306,6 @@ public class FeatureExtractorUtils {
 
 }
 
-class output{
-  String pid;
-  List<Float> features;
-
-  output(){}
-
-  output(String pid, List<Float> features){
-    this.pid = pid;
-    this.features = features;
-  }
-
-  public String getPid() {
-    return pid;
-  }
-
-  public List<Float> getFeatures() {
-    return features;
-  }
-
-  public void setPid(String pid) {
-    this.pid = pid;
-  }
-
-  public void setFeatures(List<Float> features) {
-    this.features = features;
-  }
-
-}
-
 class debugOutput{
   String pid;
   List<Float> features;
