@@ -163,17 +163,14 @@ public class FeatureExtractorCli {
     long executionStart = System.nanoTime();
     while((line=reader.readLine())!=null&&offset<10000){
       lineNum++;
-      if(lineNum<=760) continue;
+//      if(lineNum<=760) continue;
       qids.add(utils.debugExtract(line));
       if(qids.size()>=10){
         try{
           while(qids.size()>0) {
             lastQid = qids.remove(0);
-            String allResult = utils.getDebugResult(lastQid);
+            List<debugOutput> outputArray = utils.getDebugResult(lastQid);
             System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
-//            System.out.println(allResult);
-            TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
-            List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
             for(debugOutput res:outputArray){
               for(int i = 0; i < names.size(); i++){
                 time[i] += res.time.get(i);
@@ -192,11 +189,8 @@ public class FeatureExtractorCli {
       try{
         while(qids.size()>0) {
           lastQid = qids.remove(0);
-          String allResult = utils.getDebugResult(lastQid);
+          List<debugOutput> outputArray = utils.getDebugResult(lastQid);
           System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
-          System.out.println(allResult);
-          TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
-          List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
           for(debugOutput res:outputArray){
             for(int i = 0; i < names.size(); i++){
               time[i] += res.time.get(i);

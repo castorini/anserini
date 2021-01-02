@@ -52,7 +52,7 @@ public class FeatureExtractorUtils {
   private Set<String> qfieldsToLoad = new HashSet<>();
   private ExecutorService pool;
   private Map<String, Future<byte[]>> tasks = new HashMap<>();
-  private Map<String, Future<String>> debugTasks = new HashMap<>();
+  private Map<String, Future<List<debugOutput>>> debugTasks = new HashMap<>();
   private Boolean executeBM25Stat = false;
 
   /**
@@ -91,16 +91,14 @@ public class FeatureExtractorUtils {
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
-  public ArrayList<debugOutput> extract(String qid, List<String> docIds, List<String> queryTokens) throws ExecutionException, InterruptedException, JsonProcessingException {
+  public List<debugOutput> extract(String qid, List<String> docIds, List<String> queryTokens) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     Map<String, Object> json = new HashMap();
     json.put("qid", qid);
     json.put("docIds", docIds);
     json.put("analyzed", queryTokens);
     this.debugExtract(mapper.writeValueAsString(json));
-    String res = this.getDebugResult(qid);
-    TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<ArrayList<debugOutput>>() {};
-    return mapper.readValue(res, typeref);
+    return this.getDebugResult(qid);
   }
 
   /**
@@ -149,7 +147,7 @@ public class FeatureExtractorUtils {
         }
         result.add(new debugOutput(docId,features, time));
       }
-      return mapper.writeValueAsString(result);
+      return result;
     }));
   }
 
@@ -234,17 +232,36 @@ public class FeatureExtractorUtils {
     return tasks.remove(qid).get();
   }
 
-  public String getDebugResult(String qid) throws ExecutionException, InterruptedException {
-    String debugRes = debugTasks.remove(qid).get();
+  public List<debugOutput> getDebugResult(String qid) throws ExecutionException, InterruptedException {
+    List<debugOutput> debugRes = debugTasks.remove(qid).get();
     byte[] res =  tasks.remove(qid).get();
     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(res));
-    float[] features = new float[res.length/4];
+    int numElement = res.length/4;
+    int numCol = featureNames.size();
+    int numRow = numElement/numCol;
+    float[][] features = new float[numRow][numCol];
     for(int idx=0;idx*4<res.length;idx++){
       try {
-        features[idx] = dis.readFloat();
+        int rowIdx = idx/numCol;
+        int colIdx = idx%numCol;
+        features[rowIdx][colIdx] = dis.readFloat();
       } catch (IOException e) {
-        features[idx] = 0;
+        int rowIdx = idx/numCol;
+        int colIdx = idx%numCol;
+        features[rowIdx][colIdx]= 0;
         e.printStackTrace();
+      }
+    }
+    float[][] debugFeatures = new float[numRow][numCol];
+    for(int rowIdx=0;rowIdx<debugRes.size();rowIdx++){
+      debugOutput output = debugRes.get(rowIdx);
+      for(int colIdx=0;colIdx<output.features.size();colIdx++){
+        debugFeatures[rowIdx][colIdx] = output.features.get(colIdx);
+      }
+    }
+    for(int rowIdx=0;rowIdx<numRow;rowIdx++){
+      for(int colIdx=0;colIdx<numCol;colIdx++){
+        assert debugFeatures[rowIdx][colIdx] == features[rowIdx][colIdx];
       }
     }
     return debugRes;
