@@ -8,7 +8,7 @@ Anserini
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
 
-Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
+Anserini is an open-source information retrieval toolkit in Java built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
 Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
@@ -38,7 +38,7 @@ cd tools/eval/ndeval && make && cd ../../..
 
 With that, you should be ready to go!
 
-## Anserini Regression Experiments
+## Regression Experiments
 
 Anserini is designed to support experiments on various standard IR test collections out of the box.
 The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini replicability promise](docs/regressions.md).
@@ -76,33 +76,40 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
 + [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
 
-## Additional Documentation
+## Replication Guides
 
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of replicability.
-For the most part, manual copying and pasting of commands into a shell is required to replicate our results:
+For the most part, manual copying and pasting of commands into a shell is required to replicate our results.
+
+### TREC-COVID and CORD-19
 
 + [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
 + [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
 + [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
-+ [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
-+ [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
+
+### MS MARCO
+
 + [Guide to BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
 + [Guide to BM25 baselines for the MS MARCO Document Ranking Task](docs/experiments-msmarco-doc.md)
-+ [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
++ [Guide to replicating baselines MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
 + [Guide to replicating doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
 + [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
+
+### Other Experiments
+
++ [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
++ [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
++ [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
 
-See [this page](docs/additional.md) for additional documentation.
+## Additional Documentation
 
-## Other Features
-
-+ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)
++ Use Anserini in Python via [Pyserini](http://pyserini.io/)
 + Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)
 + Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)
 + Anserini supports [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on arbitrary dense vectors with Lucene
