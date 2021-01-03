@@ -32,7 +32,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -51,7 +51,8 @@ public class FeatureExtractorUtils {
   private Set<String> fieldsToLoad = new HashSet<>();
   private Set<String> qfieldsToLoad = new HashSet<>();
   private ExecutorService pool;
-  private Map<String, Future<String>> tasks = new HashMap<>();
+  private Map<String, Future<byte[]>> tasks = new HashMap<>();
+  private Map<String, Future<List<debugOutput>>> debugTasks = new HashMap<>();
   private Boolean executeBM25Stat = false;
 
   /**
@@ -90,16 +91,14 @@ public class FeatureExtractorUtils {
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
-  public ArrayList<output> extract(String qid, List<String> docIds, List<String> queryTokens) throws ExecutionException, InterruptedException, JsonProcessingException {
+  public List<debugOutput> extract(String qid, List<String> docIds, List<String> queryTokens) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     Map<String, Object> json = new HashMap();
     json.put("qid", qid);
     json.put("docIds", docIds);
     json.put("analyzed", queryTokens);
-    this.lazyExtract(mapper.writeValueAsString(json));
-    String res = this.getResult(qid);
-    TypeReference<ArrayList<output>> typeref = new TypeReference<ArrayList<output>>() {};
-    return mapper.readValue(res, typeref);
+    this.debugExtract(mapper.writeValueAsString(json));
+    return this.getDebugResult(qid);
   }
 
   /**
@@ -108,9 +107,9 @@ public class FeatureExtractorUtils {
    * @param docIds external document ids that you wish to collect; users need to make sure it is present
    */
   public void addDebugTask(String qid, List<String> docIds, JsonNode jsonQuery) {
-    if(tasks.containsKey(qid))
+    if(debugTasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
-    tasks.put(qid, pool.submit(() -> {
+    debugTasks.put(qid, pool.submit(() -> {
       List<FeatureExtractor> localExtractors = new ArrayList<>();
       for(FeatureExtractor e: extractors){
         localExtractors.add(e.clone());
@@ -148,7 +147,7 @@ public class FeatureExtractorUtils {
         }
         result.add(new debugOutput(docId,features, time));
       }
-      return mapper.writeValueAsString(result);
+      return result;
     }));
   }
 
@@ -163,13 +162,16 @@ public class FeatureExtractorUtils {
       ObjectMapper mapper = new ObjectMapper();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
-      List<output> result = new ArrayList<>();
+
       if (executeBM25Stat ==false){
         executeBM25Stat =true;
         QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
         documentContext.generateBM25Stat(qcontext.queryTokens);
       }
 
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      DataOutputStream dos = new DataOutputStream(baos);
+      //strict follow doc id order
       for(String docId: docIds) {
           Query q = new TermQuery(new Term(IndexArgs.ID, docId));
           TopDocs topDocs = searcher.search(q, 1);
@@ -180,16 +182,13 @@ public class FeatureExtractorUtils {
           ScoreDoc hit = topDocs.scoreDocs[0];
           documentContext.updateDoc(docId, hit.doc);
 
-          List<Float> features = new ArrayList<>();
-
           for (int i = 0; i < localExtractors.size(); i++) {
-            features.add(localExtractors.get(i).extract(documentContext, queryContext));
+            dos.writeFloat(localExtractors.get(i).extract(documentContext, queryContext));
           }
-
-          result.add(new output(docId,features));
-
       }
-      return mapper.writeValueAsString(result);
+
+      dos.flush();
+      return baos.toByteArray();
     }));
   }
 
@@ -218,6 +217,7 @@ public class FeatureExtractorUtils {
     String qid = root.get("qid").asText();
     List<String> docIds = mapper.convertValue(root.get("docIds"), ArrayList.class);
     this.addDebugTask(qid, docIds, root);
+    this.addTask(qid, docIds, root);
     return qid;
   }
 
@@ -228,8 +228,43 @@ public class FeatureExtractorUtils {
    * @throws ExecutionException
    * @throws InterruptedException
    */
-  public String getResult(String qid) throws ExecutionException, InterruptedException {
+  public byte[] getResult(String qid) throws ExecutionException, InterruptedException {
     return tasks.remove(qid).get();
+  }
+
+  public List<debugOutput> getDebugResult(String qid) throws ExecutionException, InterruptedException {
+    List<debugOutput> debugRes = debugTasks.remove(qid).get();
+    byte[] res =  tasks.remove(qid).get();
+    DataInputStream dis = new DataInputStream(new ByteArrayInputStream(res));
+    int numElement = res.length/4;
+    int numCol = featureNames.size();
+    int numRow = numElement/numCol;
+    float[][] features = new float[numRow][numCol];
+    for(int idx=0;idx*4<res.length;idx++){
+      try {
+        int rowIdx = idx/numCol;
+        int colIdx = idx%numCol;
+        features[rowIdx][colIdx] = dis.readFloat();
+      } catch (IOException e) {
+        int rowIdx = idx/numCol;
+        int colIdx = idx%numCol;
+        features[rowIdx][colIdx]= 0;
+        e.printStackTrace();
+      }
+    }
+    float[][] debugFeatures = new float[numRow][numCol];
+    for(int rowIdx=0;rowIdx<debugRes.size();rowIdx++){
+      debugOutput output = debugRes.get(rowIdx);
+      for(int colIdx=0;colIdx<output.features.size();colIdx++){
+        debugFeatures[rowIdx][colIdx] = output.features.get(colIdx);
+      }
+    }
+    for(int rowIdx=0;rowIdx<numRow;rowIdx++){
+      for(int colIdx=0;colIdx<numCol;colIdx++){
+        assert debugFeatures[rowIdx][colIdx] == features[rowIdx][colIdx];
+      }
+    }
+    return debugRes;
   }
 
   /**
@@ -284,35 +319,6 @@ public class FeatureExtractorUtils {
   public void close() throws IOException {
     pool.shutdown();
     reader.close();
-  }
-
-}
-
-class output{
-  String pid;
-  List<Float> features;
-
-  output(){}
-
-  output(String pid, List<Float> features){
-    this.pid = pid;
-    this.features = features;
-  }
-
-  public String getPid() {
-    return pid;
-  }
-
-  public List<Float> getFeatures() {
-    return features;
-  }
-
-  public void setPid(String pid) {
-    this.pid = pid;
-  }
-
-  public void setFeatures(List<Float> features) {
-    this.features = features;
   }
 
 }

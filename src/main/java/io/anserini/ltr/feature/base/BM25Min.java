@@ -73,7 +73,7 @@ public class BM25Min implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return String.format("%s_BM25_Min_k1_%.2f_b_%.2f_%s",field, k1, b, collectFun.getName());
+        return String.format("%s_%s_BM25_Min_k1_%.2f_b_%.2f_%s",field, qfield, k1, b, collectFun.getName());
     }
 
     @Override
