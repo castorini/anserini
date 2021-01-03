@@ -1,5 +1,7 @@
 package io.anserini.ltr.feature;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexReaderUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -14,15 +16,16 @@ public class DocumentContext {
   private IndexReaderUtils readerUtils;
   public Document doc;
   public String docId;
-  public String entityJson;
+  public Map<String, List<String>> entities;
   public Map<String, FieldContext> fieldContexts;
   private Set<String> fieldsToLoad;
+  private ObjectMapper mapper = new ObjectMapper();
 
   public DocumentContext(IndexReader reader, IndexSearcher searcher, Set<String> fieldsToLoad){
     this.reader = reader;
     this.searcher = searcher;
     this.fieldsToLoad = fieldsToLoad;
-    this.entityJson = null;
+    this.entities = new HashMap<>();
 
     fieldContexts = new HashMap<>();
     for(String fieldName: fieldsToLoad)
@@ -33,7 +36,22 @@ public class DocumentContext {
   public void updateDoc(String docId, int internalId) throws IOException {
     doc = reader.document(internalId, fieldsToLoad);
     this.docId = docId;
-    this.entityJson = readerUtils.documentEntity(reader,docId);
+    String entityJson = readerUtils.documentEntity(reader,docId);
+    JsonNode root = mapper.readValue(entityJson, JsonNode.class);
+    Iterator<Map.Entry<String, JsonNode>> ents = root.fields();
+    while(ents.hasNext()) {
+      Map.Entry<String, JsonNode> ent = ents.next();
+      String nameEnt = ent.getKey();
+      String entText = ent.getValue().asText();
+      List<String> temp;
+      if (entities.containsKey(nameEnt)) {
+        temp = entities.get(nameEnt);
+      } else {
+        temp = new ArrayList<>();
+      }
+      temp.add(entText);
+      entities.put(nameEnt, temp);
+    }
     for(String fieldName: fieldsToLoad)
       fieldContexts.get(fieldName).updateDoc(internalId);
   }
