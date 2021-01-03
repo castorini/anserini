@@ -43,6 +43,7 @@ public class FeatureExtractorCli {
     }
 
     FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
+    /**
     utils.add(new BM25(0.9,0.4));
     utils.add(new BM25(1.2,0.75));
     utils.add(new BM25(2.0,0.75));
@@ -60,6 +61,7 @@ public class FeatureExtractorCli {
 
     utils.add(new DFR_GL2());
     utils.add(new DFR_In_expB2());
+    **/
     utils.add(new DPH());
     /**
     utils.add(new ContextDFR_GL2(new AvgPooler()));
@@ -70,7 +72,7 @@ public class FeatureExtractorCli {
     utils.add(new ContextDPH(new VarPooler()));
      **/
 
-
+    /**
     utils.add(new Proximity());
     utils.add(new TPscore());
     utils.add(new tpDist());
@@ -155,8 +157,10 @@ public class FeatureExtractorCli {
     utils.add(new BM25Quartile(new MaxPooler()));
     utils.add(new BM25Quartile(new MinPooler()));
 
+**/
+    //utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
 
-//    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
+    utils.add(new EntityRule());
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));

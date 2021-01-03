@@ -1,5 +1,6 @@
 package io.anserini.ltr.feature;
 
+import io.anserini.index.IndexReaderUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
@@ -10,8 +11,10 @@ import java.util.*;
 public class DocumentContext {
   private IndexReader reader;
   private IndexSearcher searcher;
+  private IndexReaderUtils readerUtils;
   public Document doc;
   public String docId;
+  public String entityJson;
   public Map<String, FieldContext> fieldContexts;
   private Set<String> fieldsToLoad;
 
@@ -19,6 +22,7 @@ public class DocumentContext {
     this.reader = reader;
     this.searcher = searcher;
     this.fieldsToLoad = fieldsToLoad;
+    this.entityJson = null;
 
     fieldContexts = new HashMap<>();
     for(String fieldName: fieldsToLoad)
@@ -29,6 +33,7 @@ public class DocumentContext {
   public void updateDoc(String docId, int internalId) throws IOException {
     doc = reader.document(internalId, fieldsToLoad);
     this.docId = docId;
+    this.entityJson = readerUtils.documentEntity(reader,docId);
     for(String fieldName: fieldsToLoad)
       fieldContexts.get(fieldName).updateDoc(internalId);
   }

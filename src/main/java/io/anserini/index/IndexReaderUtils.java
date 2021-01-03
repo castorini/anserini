@@ -489,6 +489,23 @@ public class IndexReaderUtils {
   }
 
   /**
+   * Returns the "entity" field of a document based on a collection docid. The method is named to be consistent with
+   * Lucene's {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the "raw" field the document
+   */
+  public static String documentEntity(IndexReader reader, String docid) {
+    try {
+      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(IndexArgs.ENTITY);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
+      return null;
+    }
+  }
+
+  /**
    * Returns the "contents" field of a document based on a collection docid. The method is named to be consistent with
    * Lucene's {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
    *
