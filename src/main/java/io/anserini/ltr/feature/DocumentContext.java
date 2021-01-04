@@ -37,20 +37,22 @@ public class DocumentContext {
     doc = reader.document(internalId, fieldsToLoad);
     this.docId = docId;
     String entityJson = readerUtils.documentEntity(reader,docId);
-    JsonNode root = mapper.readValue(entityJson, JsonNode.class);
-    Iterator<Map.Entry<String, JsonNode>> ents = root.fields();
-    while(ents.hasNext()) {
-      Map.Entry<String, JsonNode> ent = ents.next();
-      String entText = ent.getKey();
-      String nameEnt = ent.getValue().asText();
-      List<String> temp;
-      if (entities.containsKey(nameEnt)) {
-        temp = entities.get(nameEnt);
-      } else {
-        temp = new ArrayList<>();
+    if (entityJson != null) {
+      JsonNode root = mapper.readValue(entityJson, JsonNode.class);
+      Iterator<Map.Entry<String, JsonNode>> ents = root.fields();
+      while (ents.hasNext()) {
+        Map.Entry<String, JsonNode> ent = ents.next();
+        String entText = ent.getKey();
+        String nameEnt = ent.getValue().asText();
+        List<String> temp;
+        if (entities.containsKey(nameEnt)) {
+          temp = entities.get(nameEnt);
+        } else {
+          temp = new ArrayList<>();
+        }
+        temp.add(entText);
+        entities.put(nameEnt, temp);
       }
-      temp.add(entText);
-      entities.put(nameEnt, temp);
     }
     for(String fieldName: fieldsToLoad)
       fieldContexts.get(fieldName).updateDoc(internalId);

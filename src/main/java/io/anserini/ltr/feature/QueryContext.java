@@ -23,21 +23,23 @@ public class QueryContext {
         ObjectMapper mapper = new ObjectMapper();
         for(String fieldName: fieldsToLoad)
             fieldContexts.put(fieldName, new QueryFieldContext(fieldName, root));
-        String entityJson = root.get("entity").asText();
-        JsonNode node = mapper.readValue(entityJson, JsonNode.class);
-        Iterator<Map.Entry<String, JsonNode>> ents = node.fields();
-        while(ents.hasNext()) {
-            Map.Entry<String, JsonNode> ent = ents.next();
-            String entText = ent.getKey();
-            String nameEnt = ent.getValue().asText();
-            List<String> temp;
-            if (queryEntities.containsKey(nameEnt)) {
-                temp = queryEntities.get(nameEnt);
-            } else {
-                temp = new ArrayList<>();
+        if (root.has("entity")) {
+            String entityJson = root.get("entity").asText();
+            JsonNode node = mapper.readValue(entityJson, JsonNode.class);
+            Iterator<Map.Entry<String, JsonNode>> ents = node.fields();
+            while (ents.hasNext()) {
+                Map.Entry<String, JsonNode> ent = ents.next();
+                String entText = ent.getKey();
+                String nameEnt = ent.getValue().asText();
+                List<String> temp;
+                if (queryEntities.containsKey(nameEnt)) {
+                    temp = queryEntities.get(nameEnt);
+                } else {
+                    temp = new ArrayList<>();
+                }
+                temp.add(entText);
+                queryEntities.put(nameEnt, temp);
             }
-            temp.add(entText);
-            queryEntities.put(nameEnt, temp);
         }
     }
 }
