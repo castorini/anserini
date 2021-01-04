@@ -3,9 +3,6 @@ package io.anserini.ltr.feature.base;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class NTFIDF implements FeatureExtractor {
   private String field;
   private String qfield;
@@ -22,7 +19,7 @@ public class NTFIDF implements FeatureExtractor {
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     float score = 0;
     long numDocs = context.numDocs;

@@ -40,7 +40,7 @@ public class StopRatio implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         long cov = 0l;
         float score = 0.0f;
         List<String> stopWords = StopWords.getStopWordList();

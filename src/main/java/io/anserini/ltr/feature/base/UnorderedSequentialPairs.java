@@ -50,7 +50,7 @@ public class UnorderedSequentialPairs implements FeatureExtractor {
   }
 
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     float count = 0;
     List<Pair<String, String>> queryPairs= queryFieldContext.genQueryBigram();

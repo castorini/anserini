@@ -45,7 +45,7 @@ public class SDM implements FeatureExtractor {
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     double per_term = term_weight / queryFieldContext.querySize;
     List<Pair<String, String>> bigrams = queryFieldContext.genQueryBigram();

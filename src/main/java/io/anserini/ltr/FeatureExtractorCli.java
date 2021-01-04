@@ -203,20 +203,20 @@ public class FeatureExtractorCli {
         throw e;
       }
     }
-    long executionEnd = System.nanoTime();
-    long sumtime = 0;
-    for(int i = 0; i < names.size(); i++){
-      sumtime += time[i];
-    }
-    for(int i = 0; i < names.size(); i++){
-      System.out.println(names.get(i)+" takes "+String.format("%.2f",time[i]/1000000000.0) + "s, accounts for "+ String.format("%.2f", time[i]*100.0/sumtime) + "%");
-    }
-    utils.close();
-    reader.close();
-
-    long end = System.nanoTime();
-    long overallTime = end - start;
-    long overhead = overallTime-(executionEnd - executionStart);
-    System.out.println("The program takes "+String.format("%.2f",overallTime/1000000000.0) + "s, where the overhead takes " + String.format("%.2f",overhead/1000000000.0) +"s");
+//    long executionEnd = System.nanoTime();
+//    long sumtime = 0;
+//    for(int i = 0; i < names.size(); i++){
+//      sumtime += time[i];
+//    }
+//    for(int i = 0; i < names.size(); i++){
+//      System.out.println(names.get(i)+" takes "+String.format("%.2f",time[i]/1000000000.0) + "s, accounts for "+ String.format("%.2f", time[i]*100.0/sumtime) + "%");
+//    }
+//    utils.close();
+//    reader.close();
+//
+//    long end = System.nanoTime();
+//    long overallTime = end - start;
+//    long overhead = overallTime-(executionEnd - executionStart);
+//    System.out.println("The program takes "+String.format("%.2f",overallTime/1000000000.0) + "s, where the overhead takes " + String.format("%.2f",overhead/1000000000.0) +"s");
   }
 }

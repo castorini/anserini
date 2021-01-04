@@ -22,7 +22,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 
 public class BM25HMean implements FeatureExtractor {
     private static final Logger LOG = LogManager.getLogger(BM25HMean.class);
@@ -59,7 +58,7 @@ public class BM25HMean implements FeatureExtractor {
      */
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         List<Float> scores = context.hmean_score;
         return collectFun.pool(scores);
     }

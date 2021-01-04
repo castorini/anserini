@@ -17,10 +17,8 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.StopWords;
 import io.anserini.ltr.feature.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +37,7 @@ public class Entropy implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         float score = 0.0f;
         for (Map.Entry<String, Long> entry : context.termFreqs.entrySet()) {
             Long freq = entry.getValue();
