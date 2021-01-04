@@ -14,6 +14,7 @@ public class QueryContext {
     public Map<String, QueryFieldContext> fieldContexts;
     private Set<String> fieldsToLoad; // analyzed, text, text_unlemm, text_bert_tok
     public Map<String, List<String>> queryEntities;
+    public String raw;
 
     public QueryContext(String qid, Set<String> fieldsToLoad, JsonNode root) throws JsonProcessingException {
         this.qid = qid;
@@ -41,5 +42,11 @@ public class QueryContext {
                 queryEntities.put(nameEnt, temp);
             }
         }
+        if (root.has("raw")) {
+            raw = root.get("raw").asText();
+        } else {
+            raw = "";
+        }
+
     }
 }

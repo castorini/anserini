@@ -1,6 +1,5 @@
 package io.anserini.ltr;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.ltr.feature.base.*;
 import io.anserini.ltr.feature.*;
@@ -125,6 +124,9 @@ public class FeatureExtractorCli {
     utils.add(new OrderedQueryPairs(3, docField, queryField));
     utils.add(new OrderedQueryPairs(8, docField, queryField));
     utils.add(new OrderedQueryPairs(15, docField, queryField));
+
+    utils.add(new EntityHowRule());
+    utils.add(new EntityWWW());
   }
 
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
@@ -142,10 +144,12 @@ public class FeatureExtractorCli {
 
     FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
     addFeature(utils,"analyzed","contents");
-    addFeature(utils,"text","text");
-    addFeature(utils,"text_unlemm","text_unlemm");
-    addFeature(utils,"text_bert_tok","text_bert_tok");
+    //addFeature(utils,"text","text");
+    //addFeature(utils,"text_unlemm","text_unlemm");
+    //addFeature(utils,"text_bert_tok","text_bert_tok");
 //    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
+
+
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
