@@ -28,8 +28,8 @@ public class QueryContext {
         Iterator<Map.Entry<String, JsonNode>> ents = node.fields();
         while(ents.hasNext()) {
             Map.Entry<String, JsonNode> ent = ents.next();
-            String nameEnt = ent.getKey();
-            String entText = ent.getValue().asText();
+            String entText = ent.getKey();
+            String nameEnt = ent.getValue().asText();
             List<String> temp;
             if (queryEntities.containsKey(nameEnt)) {
                 temp = queryEntities.get(nameEnt);

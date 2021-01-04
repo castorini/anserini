@@ -41,8 +41,8 @@ public class DocumentContext {
     Iterator<Map.Entry<String, JsonNode>> ents = root.fields();
     while(ents.hasNext()) {
       Map.Entry<String, JsonNode> ent = ents.next();
-      String nameEnt = ent.getKey();
-      String entText = ent.getValue().asText();
+      String entText = ent.getKey();
+      String nameEnt = ent.getValue().asText();
       List<String> temp;
       if (entities.containsKey(nameEnt)) {
         temp = entities.get(nameEnt);
