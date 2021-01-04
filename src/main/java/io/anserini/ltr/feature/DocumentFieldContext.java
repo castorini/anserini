@@ -10,7 +10,7 @@ import org.apache.lucene.util.SmallFloat;
 import java.io.IOException;
 import java.util.*;
 
-public class FieldContext {
+public class DocumentFieldContext {
     private IndexReader reader;
     private IndexSearcher searcher;
     private String fieldName;
@@ -34,7 +34,7 @@ public class FieldContext {
     public List<Float> var_score;
     public List<Float>  quartile_score;
 
-    public FieldContext(IndexReader reader, IndexSearcher searcher, String fieldName){
+    public DocumentFieldContext(IndexReader reader, IndexSearcher searcher, String fieldName){
         this.reader = reader;
         this.searcher = searcher;
         this.fieldName = fieldName;

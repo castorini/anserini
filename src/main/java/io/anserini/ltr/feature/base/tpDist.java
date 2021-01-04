@@ -2,8 +2,6 @@ package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -101,7 +99,7 @@ public class tpDist implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         float score = 0.0f;
         int window = 100;

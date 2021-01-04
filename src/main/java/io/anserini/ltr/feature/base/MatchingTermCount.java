@@ -39,7 +39,7 @@ public class MatchingTermCount implements FeatureExtractor {
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     int matching = 0;
     for(String queryToken : queryFieldContext.queryTokens) {

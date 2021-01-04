@@ -1,6 +1,5 @@
 package io.anserini.ltr.feature.base;
 
-import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -169,7 +168,7 @@ public class IBMModel1 implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) throws FileNotFoundException, IOException {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         long docSize = context.docSize;
         long totalTermFreq = context.totalTermFreq;

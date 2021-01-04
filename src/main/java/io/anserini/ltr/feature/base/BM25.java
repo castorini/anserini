@@ -63,7 +63,7 @@ public class BM25 implements FeatureExtractor {
    */
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext qcontext = queryContext.fieldContexts.get(qfield);
     long numDocs = context.numDocs;
     long docSize = context.docSize;

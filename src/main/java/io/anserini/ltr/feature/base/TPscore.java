@@ -39,7 +39,7 @@ public class TPscore implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         //parameters for BM25
         double k1 = 0.9;
@@ -88,7 +88,7 @@ public class TPscore implements FeatureExtractor {
         return score;
     }
 
-    public void score_terms(List<Pair<Integer, BCTP>> bctp_query, FieldContext context) {
+    public void score_terms(List<Pair<Integer, BCTP>> bctp_query, DocumentFieldContext context) {
         long numDocs = context.numDocs;
 //        long docSize = context.docSize;
         BCTP  curr_term;

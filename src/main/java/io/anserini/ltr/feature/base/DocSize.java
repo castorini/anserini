@@ -32,7 +32,7 @@ public class DocSize implements FeatureExtractor {
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
     return context.docSize;
   }
 

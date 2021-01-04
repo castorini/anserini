@@ -24,7 +24,7 @@ public class DFR_GL2 implements FeatureExtractor {
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     long numDocs = context.numDocs;
     long docSize = context.docSize;

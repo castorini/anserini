@@ -59,7 +59,7 @@ public class BM25Quartile implements FeatureExtractor {
      */
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         List<Float> scores = context.quartile_score;
         return collectFun.pool(scores);
     }
