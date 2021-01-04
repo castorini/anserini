@@ -125,8 +125,17 @@ public class FeatureExtractorCli {
     utils.add(new OrderedQueryPairs(8, docField, queryField));
     utils.add(new OrderedQueryPairs(15, docField, queryField));
 
-    utils.add(new EntityHowRule());
-    utils.add(new EntityWWW());
+    utils.add(new EntityHowMany());
+    utils.add(new EntityHowMuch());
+    utils.add(new EntityHowLong());
+
+    utils.add(new EntityWho());
+    utils.add(new EntityWhen());
+    utils.add(new EntityWhere());
+
+    utils.add(new EntityWhoMatch());
+    utils.add(new EntityWhereMatch());
+
   }
 
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
@@ -215,8 +224,8 @@ public class FeatureExtractorCli {
 //    for(int i = 0; i < names.size(); i++){
 //      System.out.println(names.get(i)+" takes "+String.format("%.2f",time[i]/1000000000.0) + "s, accounts for "+ String.format("%.2f", time[i]*100.0/sumtime) + "%");
 //    }
-//    utils.close();
-//    reader.close();
+    utils.close();
+    reader.close();
 //
 //    long end = System.nanoTime();
 //    long overallTime = end - start;
