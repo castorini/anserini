@@ -26,8 +26,8 @@ public class EntityWhen implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         float score = -1.0f;
-        String raw = queryContext.raw.toLowerCase();
-        if (Pattern.matches("^when.*$", raw)) {
+        String raw = queryContext.raw.toLowerCase().trim();
+        if (Pattern.matches("^[0-9.+_ ]*when.*$", raw)) {
             score = 0.0f;
             score += entityCounts(documentContext, "DATE");
             score += entityCounts(documentContext, "TIME");

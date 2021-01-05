@@ -8,6 +8,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class QueryContext {
     public String qid;
@@ -47,6 +48,24 @@ public class QueryContext {
         } else {
             raw = "";
         }
+        String raw_processed = raw.toLowerCase().trim();
+//        if (raw.contains("how long")&&!Pattern.matches("^how long.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//        if (raw.contains("how many")&&!Pattern.matches("^how many.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//        if (raw.contains("how much")&&!Pattern.matches("^how much.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+
+//        if (raw.contains("who")&&!Pattern.matches("^who.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//        if (raw.contains("where")&&!Pattern.matches("^where.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//
+//        if (raw.contains("when")&&!Pattern.matches("^[0-9.+_ ]*when.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//
+//        if (raw.contains("what")&&!Pattern.matches("^[0-9.+_ ]*what.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
 
     }
 }

@@ -79,8 +79,8 @@ public class EntityWhereMatch implements FeatureExtractor  {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         float score = -1.0f;
-        String raw = queryContext.raw.toLowerCase();
-        if (Pattern.matches("^where.*$", raw)) {
+        String raw = queryContext.raw.toLowerCase().trim();
+        if (raw.contains("where")) {
             // where general counts and specific matching counts
             score = 0.0f;
             score += matchCounts(queryContext,documentContext,"FAC");

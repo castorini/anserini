@@ -26,8 +26,8 @@ public class EntityHowMany implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         float score = -1.0f;
-        String raw = queryContext.raw.toLowerCase();
-        if (Pattern.matches("^how many.*$", raw)){
+        String raw = queryContext.raw.toLowerCase().trim();
+        if (raw.contains("how many")){
             score = 0.0f;
             if (queryContext.queryEntities.containsKey("DATE")) {
                 // how many days

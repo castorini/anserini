@@ -125,16 +125,6 @@ public class FeatureExtractorCli {
     utils.add(new OrderedQueryPairs(8, docField, queryField));
     utils.add(new OrderedQueryPairs(15, docField, queryField));
 
-    utils.add(new EntityHowMany());
-    utils.add(new EntityHowMuch());
-    utils.add(new EntityHowLong());
-
-    utils.add(new EntityWho());
-    utils.add(new EntityWhen());
-    utils.add(new EntityWhere());
-
-    utils.add(new EntityWhoMatch());
-    utils.add(new EntityWhereMatch());
 
   }
 
@@ -158,6 +148,21 @@ public class FeatureExtractorCli {
     //addFeature(utils,"text_bert_tok","text_bert_tok");
 //    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
 
+    utils.add(new EntityHowMany());
+    utils.add(new EntityHowMuch());
+    utils.add(new EntityHowLong());
+
+    utils.add(new EntityWho());
+    utils.add(new EntityWhen());
+    utils.add(new EntityWhere());
+
+    utils.add(new EntityWhoMatch());
+    utils.add(new EntityWhereMatch());
+
+    utils.add(new EntityQueryCount("PERSON"));
+    utils.add(new EntityDocCount("PERSON"));
+
+    utils.add(new QueryRegex("^[0-9.+_ ]*what.*$"));
 
 
     File file = new File(cmdArgs.jsonFile);
@@ -183,7 +188,7 @@ public class FeatureExtractorCli {
           while(qids.size()>0) {
             lastQid = qids.remove(0);
             List<debugOutput> outputArray = utils.getDebugResult(lastQid);
-            System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
+//            System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
             for(debugOutput res:outputArray){
               for(int i = 0; i < names.size(); i++){
                 time[i] += res.time.get(i);
@@ -203,7 +208,7 @@ public class FeatureExtractorCli {
         while(qids.size()>0) {
           lastQid = qids.remove(0);
           List<debugOutput> outputArray = utils.getDebugResult(lastQid);
-          System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
+//          System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
           for(debugOutput res:outputArray){
             for(int i = 0; i < names.size(); i++){
               time[i] += res.time.get(i);

@@ -26,8 +26,8 @@ public class EntityWho implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         float score = -1.0f;
-        String raw = queryContext.raw.toLowerCase();
-        if (Pattern.matches("^who.*$", raw)) {
+        String raw = queryContext.raw.toLowerCase().trim();
+        if (raw.contains("who")) {
             score = 0.0f;
             score += entityCounts(documentContext, "PERSON");
         }

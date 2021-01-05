@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
+import io.anserini.ltr.feature.base.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.tools.picocli.CommandLine;
@@ -72,6 +73,18 @@ public class FeatureExtractorUtils {
       fieldsToLoad.add(field);
     if(qfield != null)
       qfieldsToLoad.add(qfield);
+    if(extractor instanceof BM25HMean)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Max)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Mean)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Min)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Quartile)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Var)
+      executeBM25Stat = true;
     return this;
   }
 
@@ -118,8 +131,7 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<debugOutput> result = new ArrayList<>();
-      if (executeBM25Stat ==false){
-        executeBM25Stat =true;
+      if (executeBM25Stat){
         QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
         documentContext.generateBM25Stat(qcontext.queryTokens);
       }
@@ -163,8 +175,7 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
 
-      if (executeBM25Stat ==false){
-        executeBM25Stat =true;
+      if (executeBM25Stat){
         QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
         documentContext.generateBM25Stat(qcontext.queryTokens);
       }

@@ -26,8 +26,8 @@ public class EntityHowMuch implements FeatureExtractor {
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         float score = -1.0f;
-        String raw = queryContext.raw.toLowerCase();
-        if (Pattern.matches("^how much.*$", raw)) {
+        String raw = queryContext.raw.toLowerCase().trim();
+        if (raw.contains("how much")) {
             score = 0.0f;
             score += entityCounts(documentContext, "QUANTITY");
             score += entityCounts(documentContext, "MONEY");

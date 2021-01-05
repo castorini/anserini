@@ -6,33 +6,29 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EntityHowLong implements FeatureExtractor {
+public class EntityQueryCount implements FeatureExtractor {
     private String qfield;
     private String field;
+    private String type;
 
-    public EntityHowLong() {
+    public EntityQueryCount(String type) {
         this.qfield = null;
         this.field = null;
+        this.type = type;
     }
 
-    public float entityCounts(DocumentContext documentContext, String ent) {
+    public float entityCounts(QueryContext queryContext, String ent) {
         float ret = 0.0f;
-        if (documentContext.entities.containsKey(ent)) {
-            ret += documentContext.entities.get(ent).size();
+        if (queryContext.queryEntities.containsKey(ent)) {
+            ret += queryContext.queryEntities.get(ent).size();
         }
         return ret;
     }
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        float score = -1.0f;
-        String raw = queryContext.raw.toLowerCase().trim();
-        if (raw.contains("how long")){
-            score = 0.0f;
-            score += entityCounts(documentContext, "DATE");
-            score += entityCounts(documentContext, "TIME");
-            score += entityCounts(documentContext, "CARDINAL");
-        }
+        float score = 0.0f;
+        score += entityCounts(queryContext, this.type);
         return score;
     }
 
@@ -44,7 +40,7 @@ public class EntityHowLong implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return String.format("EntityHowLong");
+        return String.format("EntityQueryCount_%s", type);
     }
 
     @Override
@@ -59,6 +55,6 @@ public class EntityHowLong implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new EntityHowLong();
+        return new EntityQueryCount(type);
     }
 }

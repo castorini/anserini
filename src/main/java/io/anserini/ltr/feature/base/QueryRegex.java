@@ -6,32 +6,23 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EntityHowLong implements FeatureExtractor {
+public class QueryRegex implements FeatureExtractor {
     private String qfield;
     private String field;
+    private String regex;
 
-    public EntityHowLong() {
+    public QueryRegex(String regex) {
         this.qfield = null;
         this.field = null;
-    }
-
-    public float entityCounts(DocumentContext documentContext, String ent) {
-        float ret = 0.0f;
-        if (documentContext.entities.containsKey(ent)) {
-            ret += documentContext.entities.get(ent).size();
-        }
-        return ret;
+        this.regex = regex;
     }
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        float score = -1.0f;
+        float score = 0.0f;
         String raw = queryContext.raw.toLowerCase().trim();
-        if (raw.contains("how long")){
-            score = 0.0f;
-            score += entityCounts(documentContext, "DATE");
-            score += entityCounts(documentContext, "TIME");
-            score += entityCounts(documentContext, "CARDINAL");
+        if (Pattern.matches(regex, raw)){
+            score = 1.0f;
         }
         return score;
     }
@@ -44,7 +35,7 @@ public class EntityHowLong implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return String.format("EntityHowLong");
+        return String.format("QueryRegex_%s", regex);
     }
 
     @Override
@@ -59,6 +50,6 @@ public class EntityHowLong implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new EntityHowLong();
+        return new QueryRegex(regex);
     }
 }
