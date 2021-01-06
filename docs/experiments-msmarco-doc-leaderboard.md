@@ -70,7 +70,7 @@ QueriesRanked: 5193
 To fetch the indexes:
 
 ```
-python -c "from pyserini.search import SimpleSearcher; SimpleSearcher.from_prebuilt_index('msmarco-doc-per-passage')"
+python -c "from pyserini.search import SimpleSearcher; SimpleSearcher.from_prebuilt_index('msmarco-doc-expanded-per-passage')"
 python -c "from pyserini.search import SimpleSearcher; SimpleSearcher.from_prebuilt_index('msmarco-doc-expanded-per-doc')"
 ```
 
