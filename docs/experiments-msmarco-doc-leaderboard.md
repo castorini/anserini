@@ -129,3 +129,7 @@ MRR @100: 0.32081861579183746
 QueriesRanked: 5193
 #####################
 ```
+
+## Replication Log
+
++ Results replicated by [@MXueguang](https://github.com/MXueguang) on 2021-01-06 (commit [`6674291`](https://github.com/castorini/anserini/commit/667429183323b15790a86ef186272216f92ffcbc))
