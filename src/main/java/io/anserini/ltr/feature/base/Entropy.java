@@ -17,13 +17,8 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.StopWords;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,10 +27,9 @@ import java.util.Map;
  */
 public class Entropy implements FeatureExtractor {
     private String field;
+    private String qfield = "analyzed";
 
-    public Entropy(String field) {
-        this.field = field;
-    }
+    public Entropy(String field) { this.field = field; }
 
     public Entropy() {
         this.field = IndexArgs.CONTENTS;
@@ -43,34 +37,41 @@ public class Entropy implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         float score = 0.0f;
         for (Map.Entry<String, Long> entry : context.termFreqs.entrySet()) {
             Long freq = entry.getValue();
             //todo need discuss this
             if(freq == 0) continue;
-            float p = freq / context.docSize;
+            float p = (1.0f*freq) / context.docSize;
             score += p * Math.log(p);
         }
         if (score >0) {
             score = -score;
         }
+        assert score == score;
         return score;
     }
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return "Entropy";
+        return String.format("%s_%s_Entropy", field, qfield);
     }
 
     @Override
     public String getField() {
         return field;
+    }
+
+    @Override
+    public String getQField() {
+        return qfield;
     }
 
     @Override

@@ -1,39 +1,41 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 public class LMDir implements FeatureExtractor {
   private String field;
+  private String qfield;
   private double mu = 1000;
 
   public LMDir() {
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
   public LMDir(double mu) {
     if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
-  public LMDir(double mu, String field) {
+  public LMDir(double mu, String field, String qfield) {
     if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
     this.field = field;
+    this.qfield = qfield;
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     float score = 0;
 
-    for (String queryToken : queryContext.queryTokens) {
+    for (String queryToken : queryFieldContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
       //todo need discuss this
@@ -45,17 +47,23 @@ public class LMDir implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_LMD_mu_%.0f", field, mu);
+    return String.format("%s_%s_LMD_mu_%.0f", field, qfield, mu);
   }
 
   @Override
   public String getField() {
     return field;
+  }
+
+  @Override
+  public String getQField() {
+    return qfield;
   }
 
   public double getMu() {
@@ -64,6 +72,6 @@ public class LMDir implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new LMDir(mu, field);
+    return new LMDir(mu, field, qfield);
   }
 }

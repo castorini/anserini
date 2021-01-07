@@ -17,10 +17,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,19 +34,25 @@ public class BM25 implements FeatureExtractor {
   private double k1 = 0.9;
   private double b = 0.4;
   private String field;
+  private String qfield;
 
-  public BM25() { this.field = IndexArgs.CONTENTS; }
+  public BM25() {
+    this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
+  }
 
   public BM25(double k, double b) {
     this.k1 = k;
     this.b = b;
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
-  public BM25(double k, double b, String field) {
+  public BM25(double k, double b, String field, String qfield) {
     this.k1 = k;
     this.b = b;
     this.field = field;
+    this.qfield = qfield;
   }
 
   /**
@@ -60,14 +63,15 @@ public class BM25 implements FeatureExtractor {
    */
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext qcontext = queryContext.fieldContexts.get(qfield);
     long numDocs = context.numDocs;
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     double avgFL = (double)totalTermFreq/numDocs;
     float score = 0;
 
-    for (String queryToken : queryContext.queryTokens) {
+    for (String queryToken : qcontext.queryTokens) {
         int docFreq = context.getDocFreq(queryToken);
         long termFreq = context.getTermFreq(queryToken);
         double numerator = (this.k1 + 1) * termFreq;
@@ -81,18 +85,22 @@ public class BM25 implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext qcontext = queryContext.fieldContexts.get(qfield);
+    return qcontext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_BM25_k1_%.2f_b_%.2f",field, k1, b);
+    return String.format("%s_%s_BM25_k1_%.2f_b_%.2f",field, qfield, k1, b);
   }
 
   @Override
   public String getField() {
     return field;
   }
+
+  @Override
+  public String getQField(){return qfield;}
 
   public double getK1() {
     return k1;
@@ -104,6 +112,6 @@ public class BM25 implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new BM25(k1, b, field);
+    return new BM25(k1, b, field, qfield);
   }
 }

@@ -1,74 +1,71 @@
 package io.anserini.ltr.feature;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.search.IndexSearcher;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class QueryContext {
     public String qid;
-    public List<String> queryText;
-    public List<String> queryTokens;
-    public Map<String,Integer> queryFreqs;
-    public int querySize;
+    public Map<String, QueryFieldContext> fieldContexts;
+    private Set<String> fieldsToLoad; // analyzed, text, text_unlemm, text_bert_tok
+    public Map<String, List<String>> queryEntities;
+    public String raw;
 
-    //todo pre-retrieval feature here
-    public Map<String, Float> cache;
-
-    private Map<String, Map<String, Float>> featureLog;
-
-    public QueryContext(String qid, List<String> queryText, List<String> queryTokens){
+    public QueryContext(String qid, Set<String> fieldsToLoad, JsonNode root) throws JsonProcessingException {
         this.qid = qid;
-        this.queryTokens = queryTokens;
-        this.queryText = queryText;
-        this.querySize = queryTokens.size();
-        this.queryFreqs = new HashMap<>();
-        for (String token : queryTokens)
-            queryFreqs.put(token, queryFreqs.getOrDefault(token,0)+1);
-        this.cache = new HashMap<>();
-        this.featureLog = new HashMap<>();
-    }
-
-    public Integer getQueryFreq(String queryToken) {
-        return queryFreqs.getOrDefault(queryToken,0);
-    }
-
-    public List<Pair<String, String>> genQueryPair() {
-        List<Pair<String, String>> queryPairs = new ArrayList<>();
-        for (int i = 0; i < queryTokens.size() - 1; i++) {
-            for (int j = i +1; j < queryTokens.size(); j++) {
-                queryPairs.add(Pair.of(queryTokens.get(i),queryTokens.get(j)));
+        this.fieldsToLoad = fieldsToLoad;
+        fieldContexts = new HashMap<>();
+        queryEntities = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        for(String fieldName: fieldsToLoad)
+            fieldContexts.put(fieldName, new QueryFieldContext(fieldName, root));
+        if (root.has("entity")) {
+            String entityJson = root.get("entity").asText();
+            JsonNode node = mapper.readValue(entityJson, JsonNode.class);
+            Iterator<Map.Entry<String, JsonNode>> ents = node.fields();
+            while (ents.hasNext()) {
+                Map.Entry<String, JsonNode> ent = ents.next();
+                String entText = ent.getKey();
+                String nameEnt = ent.getValue().asText();
+                List<String> temp;
+                if (queryEntities.containsKey(nameEnt)) {
+                    temp = queryEntities.get(nameEnt);
+                } else {
+                    temp = new ArrayList<>();
+                }
+                temp.add(entText);
+                queryEntities.put(nameEnt, temp);
             }
         }
-        return queryPairs;
-    }
-
-    public List<Pair<String, String>> genQueryBigram() {
-        List<Pair<String, String>> queryBigram = new ArrayList<>();
-        for (int i = 0; i < queryTokens.size() - 1; i++) {
-            queryBigram.add(Pair.of(queryTokens.get(i),queryTokens.get(i+1)));
+        if (root.has("raw")) {
+            raw = root.get("raw").asText();
+        } else {
+            raw = "";
         }
-        return queryBigram;
-    }
+        String raw_processed = raw.toLowerCase().trim();
+//        if (raw.contains("how long")&&!Pattern.matches("^how long.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//        if (raw.contains("how many")&&!Pattern.matches("^how many.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//        if (raw.contains("how much")&&!Pattern.matches("^how much.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
 
-    public void logExtract(String docId, List<Float> features, List<String> featureName){
-        assert featureName.size() == features.size();
-        Map<String, Float> docFeature = new HashMap<>();
-        for(int i=0; i<featureName.size(); i++){
-            docFeature.put(featureName.get(i),features.get(i));
-        }
-        featureLog.put(docId, docFeature);
-    }
+//        if (raw.contains("who")&&!Pattern.matches("^who.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//        if (raw.contains("where")&&!Pattern.matches("^where.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//
+//        if (raw.contains("when")&&!Pattern.matches("^[0-9.+_ ]*when.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
+//
+//        if (raw.contains("what")&&!Pattern.matches("^[0-9.+_ ]*what.*$", raw_processed))
+//            System.out.println(String.format("%s:%s", qid, raw_processed));
 
-    public float getSelfLog(String docId, String featureName) {
-        return featureLog.get(docId).get(featureName);
     }
-
-    public List<Float> getOthersLog(String docId, String featureName) {
-        List<Float> others = new ArrayList<>();
-        for(String otherDid: featureLog.keySet()){
-            others.add(featureLog.get(otherDid).get(featureName));
-        }
-        return others;
-    }
-
 }

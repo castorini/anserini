@@ -22,7 +22,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 
 public class BM25Mean implements FeatureExtractor {
     private static final Logger LOG = LogManager.getLogger(BM25Mean.class);
@@ -30,20 +29,21 @@ public class BM25Mean implements FeatureExtractor {
     private double k1 = 0.9;
     private double b = 0.4;
     private String field;
+    private String qfield = "analyzed";
     Pooler collectFun;
     public BM25Mean(Pooler collectFun) {
         this.field = IndexArgs.CONTENTS;
         this.collectFun = collectFun;
     }
 
-    public BM25Mean(double k, double b, Pooler collectFun) {
+    public BM25Mean(Pooler collectFun, double k, double b) {
         this.k1 = k;
         this.b = b;
         this.field = IndexArgs.CONTENTS;
         this.collectFun = collectFun;
     }
 
-    public BM25Mean(double k, double b, String field, Pooler collectFun) {
+    public BM25Mean(Pooler collectFun, double k, double b, String field){
         this.k1 = k;
         this.b = b;
         this.field = field;
@@ -58,24 +58,30 @@ public class BM25Mean implements FeatureExtractor {
      */
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
-        List<Float> scores = context.generateBM25Mean(queryContext.queryTokens,k1,b);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
+        List<Float> scores = context.mean_score;
         return collectFun.pool(scores);
     }
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return String.format("%s_BM25_Mean_k1_%.2f_b_%.2f_%s",field, k1, b, collectFun.getName());
+        return String.format("%s_%s_BM25_Mean_k1_%.2f_b_%.2f_%s",field, qfield, k1, b, collectFun.getName());
     }
 
     @Override
     public String getField() {
         return field;
+    }
+
+    @Override
+    public String getQField() {
+        return qfield;
     }
 
     public double getK1() {
@@ -89,7 +95,7 @@ public class BM25Mean implements FeatureExtractor {
     @Override
     public FeatureExtractor clone() {
         Pooler newFun = collectFun.clone();
-        return new BM25Mean(k1, b, field, newFun);
+        return new BM25Mean(newFun,k1, b, field);
     }
 
 }

@@ -1,21 +1,23 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import io.anserini.ltr.feature.*;
 
 import java.util.*;
 
 public class tpDist implements FeatureExtractor {
     private String field;
+    private String qfield;
 
-    public tpDist() { this.field = IndexArgs.CONTENTS; }
+    public tpDist() {
+        this.field = IndexArgs.CONTENTS;
+        this.qfield = "analyzed";
+    }
 
-    public tpDist(String field) { this.field = field; }
+    public tpDist(String field, String qfield) {
+        this.field = field;
+        this.qfield = qfield;
+    }
 
     class TermPos {
         public Integer mOrder;
@@ -97,7 +99,8 @@ public class tpDist implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         float score = 0.0f;
         int window = 100;
         long Wd = context.docSize;
@@ -105,7 +108,7 @@ public class tpDist implements FeatureExtractor {
         List<List<Integer>> accPositions = new ArrayList<>();
         List<String> accTerms = new ArrayList<>();
         int s = 0;
-        for (String queryToken : queryContext.queryTokens) {
+        for (String queryToken : queryFieldContext.queryTokens) {
             if (context.termFreqs.containsKey(queryToken)) {
                 ++s;
                 List<Integer> termPos = context.termPositions.get(queryToken);
@@ -128,7 +131,7 @@ public class tpDist implements FeatureExtractor {
                 for (int j = (i+1); j<accPositions.size(); ++j){
                     // swap when bigrams are formed only
                     String termj = accTerms.get(j);
-                    int deltaOrder = queryContext.queryFreqs.get(termj)-queryContext.queryFreqs.get(termi);
+                    int deltaOrder = queryFieldContext.queryFreqs.get(termj)-queryFieldContext.queryFreqs.get(termi);
                     if (Math.abs(deltaOrder) == 1) {
                         List<Integer> posj = accPositions.get(j);
                         float termiWi = (float) Math.log(context.numDocs/context.getDocFreq(termi));
@@ -160,12 +163,13 @@ public class tpDist implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return String.format("%s_tpDistWindow100",field);
+        return String.format("%s_%s_tpDistWindow100",field, qfield);
     }
 
     @Override
@@ -174,7 +178,12 @@ public class tpDist implements FeatureExtractor {
     }
 
     @Override
+    public String getQField() {
+        return qfield;
+    }
+
+    @Override
     public FeatureExtractor clone() {
-        return new tpDist(field);
+        return new tpDist(field, qfield);
     }
 }

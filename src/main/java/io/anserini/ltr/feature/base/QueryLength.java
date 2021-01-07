@@ -19,27 +19,37 @@ package io.anserini.ltr.feature.base;
 import io.anserini.ltr.feature.DocumentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.QueryFieldContext;
 
 /**
  * QueryCount
  * Compute the query length (number of terms in the query).
  */
 public class QueryLength implements FeatureExtractor {
-  public QueryLength() { }
+  private String qfield;
+  public QueryLength() {
+    this.qfield = "analyzed";
+  }
+
+  public QueryLength(String qfield){
+    this.qfield = qfield;
+  }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    return queryContext.queryText.size();
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.queryTokens.size();
   }
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return "QueryLength";
+    return String.format("%s_QueryLength",qfield);
   }
 
   @Override
@@ -48,7 +58,12 @@ public class QueryLength implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
-    return new QueryLength();
+    return new QueryLength(qfield);
   }
 }

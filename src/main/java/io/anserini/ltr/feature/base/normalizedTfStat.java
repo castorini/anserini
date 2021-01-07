@@ -10,51 +10,51 @@ import java.util.List;
 */
 public class normalizedTfStat implements FeatureExtractor {
   private String field;
+  private String qfield;
 
   Pooler collectFun;
   public normalizedTfStat(Pooler collectFun) {
     this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
-  public normalizedTfStat(Pooler collectFun, String field) {
+  public normalizedTfStat(Pooler collectFun, String field, String qfield) {
     this.collectFun = collectFun;
     this.field = field;
+    this.qfield = qfield;
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
-    List<Float> score;
-    if(context.statsCache.containsKey("NormalizedTF")){
-      score = context.statsCache.get("NormalizedTF");
-    } else {
-      score = new ArrayList<>();
-      long docSize = context.docSize;
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    List<Float> score = new ArrayList<>();
+    long docSize = context.docSize;
 
-      for (String queryToken : queryContext.queryTokens) {
-        long termFreq = context.getTermFreq(queryToken);
-        double tfn;
-        //todo need discuss this
-        if(termFreq==0) {
-          tfn = (double) docSize / 0.5;
-        } else {
-          tfn = (double) docSize / termFreq;
-        }
-        score.add((float)Math.log(tfn));
+    for (String queryToken : queryFieldContext.queryTokens) {
+      long termFreq = context.getTermFreq(queryToken);
+      double tfn;
+      //todo need discuss this
+      if(termFreq==0) {
+        tfn = (double) docSize / 0.5;
+      } else {
+        tfn = (double) docSize / termFreq;
       }
+      score.add((float)Math.log(tfn));
     }
     return collectFun.pool(score);
   }
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_NormalizedTF_%s",field, collectFun.getName());
+    return String.format("%s_%s_NormalizedTF_%s",field, qfield, collectFun.getName());
   }
 
   @Override
@@ -63,8 +63,13 @@ public class normalizedTfStat implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new normalizedTfStat(newFun, field);
+    return new normalizedTfStat(newFun, field, qfield);
   }
 }

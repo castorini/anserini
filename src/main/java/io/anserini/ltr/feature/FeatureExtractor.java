@@ -46,4 +46,9 @@ public interface FeatureExtractor {
    */
   String getField();
 
+  /**
+   * @return the query field this feature extractor needs to load
+   */
+  String getQField();
+
 }

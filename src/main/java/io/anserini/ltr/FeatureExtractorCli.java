@@ -1,6 +1,5 @@
 package io.anserini.ltr;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.ltr.feature.base.*;
 import io.anserini.ltr.feature.*;
@@ -29,6 +28,106 @@ public class FeatureExtractorCli {
     public int threads = 1;
 
   }
+  public static void addFeature(FeatureExtractorUtils utils, String queryField, String docField) throws IOException {
+    utils.add(new BM25(0.9,0.4, docField, queryField));
+    utils.add(new BM25(1.2,0.75, docField, queryField));
+    utils.add(new BM25(2.0,0.75, docField, queryField));
+
+    utils.add(new LMDir(1000, docField, queryField));
+    utils.add(new LMDir(1500, docField, queryField));
+    utils.add(new LMDir(2500, docField, queryField));
+
+    utils.add(new LMJM(0.1, docField, queryField));
+    utils.add(new LMJM(0.4, docField, queryField));
+    utils.add(new LMJM(0.7, docField, queryField));
+
+    utils.add(new NTFIDF(docField, queryField));
+    utils.add(new ProbalitySum(docField, queryField));
+
+    utils.add(new DFR_GL2(docField, queryField));
+    utils.add(new DFR_In_expB2(docField, queryField));
+    utils.add(new DPH(docField, queryField));
+
+    utils.add(new Proximity(docField, queryField));
+    utils.add(new TPscore(docField, queryField));
+    utils.add(new tpDist(docField, queryField));
+
+    utils.add(new DocSize(docField));
+    utils.add(new Entropy(docField));
+
+    utils.add(new QueryLength(queryField));
+    utils.add(new QueryCoverageRatio(docField, queryField));
+
+    utils.add(new UniqueTermCount(queryField));
+    utils.add(new MatchingTermCount(docField, queryField));
+    utils.add(new SCS(docField, queryField));
+
+    utils.add(new tfStat(new AvgPooler(), docField, queryField));
+    utils.add(new tfStat(new MedianPooler(), docField, queryField));
+    utils.add(new tfStat(new SumPooler(), docField, queryField));
+    utils.add(new tfStat(new MinPooler(), docField, queryField));
+    utils.add(new tfStat(new MaxPooler(), docField, queryField));
+    utils.add(new tfStat(new VarPooler(), docField, queryField));
+    utils.add(new tfStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new tfStat(new ConfidencePooler(), docField, queryField));
+    utils.add(new tfIdfStat(new AvgPooler(), docField, queryField));
+    utils.add(new tfIdfStat(new MedianPooler(), docField, queryField));
+    utils.add(new tfIdfStat(new SumPooler(), docField, queryField));
+    utils.add(new tfIdfStat(new MinPooler(), docField, queryField));
+    utils.add(new tfIdfStat(new MaxPooler(), docField, queryField));
+    utils.add(new tfIdfStat(new VarPooler(), docField, queryField));
+    utils.add(new tfIdfStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new tfIdfStat(new ConfidencePooler(), docField, queryField));
+    utils.add(new scqStat(new AvgPooler(), docField, queryField));
+    utils.add(new scqStat(new MedianPooler(), docField, queryField));
+    utils.add(new scqStat(new SumPooler(), docField, queryField));
+    utils.add(new scqStat(new MinPooler(), docField, queryField));
+    utils.add(new scqStat(new MaxPooler(), docField, queryField));
+    utils.add(new scqStat(new VarPooler(), docField, queryField));
+    utils.add(new scqStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new scqStat(new ConfidencePooler(), docField, queryField));
+    utils.add(new normalizedTfStat(new AvgPooler(), docField, queryField));
+    utils.add(new normalizedTfStat(new MedianPooler(), docField, queryField));
+    utils.add(new normalizedTfStat(new SumPooler(), docField, queryField));
+    utils.add(new normalizedTfStat(new MinPooler(), docField, queryField));
+    utils.add(new normalizedTfStat(new MaxPooler(), docField, queryField));
+    utils.add(new normalizedTfStat(new VarPooler(), docField, queryField));
+    utils.add(new normalizedTfStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new normalizedTfStat(new ConfidencePooler(), docField, queryField));
+
+    utils.add(new idfStat(new AvgPooler(), docField, queryField));
+    utils.add(new idfStat(new MedianPooler(), docField, queryField));
+    utils.add(new idfStat(new SumPooler(), docField, queryField));
+    utils.add(new idfStat(new MinPooler(), docField, queryField));
+    utils.add(new idfStat(new MaxPooler(), docField, queryField));
+    utils.add(new idfStat(new VarPooler(), docField, queryField));
+    utils.add(new idfStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new idfStat(new ConfidencePooler(), docField, queryField));
+    utils.add(new ictfStat(new AvgPooler(), docField, queryField));
+    utils.add(new ictfStat(new MedianPooler(), docField, queryField));
+    utils.add(new ictfStat(new SumPooler(), docField, queryField));
+    utils.add(new ictfStat(new MinPooler(), docField, queryField));
+    utils.add(new ictfStat(new MaxPooler(), docField, queryField));
+    utils.add(new ictfStat(new VarPooler(), docField, queryField));
+    utils.add(new ictfStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new ictfStat(new ConfidencePooler(), docField, queryField));
+
+    utils.add(new UnorderedSequentialPairs(3, docField, queryField));
+    utils.add(new UnorderedSequentialPairs(8, docField, queryField));
+    utils.add(new UnorderedSequentialPairs(15, docField, queryField));
+    utils.add(new OrderedSequentialPairs(3, docField, queryField));
+    utils.add(new OrderedSequentialPairs(8, docField, queryField));
+    utils.add(new OrderedSequentialPairs(15, docField, queryField));
+    utils.add(new UnorderedQueryPairs(3, docField, queryField));
+    utils.add(new UnorderedQueryPairs(8, docField, queryField));
+    utils.add(new UnorderedQueryPairs(15, docField, queryField));
+    utils.add(new OrderedQueryPairs(3, docField, queryField));
+    utils.add(new OrderedQueryPairs(8, docField, queryField));
+    utils.add(new OrderedQueryPairs(15, docField, queryField));
+
+
+  }
+
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
     long start = System.nanoTime();
     DebugArgs cmdArgs = new DebugArgs();
@@ -43,108 +142,34 @@ public class FeatureExtractorCli {
     }
 
     FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
-    
-    utils.add(new BM25(0.9,0.4));
-    utils.add(new BM25(1.2,0.75));
-    utils.add(new BM25(2.0,0.75));
+    addFeature(utils,"analyzed","contents");
+    //addFeature(utils,"text","text");
+    //addFeature(utils,"text_unlemm","text_unlemm");
+    //addFeature(utils,"text_bert_tok","text_bert_tok");
+//    utils.add(new IBMModel1("../pyserini/collections/msmarco-passage/text_bert_tok","Bert","BERT","text_bert_tok"));
 
-    utils.add(new LMDir(1000));
-    utils.add(new LMDir(1500));
-    utils.add(new LMDir(2500));
+    utils.add(new EntityHowMany());
+    utils.add(new EntityHowMuch());
+    utils.add(new EntityHowLong());
 
-    utils.add(new LMJM(0.1));
-    utils.add(new LMJM(0.4));
-    utils.add(new LMJM(0.7));
+    utils.add(new EntityWho());
+    utils.add(new EntityWhen());
+    utils.add(new EntityWhere());
 
-    utils.add(new NTFIDF());
-    utils.add(new ProbalitySum());
+    utils.add(new EntityWhoMatch());
+    utils.add(new EntityWhereMatch());
 
-    utils.add(new DFR_GL2());
-    utils.add(new DFR_In_expB2());
-    utils.add(new DPH());
+    utils.add(new EntityQueryCount("PERSON"));
+    utils.add(new EntityDocCount("PERSON"));
 
-    utils.add(new ContextDFR_GL2(new AvgPooler()));
-    utils.add(new ContextDFR_GL2(new VarPooler()));
-    utils.add(new ContextDFR_In_expB2(new AvgPooler()));
-    utils.add(new ContextDFR_In_expB2(new VarPooler()));
-    utils.add(new ContextDPH(new AvgPooler()));
-    utils.add(new ContextDPH(new VarPooler()));
+    utils.add(new QueryRegex("^[0-9.+_ ]*what.*$"));
 
-    utils.add(new Proximity());
-    utils.add(new TPscore());
-    utils.add(new tpDist());
-//    utils.add(new SDM());
-
-    utils.add(new DocSize());
-    utils.add(new Entropy());
-    utils.add(new StopCover());
-    utils.add(new StopRatio());
-
-    utils.add(new QueryLength());
-    utils.add(new QueryLengthNonStopWords());
-    utils.add(new QueryCoverageRatio());
-    utils.add(new UniqueTermCount());
-    utils.add(new MatchingTermCount());
-    utils.add(new SCS());
-
-    utils.add(new tfStat(new AvgPooler()));
-    utils.add(new tfStat(new SumPooler()));
-    utils.add(new tfStat(new MinPooler()));
-    utils.add(new tfStat(new MaxPooler()));
-    utils.add(new tfStat(new VarPooler()));
-    utils.add(new tfIdfStat(new AvgPooler()));
-    utils.add(new tfIdfStat(new SumPooler()));
-    utils.add(new tfIdfStat(new MinPooler()));
-    utils.add(new tfIdfStat(new MaxPooler()));
-    utils.add(new tfIdfStat(new VarPooler()));
-    utils.add(new scqStat(new AvgPooler()));
-    utils.add(new scqStat(new SumPooler()));
-    utils.add(new scqStat(new MinPooler()));
-    utils.add(new scqStat(new MaxPooler()));
-    utils.add(new scqStat(new VarPooler()));
-    utils.add(new normalizedTfStat(new AvgPooler()));
-    utils.add(new normalizedTfStat(new SumPooler()));
-    utils.add(new normalizedTfStat(new MinPooler()));
-    utils.add(new normalizedTfStat(new MaxPooler()));
-    utils.add(new normalizedTfStat(new VarPooler()));
-    utils.add(new normalizedDocSizeStat(new AvgPooler()));
-    utils.add(new normalizedDocSizeStat(new SumPooler()));
-    utils.add(new normalizedDocSizeStat(new MinPooler()));
-    utils.add(new normalizedDocSizeStat(new MaxPooler()));
-    utils.add(new normalizedDocSizeStat(new VarPooler()));
-
-    utils.add(new idfStat(new AvgPooler()));
-    utils.add(new idfStat(new SumPooler()));
-    utils.add(new idfStat(new MinPooler()));
-    utils.add(new idfStat(new MaxPooler()));
-    utils.add(new idfStat(new VarPooler()));
-    utils.add(new idfStat(new MaxMinRatioPooler()));
-    utils.add(new idfStat(new ConfidencePooler()));
-    utils.add(new ictfStat(new AvgPooler()));
-    utils.add(new ictfStat(new SumPooler()));
-    utils.add(new ictfStat(new MinPooler()));
-    utils.add(new ictfStat(new MaxPooler()));
-    utils.add(new ictfStat(new VarPooler()));
-    utils.add(new ictfStat(new MaxMinRatioPooler()));
-    utils.add(new ictfStat(new ConfidencePooler()));
-
-    utils.add(new UnorderedSequentialPairs(3));
-    utils.add(new UnorderedSequentialPairs(8));
-    utils.add(new UnorderedSequentialPairs(15));
-    utils.add(new OrderedSequentialPairs(3));
-    utils.add(new OrderedSequentialPairs(8));
-    utils.add(new OrderedSequentialPairs(15));
-    utils.add(new UnorderedQueryPairs(3));
-    utils.add(new UnorderedQueryPairs(8));
-    utils.add(new UnorderedQueryPairs(15));
-    utils.add(new OrderedQueryPairs(3));
-    utils.add(new OrderedQueryPairs(8));
-    utils.add(new OrderedQueryPairs(15));
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
     String line;
     List<String> qids = new ArrayList<>();
+    int lineNum = 0;
     int offset = 0;
     String lastQid = null;
     ObjectMapper mapper = new ObjectMapper();
@@ -155,44 +180,61 @@ public class FeatureExtractorCli {
     }
     long executionStart = System.nanoTime();
     while((line=reader.readLine())!=null&&offset<10000){
+      lineNum++;
+//      if(lineNum<=760) continue;
       qids.add(utils.debugExtract(line));
-      if(qids.size()>=100){
+      if(qids.size()>=10){
         try{
           while(qids.size()>0) {
             lastQid = qids.remove(0);
-            String allResult = utils.getResult(lastQid);
-            TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
-            List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
+            List<debugOutput> outputArray = utils.getDebugResult(lastQid);
+//            System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
             for(debugOutput res:outputArray){
               for(int i = 0; i < names.size(); i++){
                 time[i] += res.time.get(i);
               }
             }
             offset++;
-            System.out.println(offset);
-
           }
         } catch (Exception e) {
-          System.out.println("the offset is:"+offset+"at qid:"+lastQid);
+          System.out.println("the offset is:"+offset+" at qid:"+lastQid);
           throw e;
         }
       }
 
     }
-    long executionEnd = System.nanoTime();
-    long sumtime = 0;
-    for(int i = 0; i < names.size(); i++){
-      sumtime += time[i];
+    if(qids.size()>=0){
+      try{
+        while(qids.size()>0) {
+          lastQid = qids.remove(0);
+          List<debugOutput> outputArray = utils.getDebugResult(lastQid);
+//          System.out.println(String.format("Qid:%s\tLine:%d",lastQid,offset));
+          for(debugOutput res:outputArray){
+            for(int i = 0; i < names.size(); i++){
+              time[i] += res.time.get(i);
+            }
+          }
+          offset++;
+        }
+      } catch (Exception e) {
+        System.out.println("the offset is:"+offset+"at qid:"+lastQid);
+        throw e;
+      }
     }
-    for(int i = 0; i < names.size(); i++){
-      System.out.println(names.get(i)+" takes "+String.format("%.2f",time[i]/1000000000.0) + "s, accounts for "+ String.format("%.2f", time[i]*100.0/sumtime) + "%");
-    }
+//    long executionEnd = System.nanoTime();
+//    long sumtime = 0;
+//    for(int i = 0; i < names.size(); i++){
+//      sumtime += time[i];
+//    }
+//    for(int i = 0; i < names.size(); i++){
+//      System.out.println(names.get(i)+" takes "+String.format("%.2f",time[i]/1000000000.0) + "s, accounts for "+ String.format("%.2f", time[i]*100.0/sumtime) + "%");
+//    }
     utils.close();
     reader.close();
-
-    long end = System.nanoTime();
-    long overallTime = end - start;
-    long overhead = overallTime-(executionEnd - executionStart);
-    System.out.println("The program takes "+String.format("%.2f",overallTime/1000000000.0) + "s, where the overhead takes " + String.format("%.2f",overhead/1000000000.0) +"s");
+//
+//    long end = System.nanoTime();
+//    long overallTime = end - start;
+//    long overhead = overallTime-(executionEnd - executionStart);
+//    System.out.println("The program takes "+String.format("%.2f",overallTime/1000000000.0) + "s, where the overhead takes " + String.format("%.2f",overhead/1000000000.0) +"s");
   }
 }

@@ -1,16 +1,14 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
 public class SDM implements FeatureExtractor {
   private String field;
+  private String qfield;
   /*
   * fxt,indri use window = 8 -> window = 7 because fxt,indri's both word while we only include second
   * fxt,indri do not allow overlapped window, we choose to allow it
@@ -31,9 +29,10 @@ public class SDM implements FeatureExtractor {
     this.ordered_weight = 0.15;
     this.unordered_weight = 0.05;
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
-  public SDM(String field) {
+  public SDM(String field, String qfield) {
     this.window = 7;
     this.mu = 2500;
     this.mu_phrase = 2500;
@@ -41,13 +40,15 @@ public class SDM implements FeatureExtractor {
     this.ordered_weight = 0.15;
     this.unordered_weight = 0.05;
     this.field = field;
+    this.qfield = qfield;
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
-    double per_term = term_weight / queryContext.querySize;
-    List<Pair<String, String>> bigrams = queryContext.genQueryBigram();
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    double per_term = term_weight / queryFieldContext.querySize;
+    List<Pair<String, String>> bigrams = queryFieldContext.genQueryBigram();
     double per_bigram_ordered = ordered_weight / bigrams.size();
     double per_bigram_unordered = unordered_weight / bigrams.size();
 
@@ -55,7 +56,7 @@ public class SDM implements FeatureExtractor {
     long totalTermFreq = context.totalTermFreq;
     float score = 0;
 
-    for (String queryToken : queryContext.queryTokens) {
+    for (String queryToken : queryFieldContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
       //todo need discuss this
@@ -86,12 +87,13 @@ public class SDM implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_SDM", field);
+    return String.format("%s_%s_SDM", field, qfield);
   }
 
   @Override
@@ -100,7 +102,12 @@ public class SDM implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
-    return new SDM(field);
+    return new SDM(field, qfield);
   }
 }

@@ -18,12 +18,11 @@ package io.anserini.ltr;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
+import io.anserini.ltr.feature.base.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.tools.picocli.CommandLine;
@@ -34,7 +33,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -51,8 +50,11 @@ public class FeatureExtractorUtils {
   private Set<String> featureNames = new HashSet<>();
   private List<FeatureExtractor> extractors = new ArrayList<>();
   private Set<String> fieldsToLoad = new HashSet<>();
+  private Set<String> qfieldsToLoad = new HashSet<>();
   private ExecutorService pool;
-  private Map<String, Future<String>> tasks = new HashMap<>();
+  private Map<String, Future<byte[]>> tasks = new HashMap<>();
+  private Map<String, Future<List<debugOutput>>> debugTasks = new HashMap<>();
+  private Boolean executeBM25Stat = false;
 
   /**
    * set up the feature we wish to extract
@@ -66,57 +68,73 @@ public class FeatureExtractorUtils {
     featureNames.add(extractor.getName());
     extractors.add(extractor);
     String field = extractor.getField();
+    String qfield = extractor.getQField();
     if(field!=null)
       fieldsToLoad.add(field);
+    if(qfield != null)
+      qfieldsToLoad.add(qfield);
+    if(extractor instanceof BM25HMean)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Max)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Mean)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Min)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Quartile)
+      executeBM25Stat = true;
+    if(extractor instanceof BM25Var)
+      executeBM25Stat = true;
     return this;
   }
 
   public List<String> list() {
     List<String> nameList = new ArrayList<>();
-    nameList.addAll(featureNames);
+    for (int i = 0; i < extractors.size(); i++) {
+      nameList.add(extractors.get(i).getName());
+    }
     return nameList;
   }
 
   /**
    * mainly used for testing
-   * @param queryTokens tokenized query text
    * @param docIds external document ids that you wish to collect; users need to make sure it is present
    * @return
    * @throws ExecutionException
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
-  public ArrayList<output> extract(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException, JsonProcessingException {
+  public List<debugOutput> extract(String qid, List<String> docIds, List<String> queryTokens) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    input root = new input();
-    root.qid = qid;
-    root.queryText = queryText;
-    root.queryTokens = queryTokens;
-    root.docIds = docIds;
-    this.lazyExtract(mapper.writeValueAsString(root));
-    String res = this.getResult(root.qid);
-    TypeReference<ArrayList<output>> typeref = new TypeReference<ArrayList<output>>() {};
-    return mapper.readValue(res, typeref);
+    Map<String, Object> json = new HashMap();
+    json.put("qid", qid);
+    json.put("docIds", docIds);
+    json.put("analyzed", queryTokens);
+    this.debugExtract(mapper.writeValueAsString(json));
+    return this.getDebugResult(qid);
   }
 
   /**
    * submit tasks to workers
    * @param qid unique query id; users need to make sure it is not duplicated
-   * @param queryTokens tokenized query text
    * @param docIds external document ids that you wish to collect; users need to make sure it is present
    */
-  public void addDebugTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) {
-    if(tasks.containsKey(qid))
+  public void addDebugTask(String qid, List<String> docIds, JsonNode jsonQuery) {
+    if(debugTasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
-    tasks.put(qid, pool.submit(() -> {
+    debugTasks.put(qid, pool.submit(() -> {
       List<FeatureExtractor> localExtractors = new ArrayList<>();
       for(FeatureExtractor e: extractors){
         localExtractors.add(e.clone());
       }
       ObjectMapper mapper = new ObjectMapper();
-      List<debugOutput> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
+      QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
+      List<debugOutput> result = new ArrayList<>();
+      if (executeBM25Stat){
+        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
+        documentContext.generateBM25Stat(qcontext.queryTokens);
+      }
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -124,30 +142,28 @@ public class FeatureExtractorUtils {
         if (topDocs.totalHits.value == 0) {
           throw new IOException(String.format("Document Id %s expected but not found in index", docId));
         }
-
         ScoreDoc hit = topDocs.scoreDocs[0];
         documentContext.updateDoc(docId, hit.doc);
-
         List<Float> features = new ArrayList<>();
-        long[] time = new long[localExtractors.size()];
+        List<Long> time = new ArrayList<>();
         for(int i = 0; i < localExtractors.size(); i++){
-          time[i] = 0;
+          time.add(0L);
         }
         for (int i = 0; i < localExtractors.size(); i++) {
           long start = System.nanoTime();
-          features.add(localExtractors.get(i).extract(documentContext, queryContext));
+          float extractedFeature = localExtractors.get(i).extract(documentContext, queryContext);
+          assert extractedFeature == extractedFeature;
+          features.add(extractedFeature);
           long end = System.nanoTime();
-          time[i] += end - start;
+          time.set(i, time.get(i) + end - start);
         }
-
         result.add(new debugOutput(docId,features, time));
-        queryContext.logExtract(docId, features, list());
       }
-      return mapper.writeValueAsString(result);
+      return result;
     }));
   }
 
-  public void addTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) {
+  public void addTask(String qid, List<String> docIds, JsonNode jsonQuery) {
     if(tasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
     tasks.put(qid, pool.submit(() -> {
@@ -156,30 +172,34 @@ public class FeatureExtractorUtils {
         localExtractors.add(e.clone());
       }
       ObjectMapper mapper = new ObjectMapper();
-      List<output> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
+      QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
 
-      for(String docId: docIds) {
-        Query q = new TermQuery(new Term(IndexArgs.ID, docId));
-        TopDocs topDocs = searcher.search(q, 1);
-        if (topDocs.totalHits.value == 0) {
-          throw new IOException(String.format("Document Id %s expected but not found in index", docId));
-        }
-
-        ScoreDoc hit = topDocs.scoreDocs[0];
-        documentContext.updateDoc(docId, hit.doc);
-
-        List<Float> features = new ArrayList<>();
-
-        for (int i = 0; i < localExtractors.size(); i++) {
-          features.add(localExtractors.get(i).extract(documentContext, queryContext));
-        }
-
-        result.add(new output(docId,features));
-        queryContext.logExtract(docId, features, list());
+      if (executeBM25Stat){
+        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
+        documentContext.generateBM25Stat(qcontext.queryTokens);
       }
-      return mapper.writeValueAsString(result);
+
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      DataOutputStream dos = new DataOutputStream(baos);
+      //strict follow doc id order
+      for(String docId: docIds) {
+          Query q = new TermQuery(new Term(IndexArgs.ID, docId));
+          TopDocs topDocs = searcher.search(q, 1);
+          if (topDocs.totalHits.value == 0) {
+            throw new IOException(String.format("Document Id %s expected but not found in index", docId));
+          }
+
+          ScoreDoc hit = topDocs.scoreDocs[0];
+          documentContext.updateDoc(docId, hit.doc);
+
+          for (int i = 0; i < localExtractors.size(); i++) {
+            dos.writeFloat(localExtractors.get(i).extract(documentContext, queryContext));
+          }
+      }
+
+      dos.flush();
+      return baos.toByteArray();
     }));
   }
 
@@ -187,26 +207,29 @@ public class FeatureExtractorUtils {
 
   /**
    * submit tasks to workers, exposed in Pyserini
-   * @param jsonString
    * @throws JsonProcessingException
    */
-  public String lazyExtract(String jsonString) throws JsonProcessingException {
+  public String lazyExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    input root = mapper.readValue(jsonString, input.class);
-    this.addTask(root.qid, root.queryText, root.queryTokens, root.docIds);
-    return root.qid;
+    JsonNode root = mapper.readValue(jsonInput, JsonNode.class);
+    String qid = root.get("qid").asText();
+    List<String> docIds = mapper.convertValue(root.get("docIds"), ArrayList.class);
+    this.addTask(qid, docIds, root);
+    return qid;
   }
 
   /**
    * submit tasks to workers, exposed in Pyserini
-   * @param jsonString
    * @throws JsonProcessingException
    */
-  public String debugExtract(String jsonString) throws JsonProcessingException {
+  public String debugExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    input root = mapper.readValue(jsonString, input.class);
-    this.addDebugTask(root.qid, root.queryText,root.queryTokens, root.docIds);
-    return root.qid;
+    JsonNode root = mapper.readValue(jsonInput, JsonNode.class);
+    String qid = root.get("qid").asText();
+    List<String> docIds = mapper.convertValue(root.get("docIds"), ArrayList.class);
+    this.addDebugTask(qid, docIds, root);
+    this.addTask(qid, docIds, root);
+    return qid;
   }
 
   /**
@@ -216,8 +239,43 @@ public class FeatureExtractorUtils {
    * @throws ExecutionException
    * @throws InterruptedException
    */
-  public String getResult(String qid) throws ExecutionException, InterruptedException {
+  public byte[] getResult(String qid) throws ExecutionException, InterruptedException {
     return tasks.remove(qid).get();
+  }
+
+  public List<debugOutput> getDebugResult(String qid) throws ExecutionException, InterruptedException {
+    List<debugOutput> debugRes = debugTasks.remove(qid).get();
+    byte[] res =  tasks.remove(qid).get();
+    DataInputStream dis = new DataInputStream(new ByteArrayInputStream(res));
+    int numElement = res.length/4;
+    int numCol = featureNames.size();
+    int numRow = numElement/numCol;
+    float[][] features = new float[numRow][numCol];
+    for(int idx=0;idx*4<res.length;idx++){
+      try {
+        int rowIdx = idx/numCol;
+        int colIdx = idx%numCol;
+        features[rowIdx][colIdx] = dis.readFloat();
+      } catch (IOException e) {
+        int rowIdx = idx/numCol;
+        int colIdx = idx%numCol;
+        features[rowIdx][colIdx]= 0;
+        e.printStackTrace();
+      }
+    }
+    float[][] debugFeatures = new float[numRow][numCol];
+    for(int rowIdx=0;rowIdx<debugRes.size();rowIdx++){
+      debugOutput output = debugRes.get(rowIdx);
+      for(int colIdx=0;colIdx<output.features.size();colIdx++){
+        debugFeatures[rowIdx][colIdx] = output.features.get(colIdx);
+      }
+    }
+    for(int rowIdx=0;rowIdx<numRow;rowIdx++){
+      for(int colIdx=0;colIdx<numCol;colIdx++){
+        assert debugFeatures[rowIdx][colIdx] == features[rowIdx][colIdx];
+      }
+    }
+    return debugRes;
   }
 
   /**
@@ -276,76 +334,6 @@ public class FeatureExtractorUtils {
 
 }
 
-class input{
-  String qid;
-  List<String> queryText;
-  List<String> queryTokens;
-  List<String> docIds;
-
-  input(){}
-
-  public String getQid() {
-    return qid;
-  }
-
-  public List<String> getDocIds() {
-    return docIds;
-  }
-
-  public List<String> getQueryText(){
-    return queryText;
-  }
-
-  public List<String> getQueryTokens() {
-    return queryTokens;
-  }
-
-  public void setQid(String qid) {
-    this.qid = qid;
-  }
-
-  public void setDocIds(List<String> docIds) {
-    this.docIds = docIds;
-  }
-
-  public void setQueryText(List<String> queryText) {
-    this.queryText = queryText;
-  }
-
-  public void setQueryTokens(List<String> queryTokens) {
-    this.queryTokens = queryTokens;
-  }
-}
-
-class output{
-  String pid;
-  List<Float> features;
-
-  output(){}
-
-  output(String pid, List<Float> features){
-    this.pid = pid;
-    this.features = features;
-  }
-
-  public String getPid() {
-    return pid;
-  }
-
-  public List<Float> getFeatures() {
-    return features;
-  }
-
-  public void setPid(String pid) {
-    this.pid = pid;
-  }
-
-  public void setFeatures(List<Float> features) {
-    this.features = features;
-  }
-
-}
-
 class debugOutput{
   String pid;
   List<Float> features;
@@ -353,12 +341,10 @@ class debugOutput{
 
   debugOutput(){}
 
-  debugOutput(String pid, List<Float> features, long[] time){
+  debugOutput(String pid, List<Float> features, List<Long> time){
     this.pid = pid;
     this.features = features;
-    this.time = new ArrayList<>();
-    for(int i=0;i<time.length;i++)
-      this.time.add(time[i]);
+    this.time = time;
   }
 
   public String getPid() {

@@ -1,13 +1,11 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.Pooler;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 public class ContextDFR_GL2 implements FeatureExtractor {
   private String field;
+  private String qfield = "analyzed";
 
   Pooler collectFun;
   public ContextDFR_GL2(Pooler collectFun) {
@@ -27,7 +25,8 @@ public class ContextDFR_GL2 implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return collectFun.pool(queryContext.getOthersLog(context.docId, String.format("%s_DFR_GL2", field)));
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return collectFun.pool(queryFieldContext.getOthersLog(context.docId, String.format("%s_%s_DFR_GL2", field, qfield)));
   }
 
   @Override
@@ -38,6 +37,11 @@ public class ContextDFR_GL2 implements FeatureExtractor {
   @Override
   public String getField() {
     return field;
+  }
+
+  @Override
+  public String getQField() {
+    return qfield;
   }
 
   @Override

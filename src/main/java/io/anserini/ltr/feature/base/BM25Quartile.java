@@ -29,28 +29,26 @@ public class BM25Quartile implements FeatureExtractor {
     private double k1 = 0.9;
     private double b = 0.4;
     private String field;
+    private String qfield = "analyzed";
     int q;
     Pooler collectFun;
-    public BM25Quartile(Pooler collectFun, int q) {
+    public BM25Quartile(Pooler collectFun) {
         this.field = IndexArgs.CONTENTS;
         this.collectFun = collectFun;
-        this.q = q;
     }
 
-    public BM25Quartile(double k, double b, Pooler collectFun, int q) {
+    public BM25Quartile(Pooler collectFun, double k, double b) {
         this.k1 = k;
         this.b = b;
         this.field = IndexArgs.CONTENTS;
         this.collectFun = collectFun;
-        this.q = q;
     }
 
-    public BM25Quartile(double k, double b, String field, Pooler collectFun, int q) {
+    public BM25Quartile(Pooler collectFun, double k, double b, String field) {
         this.k1 = k;
         this.b = b;
         this.field = field;
         this.collectFun = collectFun;
-        this.q = q;
     }
 
     /**
@@ -61,24 +59,30 @@ public class BM25Quartile implements FeatureExtractor {
      */
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
-        List<Float> scores = context.generateBM25Quartile(queryContext.queryTokens,k1,b,q);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
+        List<Float> scores = context.quartile_score;
         return collectFun.pool(scores);
     }
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return String.format("%s_BM25_Quartile_k1_%.2f_b_%.2f_%s_%d",field, k1, b, collectFun.getName(),q);
+        return String.format("%s_%s_BM25_Quartile_k1_%.2f_b_%.2f_%s",field, qfield, k1, b, collectFun.getName());
     }
 
     @Override
     public String getField() {
         return field;
+    }
+
+    @Override
+    public String getQField() {
+        return qfield;
     }
 
     public double getK1() {
@@ -96,7 +100,7 @@ public class BM25Quartile implements FeatureExtractor {
     @Override
     public FeatureExtractor clone() {
         Pooler newFun = collectFun.clone();
-        return new BM25Quartile(k1, b, field, newFun,q);
+        return new BM25Quartile(newFun, k1, b, field);
     }
 
 }

@@ -17,10 +17,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 /**
  * SCS = sum (P[t|q]) * log(P[t|q] / P[t|D])
@@ -28,18 +25,26 @@ import io.anserini.ltr.feature.QueryContext;
  */
 public class SCS implements FeatureExtractor {
   private String field;
+  private String qfield;
 
-  public SCS() { this.field = IndexArgs.CONTENTS; }
+  public SCS() {
+    this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
+  }
 
-  public SCS(String field) { this.field = field; }
+  public SCS(String field, String qfield) {
+    this.field = field;
+    this.qfield = qfield;
+  }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     long termCount = context.totalTermFreq;
     float score = 0.0f;
-    for (String token : queryContext.queryFreqs.keySet()) {
-      float prtq = queryContext.queryFreqs.get(token) / (float) queryContext.querySize;
+    for (String token : queryFieldContext.queryFreqs.keySet()) {
+      float prtq = queryFieldContext.queryFreqs.get(token) / (float) queryFieldContext.querySize;
       long tf = context.getCollectionFreq(token);
       float prtd = (float)tf/termCount;
       if (prtd == 0) continue;
@@ -50,12 +55,13 @@ public class SCS implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_SCS",field);
+    return String.format("%s_%s_SCS",field, qfield);
   }
 
   @Override
@@ -64,7 +70,12 @@ public class SCS implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
-    return new SCS(field);
+    return new SCS(field, qfield);
   }
 }

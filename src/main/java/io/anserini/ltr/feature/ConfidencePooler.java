@@ -14,9 +14,10 @@ public class ConfidencePooler implements Pooler  {
     //todo need discuss this
     if(qlen == 0) return 0;
     double avg = sum / qlen;
-    double std = Math.sqrt(squareSum / array.size() - avg * avg);
+    double std = Math.sqrt(Math.max(squareSum / array.size() - avg * avg,0f));
     //q.tfidf_confidence = ZETA * (q.tfidf_std_dev / (sqrt(q.len_stopped)));
-    return (float) (1.96 * (std / Math.sqrt(qlen)));
+    float interval = (float) (1.96 * (std / Math.sqrt(qlen)));
+    return interval;
   }
 
   public Pooler clone() {

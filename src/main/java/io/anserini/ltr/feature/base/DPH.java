@@ -17,10 +17,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 /**
  * This feature computes collection query similarity, DPH defined as
@@ -33,24 +30,35 @@ import io.anserini.ltr.feature.QueryContext;
  
 public class DPH implements FeatureExtractor {
     private String field;
+    private String qfield;
 
-    public DPH() { this.field = IndexArgs.CONTENTS; }
+    public DPH() {
+        this.field = IndexArgs.CONTENTS;
+        this.qfield = "analyzed";
+    }
 
-    public DPH(String field) { this.field = field; }
+    public DPH(String field, String qfield) {
+        this.field = field;
+        this.qfield = qfield;
+    }
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         long docSize = context.docSize;
         long totalTermFreq = context.totalTermFreq;
         float score = 0;
 
-        for (String queryToken : queryContext.queryTokens) {
+        for (String queryToken : queryFieldContext.queryTokens) {
             long termFreq = context.getTermFreq(queryToken);
             //todo need discuss this
             if(termFreq==0) continue;
             double collectionFreqs = context.getCollectionFreq(queryToken);
             double relativeFreq = (double)termFreq/docSize;
+            if (relativeFreq == 1d) { // to fix bug if relativeFreq is 1, score is NaN
+                relativeFreq = 0.99;
+            }
             double norm = (1d-relativeFreq) * (1d -relativeFreq)/(termFreq+1d);
             double Pt = collectionFreqs/totalTermFreq;
             score += norm * (termFreq* Math.log((relativeFreq/Pt)) +
@@ -61,12 +69,13 @@ public class DPH implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return String.format("%s_DPH", field);
+        return String.format("%s_%s_DPH", field, qfield);
     }
 
     @Override
@@ -75,7 +84,12 @@ public class DPH implements FeatureExtractor {
     }
 
     @Override
+    public String getQField() {
+        return qfield;
+    }
+
+    @Override
     public FeatureExtractor clone() {
-        return new DPH(field);
+        return new DPH(field, qfield);
     }
 }

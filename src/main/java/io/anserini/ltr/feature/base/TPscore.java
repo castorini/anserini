@@ -1,10 +1,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 import org.apache.commons.lang3.tuple.Pair;
 
 
@@ -21,10 +18,17 @@ import java.util.List;
  */
 public class TPscore implements FeatureExtractor {
     private String field;
+    private String qfield;
 
-    public TPscore() { this.field = IndexArgs.CONTENTS; }
+    public TPscore() {
+        this.field = IndexArgs.CONTENTS;
+        this.qfield = "analyzed";
+    }
 
-    public TPscore(String field) { this.field = field; }
+    public TPscore(String field, String qfield) {
+        this.field = field;
+        this.qfield = qfield;
+    }
 
     public static class BCTP {
         String id;
@@ -35,7 +39,8 @@ public class TPscore implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         //parameters for BM25
         double k1 = 0.9;
         double b = 0.4;
@@ -44,12 +49,12 @@ public class TPscore implements FeatureExtractor {
         long totalTermFreq = context.totalTermFreq;
         double avgFL = (double)totalTermFreq/numDocs;
         //firstly get the score from BM25
-        BM25 bm25_score = new BM25(k1, b, field);
+        BM25 bm25_score = new BM25(k1, b, field, qfield);
         float score = bm25_score.extract(documentContext, queryContext);
 
         List<Pair<Integer, BCTP>> bctp_query = new ArrayList<>();
         //generte bctp_query which contains the position of specific term and some details of it
-        for (String queryToken : queryContext.queryTokens) {
+        for (String queryToken : queryFieldContext.queryTokens) {
             double collectionFreqs = context.getCollectionFreq(queryToken);
             BCTP t = new BCTP();
             t.id = queryToken;
@@ -83,7 +88,7 @@ public class TPscore implements FeatureExtractor {
         return score;
     }
 
-    public void score_terms(List<Pair<Integer, BCTP>> bctp_query, FieldContext context) {
+    public void score_terms(List<Pair<Integer, BCTP>> bctp_query, DocumentFieldContext context) {
         long numDocs = context.numDocs;
 //        long docSize = context.docSize;
         BCTP  curr_term;
@@ -118,12 +123,13 @@ public class TPscore implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return String.format("%s_TPscore", field);
+        return String.format("%s_%s_TPscore", field, qfield);
     }
 
     @Override
@@ -132,7 +138,12 @@ public class TPscore implements FeatureExtractor {
     }
 
     @Override
+    public String getQField() {
+        return qfield;
+    }
+
+    @Override
     public FeatureExtractor clone() {
-        return new TPscore(field);
+        return new TPscore(field, qfield);
     }
 }

@@ -18,10 +18,7 @@ package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.StopWords;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 
 import java.util.List;
 
@@ -31,6 +28,7 @@ import java.util.List;
  */
 public class StopCover implements FeatureExtractor {
     private String field;
+    private String qfield = "analyzed";
 
     public StopCover(String field) {
         this.field = field;
@@ -42,7 +40,7 @@ public class StopCover implements FeatureExtractor {
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        FieldContext context = documentContext.fieldContexts.get(field);
+        DocumentFieldContext context = documentContext.fieldContexts.get(field);
         long cov = 0l;
         float score = 0.0f;
         List<String> stopWords = StopWords.getStopWordList();
@@ -57,12 +55,13 @@ public class StopCover implements FeatureExtractor {
 
     @Override
     public float postEdit(DocumentContext context, QueryContext queryContext) {
-        return queryContext.getSelfLog(context.docId, getName());
+        QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+        return queryFieldContext.getSelfLog(context.docId, getName());
     }
 
     @Override
     public String getName() {
-        return "StopCover";
+        return String.format("%s_%s_StopCover", field, qfield);
     }
 
     @Override
@@ -71,8 +70,13 @@ public class StopCover implements FeatureExtractor {
     }
 
     @Override
+    public String getQField() {
+        return qfield;
+    }
+
+    @Override
     public FeatureExtractor clone() {
-        return new StopCover();
+        return new StopCover(field);
     }
 }
 

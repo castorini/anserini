@@ -17,10 +17,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
@@ -31,27 +28,32 @@ import java.util.List;
  */
 public class UnorderedSequentialPairs implements FeatureExtractor {
   private String field;
+  private String qfield;
 
   private int gapSize = 8;
 
   public UnorderedSequentialPairs() {
+    this.qfield = "analyzed";
     this.field = IndexArgs.CONTENTS;
   }
 
   public UnorderedSequentialPairs(int gapSize) {
     this.gapSize = gapSize;
     this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
   }
 
-  public UnorderedSequentialPairs(int gapSize, String field) {
+  public UnorderedSequentialPairs(int gapSize, String field, String qfield) {
     this.gapSize = gapSize;
     this.field = field;
+    this.qfield = qfield;
   }
 
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    FieldContext context = documentContext.fieldContexts.get(field);
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     float count = 0;
-    List<Pair<String, String>> queryPairs= queryContext.genQueryBigram();
+    List<Pair<String, String>> queryPairs= queryFieldContext.genQueryBigram();
     for(Pair<String, String> pair: queryPairs){
       count += context.countBigram(pair.getLeft(),pair.getRight(),gapSize);
       count += context.countBigram(pair.getRight(),pair.getLeft(),gapSize);
@@ -61,12 +63,13 @@ public class UnorderedSequentialPairs implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return String.format("%s_UnorderedSequentialPairs_%d", field, this.gapSize);
+    return String.format("%s_%s_UnorderedSequentialPairs_%d", field, qfield, this.gapSize);
   }
 
   @Override
@@ -75,7 +78,12 @@ public class UnorderedSequentialPairs implements FeatureExtractor {
   }
 
   @Override
+  public String getQField() {
+    return qfield;
+  }
+
+  @Override
   public FeatureExtractor clone() {
-    return new UnorderedSequentialPairs(gapSize, field);
+    return new UnorderedSequentialPairs(gapSize, field, qfield);
   }
 }
