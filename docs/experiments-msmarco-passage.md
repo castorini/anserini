@@ -77,7 +77,7 @@ We can perform multi-threaded retrieval by changing the `-threads` argument.
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
 ```bash
-python tools/scripts/msmarco/msmarco_eval.py \
+python tools/scripts/msmarco/msmarco_passage_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
 ```
 
