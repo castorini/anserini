@@ -90,7 +90,7 @@ sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 8 \
 Finally, to evaluate:
 
 ```
-python tools/eval/msmarco_eval.py \
+python tools/scripts/msmarco/msmarco_passage_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 

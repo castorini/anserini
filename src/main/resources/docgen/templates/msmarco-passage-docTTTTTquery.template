@@ -60,7 +60,7 @@ Evaluate using the MS MARCO eval script:
 ```bash
 wget https://www.dropbox.com/s/khsplt2fhqwjs0v/qrels.dev.small.tsv
 
-python tools/scripts/msmarco/msmarco_eval.py qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery
+python tools/scripts/msmarco/msmarco_passage_eval.py qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery
 ```
 
 The results should be:
