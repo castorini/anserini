@@ -32,7 +32,7 @@ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/ms_marco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25base/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25base/dev.txt
 Quantity of Documents ranked for each query is as expected. Evaluating
 #####################
 MRR @100: 0.23005723505603573
@@ -57,7 +57,7 @@ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/ms_marco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25tuned/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25tuned/dev.txt
 Quantity of Documents ranked for each query is as expected. Evaluating
 #####################
 MRR @100: 0.2770296928568702
@@ -91,7 +91,7 @@ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.68 -b 0.87 -threads 9 \
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/ms_marco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/doc2query-t5-per-doc/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/doc2query-t5-per-doc/dev.txt
 Quantity of Documents ranked for each query is as expected. Evaluating
 #####################
 MRR @100: 0.3265190296491929
@@ -122,7 +122,7 @@ Note that the passage retrieval functionality is only available in `SearchCollec
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/ms_marco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/doc2query-t5-per-passage/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/doc2query-t5-per-passage/dev.txt
 Quantity of Documents ranked for each query is as expected. Evaluating
 #####################
 MRR @100: 0.32081861579183746
