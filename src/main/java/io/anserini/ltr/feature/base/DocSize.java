@@ -44,7 +44,7 @@ public class DocSize implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_DocSize", field, qfield);
+    return String.format("%s_DocSize", field);
   }
 
   @Override
