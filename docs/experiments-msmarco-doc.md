@@ -80,7 +80,7 @@ We see that "out of the box" Anserini is already better!
 This dataset is part of the [MS MARCO Document Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Document-Ranking-Submissions/leaderboard/).
 Let's try to replicate runs on there!
 
-A few minor details to pay attention to: the official metric is MRR@100, so we want to only return the top 100 hits, and the submission files to the leaderboard has a slightly different format.
+A few minor details to pay attention to: the official metric is MRR@100, so we want to only return the top 100 hits, and the submission files to the leaderboard have a slightly different format.
 So, we use `SearchMsmarco` instead of `SearchCollection`:
 
 ```bash
@@ -101,9 +101,9 @@ QueriesRanked: 5193
 #####################
 ```
 
-The above run corresponds to the run denoted "Anserini's BM25, default parameters (k1=0.9, b=0.4)" on the leaderboard.
+The above run corresponds to "Anserini's BM25, default parameters (k1=0.9, b=0.4)" on the leaderboard.
 
-Here's the invocation with for a BM25 with parameters optimized for recall@100 (`k1=4.46`, `b=0.82`):
+Here's the invocation for BM25 with parameters optimized for recall@100 (`k1=4.46`, `b=0.82`):
 
 ```bash
 sh target/appassembler/bin/SearchMsmarco -hits 100 -threads 1 \
