@@ -72,8 +72,6 @@ Retrieval speed will vary by machine:
 On a modern desktop with an SSD, we can get ~0.07 s/query, so the run should finish in under ten minutes.
 We can perform multi-threaded retrieval by changing the `-threads` argument.
 
-## Evaluating the Results
-
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
 ```bash
@@ -89,6 +87,8 @@ MRR @10: 0.18741227770955546
 QueriesRanked: 6980
 #####################
 ```
+
+You can find this entry on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as entry "BM25 (Lucene8, tuned)", so you've just replicated (part of) a leaderboard submission!
 
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
 For that we first need to convert runs and qrels files to the TREC format:
@@ -141,7 +141,7 @@ Default (`k1=0.9`, `b=0.4`) | 0.1840 | 0.1926 | 0.8526
 Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
 Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 | 0.8555
 
-To replicate these results, the `SearchMsmarco` class above takes `k1` and `b` parameters as command-line arguments, e.g., `-k1 0.82 -b 0.68`.
+To replicate these results, the `SearchMsmarco` class above takes `k1` and `b` parameters as command-line arguments, e.g., `-k1 0.60 -b 0.62` (note that the default setting is `k1=0.82` and `b=0.68`).
 
 ## Replication Log
 
