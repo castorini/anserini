@@ -84,9 +84,9 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)| 0.2032    | 0.2602    | 0.2587    | 0.2028    | 0.2491    | 0.2476    |
+[TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)| 0,2032    | 0,2602    | 0,2587    | 0,2028    | 0,2491    | 0,2476    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)| 0.3693    | 0.4187    | 0.4120    | 0.3653    | 0.4067    | 0.4113    |
+[TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)| 0,3693    | 0,4187    | 0,4120    | 0,3653    | 0,4067    | 0,4113    |

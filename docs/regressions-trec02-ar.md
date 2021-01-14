@@ -54,14 +54,14 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.2932    |
+[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0,2932    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.3610    |
+[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0,3610    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.4056    |
+[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0,4056    |

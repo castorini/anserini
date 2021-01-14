@@ -148,13 +148,13 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)| 0.2689    | 0.2844    | 0.2669    | 0.2681    | 0.2708    | 0.2666    |
-[TREC 2005 Terabyte Track (Topics 751-800)](../src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt)| 0.3390    | 0.3820    | 0.3666    | 0.3303    | 0.3559    | 0.3646    |
-[TREC 2006 Terabyte Track (Topics 801-850)](../src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt)| 0.3080    | 0.3377    | 0.3069    | 0.2997    | 0.3154    | 0.3084    |
+[TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)| 0,2689    | 0,2844    | 0,2669    | 0,2681    | 0,2708    | 0,2666    |
+[TREC 2005 Terabyte Track (Topics 751-800)](../src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt)| 0,3390    | 0,3820    | 0,3666    | 0,3303    | 0,3559    | 0,3646    |
+[TREC 2006 Terabyte Track (Topics 801-850)](../src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt)| 0,3080    | 0,3377    | 0,3069    | 0,2997    | 0,3154    | 0,3084    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)| 0.4864    | 0.5190    | 0.4993    | 0.4755    | 0.4925    | 0.4932    |
-[TREC 2005 Terabyte Track (Topics 751-800)](../src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt)| 0.5540    | 0.5920    | 0.5933    | 0.5347    | 0.5620    | 0.5840    |
-[TREC 2006 Terabyte Track (Topics 801-850)](../src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt)| 0.4907    | 0.5160    | 0.5033    | 0.4720    | 0.4847    | 0.4920    |
+[TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)| 0,4864    | 0,5190    | 0,4993    | 0,4755    | 0,4925    | 0,4932    |
+[TREC 2005 Terabyte Track (Topics 751-800)](../src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt)| 0,5540    | 0,5920    | 0,5933    | 0,5347    | 0,5620    | 0,5840    |
+[TREC 2006 Terabyte Track (Topics 801-850)](../src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt)| 0,4907    | 0,5160    | 0,5033    | 0,4720    | 0,4847    | 0,4920    |

@@ -101,27 +101,27 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.3773    | 0.4270    | 0.4651    | 0.4533    | 0.3766    | 0.4249    | 0.4722    | 0.4522    |
+[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0,3773    | 0,4270    | 0,4651    | 0,4533    | 0,3766    | 0,4249    | 0,4722    | 0,4522    |
 
 
 NDCG@10                                 | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.5058    | 0.5180    | 0.5511    | 0.5372    | 0.4973    | 0.5231    | 0.5461    | 0.5536    |
+[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0,5058    | 0,5180    | 0,5511    | 0,5372    | 0,4973    | 0,5231    | 0,5461    | 0,5536    |
 
 
 RR                                      | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.8245    | 0.8167    | 0.7736    | 0.8170    | 0.8457    | 0.8229    | 0.8218    | 0.8178    |
+[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0,8245    | 0,8167    | 0,7736    | 0,8170    | 0,8457    | 0,8229    | 0,8218    | 0,8178    |
 
 
 R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.4531    | 0.4761    | 0.4995    | 0.4974    | 0.4603    | 0.4747    | 0.5065    | 0.4969    |
+[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0,4531    | 0,4761    | 0,4995    | 0,4974    | 0,4603    | 0,4747    | 0,5065    | 0,4969    |
 
 
 R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.7389    | 0.7882    | 0.8129    | 0.7845    | 0.7384    | 0.7762    | 0.8094    | 0.7894    |
+[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0,7389    | 0,7882    | 0,8129    | 0,7845    | 0,7384    | 0,7762    | 0,8094    | 0,7894    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68` (see [this page](experiments-msmarco-passage.md) for more details about tuning).
 

@@ -64,10 +64,10 @@ With the above commands, you should be able to replicate the following results:
 
 NCDG@5                                  | BM25      | +RM3      | +RM3+DF   |
 :---------------------------------------|-----------|-----------|-----------|
-[TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)| 0.4785    | 0.5217    | 0.5051    |
+[TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)| 0,4785    | 0,5217    | 0,5051    |
 
 
 AP                                      | BM25      | +RM3      | +RM3+DF   |
 :---------------------------------------|-----------|-----------|-----------|
-[TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)| 0.3027    | 0.3790    | 0.3158    |
+[TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)| 0,3027    | 0,3790    | 0,3158    |
 

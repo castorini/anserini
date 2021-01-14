@@ -54,14 +54,14 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4014    |
+[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0,4014    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
+[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0,3849    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |
+[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0,4757    |
