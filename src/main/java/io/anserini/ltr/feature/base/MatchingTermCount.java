@@ -17,55 +17,62 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.rerank.RerankerContext;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.util.BytesRef;
-
-import java.io.IOException;
-import java.util.List;
+import io.anserini.ltr.feature.*;
 
 /**
  * Computes the number of query terms that are found in the document. If there are three terms in
  * the query and all three terms are found in the document, the feature value is three.
  */
 public class MatchingTermCount implements FeatureExtractor {
+  private String field;
+  private String qfield;
+
+  public MatchingTermCount() {
+    this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
+  }
+
+  public MatchingTermCount(String field, String qfield) {
+    this.field = field;
+    this.qfield = qfield;
+  }
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    try {
-      TermsEnum termsEnum = terms.iterator();
-      int matching = 0;
-
-      BytesRef text = null;
-      while ((text = termsEnum.next()) != null) {
-        String term = text.utf8ToString();
-        if (queryTokens.contains(term)) {
-          matching++;
-        }
-      }
-      return matching;
-
-    } catch (IOException e) {
-      return 0;
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    DocumentFieldContext context = documentContext.fieldContexts.get(field);
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    int matching = 0;
+    for(String queryToken : queryFieldContext.queryTokens) {
+      long tf = context.getTermFreq(queryToken);
+      if(tf!=0)
+        matching++;
     }
+    return matching;
+  }
+
+  @Override
+  public float postEdit(DocumentContext context, QueryContext queryContext) {
+    QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    return queryFieldContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return "MatchingTermCount";
+    return String.format("%s_%s_MatchingTermCount", field, qfield);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
+  }
+
+  @Override
+  public String getQField() {
+    return qfield;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new MatchingTermCount();
+    return new MatchingTermCount(field, qfield);
   }
 }

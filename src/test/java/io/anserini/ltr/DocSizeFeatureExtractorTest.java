@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.DocSizeFeatureExtractor;
+import io.anserini.ltr.feature.base.DocSize;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class DocSizeFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static FeatureExtractor EXTRACTOR = new DocSizeFeatureExtractor();
+  private static FeatureExtractor EXTRACTOR = new DocSize();
 
   @Test
   public void testSingleDoc() throws IOException, ExecutionException, InterruptedException {
