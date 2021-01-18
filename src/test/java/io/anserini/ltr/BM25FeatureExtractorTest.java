@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.BM25FeatureExtractor;
+import io.anserini.ltr.feature.base.BM25;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -30,9 +30,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   // Test the BM25 extractor with 2 settings of k and b
-  private static final FeatureExtractor EXTRACTOR = new BM25FeatureExtractor(0.9,0.4);
-  // 1.25,0.75
-  private static final FeatureExtractor EXTRACTOR2 = new BM25FeatureExtractor();
+  private static final FeatureExtractor EXTRACTOR = new BM25(0.9,0.4);
+  private static final FeatureExtractor EXTRACTOR2 = new BM25(1.25, 0.75);
   private static List<FeatureExtractor> EXTRACTORS = getChain(EXTRACTOR, EXTRACTOR2);
 
 
