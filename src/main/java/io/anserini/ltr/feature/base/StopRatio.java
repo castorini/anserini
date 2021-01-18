@@ -17,7 +17,7 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.StopWords;
+import io.anserini.ltr.Stopwords;
 import io.anserini.ltr.feature.*;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class StopRatio implements FeatureExtractor {
         DocumentFieldContext context = documentContext.fieldContexts.get(field);
         long cov = 0l;
         float score = 0.0f;
-        List<String> stopWords = StopWords.getStopWordList();
+        List<String> stopWords = Stopwords.getStopWordList();
         for (String stopWord : stopWords) {
             if (context.termFreqs.containsKey(stopWord)) {
                 cov += context.termFreqs.get(stopWord);
