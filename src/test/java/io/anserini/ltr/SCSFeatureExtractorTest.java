@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.SCSFeatureExtractor;
+import io.anserini.ltr.feature.base.SCS;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private FeatureExtractor EXTRACTOR = new SCSFeatureExtractor();
+  private FeatureExtractor EXTRACTOR = new SCS();
 
   @Test
   public void testBadQuery() throws IOException, ExecutionException, InterruptedException {
