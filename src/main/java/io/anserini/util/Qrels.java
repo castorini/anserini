@@ -19,6 +19,7 @@ package io.anserini.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -94,5 +95,11 @@ public class Qrels {
     } else {
       return null;
     }
+  }
+  
+  public static String getQrelsResource(QrelsID qrels) throws IOException {
+    InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(qrels.path);
+    String raw = new String(inputStream.readAllBytes());
+    return raw;
   }
 }
