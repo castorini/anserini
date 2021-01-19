@@ -7,9 +7,9 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-public class QrelsTest {
+public class RelevanceJudgmentsTest {
 
-  public int getQrelsCount(Qrels qrels) {
+  public int getQrelsCount(RelevanceJudgments qrels) {
     int count = 0;
     for (String qid : qrels.getQids()) {
       count += qrels.getDocMap(qid).size();
@@ -19,7 +19,7 @@ public class QrelsTest {
 
   @Test
   public void testRobust04() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.robust04.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.robust04.txt");
     assertNotNull(qrels);
     assertEquals(249, qrels.getQids().size());
     assertEquals(311410, getQrelsCount(qrels));
@@ -29,7 +29,7 @@ public class QrelsTest {
 
   @Test
   public void testRobust05() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.robust05.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.robust05.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(37798, getQrelsCount(qrels));
@@ -39,7 +39,7 @@ public class QrelsTest {
 
   @Test
   public void testMsmarcoDocDev() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt");
     assertNotNull(qrels);
     assertEquals(5193, qrels.getQids().size());
     assertEquals(5193, getQrelsCount(qrels));
@@ -49,7 +49,7 @@ public class QrelsTest {
 
   @Test
   public void testMsmarcoPassageDevSubset() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt");
     assertNotNull(qrels);
     assertEquals(6980, qrels.getQids().size());
     assertEquals(7437, getQrelsCount(qrels));
@@ -59,7 +59,7 @@ public class QrelsTest {
 
   @Test
   public void testCore17() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.core17.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.core17.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(30030, getQrelsCount(qrels));
@@ -69,7 +69,7 @@ public class QrelsTest {
 
   @Test
   public void testCore18() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.core18.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.core18.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(26233, getQrelsCount(qrels));
@@ -79,7 +79,7 @@ public class QrelsTest {
 
   @Test
   public void testCar15() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt");
     assertNotNull(qrels);
     assertEquals(2125, qrels.getQids().size());
     assertEquals(5820, getQrelsCount(qrels));
@@ -91,7 +91,7 @@ public class QrelsTest {
 
   @Test
   public void testCar20() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt");
     assertNotNull(qrels);
     assertEquals(2254, qrels.getQids().size());
     assertEquals(6192, getQrelsCount(qrels));
@@ -102,7 +102,7 @@ public class QrelsTest {
 
   @Test
   public void testTrec2018BL() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(8508, getQrelsCount(qrels));
@@ -112,7 +112,7 @@ public class QrelsTest {
 
   @Test
   public void testTrec2019BL() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt");
     assertNotNull(qrels);
     assertEquals(57, qrels.getQids().size());
     assertEquals(15655, getQrelsCount(qrels));
@@ -122,7 +122,7 @@ public class QrelsTest {
 
   @Test
   public void testCovidRound1() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.covid-round1.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round1.txt");
     assertNotNull(qrels);
     assertEquals(30, qrels.getQids().size());
     assertEquals(8691, getQrelsCount(qrels));
@@ -132,7 +132,7 @@ public class QrelsTest {
 
   @Test
   public void testCovidRound2() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.covid-round2.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round2.txt");
     assertNotNull(qrels);
     assertEquals(35, qrels.getQids().size());
     assertEquals(12037, getQrelsCount(qrels));
@@ -142,7 +142,7 @@ public class QrelsTest {
 
   @Test
   public void testCovidRound3() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.covid-round3.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round3.txt");
     assertNotNull(qrels);
     assertEquals(40, qrels.getQids().size());
     assertEquals(12713, getQrelsCount(qrels));
@@ -152,7 +152,7 @@ public class QrelsTest {
 
   @Test
   public void testCovidRound4() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.covid-round4.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round4.txt");
     assertNotNull(qrels);
     assertEquals(45, qrels.getQids().size());
     assertEquals(13262, getQrelsCount(qrels));
@@ -162,7 +162,7 @@ public class QrelsTest {
 
   @Test
   public void testCovidRound5() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.covid-round5.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round5.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(23151, getQrelsCount(qrels));
@@ -172,7 +172,7 @@ public class QrelsTest {
 
   @Test
   public void testCovidRound3Cumulative() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt");
     assertNotNull(qrels);
     assertEquals(40, qrels.getQids().size());
     assertEquals(33068, getQrelsCount(qrels));
@@ -182,7 +182,7 @@ public class QrelsTest {
 
   @Test
   public void testCovidRound4Cumulative() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt");
     assertNotNull(qrels);
     assertEquals(45, qrels.getQids().size());
     assertEquals(46203, getQrelsCount(qrels));
@@ -192,7 +192,7 @@ public class QrelsTest {
 
   @Test
   public void testCovidComplete() {
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.covid-complete.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-complete.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(69318, getQrelsCount(qrels));
@@ -202,7 +202,7 @@ public class QrelsTest {
 
   @Test
   public void testGetQrelsResource() throws IOException {
-      String qrels = Qrels.getQrelsResource(QrelsID.ROBUST04);
+      String qrels = RelevanceJudgments.getQrelsResource(Qrels.ROBUST04);
       assertNotNull(qrels);
       assertEquals("301 0 FBIS3-10082 1\n301 0", qrels.substring(0, 25));
     }
