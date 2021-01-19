@@ -1,4 +1,4 @@
-package io.anserini.util;
+package io.anserini.eval;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

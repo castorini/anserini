@@ -1,4 +1,4 @@
-package io.anserini.util;
+package io.anserini.eval;
 
 public enum Qrels {
   TREC1_ADHOC("topics-and-qrels/qrels.adhoc.51-100.txt"),

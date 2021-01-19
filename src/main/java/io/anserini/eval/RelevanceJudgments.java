@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.util;
+package io.anserini.eval;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
