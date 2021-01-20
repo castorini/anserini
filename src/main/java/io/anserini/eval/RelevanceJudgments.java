@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package io.anserini.util;
+package io.anserini.eval;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Qrels {
+public class RelevanceJudgments {
   final private Map<String, Map<String, Integer>> qrels;
 
-  public Qrels(String file) {
+  public RelevanceJudgments(String file) {
     qrels = new HashMap<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -94,5 +95,11 @@ public class Qrels {
     } else {
       return null;
     }
+  }
+  
+  public static String getQrelsResource(Qrels qrels) throws IOException {
+    InputStream inputStream = RelevanceJudgments.class.getClassLoader().getResourceAsStream(qrels.path);
+    String raw = new String(inputStream.readAllBytes());
+    return raw;
   }
 }
