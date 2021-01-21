@@ -63,6 +63,8 @@ public abstract class TopicReader<K> {
       Map.entry("topics.microblog2014.txt", MicroblogTopicReader.class),
       Map.entry("topics.car17v1.5.benchmarkY1test.txt", CarTopicReader.class),
       Map.entry("topics.car17v2.0.benchmarkY1test.txt", CarTopicReader.class),
+      Map.entry("topics.dl19-doc.txt", TsvIntTopicReader.class),
+      Map.entry("topics.dl19-passage.txt", TsvIntTopicReader.class),
       Map.entry("topics.msmarco-doc.dev.txt", TsvIntTopicReader.class),
       Map.entry("topics.msmarco-passage.dev-subset.txt", TsvIntTopicReader.class),
       Map.entry("topics.ntcir8zh.eval.txt", TsvStringTopicReader.class),

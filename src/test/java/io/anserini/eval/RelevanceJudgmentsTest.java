@@ -54,6 +54,26 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
+  public void testTrec19DLDoc() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl19-doc.txt");
+    assertNotNull(qrels);
+    assertEquals(43, qrels.getQids().size());
+    assertEquals(16258, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("19335", "D1035833"));
+    assertEquals(0, qrels.getRelevanceGrade("1133167", "D984590"));
+  }
+
+  @Test
+  public void testTrec19DLPassage() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl19-passage.txt");
+    assertNotNull(qrels);
+    assertEquals(43, qrels.getQids().size());
+    assertEquals(9260, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("19335", "1017759"));
+    assertEquals(1, qrels.getRelevanceGrade("1133167", "8804478"));
+  }
+
+  @Test
   public void testMsmarcoDocDev() {
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt");
     assertNotNull(qrels);
