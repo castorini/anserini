@@ -500,6 +500,7 @@ public class TopicReaderTest {
     assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+    assertEquals("does legionella pneumophila cause pneumonia", topics.get(168216).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2019_DL_DOC);
     assertNotNull(topics);
@@ -508,6 +509,7 @@ public class TopicReaderTest {
     assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+    assertEquals("how long to hold bow in yoga", topics.get(1132213).get("title"));
   }
 
   @Test
