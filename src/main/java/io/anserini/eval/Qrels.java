@@ -38,6 +38,8 @@ public enum Qrels {
   MB14("topics-and-qrels/qrels.microblog2014.txt"),
   CAR17V15_BENCHMARK_Y1_TEST("topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt"),
   CAR17V20_BENCHMARK_Y1_TEST("topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt"),
+  TREC2019_DL_DOC("topics-and-qrels/qrels.dl19-doc.txt"),
+  TREC2019_DL_PASSAGE("topics-and-qrels/qrels.dl19-passage.txt"),
   MSMARCO_DOC_DEV("topics-and-qrels/qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("topics-and-qrels/qrels.msmarco-passage.dev-subset.txt"),
   NTCIR8_ZH("topics-and-qrels/qrels.ntcir8zh.eval.txt"),
