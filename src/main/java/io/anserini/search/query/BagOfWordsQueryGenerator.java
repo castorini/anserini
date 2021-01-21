@@ -21,10 +21,12 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /*
  * Bag of Terms query builder
@@ -39,6 +41,19 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
     }
   
+    return builder.build();
+  }
+
+  @Override
+  public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText) {
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (Map.Entry<String, Float> entry : fields.entrySet()) {
+      String field = entry.getKey();
+      float boost = entry.getValue();
+
+      Query clause = buildQuery(field, analyzer, queryText);
+      builder.add(new BoostQuery(clause, boost), BooleanClause.Occur.SHOULD);
+    }
     return builder.build();
   }
 }

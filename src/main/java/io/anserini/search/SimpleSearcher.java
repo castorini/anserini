@@ -551,13 +551,7 @@ public class SimpleSearcher implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
-    for (Map.Entry<String, Float> entry : fields.entrySet()) {
-      Query queryField = new BagOfWordsQueryGenerator().buildQuery(entry.getKey(), analyzer, q);
-      queryBuilder.add(new BoostQuery(queryField, entry.getValue()), BooleanClause.Occur.SHOULD);
-    }
-
-    BooleanQuery query = queryBuilder.build();
+    Query query = new BagOfWordsQueryGenerator().buildQuery(fields, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return search(query, queryTokens, q, k);
