@@ -490,6 +490,27 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testTREC19DL() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_DOC);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
   public void testMSMARO_TopicIdsAsStrings() {
     Map<String, Map<String, String>> topics;
 
