@@ -376,14 +376,14 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Searches both the default contents fields and additional fields with specified boost weights using multiple
-   * threads. Batch version of {@link #searchFields(String, Map, int)}.
+   * Searches the provided fields weighted by their boosts, using multiple threads.
+   * Batch version of {@link #searchFields(String, Map, int)}.
    *
    * @param queries list of queries
    * @param qids list of unique query ids
    * @param k number of hits
    * @param threads number of threads
-   * @param fields map of additional fields with weights
+   * @param fields map of fields to search with weights
    * @return a map of query id to search results
    */
   public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads,
@@ -538,10 +538,10 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Searches both the default contents fields and additional fields with specified boost weights.
+   * Searches the provided fields weighted by their boosts.
    *
    * @param q query
-   * @param fields map of additional fields with weights
+   * @param fields map of fields to search with weights
    * @param k number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
@@ -551,10 +551,7 @@ public class SimpleSearcher implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    Query queryContents = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
-    BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder()
-        .add(queryContents, BooleanClause.Occur.SHOULD);
-
+    BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
     for (Map.Entry<String, Float> entry : fields.entrySet()) {
       Query queryField = new BagOfWordsQueryGenerator().buildQuery(entry.getKey(), analyzer, q);
       queryBuilder.add(new BoostQuery(queryField, entry.getValue()), BooleanClause.Occur.SHOULD);
