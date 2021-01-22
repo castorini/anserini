@@ -70,7 +70,8 @@ public enum Topics {
   TREC2018_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking18.txt"),
   TREC2019_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking19.txt"),
   EPIDEMIC_QA_EXPERT_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.expert.prelim.json"),
-  EPIDEMIC_QA_CONSUMER_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.consumer.prelim.json");
+  EPIDEMIC_QA_CONSUMER_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"),
+  DPR_NQ_DEV(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.nq.dev.txt");
 
   public final String path;
   public final Class readerClass;

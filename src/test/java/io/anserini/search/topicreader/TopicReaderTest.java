@@ -490,6 +490,20 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testDprNq() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_NQ_DEV);
+    assertNotNull(topics);
+    assertEquals(8757, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("who sings does he love me with reba", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['Linda Davis']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(8756, (int) topics.lastKey());
+    assertEquals("['2010']", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
   public void testTREC19DL() {
     SortedMap<Integer, Map<String, String>> topics;
 
