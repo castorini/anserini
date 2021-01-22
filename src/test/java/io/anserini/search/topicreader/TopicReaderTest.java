@@ -500,7 +500,18 @@ public class TopicReaderTest {
     assertEquals("who sings does he love me with reba", topics.get(topics.firstKey()).get("title"));
     assertEquals("['Linda Davis']", topics.get(topics.firstKey()).get("answers"));
     assertEquals(8756, (int) topics.lastKey());
+    assertEquals("when did the gop take control of the house", topics.get(topics.lastKey()).get("title"));
     assertEquals("['2010']", topics.get(topics.lastKey()).get("answers"));
+
+    topics = TopicReader.getTopics(Topics.DPR_NQ_TEST);
+    assertNotNull(topics);
+    assertEquals(3610, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("who got the first nobel prize in physics", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['Wilhelm Conrad Röntgen']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(3609, (int) topics.lastKey());
+    assertEquals("when did computer become widespread in homes and schools", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['1980s']", topics.get(topics.lastKey()).get("answers"));
   }
 
   @Test
