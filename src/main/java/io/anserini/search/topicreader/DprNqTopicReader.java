@@ -49,4 +49,3 @@ public class DprNqTopicReader extends TopicReader<Integer> {
       return map;
     }
   }
-  
