@@ -118,8 +118,6 @@ public class IndexVectors {
     final long start = System.nanoTime();
     System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, List<float[]>> vectors = readGloVe(indexArgs.input);
-
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
       Files.createDirectories(indexDir);
@@ -136,10 +134,23 @@ public class IndexVectors {
     IndexWriter indexWriter = new IndexWriter(d, conf);
     final AtomicInteger cnt = new AtomicInteger();
 
-    for (Map.Entry<String, List<float[]>> entry : vectors.entrySet()) {
-      for (float[] vector: entry.getValue()) {
+    for (String line : IOUtils.readLines(new FileReader(indexArgs.input))) {
+      String[] s = line.split("\\s+");
+      if (s.length > 2) {
+        String key = s[0];
+        float[] vector = new float[s.length - 1];
+        float norm = 0f;
+        for (int i = 1; i < s.length; i++) {
+          float f = Float.parseFloat(s[i]);
+          vector[i - 1] = f;
+          norm += Math.pow(f, 2);
+        }
+        norm = (float) Math.sqrt(norm);
+        for (int i = 0; i < vector.length; i++) {
+          vector[i] = vector[i] / norm;
+        }
         Document doc = new Document();
-        doc.add(new StringField(FIELD_ID, entry.getKey(), Field.Store.YES));
+        doc.add(new StringField(FIELD_ID, key, Field.Store.YES));
         StringBuilder sb = new StringBuilder();
         for (double fv : vector) {
           if (sb.length() > 0) {
@@ -151,8 +162,9 @@ public class IndexVectors {
         try {
           indexWriter.addDocument(doc);
           int cur = cnt.incrementAndGet();
-          if (cur % 100000 == 0) {
+          if (cur % 50000 == 0) {
             System.out.println(String.format("%s docs added", cnt));
+            indexWriter.commit();
           }
         } catch (IOException e) {
           System.err.println("Error while indexing: " + e.getLocalizedMessage());
