@@ -490,6 +490,54 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testDprNq() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_NQ_DEV);
+    assertNotNull(topics);
+    assertEquals(8757, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("who sings does he love me with reba", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['Linda Davis']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(8756, (int) topics.lastKey());
+    assertEquals("when did the gop take control of the house", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['2010']", topics.get(topics.lastKey()).get("answers"));
+
+    topics = TopicReader.getTopics(Topics.DPR_NQ_TEST);
+    assertNotNull(topics);
+    assertEquals(3610, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("who got the first nobel prize in physics", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['Wilhelm Conrad Röntgen']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(3609, (int) topics.lastKey());
+    assertEquals("when did computer become widespread in homes and schools", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['1980s']", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testTREC19DL() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+    assertEquals("does legionella pneumophila cause pneumonia", topics.get(168216).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_DOC);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+    assertEquals("how long to hold bow in yoga", topics.get(1132213).get("title"));
+  }
+
+  @Test
   public void testMSMARO_TopicIdsAsStrings() {
     Map<String, Map<String, String>> topics;
 

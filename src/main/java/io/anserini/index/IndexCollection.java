@@ -53,6 +53,7 @@ import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
@@ -749,6 +750,7 @@ public final class IndexCollection {
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
+      final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
       final DefaultEnglishAnalyzer analyzer;
       if (args.keepStopwords) {
         analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET);
@@ -778,6 +780,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(germanAnalyzer);
       } else if (args.language.equals("es")) {
         config = new IndexWriterConfig(spanishAnalyzer);
+      } else if (args.language.equals("en_ws")) {
+        config = new IndexWriterConfig(whitespaceAnalyzer);
       } else {
         config = new IndexWriterConfig(analyzer);
       }
