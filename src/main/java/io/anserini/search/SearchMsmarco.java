@@ -16,6 +16,9 @@
 
 package io.anserini.search;
 
+import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.DisjunctionMaxQueryGenerator;
+import io.anserini.search.query.QueryGenerator;
 import org.apache.commons.io.FileUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -78,6 +81,12 @@ public class SearchMsmarco {
     @Option(name = "-fields", metaVar = "[key=value]", handler = MapOptionHandler.class,
             usage = "Fields to search with assigned float weights.")
     public Map<String, String> fields = new HashMap<>();
+
+    @Option(name = "-dismax", usage = "Use disjunction max queries when searching multiple fields.")
+    public boolean dismax = false;
+
+    @Option(name = "-dismax.tiebreaker", metaVar = "[value]", usage = "The tiebreaker weight to use in disjunction max queries.")
+    public float dismax_tiebreaker = 0.0f;
   }
 
   public static void main(String[] args) throws Exception {
@@ -93,9 +102,6 @@ public class SearchMsmarco {
       return;
     }
 
-    Map<String, Float> fields = new HashMap<>();
-    retrieveArgs.fields.forEach((key, value) -> fields.put(key, Float.valueOf(value)));
-
     long totalStartTime = System.nanoTime();
 
     SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index);
@@ -108,8 +114,19 @@ public class SearchMsmarco {
               + " and originalQueryWeight=" + retrieveArgs.originalQueryWeight);
     }
 
+    Map<String, Float> fields = new HashMap<>();
+    retrieveArgs.fields.forEach((key, value) -> fields.put(key, Float.valueOf(value)));
     if (retrieveArgs.fields.size() > 0) {
       System.out.println("Performing weighted field search with fields=" + retrieveArgs.fields);
+    }
+
+    QueryGenerator queryGenerator;
+    if (retrieveArgs.dismax) {
+      queryGenerator = new DisjunctionMaxQueryGenerator(retrieveArgs.dismax_tiebreaker);
+      System.out.println("Initializing dismax query generator, with tiebreaker=" + retrieveArgs.dismax_tiebreaker);
+    } else {
+      queryGenerator = new BagOfWordsQueryGenerator();
+      System.out.println("Initializing bag-of-words query generator.");
     }
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(retrieveArgs.output), StandardCharsets.US_ASCII));
@@ -127,9 +144,9 @@ public class SearchMsmarco {
 
         SimpleSearcher.Result[] hits;
         if (retrieveArgs.fields.size() > 0) {
-          hits = searcher.searchFields(query, fields, retrieveArgs.hits);
+          hits = searcher.searchFields(queryGenerator, query, fields, retrieveArgs.hits);
         } else {
-          hits = searcher.search(query, retrieveArgs.hits);
+          hits = searcher.search(queryGenerator, query, retrieveArgs.hits);
         }
 
         if (lineNumber % 100 == 0) {
@@ -150,9 +167,9 @@ public class SearchMsmarco {
 
       Map<String, SimpleSearcher.Result[]> results;
       if (retrieveArgs.fields.size() > 0) {
-        results = searcher.batchSearchFields(queries, qids, retrieveArgs.hits, retrieveArgs.threads, fields);
+        results = searcher.batchSearchFields(queryGenerator, queries, qids, retrieveArgs.hits, retrieveArgs.threads, fields);
       } else {
-        results = searcher.batchSearch(queries, qids, retrieveArgs.hits, retrieveArgs.threads);
+        results = searcher.batchSearch(queryGenerator, queries, qids, retrieveArgs.hits, retrieveArgs.threads);
       }
 
       for (String qid : qids) {
