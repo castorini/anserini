@@ -19,6 +19,12 @@ package io.anserini.search.query;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.Query;
 
+import java.util.Map;
+
 public abstract class QueryGenerator {
   public abstract Query buildQuery(String field, Analyzer analyzer, String queryText);
+
+  public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText) {
+    throw new UnsupportedOperationException("The query generator does not support multi-field searches.");
+  }
 }
