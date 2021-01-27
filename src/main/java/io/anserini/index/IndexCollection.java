@@ -751,16 +751,9 @@ public final class IndexCollection {
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
       final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
-      final DefaultEnglishAnalyzer analyzer;
-      if (args.keepStopwords) {
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET);
-      } else if (args.stopwords != null) {
-        final List<String> stopWords = FileUtils.readLines(new File(args.stopwords), "utf-8");
-        final CharArraySet stopWordsSet = new CharArraySet(stopWords, false);
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.unmodifiableSet(stopWordsSet));
-      } else {
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
-      }
+
+      final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
+              args.stemmer, args.keepStopwords, args.stopwords);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
 
       final IndexWriterConfig config;
