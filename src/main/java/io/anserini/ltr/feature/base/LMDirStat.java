@@ -77,7 +77,7 @@ public class LMDirStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_$s_LMD_mu_%.0f", field, qfield, collectFun.getName(), mu);
+    return String.format("%s_%s_%s_LMD_mu_%.0f", field, qfield, collectFun.getName(), mu);
   }
 
   @Override
