@@ -55,12 +55,16 @@ public class DFR_In_expB2Stat implements FeatureExtractor {
     List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
+      if (docSize==0) continue;
       double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
       if(tfn==0) continue;
       double cf = context.getCollectionFreq(queryToken);
       double ne = numDocs*(1-Math.pow((double)(numDocs-1)/numDocs, cf));
       double ine = log2(((double)numDocs+1)/(ne+0.5));
       score.add((float) (tfn*ine*((cf+1)/((double)context.getDocFreq(queryToken)*(tfn+1)))));
+    }
+    if(score.size() == 0){
+      return 0;
     }
     return collectFun.pool(score);
   }

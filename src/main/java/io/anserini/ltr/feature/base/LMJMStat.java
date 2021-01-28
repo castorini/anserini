@@ -58,14 +58,19 @@ public class LMJMStat implements FeatureExtractor {
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     List<Float> score = new ArrayList<>();
+    float ret = 0;
 
     for (String queryToken : queryFieldContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
+      if (docSize == 0) continue;
       double documentProb = (double)termFreq/docSize;
-      //todo need discuss this
       if(collectProb==0) continue;
       score.add((float) Math.log((1-lambda)*documentProb+lambda*collectProb));
+      ret += Math.log((1-lambda)*documentProb+lambda*collectProb);
+    }
+    if (score.size() == 0){
+      return 0;
     }
     return collectFun.pool(score);
   }

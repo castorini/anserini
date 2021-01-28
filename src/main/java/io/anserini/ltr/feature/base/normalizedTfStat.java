@@ -57,7 +57,11 @@ public class normalizedTfStat implements FeatureExtractor {
       } else {
         tfn = (double) docSize / termFreq;
       }
+      if (tfn == 0) continue;
       score.add((float)Math.log(tfn));
+    }
+    if (score.size() == 0) {
+      return 0;
     }
     return collectFun.pool(score);
   }
