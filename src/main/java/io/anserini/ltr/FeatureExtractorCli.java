@@ -45,24 +45,24 @@ public class FeatureExtractorCli {
 
   }
   public static void addFeature(FeatureExtractorUtils utils, String queryField, String docField) throws IOException {
-    utils.add(new BM25(0.9,0.4, docField, queryField));
-    utils.add(new BM25(1.2,0.75, docField, queryField));
-    utils.add(new BM25(2.0,0.75, docField, queryField));
+    utils.add(new BM25Stat(new SumPooler(), 0.9,0.4, docField, queryField));
+    utils.add(new BM25Stat(new SumPooler(), 1.2,0.75, docField, queryField));
+    utils.add(new BM25Stat(new SumPooler(), 2.0,0.75, docField, queryField));
 
-    utils.add(new LMDir(1000, docField, queryField));
-    utils.add(new LMDir(1500, docField, queryField));
-    utils.add(new LMDir(2500, docField, queryField));
+    utils.add(new LMDirStat( new SumPooler(), 1000, docField, queryField));
+    utils.add(new LMDirStat( new SumPooler(), 1500, docField, queryField));
+    utils.add(new LMDirStat( new SumPooler(), 2500, docField, queryField));
 
-    utils.add(new LMJM(0.1, docField, queryField));
-    utils.add(new LMJM(0.4, docField, queryField));
-    utils.add(new LMJM(0.7, docField, queryField));
+    utils.add(new LMJMStat( new SumPooler(), 0.1, docField, queryField));
+    utils.add(new LMJMStat( new SumPooler(), 0.4, docField, queryField));
+    utils.add(new LMJMStat( new SumPooler(), 0.7, docField, queryField));
 
     utils.add(new NTFIDF(docField, queryField));
     utils.add(new ProbalitySum(docField, queryField));
 
-    utils.add(new DFR_GL2(docField, queryField));
-    utils.add(new DFR_In_expB2(docField, queryField));
-    utils.add(new DPH(docField, queryField));
+    utils.add(new DFR_GL2Stat(new SumPooler(), docField, queryField));
+    utils.add(new DFR_In_expB2Stat(new SumPooler(), docField, queryField));
+    utils.add(new DPHStat(new SumPooler(), docField, queryField));
 
     utils.add(new Proximity(docField, queryField));
     utils.add(new TPscore(docField, queryField));

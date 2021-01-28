@@ -19,28 +19,36 @@ package io.anserini.ltr.feature.base;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
 
-public class LMDir implements FeatureExtractor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class LMDirStat implements FeatureExtractor {
   private String field;
   private String qfield;
   private double mu = 1000;
 
-  public LMDir() {
+  Pooler collectFun;
+
+  public LMDirStat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public LMDir(double mu) {
+  public LMDirStat(Pooler collectFun, double mu) {
     if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public LMDir(double mu, String field, String qfield) {
+  public LMDirStat(Pooler collectFun, double mu, String field, String qfield) {
     if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
     this.field = field;
     this.qfield = qfield;
+    this.collectFun = collectFun;
   }
 
   @Override
@@ -49,16 +57,16 @@ public class LMDir implements FeatureExtractor {
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
-    float score = 0;
+    List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
       //todo need discuss this
       if(collectProb==0) continue;
-      score += Math.log((termFreq+mu*collectProb)/(mu+docSize));
+      score.add((float) Math.log((termFreq+mu*collectProb)/(mu+docSize)));
     }
-    return score;
+    return collectFun.pool(score);
   }
 
   @Override
@@ -88,6 +96,7 @@ public class LMDir implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new LMDir(mu, field, qfield);
+    Pooler newFun = collectFun.clone();
+    return new LMDirStat(newFun, mu, field, qfield);
   }
 }

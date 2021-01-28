@@ -19,19 +19,25 @@ package io.anserini.ltr.feature.base;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
 
-public class DFR_GL2 implements FeatureExtractor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DFR_GL2Stat implements FeatureExtractor {
 
   private String field;
   private String qfield;
+  Pooler collectFun;
 
-  public DFR_GL2() {
+  public DFR_GL2Stat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public DFR_GL2(String field, String qfield) {
+  public DFR_GL2Stat(Pooler collectFun, String field, String qfield) {
     this.field = field;
     this.qfield = qfield;
+    this.collectFun = collectFun;
   }
 
   double log2(double x){
@@ -46,7 +52,7 @@ public class DFR_GL2 implements FeatureExtractor {
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     double avgFL = (double)totalTermFreq/numDocs;
-    float score = 0;
+    List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
       double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
@@ -54,9 +60,9 @@ public class DFR_GL2 implements FeatureExtractor {
       if(tfn==0) continue;
       double logSuccess = Math.log(1+(double)context.getCollectionFreq(queryToken)/numDocs);
       double logFail = Math.log(1+(double)numDocs/context.getCollectionFreq(queryToken));
-      score += (logSuccess+tfn*logFail)/(tfn+1.0);
+      score.add((float) ((logSuccess+tfn*logFail)/(tfn+1.0)));
     }
-    return score;
+    return collectFun.pool(score);
   }
 
   @Override
@@ -82,7 +88,8 @@ public class DFR_GL2 implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new DFR_GL2(field, qfield);
+    Pooler newFun = collectFun.clone();
+    return new DFR_GL2Stat(newFun, field, qfield);
   }
 
 }
