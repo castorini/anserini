@@ -83,7 +83,7 @@ public class LMJMStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_LMJM_lambda_%.2f", field, qfield, lambda);
+    return String.format("%s_%s_%s_LMJM_lambda_%.2f", field, qfield, collectFun.getName(),lambda);
   }
 
   @Override

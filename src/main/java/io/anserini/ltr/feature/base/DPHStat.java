@@ -81,7 +81,7 @@ public class DPHStat implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return String.format("%s_%s_DPH", field, qfield);
+        return String.format("%s_%s_%s_DPH", field, qfield, collectFun.getName());
     }
 
     @Override

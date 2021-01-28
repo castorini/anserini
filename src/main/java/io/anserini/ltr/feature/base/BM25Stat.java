@@ -99,7 +99,7 @@ public class BM25Stat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_BM25_k1_%.2f_b_%.2f",field, qfield, k1, b);
+    return String.format("%s_%s_%s_BM25_k1_%.2f_b_%.2f",field, qfield, collectFun.getName(), k1, b);
   }
 
   @Override

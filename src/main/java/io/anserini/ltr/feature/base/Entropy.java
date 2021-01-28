@@ -31,9 +31,7 @@ public class Entropy implements FeatureExtractor {
 
     public Entropy(String field) { this.field = field; }
 
-    public Entropy() {
-        this.field = IndexArgs.CONTENTS;
-    }
+    public Entropy() { this.field = IndexArgs.CONTENTS; }
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
@@ -76,6 +74,6 @@ public class Entropy implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new Entropy();
+        return new Entropy(field);
     }
 }
