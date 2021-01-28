@@ -16,10 +16,13 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.DisjunctionMaxQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
 import org.apache.commons.io.FileUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -87,6 +90,17 @@ public class SearchMsmarco {
 
     @Option(name = "-dismax.tiebreaker", metaVar = "[value]", usage = "The tiebreaker weight to use in disjunction max queries.")
     public float dismax_tiebreaker = 0.0f;
+
+    @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
+    public boolean keepstop = false;
+
+    @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
+    public String stemmer = "porter";
+
+    @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
+            usage = "Path to file with stopwords.")
+    public String stopwords = null;
+
   }
 
   public static void main(String[] args) throws Exception {
@@ -104,7 +118,12 @@ public class SearchMsmarco {
 
     long totalStartTime = System.nanoTime();
 
-    SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index);
+    Analyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
+            retrieveArgs.stemmer, retrieveArgs.keepstop, retrieveArgs.stopwords);
+    System.out.println("Initializing analyzer with stemmer=" + retrieveArgs.stemmer + ", keepstop=" +
+            retrieveArgs.keepstop + ", stopwords=" + retrieveArgs.stopwords);
+
+    SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index, analyzer);
     searcher.setBM25(retrieveArgs.k1, retrieveArgs.b);
     System.out.println("Initializing BM25, setting k1=" + retrieveArgs.k1 + " and b=" + retrieveArgs.b + "");
 
