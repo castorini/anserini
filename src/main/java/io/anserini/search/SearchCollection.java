@@ -31,6 +31,7 @@ import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -306,12 +307,11 @@ public final class SearchCollection implements Closeable {
       LOG.info("Language: en_ws");
     } else {
       // Default to English
-      analyzer = args.keepstop ?
-          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET) :
-          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
+      analyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
       LOG.info("Language: en");
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);
+      LOG.info("Stopwords file " + args.stopwords);
     }
 
     isRerank = args.rm3 || args.axiom || args.bm25prf;

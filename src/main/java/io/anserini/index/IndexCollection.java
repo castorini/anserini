@@ -49,7 +49,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
@@ -89,7 +88,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -751,16 +755,9 @@ public final class IndexCollection {
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
       final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
-      final DefaultEnglishAnalyzer analyzer;
-      if (args.keepStopwords) {
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET);
-      } else if (args.stopwords != null) {
-        final List<String> stopWords = FileUtils.readLines(new File(args.stopwords), "utf-8");
-        final CharArraySet stopWordsSet = new CharArraySet(stopWords, false);
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.unmodifiableSet(stopWordsSet));
-      } else {
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
-      }
+
+      final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
+              args.stemmer, args.keepStopwords, args.stopwords);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
 
       final IndexWriterConfig config;
