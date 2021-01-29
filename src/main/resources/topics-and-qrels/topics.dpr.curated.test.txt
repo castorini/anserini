@@ -1,0 +1,694 @@
+{"question": "How tall is Mount McKinley?", "answer": ["20\\s?,?\\s?(32|40)0\\s?-?\\s?f(ee|oo)t|6,194-meter|20,?237\\s*f(oo|ee)?t|20,?073\\s*f(oo|ee)?t|6,?168\\s*m|6,118\\s*m|6\\,194 m|20\\,322 feet"]}
+{"question": "what Arthur Miller play recounts his marriage to Marilyn Monroe?", "answer": ["After the Fall|Finishing the Play"]}
+{"question": "What is the most populated country in the world?", "answer": ["China"]}
+{"question": "What country are Volvo automobiles made in?", "answer": ["Sweden"]}
+{"question": "How many feet above sea level is Jerusalem?", "answer": ["\\b2,?[4567][0-9][0-9]\\b"]}
+{"question": "What is Britney Spears' middle name?", "answer": ["Jean"]}
+{"question": "What is David Lee Roth's birthday?", "answer": ["Oct(.|ober)?\\s* 10|1954"]}
+{"question": "How did Jerry Garcia Die?", "answer": ["drug abuse|heart attack"]}
+{"question": "How many republics made up the Soviet Union?", "answer": ["\\b15\\b|fifteen|Soviet"]}
+{"question": "What is the diameter of the moon?", "answer": ["2,159 miles|3,?474(.2[0-9]*)?\\s*m|3\\,474 km|2\\,159\\.2 miles"]}
+{"question": "What modern country is home to the ancient city of Babylon?", "answer": ["Iraq"]}
+{"question": "What country is Hyundai from?", "answer": ["Republic of Korea|South Korea"]}
+{"question": "How fast is an eye blink?", "answer": ["\\.(03|[1-4].*)\\s*s(econds)?|0.[1-4].*(ms|milliseconds)"]}
+{"question": "What is the scientific name for tobacco?", "answer": ["Nicotiana alata|Nicotiana tabacum|Nicotiana rustica"]}
+{"question": "What dissolves gold?", "answer": ["cyanide|aqua regia|hydrochloric.*nitrid|HCl.*HNO3"]}
+{"question": "When did Marian Anderson sing at the Lincoln Memorial?", "answer": ["1939"]}
+{"question": "When is christmas?", "answer": ["Dec.*\\b2[45]\\b"]}
+{"question": "Where is the Sea of Tranquility?", "answer": ["moon"]}
+{"question": "How did Dennis Brown die?", "answer": ["pneumo|lung"]}
+{"question": "How many justices does the United States Supreme Court have?", "answer": ["nine|\\b9\\b"]}
+{"question": "What country is know as the \"Land of the Rising Sun\"?", "answer": ["Japan"]}
+{"question": "Where did Golda Meir grow up?", "answer": ["Milwaukee|Ukraine|Kiev"]}
+{"question": "When was the first Star Wars movie made?", "answer": ["1977|May 25"]}
+{"question": "When did the Persian Gulf War occur?", "answer": ["1991"]}
+{"question": "How did Micky Mantle die?", "answer": ["cancer|Liver tumour"]}
+{"question": "What country did Marco Polo come from?", "answer": ["Ital(y|ian)"]}
+{"question": "How far is the Titanic under water?", "answer": ["12,?(000|500|460)\\s*f(ee|oo)?t|3,?800\\s*m"]}
+{"question": "What did George Washington call his house?", "answer": ["Mount Vernon"]}
+{"question": "Who is the author of Neuromancer?", "answer": ["Gibson"]}
+{"question": "How many colors do you need to color a planar graph?", "answer": ["four|\\b4\\b"]}
+{"question": "who is Barrack Obama?", "answer": ["president.*U.*S|U.*S.*president|President Barack Obama\\'s"]}
+{"question": "What are Brazil's national colors?", "answer": ["bright yellow and blue|green and yellow"]}
+{"question": "What is the oldest sports trophy?", "answer": ["America(\\s?')?s Cup"]}
+{"question": "How did Chicago get its name?", "answer": ["French.*(onion|garlic)|the wild leeks|the Miami and Illinois Tribes"]}
+{"question": "What day did Martin Luther King, Jr. get assassinated?", "answer": ["April 4, 1968|1968\\-04\\-04"]}
+{"question": "What Latin American country is the leading exporter of sugar cane?", "answer": ["Brazil"]}
+{"question": "What is the term for arable land left unseeded for one season?", "answer": ["fallow"]}
+{"question": "What date did the Lusitania sink?", "answer": ["1915|May"]}
+{"question": "What American commodore demanded that Japan trade with the United States?", "answer": ["Perry"]}
+{"question": "What is the most populous city in the United States?", "answer": ["New\\s?York"]}
+{"question": "Who was Woodrow Wilson's First Lady?", "answer": ["(Ellen|Edith)(_Axson_Wilson)?"]}
+{"question": "What country did Iraq invade in 1990?", "answer": ["Kuwait"]}
+{"question": "What instrument measures radioactivity?", "answer": ["Geiger|dosimeter|End\\-window G\\-M detectors"]}
+{"question": "How did John Dillinger die?", "answer": ["gunned down|shot"]}
+{"question": "What country other than Germany has German as its official language?", "answer": ["Austria|Switzerland|Belgium|Luxembourg|Lichtenstein"]}
+{"question": "Who did Scott Bakula play in \"American Beauty\"?", "answer": ["Jim"]}
+{"question": "where is L\u00f8n used?", "answer": ["Christiania"]}
+{"question": "What university did Thomas Jefferson found?", "answer": ["Virginia"]}
+{"question": "In what Canadian province are most people of French descent?", "answer": ["Qu[e\u00e9]bec"]}
+{"question": "What president served 2 nonconsecutive terms?", "answer": ["Grover Cleveland|two non\\-consecutive terms"]}
+{"question": "What sports stadium has been billed as \"the eighth wonder of the world\"?", "answer": ["Astrodome"]}
+{"question": "How many interceptions did Joe Montana throw in four Superbowls?", "answer": ["never|none|\\b0\\b|zero"]}
+{"question": "what is Speedy Claxton's real name?", "answer": ["Craig"]}
+{"question": "What is the world's largest coral reef?", "answer": ["Great Barrier Reef"]}
+{"question": "Where was Hans Christian Anderson born?", "answer": ["Denmark|Odense"]}
+{"question": "What American revolutionary general turned over West Point to the British?", "answer": ["Arnold"]}
+{"question": "Who started the Protestant reformation?", "answer": ["Luther"]}
+{"question": "What is the highest mountain in South America?", "answer": ["Aconcagua"]}
+{"question": "What confederate general was responsible for the defeat at Gettysburg?", "answer": ["Lee|Pickett"]}
+{"question": "how deep is marianas trench?", "answer": ["10[.,]?([89][0-9][0-9])\\s*(k|kilo)?m|6,?[89][0-9][0-9]\\s*mi|3[56],?[0-9]{3}\\s*(f(ee|oo)?t|')"]}
+{"question": "When is Mexico's Independence Day?", "answer": ["Sep.*16"]}
+{"question": "What is the scientific name for red imported fire ants?", "answer": ["Solenopsis invicta|The red imported fire ant \\("]}
+{"question": "What was the name of FDR's dog?", "answer": ["Fala"]}
+{"question": "How tall is Al Pacino?", "answer": ["5\\s*(f(oo|ee)?t|').*6\\s*(in(ch)?(es)?|\")|1.7.*cm|1\\.7"]}
+{"question": "What do grasshoppers eat?", "answer": ["grass\\b|plant|roses"]}
+{"question": "When was the U.S. invasion of Haiti?", "answer": ["1994|1915"]}
+{"question": "What American feminist appeared on a silver dollar?", "answer": ["Susan.*Anthony"]}
+{"question": "What is the richest country in the world?", "answer": ["Qatar"]}
+{"question": "What language do they officially speak in New Caledonia?", "answer": ["French"]}
+{"question": "Who said \"I have not begun to fight!\"?", "answer": ["John Paul Jones"]}
+{"question": "What ocean are the Gilbert Islands in?", "answer": ["Pacific"]}
+{"question": "What year did the shuttle Challenger explode?", "answer": ["1986"]}
+{"question": "How many chromosomes does a human zygote have?", "answer": ["23 pairs|46"]}
+{"question": "How do you say \"cat\" in the French language?", "answer": ["chat"]}
+{"question": "What continent is India on?", "answer": ["Asia"]}
+{"question": "What school did Emmitt Smith go to?", "answer": ["Escambia High School"]}
+{"question": "what number is considered unlucky in Japanese culture?", "answer": ["four|\\b4\\b|1"]}
+{"question": "What is the traditional dish served at Wimbledon?", "answer": ["strawberr.*cream"]}
+{"question": "How close is Mesa to Phoenix?", "answer": ["(1[789]|20) mile|3[0-4]\\s*(km|kilometers)|19\\.9miles|19\\.9 miles|26 min \\(19\\.9 mi\\) via US\\-60 W and I\\-10 W"]}
+{"question": "When did they put Mir down?", "answer": ["1999|2001"]}
+{"question": "What is egg white called?", "answer": ["glair|album[ei]n"]}
+{"question": "who portrays the twelfth doctor in BBC TV series Doctor Who?", "answer": ["Peter Capaldi|Capaldi"]}
+{"question": "Which African country's major export is coffee?", "answer": ["Ethiopia|Tanzania|Uganda"]}
+{"question": "What film did Liza Minnelli win a best actress Oscar for?", "answer": ["Cabaret"]}
+{"question": "how many months are in a year?", "answer": ["\\b12\\b|twelve"]}
+{"question": "What is Australia's national blossom?", "answer": ["wattle"]}
+{"question": "When was the Titanic built?", "answer": ["1909|1911"]}
+{"question": "Who is the governor of Tennessee in 2002?", "answer": ["Sundquist"]}
+{"question": "When was the first Superbowl?", "answer": ["1967"]}
+{"question": "What is the normal pulse rate?", "answer": ["70 beats per minute|60.*100\\s*(bpm|beats per minute)"]}
+{"question": "Where is Mae West buried?", "answer": ["Cypress Hills Abbey|New York"]}
+{"question": "What 20th century American president died at Warm Springs, Georgia?", "answer": ["Roosevelt|FDR"]}
+{"question": "What is the beginning date for the Hershey foods company?", "answer": ["1903|1894"]}
+{"question": "What are the opening words of the Declaration of Independence?", "answer": ["We hold these truths|When in the Course of human events"]}
+{"question": "Who starred in \"The Poseidon Adventure\"?", "answer": ["Gene Hackman|McDowall|Borgnine"]}
+{"question": "What is the active ingredient in Tylenol?", "answer": ["acetaminophen"]}
+{"question": "Who makes Magic Chef refrigerators?", "answer": ["Maytag|CNA|MC Appliance"]}
+{"question": "Where is Mesa Verde National park?", "answer": ["Colo(\\.?|rado)|Cortez"]}
+{"question": "What is the profession of John Cusack's character in the 1999 film \"Pushing Tin\"?", "answer": ["air(\\s|-)traffic(\\s|-)controller"]}
+{"question": "What city's biggest shopping district is called the Ginza District?", "answer": ["Tokyo('s)?"]}
+{"question": "What is Eminem's real name?", "answer": ["Marshall.*?Mathers"]}
+{"question": "What river is called \"China's Sorrow\"?", "answer": ["Yellow|Yangzi|Yangtze"]}
+{"question": "How long before bankruptcy is removed from a credit report?", "answer": ["(10|ten|\\b7|seven) years"]}
+{"question": "How many stories are in the Sears Tower?", "answer": ["(100|110|10[6-9])"]}
+{"question": "When was D-Day?", "answer": ["1944|June? 6"]}
+{"question": "What group sang the song \"Happy Together\"?", "answer": ["Turtles"]}
+{"question": "What Chinese Dynasty was during 1412-1431?", "answer": ["Ming"]}
+{"question": "What province is Calgary located in?", "answer": ["Alberta"]}
+{"question": "How much area does the Everglades cover?", "answer": ["2,000 square miles|734\\s*sq(uare)?\\s*m(iles)?|1,?900\\s*(square\\s*)?km"]}
+{"question": "What band was Jimmy Page in before Led Zeppelin?", "answer": ["Yardbirds"]}
+{"question": "What position did Satchel Paige play in professional baseball?", "answer": ["pitcher"]}
+{"question": "How many Platonic solids do we have?", "answer": ["\\b5\\b|five"]}
+{"question": "What country artist is nicknamed Tater?", "answer": ["Little Jimmy Dickens|Williams"]}
+{"question": "When was John Lennon born?", "answer": ["1940|October"]}
+{"question": "What capital city do you see from the top of Bunker Hill?", "answer": ["Boston"]}
+{"question": "How fast does Randy Johnson throw?", "answer": ["(95|98|100(.1)?).*?(mph|miles per hour)|160\\s*(km|kilometers).*h|102 MPH|randy Johnson|the fastest pitch|the theoretical maximum speed that a pitcher can throw"]}
+{"question": "What is capital of Maryland?", "answer": ["Annapolis|the State capital of Maryland"]}
+{"question": "When did Willis Haviland Carrier make the air conditioner?", "answer": ["1902"]}
+{"question": "How much does the capitol dome weigh?", "answer": ["14.1 million pounds"]}
+{"question": "When was the Buckingham Palace built in London, England?", "answer": ["1703"]}
+{"question": "What duo lost their Grammy for best new artist when it was discovered that they lip-synched their songs?", "answer": ["Milli Vanilli"]}
+{"question": "When was the first Ford Mustang made?", "answer": ["1964"]}
+{"question": "How big is the Great Pyramid?", "answer": ["146.5\\s*m|481\\s*f(oo|ee)?t|138.8\\s*m|455\\s*f(oo|ee)?t|230.4\\s*m|756\\s*f(oo|ee)?t"]}
+{"question": "What is the capital of Kentucky?", "answer": ["Frankfort"]}
+{"question": "What is the capital city of Ukraine?", "answer": ["Kiev"]}
+{"question": "How tall is Allen Iverson?", "answer": ["6\\s?-?\\s?f(ee|oo)?t|six\\s?-?feet|1.83\\s*m|183\\s*cm|5ft 11in"]}
+{"question": "What currency is used in Ukraine?", "answer": ["UAH|hryvnia"]}
+{"question": "How do you say \"pig\" in Spanish?", "answer": ["Cerdo"]}
+{"question": "What composer wrote \"Die Gotterdammerung\"?", "answer": ["Wagner"]}
+{"question": "How old was Nolan Ryan when he retired?", "answer": ["4(4|6)"]}
+{"question": "Who invented bitcoin?", "answer": ["Nakamoto"]}
+{"question": "How old did Jesus die?", "answer": ["\\b33\\b|thirty-three"]}
+{"question": "Where is the Salton Sea?", "answer": ["Calif(\\s?\\.|ornia)"]}
+{"question": "Which country colonized Hong Kong?", "answer": ["Britain"]}
+{"question": "When was the first atomic bomb dropped?", "answer": ["Aug.*1945|1945"]}
+{"question": "What player on a basketball team usually plays the post or pivot position?", "answer": ["center"]}
+{"question": "Where is the highest point on earth?", "answer": ["Everest"]}
+{"question": "What book did Rachel Carson write in 1962?", "answer": ["Silent Spring"]}
+{"question": "When was the first televised World Series?", "answer": ["1947"]}
+{"question": "How high is the pitcher's mound?", "answer": ["(ten|10)\\s*in(ch(es)?)?|25.4\\s*(cm|centimeters?)"]}
+{"question": "What are baby frogs called?", "answer": ["tadpole"]}
+{"question": "what can mandrills at the Colchester Zoo do?", "answer": ["cover.*eye"]}
+{"question": "What actress has received the most Oscar nominations?", "answer": ["Hepburn|Streep"]}
+{"question": "What was the name of Sherlock Holmes' brother?", "answer": ["Mycroft"]}
+{"question": "chemical symbol of ethylene ?", "answer": ["C.*2.*H.*4"]}
+{"question": "What year was Robert Frost born?", "answer": ["187(4|5)"]}
+{"question": "What was Dr. Seuss' real name?", "answer": ["Theodore? (Seuss )?Geisel|Geisel"]}
+{"question": "When did Led Zeppelin appear on BBC?", "answer": ["1969|1997"]}
+{"question": "What is the distance from Jupiter to the sun?", "answer": ["(777|800) million kilometers|778,?500,?000\\s*km|483,?800,?000\\s*miles|483\\.8 million miles"]}
+{"question": "what instrument does the concertmaster of an orchestra usually play?", "answer": ["violin"]}
+{"question": "What does the bugler play at the end of the day on a US military base?", "answer": ["Taps"]}
+{"question": "How did Harry Houdini die?", "answer": ["ruptured appendix|peritonitis|appendicitis"]}
+{"question": "What was the name of the stage play that A. Lincoln died at?", "answer": ["Our American Cousin"]}
+{"question": "What's the name of King Arthur's sword?", "answer": ["Excalibur"]}
+{"question": "What country's flag flies over the Canary Islands?", "answer": ["Spa(in|nish)"]}
+{"question": "When did president Herbert Hoover die?", "answer": ["1964"]}
+{"question": "When was Prince Charles born?", "answer": ["1948"]}
+{"question": "How many Mars days are there in a Martian year?", "answer": ["66[89]"]}
+{"question": "What is the highest mountain in the Czech Republic?", "answer": ["Sne[z\u017e]ka|Sn\\\u011b\\\u017eka"]}
+{"question": "How many years are there in a French president's term?", "answer": ["seven|\\b7\\b"]}
+{"question": "What is the name of the ballpark that the Milwaukee Brewers play at?", "answer": ["County Stadium|Miller Park"]}
+{"question": "Where was the first J.C. Penney store opened?", "answer": ["Kemmerer\\s?, Wyo\\.?"]}
+{"question": "What is the chief religion for Peru?", "answer": ["Catholic"]}
+{"question": "How tall is the Washington Monument?", "answer": ["555\\s*('|f(ee|oo)?t)|169\\s*m"]}
+{"question": "What is the city of brotherly love?", "answer": ["Philadelphia"]}
+{"question": "How long is a quarter in an NBA game?", "answer": ["12.m.*"]}
+{"question": "What is the deepest lake in the world?", "answer": ["Baikal"]}
+{"question": "What name is given to the science of map-making?", "answer": ["Cartography"]}
+{"question": "What is the color of blood?", "answer": ["red"]}
+{"question": "What is a peninsula in the Philippines?", "answer": ["Bataan|Bicol|Zamboanga"]}
+{"question": "Where does cinnamon come from?", "answer": ["Sri Lanka"]}
+{"question": "Who was the first person to run the mile in less than four minutes?", "answer": ["Roger Bannister"]}
+{"question": "what is the sixteenth episode of the sixth season of the science fiction television series The X-Files?", "answer": ["Alpha"]}
+{"question": "What animal has human-like fingerprints?", "answer": ["koala"]}
+{"question": "When was the Panama Canal returned to Panama?", "answer": ["1999|1904"]}
+{"question": "What business was the source of John D. Rockefeller's fortune?", "answer": ["oil"]}
+{"question": "What was the name of the high school in \"Grease\"?", "answer": ["Rydell"]}
+{"question": "who received the Nobel Prize for Physiology and Medicine in the year 2013?", "answer": ["((Rothman|Schekman|S[u\u00fc]dhof).*){3}"]}
+{"question": "who is the author of Sherlock Holmes?", "answer": ["Doyle"]}
+{"question": "How high is Mt. Everest?", "answer": ["29,?029\\s*('|f(ee|oo)?t)|8,?848\\s*m"]}
+{"question": "What city is Ole Mississippi University in?", "answer": ["Oxford"]}
+{"question": "When did Robert E. Lee surrender in the Civil War?", "answer": ["1865|April 9"]}
+{"question": "what is the most lethal poison?", "answer": ["botulin"]}
+{"question": "What TV series did Pierce Brosnan play in?", "answer": ["Remington Steele(.*)?|Running Wilde|Hammer House of Horror"]}
+{"question": "How many official languages does Switzerland have?", "answer": ["four|\\b4\\b"]}
+{"question": "What percentage of the population is left handed?", "answer": ["(ten|10)\\s*(percent|%)"]}
+{"question": "By what nickname was musician Ernesto Antonio Puente, Jr. best known?", "answer": ["El Rey|Tito"]}
+{"question": "How did Cleopatra die?", "answer": ["asp bite|suicide|a painful and unpleasant experience"]}
+{"question": "What year did General Montgomery lead the Allies to a victory over the Axis troops in North Africa?", "answer": ["1942"]}
+{"question": "What is Tina Turners real name?", "answer": ["Ann(a|ie) Mae Bullock"]}
+{"question": "How many times a day do observant Muslims pray?", "answer": ["\\b(five|5)\\b"]}
+{"question": "What year did Mussolini seize power in Italy?", "answer": ["1922"]}
+{"question": "What department is responsible for regulating casino gambling in Mississippi?", "answer": ["Mississippi Gaming Commission"]}
+{"question": "What is the national anthem in England?", "answer": ["God Save the Queen|Jerusalem|Land of Hope and Glory"]}
+{"question": "When did Walt Disney die?", "answer": ["1966"]}
+{"question": "How often does the United States government conduct an official population census?", "answer": ["(10|ten) years"]}
+{"question": "Who invented the fishing reel?", "answer": ["Chinese|R.\\s?D. Hull|Ustonson"]}
+{"question": "What year was President Kennedy killed?", "answer": ["1963"]}
+{"question": "Who was Tom Cruise married to last?", "answer": ["Katie Holmes"]}
+{"question": "Where is Big Ben?", "answer": ["London|Westminster"]}
+{"question": "What is the big prize called in Canadian football?", "answer": ["Grey Cup"]}
+{"question": "What was the first satellite in space?", "answer": ["Sputnik"]}
+{"question": "What is the first derivative of x^2?", "answer": ["2\\s*.?\\s*x"]}
+{"question": "What is the name of the official residence of the President of France?", "answer": ["[E\u00c9]lys[\u00e9e]e palace"]}
+{"question": "what language is used by nltk?", "answer": ["Python"]}
+{"question": "Where does the vice president live when in office?", "answer": ["U.S\\s?. Naval Observatory|United States"]}
+{"question": "What do the opposite sides of a die add up to?", "answer": ["seven|\\b7\\b"]}
+{"question": "What is the area of Venezuela?", "answer": ["340,569 square miles|353,?841\\s*sq(uare)?\\s*m(iles)?|916,?445\\s*(square\\s*)?km|916445\\.0|916\\,445 square kilometers and a land area of 882\\,050 square kilometers\\, \\.\\.\\. Fauna\\; Flora \\.\\.\\."]}
+{"question": "which number corresponds to * in ASCII?", "answer": ["\\b42\\b|0x2a"]}
+{"question": "What actor has a tattoo on his right wrist reading \"Scotland forever\"?", "answer": ["Connery"]}
+{"question": "Which city is home to Superman?", "answer": ["Metropolis"]}
+{"question": "Which political party is Lionel Jospin a member of?", "answer": ["Socialist"]}
+{"question": "Which president was sworn into office on an airplane?", "answer": ["Lyndon Johnson|Lyndon B\\. Johnson"]}
+{"question": "How did Jimi Hendrix die?", "answer": ["chok(e|ing)|Barbiturate overdose"]}
+{"question": "What membrane controls the amount of light entering the eye?", "answer": ["iris"]}
+{"question": "What is Corian made of?", "answer": ["acrylic.*alumina|alumina.*acrylic"]}
+{"question": "what is the moon of jupiter?", "answer": ["((Io|Europa|Ganymede|Callisto).*){4}|Io|Europe|Ganymede|Callisto|the four Galilean moons"]}
+{"question": "What company makes Bentley cars?", "answer": ["Rolls\\s?-?\\s?Royce|VW|Volkswagen|Bentley Motors"]}
+{"question": "which is the central region of the anterior part of the hand?", "answer": ["palm"]}
+{"question": "Who wrote \"East is east, west is west and never the twain shall meet\"?", "answer": ["Kipling"]}
+{"question": "What band did the music for the 1970's film \"Saturday Night Fever\"?", "answer": ["Bee Gees"]}
+{"question": "When was the U.N. created?", "answer": ["1945"]}
+{"question": "What country's soldiers hid in the Trojan horse?", "answer": ["Greek"]}
+{"question": "When did \"The Simpsons\" first appear on television?", "answer": ["198(7|9)"]}
+{"question": "What year was Alaska purchased?", "answer": ["1867"]}
+{"question": "When did Einstein die?", "answer": ["1955"]}
+{"question": "who is the author of the TV series BBC Sherlock?", "answer": ["((Gatiss|Moffat).*){2}| Thompson|Mark Gatiss|Steven Moffat| Moffat Stephen"]}
+{"question": "What band was Jerry Garcia with?", "answer": ["Grateful Dead|Jerry Garcia Acoustic Band|Wildwood Boys"]}
+{"question": "Who won the Nobel Peace Prize in 1992?", "answer": ["Mench[u\u00fa]|Mench"]}
+{"question": "What country is Aswan High Dam located in?", "answer": ["Egypt|the Sudan"]}
+{"question": "What was the original name before \"The Star Spangled Banner\"?", "answer": ["Defen[cs]e of Fort M'Henry"]}
+{"question": "Where was Declaration of Independence signed?", "answer": ["Philadelphia"]}
+{"question": "Where did the U.S. Civil War begin?", "answer": ["Fort Sumter"]}
+{"question": "What author wrote under the pen name \"Boz\"?", "answer": ["Dickens"]}
+{"question": "What country did Catherine the Great rule?", "answer": ["Russian?"]}
+{"question": "Who was the governor of Colorado in 2003?", "answer": ["Owens"]}
+{"question": "Where was the Andersonville Prison?", "answer": ["G(eorgi)?a\\.?"]}
+{"question": "how many generations are in Gospel of Matthew's version of the Genealogy of Jesus?", "answer": ["\\b4[01]\\b|4"]}
+{"question": "Which river runs through Dublin?", "answer": ["Liffey|Dodder|Tolka"]}
+{"question": "What is the motto of the \"New York Times\"?", "answer": ["all the news that's fit to print"]}
+{"question": "How old was Elvis when he died?", "answer": ["42"]}
+{"question": "Where was the battle of Alamo fought?", "answer": ["San Antonio|Texas"]}
+{"question": "how many countries are in european union?", "answer": ["\\b2[78]\\b"]}
+{"question": "Tell me where the DuPont company is located.", "answer": ["Wilmington|Delaware|United States"]}
+{"question": "What is Australia's oldest city?", "answer": ["Sydney"]}
+{"question": "How tall is the green monster at Fenway?", "answer": ["(37|thirty.seven)\\s*f(ee|oo)?t|11.*m|the 37\\-foot\\-tall"]}
+{"question": "Who was the first black heavyweight champion?", "answer": ["Jack Johnson|Johnson"]}
+{"question": "What is the name of the US military base in Cuba?", "answer": ["Guant[a\u00e1]namo"]}
+{"question": "what is the national anthem of usa?", "answer": ["The Star-Spangled Banner|the American national anthem\\,"]}
+{"question": "In which country is Timbuktu?", "answer": ["Mali"]}
+{"question": "Who was Sherlock Holmes' arch enemy?", "answer": ["Moriarty"]}
+{"question": "What does cc mean in letter writing?", "answer": ["carbon copy"]}
+{"question": "What is the name of the volcano that destroyed the ancient city of Pompeii?", "answer": ["Vesuvius"]}
+{"question": "What city was the first in the world to have a population over one million?", "answer": ["London|Xi'an"]}
+{"question": "What do the French call the English Channel?", "answer": ["La Manche"]}
+{"question": "What passage has the Ten Commandments?", "answer": ["Exodus|Deuteronomy"]}
+{"question": "What number did Michael Jordan wear?", "answer": ["(23|45)|Twenty-three"]}
+{"question": "What does CPR stand for?", "answer": ["Contraceptive Prevalence Rate|cardio\\s?-?\\s?pulm(o|i)nary resuscitation"]}
+{"question": "Where was Abraham Lincoln born?", "answer": ["Kentucky|Larue County|Hardin County|Hodgenville"]}
+{"question": "In which capital city is the River Seine?", "answer": ["Paris"]}
+{"question": "How did Virginia Woolf die?", "answer": ["river|drown|suicide"]}
+{"question": "What mythical Scottish town appears for one day every 100 years?", "answer": ["Brigadoon|only one day"]}
+{"question": "When was \"Cold Mountain\" written?", "answer": ["1997"]}
+{"question": "On what continent is Egypt located?", "answer": ["African?"]}
+{"question": "What gas is 78 percent of the earth's atmosphere?", "answer": ["nitrogen"]}
+{"question": "How did the Lindy Hop get its name?", "answer": ["Lindbergh|Snowden"]}
+{"question": "What common medicine discovered by native Americans is from the bark of a willow tree?", "answer": ["aspirin"]}
+{"question": "What is the longest river in the world?", "answer": ["Amazon|Nile"]}
+{"question": "What is the name of the computer which beat Kasparov at chess in 1997?", "answer": ["Deep Blue"]}
+{"question": "who discovered transposable elements - transposons?", "answer": ["McClintock"]}
+{"question": "What country was ruled by King Arthur?", "answer": ["Britain|Engl(and|ish)"]}
+{"question": "What is the democratic party symbol?", "answer": ["donkey"]}
+{"question": "What is the \"Sunflower State\"?", "answer": ["Kansas"]}
+{"question": "What is the name of Abbott and Costello's famous routine?", "answer": ["Who's on First"]}
+{"question": "what is the inode number of the root directory in the reiser4 file system?", "answer": ["-1\\b"]}
+{"question": "What nation is home to the Kaaba?", "answer": ["Saudi Arabia"]}
+{"question": "When was MTV started?", "answer": ["1981"]}
+{"question": "in which country was osama bin laden killed?", "answer": ["Pakistan"]}
+{"question": "What continent is the world's largest dessert on?", "answer": ["Africa"]}
+{"question": "Who has the most no hitters in major league baseball?", "answer": ["Ryan"]}
+{"question": "What year did \"New Coke\" come out?", "answer": ["1985"]}
+{"question": "What is the oldest national park in the U.S.?", "answer": ["Yellowstone"]}
+{"question": "When was the Tet offensive in Vietnam?", "answer": ["1968"]}
+{"question": "Where did Dr. King give his speech in Washington?", "answer": ["Lincoln Memorial"]}
+{"question": "Which vintage rock and roll singer was known as \"The Killer\"?", "answer": ["Jerry Lee Lewis"]}
+{"question": "When was Davy Crockett born?", "answer": ["1786|August 17"]}
+{"question": "What is the area of western Germany that is known for its rich coal deposits?", "answer": ["Ruhr"]}
+{"question": "When was OJ Simpson arrested for murder?", "answer": ["1994"]}
+{"question": "What is the state with the smallest population?", "answer": ["Wyoming|Pitcairn|Vatican"]}
+{"question": "Who was the first head of the FBI?", "answer": ["Hoover"]}
+{"question": "How many mph do you have to go to break the sound barrier?", "answer": ["763.035|about 750|761|770 mph|Mach\\ 1\\.012 or 1\\,240\\ km\\/h \\(776\\.2\\ mph\\) while in a controlled dive through 41\\,088\\ feet \\(12\\,510\\ m\\)"]}
+{"question": "When was King Louis XIV born?", "answer": ["1638"]}
+{"question": "What is the national airline of Spain?", "answer": ["Iberia"]}
+{"question": "How many American deaths were there in the Korean war?", "answer": ["\\b3[0-9],?[0-9]{3}\\b|The casualty toll had been reported as 54\\,246 until June 2000"]}
+{"question": "What major league baseball player has 511 pitching victories?", "answer": ["Cy Young"]}
+{"question": "where you can find pyramids?", "answer": ["Egypt"]}
+{"question": "How many NFL teams are there?", "answer": ["3[12]"]}
+{"question": "What is the lowest point on dry land?", "answer": ["Dead Sea"]}
+{"question": "What is Barbie's full name?", "answer": ["(Barbie|Barbara) Millicent Roberts"]}
+{"question": "When was Declaration of Independence signed?", "answer": ["1776|July 4"]}
+{"question": "How much sleep should a child get at night?", "answer": ["((9|1[0-5])\\s*(-|to)?\\s*)+h(our)?"]}
+{"question": "What country produces the most emeralds?", "answer": ["Colombia"]}
+{"question": "Which religion has the largest number of followers worldwide?", "answer": ["Christian|Roman Catholic"]}
+{"question": "what is the name of Kirk's starship?", "answer": ["Enterprise"]}
+{"question": "How did Cincinnati get its name?", "answer": ["Cincinnatus|Arthur St. Clair"]}
+{"question": "What year was the phonograph invented?", "answer": ["187(7|8)"]}
+{"question": "What does DNA stand for?", "answer": ["deoxyribonucleic acid"]}
+{"question": "How did Brandon Lee die?", "answer": ["shooting|gunshot|film|movie|Accident"]}
+{"question": "who invented dynamite ?", "answer": ["Alfred Nobel|Nobel"]}
+{"question": "When did Bob Marley die?", "answer": ["1981"]}
+{"question": "What famous verse did Sarah Hale write in 1830?", "answer": ["Mary Had a Little Lamb|Mary's Lamb"]}
+{"question": "What do you call a bone doctor?", "answer": ["Orthopedic|Orthopedist|Orthopaedic surgery or orthopaedics"]}
+{"question": "When did the Golden Gate Bridge get finished?", "answer": ["193(7|0s)"]}
+{"question": "How tall is Tom Cruise?", "answer": ["5\\s*(f(ee|oo)?t|')\\s*7\\s*(in(ch.*)?|\")"]}
+{"question": "When were the first postage stamps issued in the United States?", "answer": ["1847"]}
+{"question": "The Hindenburg disaster took place in 1937 in which New Jersey town?", "answer": ["Lakehurst"]}
+{"question": "When was Jackie Robinson born?", "answer": ["1919"]}
+{"question": "Who is the evil H.R. Director in \"Dilbert\"?", "answer": ["Catbert"]}
+{"question": "How large of a litter does a rat have at one time?", "answer": ["\\b(7|seven|14|11|10|12)\\b"]}
+{"question": "What is Horatio's relationship to Hamlet?", "answer": ["friend"]}
+{"question": "How deep is the Grand Canyon?", "answer": ["(1|a) mile|(6,?000|5,?700)\\s*f(ee|oo|')?t|1,?[68]00\\s*m|1.6\\s*km"]}
+{"question": "What is the degree of tilt of Earth?", "answer": ["23.4?5"]}
+{"question": "What was the name of the first child of English parents to be born in America?", "answer": ["Virginia Dare"]}
+{"question": "What college did Allen Iverson go to?", "answer": ["Georgetown"]}
+{"question": "How did Julius Irving's son die?", "answer": ["cocaine|drown"]}
+{"question": "Which baseball star stole 130 bases in 1982?", "answer": ["Henderson"]}
+{"question": "Which space shuttle exploded?", "answer": ["((Columbia|Challenger).*){2}|the Challenger Space Shuttle|The space shuttle Challenger"]}
+{"question": "what is the nearest planet to the sun?", "answer": ["Mercury"]}
+{"question": "What is the age of our solar system?", "answer": ["4.(5[0-9]*|6) billion years"]}
+{"question": "How high is Mt. Hood?", "answer": ["11,?24[0-9]\\s*f(oo|ee)?t|3,?429\\s*m|11\\,250 feet"]}
+{"question": "How many stripes are on the American flag?", "answer": ["13|thirteen"]}
+{"question": "What instrument did the jazz musician Art Tatum play?", "answer": ["pian(o|ist)"]}
+{"question": "How big is the killer whale?", "answer": ["\\b[68]\\s*m|2[0-6]\\s*f(ee|oo)?t|\\b[56]\\b(\\s*t|.*ton)"]}
+{"question": "What does \"E Pluribus Unum\" mean?", "answer": ["out of .*many\\s?, one"]}
+{"question": "Who was the lead singer for the Commodores?", "answer": ["Lionel Richie"]}
+{"question": "Who created the literary character Phineas Fogg?", "answer": ["Verne"]}
+{"question": "What city is Duke University in?", "answer": ["Durham"]}
+{"question": "How fast can a nuclear submarine travel?", "answer": ["(25|30|33)\\s*knots|29\\s*(mph|miles per hour)|46\\s*(kph|kilometers per hour)"]}
+{"question": "What gift is proper for a 1st anniversary?", "answer": ["paper|plastic|clock"]}
+{"question": "What is the Stanley Cup made of?", "answer": ["silver"]}
+{"question": "What is the state bird of Alaska?", "answer": ["willow ptarmigans?|\\(Lagopus lagopus\\)"]}
+{"question": "What language is spoken in Latin America?", "answer": ["((spanish|portuguese).*){2}|spanish|portuguese|Romance languages"]}
+{"question": "What is the height of the tallest redwood?", "answer": ["367 1/2|367.5|370\\s?-\\s?foot(-tall)?|379\\s*f(ee|oo)?t|115.5\\s*m|93\\.6 m|379\\.7 feet|115\\.7 meters"]}
+{"question": "Who wrote \"Strange Case of Dr Jekyll and Mr Hyde\" ?", "answer": ["Stevenson"]}
+{"question": "Where is the national hurricane center located?", "answer": ["Miami|Florida"]}
+{"question": "Where is Mount Olympus?", "answer": ["Greece|the Balkans"]}
+{"question": "Where are the British Crown jewels kept?", "answer": ["London Tower|Tower of London|London|the Tower"]}
+{"question": "What is the nickname for the national New Zealand basketball team?", "answer": ["Tall Blacks|Kiwis"]}
+{"question": "How tall is the Sphinx?", "answer": ["20 met(er|re)s?|20\\s*m|66\\s*f(ee|oo)?t"]}
+{"question": "what is the atomic number of Uranium?", "answer": ["\\b92\\b"]}
+{"question": "How did Malcolm X die?", "answer": ["assassin|murder|shot"]}
+{"question": "How did Einstein die?", "answer": ["abdominal.*aneurysm|Ulm\\, Wurttemberg\\, Germany Location of death"]}
+{"question": "What are people born 1965 through 1980 called?", "answer": ["Generation X|1963\\\u20131980"]}
+{"question": "What Canadian city has the largest population?", "answer": ["Toronto"]}
+{"question": "What did Ozzy Osbourne bite the head off of?", "answer": ["bat|\\\u2013 Ozzy Osbourne"]}
+{"question": "What instrument did Louis Armstrong play?", "answer": ["cornet|trumpet|August 4\\, 1901"]}
+{"question": "What fruit's stone does Laetrile come from?", "answer": ["apricot|the seeds of stone fruits of the Prunus genus"]}
+{"question": "What museum in Philadelphia was used in \"Rocky\"?", "answer": ["Art\\s+Museum|Museum of Art"]}
+{"question": "How many floors are in the Empire State Building?", "answer": ["102|104 floors|more than 100 floors"]}
+{"question": "What college did Magic Johnson attend?", "answer": ["Michigan State"]}
+{"question": "What city is Southwestern University in?", "answer": ["Georgetown,?"]}
+{"question": "What Liverpool club spawned the Beatles?", "answer": ["Cavern"]}
+{"question": "what is the moon of mars?", "answer": ["((Phobos|Deimos).*){2}"]}
+{"question": "What was the Hunchback of Notre Dame's real name?", "answer": ["Quasimodo"]}
+{"question": "Who stabbed Monica Seles?", "answer": ["Parche|Graf fan|fan of (Steffi )?Graf|Graf"]}
+{"question": "When did the battle of Iwo Jima take place?", "answer": ["1944|1945"]}
+{"question": "When was the hot air balloon invented?", "answer": ["1783"]}
+{"question": "How far would you run if you participate in a marathon?", "answer": ["26(.2)?\\s?-?\\s?miles?|42.195 kilometers"]}
+{"question": "What engineer designed the Erie Canal?", "answer": ["Benjamin Wright"]}
+{"question": "Who was elected President of South Africa in 1994?", "answer": ["Mandela"]}
+{"question": "Who was responsible for the killing of Duncan in \"Macbeth\"?", "answer": ["Macbeth"]}
+{"question": "How do you say \"house\" in Spanish?", "answer": ["casa"]}
+{"question": "When was the city of New Orleans founded?", "answer": ["1718"]}
+{"question": "When was the first potato chip made?", "answer": ["1853"]}
+{"question": "Who discovered polarography?", "answer": ["Heyrovsk[y\u00fd]"]}
+{"question": "What national monument was designated as the first national monument in 1906?", "answer": ["Devils Tower"]}
+{"question": "When was the Vietnam Veterans Memorial in Washington, D.C. built?", "answer": ["1982"]}
+{"question": "When was the first patent filed on the ice cream cone?", "answer": ["1903|1902|1904"]}
+{"question": "When is Gerald Ford's birthday?", "answer": ["July 14, 1913"]}
+{"question": "When was barbed wire invented?", "answer": ["1867"]}
+{"question": "When was abortion legalized in the U.S.?", "answer": ["1973"]}
+{"question": "What chemical is in chocolate that helps with depression?", "answer": ["phenylethylamine|dopamine|serotonin"]}
+{"question": "What continent is India on?", "answer": ["Asia"]}
+{"question": "What college did Allen Iverson attend?", "answer": ["Georgetown"]}
+{"question": "when did the biggest underground terror attack happen?", "answer": ["2005|2004"]}
+{"question": "When was the first TV invented?", "answer": ["192[567]"]}
+{"question": "Where was the first McDonalds built?", "answer": ["California|San Bernardino( , Calif.)?"]}
+{"question": "How far is the pitchers mound from home plate in softball?", "answer": ["46\\s*f(ee|oo)?t"]}
+{"question": "What was the profession of American patriot Paul Revere?", "answer": ["silversmith|engraver"]}
+{"question": "what is the national anthem of czech republic?", "answer": ["Kde domov m[u\u016f]j|Where is my home"]}
+{"question": "What is the name of the heroine in \"Gone with the Wind\"?", "answer": ["Scarlett"]}
+{"question": "What lays blue eggs?", "answer": ["Ameracuana|Aracuana|Starlings |The Ameraucana| bluebird eggs"]}
+{"question": "What day did Pearl Harbor occur?", "answer": ["Dec\\s?(ember|.) 7,?|Sunday|1941\\-12\\-07"]}
+{"question": "who invented the tesla coil?", "answer": ["Nikola Tesla"]}
+{"question": "What country made the Statue of Liberty?", "answer": ["France"]}
+{"question": "How tall is the tallest pyramid?", "answer": ["14[67].*\\bm|481\\s*f(ee|oo)?t|13[89].*\\bm|455\\s*f(ee|oo)?t"]}
+{"question": "How many counties are in California?", "answer": ["58"]}
+{"question": "When did Mike Tyson bite Holyfield's ear?", "answer": ["1997"]}
+{"question": "What color is the computer which beat Kasparov at chess in 1997?", "answer": ["blue"]}
+{"question": "When is Jennifer Lopez's birthday?", "answer": ["July 24,?|1969"]}
+{"question": "Where is Hill Air Force Base?", "answer": ["Ogden,?|Utah|about 120 kilometers west of Salt_Lake_City"]}
+{"question": "Where is the Statue of Liberty?", "answer": ["N(\\.|ew)\\s?Y(ork)?|Liberty Island|the United States"]}
+{"question": "What court case overturned Plessy v. Furgeson?", "answer": ["Brown vs?. Board of Education"]}
+{"question": "What is rum made out of?", "answer": ["molasses|sugar cane|sugarcane juice"]}
+{"question": "When was Google founded?", "answer": ["1998"]}
+{"question": "When was liquid water found on Mars?", "answer": ["June 2[12]\\s*,\\s* 2000|2012|1965|September 28 2015"]}
+{"question": "What is a group of antelope called?", "answer": ["herd"]}
+{"question": "Who succeeded Ferdinand Marcos?", "answer": ["Corazon Aquino"]}
+{"question": "How far is it from the pitcher's mound to home plate?", "answer": ["60\\s*('|f(ee|oo)?t).*6\\s*(in|\")|18.4\\s*m"]}
+{"question": "How many stomachs does a cow have?", "answer": ["four|\\b4\\b"]}
+{"question": "What dress size was Marilyn Monroe?", "answer": ["\\b(14|12|8|4)\\b"]}
+{"question": "What year did California become a territory?", "answer": ["1848"]}
+{"question": "What class of drug is Xanax?", "answer": [".*anxi.*|psychoactive|Benzodiazepine"]}
+{"question": "What year did Nintendo 64 come out?", "answer": ["1996"]}
+{"question": "What year did Marco Polo travel to Asia?", "answer": ["1271"]}
+{"question": "What is Canada's most populous city?", "answer": ["Toronto"]}
+{"question": "What country was the Battle of Verdun fought in?", "answer": ["France|The Battle of Verdun 1916\\."]}
+{"question": "What president declared Mothers' Day?", "answer": ["Wilson"]}
+{"question": "Who was the only golfer to win the U.S. and British Opens and amateurs in the same year?", "answer": ["Bobby Jones|Jones"]}
+{"question": "Where was President Lincoln buried?", "answer": ["Oak Ridge Cemetery|Illinois|Springfield"]}
+{"question": "Where was the movie \"Somewhere in Time\" filmed?", "answer": ["Grand Hotel|Mackinac Island"]}
+{"question": "What is the name of the longest running soap opera TV series?", "answer": ["Coronation Street"]}
+{"question": "What does an English stone equal?", "answer": ["14 pound|6.*(kg|kilogram)"]}
+{"question": "What is the currency of Denmark?", "answer": ["kroner?|DKK"]}
+{"question": "When was Sputnik launched?", "answer": ["1957"]}
+{"question": "What percent of the U.S. is African American?", "answer": ["12(\\.2)?\\s*(percent|%)|13\\.2\\%|between 12\\.3 and 13\\.2"]}
+{"question": "When was the Red Cross founded?", "answer": ["1859|186[234]|1919"]}
+{"question": "What country was Catherine the Great from?", "answer": ["Prussia|Russia"]}
+{"question": "What cathedral is in Claude Monet's paintings?", "answer": ["Rouen"]}
+{"question": "who received the Nobel Prize for Physiology and Medicine in the year 2012?", "answer": ["((Gurdon|Yamanaka).*){2}"]}
+{"question": "Where was Harry Truman born?", "answer": ["Lamar\\s*,?\\s*Mo|Missouri|Mo\\s*\\.|USA"]}
+{"question": "What state does Charles Robb represent?", "answer": ["VA|Virginia"]}
+{"question": "Where is Inoco based?", "answer": ["Norwich"]}
+{"question": "Who was chosen to be the first black chairman of the military Joint Chiefs of Staff?", "answer": ["Powell"]}
+{"question": "How many inhabitants live in the town of Ushuaia?", "answer": ["30\\s*,?\\s*000|17\\.7|56\\,956|4\\,29\\,000"]}
+{"question": "When did beethoven die?", "answer": ["1827"]}
+{"question": "Who is the President of Ghana?", "answer": ["Rawlings|John Dramani Mahama"]}
+{"question": "Who won the Nobel Peace Prize in 1991?", "answer": ["Kyi"]}
+{"question": "When did the Jurassic Period end?", "answer": ["130\\s+million\\s+years\\s+ago|8\\,000|190\\-183 million years ago"]}
+{"question": "What did Richard Feynman say upon hearing he would receive the Nobel Prize in Physics?", "answer": ["Yeah\\s*,?\\s*but\\s+I\\s*'?\\s*m\\s+sleeping|Richard Feynman|February 15\\, 1988|Feynman \\- Nobel Lecture\\:"]}
+{"question": "How many soldiers were involved in the last Panama invasion by the United States of America?", "answer": ["14\\s*,?\\s*000|20\\s*,?\\s*000|1\\,000|Background Information on the Use of United States Armed"]}
+{"question": "How much did Manchester United spend on players in 1993?", "answer": ["Pounds\\s*4\\s*(?:m|(?:million))"]}
+{"question": "Who won two gold medals in skiing in the Olympic Games in Calgary?", "answer": ["Tomba|Slalom|White Star"]}
+{"question": "What is the capital of Congo?", "answer": ["Brazzaville|Kinshasa"]}
+{"question": "What is Grenada's main commodity export?", "answer": ["nutmeg"]}
+{"question": "Whom did the Chicago Bulls beat in the 1993 championship?", "answer": ["Phoenix Suns"]}
+{"question": "Where is the highest point in Japan?", "answer": ["12\\s*,?\\s*388\\s*ft\\.?|Mt\\.?\\s+Fuji|Mount Fuji"]}
+{"question": "Where did Dylan Thomas die?", "answer": ["New\\s+York"]}
+{"question": "What percentage of the world's plant and animal species can be found in the Amazon forests?", "answer": ["20\\s+per\\s+cent\\s+of\\s+all\\s+higher\\s+plant\\s+species|30\\s*(?:%|(?:per)|(?:pct))"]}
+{"question": "What two researchers discovered the double-helix structure of DNA in 1953?", "answer": ["(?:Watson.*?Crick)|(?:Crick.*?Watson)|James|Francis Crick"]}
+{"question": "When was London's Docklands Light Railway constructed?", "answer": ["1980s|1987"]}
+{"question": "What is the name of the medical condition in which a baby is born without a brain?", "answer": ["anencephal(?:y|(?:ics?))"]}
+{"question": "Name the designer of the shoe that spawned millions of plastic imitations, known as \"jellies\".", "answer": ["Pfister"]}
+{"question": "Who is the director of intergovernmental affairs for the San Diego county?", "answer": ["Sweeten|Geoff Patnoe|24 agencies in San Diego County\\, California"]}
+{"question": "In what year did Joe DiMaggio compile his 56-game hitting streak?", "answer": ["1941"]}
+{"question": "Which type of submarine was bought recently by South Korea?", "answer": ["209|Studio album|Frances Folsom Cleveland Preston"]}
+{"question": "Who was President Cleveland's wife?", "answer": ["Folsom"]}
+{"question": "What does El Nino mean in spanish?", "answer": ["Christ\\s+child|boy\\s+child|The child|El Salvador"]}
+{"question": "What is the term for the sum of all genetic material in a given organism?", "answer": ["genome|article|glossary"]}
+{"question": "What costume designer decided that Michael Jackson should only wear one glove?", "answer": ["Whitten|Madonna|Michael Jackson"]}
+{"question": "What is the brightest star visible from Earth?", "answer": ["Sirius"]}
+{"question": "How long did the Charles Manson murder trial last?", "answer": ["(?:(?:nine)|9).*?months?|9|Music\\, Mayhem\\, Murder"]}
+{"question": "Who is the voice of Miss Piggy?", "answer": ["Frank\\s+Oz"]}
+{"question": "What is the name of the rare neurological disease with symptoms such as: involuntary movements (tics), swearing, and incoherent vocalizations (grunts, shouts, etc.)?", "answer": ["Tourette\\s*'\\s*s|Tourette syndrome|other involuntary movements"]}
+{"question": "Where does most of the marijuana entering the United States come from?", "answer": ["Mexico|the United States"]}
+{"question": "Which company created the Internet browser Mosaic?", "answer": ["NCSA|National\\s+Cent(?:(?:er)|(?:re))\\s+for\\s+Supercomputing|Netscape|University\\s+of\\s+Illinois"]}
+{"question": "What was the monetary value of the Nobel Peace Prize in 1989?", "answer": ["\\$469,000|the five Nobel Prizes|SEK8 million or about US\\$1\\.2 million"]}
+{"question": "Who is the president of the Spanish government?", "answer": ["Gonzalez|Mariano Rajoy Brey|President of the Government of Spain"]}
+{"question": "When did Jaco Pastorius die?", "answer": ["1987|two\\s+years\\s+ago"]}
+{"question": "What was the name of the computer in \"2001: A Space Odyssey\"?", "answer": ["HAL"]}
+{"question": "Who is Henry Butler?", "answer": ["music\\s+by|pianists?|professor"]}
+{"question": "When was CNN's first broadcast?", "answer": ["June\\s+,?\\s*1980|1980"]}
+{"question": "What is the name of the vaccine for chicken pox?", "answer": ["Varivax"]}
+{"question": "What are the Poconos?", "answer": ["mountains?|Pennsylvania"]}
+{"question": "What is the date of Bastille Day?", "answer": ["07\\s*-\\s*14|14\\s+July|14th\\s+of\\s+July|900714|July\\)?\\s+14"]}
+{"question": "What is sake?", "answer": ["beverage|brewed.+rice|distill.+rice|made\\s+from\\s+rice|processed\\s+rice|rice.+brewed|rice\\s+wine"]}
+{"question": "What time of year do most people fly?", "answer": ["Christmas|December\\s+holiday|May\\s*-?\\s*August|Thanksgiving|begins.*Memorial\\s+Day|summer"]}
+{"question": "Name an art gallery in New York.", "answer": ["Bess\\s+Cutler|Colnaghi|Daedalus\\s+Gallery|Gagosian|Grey\\s+Art\\s+Gallery|Guggenheim\\s+Museum|Hammer\\s+Galleries|Henoch|Knoedler|Lieberman\\s+\\&amp;\\s+Saul|Louver\\s+Gallery\\s+New\\s+York|Max\\s+Protetch|Metropolitan\\s+Museum|Museum\\s+of\\s+Modern\\s+Art|Nerlino|New\\s+York\\s+Academy\\s+of\\s+Art|Pierre Matisse|Riverrun|Salander\\s*-\\s*O\\s*'?\\s*Reilly|Serpentine|Vorpal|Wildenstein Co|Ann craven|Guildhall Art Gallery|Home Sheldon Museum of Art Images The Guildhall \\.\\.\\. Your Name"]}
+{"question": "What's the name of the tiger that advertises for Frosted Flakes cereal?", "answer": ["Tony|Kellogg\\'s Frosted Flakes"]}
+{"question": "Woodrow Wilson was president of which university?", "answer": ["Princeton"]}
+{"question": "Who is Colin Powell?", "answer": ["JCS\\s+Chairmanship|Lt\\.\\s+Gen\\.\\s+(Colin\\s+)?Powell|chair.+joint\\s+chiefs|chair.+joint\\s+of\\s+staff|chairman|chief\\s+adviser\\s+to\\s+the\\s+States|chiefs?\\s+of\\s+staff|economic\\s+adviser|first\\s+black\\s+chair(man)?|four\\s*-?\\s*star\\s+(Army\\s+)?general|head.+joint\\s+chiefs|joint\\s+chiefs\\s+of\\s+staff|military\\s+aide.+during.+1983|national\\s+security\\s+advisers?|principal\\s+adviser\\s+to\\s+the\\s+defense\\s+secretary|ranking\\s+black\\s+military\\s+officer|senior\\s+military\\s+officer|America Colin Powell Date"]}
+{"question": "What is the English meaning of caliente?", "answer": ["hot|warm"]}
+{"question": "Who wrote the book, \"Huckleberry Finn\"?", "answer": ["Clemens|Twain"]}
+{"question": "What is the name of the Jewish alphabet?", "answer": ["Alef\\s*-?\\s*Beyz|Aleph\\-Bet|the Hebrew alphabet"]}
+{"question": "The Jewish alphabet is called what?", "answer": ["Alef\\s*-?\\s*Beyz|Aleph\\-Bet|Hebrew alphabet|The Hewbrew aplhabet"]}
+{"question": "Who thought of teaching people to tie their shoe laces?", "answer": ["Diamond\\s+Bar\\s+consultant| Parents|Teachers"]}
+{"question": "Where is McCarren Airport?", "answer": ["Las\\s+Vegas|United States"]}
+{"question": "When did Aldous Huxley write, \"Brave New World\"?", "answer": ["1930\\s*'?\\s*s|1931|1932"]}
+{"question": "Who's the lead singer of the Led Zeppelin band?", "answer": ["Plant|Wolf"]}
+{"question": "Who was Quetzalcoatl?", "answer": ["Aztec.*god|South\\s+American\\s+Indian.*god|Toltec\\s+god|brother.*Tezcatlipoca|god.*ancient\\s+Aztecs|god.*hurricane|god\\s+of\\s+learning|priest\\s*-?\\s*leader\\s+of\\s+Tula|the\\s+god\\s+Quetzalcoatl|a primordial god|the Feathered Serpent or Precious Twin"]}
+{"question": "What film or films has Jude Law appeared in?", "answer": ["Shopping|Alfie|Gattaca|Enemy at the Gates|Love\\, Honour and Obey|The Talented Mr\\. Ripley|Sky Captain and the World of Tomorrow"]}
+{"question": "What makes Black Hills, South Dakota a tourist attraction?", "answer": ["Custer|Jefferson|Roosevelt|Rushmore|Sioux.+traditional\\s+stories|carve.*granite\\s+peak|carve.*mountain|gambling|granite\\s+carvings?|horses|motorcycle\\s+mecca|project\\s+of\\s+carving|triceratops?|visages?|the unearthing of prehistoric mammoths|Peru travel traveling vacation visiting trip holiday fun travelling tourism"]}
+{"question": "What city is Logan Airport in?", "answer": ["Boston"]}
+{"question": "How large is Missouri's population?", "answer": ["5,079,385|5.1m|6\\.064 million \\(2014\\)|6\\,063\\,589 2014 population \\+468\\,378 Change"]}
+{"question": "Where is Windsor Castle?", "answer": ["near\\s+London|overlooking\\s+the\\s+River\\s+Thames|west\\s+of\\s+London|Windsor"]}
+{"question": "What is the population of the Bahamas?", "answer": ["245,?000|377\\,374 \\(2013\\)|the entire population of the Bahamas"]}
+{"question": "What did Vasco da Gama discover?", "answer": ["sail.*India|sea\\s*route\\s*around\\s*Africa|sea\\s+route.*India|discovered an ocean route from Portugal to the East|Dom Vasco da Gama\\, who discovered the maritime route from Europe to India"]}
+{"question": "How many copies of an album must be sold for it to be a gold album?", "answer": ["500\\s*,?\\s*000"]}
+{"question": "What is D.B. Cooper known for?", "answer": ["commandeered.+flight|hijacker|hijacking|skyjacker|skyjacking"]}
+{"question": "What are the names of the tourist attractions in Reims?", "answer": ["Champagne\\s+country|Hotel\\s+Les\\s+Consuls|Le\\s+Vigneron|cathedrals?|champagne.*museum|champagne\\s+cellars?|champagne\\s+houses?"]}
+{"question": "Who manufactures the software, \"PhotoShop\"?", "answer": ["Adobe"]}
+{"question": "What language is mostly spoken in Brazil?", "answer": ["Portuguese"]}
+{"question": "How many states have a \"lemon law\" for new automobiles?", "answer": ["about\\s+45|forty\\s*-?\\s*four|4|all the 50 States|its new vehicle warranty"]}
+{"question": "What is the zip code for Parsippany, NJ?", "answer": ["07054"]}
+{"question": "A corgi is a kind of what?", "answer": ["dogs?|pooches"]}
+{"question": "Name a novel written by John Steinbeck.", "answer": ["Cannery\\s+Row|East\\s+of\\s+Eden|Grapes\\s+of\\s+Wrath|In\\s+Dubious\\s+Battle|Of\\s+Mice\\s+and\\s+Men|Red\\s+Pony|The\\s+Pearl"]}
+{"question": "Who killed Caesar?", "answer": ["Brutus"]}
+{"question": "Who won the nobel prize in literature in 1988?", "answer": ["Mahfouz"]}
+{"question": "How much folic acid should an expectant mother get daily?", "answer": ["400\\s+micrograms|400mg|the health of the mother or baby"]}
+{"question": "What's the longest river in the world?", "answer": ["Amazon.*longest|Nile.*longest|longest.*Amazon|The Nile|Amazon River"]}
+{"question": "Winnie the Pooh is what kind of animal?", "answer": ["Pooh.+bears?|^\\s*bears?\\s*$|bear.+Milne|bear\\s+of\\s+little\\s+brain|bears.+intelligent|bears\\s+kind\\s+of\\s+talk|black\\s+bear.+connection|famous\\s+(little\\s+)?bear|real\\s+bear|sun\\s+bears?|the\\s+wall\\s*,?\\s+bear|Disney Movies|House at Pooh Corner"]}
+{"question": "Who made the rotary engine automobile?", "answer": ["Mazda|NSU|Wankel"]}
+{"question": "What is molybdenum?", "answer": ["alloy\\s+in\\s+steelmaking|alloying\\s+agent|metallic\\s+(substance)|(element)|metals?|strengthening\\s+agent|atomic number 42"]}
+{"question": "When is Dick Clark's birthday?", "answer": ["30\\s+November|November\\s+30|1929"]}
+{"question": "What nationality was Jackson Pollock?", "answer": ["American.*art.*Pollock|American\\s+artists?|An\\s+American\\s+Saga|Milledgeville\\s*,?\\s*Ga|Pollock\\s*:?\\s+An\\s+American|^\\s*American\\s*$|an\\s+American\\s+art\\s+scene|born\\s+in\\s+rural\\s+Georgia|character\\s+of\\s+American\\s+art|contemporary\\s+painter\\s+in\\s+America|greatest\\s+painter\\s+in\\s+America"]}
+{"question": "What is the name of the Islamic counterpart to the Red Cross?", "answer": ["Red\\s+Crescent"]}
+{"question": "Who is the prophet of the religion of Islam?", "answer": ["M[ou]hamm[ae]d"]}
+{"question": "What was the name of the famous battle in 1836 between Texas and Mexico?", "answer": ["Alamo|San Jacinto"]}
+{"question": "Rider College is located in what city?", "answer": ["Lawrenceville|New Jersey|New York City|Lawrence Township"]}
+{"question": "Who was the president of Vichy France?", "answer": ["Laval|Petain|Marshal Philippe P\\\u00e9tain"]}
+{"question": "How many people die from snakebite poisoning in the U.S. per year?", "answer": ["10\\s+people|13\\s+Americans|39|37\\,500 peopl"]}
+{"question": "What part of your body contains the corpus callosum?", "answer": ["brain"]}
+{"question": "What is the meaning of caliente (in English)?", "answer": ["hot|thermal\\s+springs|warm"]}
+{"question": "Rotary engines were manufactured by which company?", "answer": ["Deere|Matsuda|Mazda|Moll[ae]r|NSU|Norton|Tahoe"]}
+{"question": "Name Pittsburgh's baseball team.", "answer": ["Pirates?"]}
+{"question": "What does Final Four refer to in the sports world?", "answer": ["NCAA.+basketball|NCAA.+final\\s+four|NCAA.+tournament|World\\s+Cup\\s*'?\\s*s\\s+final\\s+four|World\\s+Cup\\s+champion|basketball.+college\\s+championships?|basketball.+final\\s+four|college\\s+basketball|final\\s+four.+basketball"]}
+{"question": "What do you call a group of geese?", "answer": ["flocks?|gaggles?"]}
+{"question": "What continent is Bolivia on?", "answer": ["South\\s+American?"]}
+{"question": "Where is Los Vegas?", "answer": ["Nev\\.|Nevada|Las Vegas"]}
+{"question": "How many dogs pull a sled in the Iditarod?", "answer": ["((11)|(12)|(13)|(14)|(15)|(16)|(17)|(18))((\\s*to\\s+20)|(\\s+dogs?))|least\\s+five|nine\\s+dogs?"]}
+{"question": "What is another name for nearsightedness?", "answer": ["myopia"]}
+{"question": "What is the telephone number for the University of Kentucky?", "answer": ["900\\s*-?\\s*903\\s*-?\\s*3700|\\(\\s*606\\s*\\)\\s*233\\s*-?\\s*6040|\\(859\\) 257\\-9000|\\+1 859\\-257\\-9000"]}
+{"question": "Who is Anubis?", "answer": ["Egyptian\\s*god|row.*underworld|a god|The gods Osiris|the Guardian of the gates|Anubis was the god of embalming and the dead"]}
+{"question": "Who was Charles Lindbergh's wife?", "answer": ["Anne.+Morrow|Anne\\s+Lindbergh"]}
+{"question": "What is the Islamic counterpart to the Red Cross?", "answer": ["Red\\s+Crescent"]}
+{"question": "What is the English translation for the word \"caliente\"?", "answer": ["hot|thermal\\s+springs|warm"]}
+{"question": "Colin Powell is best known for what achievement?", "answer": ["JCS\\s+Chairmanship|chair.+joint\\s+chiefs|chair.+joint\\s+of\\s+staff|chiefs?\\s+of\\s+staff|first\\s+black\\s+chair(man)?|head.+joint\\s+chiefs|joint\\s+chiefs\\s+of\\s+staff"]}
+{"question": "What do river otters eat?", "answer": ["^\\s*(a\\s+)?ducks?\\s*$|could\\s+go\\s+out\\s+and\\s+eat\\s+a\\s+bird|eat\\s+ducks\\s*\\?|fish|o?il\\s*-?\\s*contaminated\\s+birds"]}
+{"question": "What was the death toll at the eruption of Mount Pinatubo?", "answer": ["(200)|(169)|(227)|(268)|(338)|(341)|847|722"]}
+{"question": "About how many soldiers died in World War II?", "answer": ["16\\s+million|nine\\s+million"]}
+{"question": "Name a tiger that is extinct?", "answer": ["Bali|Caspian|Javan|Tasmanian"]}
+{"question": "Where is Trinidad?", "answer": ["Caribbean|off.*coast.*Venezuela"]}
+{"question": "Where are the headquarters of Eli Lilly?", "answer": ["Indianapolis|London|the United States"]}
+{"question": "Where is Procter & Gamble based in the U.S.?", "answer": ["Cincinn?att?i|Ohio\\s*-?\\s*based"]}
+{"question": "What is the purpose of a car bra?", "answer": ["^\\s*stealth\\s*$|fool\\s+police\\s+radar|Front\\-end bra|vehicles as their utility is debated|another part that covers the whole front of the car"]}
+{"question": "What does Knight Ridder publish?", "answer": ["(San\\s+Jose\\s+)?Mercury\\s+News|19\\s+newspapers|2[89]\\s+newspapers|Free\\s+Press|Knight\\s+newspapers?|Miami\\s+Herald|Philadelphia\\s+Inquirer|Ridder.+newspapers|Ridder\\s+paper|^\\s*newspapers?\\s*$|at\\s+the\\s+News|daily\\s+newspapers|excellent\\s+and\\s+competitive\\s+newspaper\\s+in\\s+Detroit|newspaper\\s+chains?|newspaper\\s+division|newspaper\\s+publishing|the\\s+Inquirer|an American media company|newspaper and Internet publishing"]}
+{"question": "Where is Romania located?", "answer": ["Eastern\\s+Europe|Rhine\\s*-?\\s*Main\\s*-?\\s*Danube\\s+trans\\s*-?\\s*European\\s+axis|Rhine\\s*-?\\s*Main\\s*-?\\s*Danube\\s+watercourse|border.*Hungary|border.*Yugoslavia|central\\s+Europe|southeast\\s+Europe|Europe|Southeastern"]}
+{"question": "How many months does a normal human pregnancy last?", "answer": ["^\\s*9\\s*$|^\\s*nine\\s*$|nine\\s+months"]}
+{"question": "What is thalassemia?", "answer": ["blood\\s+disorders?|disorder.*genetic\\s+defect|genetic\\s+defect.*blood|genetic\\s+defects?|genetic\\s+disorders?|inherited\\s+disorders?|lack.*gene.*hemoglobin|severe\\s+blood\\s+anemia"]}
+{"question": "What's the name of the actress who starred in the movie, \"Silence of the Lambs\"?", "answer": ["Foster"]}
+{"question": "How much in miles is a ten K run?", "answer": ["6.2\\s*-?\\s*miles?"]}
+{"question": "What was the name of the Titanic's captain?", "answer": ["Capt\\.\\s+Edward\\s+Smith|Captain\\s+Smith|Edward Smith|Edward John Smith|Captain Edward J\\. Smit"]}
+{"question": "What is the name of the Michelangelo painting that shows two hands with fingers touching?", "answer": ["Creation\\s+of\\s+Adam"]}
+{"question": "What time of year is air travel the heaviest?", "answer": ["Christmas\\s+holiday|December\\s+holiday|July|May\\s*-?\\s*August|Thanksgiving|begins.*Memorial\\s+Day|day\\s+after\\s+Christmas|heavy\\s+holiday\\s+demand|peak\\s+Easter\\s+travel|starts\\s+in\\s+April|summer|2\\.54 million air"]}
+{"question": "What was the name of the television show, staring Karl Malden, that had San Francisco in the title?", "answer": ["Streets\\s+of\\s+San\\s+Francisco|Biographies Matching"]}
+{"question": "McCarren Airport is located in what city?", "answer": ["Las\\s+Vegas"]}
+{"question": "What does NAFTA stand for?", "answer": ["North\\s+American?\\s+Free\\s+Trade\\s+Agreement|North\\s+American?\\s+Free\\s+Trade\\s+Association"]}
+{"question": "Who is Coronado?", "answer": ["Celestino\\s+Coronado|Coronado\\s+Trail\\s+Association|Elaine\\s+Coronado|Francisco\\s+Vasquez\\s+de\\s+Coronado|Gabriel\\s+Coronado|bantamweight|exploration|leader.*gang|Baja California|Francisco V\\\u00e1zquez de Coronado y Luj\\\u00e1n was a Spanish conquistador and explorer"]}
+{"question": "What is the life expectancy of an elephant?", "answer": ["age\\s*70|17 years|the average life expectancy of an elephant seal"]}
+{"question": "Who painted Olympia?", "answer": ["Manet"]}
+{"question": "Where is Rider College located?", "answer": ["Lawrence\\s+Township|Lawrenceville|New\\s+Jersey"]}
+{"question": "What do penguins eat?", "answer": ["herring|krill|penguin\\s+milkshakes|plankton|shrimp-like\\s+crustaceans|Fish"]}
+{"question": "Colin Powell is most famous for what?", "answer": ["JCS\\s+Chairmanship|chair.+joint\\s+chiefs|chair.+joint\\s+of\\s+staff|chiefs?\\s+of\\s+staff|first\\s+black\\s+chair(man)?|head.+joint\\s+chiefs|joint\\s+chiefs\\s+of\\s+staff|U\\.S\\. Secretary|US National Security Advisor Colin Powell|Colin Powell largest online collection of Famous Quotes and Quotations \\.\\.\\. Colin Powell \\(American Statesman\\) \\.\\.\\. Quote count\\: 982 Times favorited\\: 179\\."]}
+{"question": "Where was Pythagoras born?", "answer": ["Greek|Samos|the Mediterranean Sea"]}
+{"question": "What is a synonym for aspartame?", "answer": ["Nutra\\s*-?\\s*Sweet|corn starch|the dipeptide|a methyl ester|sugar substitute|artificial sweetener containing aspartame"]}
+{"question": "What date is Boxing Day?", "answer": ["26\\s*December|December\\s+26|day\\s+after\\s+Christmas|ten\\s+days.*4\\s+Ja(nuary)?|ten\\s+days.*4\\s+Ja(nuary)?|ten\\s+days.*January 4|Christmas"]}
+{"question": "What year was the Avery Dennison company founded?", "answer": ["1990.+weakened|1990\\s+merger|October 1990|^\\s*1990\\s*$|1935"]}
+{"question": "How many hexagons are on a soccer ball?", "answer": ["20"]}
+{"question": "Where's Montenegro?", "answer": ["Yugoslav(ia)?|borders?.*Serbia|Serbia|Albania|Balkans|Southeastern Europe"]}
+{"question": "Procter & Gamble is headquartered in which U.S. city?", "answer": ["Cincinnati"]}
+{"question": "What was Poe's birthplace?", "answer": ["Boston"]}
+{"question": "When did the Carolingian period begin?", "answer": ["8th|814|4th century|eighth century"]}
+{"question": "What is the name of the tallest mountain in the world?", "answer": ["Everest"]}
+{"question": "Define thalassemia.", "answer": ["blood\\s+disorders?|disorder.*genetic\\s+defect|genetic\\s+defects?|genetic\\s+disorders?|inherited\\s+disorders?|lack.*gene.*hemoglobin|severe\\s+blood\\s+anemia"]}
+{"question": "How many counties are in Indiana?", "answer": ["92"]}
+{"question": "What is the collective term for geese?", "answer": ["flocks?|gaggles?"]}
+{"question": "Who is Barbara Jordan?", "answer": ["Rep|Representative|congress.*seat|congresswoman|member.*Congress"]}
+{"question": "What cereal goes \"snap, crackle, pop\"?", "answer": ["Rice\\s+Krispies"]}
+{"question": "Where is the location of the Orange Bowl?", "answer": ["Dade\\s+County|Miami\\s*'?\\s*s Orange|Miami\\s*'?\\s*s\\s+downtown|Orange.*\\s+in\\s+.*Miami|Orange\\s+Bowl\\s*,\\s*Miami|^\\s*Miami\\s*$|^\\s*in\\s+Miami\\s*\\.?\\s*$|at\\s+(\\(REF:\\s+)?Miami|to\\s+(\\(REF:\\s+)?Miami"]}
+{"question": "Why is Jane Goodall famous?", "answer": ["Einstein.+physics.+Goodall.+behavioral\\s+sciences|National\\s+Geographic.+articles|animal\\s+behaviorist|chimpanzee\\s*-?\\s*observer|chimpanzee\\s+research|chimpanzee\\s+researcher|chimpanzee\\s+specialist|chimpanzee\\s+studies|expert\\s+on\\s+chimps|pioneered.*study\\s+of\\s+primates|research\\s+of.+chimpanzees|save\\s+chimpanzees\\s+from\\s+extinction|scientist\\s+of\\s+unquestionable\\s+reputation|stud.+chimpanzees|study\\s+apes.+wild|Tanzania|2002 Jane Goodall\\'s|Goodall is famous for her work|English anthropologist Jane Goodall"]}
+{"question": "Who created the character James Bond?", "answer": ["Fleming|Ian\\s+Flemming"]}
+{"question": "When was Nostradamus born?", "answer": ["1503"]}
+{"question": "What is the zip code for Fremont, CA?", "answer": ["94536|94537|94538|94539|94555"]}
+{"question": "The numbering system we use today was introduced to the western world by what culture?", "answer": ["Hindu-Arabic|in use today|ARABIC NUMERALS"]}
+{"question": "Name a flying mammal.", "answer": ["bats?"]}
+{"question": "When did Muhammad live?", "answer": ["7\\s*th\\s+century|570|8 June 632"]}
+{"question": "Who shot Billy the Kid?", "answer": ["Garrett"]}
+{"question": "Who is the Greek God of the Sea?", "answer": ["Poseidon"]}
+{"question": "What is a caldera?", "answer": ["craters?|lava\\s+lake"]}
+{"question": "What is the name for clouds that produce rain?", "answer": ["cumulonimbus|rain\\s+clouds|nimbus|Nimbostratus clouds"]}
+{"question": "Who is the emperor of Japan?", "answer": ["Akihito|Hirohito|Showa|Taisho"]}
+{"question": "Where is the Thomas Edison Museum?", "answer": ["West\\s+Orange|^\\s*N\\.?J\\.?\\s*$|New Jersey"]}
+{"question": "What is the gestation period for humans?", "answer": ["^\\s*9\\s*$|^\\s*nine\\s*$|nine\\s+months|280days|9 months|266 days|10\\\u201314 months"]}
+{"question": "What video format was an alternative to VHS?", "answer": ["8\\)?\\s*-?\\s*millimeter|8\\s*-?\\s*mm|Beta(max)?|Betacam|Hi\\s*-?\\s*8|Video\\s+8|movies?"]}
+{"question": "What is Giorgio Vasari famous for?", "answer": ["Lives\\s+of\\s+the\\s+Artists|biographer|version.+model.+Mona\\s+Lisa"]}
+{"question": "Where can you find the Venus flytrap?", "answer": ["Carolinas?|N\\.C\\.?|the United States"]}
+{"question": "What does laser stand for?", "answer": ["light\\s+amplification"]}
+{"question": "Who was the author of the book about computer hackers called \"The Cuckoo's Egg: Tracking a Spy Through the Maze of Computer Espionage\"?", "answer": ["Stoll"]}
+{"question": "Who first broke the sound barrier?", "answer": ["Cochran|Yeager"]}
+{"question": "What animal do buffalo wings come from?", "answer": ["chicken"]}
+{"question": "When did Geraldine Ferraro run for vice president?", "answer": ["1984"]}
+{"question": "What year did the Vietnam War end?", "answer": ["1975"]}
+{"question": "Who invented baseball?", "answer": ["Doubleday|Cartwright|Baseball Hall of Fame"]}
+{"question": "What is the nickname for the state of Mississippi?", "answer": ["Magnolia|The Hospitality State"]}
+{"question": "How did Bob Marley die?", "answer": ["brain\\s+tumor|cancer|malignant melanoma|Metastatic Melanoma|Acral lentiginous melanoma"]}
+{"question": "When was the bar-code invented?", "answer": ["1948|1970|June 1974|October 1952"]}
+{"question": "Who is the founder of the Wal-Mart stores?", "answer": ["Walton"]}
+{"question": "How tall is the Sears Building?", "answer": ["1,454.*foot|1,45[024] feet|1,462.*foot|1,950 feet\\s*, 496 feet taller|1454.*foot|l,454 feet|l\\,?454\\s*\\-?\\s*f(oo|ee)t|1482\\.6 ft tall\\, including decorative spires"]}
+{"question": "What is a panic disorder?", "answer": ["anxiety|attack of panic|chest pain|disease|emotional illness|incapacitating fear|intense fear|mental illness|serious.*disabling disease|panic attacks|Panic disorder"]}
+{"question": "Who invented the telephone?", "answer": ["Alexander Graham|Gray|Inose|_?Bell_?"]}
+{"question": "Who was the abolitionist who led the raid on Harper's Ferry in 1859?", "answer": ["Brown?_?"]}
+{"question": "What is the length of the coastline of the state of Alaska?", "answer": ["35,000 miles|6,640 miles?|6640miles|6\\,640 mi"]}
+{"question": "What is plastic made of?", "answer": ["(corn|wheat)\\s*starch|alicyclic polyolefins.*|petroleum|petroleum-based|polyester|polyethylene|polymer|polypropylene|polystyrene|urethane|vinyl acetate|a material"]}
+{"question": "What is mold?", "answer": ["Aspergillus|fungus|mildew|slime|sooty"]}
+{"question": "What are the two houses of the Legislative branch?", "answer": ["Senate.*House|Senate|the bicameral legislature|the House of Representatives"]}
+{"question": "How do you measure earthquakes?", "answer": ["Richter|scale|seismographs?|22|magnitude 5|9\\.5 magnitude"]}
+{"question": "How far is a nautical mile?", "answer": ["1.852 km|12.*nautical.*mile.*22.*kilometer.*|4,250 km \\(2,300 nautical miles|6\\,?000 feet|75 statute miles|1852\\.0|1\\.852km"]}
+{"question": "When was Thomas Jefferson born?", "answer": ["1743|April 2|April 13"]}
+{"question": "What was FDR's dog's name?", "answer": ["Fala?|First Dog"]}
+{"question": "Who was elected president of South Africa in 1994?", "answer": ["Mandela"]}
+{"question": "What is acetaminophen?", "answer": ["Anacin-3|Tylenol|analgesics?|cold remedies|pain relievers?|pain\\-?killers?|relieves pain"]}
+{"question": "Where are the Rocky Mountains?", "answer": ["Arizona|Calgary|Canadian|Colo(rado|\\.)|Idaho|Utah|_?Montana_?|_?Wyoming_?|North America"]}
+{"question": "When was Ulysses S. Grant born?", "answer": ["1822"]}
+{"question": "What is a micron?", "answer": ["(one|1|a)?\\s?\\-?millionth.*met(er|re)|1/200th the thickness of a human hair|1/25,000 of an inch|40-millionth of an inch|a millionth of a millim|one-25,000th of an inch|one-thousandth of a millimeter|one-thousandth of one millimeter|one\\s?-\\s?hundredth the width of a human hair|a common unit"]}
+{"question": "What is the fourth highest mountain in the world?", "answer": ["Lhotse"]}
+{"question": "George Bush purchased a small interest in which baseball team?", "answer": ["Rangers?"]}
+{"question": "What does NASA stand for?", "answer": ["National Aeronautics.*Space Admini?stration"]}
+{"question": "What is bio-diversity?", "answer": ["ecosystem diversity|multiplicity of species|variety of the world\\s*'s wildlife|a celebratory assertion that bio\\-diversity is a commons|the variety of plant and animal life in the world or in a particular habitat\\, a high level of which is usually considered to be important and desirable\\."]}
+{"question": "When is the summer solstice?", "answer": ["June.*|Midsommar|first day of summer|longest _?day|sun.*highest point|summer"]}
+{"question": "What French ruler was defeated at the battle of Waterloo?", "answer": ["Bonaparte|_?Napoleon_?"]}
+{"question": "What is done with worn or outdated flags?", "answer": ["burn(?:ing)?s?(ed)?"]}
+{"question": "Who discovered radium?", "answer": ["Curie?s?_?"]}
+{"question": "How often does Old Faithful erupt at Yellowstone National Park?", "answer": ["21.*to 23 times a day|every 30 to 100 minutes|every 75 minutes|106|Eruptions often occur about 90 minutes apart\\, but this interval can range from 45 to 125 minutes on occasion\\."]}
+{"question": "Where is the Lourve?", "answer": ["Paris|France"]}
+{"question": "What is vertigo?", "answer": ["Dizziness|disorientation|loss.*balance|sensation motion|skewed balance|tinnitus"]}
+{"question": "Where is the Orinoco River?", "answer": ["Brazil|Colombia|South America|_?Venezuela_?n?|Amazon"]}
+{"question": "What are the colors of the German flag?", "answer": ["black.*red.*gold|red.*gold.*black|Flag of Germany|the national colours|yellow \\- life color|these three colors in their flag\\, \\.\\.\\. true what you said about the colors of our flag"]}
+{"question": "In Poland, where do most people live?", "answer": ["city"]}
+{"question": "What soviet seaport is on the Black Sea?", "answer": ["Sevastapol|Sevastopol|Chernomorsky|Ukraine \\& Black Sea Region|the first Soviet establishment in Spain"]}
+{"question": "Who wrote \"The Devine Comedy\"?", "answer": ["Dante"]}
+{"question": "What is sodium chloride?", "answer": ["salt|an ionic compound"]}
+{"question": "Developing nations comprise what percentage of the world's population?", "answer": ["75%|85 per cent|Three - fourths|four - fifths|12\\%|97 percent"]}
+{"question": "What is nicotine?", "answer": ["addictive|alkaloids?|drugs?|mood-altering|pharmacolog(ic)? agent|poison(ing)?|stimulant|tobacco"]}
+{"question": "Where do apple snails live?", "answer": ["wetlands"]}
+{"question": "What is a tsunami?", "answer": ["dangerous wave|giant wave|huge waves|large waves?|ocean waves?|sea waves?|seismic waves?|tidal wave?s?|triggered by undersea earthquakes|wall of water|waves"]}
+{"question": "What is the birthstone for June?", "answer": ["pearl"]}
+{"question": "What year was Mozart born?", "answer": ["1756"]}
+{"question": "What is the effect of volcanoes on the climate?", "answer": ["cool(er|ed)?|little weather.*effect|visual effects|green house effect|a lot of rain\\, lightning\\, and thunder during an eruption"]}
+{"question": "What is cerebral palsy?", "answer": ["affects.*muscles|brain damage|crippled|crippling disease|damage to the brain|defective motor ability|disorder of central nervous system|disorder of the central nervous system|incurable disease|lacks motor control|loss of muscle|nervous disorder|nervous system disorder|neurological disorder|paralysis|a group of problems that affect body movement and posture|a group of permanent movement problems that do not get worse over time"]}
+{"question": "What city's newspaper is called \"The Star\"?", "answer": ["Johannesbu(rg)?|Kuala Lumpur|Toronto|Sheffield|Kansas City|Indianapolis"]}
+{"question": "What is schizophrenia?", "answer": ["illness|loss of touch with reality|mental|mental disorders?|mental illness|psychos[ie]s|psychotic disorder|psychotic disorders?|schizoid personal(ity)?|split personality|a serious brain disorder that distorts the way a person thinks\\, acts\\, expresses emotions\\, perceives reality\\, and relates to others"]}
+{"question": "What is the distance in miles from the earth to the sun?", "answer": ["9[23] million"]}
+{"question": "What currency does Luxembourg use?", "answer": ["francs?|Euro"]}
+{"question": "What is metabolism?", "answer": ["efficiency of the body in burning fuel|process of breaking down food|rate at which energy is used|rate of burning calory|the set of life\\-sustaining chemical transformations within the cells of living organisms"]}
+{"question": "What currency do they use in Brazil?", "answer": ["cruzado|cruzeiros?|real"]}
+{"question": "What is the name of the satellite that the Soviet Union sent into space in 1957?", "answer": ["Sputnik"]}
+{"question": "What is the state flower of Michigan?", "answer": ["apple"]}
+{"question": "Who lived in the Neuschwanstein castle?", "answer": ["King Ludwig|_?Ludwig II_?"]}
+{"question": "What are spider veins?", "answer": ["(thread)?\\-?\\s*like purple lines?|enlargement of the blood vessels|skin disorders?|threadlike,? purplish|Telangiectasias or angioectasias \\(also known as spider veins\\)|a group of dilated veins that appear close to the surface of the skin and look like spider webs or tree branches"]}
+{"question": "What is the capital of Ethiopia?", "answer": ["ADDIS ADABA|Addis Abeba|_?Addis_? _?Ababa_?"]}
+{"question": "What monastery was raided by Vikings in the late eighth century?", "answer": ["Lindisfarne"]}
+{"question": "Where is the Euphrates River?", "answer": ["Ankara|Baghdad|Basra|Birecik|Iraqi?|Middle East|Nasiriyah|Syrian?|_?Mesopotamia_?|_?Turk(ey|ish)_?"]}
+{"question": "What is acid rain?", "answer": ["conversion of oxides|form of pollution|nitric acid|nitrogen oxide|sulfur dioxide|sulfuric acid|tree-killing pollution|a rain or any other form of precipitation that is unusually acidic|rainfall made so acidic by atmospheric pollution that it causes environmental harm\\, chiefly to forests and lakes\\."]}
+{"question": "What year did the United States abolish the draft?", "answer": ["1973"]}
+{"question": "In which state would you find the Catskill Mountains?", "answer": ["N\\.Y\\.?|New\\s*York|York"]}
+{"question": "What is the average body temperature?", "answer": ["82-degree water, 16.6 degrees below normal|98 decimal|98.6|Thermoregulation"]}
+{"question": "Which comedian's signature line is \"Can we talk\"?", "answer": ["Rivers"]}
+{"question": "What is quicksilver?", "answer": ["cinnabar|reduction agent|mercury|\\\u2022 DJ Quicksilver \\\u2022 Deadly Quicksilver Lies"]}
+{"question": "When is St. Patrick's Day?", "answer": ["17 Mar(ch)?|_?March 17_?|March"]}
+{"question": "How tall is the Gateway Arch in St. Louis, MO?", "answer": ["630\\s*\\-?\\s?(foot)?"]}
+{"question": "When did Hawaii become a state?", "answer": ["1959"]}
+{"question": "What is neurology?", "answer": ["study of the nervous( system)?|a branch of medicine dealing with disorders of the nervous system"]}
+{"question": "What are solar cells?", "answer": ["collect and funnel energy|conversion|conversion from light energy|convert.*light|generat.*electricity|photovoltaic|produce.*electricity|provide electricity|to electric energy|device"]}
+{"question": "What New York City structure is also known as the Twin Towers?", "answer": ["World Trad(e Center)?|World Trade Towers"]}
+{"question": "What is pastrami made of?", "answer": ["meats?|beef plate"]}
+{"question": "What is the temperature of the sun's surface?", "answer": ["(6\\,?000|10,800) degrees"]}
+{"question": "What is the world's population?", "answer": ["4\\.9 billion|5.[467]\\s*bn|_?5\\.?[1234]?_? billion?|five billion|7\\.349 billion"]}
+{"question": "What is the date of Mexico's independence?", "answer": ["1810|1821"]}
+{"question": "What is pneumonia?", "answer": ["PCP|Pneumocystis carinii|caused by bacteria|common cause of death|common infections?|common killer of people|dangerous infection|fatal complication|infections?|inflammation|influenza virus|life-threatening infect(ion)?|most common AIDS - related|most frequent killer of AIDS patients|pneumococcus bacteria|respiratory diseases?"]}
+{"question": "Who is the tallest man in the world?", "answer": ["Ali Nashnush|Barman|Monjane|Robert Wadlow|_Gabriel Estavao_|Sultan K\\\u00f6sen|Robert Pershing Wadlow"]}
+{"question": "What is epilepsy?", "answer": ["(neurological|brain|seizure|paroxysmal|underlying|mental|nervous system) disorders?|affliction|convulsions?|disorders?|nervous system|seizures?|speech loss"]}
+{"question": "What does the abbreviation SOS mean?", "answer": ["distress signal|Acronym Definition|Shoulder \\(chat\\) SOS|MAYDAY \\(logging abbreviation\\) SOS"]}
+{"question": "What is an earthquake?", "answer": ["ground motion|ground movement|movements under the ground surface|An earthquake is a shaking of the ground caused by the sudden breaking and movement of large sections \\(tectonic plates\\) of the earth\\'s rocky outermost crust\\. The edges of the tectonic plates are marked by faults \\(or fractures\\)\\."]}
+{"question": "What is the location of Lake Champlain?", "answer": ["Burlington|Canada|New York|Plattsburgh|_?Vermont_?"]}
+{"question": "What body of water are the Canary Islands in?", "answer": ["Atlantic"]}
+{"question": "Material called linen is made from what plant?", "answer": ["flax(?:seed)?"]}
+{"question": "What is fungus?", "answer": ["plant form|yeasts and molds|fungi or funguses|a fungus that grows upon\\, or attached to\\, a living plant|A fungus \\(\\/ \\\u02c8 f \\\u028c \\\u014b \\\u0261 \\\u0259 s \\/\\; plural\\: fungi \\[3\\] or funguses \\[4\\]\\)|a common condition that begins as a white or yellow spot under the tip of your fingernail or toenail"]}
+{"question": "What does a barometer measure?", "answer": ["(barometric|atmospheric) pressure|a scientific instrument"]}
+{"question": "What color is indigo?", "answer": ["blue"]}
+{"question": "What is desktop publishing?", "answer": ["computer application|computer.*publishing|computerizing the layout process of printing|printing high-quality documents|produce pages integrating text and graphics|produce superb documents|the ability to turn out professional-looking publications|publishing using desktop computing resources|documents using page layout skills on a personal computer"]}
+{"question": "When was President Kennedy shot?", "answer": ["1963"]}
+{"question": "What does cc in engines mean?", "answer": ["cubic centimeters"]}
+{"question": "What is another name for vitamin B1?", "answer": ["Thiamine"]}
+{"question": "What state is the geographic center of the lower 48 states?", "answer": ["Kansas"]}

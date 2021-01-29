@@ -540,6 +540,51 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testDprWq() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_WQ_TEST);
+    assertNotNull(topics);
+    assertEquals(2032, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("what does jamaican people speak?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("[\"Jamaican Creole English Language\",\"Jamaican English\"]", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(2031, (int) topics.lastKey());
+    assertEquals("when was father chris riley born?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("[\"1967\"]", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testDprCurated() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_CURATED_TEST);
+    assertNotNull(topics);
+    assertEquals(694, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("How tall is Mount McKinley?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("[\"20\\\\s?,?\\\\s?(32|40)0\\\\s?-?\\\\s?f(ee|oo)t|6,194-meter|20,?237\\\\s*f(oo|ee)?t|20,?073\\\\s*f(oo|ee)?t|6,?168\\\\s*m|6,118\\\\s*m|6\\\\,194 m|20\\\\,322 feet\"]", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(693, (int) topics.lastKey());
+    assertEquals("What state is the geographic center of the lower 48 states?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("[\"Kansas\"]", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testDprSquad() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_SQUAD_TEST);
+    assertNotNull(topics);
+    assertEquals(10570, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("Which NFL team represented the AFC at Super Bowl 50?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("[\"Denver Broncos\",\"Denver Broncos\",\"Denver Broncos\"]", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(10569, (int) topics.lastKey());
+    assertEquals("What is the seldom used force unit equal to one thousand newtons?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("[\"sthène\",\"sthène\",\"sthène\",\"sthène\",\"sthène\"]", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
   public void testTREC19DL() {
     SortedMap<Integer, Map<String, String>> topics;
 
