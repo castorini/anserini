@@ -86,7 +86,9 @@ public abstract class TopicReader<K> {
       Map.entry("topics.backgroundlinking18.txt", BackgroundLinkingTopicReader.class),
       Map.entry("topics.backgroundlinking19.txt", BackgroundLinkingTopicReader.class),
       Map.entry("topics.dpr.nq.dev.txt", DprNqTopicReader.class),
-      Map.entry("topics.dpr.nq.test.txt", DprNqTopicReader.class)
+      Map.entry("topics.dpr.nq.test.txt", DprNqTopicReader.class),
+      Map.entry("topics.dpr.trivia.dev.txt", DprNqTopicReader.class),
+      Map.entry("topics.dpr.trivia.test.txt", DprNqTopicReader.class)
   );
 
   /**

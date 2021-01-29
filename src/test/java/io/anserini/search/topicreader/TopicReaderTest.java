@@ -515,6 +515,31 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testDprTrivia() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_TRIVIA_DEV);
+    assertNotNull(topics);
+    assertEquals(8837, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("The VS-300 was a type of what?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['🚁', 'Helicopters', 'Civilian helicopter', 'Pescara (helicopter)', 'Cargo helicopter', 'Copter', 'Helecopter', 'List of deadliest helicopter crashes', 'Helichopper', 'Helocopter', 'Cargo Helicopter', 'Helicopter', 'Helicoptor', 'Anatomy of a helicopter']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(8836, (int) topics.lastKey());
+    assertEquals("Name the artist and the title of this 1978 classic that remains popular today: We were at the beach Everybody had matching towels Somebody went under a dock And there they saw a rock It wasnt a rock", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['Rock Lobster by the B-52s']", topics.get(topics.lastKey()).get("answers"));
+
+    topics = TopicReader.getTopics(Topics.DPR_TRIVIA_TEST);
+    assertNotNull(topics);
+    assertEquals(11313, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("Who was the man behind The Chipmunks?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['David Seville']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(11312, (int) topics.lastKey());
+    assertEquals("In what outdoor sport, sanctioned by the NHPA, do you score 3 points for a ringer, 2 for a leaner, and the closet scores a point?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['Horseshoe pit', 'Horseshoes (game)', 'Horseshoes', 'Horseshoe Pitching', 'Horse shoes', 'Horseshoe pitching', 'Horseshoe throwing']", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
   public void testTREC19DL() {
     SortedMap<Integer, Map<String, String>> topics;
 
