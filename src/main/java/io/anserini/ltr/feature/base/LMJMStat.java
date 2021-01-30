@@ -69,9 +69,6 @@ public class LMJMStat implements FeatureExtractor {
       score.add((float) Math.log((1-lambda)*documentProb+lambda*collectProb));
       ret += Math.log((1-lambda)*documentProb+lambda*collectProb);
     }
-    if (score.size() == 0){
-      return 0;
-    }
     return collectFun.pool(score);
   }
 

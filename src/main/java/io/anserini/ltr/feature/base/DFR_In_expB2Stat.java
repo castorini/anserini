@@ -63,9 +63,6 @@ public class DFR_In_expB2Stat implements FeatureExtractor {
       double ine = log2(((double)numDocs+1)/(ne+0.5));
       score.add((float) (tfn*ine*((cf+1)/((double)context.getDocFreq(queryToken)*(tfn+1)))));
     }
-    if(score.size() == 0){
-      return 0;
-    }
     return collectFun.pool(score);
   }
 
