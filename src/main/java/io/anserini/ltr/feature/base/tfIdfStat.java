@@ -62,7 +62,10 @@ public class tfIdfStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_TFIDF_%s", field, qfield, collectFun.getName());
+    if (subLinearTF)
+      return String.format("%s_%s_LTFIDF_%s", field, qfield, collectFun.getName());
+    else
+      return String.format("%s_%s_TFIDF_%s", field, qfield, collectFun.getName());
   }
 
   @Override
