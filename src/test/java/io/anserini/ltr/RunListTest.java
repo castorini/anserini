@@ -2,6 +2,8 @@ package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.base.RunList;
+
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.BufferedWriter;
@@ -23,6 +25,16 @@ public class RunListTest  extends BaseFeatureExtractorTest<Integer>{
         FeatureExtractor EXTRACTOR = new RunList("tempFile.txt", "BERT");
         float[] expected = {3};
         assertFeatureValues(expected, "1",  "define extreme", "document size independent of query document", EXTRACTOR);
+    }
+
+    @After
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+        File tempFile = new File("tempFile.txt");
+        if(tempFile.exists()) {
+            tempFile.delete();
+        }
     }
 
 }
