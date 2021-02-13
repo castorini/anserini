@@ -20,7 +20,7 @@ Sorted by number of commits:
 + Jiarui Zhang ([jrzhang12](https://github.com/jrzhang12))
 + Kai Sun ([KaiSun314](https://github.com/KaiSun314))
 + Larry Li ([larryli1999](https://github.com/larryli1999))
-+ Emily Ye ([yemiliey](https://github.com/lyemiliey))
++ Emily Ye ([yemiliey](https://github.com/yemiliey))
 
 ## All Contributors
 
@@ -117,5 +117,5 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Richard Xu ([richard3983](https://github.com/richard3983))
 + Andy ThePHPFactory ([AndyTheFactory](https://github.com/AndyTheFactory))
 + Eiston Wei ([eiston](https://github.com/eiston))
-+ Emily Ye ([yemiliey](https://github.com/lyemiliey))
++ Emily Ye ([yemiliey](https://github.com/yemiliey))
 + Alvis Wong ([wongalvis14](https://github.com/wongalvis14))
