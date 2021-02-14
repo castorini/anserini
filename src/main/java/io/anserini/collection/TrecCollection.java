@@ -66,8 +66,8 @@ import java.util.zip.GZIPInputStream;
 public class TrecCollection extends DocumentCollection<TrecCollection.Document> {
   public TrecCollection(Path path) {
     this.path = path;
-    this.skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
-    this.skippedDir = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
+    this.skippedFilePrefix = new HashSet<>(Arrays.asList("readme", "README"));
+    this.skippedDir = new HashSet<>(Arrays.asList("cr", "CR", "dtd", "DTD", "dtds", "DTDS"));
   }
 
   @Override
