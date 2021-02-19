@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for replicable information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.ltr.feature.base;
 
 import io.anserini.ltr.feature.*;
@@ -80,6 +96,8 @@ public class IBMModel1 implements FeatureExtractor {
     public ConcurrentHashMap<Integer, Map<Integer, Float>> loadTran(String fileName) throws IOException {
         ConcurrentHashMap<Integer, Map<Integer, Float>> res = new ConcurrentHashMap<>();
         DataInputStream in = new DataInputStream(new FileInputStream(fileName));
+        Map<Integer, Float> bufferSourceMap = null;
+        Integer bufferSourceKey = null;
         while (in.available() > 0) {
             int sourceID = in.readInt();
             assert sourceID == 0 | sourceVoc.containsKey(sourceID);
@@ -87,12 +105,20 @@ public class IBMModel1 implements FeatureExtractor {
             assert targetVoc.containsKey(targetID);
             float tranProb = in.readFloat();
             assert tranProb >= 1e-3f;
-            if (!res.containsKey(sourceID)) {
-                Map<Integer, Float> word2prob = new HashMap<>();
-                word2prob.put(targetID, tranProb);
-                res.put(sourceID, word2prob);
-            } else {
-                res.get(sourceID).put(targetID, tranProb);
+            if(bufferSourceKey!=null&&bufferSourceKey==sourceID)
+                bufferSourceMap.put(targetID, tranProb);
+            else{
+                if (!res.containsKey(sourceID)) {
+                    Map<Integer, Float> word2prob = new ConcurrentHashMap<>();
+                    word2prob.put(targetID, tranProb);
+                    res.put(sourceID, word2prob);
+                    bufferSourceKey = sourceID;
+                    bufferSourceMap = word2prob;
+                } else {
+                    bufferSourceKey = sourceID;
+                    bufferSourceMap = res.get(sourceID);
+                    bufferSourceMap.put(targetID, tranProb);
+                }
             }
         }
         return res;

@@ -72,12 +72,10 @@ Retrieval speed will vary by machine:
 On a modern desktop with an SSD, we can get ~0.07 s/query, so the run should finish in under ten minutes.
 We can perform multi-threaded retrieval by changing the `-threads` argument.
 
-## Evaluating the Results
-
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
 ```bash
-python tools/scripts/msmarco/msmarco_eval.py \
+python tools/scripts/msmarco/msmarco_passage_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
 ```
 
@@ -89,6 +87,8 @@ MRR @10: 0.18741227770955546
 QueriesRanked: 6980
 #####################
 ```
+
+You can find this entry on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as entry "BM25 (Lucene8, tuned)", so you've just replicated (part of) a leaderboard submission!
 
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
 For that we first need to convert runs and qrels files to the TREC format:
@@ -123,28 +123,25 @@ Average precision and recall@1000 are the two metrics we care about the most.
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
-Tuning was accomplished with the [`tune_bm25.py`](../src/main/python/msmarco/tune_bm25.py) script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
+Tuning was accomplished with `tools/scripts/msmarco/tune_bm25.py`, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
 There are five different sets of 10k samples (using the `shuf` command).
 We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
-Note that we optimized recall@1000 since Anserini output serves as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
-The tuned parameters using this method are `k1=0.82`, `b=0.68`.
+In separate trials, we optimized for:
 
-Here's the comparison between the Anserini default and tuned parameters:
++ recall@1000, since Anserini output serves as input to downstream rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with;
++ MRR@10, for the case where Anserini output is directly presented to users (i.e., no downstream reranking).
+
+It turns out that optimizing for MRR@10 and MAP yields the same settings.
+
+Here's the comparison between the Anserini default and optimized parameters:
 
 Setting                     | MRR@10 | MAP    | Recall@1000 |
 :---------------------------|-------:|-------:|------------:|
 Default (`k1=0.9`, `b=0.4`) | 0.1840 | 0.1926 | 0.8526
-Tuned (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
+Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
+Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 | 0.8555
 
-Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
-The above results are based on Lucene 8.0, but Lucene 7.6 results can be replicated with [v0.5.1](https://github.com/castorini/anserini/releases);
-the effectiveness differences are very small.
-For convenience, here are the effectiveness numbers with Lucene 7.6 (v0.5.1):
-
-Setting                     | MRR@10 | MAP    | Recall@1000 |
-:---------------------------|-------:|-------:|------------:|
-Default (`k1=0.9`, `b=0.4`) | 0.1839 | 0.1925 | 0.8526
-Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
+To replicate these results, the `SearchMsmarco` class above takes `k1` and `b` parameters as command-line arguments, e.g., `-k1 0.60 -b 0.62` (note that the default setting is `k1=0.82` and `b=0.68`).
 
 ## Replication Log
 
@@ -186,3 +183,7 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@jhuang265](https://github.com/jhuang265) on 2020-10-15 (commit [`66711b9`](https://github.com/castorini/anserini/commit/66711b9ff7722e2aea4ce2f59ca26ead5c091cac))
 + Results replicated by [@rayyang29](https://github.com/rayyang29) on 2020-10-27 (commit [`ad8cc5a`](https://github.com/castorini/anserini/commit/ad8cc5a02a53f09a83a8a6bfd7d187c9c3f96bd5))
 + Results replicated by [@Dahlia-Chehata](https://github.com/Dahlia-Chehata) on 2020-11-11 (commit [`22c0ad3`](https://github.com/castorini/anserini/commit/22c0ad3ebcff22c34a69ee3a7c122c4a9fb27a0e))
++ Results replicated by [@rakeeb123](https://github.com/rakeeb123) on 2020-12-07 (commit [`f50dcce`](https://github.com/castorini/anserini/commit/f50dcceb6cd0ec3403c1e77066aa51bb3275d24e))
++ Results replicated by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-02 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/be4e44d5ac1e898469fc179f8e6a336234b23d93))
++ Results replicated by [@HEC2018](https://github.com/HEC2018) on 2021-01-04 (commit [`4de21ec`](https://github.com/castorini/anserini/commit/4de21ece5e53cf20b4fcc711b575606b83c0d1f1))
++ Results replicated by [@KaiSun314](https://github.com/KaiSun314) on 2021-01-08 (commit [`113f1c7`](https://github.com/castorini/anserini/commit/113f1c78c3ffc8681a06c571901cf9ad8f5ee633))

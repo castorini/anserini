@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for replicable information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.ltr;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,24 +45,24 @@ public class FeatureExtractorCli {
 
   }
   public static void addFeature(FeatureExtractorUtils utils, String queryField, String docField) throws IOException {
-    utils.add(new BM25(0.9,0.4, docField, queryField));
-    utils.add(new BM25(1.2,0.75, docField, queryField));
-    utils.add(new BM25(2.0,0.75, docField, queryField));
+    utils.add(new BM25Stat(new SumPooler(), 0.9,0.4, docField, queryField));
+    utils.add(new BM25Stat(new SumPooler(), 1.2,0.75, docField, queryField));
+    utils.add(new BM25Stat(new SumPooler(), 2.0,0.75, docField, queryField));
 
-    utils.add(new LMDir(1000, docField, queryField));
-    utils.add(new LMDir(1500, docField, queryField));
-    utils.add(new LMDir(2500, docField, queryField));
+    utils.add(new LMDirStat( new SumPooler(), 1000, docField, queryField));
+    utils.add(new LMDirStat( new SumPooler(), 1500, docField, queryField));
+    utils.add(new LMDirStat( new SumPooler(), 2500, docField, queryField));
 
-    utils.add(new LMJM(0.1, docField, queryField));
-    utils.add(new LMJM(0.4, docField, queryField));
-    utils.add(new LMJM(0.7, docField, queryField));
+    utils.add(new LMJMStat( new SumPooler(), 0.1, docField, queryField));
+    utils.add(new LMJMStat( new SumPooler(), 0.4, docField, queryField));
+    utils.add(new LMJMStat( new SumPooler(), 0.7, docField, queryField));
 
     utils.add(new NTFIDF(docField, queryField));
     utils.add(new ProbalitySum(docField, queryField));
 
-    utils.add(new DFR_GL2(docField, queryField));
-    utils.add(new DFR_In_expB2(docField, queryField));
-    utils.add(new DPH(docField, queryField));
+    utils.add(new DFR_GL2Stat(new SumPooler(), docField, queryField));
+    utils.add(new DFR_In_expB2Stat(new SumPooler(), docField, queryField));
+    utils.add(new DPHStat(new SumPooler(), docField, queryField));
 
     utils.add(new Proximity(docField, queryField));
     utils.add(new TPscore(docField, queryField));
@@ -70,22 +86,14 @@ public class FeatureExtractorCli {
     utils.add(new tfStat(new VarPooler(), docField, queryField));
     utils.add(new tfStat(new MaxMinRatioPooler(), docField, queryField));
     utils.add(new tfStat(new ConfidencePooler(), docField, queryField));
-    utils.add(new tfIdfStat(new AvgPooler(), docField, queryField));
-    utils.add(new tfIdfStat(new MedianPooler(), docField, queryField));
-    utils.add(new tfIdfStat(new SumPooler(), docField, queryField));
-    utils.add(new tfIdfStat(new MinPooler(), docField, queryField));
-    utils.add(new tfIdfStat(new MaxPooler(), docField, queryField));
-    utils.add(new tfIdfStat(new VarPooler(), docField, queryField));
-    utils.add(new tfIdfStat(new MaxMinRatioPooler(), docField, queryField));
-    utils.add(new tfIdfStat(new ConfidencePooler(), docField, queryField));
-    utils.add(new scqStat(new AvgPooler(), docField, queryField));
-    utils.add(new scqStat(new MedianPooler(), docField, queryField));
-    utils.add(new scqStat(new SumPooler(), docField, queryField));
-    utils.add(new scqStat(new MinPooler(), docField, queryField));
-    utils.add(new scqStat(new MaxPooler(), docField, queryField));
-    utils.add(new scqStat(new VarPooler(), docField, queryField));
-    utils.add(new scqStat(new MaxMinRatioPooler(), docField, queryField));
-    utils.add(new scqStat(new ConfidencePooler(), docField, queryField));
+    utils.add(new tfIdfStat(true, new AvgPooler(), docField, queryField));
+    utils.add(new tfIdfStat(true, new MedianPooler(), docField, queryField));
+    utils.add(new tfIdfStat(true, new SumPooler(), docField, queryField));
+    utils.add(new tfIdfStat(true, new MinPooler(), docField, queryField));
+    utils.add(new tfIdfStat(true, new MaxPooler(), docField, queryField));
+    utils.add(new tfIdfStat(true, new VarPooler(), docField, queryField));
+    utils.add(new tfIdfStat(true, new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new tfIdfStat(true, new ConfidencePooler(), docField, queryField));
     utils.add(new normalizedTfStat(new AvgPooler(), docField, queryField));
     utils.add(new normalizedTfStat(new MedianPooler(), docField, queryField));
     utils.add(new normalizedTfStat(new SumPooler(), docField, queryField));

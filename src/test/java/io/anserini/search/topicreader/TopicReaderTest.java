@@ -18,7 +18,6 @@ package io.anserini.search.topicreader;
 
 import org.junit.Test;
 
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -40,8 +39,7 @@ public class TopicReaderTest {
         TopicReader.getTopicReaderClassByFile("topics.covid-round1.xml"));
 
     // Unknown TopicReader class.
-    assertEquals(null,
-        TopicReader.getTopicReaderClassByFile("topics.unknown.txt"));
+    assertEquals(null, TopicReader.getTopicReaderClassByFile("topics.unknown.txt"));
   }
 
   @Test
@@ -466,6 +464,14 @@ public class TopicReaderTest {
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
 
+    topics = TopicReader.getTopics(Topics.MSMARCO_DOC_TEST);
+    assertNotNull(topics);
+    assertEquals(5793, topics.size());
+    assertEquals(57, (int) topics.firstKey());
+    assertEquals("term service agreement definition", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1136966, (int) topics.lastKey());
+    assertEquals("#ffffff color code", topics.get(topics.lastKey()).get("title"));
+
     topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET);
     assertNotNull(topics);
     assertEquals(6980, topics.size());
@@ -473,6 +479,14 @@ public class TopicReaderTest {
     assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_TEST_SUBSET);
+    assertNotNull(topics);
+    assertEquals(6837, topics.size());
+    assertEquals(57, (int) topics.firstKey());
+    assertEquals("term service agreement definition", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1136966, (int) topics.lastKey());
+    assertEquals("#ffffff color code", topics.get(topics.lastKey()).get("title"));
   }
 
   @Test
@@ -485,11 +499,23 @@ public class TopicReaderTest {
     assertEquals("androgen receptor define", topics.get("2").get("title"));
     assertEquals("why do bears hibernate", topics.get("1102400").get("title"));
 
+    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_DOC_TEST);
+    assertNotNull(topics);
+    assertEquals(5793, topics.size());
+    assertEquals("term service agreement definition", topics.get("57").get("title"));
+    assertEquals("#ffffff color code", topics.get("1136966").get("title"));
+
     topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_PASSAGE_DEV_SUBSET);
     assertNotNull(topics);
     assertEquals(6980, topics.size());
     assertEquals("Androgen receptor define", topics.get("2").get("title"));
     assertEquals("why do bears hibernate", topics.get("1102400").get("title"));
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_PASSAGE_TEST_SUBSET);
+    assertNotNull(topics);
+    assertEquals(6837, topics.size());
+    assertEquals("term service agreement definition", topics.get("57").get("title"));
+    assertEquals("#ffffff color code", topics.get("1136966").get("title"));
   }
 
   @Test

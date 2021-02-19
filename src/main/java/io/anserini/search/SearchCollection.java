@@ -119,6 +119,10 @@ import java.util.concurrent.TimeUnit;
  * Main entry point for search.
  */
 public final class SearchCollection implements Closeable {
+  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
+  // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
+  // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
+  // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchArgs.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =

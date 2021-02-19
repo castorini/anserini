@@ -1,48 +1,49 @@
-# Anserini Release Notes (v0.9.4)
+# Anserini Release Notes (v0.10.0)
 
-**Release date: June 25, 2020**
+**Release date: November 25, 2020**
 
-+ Added TREC-COVID (round 4) topics and queries from UDel's query generator.
-+ Added TREC-COVID (round 3) qrels and other data.
-+ Added implementation of relevance feedback.
-+ Added script to automate downloading a particular release of CORD-19, building indexes, and verifying.
-+ Added script to automate downloading a particular pre-built index of CORD-19.
-+ Added bindings of `anserini-tools` submodule to `tools/`
-+ Added ingestion support for WashingtonPost v3.
-+ Added ingestion support for ISO 19115 records.
-+ Added ingestion support and baselines for FEVER (fact checking) dataset.
-+ Added ingestion support for Common Crawl WARC and WET formats, for TREC Health Misinformation Track.
-+ Added ingestion support for CC-News-En corpus.
-+ Refactored code paths for ingesting ClueWeb collections.
-+ Exposed better hooks to load arbitrary topics from Pyserini.
-+ Removed legacy `IndexUtil` class.
-+ Removed unused code paths for TREC News Track background linking task.
-+ Updated Solr and ElasticSearch documentation for CORD-19.
-+ Moved common MS MARCO scripts to `tools/scripts/msmarco/`, updated MS MARCO documentation.
-
++ Refactored LTR pipeline and added new feature extractors.
++ Added LTR command-line interface.
++ Refactored TREC-COVID documentation and replication scripts (including round 5 results).
++ Added doc2query (T5) expansion runs for TREC-COVID rounds 4 and 5.
++ Added regressions for MS MARCO document ranking with docTTTTTquery expansions, per-document and per-passage variants.
++ Added better implementation of passage retrieval.
++ Updated documentation and scripts for Solr/Elasticsearch (for CORD-19 and other collections).
++ Improved Solr integration tests.
++ Added topic/collection support for Epidemic QA.
++ Improved support for ISO 19115 records.
++ Improved support for indexing abstracts in bibtex collections.
++ Cleaned up broken paths resulting from `tools/` submodule reorganization.
++ Updated `doc.raw()` to return the entire raw JSON in `JsonCollection`.
+ 
 ## Contributors (This Release)
 
 Sorted by number of commits:
 
 + Jimmy Lin ([lintool](https://github.com/lintool))
-+ Shane Ding ([shaneding](https://github.com/shaneding))
-+ Adam Yang ([adamyy](https://github.com/adamyy))
-+ Kelvin Jiang ([kelvin-jiang](https://github.com/kelvin-jiang))
-+ Johnson Han ([x65han](https://github.com/x65han))
-+ Kuang Lu ([lukuang](https://github.com/lukuang))
-+ Mustafa Abualsaud ([ammsa](https://github.com/ammsa))
-+ Pepijn Boers ([PepijnBoers](https://github.com/PepijnBoers))
-+ Xueguang Ma ([MXueguang](https://github.com/MXueguang))
-+ Alex Dou ([YimingDou](https://github.com/YimingDou))
-+ Edwin Zhang ([edwinzhng](https://github.com/edwinzhng))
-+ Hang Cui ([HangCui0510](https://github.com/HangCui0510))
-+ Joel Mackenzie ([JMMackenzie](https://github.com/JMMackenzie))
-+ Justin Borromeo ([justinborromeo](https://github.com/justinborromeo))
-+ Kevin Martin Jose ([kevinmartinjos](https://github.com/kevinmartinjos))
 + Rodrigo Nogueira ([rodrigonogueira4](https://github.com/rodrigonogueira4))
++ Adam Yang ([adamyy](https://github.com/adamyy))
++ Estella Liu ([estella98](https://github.com/estella98))
++ Yuxin (Vicky) Zhu ([yxzhu16](https://github.com/yxzhu16))
++ Shane Ding ([shaneding](https://github.com/shaneding))
++ Justin Borromeo ([justinborromeo](https://github.com/justinborromeo))
++ Stephanie Hu ([stephaniewhoo](https://github.com/stephaniewhoo))
++ Yue Zhang ([nsndimt](https://github.com/nsndimt))
++ Lizzy Zhang ([LizzyZhang-tutu](https://github.com/LizzyZhang-tutu))
 + Ronak Pradeep ([ronakice](https://github.com/ronakice))
-+ Salman Tariq ([stariqmi](https://github.com/stariqmi))
-+ Tiancheng Yang ([TianchengY](https://github.com/TianchengY))
++ Dahlia Chehata ([Dahlia-Chehata](https://github.com/Dahlia-Chehata))
++ Joel Mackenzie ([JMMackenzie](https://github.com/JMMackenzie))
++ Jeffrey Chen ([JeffreyCA](https://github.com/JeffreyCA))
++ Jerry Huang ([jhuang265](https://github.com/jhuang265))
++ Kelvin Jiang ([kelvin-jiang](https://github.com/kelvin-jiang))
++ Kuang Lu ([lukuang](https://github.com/lukuang))
++ Ray Yang ([rayyang29](https://github.com/rayyang29))
++ Saidi Tang ([tangsaidi](https://github.com/tangsaidi))
++ Xinyu Mavis Liu ([x389liu](https://github.com/x389liu))
++ Xueguang Ma ([MXueguang](https://github.com/MXueguang))
++ Yuxuan Ji ([yuxuan-ji](https://github.com/yuxuan-ji))
++ Qing Guo ([qguo96](https://github.com/qguo96))
++ Wil Tan ([wiltan-uw](https://github.com/wiltan-uw))
 
 ## All Contributors
 
@@ -53,41 +54,46 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Ryan Clancy ([r-clancy](https://github.com/r-clancy))
 + Ahmet Arslan ([iorixxx](https://github.com/iorixxx))
 + Edwin Zhang ([edwinzhng](https://github.com/edwinzhng))
++ Rodrigo Nogueira ([rodrigonogueira4](https://github.com/rodrigonogueira4))
 + Royal Sequiera ([rosequ](https://github.com/rosequ))
 + Emily Wang ([emmileaf](https://github.com/emmileaf))
 + Victor Yang ([Victor0118](https://github.com/Victor0118))
 + Tommaso Teofili ([tteofili](https://github.com/tteofili))
-+ Rodrigo Nogueira ([rodrigonogueira4](https://github.com/rodrigonogueira4))
 + Boris Lin ([borislin](https://github.com/borislin))
 + Chris Kamphuis ([Chriskamphuis](https://github.com/Chriskamphuis))
 + Nikhil Gupta ([nikhilro](https://github.com/nikhilro))
 + Yuhao Xie ([Kytabyte](https://github.com/Kytabyte))
++ Shane Ding ([shaneding](https://github.com/shaneding))
 + Kuang Lu ([lukuang](https://github.com/lukuang))
++ Adam Yang ([adamyy](https://github.com/adamyy))
++ Xinyu Mavis Liu ([x389liu](https://github.com/x389liu))
 + Salman Mohammed ([salman1993](https://github.com/salman1993))
 + Luchen Tan ([LuchenTan](https://github.com/LuchenTan))
 + Johnson Han ([x65han](https://github.com/x65han))
-+ Xinyu Mavis Liu ([x389liu](https://github.com/x389liu))
 + Zhiying Jiang ([bazingagin](https://github.com/bazingagin))
 + Hang Cui ([HangCui0510](https://github.com/HangCui0510))
 + Yuqi Liu ([yuki617](https://github.com/yuki617))
 + Michael Tu ([tuzhucheng](https://github.com/tuzhucheng))
-+ Shane Ding ([shaneding](https://github.com/shaneding))
 + Dayang Shi ([dyshi](https://github.com/dyshi))
 + Zeynep Akkalyoncu Yilmaz ([zeynepakkalyoncu](https://github.com/zeynepakkalyoncu))
++ Stephanie Hu ([stephaniewhoo](https://github.com/stephaniewhoo))
++ Ronak Pradeep ([ronakice](https://github.com/ronakice))
 + Peng Shi ([Impavidity](https://github.com/Impavidity))
++ Yuxin (Vicky) Zhu ([yxzhu16](https://github.com/yxzhu16))
 + Xin Qian ([xeniaqian94](https://github.com/xeniaqian94))
++ Kelvin Jiang ([kelvin-jiang](https://github.com/kelvin-jiang))
++ Justin Borromeo ([justinborromeo](https://github.com/justinborromeo))
++ Estella Liu ([estella98](https://github.com/estella98))
 + Adam Roegiest ([aroegies](https://github.com/aroegies))
 + Pepijn Boers ([PepijnBoers](https://github.com/PepijnBoers))
-+ Weihua Li ([w329li](https://github.com/w329li))
-+ Toke Eskildsen ([tokee](https://github.com/tokee))
-+ Ronak Pradeep ([ronakice](https://github.com/ronakice))
-+ Zhaohao Zeng ([matthew-z](https://github.com/matthew-z))
-+ Kelvin Jiang ([kelvin-jiang](https://github.com/kelvin-jiang))
-+ Adam Yang ([adamyy](https://github.com/adamyy))
 + Xueguang Ma ([MXueguang](https://github.com/MXueguang))
 + Joel Mackenzie ([JMMackenzie](https://github.com/JMMackenzie))
++ Weihua Li ([w329li](https://github.com/w329li))
++ Toke Eskildsen ([tokee](https://github.com/tokee))
++ Yue Zhang ([nsndimt](https://github.com/nsndimt))
++ Zhaohao Zeng ([matthew-z](https://github.com/matthew-z))
++ Lizzy Zhang ([LizzyZhang-tutu](https://github.com/LizzyZhang-tutu))
 + Xing Niu ([xingniu](https://github.com/xingniu))
-+ Stephanie Hu ([stephaniewhoo](https://github.com/stephaniewhoo))
 + Mina Farid ([minafarid](https://github.com/minafarid))
 + Mengfei Liu ([meng-f](https://github.com/meng-f))
 + Maik Fröbe ([mam10eks](https://github.com/mam10eks))
@@ -97,20 +103,25 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Mustafa Abualsaud ([ammsa](https://github.com/ammsa))
 + Alex Dou ([YimingDou](https://github.com/YimingDou))
 + Adrien Pouyet ([Ricocotam](https://github.com/Ricocotam))
++ Yuxuan Ji ([yuxuan-ji](https://github.com/yuxuan-ji))
 + Vera Lin ([y276lin](https://github.com/y276lin))
 + Alvis Wong ([wongalvis14](https://github.com/wongalvis14))
++ Wil Tan ([wiltan-uw](https://github.com/wiltan-uw))
 + Wei Pang ([weipang142857](https://github.com/weipang142857))
 + Ruifan Yu ([tiddler](https://github.com/tiddler))
++ Saidi Tang ([tangsaidi](https://github.com/tangsaidi))
 + Salman Tariq ([stariqmi](https://github.com/stariqmi))
 + Leonid Boytsov ([searchivarius](https://github.com/searchivarius))
 + Rohil Gupta ([rohilG](https://github.com/rohilG))
 + Richard Xu ([richard3983](https://github.com/richard3983))
++ Ray Yang ([rayyang29](https://github.com/rayyang29))
++ Qing Guo ([qguo96](https://github.com/qguo96))
 + Petek Yıldız ([ptkyldz](https://github.com/ptkyldz))
 + niazarak ([niazarak](https://github.com/niazarak))
 + Kevin Xu ([kevinxyc1](https://github.com/kevinxyc1))
 + Kevin Martin Jose ([kevinmartinjos](https://github.com/kevinmartinjos))
 + Matt Yang ([justram](https://github.com/justram))
-+ Justin Borromeo ([justinborromeo](https://github.com/justinborromeo))
++ Jerry Huang ([jhuang265](https://github.com/jhuang265))
 + Guy Rosin ([guyrosin](https://github.com/guyrosin))
 + Eiston Wei ([eiston](https://github.com/eiston))
 + Charles Wu ([charW](https://github.com/charW))
@@ -121,3 +132,5 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Tiancheng Yang ([TianchengY](https://github.com/TianchengY))
 + Horatiu Lazu ([MathBunny](https://github.com/MathBunny))
 + Edward Li ([LuKuuu](https://github.com/LuKuuu))
++ Jeffrey Chen ([JeffreyCA](https://github.com/JeffreyCA))
++ Dahlia Chehata ([Dahlia-Chehata](https://github.com/Dahlia-Chehata))

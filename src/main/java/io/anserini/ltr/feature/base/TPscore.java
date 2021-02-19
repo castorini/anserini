@@ -49,7 +49,7 @@ public class TPscore implements FeatureExtractor {
         long totalTermFreq = context.totalTermFreq;
         double avgFL = (double)totalTermFreq/numDocs;
         //firstly get the score from BM25
-        BM25 bm25_score = new BM25(k1, b, field, qfield);
+        BM25Stat bm25_score = new BM25Stat(new SumPooler(), k1, b, field, qfield);
         float score = bm25_score.extract(documentContext, queryContext);
 
         List<Pair<Integer, BCTP>> bctp_query = new ArrayList<>();

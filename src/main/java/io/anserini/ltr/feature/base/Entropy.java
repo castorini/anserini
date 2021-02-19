@@ -31,9 +31,7 @@ public class Entropy implements FeatureExtractor {
 
     public Entropy(String field) { this.field = field; }
 
-    public Entropy() {
-        this.field = IndexArgs.CONTENTS;
-    }
+    public Entropy() { this.field = IndexArgs.CONTENTS; }
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
@@ -41,7 +39,7 @@ public class Entropy implements FeatureExtractor {
         float score = 0.0f;
         for (Map.Entry<String, Long> entry : context.termFreqs.entrySet()) {
             Long freq = entry.getValue();
-            //todo need discuss this
+            //todo discuss if freq == 0, how to handle (special actions?)
             if(freq == 0) continue;
             float p = (1.0f*freq) / context.docSize;
             score += p * Math.log(p);
@@ -76,6 +74,6 @@ public class Entropy implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new Entropy();
+        return new Entropy(field);
     }
 }

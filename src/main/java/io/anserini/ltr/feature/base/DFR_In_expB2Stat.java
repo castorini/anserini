@@ -1,21 +1,43 @@
+/*
+ * Anserini: A Lucene toolkit for replicable information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
 
-public class DFR_In_expB2 implements FeatureExtractor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DFR_In_expB2Stat implements FeatureExtractor {
 
   private String field;
   private String qfield;
+  Pooler collectFun;
 
-  public DFR_In_expB2() {
+  public DFR_In_expB2Stat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public DFR_In_expB2(String field, String qfield) {
+  public DFR_In_expB2Stat(Pooler collectFun, String field, String qfield) {
     this.field = field;
     this.qfield = qfield;
+    this.collectFun = collectFun;
   }
 
   double log2(double x){
@@ -30,17 +52,18 @@ public class DFR_In_expB2 implements FeatureExtractor {
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     double avgFL = (double)totalTermFreq/numDocs;
-    float score = 0;
+    List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
+      if (docSize==0) continue;
       double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
       if(tfn==0) continue;
       double cf = context.getCollectionFreq(queryToken);
       double ne = numDocs*(1-Math.pow((double)(numDocs-1)/numDocs, cf));
       double ine = log2(((double)numDocs+1)/(ne+0.5));
-      score += tfn*ine*((cf+1)/((double)context.getDocFreq(queryToken)*(tfn+1)));
+      score.add((float) (tfn*ine*((cf+1)/((double)context.getDocFreq(queryToken)*(tfn+1)))));
     }
-    return score;
+    return collectFun.pool(score);
   }
 
   @Override
@@ -51,7 +74,7 @@ public class DFR_In_expB2 implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_DFR_In_expB2", field, qfield);
+    return String.format("%s_%s_%s_DFR_In_expB2", field, qfield,  collectFun.getName());
   }
 
   @Override
@@ -66,6 +89,7 @@ public class DFR_In_expB2 implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new DFR_In_expB2(field, qfield);
+    Pooler newFun = collectFun.clone();
+    return new DFR_In_expB2Stat(newFun, field, qfield);
   }
 }

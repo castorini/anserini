@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for replicable information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.ltr.feature;
 
 import io.anserini.index.IndexArgs;
@@ -258,6 +274,13 @@ public class DocumentFieldContext {
         double k1 = 0.9f;
         double b = 0.4f;
 
+        double avg_hmean_score = 0;
+        double avg_var_score = 0;
+        double avg_mean_score = 0;
+        double avg_min_score = 0;
+        double avg_max_score = 0;
+        double avg_quartile_score = 0;
+
         for (String queryToken : terms) {
             //mean of ( BM25 score for a single term )
             Map<Integer, List<Integer>> post = this.getPostings(queryToken);
@@ -284,19 +307,24 @@ public class DocumentFieldContext {
 
             totalTerm_Hmean = post.size() / totalTerm_Hmean;
             hmean_score.add(totalTerm_Hmean);
+            avg_hmean_score = avg_hmean_score + totalTerm_Hmean;
 
             float totalSingleTermVar = (totalSingleTerm_sumsqr / post.size()) - totalSingleTerm * totalSingleTerm;
             var_score.add(totalSingleTermVar);
+            avg_var_score = avg_var_score + totalSingleTermVar;
 
 
             int len = totalSingleTermList.size();
             if (len>0) {
                 mean_score.add(totalSingleTerm);
+                avg_mean_score = avg_mean_score + totalSingleTerm;
                 double min = totalSingleTermList.get(0);
                 min_score.add((float) min);
+                avg_min_score = avg_min_score + min;
 
                 double max = totalSingleTermList.get(post.size() - 1);
                 max_score.add((float) max);
+                avg_max_score = avg_max_score + max;
 
                 double q1 = (len + 1) / 4;
                 double q2 = 3 * (len + 1) / 4;
@@ -304,9 +332,33 @@ public class DocumentFieldContext {
                 if (q1>0 && q2>0){
                     num = (totalSingleTermList.get((int) q1 -1) - totalSingleTermList.get((int) q2 -1));
                     quartile_score.add((float) num);
+                    avg_quartile_score = avg_quartile_score + num;
+                }else{
+                    quartile_score.add(0f);
                 }
+            }else{
+                mean_score.add(0f);
+                min_score.add(0f);
+                max_score.add(0f);
+                quartile_score.add(0f);
             }
         }
+        avg_hmean_score = avg_hmean_score/hmean_score.size();
+        avg_var_score = avg_var_score/var_score.size();
+        avg_mean_score = avg_mean_score/mean_score.size();
+        avg_min_score = avg_min_score/min_score.size();
+        avg_max_score = avg_max_score/max_score.size();
+        avg_quartile_score = avg_quartile_score/quartile_score.size();
+
+        for(int i=0;i<hmean_score.size();i++){
+            hmean_score.set(i, hmean_score.get(i) - (float) avg_hmean_score);
+            var_score.set(i, var_score.get(i) - (float) avg_var_score);
+            mean_score.set(i, mean_score.get(i) - (float) avg_mean_score);
+            min_score.set(i, min_score.get(i) - (float) avg_min_score);
+            max_score.set(i, max_score.get(i) - (float) avg_max_score);
+            quartile_score.set(i, quartile_score.get(i) - (float) avg_quartile_score);
+        }
+
     }
 
 }
