@@ -81,7 +81,7 @@ public class TopicReaderTest {
     assertEquals(151, (int) topics.firstKey());
     assertEquals("Coping with overcrowded prisons", topics.get(topics.firstKey()).get("title"));
     assertEquals(200, (int) topics.lastKey());
-    assertEquals("Impact of foreign textile imports on U.S.", topics.get(topics.lastKey()).get("title"));
+    assertEquals("Impact of foreign textile imports on U.S. textile industry", topics.get(topics.lastKey()).get("title"));
 
     topics = TopicReader.getTopics(Topics.ROBUST04);
     assertNotNull(topics);
@@ -115,6 +115,35 @@ public class TopicReaderTest {
     assertEquals(825, (int) topics.lastKey());
     assertEquals("ethanol and food prices", topics.get(topics.lastKey()).get("title"));
   }
+  
+    @Test
+    public void testTrecTitleParsing() {
+        SortedMap<Integer, Map<String, String>> topics;
+
+        topics = TopicReader.getTopics(Topics.TREC1_ADHOC);
+        assertNotNull(topics);
+        assertEquals(50, topics.size());
+        //
+        // Single line titles.
+        assertEquals("Airbus Subsidies", topics.get(51).get("title"));
+        assertEquals("Controlling the Transfer of High Technology", topics.get(100).get("title"));
+        //
+        // Multi-line titles.
+        assertEquals("Financial crunch for televangelists in the wake of the PTL scandal", topics.get(81).get("title"));
+        assertEquals("Criminal Actions Against Officers of Failed Financial Institutions", topics.get(87).get("title"));
+        assertEquals("What Backing Does the National Rifle Association Have?", topics.get(93).get("title"));
+
+        topics = TopicReader.getTopics(Topics.TREC2_ADHOC);
+        assertNotNull(topics);
+        assertEquals(50, topics.size());
+
+        assertEquals("Industrial Espionage", topics.get(149).get("title"));
+
+        assertEquals("Laser Research Applicable to the U.S.'s Strategic Defense Initiative", topics.get(102).get("title"));
+        assertEquals("Impact of Government Regulated Grain Farming on International Relations", topics.get(142).get("title"));
+    }
+
+
 
   @Test
   public void testNewswireTopics_TopicIdsAsStrings() {
@@ -136,7 +165,7 @@ public class TopicReaderTest {
     assertNotNull(topics);
     assertEquals(50, topics.size());
     assertEquals("Coping with overcrowded prisons", topics.get("151").get("title"));
-    assertEquals("Impact of foreign textile imports on U.S.", topics.get("200").get("title"));
+    assertEquals("Impact of foreign textile imports on U.S. textile industry", topics.get("200").get("title"));
 
     topics = TopicReader.getTopicsWithStringIds(Topics.ROBUST04);
     assertNotNull(topics);
