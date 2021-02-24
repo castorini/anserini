@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### February 24, 2021
+
++ commit [`90d3aa`](https://github.com/castorini/anserini/commit/90d3aa0099990cf26a54afa8458d03b30b3ace02) (02/24/2021)
+
+Fixed bug where multi-line TREC topic titles weren't being fully parsed [(#1482)](https://github.com/castorini/anserini/pull/1482).
+Affects [regressions for Disks 1 & 2](https://github.com/castorini/anserini/blob/master/docs/regressions-disk12.md).
+
 ### November 16, 2020
 
 + commit [`f87c94`](https://github.com/castorini/anserini/commit/f87c945fd1c1e4174468194c72e3c05688dc45dd) (11/16/2020)
