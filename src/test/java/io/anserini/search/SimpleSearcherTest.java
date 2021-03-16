@@ -224,6 +224,9 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
 
+    hits = searcher.searchFields("test", Map.of("id", 1.0f), 10);
+    assertEquals(0, hits.length);
+
     searcher.close();
   }
 

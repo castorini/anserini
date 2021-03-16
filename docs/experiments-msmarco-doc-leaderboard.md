@@ -202,3 +202,4 @@ QueriesRanked: 5193
 ## Replication Log
 
 + Results replicated by [@MXueguang](https://github.com/MXueguang) on 2021-01-06 (commit [`6674291`](https://github.com/castorini/anserini/commit/667429183323b15790a86ef186272216f92ffcbc))
++ Results replicated by [@ronakice](https://github.com/ronakice) on 2021-01-19 (commit [`5f5dba9`](https://github.com/castorini/anserini/commit/5f5dba948b5cbbf6f73010f2a11d4fe3cca445d6))

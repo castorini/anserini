@@ -20,9 +20,12 @@ import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
+
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -64,5 +67,25 @@ public class BagOfWordsQueryGeneratorTest {
     assertEquals("contents", ((TermQuery) bq.clauses().get(2).getQuery()).getTerm().field());
     assertEquals("lamb", ((TermQuery) bq.clauses().get(3).getQuery()).getTerm().text());
     assertEquals("contents", ((TermQuery) bq.clauses().get(3).getQuery()).getTerm().field());
+  }
+
+  @Test
+  public void testMultipleFields() {
+    Map<String, Float> fields = Map.of("field1", 3.14f, "field2", 2.178f);
+
+    QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
+    Query query = queryGenerator.buildQuery(fields, IndexCollection.DEFAULT_ANALYZER, "Mary had a little lamb");
+    assertTrue(query instanceof BooleanQuery);
+
+    BooleanQuery combinedQuery = (BooleanQuery) query;
+    assertEquals(2, combinedQuery.clauses().size());
+    assertTrue(combinedQuery.clauses().get(0).getQuery() instanceof BoostQuery);
+
+    BoostQuery boostQuery = (BoostQuery) combinedQuery.clauses().get(0).getQuery();
+    assertTrue(boostQuery.getBoost() > 1.0f);
+    assertTrue(boostQuery.getQuery() instanceof BooleanQuery);
+
+    BooleanQuery booleanQuery = (BooleanQuery) boostQuery.getQuery();
+    assertEquals(4, booleanQuery.clauses().size());
   }
 }

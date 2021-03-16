@@ -80,6 +80,10 @@ public class SearchArgs {
   @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
   public boolean keepstop = false;
 
+  @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
+          usage = "Path to file with stopwords.")
+  public String stopwords = null;
+
   @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
   public boolean arbitraryScoreTieBreak = false;
 

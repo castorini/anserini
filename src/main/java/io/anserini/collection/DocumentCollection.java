@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Files;
@@ -27,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -159,13 +161,6 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         Path name = file.getFileName();
         boolean shouldAdd = true;
-        if (Files.isSymbolicLink(file)) {
-          name = Files.readSymbolicLink(file);
-          if (Files.isDirectory(name)) {
-            paths.addAll(discover(name));
-            shouldAdd = false;
-          }
-        }
         if (name != null) {
           String fileName = name.toString();
           for (String s : skippedFileSuffix) {
@@ -224,7 +219,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
     };
 
     try {
-      Files.walkFileTree(p, fv);
+      Files.walkFileTree(p, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, fv);
     } catch (IOException e) {
       LOG.error("IOException during file visiting", e);
     }
