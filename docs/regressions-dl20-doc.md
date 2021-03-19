@@ -1,4 +1,4 @@
-# Anserini: Regressions for [DL20 (Document)](https://trec.nist.gov/data/deep2020.html)
+# Anserini: Regressions for [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)
 
 This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
@@ -117,7 +117,7 @@ R@100                                   | BM25 (Default)| +RM3      | +Ax       
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6110    | 0.6392    | 0.5706    | 0.6104    | 0.5926    | 0.5983    | 0.6092    | 0.6175    |
 
-Note that retrieval metrics are computing to depth 100 hits per query (as opposed to 1000 hits per query for DL20 doc ranking).
+Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 doc ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL20 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87` (see [this page](experiments-msmarco-doc.md) for more details about tuning).

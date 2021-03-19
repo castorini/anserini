@@ -113,7 +113,7 @@ R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tune
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.8452    | 0.8699    | 0.8443    | 0.8692    |
 
-Note that retrieval metrics are computing to depth 1000 hits per query (as opposed to 100 hits per query for DL20 doc ranking).
+Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for DL20 doc ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., MAP), relevance grade 1 is considered not relevant (i.e., use `-l 2` option in `trec_eval`).
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68` (see [this page](experiments-msmarco-passage.md) for more details about tuning).

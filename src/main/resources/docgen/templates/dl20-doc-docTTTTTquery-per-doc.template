@@ -1,6 +1,6 @@
-# Anserini: Regressions for [DL20 (Document)](https://trec.nist.gov/data/deep2020.html) w/ per-doc docTTTTTquery
+# Anserini: Regressions for [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html) w/ per-doc docTTTTTquery
 
-This page describes document expansion experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
+This page describes document expansion experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Document Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
 These experimental runs take advantage of [docTTTTTquery](http://doc2query.ai/) expansions on a _per-document_ basis.
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
@@ -24,8 +24,8 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
+The regression experiments here evaluate on the 45 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -45,5 +45,5 @@ With the above commands, you should be able to replicate the following results:
 
 ${effectiveness}
 
-Note that retrieval metrics are computing to depth 100 hits per query (as opposed to 1000 hits per query for DL20 doc ranking).
+Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 doc ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL20 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
