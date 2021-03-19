@@ -44,6 +44,16 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
  -output runs/run.dl20-doc-docTTTTTquery-per-doc.bm25-default+rm3.topics.dl20.txt \
  -bm25 -rm3 -hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+ -output runs/run.dl20-doc-docTTTTTquery-per-doc.bm25-tuned.topics.dl20.txt \
+ -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+ -output runs/run.dl20-doc-docTTTTTquery-per-doc.bm25-tuned+rm3.topics.dl20.txt \
+ -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -52,30 +62,36 @@ Evaluation can be performed using `trec_eval`:
 tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.dl20-doc-docTTTTTquery-per-doc.bm25-default.topics.dl20.txt
 
 tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.dl20-doc-docTTTTTquery-per-doc.bm25-default+rm3.topics.dl20.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.dl20-doc-docTTTTTquery-per-doc.bm25-tuned.topics.dl20.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.dl20-doc-docTTTTTquery-per-doc.bm25-tuned+rm3.topics.dl20.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25 (Default)| +RM3      |
-:---------------------------------------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.4230    | 0.4228    |
+MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.4230    | 0.4228    | 0.4150    | 0.4214    |
 
 
-NDCG@10                                 | BM25 (Default)| +RM3      |
-:---------------------------------------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.5885    | 0.5407    |
+NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.5885    | 0.5407    | 0.5877    | 0.5705    |
 
 
-RR                                      | BM25 (Default)| +RM3      |
-:---------------------------------------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9369    | 0.8147    |
+RR                                      | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9369    | 0.8147    | 0.9328    | 0.8547    |
 
 
-R@100                                   | BM25 (Default)| +RM3      |
-:---------------------------------------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.6412    | 0.6555    |
+R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.6412    | 0.6555    | 0.6231    | 0.6326    |
 
-Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 doc ranking).
+Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL20 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87` (see [this page](experiments-msmarco-doc.md) for more details about tuning).

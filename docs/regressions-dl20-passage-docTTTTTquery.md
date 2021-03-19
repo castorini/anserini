@@ -1,4 +1,4 @@
-# Anserini: Regressions for [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) w/ docTTTTTquery.
+# Anserini: Regressions for [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) w/ docTTTTTquery
 
 This page describes document expansion experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
 These experimental runs take advantage of [docTTTTTquery](http://doc2query.ai/) expansions.
@@ -30,8 +30,8 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
+The regression experiments here evaluate on the 45 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
