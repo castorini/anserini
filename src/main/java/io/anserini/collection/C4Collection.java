@@ -33,33 +33,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
-/**
- * <p>A classic TREC <i>ad hoc</i> document collection.</p>
- *
- * <p>This class handles a collection comprising files containing documents of the form:</p>
- *
- * <pre>
- * &lt;DOC&gt;
- * &lt;DOCNO&gt;doc1&lt;/DOCNO&gt;
- * &lt;TEXT&gt;
- * ...
- * &lt;/TEXT&gt;
- * &lt;/DOC&gt;
- * </pre>
- *
- * <p>This class also handles the following alternative format (e.g., for NTCIR-8 ACLIA):</p>
- * <pre>
- * &lt;DOC id="doc1"&gt;
- * &lt;TEXT&gt;
- * ...
- * &lt;/TEXT&gt;
- * &lt;/DOC&gt;
- * </pre>
- *
- * <p>In both cases, compressed files are transparently handled.</p>
- *
- * <p>This collection calls the {@link JsoupStringTransform} to remove tags in the document content.</p>
- */
+
 public class C4Collection extends DocumentCollection<C4Collection.Document> {
     public C4Collection(Path path) {
         this.path = path;
