@@ -29,9 +29,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
+import java.util.Date;
+import java.time.Instant;
 
 
 public class C4Collection extends DocumentCollection<C4Collection.Document> {
@@ -47,25 +51,27 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     public static class Segment extends FileSegment<C4Collection.Document>{
         private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
         private JsonNode node = null;
+        private String filePath;
         private String fileName;
         private int count = 0;
 
         public Segment(Path path) throws IOException {
             super(path);
-            fileName = path.toString();
-            if (fileName.endsWith(".gz")) { //.gz
+            filePath = path.toString();
+            fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+            if (filePath.endsWith(".gz")) { //.gz
                 InputStream stream = new GZIPInputStream(
                         Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
                 bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
             } else { // plain text file
-                bufferedReader = new BufferedReader(new FileReader(fileName));
+                bufferedReader = new BufferedReader(new FileReader(filePath));
             }
             // reading as a json file
             ObjectMapper mapper = new ObjectMapper();
             // removes ctrl characters
             String filtered = bufferedReader.lines().map(line -> line.replaceAll("[\\p{C}]","")).collect(Collectors.joining());
             iterator = mapper.readerFor(JsonNode.class).readValues(filtered);
-            if(iterator.hasNext()){
+            if (iterator.hasNext()){
                 node = iterator.next();
             }
         }
@@ -91,28 +97,35 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
         private String contents;
         private String raw;
         private String url;
-        private String timestamp;
+        private long timestamp;
 
         public Document(JsonNode json, String filename, int jsonLoc) {
             this.raw = json.toPrettyString();
             this.contents = json.get("text").asText();
+            // id is the filename appended by the document count
             this.id = filename +  '-' + jsonLoc;
             this.url = json.get("url").asText();
-            this.timestamp = json.get("timestamp").asText();
+            String dateTime = json.get("timestamp").asText();
+            this.timestamp = getNumericTime(dateTime);
         }
 
         public String getUrl() {
             return url;
         }
 
-        public String getTimestamp() {
+        public long getTimestamp() {
             return timestamp;
+        }
+
+        private long getNumericTime(String dateTime) {
+            Instant i = Instant.parse(dateTime);
+            return i.getEpochSecond();
         }
 
         @Override
         public String id() {
             if (id == null) {
-                throw new RuntimeException("JSON document has no \"id\" field");
+                throw new RuntimeException("C4 document has no \"id\" field");
             }
             return id;
         }

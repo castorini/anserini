@@ -46,7 +46,8 @@ public class C4Generator extends DefaultLuceneDocumentGenerator<C4Collection.Doc
 
         // contents and id stored else where
         document.add(new StringField(C4Field.URL.name, doc.getUrl(), Field.Store.YES));
-        document.add(new StringField(C4Field.TIMESTAMP.name, doc.getTimestamp(), Field.Store.YES));
+        // document.add(new StringField(C4Field.TIMESTAMP.name, doc.getTimestamp(), Field.Store.YES));
+        document.add(new LongPoint(C4Field.TIMESTAMP.name, doc.getTimestamp()));
 
         return document;
     }
