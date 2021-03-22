@@ -637,6 +637,20 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testTREC20DL() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2020_DL);
+    assertNotNull(topics);
+    assertEquals(200, topics.size());
+    assertEquals(3505, (int) topics.firstKey());
+    assertEquals("how do they do open heart surgery", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1136962, (int) topics.lastKey());
+    assertEquals("why did the ancient egyptians call their land kemet, or black land?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("who is aziz hashim", topics.get(1030303).get("title"));
+  }
+
+  @Test
   public void testMSMARO_TopicIdsAsStrings() {
     Map<String, Map<String, String>> topics;
 

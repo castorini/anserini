@@ -47,6 +47,7 @@ public enum Topics {
   CAR17V20_BENCHMARK_Y1_TEST(CarTopicReader.class, "topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt"),
   TREC2019_DL_DOC(TsvIntTopicReader.class,"topics-and-qrels/topics.dl19-doc.txt"),
   TREC2019_DL_PASSAGE(TsvIntTopicReader.class,"topics-and-qrels/topics.dl19-passage.txt"),
+  TREC2020_DL(TsvIntTopicReader.class,"topics-and-qrels/topics.dl20.txt"),
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.dev.txt"),
   MSMARCO_DOC_TEST(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.test.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.txt"),
