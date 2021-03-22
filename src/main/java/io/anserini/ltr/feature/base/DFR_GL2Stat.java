@@ -57,7 +57,6 @@ public class DFR_GL2Stat implements FeatureExtractor {
     for (String queryToken : queryFieldContext.queryTokens) {
       if (docSize == 0) continue;
       double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
-      //todo need discuss this
       if(tfn==0) continue;
       double logSuccess = Math.log(1+(double)context.getCollectionFreq(queryToken)/numDocs);
       double logFail = Math.log(1+(double)numDocs/context.getCollectionFreq(queryToken));

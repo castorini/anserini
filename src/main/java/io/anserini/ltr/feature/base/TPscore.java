@@ -53,7 +53,7 @@ public class TPscore implements FeatureExtractor {
         float score = bm25_score.extract(documentContext, queryContext);
 
         List<Pair<Integer, BCTP>> bctp_query = new ArrayList<>();
-        //generte bctp_query which contains the position of specific term and some details of it
+        //generate bctp_query which contains the position of specific term and some details of it
         for (String queryToken : queryFieldContext.queryTokens) {
             double collectionFreqs = context.getCollectionFreq(queryToken);
             BCTP t = new BCTP();

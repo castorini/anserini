@@ -58,7 +58,6 @@ public class DPHStat implements FeatureExtractor {
 
         for (String queryToken : queryFieldContext.queryTokens) {
             long termFreq = context.getTermFreq(queryToken);
-            //todo need discuss this
             if(termFreq==0) continue;
             double collectionFreqs = context.getCollectionFreq(queryToken);
             double relativeFreq = (double)termFreq/docSize;
