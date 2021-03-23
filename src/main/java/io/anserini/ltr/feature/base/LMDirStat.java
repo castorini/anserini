@@ -62,7 +62,6 @@ public class LMDirStat implements FeatureExtractor {
     for (String queryToken : queryFieldContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      //todo need discuss this
       if(collectProb==0) continue;
       score.add((float) Math.log((termFreq+mu*collectProb)/(mu+docSize)));
     }

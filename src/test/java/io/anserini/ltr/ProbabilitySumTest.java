@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.MatchingTermCount;
+import io.anserini.ltr.feature.base.ProbalitySum;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,9 +25,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MatchingTermCountTest extends BaseFeatureExtractorTest<Integer> {
+public class ProbabilitySumTest extends BaseFeatureExtractorTest<Integer> {
 
-    private FeatureExtractor EXTRACTOR = new MatchingTermCount();
+    private FeatureExtractor EXTRACTOR = new ProbalitySum();
+    /*
+    sum of termFreq(each query token)/docSize
+     */
 
     @Test
     public void testAllMissing() throws IOException, ExecutionException, InterruptedException {
@@ -39,7 +42,8 @@ public class MatchingTermCountTest extends BaseFeatureExtractorTest<Integer> {
     public void testSingleTermDoc() throws IOException, ExecutionException, InterruptedException {
         String testText = "document document document another";
         String testQuery = "document";
-        float[] expected = {1};
+        // 3/4
+        float[] expected = {0.75f};
 
         assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
     }
@@ -48,16 +52,28 @@ public class MatchingTermCountTest extends BaseFeatureExtractorTest<Integer> {
     public void testMissingTermDoc() throws IOException, ExecutionException, InterruptedException {
         String testText = "document test simple tokens";
         String testQuery = "simple missing";
-        float[] expected = {1};
+        // 1/4
+        float[] expected = {0.25f};
 
         assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
     }
 
     @Test
     public void testMultipleTermsDoc() throws IOException, ExecutionException, InterruptedException {
-        String testText = "document with multiple document term document multiple some missing";
+        String testText = "document multiple document term document multiple some missing";
         String testQuery = "document multiple missing";
-        float[] expected = {3};
+        //3/8 + 2/8+ 1/8
+        float[] expected = {0.75f};
+
+        assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
+    }
+
+    @Test
+    public void testDoubleQueryTermsDoc() throws IOException, ExecutionException, InterruptedException {
+        String testText = "document multiple document term document multiple some missing";
+        String testQuery = "document document double";
+        //3/8 + 3/8+ 0
+        float[] expected = {0.75f};
 
         assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
     }
@@ -65,12 +81,14 @@ public class MatchingTermCountTest extends BaseFeatureExtractorTest<Integer> {
     @Test
     public void testTermFrequencyWithMultipleDocs() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document", "document with multiple terms",
-                "document to test", "test terms tokens", "another test document");
+                "document test case", "test terms tokens", "another test document");
         // We want to test that the expected value of count 1 is found for document
         // at index 2
+        // 1/3
         String queryText = "document";
-        float[] expected = {1};
+        float[] expected = {0.33f};
 
         assertFeatureValues(expected, queryText, docs, EXTRACTOR, 2);
     }
 }
+

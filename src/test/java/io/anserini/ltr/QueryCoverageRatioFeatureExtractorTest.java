@@ -17,28 +17,37 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.UniqueTermCount;
+import io.anserini.ltr.feature.base.QueryCoverageRatio;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
-public class UniqueTermCountFeatureExtractorTest extends BaseFeatureExtractorTest<Integer>  {
-    private static FeatureExtractor EXTRACTOR = new UniqueTermCount();
+public class QueryCoverageRatioFeatureExtractorTest  extends BaseFeatureExtractorTest<Integer>{
+    private static FeatureExtractor EXTRACTOR = new QueryCoverageRatio();
 
     @Test
     public void testSingleDoc() throws IOException, ExecutionException, InterruptedException {
-        float[] expected = {3};
-        assertFeatureValues(expected, "simple test query", "document size independent of query document",
+        // 2/3
+        float[] expected = {0.66f};
+        assertFeatureValues(expected, "simple test query", "simple document size independent of query document",
                 EXTRACTOR);
     }
 
     @Test
     public void testMultipleDocs() throws IOException, ExecutionException, InterruptedException {
-        float[] expected = {2};
-        assertFeatureValues(expected, "just test just test", Arrays.asList("first document",
+        float[] expected = {0.5f};
+        assertFeatureValues(expected, "just test", Arrays.asList("first document",
                 "second document", "test document document document test"),  EXTRACTOR, 2);
+    }
+
+    @Test
+    public void testAllMissing() throws IOException, ExecutionException, InterruptedException {
+        // 2/3
+        float[] expected = {0f};
+        assertFeatureValues(expected, "simple test query", "document size independent of sdocument",
+                EXTRACTOR);
     }
 }
 
