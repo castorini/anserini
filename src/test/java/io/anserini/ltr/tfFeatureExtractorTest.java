@@ -27,22 +27,47 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-/** test on TFIDF */
+/** test on TF */
 public class tfFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
     private static final FeatureExtractor EXTRACTOR = new tfStat(new SumPooler());
-    /*
-        (1+log(termFreq)) * log(numDocs/docFreq)
-    */
+    /*termFreq*/
 
     @Test
     public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
         String queryText = "test";
-        /*
-        (1+log(1)) * log(1)
-         */
-        float[] expected = {0.0f};
+        float[] expected = {1f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
+
+    @Test
+    public void testMultiDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
+        List<String> docs = Arrays.asList("document document",
+                "document to test", "terms tokens test test", "another document");
+        String queryText = "test";
+        float[] expected = {2f};
+
+        assertFeatureValues(expected, queryText, docs, EXTRACTOR, 2);
+    }
+
+    @Test
+    public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
+        String docText = "single document test case for multiple query tokens test";
+        String queryText = "test query not present";
+
+        float[] expected = {3f};
+        assertFeatureValues(expected, queryText, docText, EXTRACTOR);
+    }
+
+    @Test
+    public void testMultiDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
+        List<String> docs = Arrays.asList("document document",
+                "document to test", "terms tokens test test", "another document");
+        String queryText = "test query tokens not present";
+
+        float[] expected = {3f};
+        assertFeatureValues(expected, queryText, docs, EXTRACTOR,2);
+    }
+
 }

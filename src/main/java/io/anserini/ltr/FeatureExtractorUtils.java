@@ -73,18 +73,6 @@ public class FeatureExtractorUtils {
       fieldsToLoad.add(field);
     if(qfield != null)
       qfieldsToLoad.add(qfield);
-    if(extractor instanceof BM25HMean)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Max)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Mean)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Min)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Quartile)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Var)
-      executeBM25Stat = true;
     return this;
   }
 
