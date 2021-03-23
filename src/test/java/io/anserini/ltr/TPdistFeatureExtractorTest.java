@@ -16,34 +16,53 @@
 
 package io.anserini.ltr;
 
+import io.anserini.ltr.BaseFeatureExtractorTest;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.SumPooler;
 import io.anserini.ltr.feature.base.tpDist;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-/** test on TFIDF */
 public class TPdistFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
     private static final FeatureExtractor EXTRACTOR = new tpDist();
-    /*
-        (1+log(termFreq)) * log(numDocs/docFreq)
-    */
+    // Term Proximity distance
+
     @Test
-    public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
+    public void testSingleDocNoneQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
-        String queryText = "test";
-        float[] expected = {0.0f};
+        String queryText = "present false";
+        float[] expected = {0f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
 
-    public void testDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
-        String docText = "single document test case this is to test tp score";
-        String queryText = "document case";
-        float[] expected = {0.0f};
+    @Test
+    public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
+        String docText = "single document test case longer document proximity test";
+        String queryText = "test document irrelevant";
+
+        float[] expected = {0.00001f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
+
+    @Test
+    public void testMultipleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
+        List<String> docs = Arrays.asList("document document",
+                "Multiple document test case longer document proximity test", "terms tokens", "another document");
+        String queryText = "document proximity";
+        // no bigram pair in query
+        float[] expected = {0f};
+        assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
+    }
+
+
 }
+
+
+

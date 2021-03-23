@@ -19,7 +19,7 @@ package io.anserini.ltr;
 import io.anserini.ltr.BaseFeatureExtractorTest;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.SumPooler;
-import io.anserini.ltr.feature.base.ictfStat;
+import io.anserini.ltr.feature.base.DFR_GL2Stat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -28,21 +28,22 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-/** test on ictf */
-public class ictfTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new ictfStat(new SumPooler());
+public class DFRGL2Test extends BaseFeatureExtractorTest<Integer> {
+    private static final FeatureExtractor EXTRACTOR = new DFR_GL2Stat(new SumPooler());
     /*
-        log(collectionSize / cf+1)
+      avgFL:totalTermFreq/numDocs;
+      tfn:tf*log2(1+avgFL/docSize)
+      (log(1+collectionFreq/numDocs) + tfn*log(1+numDocs/collectionFreq))/(tfn+1)
     */
 
     @Test
     public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
         String queryText = "test";
-        /*
-        log(4/2)
-         */
         float[] expected = {0.69f};
+        //avgFL:4
+        //tfn:log2(2)
+        //(log(1+1/1)+log2(2)*log(1+1))/(log2(2)+1)
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -51,11 +52,17 @@ public class ictfTest extends BaseFeatureExtractorTest<Integer> {
     public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
         String queryText = "test document irrelevant";
-        /*
-        log(2)+ log(2)+log(4)
+        //avgFL:4
+        //tfn:log2(2)
+        //(log(1+1/1)+log2(2)*log(1+1))/(log2(2)+1)
 
-         */
-        float[] expected = {2.77f};
+        //avgFL:4
+        //tfn:log2(2)
+        //(log(1+1/1)+log2(2)*log(1+1))/(log2(2)+1)
+
+        //0
+
+        float[] expected = {1.38f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -65,10 +72,7 @@ public class ictfTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document test case", "terms tokens", "another document");
         String queryText = "test";
-        /*
-        log(9/2)
-         */
-        float[] expected = {1.5f};
+        float[] expected = {0.84f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
@@ -77,10 +81,7 @@ public class ictfTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document test test test test test test case", "terms tokens", "another document");
         String queryText = "test";
-        /*
-        log(14/7)
-         */
-        float[] expected = {0.69f};
+        float[] expected = {0.61f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
@@ -89,13 +90,11 @@ public class ictfTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document test test test test test test case", "terms tokens", "another doc");
         String queryText = "test tfidf document";
-        /*
-           log(14/7) + log(14/1) + log(14/4)
-         */
-        float[] expected = {4.58f};
+        float[] expected = {1.27f};
         //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
 }
+
 
