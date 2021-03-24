@@ -797,7 +797,7 @@ public final class IndexCollection {
       int fileNumStart = segmentPaths.get(0).toString().indexOf('.') + 1;
       segmentPaths = segmentPaths.stream().filter(x -> Integer.parseInt(x.toString().substring(fileNumStart, fileNumStart+5)) % args.shardCount == args.shardCurrent)
                                           .collect(Collectors.toList());
-    } else {
+    } else if (args.shardCount > 1) {
       segmentPaths = segmentPaths.stream().filter(x -> x.toString().hashCode() % args.shardCount == args.shardCurrent)
               .collect(Collectors.toList());
     }
