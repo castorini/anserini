@@ -464,15 +464,6 @@ public final class IndexCollection {
             continue;
           }
 
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
-          }
-
           Document document;
           try {
             document = generator.createDocument(sourceDocument);
@@ -801,11 +792,14 @@ public final class IndexCollection {
     LOG.info("Initializing collection in " + collectionPath.toString());
     List<?> segmentPaths = collection.getSegmentPaths();
 
-    // for C4 specifically we filter through segmentPaths to only take ones that we want
+    // for C4 specifically we filter through segmentPaths to only take ones that we want based on file #
     if (args.collectionClass.equals("C4Collection") && args.shardCount > 1) {
       int fileNumStart = segmentPaths.get(0).toString().indexOf('.') + 1;
       segmentPaths = segmentPaths.stream().filter(x -> Integer.parseInt(x.toString().substring(fileNumStart, fileNumStart+5)) % args.shardCount == args.shardCurrent)
                                           .collect(Collectors.toList());
+    } else {
+      segmentPaths = segmentPaths.stream().filter(x -> x.toString().hashCode() % args.shardCount == args.shardCurrent)
+              .collect(Collectors.toList());
     }
     final int segmentCnt = segmentPaths.size();
 
