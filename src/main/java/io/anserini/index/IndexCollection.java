@@ -180,8 +180,8 @@ public final class IndexCollection {
             continue;
           }
 
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
+          // Used for indexing distinct shardCount of a collection, C4 sharding is done in different section
+          if (args.shardCount > 1 && !args.collectionClass.equals("C4Collection")) {
             int hash = Hashing.sha1().hashString(d.id(), Charsets.UTF_8).asInt() % args.shardCount;
             if (hash != args.shardCurrent) {
               counters.skipped.incrementAndGet();
@@ -799,8 +799,16 @@ public final class IndexCollection {
     LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
     LOG.info("Initializing collection in " + collectionPath.toString());
-    final List segmentPaths = collection.getSegmentPaths();
+    List<?> segmentPaths = collection.getSegmentPaths();
+
+    // for C4 specifically we filter through segmentPaths to only take ones that we want
+    if (args.collectionClass.equals("C4Collection") && args.shardCount > 1) {
+      int fileNumStart = segmentPaths.get(0).toString().indexOf('.') + 1;
+      segmentPaths = segmentPaths.stream().filter(x -> Integer.parseInt(x.toString().substring(fileNumStart, fileNumStart+5)) % args.shardCount == args.shardCurrent)
+                                          .collect(Collectors.toList());
+    }
     final int segmentCnt = segmentPaths.size();
+
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");
 
