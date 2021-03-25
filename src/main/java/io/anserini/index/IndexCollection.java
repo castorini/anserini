@@ -180,15 +180,6 @@ public final class IndexCollection {
             continue;
           }
 
-          // Used for indexing distinct shardCount of a collection, C4 sharding is done in different section
-          if (args.shardCount > 1 && !args.collectionClass.equals("C4Collection")) {
-            int hash = Hashing.sha1().hashString(d.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
-          }
-
           Document doc;
           try {
             doc = generator.createDocument(d);
@@ -287,15 +278,6 @@ public final class IndexCollection {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
-          }
-
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
           }
 
           Document document;

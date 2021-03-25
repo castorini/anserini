@@ -58,7 +58,9 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
         public Segment(Path path) throws IOException {
             super(path);
             filePath = path.toString();
-            fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+            int fileNumStart = filePath.indexOf(".")+1;
+            fileName = filePath.substring(fileNumStart, fileNumStart + 5);
+            System.out.println(fileName);
             if (filePath.endsWith(".gz")) { //.gz
                 InputStream stream = new GZIPInputStream(
                         Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
