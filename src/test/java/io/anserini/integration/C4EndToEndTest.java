@@ -25,52 +25,52 @@ import io.anserini.index.generator.C4Generator;
 import java.util.Map;
 
 public class C4EndToEndTest extends EndToEndTest {
-    @Override
-    protected IndexArgs getIndexArgs() {
-        IndexArgs indexArgs = createDefaultIndexArgs();
+  @Override
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
 
-        indexArgs.input = "src/test/resources/sample_docs/c4";
-        indexArgs.collectionClass = C4Collection.class.getSimpleName();
-        indexArgs.generatorClass = C4Generator.class.getSimpleName();
-        indexArgs.shardCount = 2;
-        indexArgs.shardCurrent = 1;
+    indexArgs.input = "src/test/resources/sample_docs/c4";
+    indexArgs.collectionClass = C4Collection.class.getSimpleName();
+    indexArgs.generatorClass = C4Generator.class.getSimpleName();
+    indexArgs.shardCount = 2;
+    indexArgs.shardCurrent = 1;
 
-        return indexArgs;
-    }
+    return indexArgs;
+  }
 
-    @Override
-    protected void setCheckIndexGroundTruth() {
-        docCount = 2;
-        documents.put("00001-0", Map.of(
-                "contents", "test text",
-                "raw", "{\n" +
-                        "  \"text\" : \"test text\",\n" +
-                        "  \"timestamp\" : \"2019-04-23T08:26:47Z\",\n" +
-                        "  \"url\" : \"http://www.test.com\"\n" +
-                        "}"));
-        documents.put("00001-1", Map.of(
-                "contents", "test text2",
-                "raw", "{\n" +
-                        "  \"text\" : \"test text2\",\n" +
-                        "  \"timestamp\" : \"2020-04-23T08:26:47Z\",\n" +
-                        "  \"url\" : \"http://www.test2.com\"\n" +
-                        "}"));
+  @Override
+  protected void setCheckIndexGroundTruth() {
+    docCount = 2;
+    documents.put("00001-0", Map.of(
+            "contents", "test text",
+            "raw", "{\n" +
+                    "  \"text\" : \"test text\",\n" +
+                    "  \"timestamp\" : \"2019-04-23T08:26:47Z\",\n" +
+                    "  \"url\" : \"http://www.test.com\"\n" +
+                    "}"));
+    documents.put("00001-1", Map.of(
+            "contents", "test text2",
+            "raw", "{\n" +
+                    "  \"text\" : \"test text2\",\n" +
+                    "  \"timestamp\" : \"2020-04-23T08:26:47Z\",\n" +
+                    "  \"url\" : \"http://www.test2.com\"\n" +
+                    "}"));
 
-        fieldNormStatusTotalFields = 1;
-        termIndexStatusTermCount = 7;
-        termIndexStatusTotFreq = 8;
-        storedFieldStatusTotalDocCounts = 2;
-        termIndexStatusTotPos = 8;
-        storedFieldStatusTotFields = 10;
-    }
+    fieldNormStatusTotalFields = 1;
+    termIndexStatusTermCount = 7;
+    termIndexStatusTotFreq = 8;
+    storedFieldStatusTotalDocCounts = 2;
+    termIndexStatusTotPos = 8;
+    storedFieldStatusTotFields = 10;
+  }
 
-    @Override
-    protected void setSearchGroundTruth() {
-        topicReader = "TsvInt";
-        topicFile = "src/test/resources/sample_topics/c4_topics.tsv";
+  @Override
+  protected void setSearchGroundTruth() {
+    topicReader = "TsvInt";
+    topicFile = "src/test/resources/sample_topics/c4_topics.tsv";
 
-        testQueries.put("bm25", createDefaultSearchArgs().bm25());
-        referenceRunOutput.put("bm25", new String[]{
-                "1 Q0 00001-0 1 0.364800 Anserini"});
-    }
+    testQueries.put("bm25", createDefaultSearchArgs().bm25());
+    referenceRunOutput.put("bm25", new String[]{
+            "1 Q0 00001-0 1 0.364800 Anserini"});
+  }
 }

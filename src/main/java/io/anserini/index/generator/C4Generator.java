@@ -21,33 +21,33 @@ import io.anserini.index.IndexArgs;
 import org.apache.lucene.document.*;
 
 public class C4Generator extends DefaultLuceneDocumentGenerator<C4Collection.Document>{
-    protected IndexArgs args;
+  protected IndexArgs args;
 
-    // constants for storing
-    public enum C4Field {
-        ID("id"),
-        URL("url"),
-        TIMESTAMP("timestamp");
+  // constants for storing
+  public enum C4Field {
+    ID("id"),
+    URL("url"),
+    TIMESTAMP("timestamp");
 
-        public final String name;
+    public final String name;
 
-        C4Field(String s) {
-            name = s;
-        }
+    C4Field(String s) {
+      name = s;
     }
+  }
 
-    public C4Generator(IndexArgs args) {
-        super(args);
-        this.args = args;
-    }
+  public C4Generator(IndexArgs args) {
+    super(args);
+    this.args = args;
+  }
 
-    public Document createDocument(C4Collection.Document doc) throws GeneratorException {
-        Document document = super.createDocument(doc);
+  public Document createDocument(C4Collection.Document doc) throws GeneratorException {
+    Document document = super.createDocument(doc);
 
-        // contents and id stored else where
-        document.add(new StringField(C4Field.URL.name, doc.getUrl(), Field.Store.YES));
-        document.add(new LongPoint(C4Field.TIMESTAMP.name, doc.getTimestamp()));
-        document.add(new StoredField(C4Field.TIMESTAMP.name, doc.getTimestamp()));
-        return document;
-    }
+    // contents and id stored in superclass method
+    document.add(new StringField(C4Field.URL.name, doc.getUrl(), Field.Store.YES));
+    document.add(new LongPoint(C4Field.TIMESTAMP.name, doc.getTimestamp()));
+    document.add(new StoredField(C4Field.TIMESTAMP.name, doc.getTimestamp()));
+    return document;
+  }
 }
