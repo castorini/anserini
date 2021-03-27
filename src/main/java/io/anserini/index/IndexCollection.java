@@ -82,6 +82,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
+import org.mockito.internal.matchers.Any;
 
 import java.io.File;
 import java.io.IOException;
@@ -611,6 +612,15 @@ public final class IndexCollection {
   private ObjectPool<SolrClient> solrPool;
   private ObjectPool<RestHighLevelClient> esPool;
 
+  private int getFileNumber(String fileName) {
+    try {
+      int fileNumStart = fileName.indexOf('.') + 1;
+      return Integer.parseInt(fileName.substring(fileNumStart, fileNumStart + 5));
+    } catch (final NumberFormatException e) {
+      return fileName.hashCode();
+    }
+  }
+
   @SuppressWarnings("unchecked")
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
@@ -777,11 +787,10 @@ public final class IndexCollection {
     // for C4 specifically we filter through segmentPaths to only take ones that we want based on file #
     if (args.shardCount > 1) {
       if (args.collectionClass.equals("C4Collection")) {
-        int fileNumStart = segmentPaths.get(0).toString().indexOf('.') + 1;
-        segmentPaths = segmentPaths.stream().filter(x -> Integer.parseInt(x.toString().substring(fileNumStart, fileNumStart + 5)) % args.shardCount == args.shardCurrent)
+        segmentPaths = segmentPaths.stream().filter(x -> getFileNumber(x.toString()) % args.shardCount == args.shardCurrent)
                 .collect(Collectors.toList());
       } else {
-        segmentPaths = segmentPaths.stream().filter(x -> x.toString().hashCode() % args.shardCount == args.shardCurrent)
+        segmentPaths = segmentPaths.stream().filter(x -> getFileNumber(x.toString()) % args.shardCount == args.shardCurrent)
                 .collect(Collectors.toList());
       }
     }
