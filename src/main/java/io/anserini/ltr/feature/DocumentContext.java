@@ -75,8 +75,4 @@ public class DocumentContext {
       fieldContexts.get(fieldName).updateDoc(internalId);
   }
 
-  public void generateBM25Stat(List<String> terms) throws IOException {
-    for(String fieldName: fieldsToLoad)
-      fieldContexts.get(fieldName).generateBM25Stat(terms);
-  }
 }

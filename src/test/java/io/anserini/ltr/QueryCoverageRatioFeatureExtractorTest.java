@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class QueryCoverageRatioFeatureExtractorTest  extends BaseFeatureExtractorTest<Integer>{
+    // number of query tokens in doc/ docsize
     private static FeatureExtractor EXTRACTOR = new QueryCoverageRatio();
 
     @Test

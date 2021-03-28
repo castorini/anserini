@@ -54,7 +54,6 @@ public class FeatureExtractorUtils {
   private ExecutorService pool;
   private Map<String, Future<byte[]>> tasks = new HashMap<>();
   private Map<String, Future<List<debugOutput>>> debugTasks = new HashMap<>();
-  private Boolean executeBM25Stat = false;
 
   /**
    * set up the feature we wish to extract
@@ -119,10 +118,6 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<debugOutput> result = new ArrayList<>();
-      if (executeBM25Stat){
-        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
-        documentContext.generateBM25Stat(qcontext.queryTokens);
-      }
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -162,11 +157,6 @@ public class FeatureExtractorUtils {
       ObjectMapper mapper = new ObjectMapper();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
-
-      if (executeBM25Stat){
-        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
-        documentContext.generateBM25Stat(qcontext.queryTokens);
-      }
 
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       DataOutputStream dos = new DataOutputStream(baos);

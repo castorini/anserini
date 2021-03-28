@@ -23,7 +23,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
-
+// get length of query
 public class QueryLengthTest  extends BaseFeatureExtractorTest<Integer>{
     private static FeatureExtractor EXTRACTOR = new QueryLength();
 

@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/* matching count for tokens*/
 public class MatchingTermCountTest extends BaseFeatureExtractorTest<Integer> {
 
     private FeatureExtractor EXTRACTOR = new MatchingTermCount();
