@@ -19,19 +19,25 @@ package io.anserini.ltr.feature.base;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
 
-public class DFR_In_expB2 implements FeatureExtractor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DFR_GL2Stat implements FeatureExtractor {
 
   private String field;
   private String qfield;
+  Pooler collectFun;
 
-  public DFR_In_expB2() {
+  public DFR_GL2Stat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public DFR_In_expB2(String field, String qfield) {
+  public DFR_GL2Stat(Pooler collectFun, String field, String qfield) {
     this.field = field;
     this.qfield = qfield;
+    this.collectFun = collectFun;
   }
 
   double log2(double x){
@@ -46,17 +52,17 @@ public class DFR_In_expB2 implements FeatureExtractor {
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     double avgFL = (double)totalTermFreq/numDocs;
-    float score = 0;
+    List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
+      if (docSize == 0) continue;
       double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
       if(tfn==0) continue;
-      double cf = context.getCollectionFreq(queryToken);
-      double ne = numDocs*(1-Math.pow((double)(numDocs-1)/numDocs, cf));
-      double ine = log2(((double)numDocs+1)/(ne+0.5));
-      score += tfn*ine*((cf+1)/((double)context.getDocFreq(queryToken)*(tfn+1)));
+      double logSuccess = Math.log(1+(double)context.getCollectionFreq(queryToken)/numDocs);
+      double logFail = Math.log(1+(double)numDocs/context.getCollectionFreq(queryToken));
+      score.add((float) ((logSuccess+tfn*logFail)/(tfn+1.0)));
     }
-    return score;
+    return collectFun.pool(score);
   }
 
   @Override
@@ -67,7 +73,7 @@ public class DFR_In_expB2 implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_DFR_In_expB2", field, qfield);
+    return String.format("%s_%s_%s_DFR_GL2", field, qfield, collectFun.getName());
   }
 
   @Override
@@ -82,6 +88,8 @@ public class DFR_In_expB2 implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new DFR_In_expB2(field, qfield);
+    Pooler newFun = collectFun.clone();
+    return new DFR_GL2Stat(newFun, field, qfield);
   }
+
 }

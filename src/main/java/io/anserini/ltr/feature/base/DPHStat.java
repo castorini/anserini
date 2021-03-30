@@ -19,6 +19,9 @@ package io.anserini.ltr.feature.base;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This feature computes collection query similarity, DPH defined as
  * tf*log(p/P(t))+0.5log(2pi*tf*(1-p)) found on page 18 of Giambattista Amati, Frequentist and
@@ -28,18 +31,21 @@ import io.anserini.ltr.feature.*;
  * TFC is the overall number of tokens in the collection
  */
  
-public class DPH implements FeatureExtractor {
+public class DPHStat implements FeatureExtractor {
     private String field;
     private String qfield;
+    Pooler collectFun;
 
-    public DPH() {
+    public DPHStat(Pooler collectFun) {
         this.field = IndexArgs.CONTENTS;
         this.qfield = "analyzed";
+        this.collectFun = collectFun;
     }
 
-    public DPH(String field, String qfield) {
+    public DPHStat(Pooler collectFun, String field, String qfield) {
         this.field = field;
         this.qfield = qfield;
+        this.collectFun = collectFun;
     }
 
     @Override
@@ -48,11 +54,10 @@ public class DPH implements FeatureExtractor {
         QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
         long docSize = context.docSize;
         long totalTermFreq = context.totalTermFreq;
-        float score = 0;
+        List<Float> score = new ArrayList<>();
 
         for (String queryToken : queryFieldContext.queryTokens) {
             long termFreq = context.getTermFreq(queryToken);
-            //todo need discuss this
             if(termFreq==0) continue;
             double collectionFreqs = context.getCollectionFreq(queryToken);
             double relativeFreq = (double)termFreq/docSize;
@@ -61,10 +66,10 @@ public class DPH implements FeatureExtractor {
             }
             double norm = (1d-relativeFreq) * (1d -relativeFreq)/(termFreq+1d);
             double Pt = collectionFreqs/totalTermFreq;
-            score += norm * (termFreq* Math.log((relativeFreq/Pt)) +
-                    0.5d * Math.log(2.0 * Math.PI * termFreq * (1d - relativeFreq)));
+            score.add((float) (norm * (termFreq* Math.log((relativeFreq/Pt)) +
+                                0.5d * Math.log(2.0 * Math.PI * termFreq * (1d - relativeFreq)))));
         }
-        return score;
+        return collectFun.pool(score);
     }
 
     @Override
@@ -75,7 +80,7 @@ public class DPH implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return String.format("%s_%s_DPH", field, qfield);
+        return String.format("%s_%s_%s_DPH", field, qfield, collectFun.getName());
     }
 
     @Override
@@ -90,6 +95,7 @@ public class DPH implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new DPH(field, qfield);
+        Pooler newFun = collectFun.clone();
+        return new DPHStat(newFun, field, qfield);
     }
 }

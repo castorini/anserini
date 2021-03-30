@@ -19,46 +19,51 @@ package io.anserini.ltr.feature.base;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.*;
 
-public class LMDir implements FeatureExtractor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DFR_In_expB2Stat implements FeatureExtractor {
+
   private String field;
   private String qfield;
-  private double mu = 1000;
+  Pooler collectFun;
 
-  public LMDir() {
+  public DFR_In_expB2Stat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public LMDir(double mu) {
-    if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
-    this.mu = mu;
-    this.field = IndexArgs.CONTENTS;
-    this.qfield = "analyzed";
-  }
-
-  public LMDir(double mu, String field, String qfield) {
-    if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
-    this.mu = mu;
+  public DFR_In_expB2Stat(Pooler collectFun, String field, String qfield) {
     this.field = field;
     this.qfield = qfield;
+    this.collectFun = collectFun;
+  }
+
+  double log2(double x){
+    return Math.log(x)/Math.log(2);
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    long numDocs = context.numDocs;
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
-    float score = 0;
+    double avgFL = (double)totalTermFreq/numDocs;
+    List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
-      long termFreq = context.getTermFreq(queryToken);
-      double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      //todo need discuss this
-      if(collectProb==0) continue;
-      score += Math.log((termFreq+mu*collectProb)/(mu+docSize));
+      if (docSize==0) continue;
+      double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
+      if(tfn==0) continue;
+      double cf = context.getCollectionFreq(queryToken);
+      double ne = numDocs*(1-Math.pow((double)(numDocs-1)/numDocs, cf));
+      double ine = log2(((double)numDocs+1)/(ne+0.5));
+      score.add((float) (tfn*ine*((cf+1)/((double)context.getDocFreq(queryToken)*(tfn+1)))));
     }
-    return score;
+    return collectFun.pool(score);
   }
 
   @Override
@@ -69,7 +74,7 @@ public class LMDir implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_LMD_mu_%.0f", field, qfield, mu);
+    return String.format("%s_%s_%s_DFR_In_expB2", field, qfield,  collectFun.getName());
   }
 
   @Override
@@ -82,12 +87,9 @@ public class LMDir implements FeatureExtractor {
     return qfield;
   }
 
-  public double getMu() {
-    return mu;
-  }
-
   @Override
   public FeatureExtractor clone() {
-    return new LMDir(mu, field, qfield);
+    Pooler newFun = collectFun.clone();
+    return new DFR_In_expB2Stat(newFun, field, qfield);
   }
 }

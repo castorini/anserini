@@ -152,6 +152,12 @@ public class IBMModel1 implements FeatureExtractor {
         return;
     }
 
+    public static float calculate_score(double colProb, float totTranProb, double lambda) {
+        colProb = Math.max(colProb, 1e-9f);
+        double res = Math.log((1 - lambda) * totTranProb + lambda * colProb) - Math.log(lambda * colProb);
+        return (float)res;
+    }
+
     public float computeQuery(String queryWord, Map<String, Long> docFreq, Long docSize, double colProb) throws IOException {
         double res = 0;
         float totTranProb = 0;
@@ -187,9 +193,7 @@ public class IBMModel1 implements FeatureExtractor {
                 }
             }
         }
-        colProb = Math.max(colProb, 1e-9f);
-        res = Math.log((1 - lambda) * totTranProb + lambda * colProb) - Math.log(lambda * colProb);
-        return (float) res;
+        return calculate_score(colProb,totTranProb,lambda);
     }
 
     @Override
