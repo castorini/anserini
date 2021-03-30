@@ -1,0 +1,299 @@
+<top>
+  <num> Number: 886 </num>
+  <docid>AEQZNZSVT5BGPPUTTJO7SNMOLE</docid>
+  <url>https://www.washingtonpost.com/politics/2019/06/05/trump-says-transgender-troops-cant-serve-because-troops-cant-take-any-drugs-hes-wrong-many-ways/</url>
+</top>
+
+<top>
+  <num> Number: 887 </num>
+  <docid>L3GFDSBDMUI6VBXTHNIBTVCR3M</docid>
+  <url>https://www.washingtonpost.com/local/virginia-politics/two-virginia-democrats-want-to-replace-the-robert-e-lee-statue-in-the-capitol/2019/12/23/5ecc51c8-2365-11ea-86f3-3b5019d451db_story.html</url>
+</top>
+
+<top>
+  <num> Number: 888 </num>
+  <docid>8fb2903f12dfbb787023fd1daa1a7ccc</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/wonk/wp/2015/11/09/haunting-photos-show-forgotten-and-forbidden-buildings-in-america/</url>
+</top>
+
+<top>
+  <num> Number: 889 </num>
+  <docid>516fb0da-1b92-11e6-9c81-4be1c14fb8c8</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/opinions/congress-betrays-afghans-who-risked-their-lives-to-help-the-us/2016/05/16/516fb0da-1b92-11e6-9c81-4be1c14fb8c8_story.html</url>
+</top>
+
+<top>
+  <num> Number: 890 </num>
+  <docid>QD7AORAY6AI6TCH67H3XUO6LNQ</docid>
+  <url>https://www.washingtonpost.com/entertainment/music/as-a-classical-music-critic-i-used-to-think-the-star-wars-score-was-beneath-me-i-was-wrong/2019/01/17/80fe0744-18f0-11e9-88fe-f9f77a3bcb6c_story.html</url>
+</top>
+
+<top>
+  <num> Number: 891 </num>
+  <docid>e02565e5e463e1485c59e8a1cb1f1c79</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/the-switch/wp/2015/04/24/comcast-chiefs-last-minute-pleas-to-a-former-ally-fell-on-deaf-ears/</url>
+</top>
+
+<top>
+  <num> Number: 892 </num>
+  <docid>O6LNXJXESUI6TNAD644ITGMC2I</docid>
+  <url>https://www.washingtonpost.com/local/trafficandcommuting/maryland-plan-to-widen-i-270-first-could-make-traffic-worse-toll-lane-advocates-say/2019/10/11/7796dba6-e495-11e9-b403-f738899982d2_story.html</url>
+</top>
+
+<top>
+  <num> Number: 893 </num>
+  <docid>003bb6c325f64e2dd4a153578c096b81</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/energy-environment/wp/2017/08/16/the-northwest-passages-most-famous-shipwrecks-lie-in-these-waters-scientists-are-still-finding-out-what-else-lies-beneath/</url>
+</top>
+
+<top>
+  <num> Number: 894 </num>
+  <docid>25eca252d956fe443df0fb2bcff9b39b</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/digger/wp/2014/09/09/four-developers-eye-takoma-park-co-op-expansion/</url>
+</top>
+
+<top>
+  <num> Number: 895 </num>
+  <docid>615f0d53ac8f1e05c51bfebf4fdaf0e5</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/to-your-health/wp/2015/04/09/sabra-pulls-30000-cases-of-hummus-off-store-shelves-due-to-listeria-fears/</url>
+</top>
+
+<top>
+  <num> Number: 896 </num>
+  <docid>5a350c34-542b-11e1-8941-727ff558a2ff</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/opinions/nixons-great-decision-on-china-40-years-later/2012/02/10/gIQAtFh34Q_story.html</url>
+</top>
+
+<top>
+  <num> Number: 897 </num>
+  <docid>04846c27216e2d06d7c7cd10f7a3bd8c</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/dr-gridlock/wp/2017/08/08/another-person-arrested-with-guns-in-their-carry-on-bag-this-time-at-a-bwi-airport-checkpoint/</url>
+</top>
+
+<top>
+  <num> Number: 898 </num>
+  <docid>0ba5277d92e70d8fbc8938051f0d56cc</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/the-switch/wp/2015/10/26/the-internet-is-actually-a-series-of-tubes-or-at-least-undersea-cables/</url>
+</top>
+
+<top>
+  <num> Number: 899 </num>
+  <docid>dc59539f1ff803f5cff14129c2d70b4a</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/express/wp/2017/06/15/im-marrying-deadpool-at-awesome-con-three-superfans-share-their-plans-for-this-year/</url>
+</top>
+
+<top>
+  <num> Number: 900 </num>
+  <docid>ac7846ac-d78c-11e6-b8b2-cb5164beba6b</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/lifestyle/food/the-next-big-thing-in-american-distilling-single-malt-whiskey/2017/01/13/ac7846ac-d78c-11e6-b8b2-cb5164beba6b_story.html</url>
+</top>
+
+<top>
+  <num> Number: 901 </num>
+  <docid>EGGH7TFPEUI6TPC4445WAPT7HA</docid>
+  <url>https://www.washingtonpost.com/lifestyle/food/bottled-in-bond-was-created-to-protect-drinkers-in-the-1800s-now-the-label-has-a-new-appeal/2019/07/29/218c7fcc-af25-11e9-bc5c-e73b603e7f38_story.html</url>
+</top>
+
+<top>
+  <num> Number: 902 </num>
+  <docid>DDENAI6RAVCQRGI3JYAFPLYBJQ</docid>
+  <url>https://www.washingtonpost.com/news/business/wp/2018/07/11/black-soybean-farmers-say-they-were-deliberately-sold-defective-seeds-because-of-their-race/</url>
+</top>
+
+<top>
+  <num> Number: 903 </num>
+  <docid>4d1101310f64706bfe0ba91e3da7d4b1</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/innovations/wp/2016/03/07/3-ways-in-which-a-3d-printer-may-one-day-save-your-life/</url>
+</top>
+
+<top>
+  <num> Number: 904 </num>
+  <docid>5UPB3LFUJFBRZBIHHK23HYK3A4</docid>
+  <url>https://www.washingtonpost.com/lifestyle/2019/08/28/lego-just-released-audio-braille-instructions-they-did-it-because-blind-man-who-never-gave-up/</url>
+</top>
+
+<top>
+  <num> Number: 905 </num>
+  <docid>5609e012-fd0e-11e6-8f41-ea6ed597e4ca</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/lifestyle/travel/cant-sleep-on-airplanes-these-products-and-techniques-can-help/2017/03/16/5609e012-fd0e-11e6-8f41-ea6ed597e4ca_story.html</url>
+</top>
+
+<top>
+  <num> Number: 906 </num>
+  <docid>2ba0217c-fe3e-11e4-8b6c-0dcce21e223d</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/national/health-science/house-panel-seeks-expanded-gao-review-of-smallpox-incident-at-nih/2015/05/19/2ba0217c-fe3e-11e4-8b6c-0dcce21e223d_story.html</url>
+</top>
+
+<top>
+  <num> Number: 907 </num>
+  <docid>HPTOCDMCX5A6FK6E4L6YPNBL34</docid>
+  <url>https://www.washingtonpost.com/lifestyle/2019/01/31/how-this-amateur-painting-became-hilarious-social-media-sensation/</url>
+</top>
+
+<top>
+  <num> Number: 908 </num>
+  <docid>164b7736-b658-11e5-a842-0feb51d1d124</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/local/a-long-time-ago-big-reels-of-film-came-to-air-and-space-museum-no-more/2016/01/10/164b7736-b658-11e5-a842-0feb51d1d124_story.html</url>
+</top>
+
+<top>
+  <num> Number: 909 </num>
+  <docid>34M6IHSKTQI6TFTDACWHH5EWMI</docid>
+  <url>https://www.washingtonpost.com/local/baltimore-launches-a-push-to-demolish-vacant-buildings/2019/03/21/df19e41e-4a9c-11e9-9663-00ac73f49662_story.html</url>
+</top>
+
+<top>
+  <num> Number: 910 </num>
+  <docid>185d3a1455bfc0a392b79cfd7d0c287a</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/energy-environment/wp/2016/06/10/light-pollution-keeps-much-of-humanity-from-seeing-the-night-sky/</url>
+</top>
+
+<top>
+  <num> Number: 911 </num>
+  <docid>3KB5C4ETPQI6TNMKU2U27KQOHY</docid>
+  <url>https://www.washingtonpost.com/local/university-of-maryland-led-survey-finds-honeybee-losses-highest-in-13-years-this-winter/2019/06/20/da83d170-937c-11e9-b58a-a6a9afaa0e3e_story.html</url>
+</top>
+
+<top>
+  <num> Number: 912 </num>
+  <docid>2MVZATLD5VFY7D5L6T74XV4NEE</docid>
+  <url>https://www.washingtonpost.com/news/voraciously/wp/2018/09/28/how-to-ditch-the-boring-trail-mix-and-eat-well-while-camping-out/</url>
+</top>
+
+<top>
+  <num> Number: 913 </num>
+  <docid>EKBF67S7SBEDJPY2PDGGF4UFMY</docid>
+  <url>https://www.washingtonpost.com/outlook/2019/07/10/how-antitrust-laws-can-save-silicon-valley-without-breaking-up-tech-giants/</url>
+</top>
+
+<top>
+  <num> Number: 914 </num>
+  <docid>86b04ad6-913d-11e6-9c85-ac42097b8cc0</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/world/asia_pacific/bhumibol-adulyadej-of-thailand-dies-at-88-worlds-longest-reigning-monarch/2016/10/13/86b04ad6-913d-11e6-9c85-ac42097b8cc0_story.html</url>
+</top>
+
+<top>
+  <num> Number: 915 </num>
+  <docid>YA6SZFNXXJDSNBEZFFASHEASP4</docid>
+  <url>https://www.washingtonpost.com/world/2018/12/19/stupid-people-or-stupid-woman-jeremy-corbyn-opened-his-mouth-britain-is-divided/</url>
+</top>
+
+<top>
+  <num> Number: 916 </num>
+  <docid>b5e6cc2e4f014b0ceb1ef7821380b84d</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/global-opinions/wp/2017/06/26/europe-has-an-irish-problem/</url>
+</top>
+
+<top>
+  <num> Number: 917 </num>
+  <docid>EJU5M3XX5UI6RBR4TYXYMTKH44</docid>
+  <url>https://www.washingtonpost.com/entertainment/books/she-looks-like-a-well-to-do-la-runner-but-this-heroine-has-a-darker-side/2019/01/17/2269d66e-f7ed-11e8-863c-9e2f864d47e7_story.html</url>
+</top>
+
+<top>
+  <num> Number: 918 </num>
+  <docid>VG6ST23VXBCNNCLCRBNIGVJMKM</docid>
+  <url>https://www.washingtonpost.com/news/the-switch/wp/2018/03/22/amazon-issued-patent-for-delivery-drones-that-can-react-to-screaming-flailing-arms/</url>
+</top>
+
+<top>
+  <num> Number: 919 </num>
+  <docid>R7TDEY2TJRFMDNWDRMJPY3GJZA</docid>
+  <url>https://www.washingtonpost.com/news/wonk/wp/2018/06/09/the-blimp-industry-is-changing-right-over-our-noses/</url>
+</top>
+
+<top>
+  <num> Number: 920 </num>
+  <docid>YQ4CL6PJUBA4LODKNGMPNK6GKI</docid>
+  <url>https://www.washingtonpost.com/weather/2019/11/03/its-night-day-new-radar-allows-scientists-peer-inside-california-wildfires-like-never-before/</url>
+</top>
+
+<top>
+  <num> Number: 921 </num>
+  <docid>63476ba8-3e51-11e2-ae43-cf491b837f7b</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/local/therootdc/2012/12/06/63476ba8-3e51-11e2-ae43-cf491b837f7b_story.html</url>
+</top>
+
+<top>
+  <num> Number: 922 </num>
+  <docid>8dedbf3b34afd6b3e7a60a391ec414f7</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/morning-mix/wp/2015/05/07/climate-change-alert-global-carbon-dioxide-tops-400-ppm-for-first-time/</url>
+</top>
+
+<top>
+  <num> Number: 923 </num>
+  <docid>BWK7H7Q7JBFHHFGNVERRMBMPSM</docid>
+  <url>https://www.washingtonpost.com/science/2019/09/11/found-first-potentially-habitable-super-earth-with-water-its-skies/</url>
+</top>
+
+<top>
+  <num> Number: 924 </num>
+  <docid>DQBKW724KBFWRP7LYJ2GEEBB6U</docid>
+  <url>https://www.washingtonpost.com/transportation/2019/03/26/southwest-airlines-boeing-max-makes-emergency-landing-orlando/</url>
+</top>
+
+<top>
+  <num> Number: 925 </num>
+  <docid>3b1603940d7228f17684db8e5f3f2d23</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/checkpoint/wp/2014/10/02/marine-lost-at-sea-after-bailing-from-osprey-aircraft-during-near-crash/</url>
+</top>
+
+<top>
+  <num> Number: 926 </num>
+  <docid>XLDR4PSVQEI6TAKP4L2GNBAZNY</docid>
+  <url>https://www.washingtonpost.com/local/theres-half-an-alexander-calder-sculpture-in-the-hart-senate-office-building/2019/04/03/bac71e3e-5581-11e9-814f-e2f46684196e_story.html</url>
+</top>
+
+<top>
+  <num> Number: 927 </num>
+  <docid>1a790667491548ca2cfb1871d74685c2</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/energy-environment/wp/2017/08/04/gulf-of-mexico-dead-zone-is-larger-than-ever-heres-what-to-do-about-it/</url>
+</top>
+
+<top>
+  <num> Number: 928 </num>
+  <docid>6784792e9e61fa2d029e99f6dbd7ae91</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/morning-mix/wp/2016/06/15/nebraska-toddler-dragged-into-water-by-alligator-at-disney-resort-in-orlando/10/</url>
+</top>
+
+<top>
+  <num> Number: 929 </num>
+  <docid>RRNVNXHTMYI6RPDZNBQE5WEJSM</docid>
+  <url>https://www.washingtonpost.com/politics/us-agency-apologizes-to-george-soros-after-a-program-called-him-multimillionaire-jew/2018/11/29/8c5b56dc-f366-11e8-bc79-68604ed88993_story.html</url>
+</top>
+
+<top>
+  <num> Number: 930 </num>
+  <docid>XYOFYUFLKZAOFJ62UOJEU43DR4</docid>
+  <url>https://www.washingtonpost.com/politics/2019/12/03/russia-wants-more-influence-africa-its-using-disinformation-get-there/</url>
+</top>
+
+<top>
+  <num> Number: 931 </num>
+  <docid>64031a98-5bba-11e7-a9f6-7c3296387341</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/local/park-service-to-fight-ash-borer-on-roosevelt-island/2017/06/28/64031a98-5bba-11e7-a9f6-7c3296387341_story.html</url>
+</top>
+
+<top>
+  <num> Number: 932 </num>
+  <docid>ASE56YVS2MI6TFI63YBEECKULU</docid>
+  <url>https://www.washingtonpost.com/local/remembering-john-duffey-who-forged-a-new-bluegrass-in-washington/2019/07/30/0489df62-b2d3-11e9-951e-de024209545d_story.html</url>
+</top>
+
+<top>
+  <num> Number: 933 </num>
+  <docid>442a9b1c5b719132908d3c710aca3dc5</docid>
+  <url>https://www.washingtonpost.comhttps://www.washingtonpost.com/news/the-switch/wp/2017/07/30/googles-new-program-to-track-shoppers-sparks-a-federal-privacy-complaint/</url>
+</top>
+
+<top>
+  <num> Number: 934 </num>
+  <docid>KDE4TSF2XAI6RPOASD4BZRMMLU</docid>
+  <url>https://www.washingtonpost.com/opinions/artificial-intelligence-can-transform-the-economy/2018/09/18/50c9c9c8-bab8-11e8-bdc0-90f81cc58c5d_story.html</url>
+</top>
+
+<top>
+  <num> Number: 935 </num>
+  <docid>CCUJNXOJNFEJFBL57GD27EHMWI</docid>
+  <url>https://www.washingtonpost.com/news/to-your-health/wp/2018/05/30/this-mock-pandemic-killed-150-million-people-next-time-it-might-not-be-a-drill/</url>
+</top>
