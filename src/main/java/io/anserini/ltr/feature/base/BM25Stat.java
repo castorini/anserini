@@ -21,38 +21,45 @@ import io.anserini.ltr.feature.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This feature extractor will compute BM25 score as according to Lucene 5.3 documentation
  * The formula is the same, but the computation of docSize is slightly different,
  * Lucene uses the norm value encoded in the index, we are calculating it as is
  * also we do not have any boosting, the field norm is also not available
  */
-public class BM25 implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(BM25.class);
+public class BM25Stat implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(BM25Stat.class);
 
   // Default values, could be changed
   private double k1 = 0.9;
   private double b = 0.4;
   private String field;
   private String qfield;
+  Pooler collectFun;
 
-  public BM25() {
+  public BM25Stat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public BM25(double k, double b) {
+  public BM25Stat(Pooler collectFun, double k, double b) {
     this.k1 = k;
     this.b = b;
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public BM25(double k, double b, String field, String qfield) {
+  public BM25Stat(Pooler collectFun, double k, double b, String field, String qfield) {
     this.k1 = k;
     this.b = b;
     this.field = field;
     this.qfield = qfield;
+    this.collectFun = collectFun;
   }
 
   /**
@@ -69,7 +76,8 @@ public class BM25 implements FeatureExtractor {
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     double avgFL = (double)totalTermFreq/numDocs;
-    float score = 0;
+    List<Float> score = new ArrayList<>();
+
 
     for (String queryToken : qcontext.queryTokens) {
         int docFreq = context.getDocFreq(queryToken);
@@ -78,9 +86,9 @@ public class BM25 implements FeatureExtractor {
         double docLengthFactor = this.b * (docSize / avgFL);
         double denominator = termFreq + (this.k1) * (1 - this.b + docLengthFactor);
         double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
-        score += idf * numerator / denominator;
+        score.add((float)(idf * numerator / denominator));
     }
-    return score;
+    return collectFun.pool(score);
   }
 
   @Override
@@ -91,7 +99,7 @@ public class BM25 implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_BM25_k1_%.2f_b_%.2f",field, qfield, k1, b);
+    return String.format("%s_%s_%s_BM25_k1_%.2f_b_%.2f",field, qfield, collectFun.getName(), k1, b);
   }
 
   @Override
@@ -112,6 +120,7 @@ public class BM25 implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new BM25(k1, b, field, qfield);
+    Pooler newFun = collectFun.clone();
+    return new BM25Stat(newFun, k1, b, field, qfield);
   }
 }

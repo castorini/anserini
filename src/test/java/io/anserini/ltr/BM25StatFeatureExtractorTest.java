@@ -17,7 +17,9 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.BM25;
+import io.anserini.ltr.feature.Pooler;
+import io.anserini.ltr.feature.SumPooler;
+import io.anserini.ltr.feature.base.BM25Stat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -28,10 +30,10 @@ import java.util.concurrent.ExecutionException;
 /**
  * Tests that BM25 score is computed according to our formula
  */
-public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
+public class BM25StatFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   // Test the BM25 extractor with 2 settings of k and b
-  private static final FeatureExtractor EXTRACTOR = new BM25(0.9,0.4);
-  private static final FeatureExtractor EXTRACTOR2 = new BM25(1.25, 0.75);
+  private static final FeatureExtractor EXTRACTOR = new BM25Stat(new SumPooler(), 0.9,0.4);
+  private static final FeatureExtractor EXTRACTOR2 = new BM25Stat(new SumPooler(), 1.25, 0.75);
   private static List<FeatureExtractor> EXTRACTORS = getChain(EXTRACTOR, EXTRACTOR2);
 
 

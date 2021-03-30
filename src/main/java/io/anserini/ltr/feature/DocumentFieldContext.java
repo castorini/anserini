@@ -262,67 +262,6 @@ public class DocumentFieldContext {
         double var = (squareSum / fieldDocLength.size() - avg * avg);
     }
 
-    /**
-     * We will implement this according to the Lucene specification
-     * the formula used:
-     * sum ( IDF(qi) * (df(qi,D) * (k+1)) / (df(qi,D) + k * (1-b + b*|D| / avgFL))
-     * IDF and avgFL computation are described above.
-     */
-    public void generateBM25Stat(List<String> terms){
-        double avgFL = (double)totalTermFreq/numDocs;
-        double zeta = 1.960f;
-        double k1 = 0.9f;
-        double b = 0.4f;
 
-        for (String queryToken : terms) {
-            //mean of ( BM25 score for a single term )
-            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
-            List<Double> totalSingleTermList = new ArrayList<Double>();
-            float totalTerm_Hmean = 0.0f;
-            float totalSingleTerm = 0.0f;
-            float totalSingleTerm_sumsqr = 0.0f;
-            int docFreq = this.getDocFreq(queryToken);
-            //iterate across all documents has this word
-            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
-                List<Integer> positions = entry.getValue();
-                long termFreq = positions.size();
-                double numerator = (k1 + 1) * termFreq;
-                double docLengthFactor = b * (docSize / avgFL);
-                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
-                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
-                totalSingleTermList.add((idf * numerator / denominator));
-                totalSingleTerm += (idf * numerator / denominator);
-                totalTerm_Hmean += 1/(idf * numerator / denominator);
-                totalSingleTerm_sumsqr +=  totalSingleTerm * totalSingleTerm;
-            }
-            Collections.sort(totalSingleTermList);
-            totalSingleTerm = totalSingleTerm / post.size();
-
-            totalTerm_Hmean = post.size() / totalTerm_Hmean;
-            hmean_score.add(totalTerm_Hmean);
-
-            float totalSingleTermVar = (totalSingleTerm_sumsqr / post.size()) - totalSingleTerm * totalSingleTerm;
-            var_score.add(totalSingleTermVar);
-
-
-            int len = totalSingleTermList.size();
-            if (len>0) {
-                mean_score.add(totalSingleTerm);
-                double min = totalSingleTermList.get(0);
-                min_score.add((float) min);
-
-                double max = totalSingleTermList.get(post.size() - 1);
-                max_score.add((float) max);
-
-                double q1 = (len + 1) / 4;
-                double q2 = 3 * (len + 1) / 4;
-                double num = 0.0d;
-                if (q1>0 && q2>0){
-                    num = (totalSingleTermList.get((int) q1 -1) - totalSingleTermList.get((int) q2 -1));
-                    quartile_score.add((float) num);
-                }
-            }
-        }
-    }
 
 }
