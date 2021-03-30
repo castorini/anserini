@@ -21,6 +21,7 @@ import java.util.List;
 public class AvgPooler implements Pooler {
   public float pool(List<Float> array) {
     float sum = 0;
+    if(array.size()==0) return 0;
     for (float v : array) {
       sum += v;
     }

@@ -51,12 +51,12 @@ public class normalizedTfStat implements FeatureExtractor {
     for (String queryToken : queryFieldContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
       double tfn;
-      //todo need discuss this
       if(termFreq==0) {
         tfn = (double) docSize / 0.5;
       } else {
         tfn = (double) docSize / termFreq;
       }
+      if (tfn == 0) continue;
       score.add((float)Math.log(tfn));
     }
     return collectFun.pool(score);

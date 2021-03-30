@@ -11,15 +11,18 @@ todo discuss tfidf
 public class tfIdfStat implements FeatureExtractor {
   private String field;
   private String qfield;
+  private Boolean subLinearTF;
 
   Pooler collectFun;
   public tfIdfStat(Pooler collectFun) {
+    this.subLinearTF = true;
     this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
   }
 
-  public tfIdfStat(Pooler collectFun, String field, String qfield) {
+  public tfIdfStat(Boolean subLinearTF, Pooler collectFun, String field, String qfield) {
+    this.subLinearTF = subLinearTF;
     this.collectFun = collectFun;
     this.field = field;
     this.qfield = qfield;
@@ -34,11 +37,16 @@ public class tfIdfStat implements FeatureExtractor {
 
     for (String queryToken : queryFieldContext.queryTokens) {
       int docFreq = context.getDocFreq(queryToken);
-      long termFreq = context.getTermFreq(queryToken);
+      double termFreq = context.getTermFreq(queryToken);
+
       if(termFreq==0) {
         score.add(0f);
         continue;
       }
+
+      if(subLinearTF)
+        termFreq = 1 + Math.log(termFreq);
+
       double idf = Math.log(numDocs/docFreq);
       score.add((float)(idf*termFreq));
     }
@@ -54,7 +62,10 @@ public class tfIdfStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_TFIDF_%s", field, qfield, collectFun.getName());
+    if (subLinearTF)
+      return String.format("%s_%s_LTFIDF_%s", field, qfield, collectFun.getName());
+    else
+      return String.format("%s_%s_TFIDF_%s", field, qfield, collectFun.getName());
   }
 
   @Override
@@ -70,6 +81,6 @@ public class tfIdfStat implements FeatureExtractor {
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new tfIdfStat(newFun, field, qfield);
+    return new tfIdfStat(subLinearTF, newFun, field, qfield);
   }
 }
