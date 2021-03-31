@@ -16,8 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.IBMModel1;
+import io.anserini.ltr.feature.IBMModel1;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,8 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public class IBMModelTest extends BaseFeatureExtractorTest<Integer> {

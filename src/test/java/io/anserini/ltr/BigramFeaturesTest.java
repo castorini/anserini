@@ -16,11 +16,10 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.*;
-import io.anserini.ltr.feature.base.OrderedQueryPairs;
-import io.anserini.ltr.feature.base.OrderedSequentialPairs;
-import io.anserini.ltr.feature.base.UnorderedQueryPairs;
-import io.anserini.ltr.feature.base.UnorderedSequentialPairs;
+import io.anserini.ltr.feature.OrderedQueryPairs;
+import io.anserini.ltr.feature.OrderedSequentialPairs;
+import io.anserini.ltr.feature.UnorderedQueryPairs;
+import io.anserini.ltr.feature.UnorderedSequentialPairs;
 import org.junit.Test;
 
 import java.io.IOException;

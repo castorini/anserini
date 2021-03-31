@@ -16,10 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.BaseFeatureExtractorTest;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.SumPooler;
-import io.anserini.ltr.feature.base.ictfStat;
+import io.anserini.ltr.feature.ICTFStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -30,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 /** test on ictf */
 public class ictfTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new ictfStat(new SumPooler());
+    private static final FeatureExtractor EXTRACTOR = new ICTFStat(new SumPooler());
     /*
         log(collectionSize / cf+1)
     */

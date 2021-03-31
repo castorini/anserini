@@ -16,10 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.BaseFeatureExtractorTest;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.SumPooler;
-import io.anserini.ltr.feature.base.LMDirStat;
+import io.anserini.ltr.feature.LMDirStat;
 import org.junit.Test;
 
 import java.io.IOException;

@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.NormalizedTFStat;
+import io.anserini.ltr.feature.TFStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,18 +25,16 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-/** test on NTF */
-public class normalizedTFTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new NormalizedTFStat(new SumPooler());
-    /* termFreq == 0 -> docsize/0.5 */
-    /* termFreq != 0 -> docsize/tf */
-    /* sum of log() */
+/** test on TF */
+public class TFStatTest extends BaseFeatureExtractorTest<Integer> {
+    private static final FeatureExtractor EXTRACTOR = new TFStat(new SumPooler());
+    /*termFreq*/
+
     @Test
     public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
         String queryText = "test";
-        // log(4/1)
-        float[] expected = {1.39f};
+        float[] expected = {1f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -46,23 +44,17 @@ public class normalizedTFTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document to test", "terms tokens test test", "another document");
         String queryText = "test";
-        //log(4/2)
-        float[] expected = {0.69f};
+        float[] expected = {2f};
 
         assertFeatureValues(expected, queryText, docs, EXTRACTOR, 2);
     }
 
     @Test
     public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
-        String docText = "single document test case multiple query tokens test";
-        String queryText = "test query present";
-        /*
-        test: log(8/2)
-        query: log(8/1)
-        present:log(8/0.5)
-         */
+        String docText = "single document test case for multiple query tokens test";
+        String queryText = "test query not present";
 
-        float[] expected = {6.24f};
+        float[] expected = {3f};
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
 
@@ -70,17 +62,10 @@ public class normalizedTFTest extends BaseFeatureExtractorTest<Integer> {
     public void testMultiDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document",
                 "document to test", "terms tokens test test", "another document");
-        String queryText = "test query tokens present";
-        /*
-        test: log(4/2)
-        query: log(4/0.5)
-        tokens:log(4/1)
-        present: log(4/0.5)
-         */
+        String queryText = "test query tokens not present";
 
-        float[] expected = {6.24f};
+        float[] expected = {3f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,2);
     }
 
 }
-
