@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### March 30, 3021
+
++ commit [`c75c63`](https://github.com/castorini/anserini/commit/c75c63b0d625c88049952fc1c72360f2b6bb07c6) (03/30/2021)
+
+Added regressions for Anserini submissions to TREC 2020 News Track, background linking task.
+
 ### March 19, 2021
 
 + commit [`e9af6e`](https://github.com/castorini/anserini/commit/e9af6eca16290ed222f23fcaa9cb1547f8a10d38) (03/19/2021)
