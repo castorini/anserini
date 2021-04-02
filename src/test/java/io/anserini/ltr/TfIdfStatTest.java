@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.NormalizedTFIDF;
+import io.anserini.ltr.feature.TfIdfStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,12 +25,11 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-/** test on normalized TFIDF */
-public class NormalizedTFIDFTest extends BaseFeatureExtractorTest<Integer>{
-    private static final FeatureExtractor EXTRACTOR = new NormalizedTFIDF();
+/** test on TFIDF */
+public class TfIdfStatTest extends BaseFeatureExtractorTest<Integer>{
+    private static final FeatureExtractor EXTRACTOR = new TfIdfStat(new SumPooler());
     /*
-       idf : Math.log(1+numDocs/docFreq)
-       tf:(1+Math.log(termFreq))/docSize)
+        (1+log(termFreq)) * log(numDocs/docFreq)
     */
 
     @Test
@@ -38,10 +37,9 @@ public class NormalizedTFIDFTest extends BaseFeatureExtractorTest<Integer>{
         String docText = "single document test case";
         String queryText = "test";
         /*
-        idf : Math.log(2/1)
-        tf:(1+Math.log(1))/4)
+        (1+log(1)) * log(1)
          */
-        float[] expected = {0.17f};
+        float[] expected = {0.0f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -51,16 +49,10 @@ public class NormalizedTFIDFTest extends BaseFeatureExtractorTest<Integer>{
         String docText = "single document test case";
         String queryText = "test document irrelevant";
         /*
-        test:
-        idf : Math.log(2/1)
-        tf:(1+Math.log(1))/4)
-        document:
-        idf : Math.log(2/1)
-        tf:(1+Math.log(1))/4)
-        irrelevant: 0
+        (1+log(1)) * log(1) + 0 + 0 because only one doc, docFreq is 0
 
          */
-        float[] expected = {0.34f};
+        float[] expected = {0.0f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -68,14 +60,13 @@ public class NormalizedTFIDFTest extends BaseFeatureExtractorTest<Integer>{
     @Test
     public void testMultipleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document",
-                "document test case", "terms tokens", "another document");
+                "document to test", "terms tokens", "another document");
         String queryText = "test";
         /*
-        test:
-        idf : Math.log(5/1)
-        tf:(1+Math.log(1))/3)
+        tf : (1+log(1))
+        idf : log(4/1)
          */
-        float[] expected = {0.54f};
+        float[] expected = {1.38f};
         //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
@@ -83,14 +74,13 @@ public class NormalizedTFIDFTest extends BaseFeatureExtractorTest<Integer>{
     @Test
     public void testManyQTermsDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document",
-                "document test test test test test test case", "terms tokens", "another document");
+                "document to test test test test test test", "terms tokens", "another document");
         String queryText = "test";
         /*
-        test:
-        idf : Math.log(5/1)
-        tf:(1+Math.log(6))/8)
+        tf : (1+log(6))
+        idf : log(4/1)
          */
-        float[] expected = {0.56f};
+        float[] expected = {3.87f};
         //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
@@ -101,17 +91,11 @@ public class NormalizedTFIDFTest extends BaseFeatureExtractorTest<Integer>{
                 "document to test test test test test test", "terms tokens", "another doc");
         String queryText = "test tfidf document";
         /*
-        test:
-        idf : Math.log(5/1)
-        tf:(1+Math.log(6))/8)
-
-        tfidf: 0
-
-        document:
-        idf : Math.log(5/2)
-        tf:(1+Math.log(1))/8)
+           tf : (1+log(6)) * idf : log(4/1)
+        +  tf : 0
+        +  tf : (1+log(1)) * idf : log(4/2)
          */
-        float[] expected = {0.8f};
+        float[] expected = {4.56f};
         //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }

@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.DFRInExpB2Stat;
+import io.anserini.ltr.feature.DfrInExpB2Stat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class DFRInExpB2Test extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new DFRInExpB2Stat(new SumPooler());
+    private static final FeatureExtractor EXTRACTOR = new DfrInExpB2Stat(new SumPooler());
 
     //Divergence-from-randomness
     //weight(t|d)=kProb_M(t in d|Collection)

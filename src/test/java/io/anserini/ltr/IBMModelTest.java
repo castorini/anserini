@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.IBMModel1;
+import io.anserini.ltr.feature.IbmModel1;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class IBMModelTest extends BaseFeatureExtractorTest<Integer> {
-    private IBMModel1 IBMModel1;
+    private IbmModel1 IBMModel1;
     /*
        (1-tf/docSize) * (1-tf/docSize)/(tf+1) * (termFreq* log((tf/docSize/(collectionFreqs/totalTermFreq)))
        + 0.5 * log(2.0 * pi * tf * (1- tf/docSize))

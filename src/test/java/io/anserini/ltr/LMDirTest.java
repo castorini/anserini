@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.LMDirStat;
+import io.anserini.ltr.feature.LmDirStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 /** test on LMDir */
 public class LMDirTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new LMDirStat(new SumPooler());
+    private static final FeatureExtractor EXTRACTOR = new LmDirStat(new SumPooler());
     /*
       log((tf+1000*collectionFreq/totalTermFreq)/(1000+docSize));
     */

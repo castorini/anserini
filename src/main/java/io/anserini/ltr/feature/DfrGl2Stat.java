@@ -21,25 +21,27 @@ import io.anserini.ltr.*;
 
 import java.util.ArrayList;
 import java.util.List;
-/**
- * IDF
- * todo discuss laplace law of succesion
- */
-public class IDFStat implements FeatureExtractor {
+
+public class DfrGl2Stat implements FeatureExtractor {
+
   private String field;
   private String qfield;
-
   Pooler collectFun;
-  public IDFStat(Pooler collectFun) {
-    this.collectFun = collectFun;
+
+  public DfrGl2Stat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public IDFStat(Pooler collectFun, String field, String qfield) {
-    this.collectFun = collectFun;
+  public DfrGl2Stat(Pooler collectFun, String field, String qfield) {
     this.field = field;
     this.qfield = qfield;
+    this.collectFun = collectFun;
+  }
+
+  double log2(double x){
+    return Math.log(x)/Math.log(2);
   }
 
   @Override
@@ -47,12 +49,18 @@ public class IDFStat implements FeatureExtractor {
     DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     long numDocs = context.numDocs;
+    long docSize = context.docSize;
+    long totalTermFreq = context.totalTermFreq;
+    double avgFL = (double)totalTermFreq/numDocs;
     List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
-      int docFreq = context.getDocFreq(queryToken);
-      double idf = Math.log((double) numDocs/(docFreq+1));
-      score.add((float)idf);
+      if (docSize == 0) continue;
+      double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
+      if(tfn==0) continue;
+      double logSuccess = Math.log(1+(double)context.getCollectionFreq(queryToken)/numDocs);
+      double logFail = Math.log(1+(double)numDocs/context.getCollectionFreq(queryToken));
+      score.add((float) ((logSuccess+tfn*logFail)/(tfn+1.0)));
     }
     return collectFun.pool(score);
   }
@@ -65,8 +73,7 @@ public class IDFStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
+    String name = this.getClass().getSimpleName();
     return String.format("%s_%s_%s_%s", field, qfield, name, collectFun.getName());
   }
 
@@ -83,6 +90,7 @@ public class IDFStat implements FeatureExtractor {
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new IDFStat(newFun, field, qfield);
+    return new DfrGl2Stat(newFun, field, qfield);
   }
+
 }

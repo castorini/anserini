@@ -100,40 +100,40 @@ public class FeatureExtractorCli {
     utils.add(new MatchingTermCount(docField, queryField));
     utils.add(new SCS(docField, queryField));
 
-    utils.add(new TFStat(new AvgPooler(), docField, queryField));
-    utils.add(new TFStat(new MedianPooler(), docField, queryField));
-    utils.add(new TFStat(new SumPooler(), docField, queryField));
-    utils.add(new TFStat(new MinPooler(), docField, queryField));
-    utils.add(new TFStat(new MaxPooler(), docField, queryField));
-    utils.add(new TFStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new TfStat(new AvgPooler(), docField, queryField));
+    utils.add(new TfStat(new MedianPooler(), docField, queryField));
+    utils.add(new TfStat(new SumPooler(), docField, queryField));
+    utils.add(new TfStat(new MinPooler(), docField, queryField));
+    utils.add(new TfStat(new MaxPooler(), docField, queryField));
+    utils.add(new TfStat(new MaxMinRatioPooler(), docField, queryField));
 
-    utils.add(new TFIDFStat(true, new AvgPooler(), docField, queryField));
-    utils.add(new TFIDFStat(true, new MedianPooler(), docField, queryField));
-    utils.add(new TFIDFStat(true, new SumPooler(), docField, queryField));
-    utils.add(new TFIDFStat(true, new MinPooler(), docField, queryField));
-    utils.add(new TFIDFStat(true, new MaxPooler(), docField, queryField));
-    utils.add(new TFIDFStat(true, new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new TfIdfStat(true, new AvgPooler(), docField, queryField));
+    utils.add(new TfIdfStat(true, new MedianPooler(), docField, queryField));
+    utils.add(new TfIdfStat(true, new SumPooler(), docField, queryField));
+    utils.add(new TfIdfStat(true, new MinPooler(), docField, queryField));
+    utils.add(new TfIdfStat(true, new MaxPooler(), docField, queryField));
+    utils.add(new TfIdfStat(true, new MaxMinRatioPooler(), docField, queryField));
 
-    utils.add(new NormalizedTFStat(new AvgPooler(), docField, queryField));
-    utils.add(new NormalizedTFStat(new MedianPooler(), docField, queryField));
-    utils.add(new NormalizedTFStat(new SumPooler(), docField, queryField));
-    utils.add(new NormalizedTFStat(new MinPooler(), docField, queryField));
-    utils.add(new NormalizedTFStat(new MaxPooler(), docField, queryField));
-    utils.add(new NormalizedTFStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new NormalizedTfStat(new AvgPooler(), docField, queryField));
+    utils.add(new NormalizedTfStat(new MedianPooler(), docField, queryField));
+    utils.add(new NormalizedTfStat(new SumPooler(), docField, queryField));
+    utils.add(new NormalizedTfStat(new MinPooler(), docField, queryField));
+    utils.add(new NormalizedTfStat(new MaxPooler(), docField, queryField));
+    utils.add(new NormalizedTfStat(new MaxMinRatioPooler(), docField, queryField));
 
-    utils.add(new IDFStat(new AvgPooler(), docField, queryField));
-    utils.add(new IDFStat(new MedianPooler(), docField, queryField));
-    utils.add(new IDFStat(new SumPooler(), docField, queryField));
-    utils.add(new IDFStat(new MinPooler(), docField, queryField));
-    utils.add(new IDFStat(new MaxPooler(), docField, queryField));
-    utils.add(new IDFStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new IdfStat(new AvgPooler(), docField, queryField));
+    utils.add(new IdfStat(new MedianPooler(), docField, queryField));
+    utils.add(new IdfStat(new SumPooler(), docField, queryField));
+    utils.add(new IdfStat(new MinPooler(), docField, queryField));
+    utils.add(new IdfStat(new MaxPooler(), docField, queryField));
+    utils.add(new IdfStat(new MaxMinRatioPooler(), docField, queryField));
 
-    utils.add(new ICTFStat(new AvgPooler(), docField, queryField));
-    utils.add(new ICTFStat(new MedianPooler(), docField, queryField));
-    utils.add(new ICTFStat(new SumPooler(), docField, queryField));
-    utils.add(new ICTFStat(new MinPooler(), docField, queryField));
-    utils.add(new ICTFStat(new MaxPooler(), docField, queryField));
-    utils.add(new ICTFStat(new MaxMinRatioPooler(), docField, queryField));
+    utils.add(new IcTfStat(new AvgPooler(), docField, queryField));
+    utils.add(new IcTfStat(new MedianPooler(), docField, queryField));
+    utils.add(new IcTfStat(new SumPooler(), docField, queryField));
+    utils.add(new IcTfStat(new MinPooler(), docField, queryField));
+    utils.add(new IcTfStat(new MaxPooler(), docField, queryField));
+    utils.add(new IcTfStat(new MaxMinRatioPooler(), docField, queryField));
 
     utils.add(new UnorderedSequentialPairs(3, docField, queryField));
     utils.add(new UnorderedSequentialPairs(8, docField, queryField));

@@ -22,23 +22,21 @@ import io.anserini.ltr.*;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Inverse DocumentCollection Term Frequency as defined in
- * Carmel, Yom-Tov Estimating query difficulty for Information Retrieval
- * log(|D| / tf)
+ * IDF
  * todo discuss laplace law of succesion
  */
-public class ICTFStat implements FeatureExtractor {
+public class IdfStat implements FeatureExtractor {
   private String field;
   private String qfield;
 
   Pooler collectFun;
-  public ICTFStat(Pooler collectFun) {
+  public IdfStat(Pooler collectFun) {
     this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
   }
 
-  public ICTFStat(Pooler collectFun, String field, String qfield) {
+  public IdfStat(Pooler collectFun, String field, String qfield) {
     this.collectFun = collectFun;
     this.field = field;
     this.qfield = qfield;
@@ -48,13 +46,13 @@ public class ICTFStat implements FeatureExtractor {
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
-    long collectionSize = context.totalTermFreq;
+    long numDocs = context.numDocs;
     List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
-      long collectionFreq = context.getCollectionFreq(queryToken);
-      double ictf = Math.log((double)collectionSize/(collectionFreq+1));
-      score.add((float)ictf);
+      int docFreq = context.getDocFreq(queryToken);
+      double idf = Math.log((double) numDocs/(docFreq+1));
+      score.add((float)idf);
     }
     return collectFun.pool(score);
   }
@@ -67,8 +65,7 @@ public class ICTFStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
+    String name = this.getClass().getSimpleName();
     return String.format("%s_%s_%s_%s", field, qfield, name, collectFun.getName());
   }
 
@@ -85,6 +82,6 @@ public class ICTFStat implements FeatureExtractor {
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new ICTFStat(newFun, field, qfield);
+    return new IdfStat(newFun, field, qfield);
   }
 }

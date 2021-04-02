@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.DFRGL2Stat;
+import io.anserini.ltr.feature.DfrGl2Stat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class DFRGL2Test extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new DFRGL2Stat(new SumPooler());
+    private static final FeatureExtractor EXTRACTOR = new DfrGl2Stat(new SumPooler());
     /*
       avgFL:totalTermFreq/numDocs;
       tfn:tf*log2(1+avgFL/docSize)

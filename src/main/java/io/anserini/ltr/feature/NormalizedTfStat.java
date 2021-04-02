@@ -21,47 +21,43 @@ import io.anserini.ltr.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class DFRInExpB2Stat implements FeatureExtractor {
-
+/*
+*  todo discuss logarithm
+*/
+public class NormalizedTfStat implements FeatureExtractor {
   private String field;
   private String qfield;
-  Pooler collectFun;
 
-  public DFRInExpB2Stat(Pooler collectFun) {
+  Pooler collectFun;
+  public NormalizedTfStat(Pooler collectFun) {
+    this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
-    this.collectFun = collectFun;
   }
 
-  public DFRInExpB2Stat(Pooler collectFun, String field, String qfield) {
+  public NormalizedTfStat(Pooler collectFun, String field, String qfield) {
+    this.collectFun = collectFun;
     this.field = field;
     this.qfield = qfield;
-    this.collectFun = collectFun;
-  }
-
-  double log2(double x){
-    return Math.log(x)/Math.log(2);
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
-    long numDocs = context.numDocs;
-    long docSize = context.docSize;
-    long totalTermFreq = context.totalTermFreq;
-    double avgFL = (double)totalTermFreq/numDocs;
     List<Float> score = new ArrayList<>();
+    long docSize = context.docSize;
 
     for (String queryToken : queryFieldContext.queryTokens) {
-      if (docSize==0) continue;
-      double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
-      if(tfn==0) continue;
-      double cf = context.getCollectionFreq(queryToken);
-      double ne = numDocs*(1-Math.pow((double)(numDocs-1)/numDocs, cf));
-      double ine = log2(((double)numDocs+1)/(ne+0.5));
-      score.add((float) (tfn*ine*((cf+1)/((double)context.getDocFreq(queryToken)*(tfn+1)))));
+      long termFreq = context.getTermFreq(queryToken);
+      double tfn;
+      if(termFreq==0) {
+        tfn = (double) docSize / 0.5;
+      } else {
+        tfn = (double) docSize / termFreq;
+      }
+      if (tfn == 0) continue;
+      score.add((float)Math.log(tfn));
     }
     return collectFun.pool(score);
   }
@@ -74,9 +70,8 @@ public class DFRInExpB2Stat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
-    return String.format("%s_%s_%s_%s", field, qfield, name,  collectFun.getName());
+    String name = this.getClass().getSimpleName();
+    return String.format("%s_%s_%s_%s",field, qfield, name, collectFun.getName());
   }
 
   @Override
@@ -92,6 +87,6 @@ public class DFRInExpB2Stat implements FeatureExtractor {
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new DFRInExpB2Stat(newFun, field, qfield);
+    return new NormalizedTfStat(newFun, field, qfield);
   }
 }

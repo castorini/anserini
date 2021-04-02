@@ -22,20 +22,20 @@ import io.anserini.ltr.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LMDirStat implements FeatureExtractor {
+public class LmDirStat implements FeatureExtractor {
   private String field;
   private String qfield;
   private double mu = 1000;
 
   Pooler collectFun;
 
-  public LMDirStat(Pooler collectFun) {
+  public LmDirStat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
     this.collectFun = collectFun;
   }
 
-  public LMDirStat(Pooler collectFun, double mu) {
+  public LmDirStat(Pooler collectFun, double mu) {
     if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
     this.field = IndexArgs.CONTENTS;
@@ -43,7 +43,7 @@ public class LMDirStat implements FeatureExtractor {
     this.collectFun = collectFun;
   }
 
-  public LMDirStat(Pooler collectFun, double mu, String field, String qfield) {
+  public LmDirStat(Pooler collectFun, double mu, String field, String qfield) {
     if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
     this.field = field;
@@ -76,8 +76,7 @@ public class LMDirStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
+    String name = this.getClass().getSimpleName();
     return String.format("%s_%s_%s_%s_mu_%.0f", field, qfield, name, collectFun.getName(), mu);
   }
 
@@ -98,6 +97,6 @@ public class LMDirStat implements FeatureExtractor {
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new LMDirStat(newFun, mu, field, qfield);
+    return new LmDirStat(newFun, mu, field, qfield);
   }
 }

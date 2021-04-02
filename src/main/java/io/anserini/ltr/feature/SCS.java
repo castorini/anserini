@@ -61,8 +61,7 @@ public class SCS implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
+    String name = this.getClass().getSimpleName();
     return String.format("%s_%s_%s",field, qfield,name);
   }
 

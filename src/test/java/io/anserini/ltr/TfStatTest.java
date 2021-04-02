@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.TFStat;
+import io.anserini.ltr.feature.TfStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,8 +26,8 @@ import java.util.concurrent.ExecutionException;
 
 
 /** test on TF */
-public class TFStatTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new TFStat(new SumPooler());
+public class TfStatTest extends BaseFeatureExtractorTest<Integer> {
+    private static final FeatureExtractor EXTRACTOR = new TfStat(new SumPooler());
     /*termFreq*/
 
     @Test

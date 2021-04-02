@@ -5,19 +5,24 @@ import io.anserini.ltr.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class TFStat implements FeatureExtractor {
+/* try to avoid duplicatiton with scq
+todo discuss tfidf
+*/
+public class TfIdfStat implements FeatureExtractor {
   private String field;
   private String qfield;
+  private Boolean subLinearTF;
 
   Pooler collectFun;
-  public TFStat(Pooler collectFun) {
+  public TfIdfStat(Pooler collectFun) {
+    this.subLinearTF = true;
     this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
   }
 
-  public TFStat(Pooler collectFun, String field, String qfield) {
+  public TfIdfStat(Boolean subLinearTF, Pooler collectFun, String field, String qfield) {
+    this.subLinearTF = subLinearTF;
     this.collectFun = collectFun;
     this.field = field;
     this.qfield = qfield;
@@ -28,15 +33,24 @@ public class TFStat implements FeatureExtractor {
     DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
     List<Float> score = new ArrayList<>();
+    long numDocs = context.numDocs;
 
     for (String queryToken : queryFieldContext.queryTokens) {
-      long termFreq = context.getTermFreq(queryToken);
+      int docFreq = context.getDocFreq(queryToken);
+      double termFreq = context.getTermFreq(queryToken);
+
       if(termFreq==0) {
         score.add(0f);
         continue;
       }
-      score.add((float)termFreq);
+
+      if(subLinearTF)
+        termFreq = 1 + Math.log(termFreq);
+
+      double idf = Math.log(numDocs/docFreq);
+      score.add((float)(idf*termFreq));
     }
+
     return collectFun.pool(score);
   }
 
@@ -48,9 +62,11 @@ public class TFStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
-    return String.format("%s_%s_%s_%s", field, qfield, name, collectFun.getName());
+    String name = this.getClass().getSimpleName();
+    if (subLinearTF)
+      return String.format("%s_%s_L%s_%s", field, qfield, name, collectFun.getName());
+    else
+      return String.format("%s_%s_%s_%s", field, qfield, name, collectFun.getName());
   }
 
   @Override
@@ -66,6 +82,6 @@ public class TFStat implements FeatureExtractor {
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new TFStat(newFun, field, qfield);
+    return new TfIdfStat(subLinearTF, newFun, field, qfield);
   }
 }

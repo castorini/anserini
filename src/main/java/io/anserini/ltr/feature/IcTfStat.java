@@ -21,21 +21,24 @@ import io.anserini.ltr.*;
 
 import java.util.ArrayList;
 import java.util.List;
-/*
-*  todo discuss logarithm
-*/
-public class NormalizedTFStat implements FeatureExtractor {
+/**
+ * Inverse DocumentCollection Term Frequency as defined in
+ * Carmel, Yom-Tov Estimating query difficulty for Information Retrieval
+ * log(|D| / tf)
+ * todo discuss laplace law of succesion
+ */
+public class IcTfStat implements FeatureExtractor {
   private String field;
   private String qfield;
 
   Pooler collectFun;
-  public NormalizedTFStat(Pooler collectFun) {
+  public IcTfStat(Pooler collectFun) {
     this.collectFun = collectFun;
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
   }
 
-  public NormalizedTFStat(Pooler collectFun, String field, String qfield) {
+  public IcTfStat(Pooler collectFun, String field, String qfield) {
     this.collectFun = collectFun;
     this.field = field;
     this.qfield = qfield;
@@ -45,19 +48,13 @@ public class NormalizedTFStat implements FeatureExtractor {
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
+    long collectionSize = context.totalTermFreq;
     List<Float> score = new ArrayList<>();
-    long docSize = context.docSize;
 
     for (String queryToken : queryFieldContext.queryTokens) {
-      long termFreq = context.getTermFreq(queryToken);
-      double tfn;
-      if(termFreq==0) {
-        tfn = (double) docSize / 0.5;
-      } else {
-        tfn = (double) docSize / termFreq;
-      }
-      if (tfn == 0) continue;
-      score.add((float)Math.log(tfn));
+      long collectionFreq = context.getCollectionFreq(queryToken);
+      double ictf = Math.log((double)collectionSize/(collectionFreq+1));
+      score.add((float)ictf);
     }
     return collectFun.pool(score);
   }
@@ -70,9 +67,8 @@ public class NormalizedTFStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
-    return String.format("%s_%s_%s_%s",field, qfield, name, collectFun.getName());
+    String name = this.getClass().getSimpleName();
+    return String.format("%s_%s_%s_%s", field, qfield, name, collectFun.getName());
   }
 
   @Override
@@ -88,6 +84,6 @@ public class NormalizedTFStat implements FeatureExtractor {
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new NormalizedTFStat(newFun, field, qfield);
+    return new IcTfStat(newFun, field, qfield);
   }
 }

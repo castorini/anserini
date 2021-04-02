@@ -31,18 +31,18 @@ import java.util.List;
  * TFC is the overall number of tokens in the collection
  */
  
-public class DPHStat implements FeatureExtractor {
+public class DphStat implements FeatureExtractor {
     private String field;
     private String qfield;
     Pooler collectFun;
 
-    public DPHStat(Pooler collectFun) {
+    public DphStat(Pooler collectFun) {
         this.field = IndexArgs.CONTENTS;
         this.qfield = "analyzed";
         this.collectFun = collectFun;
     }
 
-    public DPHStat(Pooler collectFun, String field, String qfield) {
+    public DphStat(Pooler collectFun, String field, String qfield) {
         this.field = field;
         this.qfield = qfield;
         this.collectFun = collectFun;
@@ -80,8 +80,7 @@ public class DPHStat implements FeatureExtractor {
 
     @Override
     public String getName() {
-        String className = this.getClass().getName();
-        String name = className.substring(24,className.length());
+        String name = this.getClass().getSimpleName();
         return String.format("%s_%s_%s_%s", field, qfield, name, collectFun.getName());
     }
 
@@ -98,6 +97,6 @@ public class DPHStat implements FeatureExtractor {
     @Override
     public FeatureExtractor clone() {
         Pooler newFun = collectFun.clone();
-        return new DPHStat(newFun, field, qfield);
+        return new DphStat(newFun, field, qfield);
     }
 }

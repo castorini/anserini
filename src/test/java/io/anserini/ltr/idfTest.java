@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.IDFStat;
+import io.anserini.ltr.feature.IdfStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 /** test on TFIDF */
 public class idfTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new IDFStat(new SumPooler());
+    private static final FeatureExtractor EXTRACTOR = new IdfStat(new SumPooler());
     /*
         log(numDocs/(docFreq+1))
     */

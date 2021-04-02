@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.NormalizedTFStat;
+import io.anserini.ltr.feature.NormalizedTfStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 /** test on NTF */
 public class normalizedTFTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new NormalizedTFStat(new SumPooler());
+    private static final FeatureExtractor EXTRACTOR = new NormalizedTfStat(new SumPooler());
     /* termFreq == 0 -> docsize/0.5 */
     /* termFreq != 0 -> docsize/tf */
     /* sum of log() */

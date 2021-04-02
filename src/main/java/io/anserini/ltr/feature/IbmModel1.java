@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class IBMModel1 implements FeatureExtractor {
+public class IbmModel1 implements FeatureExtractor {
     private ConcurrentHashMap<Integer, Pair<Integer, String>> sourceVoc;
     private ConcurrentHashMap<String, Integer> sourceLookup;
     private ConcurrentHashMap<Integer, Pair<Integer, String>> targetVoc;
@@ -37,7 +37,7 @@ public class IBMModel1 implements FeatureExtractor {
     private String qfield;
     private String tag;
 
-    public IBMModel1(String dir, String field, String tag, String qfield) throws IOException {
+    public IbmModel1(String dir, String field, String tag, String qfield) throws IOException {
         sourceVoc = this.loadVoc(dir + File.separator + "source.vcb");
         assert !sourceVoc.containsKey("@NULL@");
         sourceVoc.put(0,Pair.of(0,"@NULL@"));
@@ -51,7 +51,7 @@ public class IBMModel1 implements FeatureExtractor {
         this.qfield = qfield;
     }
 
-    public IBMModel1(String field, String tag, String qfield,
+    public IbmModel1(String field, String tag, String qfield,
                      ConcurrentHashMap<Integer, Pair<Integer, String>> sourceVoc,
                      ConcurrentHashMap<String, Integer> sourceLookup,
                      ConcurrentHashMap<Integer, Pair<Integer, String>> targetVoc,
@@ -219,13 +219,12 @@ public class IBMModel1 implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new IBMModel1(field, tag, qfield, sourceVoc, sourceLookup, targetVoc, targetLookup, tran);
+        return new IbmModel1(field, tag, qfield, sourceVoc, sourceLookup, targetVoc, targetLookup, tran);
     }
 
     @Override
     public String getName() {
-        String className = this.getClass().getName();
-        String name = className.substring(24,className.length());
+        String name = this.getClass().getSimpleName();
         return String.format("%s_%s_%s_%s",field, qfield, name, tag);
     }
 

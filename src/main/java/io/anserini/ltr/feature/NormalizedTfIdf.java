@@ -19,16 +19,16 @@ package io.anserini.ltr.feature;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.*;
 
-public class NormalizedTFIDF implements FeatureExtractor {
+public class NormalizedTfIdf implements FeatureExtractor {
   private String field;
   private String qfield;
 
-  public NormalizedTFIDF() {
+  public NormalizedTfIdf() {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
   }
 
-  public NormalizedTFIDF(String field, String qfield) {
+  public NormalizedTfIdf(String field, String qfield) {
     this.field = field;
     this.qfield = qfield;
   }
@@ -61,8 +61,7 @@ public class NormalizedTFIDF implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
+    String name = this.getClass().getSimpleName();
     return String.format("%s_%s_%sF", field, qfield, name);
   }
 
@@ -78,6 +77,6 @@ public class NormalizedTFIDF implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new NormalizedTFIDF(field, qfield);
+    return new NormalizedTfIdf(field, qfield);
   }
 }

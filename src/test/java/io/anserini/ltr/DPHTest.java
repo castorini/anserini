@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.DPHStat;
+import io.anserini.ltr.feature.DphStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class DPHTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new DPHStat(new SumPooler());
+    private static final FeatureExtractor EXTRACTOR = new DphStat(new SumPooler());
     /*
        (1-tf/docSize) * (1-tf/docSize)/(tf+1) * (termFreq* log((tf/docSize/(collectionFreqs/totalTermFreq)))
        + 0.5 * log(2.0 * pi * tf * (1- tf/docSize))

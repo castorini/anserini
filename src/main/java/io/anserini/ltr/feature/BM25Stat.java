@@ -99,8 +99,7 @@ public class BM25Stat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    String className = this.getClass().getName();
-    String name = className.substring(24,className.length());
+    String name = this.getClass().getSimpleName();
     return String.format("%s_%s_%s_%s_k1_%.2f_b_%.2f",field, qfield, name, collectFun.getName(), k1, b);
   }
 
