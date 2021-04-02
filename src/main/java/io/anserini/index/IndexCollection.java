@@ -614,7 +614,7 @@ public final class IndexCollection {
 
   private int getFileNumber(String fileName) {
     try {
-      int fileNumStart = fileName.indexOf('.') + 1;
+      int fileNumStart = fileName.indexOf("c4-train.") + 9;
       return Integer.parseInt(fileName.substring(fileNumStart, fileNumStart + 5));
     } catch (final NumberFormatException e) {
       return fileName.hashCode();
@@ -806,7 +806,7 @@ public final class IndexCollection {
         executor.execute(new ESIndexerThread(collection, (Path) segmentPaths.get(i)));
       } else {
         String filename = segmentPaths.get(i).toString();
-        int fileNumStart = filename.indexOf('.') + 1;
+        int fileNumStart = filename.indexOf("c4-train.") + 9;
         System.out.println("File #" + i);
         System.out.println(getFileNumber(filename));
         System.out.println(filename.substring(fileNumStart, fileNumStart + 5));
