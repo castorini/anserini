@@ -790,7 +790,7 @@ public final class IndexCollection {
         segmentPaths = segmentPaths.stream().filter(x -> getFileNumber(x.toString()) % args.shardCount == args.shardCurrent)
                 .collect(Collectors.toList());
       } else {
-        segmentPaths = segmentPaths.stream().filter(x -> getFileNumber(x.toString()) % args.shardCount == args.shardCurrent)
+        segmentPaths = segmentPaths.stream().filter(x -> x.toString().hashCode() % args.shardCount == args.shardCurrent)
                 .collect(Collectors.toList());
       }
     }
@@ -805,12 +805,6 @@ public final class IndexCollection {
       } else if (args.es) {
         executor.execute(new ESIndexerThread(collection, (Path) segmentPaths.get(i)));
       } else {
-        String filename = segmentPaths.get(i).toString();
-        int fileNumStart = filename.indexOf("c4-train.") + 9;
-        System.out.println("File #" + i);
-        System.out.println(getFileNumber(filename));
-        System.out.println(filename.substring(fileNumStart, fileNumStart + 5));
-        System.out.println(filename);
         executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
       }
     }
