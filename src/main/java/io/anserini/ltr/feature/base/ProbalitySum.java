@@ -42,6 +42,7 @@ public class ProbalitySum implements FeatureExtractor {
 
     for (String queryToken : queryFieldContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
+      if (docSize == 0) continue;
       score += ((double)termFreq)/docSize;
     }
     return score;

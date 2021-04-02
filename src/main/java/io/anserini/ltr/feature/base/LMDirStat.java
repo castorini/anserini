@@ -21,43 +21,49 @@ import io.anserini.ltr.feature.*;
 
 import java.util.ArrayList;
 import java.util.List;
-/*
-*  todo discuss logarithm
-*/
-public class normalizedTfStat implements FeatureExtractor {
+
+public class LMDirStat implements FeatureExtractor {
   private String field;
   private String qfield;
+  private double mu = 1000;
 
   Pooler collectFun;
-  public normalizedTfStat(Pooler collectFun) {
-    this.collectFun = collectFun;
+
+  public LMDirStat(Pooler collectFun) {
     this.field = IndexArgs.CONTENTS;
     this.qfield = "analyzed";
+    this.collectFun = collectFun;
   }
 
-  public normalizedTfStat(Pooler collectFun, String field, String qfield) {
+  public LMDirStat(Pooler collectFun, double mu) {
+    if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
+    this.mu = mu;
+    this.field = IndexArgs.CONTENTS;
+    this.qfield = "analyzed";
     this.collectFun = collectFun;
+  }
+
+  public LMDirStat(Pooler collectFun, double mu, String field, String qfield) {
+    if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
+    this.mu = mu;
     this.field = field;
     this.qfield = qfield;
+    this.collectFun = collectFun;
   }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     DocumentFieldContext context = documentContext.fieldContexts.get(field);
     QueryFieldContext queryFieldContext = queryContext.fieldContexts.get(qfield);
-    List<Float> score = new ArrayList<>();
     long docSize = context.docSize;
+    long totalTermFreq = context.totalTermFreq;
+    List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryFieldContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
-      double tfn;
-      if(termFreq==0) {
-        tfn = (double) docSize / 0.5;
-      } else {
-        tfn = (double) docSize / termFreq;
-      }
-      if (tfn == 0) continue;
-      score.add((float)Math.log(tfn));
+      double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
+      if(collectProb==0) continue;
+      score.add((float) Math.log((termFreq+mu*collectProb)/(mu+docSize)));
     }
     return collectFun.pool(score);
   }
@@ -70,7 +76,7 @@ public class normalizedTfStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_%s_NormalizedTF_%s",field, qfield, collectFun.getName());
+    return String.format("%s_%s_%s_LMD_mu_%.0f", field, qfield, collectFun.getName(), mu);
   }
 
   @Override
@@ -83,9 +89,13 @@ public class normalizedTfStat implements FeatureExtractor {
     return qfield;
   }
 
+  public double getMu() {
+    return mu;
+  }
+
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new normalizedTfStat(newFun, field, qfield);
+    return new LMDirStat(newFun, mu, field, qfield);
   }
 }
