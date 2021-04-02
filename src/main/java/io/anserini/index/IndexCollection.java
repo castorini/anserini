@@ -805,6 +805,7 @@ public final class IndexCollection {
       } else if (args.es) {
         executor.execute(new ESIndexerThread(collection, (Path) segmentPaths.get(i)));
       } else {
+        System.out.println(getFileNumber(segmentPaths.get(i).toString()));
         executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
       }
     }

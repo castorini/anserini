@@ -20,11 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,6 +44,21 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     return new Segment(p);
   }
 
+  // removes control characters
+  static class CtrlFilterStream extends FilterInputStream {
+    public CtrlFilterStream(InputStream in) {
+      super(in);
+    }
+
+    @Override
+    public int read() throws IOException {
+      int character = super.read();
+      if (character == 127 || character < 32)
+        return 0;
+      return character;
+    }
+  }
+
   public static class Segment extends FileSegment<C4Collection.Document>{
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
     private JsonNode node = null;
@@ -63,15 +74,16 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       if (filePath.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
                 Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
-        bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+        CtrlFilterStream filteredStream = new CtrlFilterStream(stream);
+        bufferedReader = new BufferedReader(new InputStreamReader(filteredStream, StandardCharsets.UTF_8));
       } else { // plain text file
-        bufferedReader = new BufferedReader(new FileReader(filePath));
+        InputStream stream = new FileInputStream(filePath);
+        CtrlFilterStream filteredStream = new CtrlFilterStream(stream);
+        bufferedReader = new BufferedReader(new InputStreamReader(filteredStream, StandardCharsets.UTF_8));
       }
       // reading as a json file
       ObjectMapper mapper = new ObjectMapper();
-      // removes ctrl characters
-      String filtered = bufferedReader.lines().map(line -> line.replaceAll("[\\p{C}]","")).collect(Collectors.joining());
-      iterator = mapper.readerFor(JsonNode.class).readValues(filtered);
+      iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       node = iterator.next();
     }
 
