@@ -612,14 +612,7 @@ public final class IndexCollection {
   private ObjectPool<SolrClient> solrPool;
   private ObjectPool<RestHighLevelClient> esPool;
 
-  private int getFileNumber(String fileName) {
-    try {
-      int fileNumStart = fileName.indexOf("c4-train.") + 9;
-      return Integer.parseInt(fileName.substring(fileNumStart, fileNumStart + 5));
-    } catch (final NumberFormatException e) {
-      return fileName.hashCode();
-    }
-  }
+
 
   @SuppressWarnings("unchecked")
   public IndexCollection(IndexArgs args) throws Exception {
@@ -782,17 +775,11 @@ public final class IndexCollection {
     LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
     LOG.info("Initializing collection in " + collectionPath.toString());
-    List<?> segmentPaths = collection.getSegmentPaths();
 
-    // for C4 specifically we filter through segmentPaths to only take ones that we want based on file #
+    List<?> segmentPaths = collection.getSegmentPaths();
+    // when we want sharding to be done
     if (args.shardCount > 1) {
-      if (args.collectionClass.equals("C4Collection")) {
-        segmentPaths = segmentPaths.stream().filter(x -> getFileNumber(x.toString()) % args.shardCount == args.shardCurrent)
-                .collect(Collectors.toList());
-      } else {
-        segmentPaths = segmentPaths.stream().filter(x -> x.toString().hashCode() % args.shardCount == args.shardCurrent)
-                .collect(Collectors.toList());
-      }
+      segmentPaths = collection.getSegmentPaths(args.shardCount, args.shardCurrent);
     }
     final int segmentCnt = segmentPaths.size();
 
