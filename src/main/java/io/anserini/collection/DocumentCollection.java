@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>A static collection of documents, comprised of one or more {@link FileSegment}s.
@@ -150,6 +151,16 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
    */
   public List<Path> getSegmentPaths() {
     return discover(this.path);
+  }
+
+  /**
+   * Returns the paths in the collection, taking into account sharding
+   *
+   * @return file segments in current shard
+   */
+  public List<Path> getSegmentPaths(int shardCount, int currShard) {
+    List<Path> segments = discover(this.path);
+    return segments.stream().filter(x -> x.toString().hashCode() % shardCount == currShard).collect(Collectors.toList());
   }
 
   // Private method for walking a path.
