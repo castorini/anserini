@@ -39,10 +39,10 @@ public class C4CollectionTest extends DocumentCollectionTest<C4Collection.Docume
 
     totalSegments = 2;
     totalDocs = 4;
-    expected.put("00001-0", Map.of("id", "00001-0", "text", "test text", "timestamp", "1556008007", "url", "http://www.test.com"));
-    expected.put("00001-1", Map.of("id", "00001-1", "text", "test text2", "timestamp", "1587630407", "url", "http://www.test2.com"));
-    expected.put("00002-0", Map.of("id", "00002-0", "text", "test text-2", "timestamp", "1556008007", "url", "http://www.test-2.com"));
-    expected.put("00002-1", Map.of("id", "00002-1", "text", "test text2-2", "timestamp", "1587630407", "url", "http://www.test2-2.com"));
+    expected.put("c4-0001-000000", Map.of("id", "c4-0001-000000", "text", "test text", "timestamp", "1556008007", "url", "http://www.test.com"));
+    expected.put("c4-0001-000001", Map.of("id", "c4-0001-000001", "text", "test text2", "timestamp", "1587630407", "url", "http://www.test2.com"));
+    expected.put("c4-0002-000000", Map.of("id", "c4-0002-000000", "text", "test text-2", "timestamp", "1556008007", "url", "http://www.test-2.com"));
+    expected.put("c4-0002-000001", Map.of("id", "c4-0002-000001", "text", "test text2-2", "timestamp", "1587630407", "url", "http://www.test2-2.com"));
   }
 
   @Override

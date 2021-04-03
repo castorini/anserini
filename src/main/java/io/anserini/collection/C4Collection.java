@@ -69,8 +69,9 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     public Segment(Path path) throws IOException {
       super(path);
       filePath = path.toString();
-      int fileNumStart = filePath.indexOf(".")+1;
-      fileName = filePath.substring(fileNumStart, fileNumStart + 5);
+      int fileNumStart = filePath.indexOf("c4-train.") + 9;
+      // plus one to remove leading zero
+      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 5);
       if (filePath.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
                 Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
@@ -113,8 +114,8 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     public Document(JsonNode json, String filename, int jsonLoc) {
       this.raw = json.toPrettyString();
       this.contents = json.get("text").asText();
-      // id is the filename appended by the document count
-      this.id = filename +  '-' + jsonLoc;
+
+      this.id = String.format("c4-%s-%06d", filename, jsonLoc);
       this.url = json.get("url").asText();
 
       String dateTime = json.get("timestamp").asText();

@@ -41,14 +41,14 @@ public class C4EndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 2;
-    documents.put("00001-0", Map.of(
+    documents.put("c4-0001-000000", Map.of(
             "contents", "test text",
             "raw", "{\n" +
                     "  \"text\" : \"test text\",\n" +
                     "  \"timestamp\" : \"2019-04-23T08:26:47Z\",\n" +
                     "  \"url\" : \"http://www.test.com\"\n" +
                     "}"));
-    documents.put("00001-1", Map.of(
+    documents.put("c4-0001-000001", Map.of(
             "contents", "test text2",
             "raw", "{\n" +
                     "  \"text\" : \"test text2\",\n" +
@@ -71,6 +71,6 @@ public class C4EndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-            "1 Q0 00001-0 1 0.364800 Anserini"});
+            "1 Q0 c4-0001-000000 1 0.364800 Anserini"});
   }
 }
