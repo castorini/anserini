@@ -138,6 +138,13 @@ public abstract class EndToEndTest extends LuceneTestCase {
       args.add("-quiet");
     }
 
+    if (indexArgs.shardCount > 1) {
+      args.add("-shard.count");
+      args.add(Integer.toString(indexArgs.shardCount));
+      args.add("-shard.current");
+      args.add(Integer.toString(indexArgs.shardCurrent));
+    }
+
     IndexCollection.main(args.toArray(new String[args.size()]));
   }
 
