@@ -1,14 +1,14 @@
 # LTR Features
 |Feature name                                    |
 |-------------------------------------------------|
-|[IBM Model1](../src/main/java/io/anserini/ltr/feature/IBMModel1.java)      
+|[IBM Model1](../src/main/java/io/anserini/ltr/feature/IbmModel1.java)      
 |[Sum of BM25](../src/main/java/io/anserini/ltr/feature/BM25Stat.java)
 |Average of BM25
 |Median of BM25
 |Max of BM25 
 |Min of BM25 
 |MaxMinRatio of BM25 
-|[Sum of LMDir](../src/main/java/io/anserini/ltr/feature/LMDirStat.java)  
+|[Sum of LMDir](../src/main/java/io/anserini/ltr/feature/LmDirStat.java)  
 |Average of LMDir 
 |Median of LMDir 
 |Max of LMDir 
