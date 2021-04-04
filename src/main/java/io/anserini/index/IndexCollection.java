@@ -82,6 +82,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
+import org.mockito.internal.matchers.Any;
 
 import java.io.File;
 import java.io.IOException;
@@ -178,15 +179,6 @@ public final class IndexCollection {
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
-          }
-
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(d.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
           }
 
           Document doc;
@@ -287,15 +279,6 @@ public final class IndexCollection {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
-          }
-
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
           }
 
           Document document;
@@ -464,15 +447,6 @@ public final class IndexCollection {
             continue;
           }
 
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
-          }
-
           Document document;
           try {
             document = generator.createDocument(sourceDocument);
@@ -638,6 +612,8 @@ public final class IndexCollection {
   private ObjectPool<SolrClient> solrPool;
   private ObjectPool<RestHighLevelClient> esPool;
 
+
+
   @SuppressWarnings("unchecked")
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
@@ -799,8 +775,14 @@ public final class IndexCollection {
     LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
     LOG.info("Initializing collection in " + collectionPath.toString());
-    final List segmentPaths = collection.getSegmentPaths();
+
+    List<?> segmentPaths = collection.getSegmentPaths();
+    // when we want sharding to be done
+    if (args.shardCount > 1) {
+      segmentPaths = collection.getSegmentPaths(args.shardCount, args.shardCurrent);
+    }
     final int segmentCnt = segmentPaths.size();
+
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");
 
