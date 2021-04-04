@@ -18,7 +18,6 @@ package io.anserini.ltr;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.FeatureExtractor;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;

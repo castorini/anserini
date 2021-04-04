@@ -16,12 +16,10 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.SumMatchingTF;
+import io.anserini.ltr.feature.SumMatchingTF;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;

@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.Proximity;
+import io.anserini.ltr.feature.NormalizedTfIdf;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,29 +25,42 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new Proximity();
+/** test on normalized TFIDF */
+public class NormalizedTfIdfTest extends BaseFeatureExtractorTest<Integer>{
+    private static final FeatureExtractor EXTRACTOR = new NormalizedTfIdf();
     /*
-      avgFL:totalTermFreq/numDocs;
-      tfn:tf*log2(1+avgFL/docSize)
-      (log(1+collectionFreq/numDocs) + tfn*log(1+numDocs/collectionFreq))/(tfn+1)
+       idf : Math.log(1+numDocs/docFreq)
+       tf:(1+Math.log(termFreq))/docSize)
     */
 
     @Test
-    public void testSingleDocNoneQuery() throws IOException, ExecutionException, InterruptedException {
+    public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
-        String queryText = "present false";
-        float[] expected = {0f};
+        String queryText = "test";
+        /*
+        idf : Math.log(2/1)
+        tf:(1+Math.log(1))/4)
+         */
+        float[] expected = {0.17f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
 
     @Test
     public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
-        String docText = "single document test case longer document proximity test";
+        String docText = "single document test case";
         String queryText = "test document irrelevant";
+        /*
+        test:
+        idf : Math.log(2/1)
+        tf:(1+Math.log(1))/4)
+        document:
+        idf : Math.log(2/1)
+        tf:(1+Math.log(1))/4)
+        irrelevant: 0
 
-        float[] expected = {0.00001f};
+         */
+        float[] expected = {0.34f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -57,8 +70,13 @@ public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document test case", "terms tokens", "another document");
         String queryText = "test";
-        // no bigram pair in query
-        float[] expected = {0f};
+        /*
+        test:
+        idf : Math.log(5/1)
+        tf:(1+Math.log(1))/3)
+         */
+        float[] expected = {0.54f};
+        //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
@@ -66,21 +84,36 @@ public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
     public void testManyQTermsDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document",
                 "document test test test test test test case", "terms tokens", "another document");
-        String queryText = "test case";
-        float[] expected = {0.14f};
+        String queryText = "test";
+        /*
+        test:
+        idf : Math.log(5/1)
+        tf:(1+Math.log(6))/8)
+         */
+        float[] expected = {0.56f};
+        //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
     @Test
     public void testMultiDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document",
-                "document test test test test test test case", "terms tokens", "another doc");
+                "document to test test test test test test", "terms tokens", "another doc");
         String queryText = "test tfidf document";
-        float[] expected = {0.13f};
+        /*
+        test:
+        idf : Math.log(5/1)
+        tf:(1+Math.log(6))/8)
+
+        tfidf: 0
+
+        document:
+        idf : Math.log(5/2)
+        tf:(1+Math.log(1))/8)
+         */
+        float[] expected = {0.8f};
+        //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
 }
-
-
-
