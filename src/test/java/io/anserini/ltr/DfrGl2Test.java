@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.LmDirStat;
+import io.anserini.ltr.feature.DfrGl2Stat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,21 +25,22 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-/** test on LMDir */
-public class LMDirTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new LmDirStat(new SumPooler());
+public class DfrGl2Test extends BaseFeatureExtractorTest<Integer> {
+    private static final FeatureExtractor EXTRACTOR = new DfrGl2Stat(new SumPooler());
     /*
-      log((tf+1000*collectionFreq/totalTermFreq)/(1000+docSize));
+      avgFL:totalTermFreq/numDocs;
+      tfn:tf*log2(1+avgFL/docSize)
+      (log(1+collectionFreq/numDocs) + tfn*log(1+numDocs/collectionFreq))/(tfn+1)
     */
 
     @Test
     public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
         String queryText = "test";
-        /*
-        log(251/1004)
-         */
-        float[] expected = {-1.39f};
+        float[] expected = {0.69f};
+        //avgFL:4
+        //tfn:log2(2)
+        //(log(1+1/1)+log2(2)*log(1+1))/(log2(2)+1)
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -48,11 +49,17 @@ public class LMDirTest extends BaseFeatureExtractorTest<Integer> {
     public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
         String queryText = "test document irrelevant";
-        /*
-        log(251/1004)+log(251/1004)
+        //avgFL:4
+        //tfn:log2(2)
+        //(log(1+1/1)+log2(2)*log(1+1))/(log2(2)+1)
 
-         */
-        float[] expected = {-2.78f};
+        //avgFL:4
+        //tfn:log2(2)
+        //(log(1+1/1)+log2(2)*log(1+1))/(log2(2)+1)
+
+        //0
+
+        float[] expected = {1.38f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -62,22 +69,16 @@ public class LMDirTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document test case", "terms tokens", "another document");
         String queryText = "test";
-        /*
-        log((1+1000/9)/1003)
-         */
-        float[] expected = {-2.2f};
+        float[] expected = {0.84f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
     @Test
     public void testManyQTermsDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document",
-                "document test test test test test test case", "terms tokens test", "another document");
+                "document test test test test test test case", "terms tokens", "another document");
         String queryText = "test";
-        /*
-        log((6+1000*6/15)/(1000+8));
-         */
-        float[] expected = {-0.76f};
+        float[] expected = {0.61f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
@@ -86,17 +87,11 @@ public class LMDirTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document test test test test test test case", "terms tokens", "another doc");
         String queryText = "test tfidf document";
-        /*
-           log((6+1000*7/15)/(1000+8))
-          +log((6)/(1000+8));
-          +log((6+1000*1/15)/(1000+8))
-         */
-        float[] expected = {-2.39f};
+        float[] expected = {1.27f};
         //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
 }
-
 
 

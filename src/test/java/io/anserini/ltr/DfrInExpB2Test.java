@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class DFRInExpB2Test extends BaseFeatureExtractorTest<Integer> {
+public class DfrInExpB2Test extends BaseFeatureExtractorTest<Integer> {
     private static final FeatureExtractor EXTRACTOR = new DfrInExpB2Stat(new SumPooler());
 
     //Divergence-from-randomness

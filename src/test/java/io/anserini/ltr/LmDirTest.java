@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.IdfStat;
+import io.anserini.ltr.feature.LmDirStat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-/** test on TFIDF */
-public class idfTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new IdfStat(new SumPooler());
+/** test on LMDir */
+public class LmDirTest extends BaseFeatureExtractorTest<Integer> {
+    private static final FeatureExtractor EXTRACTOR = new LmDirStat(new SumPooler());
     /*
-        log(numDocs/(docFreq+1))
+      log((tf+1000*collectionFreq/totalTermFreq)/(1000+docSize));
     */
 
     @Test
@@ -37,9 +37,9 @@ public class idfTest extends BaseFeatureExtractorTest<Integer> {
         String docText = "single document test case";
         String queryText = "test";
         /*
-        log(1/2)
+        log(251/1004)
          */
-        float[] expected = {-0.69f};
+        float[] expected = {-1.39f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -49,10 +49,10 @@ public class idfTest extends BaseFeatureExtractorTest<Integer> {
         String docText = "single document test case";
         String queryText = "test document irrelevant";
         /*
-        log(1/2)+log(1/2)+log(1/1)
+        log(251/1004)+log(251/1004)
 
          */
-        float[] expected = {-1.39f};
+        float[] expected = {-2.78f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -63,9 +63,9 @@ public class idfTest extends BaseFeatureExtractorTest<Integer> {
                 "document test case", "terms tokens", "another document");
         String queryText = "test";
         /*
-        log(4/2)
+        log((1+1000/9)/1003)
          */
-        float[] expected = {0.69f};
+        float[] expected = {-2.2f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
@@ -75,9 +75,9 @@ public class idfTest extends BaseFeatureExtractorTest<Integer> {
                 "document test test test test test test case", "terms tokens test", "another document");
         String queryText = "test";
         /*
-        log(4/3)
+        log((6+1000*6/15)/(1000+8));
          */
-        float[] expected = {0.29f};
+        float[] expected = {-0.76f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
@@ -87,13 +87,16 @@ public class idfTest extends BaseFeatureExtractorTest<Integer> {
                 "document test test test test test test case", "terms tokens", "another doc");
         String queryText = "test tfidf document";
         /*
-           log(4/2)+log(4/1)+log(4/3)
+           log((6+1000*7/15)/(1000+8))
+          +log((6)/(1000+8));
+          +log((6+1000*1/15)/(1000+8))
          */
-        float[] expected = {2.37f};
+        float[] expected = {-2.39f};
         //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
 }
+
 
 

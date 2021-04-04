@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
-public class IBMModelTest extends BaseFeatureExtractorTest<Integer> {
+public class IbmModelTest extends BaseFeatureExtractorTest<Integer> {
     private IbmModel1 IBMModel1;
     /*
        (1-tf/docSize) * (1-tf/docSize)/(tf+1) * (termFreq* log((tf/docSize/(collectionFreqs/totalTermFreq)))

@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 
 /** test on ictf */
-public class ictfTest extends BaseFeatureExtractorTest<Integer> {
+public class IcTfTest extends BaseFeatureExtractorTest<Integer> {
     private static final FeatureExtractor EXTRACTOR = new IcTfStat(new SumPooler());
     /*
         log(collectionSize / cf+1)
