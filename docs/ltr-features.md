@@ -14,49 +14,49 @@
 |Max of LMDir 
 |Min of LMDir 
 |MaxMinRatio of LMDir
-| [Sum of DFR\_GL2](../src/main/java/io/anserini/ltr/feature/DFRGL2Stat.java)  
+| [Sum of DFR\_GL2](../src/main/java/io/anserini/ltr/feature/DfrGl2Stat.java)  
 | Average of DFR\_GL2 
 | Median of DFR\_GL2 
 | Max of DFR\_GL2 
 | Min of DFR\_GL2 
 | MaxMinRatio of DFR\_GL2 
-| [Sum of DFR\_in\_expB2](../src/main/java/io/anserini/ltr/feature/DFRInExpB2Stat.java)
+| [Sum of DFR\_in\_expB2](../src/main/java/io/anserini/ltr/feature/DfrInExpB2Stat.java)
 | Average of DFR\_in\_expB2 
 | Median of DFR\_in\_expB2 
 | Max of DFR\_in\_expB2 
 | Min of DFR\_in\_expB2 
 | MaxMinRatio of DFR\_in\_expB2 
-| [Sum of DPH](../src/main/java/io/anserini/ltr/feature/DPHStat.java)
+| [Sum of DPH](../src/main/java/io/anserini/ltr/feature/DphStat.java)
 | Average of DPH 
 | Median of DPH 
 | Max of DPH 
 | Min of DPH 
 | MaxMinRatio of DPH 
-| [Sum of TF](../src/main/java/io/anserini/ltr/feature/TFStat.java)  
+| [Sum of TF](../src/main/java/io/anserini/ltr/feature/TfStat.java)  
 | Average of TF 
 | Median of TF 
 | Max of TF 
 | Min of TF 
 | MaxMinRatio of TF 
-| [Sum of TFIDF](../src/main/java/io/anserini/ltr/feature/TFIDFStat.java)  
+| [Sum of TFIDF](../src/main/java/io/anserini/ltr/feature/TfIdfStat.java)  
 | Average of TFIDF 
 | Median of TFIDF 
 | Max of TFIDF 
 | Min of TFIDF 
 | MaxMinRatio of TFIDF 
-| [Sum of Normalized TF](../src/main/java/io/anserini/ltr/feature/NormalizedTFStat.java)  
+| [Sum of Normalized TF](../src/main/java/io/anserini/ltr/feature/NormalizedTfStat.java)  
 | Average of Normalized TF 
 | Median of Normalized TF 
 | Max of Normalized TF 
 | Min of Normalized TF 
 | MaxMinRatio of Normalized TF 
-| [Sum of IDF](../src/main/java/io/anserini/ltr/feature/IDFStat.java)  
+| [Sum of IDF](../src/main/java/io/anserini/ltr/feature/IdfStat.java)  
 | Average of IDF 
 | Median of IDF 
 | Max of IDF 
 | Min of IDF 
 | MaxMinRatio of IDF 
-| [Sum of ICTF](../src/main/java/io/anserini/ltr/feature/ICTFStat.java)  
+| [Sum of ICTF](../src/main/java/io/anserini/ltr/feature/IcTfStat.java)  
 | Average of ICTF 
 | Median of ICTF 
 | Max of ICTF 
@@ -74,7 +74,7 @@
 | [OrderedQueryPairs with gap 3](../src/main/java/io/anserini/ltr/feature/OrderedQueryPairs.java)
 | OrderedQueryPairs with gap 8
 | OrderedQueryPairs with gap 15
-| [Normalized TFIDF](../src/main/java/io/anserini/ltr/feature/NormalizedTFIDF.java) 
+| [Normalized TFIDF](../src/main/java/io/anserini/ltr/feature/NormalizedTfIdf.java) 
 | [ProbabilitySum](../src/main/java/io/anserini/ltr/feature/ProbalitySum.java) 
 | [Proximity](../src/main/java/io/anserini/ltr/feature/Proximity.java) 
 | [BM25-TP score](../src/main/java/io/anserini/ltr/feature/TpScore.java)
