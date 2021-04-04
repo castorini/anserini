@@ -16,8 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.ProbalitySum;
+import io.anserini.ltr.feature.ProbalitySum;
 import org.junit.Test;
 
 import java.io.IOException;

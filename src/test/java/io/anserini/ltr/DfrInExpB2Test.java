@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.Proximity;
+import io.anserini.ltr.feature.DfrInExpB2Stat;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,29 +25,27 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new Proximity();
-    /*
-      avgFL:totalTermFreq/numDocs;
-      tfn:tf*log2(1+avgFL/docSize)
-      (log(1+collectionFreq/numDocs) + tfn*log(1+numDocs/collectionFreq))/(tfn+1)
-    */
+public class DfrInExpB2Test extends BaseFeatureExtractorTest<Integer> {
+    private static final FeatureExtractor EXTRACTOR = new DfrInExpB2Stat(new SumPooler());
+
+    //Divergence-from-randomness
+    //weight(t|d)=kProb_M(t in d|Collection)
 
     @Test
-    public void testSingleDocNoneQuery() throws IOException, ExecutionException, InterruptedException {
+    public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         String docText = "single document test case";
-        String queryText = "present false";
-        float[] expected = {0f};
+        String queryText = "test";
+        float[] expected = {0.42f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
 
     @Test
     public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
-        String docText = "single document test case longer document proximity test";
+        String docText = "single document test case";
         String queryText = "test document irrelevant";
 
-        float[] expected = {0.00001f};
+        float[] expected = {0.83f};
 
         assertFeatureValues(expected, queryText, docText, EXTRACTOR);
     }
@@ -57,8 +55,7 @@ public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document test case", "terms tokens", "another document");
         String queryText = "test";
-        // no bigram pair in query
-        float[] expected = {0f};
+        float[] expected = {1.55f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
@@ -66,8 +63,8 @@ public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
     public void testManyQTermsDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document",
                 "document test test test test test test case", "terms tokens", "another document");
-        String queryText = "test case";
-        float[] expected = {0.14f};
+        String queryText = "test";
+        float[] expected = {2.13f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
@@ -76,11 +73,11 @@ public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
         List<String> docs = Arrays.asList("document document",
                 "document test test test test test test case", "terms tokens", "another doc");
         String queryText = "test tfidf document";
-        float[] expected = {0.13f};
+        float[] expected = {2.70f};
+        //assertFeatureValues(expected, queryText, docs, EXTRACTOR,0);
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
 }
-
 
 

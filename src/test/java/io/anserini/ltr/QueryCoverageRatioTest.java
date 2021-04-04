@@ -16,27 +16,38 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.QueryLength;
+import io.anserini.ltr.feature.QueryCoverageRatio;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
-// get length of query
-public class QueryLengthTest  extends BaseFeatureExtractorTest<Integer>{
-    private static FeatureExtractor EXTRACTOR = new QueryLength();
+
+public class QueryCoverageRatioTest extends BaseFeatureExtractorTest<Integer>{
+    // number of query tokens in doc/ docsize
+    private static FeatureExtractor EXTRACTOR = new QueryCoverageRatio();
 
     @Test
     public void testSingleDoc() throws IOException, ExecutionException, InterruptedException {
-        float[] expected = {3};
-        assertFeatureValues(expected, "simple test query", "document size independent of query document",
+        // 2/3
+        float[] expected = {0.66f};
+        assertFeatureValues(expected, "simple test query", "simple document size independent of query document",
                 EXTRACTOR);
     }
 
     @Test
     public void testMultipleDocs() throws IOException, ExecutionException, InterruptedException {
-        float[] expected = {2};
+        float[] expected = {0.5f};
         assertFeatureValues(expected, "just test", Arrays.asList("first document",
                 "second document", "test document document document test"),  EXTRACTOR, 2);
     }
+
+    @Test
+    public void testAllMissing() throws IOException, ExecutionException, InterruptedException {
+        // 2/3
+        float[] expected = {0f};
+        assertFeatureValues(expected, "simple test query", "document size independent of sdocument",
+                EXTRACTOR);
+    }
 }
+

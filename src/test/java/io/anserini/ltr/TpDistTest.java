@@ -16,7 +16,7 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.Proximity;
+import io.anserini.ltr.feature.TpDist;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,13 +25,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
-    private static final FeatureExtractor EXTRACTOR = new Proximity();
-    /*
-      avgFL:totalTermFreq/numDocs;
-      tfn:tf*log2(1+avgFL/docSize)
-      (log(1+collectionFreq/numDocs) + tfn*log(1+numDocs/collectionFreq))/(tfn+1)
-    */
+public class TpDistTest extends BaseFeatureExtractorTest<Integer> {
+    private static final FeatureExtractor EXTRACTOR = new TpDist();
+    // Term Proximity distance
 
     @Test
     public void testSingleDocNoneQuery() throws IOException, ExecutionException, InterruptedException {
@@ -55,30 +51,13 @@ public class ProximityTest extends BaseFeatureExtractorTest<Integer> {
     @Test
     public void testMultipleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
         List<String> docs = Arrays.asList("document document",
-                "document test case", "terms tokens", "another document");
-        String queryText = "test";
+                "Multiple document test case longer document proximity test", "terms tokens", "another document");
+        String queryText = "document proximity";
         // no bigram pair in query
         float[] expected = {0f};
         assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
     }
 
-    @Test
-    public void testManyQTermsDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
-        List<String> docs = Arrays.asList("document document",
-                "document test test test test test test case", "terms tokens", "another document");
-        String queryText = "test case";
-        float[] expected = {0.14f};
-        assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
-    }
-
-    @Test
-    public void testMultiDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
-        List<String> docs = Arrays.asList("document document",
-                "document test test test test test test case", "terms tokens", "another doc");
-        String queryText = "test tfidf document";
-        float[] expected = {0.13f};
-        assertFeatureValues(expected, queryText, docs, EXTRACTOR,1);
-    }
 
 }
 
