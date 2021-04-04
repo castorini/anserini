@@ -27,6 +27,19 @@ import static org.junit.Assert.assertNotNull;
 public class TopicReaderTest {
 
   @Test
+  public void testIterateThroughAllEnums() {
+    int cnt = 0;
+    for (Topics topic : Topics.values()) {
+      cnt++;
+
+      // Verify that we can fetch the TopicReader class given the name of the topic file.
+      String pathParts[] = topic.path.split("\\/");
+      assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
+    }
+    assertEquals(60, cnt);
+  }
+
+  @Test
   public void testTopicReaderClassLookup() {
     assertEquals(TrecTopicReader.class,
         TopicReader.getTopicReaderClassByFile("src/main/resources/topics-and-qrels/topics.robust04.txt"));
@@ -982,6 +995,21 @@ public class TopicReaderTest {
     assertEquals("5ae44bfd66a49bcad7b55b29b55d63b6", topics.get(topics.lastKey()).get("title"));
     assertEquals("https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/07/14/" +
         "sun-erupts-to-mark-another-bastille-day-aurora-possible-in-new-england-sunday-night/",
+        topics.get(topics.lastKey()).get("url"));
+
+    topics = TopicReader.getTopics(Topics.TREC2020_BL);
+
+    assertEquals(50, topics.keySet().size());
+    assertEquals(886, (int) topics.firstKey());
+    assertEquals("AEQZNZSVT5BGPPUTTJO7SNMOLE", topics.get(topics.firstKey()).get("title"));
+    assertEquals("https://www.washingtonpost.com/politics/2019/06/05/" +
+        "trump-says-transgender-troops-cant-serve-because-troops-cant-take-any-drugs-hes-wrong-many-ways/",
+        topics.get(topics.firstKey()).get("url"));
+
+    assertEquals(935, (int) topics.lastKey());
+    assertEquals("CCUJNXOJNFEJFBL57GD27EHMWI", topics.get(topics.lastKey()).get("title"));
+    assertEquals("https://www.washingtonpost.com/news/to-your-health/wp/2018/05/30/" +
+        "this-mock-pandemic-killed-150-million-people-next-time-it-might-not-be-a-drill/",
         topics.get(topics.lastKey()).get("url"));
   }
 
