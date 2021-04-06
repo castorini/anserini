@@ -145,6 +145,10 @@ public abstract class EndToEndTest extends LuceneTestCase {
       args.add(Integer.toString(indexArgs.shardCurrent));
     }
 
+    if (indexArgs.pretokenized){
+      args.add("-pretokenized");
+    }
+
     IndexCollection.main(args.toArray(new String[args.size()]));
   }
 
