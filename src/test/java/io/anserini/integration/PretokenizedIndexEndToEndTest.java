@@ -21,7 +21,7 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
         indexArgs.collectionClass = JsonCollection.class.getSimpleName();
         indexArgs.generatorClass = DefaultLuceneDocumentGenerator.class.getSimpleName();
         indexArgs.pretokenized = true;
-        indexArgs.storeRaw = false;
+        indexArgs.storeRaw = true;
 
         return indexArgs;
     }
@@ -30,19 +30,28 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
     protected void setCheckIndexGroundTruth() {
         docCount = 2;
         documents.put("2000000", Map.of(
-                "contents", "this is ##a simple pretokeinzed test"));
+                "contents", "this was ##a simple pretokeinzed test",
+                "raw","{\n" +
+                        "  \"id\" : \"2000000\",\n" +
+                        "  \"contents\" : \"this was ##a simple pretokeinzed test\"\n" +
+                        "}"));
         documents.put("2000001", Map.of(
-                "contents", "some time extra ##vert ##ing and some time intro ##vert ##ing"));
+                "contents", "some time extra ##vert ##ing and some time intro ##vert ##ing",
+                "raw","{\n" +
+                        "  \"id\" : \"2000001\",\n" +
+                        "  \"contents\" : \"some time extra ##vert ##ing and some time intro ##vert ##ing\"\n" +
+                        "}"
+        ));
 
         fieldNormStatusTotalFields = 1;
         // whitespace analyzer keeps everything, includes docid
         // this is ##a simple pretokenized test some time extra ##vert ##ing and intro 2000000 2000001
         termIndexStatusTermCount = 15;
-        // this is ##a simple pretokenized test some|2 time|2 extra ##vert|2 ##ing|2 and intro 2000000 2000001
+        // this is ##a simple pretokenized test some|2 time|2 extra ##vert|2 ##ing|2 and intro 2000000 2000001  ?
         termIndexStatusTotFreq = 15;
         storedFieldStatusTotalDocCounts = 2;
         termIndexStatusTotPos = 17 + storedFieldStatusTotalDocCounts;
-        storedFieldStatusTotFields = 4; // 1 docs * (1 id + 1 contents)
+        storedFieldStatusTotFields = 6; // 1 docs * (1 id + 1 contents + 1 raw) *2
     }
 
     @Override
