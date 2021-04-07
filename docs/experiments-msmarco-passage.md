@@ -25,7 +25,7 @@ To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
 ```bash
-python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+python3 tools/scripts/msmarco/convert_collection_to_jsonl.py \
  --collection-path collections/msmarco-passage/collection.tsv \
  --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -48,7 +48,7 @@ The indexing speed may vary; on a modern desktop with an SSD, indexing takes a c
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
 ```bash
-python tools/scripts/msmarco/filter_queries.py \
+python3 tools/scripts/msmarco/filter_queries.py \
  --qrels collections/msmarco-passage/qrels.dev.small.tsv \
  --queries collections/msmarco-passage/queries.dev.tsv \
  --output collections/msmarco-passage/queries.dev.small.tsv
@@ -75,7 +75,7 @@ We can perform multi-threaded retrieval by changing the `-threads` argument.
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
 ```bash
-python tools/scripts/msmarco/msmarco_passage_eval.py \
+python3 tools/scripts/msmarco/msmarco_passage_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
 ```
 
@@ -94,11 +94,11 @@ We can also use the official TREC evaluation tool, `trec_eval`, to compute other
 For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
-python tools/scripts/msmarco/convert_msmarco_to_trec_run.py \
+python3 tools/scripts/msmarco/convert_msmarco_to_trec_run.py \
  --input runs/run.msmarco-passage.dev.small.tsv \
  --output runs/run.msmarco-passage.dev.small.trec
 
-python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
+python3 tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
  --input collections/msmarco-passage/qrels.dev.small.tsv \
  --output collections/msmarco-passage/qrels.dev.small.trec
 ```
@@ -189,3 +189,4 @@ To replicate these results, the `SearchMsmarco` class above takes `k1` and `b` p
 + Results replicated by [@KaiSun314](https://github.com/KaiSun314) on 2021-01-08 (commit [`113f1c7`](https://github.com/castorini/anserini/commit/113f1c78c3ffc8681a06c571901cf9ad8f5ee633))
 + Results replicated by [@yemiliey](https://github.com/yemiliey) on 2021-01-18 (commit [`179c242`](https://github.com/castorini/anserini/commit/179c242562bbb990e421f315370f34d4d19bbb9f))
 + Results replicated by [@larryli1999](https://github.com/larryli1999) on 2021-01-22 (commit [`3f9af5`](https://github.com/castorini/anserini/commit/3f9af54d6215eacbade7fc99ff8890920fdddee0))
++ Results replicated by [@ArthurChen189](https://github.com/ArthurChen189) on 2021-04-07 
