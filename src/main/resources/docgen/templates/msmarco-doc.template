@@ -1,7 +1,13 @@
 # Anserini: Regressions for MS MARCO Document Ranking
 
 This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-doc.md).
+Note that there are four different regression conditions for MS MARCO Document Ranking.
+This page describes the following:
+
++ **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
++ **Expansion Condition:** none
+
+All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#replicating-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

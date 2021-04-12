@@ -1,10 +1,13 @@
-# Anserini: Regressions for MS MARCO Document Ranking (Per Passage)
+# Anserini: Regressions for MS MARCO Document Ranking
 
-This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking) using the "per passage" condition, which is integrated into Anserini's regression testing framework.
-Note that these experiments are _different_ from the basic [MS MARCO Document Ranking](regressions-msmarco-doc.md) runs: here, each MS MARCO document is first segmented into passages, and each of these passages are then indexed separately.
-How this is accomplished can be found in the description of doc2query-T5 [here](https://github.com/castorini/docTTTTTquery#per-passage-expansion).
+This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
+Note that there are four different regression conditions for MS MARCO Document Ranking.
+This page describes the following:
 
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-doc.md).
++ **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
++ **Expansion Condition:** none
+
+All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#replicating-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
