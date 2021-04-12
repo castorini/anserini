@@ -31,6 +31,7 @@ import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -47,6 +48,7 @@ import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
@@ -118,6 +120,10 @@ import java.util.concurrent.TimeUnit;
  * Main entry point for search.
  */
 public final class SearchCollection implements Closeable {
+  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
+  // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
+  // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
+  // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchArgs.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
@@ -296,14 +302,16 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("es")) {
       analyzer = new SpanishAnalyzer();
       LOG.info("Language: es");
+    } else if (args.language.equals("en_ws")) {
+      analyzer = new WhitespaceAnalyzer();
+      LOG.info("Language: en_ws");
     } else {
       // Default to English
-      analyzer = args.keepstop ?
-          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET) :
-          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
+      analyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
       LOG.info("Language: en");
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);
+      LOG.info("Stopwords file " + args.stopwords);
     }
 
     isRerank = args.rm3 || args.axiom || args.bm25prf;

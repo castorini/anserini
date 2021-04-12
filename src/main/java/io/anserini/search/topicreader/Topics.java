@@ -45,6 +45,9 @@ public enum Topics {
   MB14(MicroblogTopicReader.class, "topics-and-qrels/topics.microblog2014.txt"),
   CAR17V15_BENCHMARK_Y1_TEST(CarTopicReader.class, "topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt"),
   CAR17V20_BENCHMARK_Y1_TEST(CarTopicReader.class, "topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt"),
+  TREC2019_DL_DOC(TsvIntTopicReader.class,"topics-and-qrels/topics.dl19-doc.txt"),
+  TREC2019_DL_PASSAGE(TsvIntTopicReader.class,"topics-and-qrels/topics.dl19-passage.txt"),
+  TREC2020_DL(TsvIntTopicReader.class,"topics-and-qrels/topics.dl20.txt"),
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.dev.txt"),
   MSMARCO_DOC_TEST(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.test.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.txt"),
@@ -67,8 +70,16 @@ public enum Topics {
   COVID_ROUND5_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round5-udel.xml"),
   TREC2018_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking18.txt"),
   TREC2019_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking19.txt"),
+  TREC2020_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking20.txt"),
   EPIDEMIC_QA_EXPERT_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.expert.prelim.json"),
-  EPIDEMIC_QA_CONSUMER_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.consumer.prelim.json");
+  EPIDEMIC_QA_CONSUMER_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"),
+  DPR_NQ_DEV(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.nq.dev.txt"),
+  DPR_NQ_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.nq.test.txt"),
+  DPR_TRIVIA_DEV(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.trivia.dev.txt"),
+  DPR_TRIVIA_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.trivia.test.txt"),
+  DPR_WQ_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.wq.test.txt"),
+  DPR_CURATED_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.curated.test.txt"),
+  DPR_SQUAD_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.squad.test.txt");
 
   public final String path;
   public final Class readerClass;

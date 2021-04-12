@@ -372,21 +372,54 @@ public class SimpleSearcher implements Closeable {
    * @return a map of query id to search results
    */
   public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
-    return batchSearchFields(queries, qids, k, threads, new HashMap<>());
+    QueryGenerator generator = new BagOfWordsQueryGenerator();
+    return batchSearchFields(generator, queries, qids, k, threads, new HashMap<>());
   }
 
   /**
-   * Searches both the default contents fields and additional fields with specified boost weights using multiple
-   * threads. Batch version of {@link #searchFields(String, Map, int)}.
+   * Searches the collection using multiple threads.
+   *
+   * @param generator the method for generating queries
+   * @param queries list of queries
+   * @param qids list of unique query ids
+   * @param k number of hits
+   * @param threads number of threads
+   * @return a map of query id to search results
+   */
+  public Map<String, Result[]> batchSearch(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads) {
+    return batchSearchFields(generator, queries, qids, k, threads, new HashMap<>());
+  }
+
+  /**
+   * Searches the provided fields weighted by their boosts, using multiple threads.
+   * Batch version of {@link #searchFields(String, Map, int)}.
    *
    * @param queries list of queries
    * @param qids list of unique query ids
    * @param k number of hits
    * @param threads number of threads
-   * @param fields map of additional fields with weights
+   * @param fields map of fields to search with weights
    * @return a map of query id to search results
    */
   public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads,
+                                                 Map<String, Float> fields) {
+    QueryGenerator generator = new BagOfWordsQueryGenerator();
+    return batchSearchFields(generator, queries, qids, k, threads, fields);
+  }
+
+  /**
+   * Searches the provided fields weighted by their boosts, using multiple threads.
+   * Batch version of {@link #searchFields(String, Map, int)}.
+   *
+   * @param generator the method for generating queries
+   * @param queries list of queries
+   * @param qids list of unique query ids
+   * @param k number of hits
+   * @param threads number of threads
+   * @param fields map of fields to search with weights
+   * @return a map of query id to search results
+   */
+  public Map<String, Result[]> batchSearchFields(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads,
                                                  Map<String, Float> fields) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
@@ -407,9 +440,9 @@ public class SimpleSearcher implements Closeable {
       executor.execute(() -> {
         try {
           if (fields.size() > 0) {
-            results.put(qid, searchFields(query, fields, k));
+            results.put(qid, searchFields(generator, query, fields, k));
           } else {
-            results.put(qid, search(query, k));
+            results.put(qid, search(generator, query, k));
           }
         } catch (IOException e) {
           throw new CompletionException(e);
@@ -487,7 +520,7 @@ public class SimpleSearcher implements Closeable {
   /**
    * Searches the collection with a specified {@link QueryGenerator}.
    *
-   * @param generator query generator
+   * @param generator the method for generating queries
    * @param q query
    * @param k number of hits
    * @return array of search results
@@ -538,29 +571,35 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Searches both the default contents fields and additional fields with specified boost weights.
+   * Searches the provided fields weighted by their boosts.
    *
    * @param q query
-   * @param fields map of additional fields with weights
+   * @param fields map of fields to search with weights
    * @param k number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
    */
   public Result[] searchFields(String q, Map<String, Float> fields, int k) throws IOException {
     // Note that this is used for MS MARCO experiments with document expansion.
+    QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
+    return searchFields(queryGenerator, q, fields, k);
+  }
+
+  /**
+   * Searches the provided fields weighted by their boosts.
+   *
+   * @param generator the method for generating queries
+   * @param q query
+   * @param fields map of fields to search with weights
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public Result[] searchFields(QueryGenerator generator, String q, Map<String, Float> fields, int k) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    Query queryContents = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
-    BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder()
-        .add(queryContents, BooleanClause.Occur.SHOULD);
-
-    for (Map.Entry<String, Float> entry : fields.entrySet()) {
-      Query queryField = new BagOfWordsQueryGenerator().buildQuery(entry.getKey(), analyzer, q);
-      queryBuilder.add(new BoostQuery(queryField, entry.getValue()), BooleanClause.Occur.SHOULD);
-    }
-
-    BooleanQuery query = queryBuilder.build();
+    Query query = generator.buildQuery(fields, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return search(query, queryTokens, q, k);

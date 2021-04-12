@@ -27,7 +27,7 @@ For additional details, see explanation of [common indexing options](common-inde
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
 
 + [`topics.backgroundlinking19.txt`](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt): topics for the background linking task of the TREC 2019 News Track
-+ [`qrels.backgroundlinking18.txt`](../src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt): qrels for the background linking task of the TREC 2019 News Track
++ [`qrels.backgroundlinking19.txt`](../src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt): qrels for the background linking task of the TREC 2019 News Track
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

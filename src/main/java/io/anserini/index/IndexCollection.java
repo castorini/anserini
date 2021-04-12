@@ -49,10 +49,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
@@ -82,13 +82,19 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
+import org.mockito.internal.matchers.Any;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -173,15 +179,6 @@ public final class IndexCollection {
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
-          }
-
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(d.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
           }
 
           Document doc;
@@ -282,15 +279,6 @@ public final class IndexCollection {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
-          }
-
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
           }
 
           Document document;
@@ -459,15 +447,6 @@ public final class IndexCollection {
             continue;
           }
 
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
-          }
-
           Document document;
           try {
             document = generator.createDocument(sourceDocument);
@@ -633,6 +612,8 @@ public final class IndexCollection {
   private ObjectPool<SolrClient> solrPool;
   private ObjectPool<RestHighLevelClient> esPool;
 
+
+
   @SuppressWarnings("unchecked")
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
@@ -749,16 +730,10 @@ public final class IndexCollection {
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
-      final DefaultEnglishAnalyzer analyzer;
-      if (args.keepStopwords) {
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET);
-      } else if (args.stopwords != null) {
-        final List<String> stopWords = FileUtils.readLines(new File(args.stopwords), "utf-8");
-        final CharArraySet stopWordsSet = new CharArraySet(stopWords, false);
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.unmodifiableSet(stopWordsSet));
-      } else {
-        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
-      }
+      final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
+
+      final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
+              args.stemmer, args.keepStopwords, args.stopwords);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
 
       final IndexWriterConfig config;
@@ -778,6 +753,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(germanAnalyzer);
       } else if (args.language.equals("es")) {
         config = new IndexWriterConfig(spanishAnalyzer);
+      } else if (args.language.equals("en_ws")) {
+        config = new IndexWriterConfig(whitespaceAnalyzer);
       } else {
         config = new IndexWriterConfig(analyzer);
       }
@@ -798,8 +775,14 @@ public final class IndexCollection {
     LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
     LOG.info("Initializing collection in " + collectionPath.toString());
-    final List segmentPaths = collection.getSegmentPaths();
+
+    List<?> segmentPaths = collection.getSegmentPaths();
+    // when we want sharding to be done
+    if (args.shardCount > 1) {
+      segmentPaths = collection.getSegmentPaths(args.shardCount, args.shardCurrent);
+    }
     final int segmentCnt = segmentPaths.size();
+
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");
 

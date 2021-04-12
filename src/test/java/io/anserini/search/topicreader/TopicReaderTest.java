@@ -27,6 +27,19 @@ import static org.junit.Assert.assertNotNull;
 public class TopicReaderTest {
 
   @Test
+  public void testIterateThroughAllEnums() {
+    int cnt = 0;
+    for (Topics topic : Topics.values()) {
+      cnt++;
+
+      // Verify that we can fetch the TopicReader class given the name of the topic file.
+      String pathParts[] = topic.path.split("\\/");
+      assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
+    }
+    assertEquals(60, cnt);
+  }
+
+  @Test
   public void testTopicReaderClassLookup() {
     assertEquals(TrecTopicReader.class,
         TopicReader.getTopicReaderClassByFile("src/main/resources/topics-and-qrels/topics.robust04.txt"));
@@ -81,7 +94,7 @@ public class TopicReaderTest {
     assertEquals(151, (int) topics.firstKey());
     assertEquals("Coping with overcrowded prisons", topics.get(topics.firstKey()).get("title"));
     assertEquals(200, (int) topics.lastKey());
-    assertEquals("Impact of foreign textile imports on U.S.", topics.get(topics.lastKey()).get("title"));
+    assertEquals("Impact of foreign textile imports on U.S. textile industry", topics.get(topics.lastKey()).get("title"));
 
     topics = TopicReader.getTopics(Topics.ROBUST04);
     assertNotNull(topics);
@@ -115,6 +128,35 @@ public class TopicReaderTest {
     assertEquals(825, (int) topics.lastKey());
     assertEquals("ethanol and food prices", topics.get(topics.lastKey()).get("title"));
   }
+  
+    @Test
+    public void testTrecTitleParsing() {
+        SortedMap<Integer, Map<String, String>> topics;
+
+        topics = TopicReader.getTopics(Topics.TREC1_ADHOC);
+        assertNotNull(topics);
+        assertEquals(50, topics.size());
+        //
+        // Single line titles.
+        assertEquals("Airbus Subsidies", topics.get(51).get("title"));
+        assertEquals("Controlling the Transfer of High Technology", topics.get(100).get("title"));
+        //
+        // Multi-line titles.
+        assertEquals("Financial crunch for televangelists in the wake of the PTL scandal", topics.get(81).get("title"));
+        assertEquals("Criminal Actions Against Officers of Failed Financial Institutions", topics.get(87).get("title"));
+        assertEquals("What Backing Does the National Rifle Association Have?", topics.get(93).get("title"));
+
+        topics = TopicReader.getTopics(Topics.TREC2_ADHOC);
+        assertNotNull(topics);
+        assertEquals(50, topics.size());
+
+        assertEquals("Industrial Espionage", topics.get(149).get("title"));
+
+        assertEquals("Laser Research Applicable to the U.S.'s Strategic Defense Initiative", topics.get(102).get("title"));
+        assertEquals("Impact of Government Regulated Grain Farming on International Relations", topics.get(142).get("title"));
+    }
+
+
 
   @Test
   public void testNewswireTopics_TopicIdsAsStrings() {
@@ -136,7 +178,7 @@ public class TopicReaderTest {
     assertNotNull(topics);
     assertEquals(50, topics.size());
     assertEquals("Coping with overcrowded prisons", topics.get("151").get("title"));
-    assertEquals("Impact of foreign textile imports on U.S.", topics.get("200").get("title"));
+    assertEquals("Impact of foreign textile imports on U.S. textile industry", topics.get("200").get("title"));
 
     topics = TopicReader.getTopicsWithStringIds(Topics.ROBUST04);
     assertNotNull(topics);
@@ -490,6 +532,138 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testDprNq() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_NQ_DEV);
+    assertNotNull(topics);
+    assertEquals(8757, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("who sings does he love me with reba", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['Linda Davis']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(8756, (int) topics.lastKey());
+    assertEquals("when did the gop take control of the house", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['2010']", topics.get(topics.lastKey()).get("answers"));
+
+    topics = TopicReader.getTopics(Topics.DPR_NQ_TEST);
+    assertNotNull(topics);
+    assertEquals(3610, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("who got the first nobel prize in physics", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['Wilhelm Conrad Röntgen']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(3609, (int) topics.lastKey());
+    assertEquals("when did computer become widespread in homes and schools", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['1980s']", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testDprTrivia() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_TRIVIA_DEV);
+    assertNotNull(topics);
+    assertEquals(8837, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("The VS-300 was a type of what?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['🚁', 'Helicopters', 'Civilian helicopter', 'Pescara (helicopter)', 'Cargo helicopter', 'Copter', 'Helecopter', 'List of deadliest helicopter crashes', 'Helichopper', 'Helocopter', 'Cargo Helicopter', 'Helicopter', 'Helicoptor', 'Anatomy of a helicopter']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(8836, (int) topics.lastKey());
+    assertEquals("Name the artist and the title of this 1978 classic that remains popular today: We were at the beach Everybody had matching towels Somebody went under a dock And there they saw a rock It wasnt a rock", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['Rock Lobster by the B-52s']", topics.get(topics.lastKey()).get("answers"));
+
+    topics = TopicReader.getTopics(Topics.DPR_TRIVIA_TEST);
+    assertNotNull(topics);
+    assertEquals(11313, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("Who was the man behind The Chipmunks?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['David Seville']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(11312, (int) topics.lastKey());
+    assertEquals("In what outdoor sport, sanctioned by the NHPA, do you score 3 points for a ringer, 2 for a leaner, and the closet scores a point?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['Horseshoe pit', 'Horseshoes (game)', 'Horseshoes', 'Horseshoe Pitching', 'Horse shoes', 'Horseshoe pitching', 'Horseshoe throwing']", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testDprWq() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_WQ_TEST);
+    assertNotNull(topics);
+    assertEquals(2032, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("what does jamaican people speak?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("[\"Jamaican Creole English Language\",\"Jamaican English\"]", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(2031, (int) topics.lastKey());
+    assertEquals("when was father chris riley born?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("[\"1967\"]", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testDprCurated() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_CURATED_TEST);
+    assertNotNull(topics);
+    assertEquals(694, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("How tall is Mount McKinley?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("[\"20\\\\s?,?\\\\s?(32|40)0\\\\s?-?\\\\s?f(ee|oo)t|6,194-meter|20,?237\\\\s*f(oo|ee)?t|20,?073\\\\s*f(oo|ee)?t|6,?168\\\\s*m|6,118\\\\s*m|6\\\\,194 m|20\\\\,322 feet\"]", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(693, (int) topics.lastKey());
+    assertEquals("What state is the geographic center of the lower 48 states?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("[\"Kansas\"]", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testDprSquad() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.DPR_SQUAD_TEST);
+    assertNotNull(topics);
+    assertEquals(10570, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("Which NFL team represented the AFC at Super Bowl 50?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("[\"Denver Broncos\",\"Denver Broncos\",\"Denver Broncos\"]", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(10569, (int) topics.lastKey());
+    assertEquals("What is the seldom used force unit equal to one thousand newtons?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("[\"sthène\",\"sthène\",\"sthène\",\"sthène\",\"sthène\"]", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testTREC19DL() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+    assertEquals("does legionella pneumophila cause pneumonia", topics.get(168216).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_DOC);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+    assertEquals("how long to hold bow in yoga", topics.get(1132213).get("title"));
+  }
+
+  @Test
+  public void testTREC20DL() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2020_DL);
+    assertNotNull(topics);
+    assertEquals(200, topics.size());
+    assertEquals(3505, (int) topics.firstKey());
+    assertEquals("how do they do open heart surgery", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1136962, (int) topics.lastKey());
+    assertEquals("why did the ancient egyptians call their land kemet, or black land?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("who is aziz hashim", topics.get(1030303).get("title"));
+  }
+
+  @Test
   public void testMSMARO_TopicIdsAsStrings() {
     Map<String, Map<String, String>> topics;
 
@@ -821,6 +995,21 @@ public class TopicReaderTest {
     assertEquals("5ae44bfd66a49bcad7b55b29b55d63b6", topics.get(topics.lastKey()).get("title"));
     assertEquals("https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/07/14/" +
         "sun-erupts-to-mark-another-bastille-day-aurora-possible-in-new-england-sunday-night/",
+        topics.get(topics.lastKey()).get("url"));
+
+    topics = TopicReader.getTopics(Topics.TREC2020_BL);
+
+    assertEquals(50, topics.keySet().size());
+    assertEquals(886, (int) topics.firstKey());
+    assertEquals("AEQZNZSVT5BGPPUTTJO7SNMOLE", topics.get(topics.firstKey()).get("title"));
+    assertEquals("https://www.washingtonpost.com/politics/2019/06/05/" +
+        "trump-says-transgender-troops-cant-serve-because-troops-cant-take-any-drugs-hes-wrong-many-ways/",
+        topics.get(topics.firstKey()).get("url"));
+
+    assertEquals(935, (int) topics.lastKey());
+    assertEquals("CCUJNXOJNFEJFBL57GD27EHMWI", topics.get(topics.lastKey()).get("title"));
+    assertEquals("https://www.washingtonpost.com/news/to-your-health/wp/2018/05/30/" +
+        "this-mock-pandemic-killed-150-million-people-next-time-it-might-not-be-a-drill/",
         topics.get(topics.lastKey()).get("url"));
   }
 

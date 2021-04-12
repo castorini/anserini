@@ -79,6 +79,27 @@ import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
  * Then it is better NOT to using a newswire index for expansion terms and feed them to the original
  * tweets index.
  *
+ * Algorithm:
+ *
+ * 1. Rank the documents and pick the top _M_ documents as the reranking documents pool _RP_
+ *
+ * 2. Randomly select _(R-1)*M_ documents from the index and add them to _RP_ so that we have _R*M_ documents in the
+ * reranking pool
+ *
+ * 3. Build the inverted term-docs list _RTL_ for _RP_
+ *
+ * 4. For each term in _RTL_, calculate its reranking score as the mutual information between query terms and itself:
+ * `s(q,t)=I(X_q, X_t|RP)=SUM(p(X_q,X_t|W)*log(p(X_q,X_t|W)/p(X_q|W)/p(X_t|W)))` where `X_q` and `X_t` are two binary
+ * random variables that denote the presence/absence of query term q and term t in the document.
+ *
+ * 5. The final reranking score of each term _t_ in _RTL_ is calculated by summing up its scores for all query terms:
+ * `s(t) = SUM(s(q,t))`.
+ *
+ * 6. Pick top _K_ terms from _RTL_ based on their reranking scores with their weights _s(t)_
+ *
+ * 7. Rerank the documents by using the _K_ reranking terms with their weights. In Lucene, it is something like
+ * `(term1^0.2 term2^0.01 ...)`
+ *
  */
 public class AxiomReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);

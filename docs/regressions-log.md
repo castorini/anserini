@@ -3,6 +3,32 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### March 30, 3021
+
++ commit [`c75c63`](https://github.com/castorini/anserini/commit/c75c63b0d625c88049952fc1c72360f2b6bb07c6) (03/30/2021)
+
+Added regressions for Anserini submissions to TREC 2020 News Track, background linking task.
+
+### March 19, 2021
+
++ commit [`e9af6e`](https://github.com/castorini/anserini/commit/e9af6eca16290ed222f23fcaa9cb1547f8a10d38) (03/19/2021)
+
+Added regressions for Anserini submissions to TREC 2020 Deep Learning Track: passage ranking (also with docTTTTTquery) and document ranking (also with per-document docTTTTTquery).
+
+### February 24, 2021
+
++ commit [`90d3aa`](https://github.com/castorini/anserini/commit/90d3aa0099990cf26a54afa8458d03b30b3ace02) (02/24/2021)
+
+Fixed bug where multi-line TREC topic titles weren't being fully parsed ([#1482](https://github.com/castorini/anserini/pull/1482)).
+Affects [regressions for Disks 1 & 2](https://github.com/castorini/anserini/blob/master/docs/regressions-disk12.md).
+
+### November 16, 2020
+
++ commit [`f87c94`](https://github.com/castorini/anserini/commit/f87c945fd1c1e4174468194c72e3c05688dc45dd) (11/16/2020)
++ commit [`9a8e8b`](https://github.com/castorini/anserini/commit/9a8e8b4a569036de3d68daabebf42ae302069eca) (11/12/2020)
+
+Added regressions for MS MARCO document ranking with per-passage and per-document docTTTTTquery expansions.
+
 ### April 12, 2020
 
 + commit [`35f9f8`](https://github.com/castorini/anserini/commit/35f9f82f13fa4ab9b6fba494044cc7d5a3915b02) (04/12/2020)

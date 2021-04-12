@@ -16,11 +16,13 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.*;
+import io.anserini.ltr.feature.OrderedQueryPairs;
+import io.anserini.ltr.feature.OrderedSequentialPairs;
+import io.anserini.ltr.feature.UnorderedQueryPairs;
+import io.anserini.ltr.feature.UnorderedSequentialPairs;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -32,57 +34,57 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest<Integer> {
 
   private List<FeatureExtractor> getUnorderedChain() {
     return getChain(
-            new UnorderedSequentialPairsFeatureExtractor(2),
-            new UnorderedSequentialPairsFeatureExtractor(4),
-            new UnorderedSequentialPairsFeatureExtractor(6)
+            new UnorderedSequentialPairs(2),
+            new UnorderedSequentialPairs(4),
+            new UnorderedSequentialPairs(6)
     );
   }
 
   private List<FeatureExtractor> getOrderedChain() {
     return getChain(
-            new OrderedSequentialPairsFeatureExtractor(2),
-            new OrderedSequentialPairsFeatureExtractor(4),
-            new OrderedSequentialPairsFeatureExtractor(6)
+            new OrderedSequentialPairs(2),
+            new OrderedSequentialPairs(4),
+            new OrderedSequentialPairs(6)
     );
   }
 
   private List<FeatureExtractor> getMixedChain() {
     return getChain(
-            new OrderedSequentialPairsFeatureExtractor(2),
-            new OrderedSequentialPairsFeatureExtractor(4),
-            new OrderedSequentialPairsFeatureExtractor(6),
-            new UnorderedSequentialPairsFeatureExtractor(2),
-            new UnorderedSequentialPairsFeatureExtractor(4),
-            new UnorderedSequentialPairsFeatureExtractor(6)
+            new OrderedSequentialPairs(2),
+            new OrderedSequentialPairs(4),
+            new OrderedSequentialPairs(6),
+            new UnorderedSequentialPairs(2),
+            new UnorderedSequentialPairs(4),
+            new UnorderedSequentialPairs(6)
     );
   }
 
   private List<FeatureExtractor> getAllPairsOrdered() {
     return getChain(
-            new OrderedQueryPairsFeatureExtractor(2),
-            new OrderedQueryPairsFeatureExtractor(4),
-            new OrderedQueryPairsFeatureExtractor(6)
+            new OrderedQueryPairs(2),
+            new OrderedQueryPairs(4),
+            new OrderedQueryPairs(6)
     );
   }
 
   private List<FeatureExtractor> getAllPairsUnOrdered() {
     return getChain(
-            new UnorderedQueryPairsFeatureExtractor(2),
-            new UnorderedQueryPairsFeatureExtractor(4),
-            new UnorderedQueryPairsFeatureExtractor(6)
+            new UnorderedQueryPairs(2),
+            new UnorderedQueryPairs(4),
+            new UnorderedQueryPairs(6)
     );
   }
 
   private List<FeatureExtractor> getMixedSequentialAllPairs() {
     return getChain(
-            new OrderedSequentialPairsFeatureExtractor(2),
-            new UnorderedSequentialPairsFeatureExtractor(2),
-            new OrderedQueryPairsFeatureExtractor(2),
-            new UnorderedQueryPairsFeatureExtractor(2)
+            new OrderedSequentialPairs(2),
+            new UnorderedSequentialPairs(2),
+            new OrderedQueryPairs(2),
+            new UnorderedQueryPairs(2)
     );
   }
 
-  private static FeatureExtractor bigram = new OrderedSequentialPairsFeatureExtractor(1);
+  private static FeatureExtractor bigram = new OrderedSequentialPairs(1);
 
   @Test
   public void testSimpleQuery () throws IOException, ExecutionException, InterruptedException {
