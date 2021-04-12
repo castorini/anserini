@@ -84,6 +84,10 @@ public class SearchArgs {
           usage = "Path to file with stopwords.")
   public String stopwords = null;
 
+  @Option(name = "-pretokenized",
+          usage = "Path to file with stopwords.")
+  public boolean pretokenized = false;
+
   @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
   public boolean arbitraryScoreTieBreak = false;
 

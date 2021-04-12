@@ -302,9 +302,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("es")) {
       analyzer = new SpanishAnalyzer();
       LOG.info("Language: es");
-    } else if (args.language.equals("en_ws")) {
+    } else if (args.language.equals("en_ws") || args.pretokenized) {
       analyzer = new WhitespaceAnalyzer();
-      LOG.info("Language: en_ws");
+      LOG.info("Pretokenized");
     } else {
       // Default to English
       analyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);

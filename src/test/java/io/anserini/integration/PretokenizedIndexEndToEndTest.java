@@ -6,6 +6,7 @@ import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
+import io.anserini.search.SearchArgs;
 
 import java.io.IOException;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
         // this is ##a simple pretokenized test some time extra ##vert ##ing and intro 2000000 2000001
         termIndexStatusTermCount = 15;
         // this is ##a simple pretokenized test some|2 time|2 extra ##vert|2 ##ing|2 and intro 2000000 2000001  ?
+        //todo: check this field?
         termIndexStatusTotFreq = 15;
         storedFieldStatusTotalDocCounts = 2;
         termIndexStatusTotPos = 17 + storedFieldStatusTotalDocCounts;
@@ -56,7 +58,13 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
 
     @Override
     protected void setSearchGroundTruth() {
-
+        topicReader = "TsvInt";
+        topicFile = "src/test/resources/sample_topics/json_topics.tsv";
+        SearchArgs searchArg = createDefaultSearchArgs().bm25();
+        searchArg.pretokenized = true;
+        testQueries.put("bm25", searchArg);
+        referenceRunOutput.put("bm25", new String[]{
+                "1 Q0 2000000 1 0.386300 Anserini"});
     }
 
 }
