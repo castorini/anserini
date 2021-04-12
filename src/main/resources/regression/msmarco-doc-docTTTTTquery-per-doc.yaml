@@ -27,6 +27,15 @@ evals:
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
+      - -m recall.100
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
       - -m recall.1000
       - -c
     separator: "\t"
@@ -56,5 +65,20 @@ models:
     results:
       map:
         - 0.2886
+      R@100:
+        - 0.7990
       R@1000:
         - 0.9259
+  - name: bm25-tuned
+    display: BM25 (Tuned)
+    params:
+      - -bm25
+      - -bm25.k1 4.68
+      - -bm25.b 0.87
+    results:
+      map:
+        - 0.3270
+      R@100:
+        - 0.8608
+      R@1000:
+        - 0.9553

@@ -41,6 +41,24 @@ With the above commands, you should be able to replicate the following results:
 
 ${effectiveness}
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87`.
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=4.46`, `b=0.82`.
 See [this page](experiments-msmarco-doc.md) for more details.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, the runs provided by MS MARCO organizers for reranking have only 100 hits per query.
+
+Use the following commands to convert the TREC run files into the MS MARCO format and use the official eval script to compute MRR@100:
+
+```bash
+$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.msmarco.txt
+#####################
+MRR @100: 0.23005723505603545
+QueriesRanked: 5193
+#####################
+
+$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt
+#####################
+MRR @100: 0.2770296928568709
+QueriesRanked: 5193
+#####################
+```

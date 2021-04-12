@@ -35,26 +35,38 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.txt \
  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.msmarco-doc.dev.txt \
+ -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.msmarco-doc.dev.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25 (Default)|
-:---------------------------------------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.3182    |
+MAP                                     | BM25 (Default)| BM25 (Tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.3182    | 0.3211    |
 
 
-R@1000                                  | BM25 (Default)|
-:---------------------------------------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9490    |
+R@100                                   | BM25 (Default)| BM25 (Tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8481    | 0.8627    |
+
+
+R@1000                                  | BM25 (Default)| BM25 (Tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9490    | 0.9530    |
 
 See [this page](https://github.com/castorini/docTTTTTquery#Replicating-MS-MARCO-Document-Ranking-Results-with-Anserini) for more details.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, the runs provided by MS MARCO organizers for reranking have only 100 hits per query.

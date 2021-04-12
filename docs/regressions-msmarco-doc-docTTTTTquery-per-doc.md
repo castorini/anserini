@@ -35,26 +35,56 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.msmarco-doc.dev.txt \
  -bm25 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.msmarco-doc.dev.txt \
+ -bm25 -bm25.k1 4.68 -bm25.b 0.87 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.msmarco-doc.dev.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.msmarco-doc.dev.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25 (Default)|
-:---------------------------------------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2886    |
+MAP                                     | BM25 (Default)| BM25 (Tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2886    | 0.3270    |
 
 
-R@1000                                  | BM25 (Default)|
-:---------------------------------------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9259    |
+R@100                                   | BM25 (Default)| BM25 (Tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7990    | 0.8608    |
+
+
+R@1000                                  | BM25 (Default)| BM25 (Tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9259    | 0.9553    |
 
 See [this page](https://github.com/castorini/docTTTTTquery#Replicating-MS-MARCO-Document-Ranking-Results-with-Anserini) for more details.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, the runs provided by MS MARCO organizers for reranking have only 100 hits per query.
+
+Use the following commands to convert the TREC run files into the MS MARCO format and use the official eval script to compute MRR@100:
+
+```bash
+$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.msmarco-doc.dev.msmarco.txt
+#####################
+MRR @100: 0.28805221173885914
+QueriesRanked: 5193
+#####################
+
+$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt
+#####################
+MRR @100: 0.32651902964919355
+QueriesRanked: 5193
+#####################
+```

@@ -27,6 +27,15 @@ evals:
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
+      - -m recall.100
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
       - -m recall.1000
       - -c
     separator: "\t"
@@ -56,6 +65,8 @@ models:
     results:
       map:
         - 0.2310
+      R@100:
+        - 0.7279
       R@1000:
         - 0.8856
   - name: bm25-default+rm3
@@ -66,6 +77,8 @@ models:
     results:
       map:
         - 0.1632
+      R@100:
+        - 0.6765
       R@1000:
         - 0.8785
   - name: bm25-default+ax
@@ -78,6 +91,8 @@ models:
     results:
       map:
         - 0.1147
+      R@100:
+        - 0.5750
       R@1000:
         - 0.8369
   - name: bm25-default+prf
@@ -88,54 +103,64 @@ models:
     results:
       map:
         - 0.1357
+      R@100:
+        - 0.6362
       R@1000:
         - 0.8471
   - name: bm25-tuned
     display: BM25 (Tuned)
     params:
       - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
+      - -bm25.k1 4.46
+      - -bm25.b 0.82
     results:
       map:
-        - 0.2788
+        - 0.2775
+      R@100:
+        - 0.8076
       R@1000:
-        - 0.9326
+        - 0.9357
   - name: bm25-tuned+rm3
     display: +RM3
     params:
       - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
+      - -bm25.k1 4.46
+      - -bm25.b 0.82
       - -rm3
     results:
       map:
-        - 0.2289
+        - 0.2238
+      R@100:
+        - 0.7789
       R@1000:
-        - 0.9320
+        - 0.9307
   - name: bm25-tuned+ax
     display: +Ax
     params:
       - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
+      - -bm25.k1 4.46
+      - -bm25.b 0.82
       - -axiom
       - -axiom.deterministic
       - -rerankCutoff 20
     results:
       map:
-        - 0.1895
+        - 0.1885
+      R@100:
+        - 0.7510
       R@1000:
-        - 0.9264
+        - 0.9249
   - name: bm25-tuned+prf
     display: +PRF
     params:
       - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
+      - -bm25.k1 4.46
+      - -bm25.b 0.82
       - -bm25prf
     results:
       map:
-        - 0.1559
+        - 0.1531
+      R@100:
+        - 0.6819
       R@1000:
-        - 0.8758
+        - 0.8752
