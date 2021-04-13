@@ -61,17 +61,17 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25 (Default)| BM25 (Tuned)|
 :---------------------------------------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2886    | 0.3270    |
+[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2886    | 0.3270    |
 
 
 R@100                                   | BM25 (Default)| BM25 (Tuned)|
 :---------------------------------------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7990    | 0.8608    |
+[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7990    | 0.8608    |
 
 
 R@1000                                  | BM25 (Default)| BM25 (Tuned)|
 :---------------------------------------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9259    | 0.9553    |
+[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9259    | 0.9553    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=4.68`, `b=0.87`.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
