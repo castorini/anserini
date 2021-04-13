@@ -73,6 +73,7 @@ R@1000                                  | BM25 (Default)| BM25 (Tuned)|
 :---------------------------------------|-----------|-----------|
 [MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9259    | 0.9553    |
 
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=4.68`, `b=0.87`.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
 
 Use the following commands to convert the TREC run files into the MS MARCO format and use the official eval script to compute MRR@100:
