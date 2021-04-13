@@ -67,7 +67,7 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
         searchArg.pretokenized = true;
         testQueries.put("bm25", searchArg);
         referenceRunOutput.put("bm25", new String[]{
-                "1 Q0 2000000 1 0.772700 Anserini"});
+                "1 Q0 2000001 1 0.922400 Anserini"});
     }
 
 }
