@@ -54,7 +54,7 @@ index_stats:
   documents (non-empty): 20544550
   total terms: 4203956960
 topics:
-  - name: "[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)"
+  - name: "[MS MARCO Doc Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)"
     path: topics.msmarco-doc.dev.txt
     qrel: qrels.msmarco-doc.dev.txt
 models:

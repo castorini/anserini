@@ -103,17 +103,17 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2310    | 0.1632    | 0.1147    | 0.1357    | 0.2775    | 0.2238    | 0.1885    | 0.1531    |
+[MS MARCO Doc Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2310    | 0.1632    | 0.1147    | 0.1357    | 0.2775    | 0.2238    | 0.1885    | 0.1531    |
 
 
 R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7279    | 0.6765    | 0.5750    | 0.6362    | 0.8076    | 0.7789    | 0.7510    | 0.6819    |
+[MS MARCO Doc Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7279    | 0.6765    | 0.5750    | 0.6362    | 0.8076    | 0.7789    | 0.7510    | 0.6819    |
 
 
 R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8785    | 0.8369    | 0.8471    | 0.9357    | 0.9307    | 0.9249    | 0.8752    |
+[MS MARCO Doc Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8785    | 0.8369    | 0.8471    | 0.9357    | 0.9307    | 0.9249    | 0.8752    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=4.46`, `b=0.82`.
 See [this page](experiments-msmarco-doc.md) for more details.
