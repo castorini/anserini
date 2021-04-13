@@ -73,8 +73,9 @@ R@1000                                  | BM25 (Default)| BM25 (Tuned)|
 :---------------------------------------|-----------|-----------|
 [MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9490    | 0.9530    |
 
-See [this page](https://github.com/castorini/docTTTTTquery#Replicating-MS-MARCO-Document-Ranking-Results-with-Anserini) for more details.
-Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, the runs provided by MS MARCO organizers for reranking have only 100 hits per query.
+Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
+
+Use the following commands to convert the TREC run files into the MS MARCO format and use the official eval script to compute MRR@100:
 
 ```bash
 $ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
