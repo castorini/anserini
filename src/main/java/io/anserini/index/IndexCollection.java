@@ -759,7 +759,6 @@ public final class IndexCollection {
       } else {
         config = new IndexWriterConfig(analyzer);
       }
-
       if (args.bm25Accurate) {
         config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
       } else {

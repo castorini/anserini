@@ -42,7 +42,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Iterator;
 
 // This automatically tests indexing, retrieval, and evaluation from end to end.
 // Subclasses inherit and special to different collections.
