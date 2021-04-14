@@ -65,6 +65,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected Map<String, String[]> referenceRunOutput = new HashMap<>();
   protected Map<String, Map<String, String>> documents = new HashMap<>();
   protected Map<String, Map<String,Map<String,Long>>> tokens = new HashMap<>();
+  protected Map<String, List<String>>  queryTokens = new HashMap<>();
 
   // These are the sources of truth
   protected int fieldNormStatusTotalFields;
@@ -286,7 +287,12 @@ public abstract class EndToEndTest extends LuceneTestCase {
       for (Map.Entry<String, SearchArgs> entry : testQueries.entrySet()) {
         SearchCollection searcher = new SearchCollection(entry.getValue());
         searcher.runTopics();
+        Map<String, List<String>> actualQuery = searcher.getQueries();
         searcher.close();
+        //check query tokens
+        if(!queryTokens.isEmpty()){
+          assertEquals(queryTokens,actualQuery);
+        }
         checkRankingResults(entry.getKey(), entry.getValue().output);
         // Remember to cleanup run files.
         cleanup.add(new File(entry.getValue().output));
