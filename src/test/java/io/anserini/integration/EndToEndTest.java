@@ -64,7 +64,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected String searchOutputPrefix = "e2eTestSearch";
   protected Map<String, String[]> referenceRunOutput = new HashMap<>();
   protected Map<String, Map<String, String>> documents = new HashMap<>();
-  protected Map<String, Map<String,Map<String,Long>>> tokens = new HashMap<>();
+  protected Map<String, Map<String, Map<String, Long>>> tokens = new HashMap<>();
   protected Map<String, List<String>>  queryTokens = new HashMap<>();
 
   // These are the sources of truth

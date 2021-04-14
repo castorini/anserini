@@ -588,7 +588,7 @@ public final class SearchCollection implements Closeable {
 
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
 
-    queries.put(qid.toString(),queryTokens);
+    queries.put(qid.toString(), queryTokens);
 
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
@@ -703,7 +703,7 @@ public final class SearchCollection implements Closeable {
     return cascade.run(scoredFbDocs,  context);
   }
 
-  public Map<String,List<String>> getQueries(){
+  public Map<String, List<String>> getQueries(){
     return queries;
   }
 

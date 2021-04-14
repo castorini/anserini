@@ -45,10 +45,12 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
                         "  \"contents\" : \"some time extra ##vert ##ing and some time intro ##vert ##ing\"\n" +
                         "}"
         ));
-        tokens.put("2000000",Map.of("contents",
-                Map.of("this",1L, "was",1L,"##a",1L,"simple",1L,"pretokenized",1L,"test",1L)));
-        tokens.put("2000001",Map.of("contents",
-                Map.of("some",2L, "time",2L,"extra",1L,"##vert",2L,"##ing",2L,"and",1L,"intro",1L)));
+        tokens.put("2000000", Map.of(
+                "contents", Map.of(
+                        "this", 1L, "was", 1L, "##a", 1L, "simple", 1L, "pretokenized", 1L, "test", 1L)));
+        tokens.put("2000001",Map.of(
+                "contents", Map.of(
+                        "some", 2L, "time", 2L, "extra", 1L, "##vert", 2L, "##ing", 2L, "and", 1L, "intro", 1L)));
 
         fieldNormStatusTotalFields = 1;
         // whitespace analyzer keeps everything, includes docid
@@ -67,7 +69,7 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
         SearchArgs searchArg = createDefaultSearchArgs().bm25();
         searchArg.pretokenized = true;
         testQueries.put("bm25", searchArg);
-        queryTokens.put("1",new ArrayList<>());
+        queryTokens.put("1", new ArrayList<>());
         queryTokens.get("1").add("##ing");
         queryTokens.get("1").add("##vert");
         referenceRunOutput.put("bm25", new String[]{
