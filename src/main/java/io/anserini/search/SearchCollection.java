@@ -140,7 +140,7 @@ public final class SearchCollection implements Closeable {
   private final boolean isRerank;
   private Map<String, ScoredDocuments> qrels;
   private Set<String> queriesWithRel;
-  private Map<String,List<String>> queries = new HashMap<>(); // let query tokens get exposed to the test (with analyzer)
+  private Map<String, List<String>> queries = new HashMap<>(); // let query tokens get exposed to the test (with analyzer)
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
