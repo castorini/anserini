@@ -205,11 +205,11 @@ public abstract class EndToEndTest extends LuceneTestCase {
       // check list of tokens by calling document vector
       if(!tokens.isEmpty()){
         try {
-          Map<String, Long> actualToken = IndexReaderUtils.getDocumentVector(reader,collectionDocid);
+          Map<String, Long> actualToken = IndexReaderUtils.getDocumentVector(reader, collectionDocid);
           Iterator it = actualToken.entrySet().iterator();
           while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            assertEquals(tokens.get(collectionDocid).get("contents").get(pair.getKey()),pair.getValue());
+            assertEquals(tokens.get(collectionDocid).get("contents").get(pair.getKey()), pair.getValue());
             it.remove();
           }
         } catch (NotStoredException e) {
