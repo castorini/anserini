@@ -291,7 +291,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
         searcher.close();
         //check query tokens
         if(!queryTokens.isEmpty()){
-          assertEquals(queryTokens,actualQuery);
+          assertEquals(queryTokens, actualQuery);
         }
         checkRankingResults(entry.getKey(), entry.getValue().output);
         // Remember to cleanup run files.
