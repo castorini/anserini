@@ -9,6 +9,7 @@ import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.search.SearchArgs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,9 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
         SearchArgs searchArg = createDefaultSearchArgs().bm25();
         searchArg.pretokenized = true;
         testQueries.put("bm25", searchArg);
+        queryTokens.put("1",new ArrayList<>());
+        queryTokens.get("1").add("##ing");
+        queryTokens.get("1").add("##vert");
         referenceRunOutput.put("bm25", new String[]{
                 "1 Q0 2000001 1 0.922400 Anserini"});
     }
