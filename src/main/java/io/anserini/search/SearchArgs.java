@@ -84,8 +84,7 @@ public class SearchArgs {
           usage = "Path to file with stopwords.")
   public String stopwords = null;
 
-  @Option(name = "-pretokenized",
-          usage = "Boolean switch to accept pre tokenized jsonl.")
+  @Option(name = "-pretokenized", usage = "Boolean switch to accept pre tokenized jsonl.")
   public boolean pretokenized = false;
 
   @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
