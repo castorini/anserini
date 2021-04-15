@@ -139,7 +139,8 @@ public final class SearchCollection implements Closeable {
   private List<RerankerCascade> cascades;
   private final boolean isRerank;
   private Map<String, ScoredDocuments> qrels;
-  private Set<String> queriesWithRel; 
+  private Set<String> queriesWithRel;
+  private Map<String, List<String>> queries = new HashMap<>(); // let query tokens get exposed to the test (with analyzer)
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -302,9 +303,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("es")) {
       analyzer = new SpanishAnalyzer();
       LOG.info("Language: es");
-    } else if (args.language.equals("en_ws")) {
+    } else if (args.pretokenized) {
       analyzer = new WhitespaceAnalyzer();
-      LOG.info("Language: en_ws");
+      LOG.info("Pretokenized");
     } else {
       // Default to English
       analyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
@@ -587,6 +588,8 @@ public final class SearchCollection implements Closeable {
 
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
 
+    queries.put(qid.toString(), queryTokens);
+
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
     if ( isRerank && args.rf_qrels != null) {
@@ -698,6 +701,10 @@ public final class SearchCollection implements Closeable {
     }
 
     return cascade.run(scoredFbDocs,  context);
+  }
+
+  public Map<String, List<String>> getQueries(){
+    return queries;
   }
 
   public static void main(String[] args) throws Exception {

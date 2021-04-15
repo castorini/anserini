@@ -646,6 +646,7 @@ public final class IndexCollection {
     LOG.info("Store document \"raw\" field? " + args.storeRaw);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
+    LOG.info("Pretokenized?: " + args.pretokenized);
 
     if (args.solr) {
       LOG.info("Indexing into Solr...");
@@ -753,7 +754,7 @@ public final class IndexCollection {
         config = new IndexWriterConfig(germanAnalyzer);
       } else if (args.language.equals("es")) {
         config = new IndexWriterConfig(spanishAnalyzer);
-      } else if (args.language.equals("en_ws")) {
+      } else if (args.pretokenized) {
         config = new IndexWriterConfig(whitespaceAnalyzer);
       } else {
         config = new IndexWriterConfig(analyzer);

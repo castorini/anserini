@@ -122,6 +122,10 @@ public class IndexArgs {
       usage = "Analyzer language (ISO 3166 two-letter code).")
   public String language= "en";
 
+  @Option(name = "-pretokenized",
+          usage = "index pre-tokenized collections without any additional stemming, stopword processing")
+  public boolean pretokenized = false;
+
   // Tweet options
 
   @Option(name = "-tweet.keepRetweets",
