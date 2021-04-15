@@ -37,13 +37,13 @@ public class CoreEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
-    documents.put("fullCoreDoc", Map.of(
+    referenceDocs.put("fullCoreDoc", Map.of(
         "contents", "Full CORE doc ",
         "raw", "Full CORE doc "));
-    documents.put("coreDoc1", Map.of(
+    referenceDocs.put("coreDoc1", Map.of(
         "contents", "this is the title 1 this is the abstract 1",
         "raw", "this is the title 1 this is the abstract 1"));
-    documents.put("doi2", Map.of(
+    referenceDocs.put("doi2", Map.of(
         "contents", "this is the title 2 this is the abstract 2",
         "raw", "this is the title 2 this is the abstract 2"));
 
