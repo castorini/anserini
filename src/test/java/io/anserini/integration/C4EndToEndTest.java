@@ -16,10 +16,8 @@
 
 package io.anserini.integration;
 
-import io.anserini.collection.BibtexCollection;
 import io.anserini.collection.C4Collection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.BibtexGenerator;
 import io.anserini.index.generator.C4Generator;
 
 import java.util.Map;
@@ -41,14 +39,14 @@ public class C4EndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 2;
-    documents.put("c4-0001-000000", Map.of(
+    referenceDocs.put("c4-0001-000000", Map.of(
             "contents", "test text",
             "raw", "{\n" +
                     "  \"text\" : \"test text\",\n" +
                     "  \"timestamp\" : \"2019-04-23T08:26:47Z\",\n" +
                     "  \"url\" : \"http://www.test.com\"\n" +
                     "}"));
-    documents.put("c4-0001-000001", Map.of(
+    referenceDocs.put("c4-0001-000001", Map.of(
             "contents", "test text2",
             "raw", "{\n" +
                     "  \"text\" : \"test text2\",\n" +

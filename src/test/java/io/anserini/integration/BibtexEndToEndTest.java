@@ -37,13 +37,13 @@ public class BibtexEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
-    documents.put("article-id", Map.of(
+    referenceDocs.put("article-id", Map.of(
         "contents", "this is the title. ",
         "raw", "this is the title. "));
-    documents.put("inproceedings-id", Map.of(
+    referenceDocs.put("inproceedings-id", Map.of(
         "contents", "this is the title. this is the abstract",
         "raw", "this is the title. this is the abstract"));
-    documents.put("proceedings-id", Map.of(
+    referenceDocs.put("proceedings-id", Map.of(
         "contents", "this is the title. ",
         "raw", "this is the title. "));
 
