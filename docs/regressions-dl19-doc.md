@@ -112,8 +112,8 @@ NDCG@10                                 | BM25 (Default)| +RM3      | +Ax       
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5190    | 0.5169    | 0.4730    | 0.5105    | 0.5140    | 0.5485    | 0.5245    | 0.5280    |
 
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87` (see [this page](experiments-msmarco-doc.md) for more details about tuning).
+
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
-
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87` (see [this page](experiments-msmarco-doc.md) for more details about tuning).
