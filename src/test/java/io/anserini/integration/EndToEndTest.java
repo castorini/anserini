@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +64,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected String topicFile;
   protected String searchOutputPrefix = "e2eTestSearch";
   protected Map<String, String[]> referenceRunOutput = new HashMap<>();
-  protected Map<String, Map<String, String>> documents = new HashMap<>();
-  protected Map<String, Map<String, Map<String, Long>>> tokens = new HashMap<>();
+  protected Map<String, Map<String, String>> referenceDocs = new HashMap<>();
+  protected Map<String, Map<String, List<String>>> referenceDocTokens = new HashMap<>();
   protected Map<String, List<String>>  queryTokens = new HashMap<>();
 
   // These are the sources of truth
@@ -198,20 +199,14 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     for (int i=0; i<reader.maxDoc(); i++) {
       String collectionDocid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
-      assertEquals(documents.get(collectionDocid).get("raw"),
-          IndexReaderUtils.documentRaw(reader, collectionDocid));
-      assertEquals(documents.get(collectionDocid).get("contents"),
-          IndexReaderUtils.documentContents(reader, collectionDocid));
+      assertEquals(referenceDocs.get(collectionDocid).get("raw"), IndexReaderUtils.documentRaw(reader, collectionDocid));
+      assertEquals(referenceDocs.get(collectionDocid).get("contents"), IndexReaderUtils.documentContents(reader, collectionDocid));
+
       // check list of tokens by calling document vector
-      if(!tokens.isEmpty()){
+      if (!referenceDocTokens.isEmpty()){
         try {
-          Map<String, Long> actualToken = IndexReaderUtils.getDocumentVector(reader, collectionDocid);
-          Iterator it = actualToken.entrySet().iterator();
-          while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            assertEquals(tokens.get(collectionDocid).get("contents").get(pair.getKey()), pair.getValue());
-            it.remove();
-          }
+          List<String> docTokens = IndexReaderUtils.getDocumentTokens(reader, collectionDocid);
+          assertEquals(referenceDocTokens.get(collectionDocid).get("contents"), docTokens);
         } catch (NotStoredException e) {
           e.printStackTrace();
         }
