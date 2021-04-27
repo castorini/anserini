@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package io.anserini.integration;
+
 import io.anserini.collection.JsonCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
