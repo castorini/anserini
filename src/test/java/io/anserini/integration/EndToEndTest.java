@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -187,6 +188,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
   @Test
   public void checkIndex() throws IOException {
+    Locale.setDefault(Locale.US);
+
     // Subclasses will override this method and provide the ground truth.
     setCheckIndexGroundTruth();
 
@@ -274,6 +277,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
   @Test
   public void testSearching() {
+    Locale.setDefault(Locale.US);
+
     // Subclasses will override this method and provide the ground truth.
     setSearchGroundTruth();
 
