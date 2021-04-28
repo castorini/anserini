@@ -22,7 +22,7 @@ import io.anserini.search.query.DisjunctionMaxQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -101,6 +101,9 @@ public class SearchMsmarco {
             usage = "Path to file with stopwords.")
     public String stopwords = null;
 
+    @Option(name = "-pretokenized", usage = "Boolean switch to accept pre tokenized jsonl.")
+    public boolean pretokenized = false;
+
   }
 
   public static void main(String[] args) throws Exception {
@@ -118,10 +121,16 @@ public class SearchMsmarco {
 
     long totalStartTime = System.nanoTime();
 
-    Analyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
-            retrieveArgs.stemmer, retrieveArgs.keepstop, retrieveArgs.stopwords);
-    System.out.println("Initializing analyzer with stemmer=" + retrieveArgs.stemmer + ", keepstop=" +
-            retrieveArgs.keepstop + ", stopwords=" + retrieveArgs.stopwords);
+    Analyzer analyzer;
+    if (retrieveArgs.pretokenized){
+      analyzer = new WhitespaceAnalyzer();
+      System.out.println("Initializing whilte space analyzer");
+    } else {
+      analyzer = DefaultEnglishAnalyzer.fromArguments(
+              retrieveArgs.stemmer, retrieveArgs.keepstop, retrieveArgs.stopwords);
+      System.out.println("Initializing analyzer with stemmer=" + retrieveArgs.stemmer + ", keepstop=" +
+              retrieveArgs.keepstop + ", stopwords=" + retrieveArgs.stopwords);
+    }
 
     SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index, analyzer);
     searcher.setBM25(retrieveArgs.k1, retrieveArgs.b);
