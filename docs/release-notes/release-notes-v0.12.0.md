@@ -3,7 +3,7 @@
 **Release date: April 29, 2021**
 
 + Added/updated/fixed regressions for MS MARCO doc ranking, TREC 2019 DL, and TREC 2020 DL.
-+ Added regressions for the TREC 2020 background linking.
++ Added regressions for TREC 2020 background linking.
 + Added support for C4 Corpus.
 + Added ability to index and search pre-tokenized documents.
 + Improved end-to-end test harness.
