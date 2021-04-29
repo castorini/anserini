@@ -20,7 +20,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
 ```
 
 The collection comprises news articles from ATS (SDA) and Le Monde totaling 177,452 documents.
-Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [preprocessing script](../src/main/python/clir/document_preprocess.py) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that has been lost; if you have problems replicating our results, get in touch directly).
+Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [preprocessing script](../src/main/python/clir/document_preprocess.py) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that has been lost; if you have problems reproducing our results, get in touch directly).
 The directory `/path/to/clef06-fr/` should point to the location of the processed collection.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
@@ -49,7 +49,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|

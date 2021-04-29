@@ -13,15 +13,15 @@ Furthermore, the regression documentation pages are auto-generated based on [raw
 Internally at Waterloo, we are continuously running these regression tests to ensure that new commits do not break any existing experimental runs (see below).
 We keep a [change log](regressions-log.md) whenever effectiveness changes or when new regressions are added.
 
-## The Anserini Replicability Promise
+## The Anserini Reproducibility Promise
 
-It is the highest priority of the project to ensure that all regression experiments are replicable _all the time_.
-This means that anyone with the document collection should be able to replicate _exactly_ the effectiveness scores we report in our regression documentation pages.
+It is the highest priority of the project to ensure that all regression experiments are reproducible _all the time_.
+This means that anyone with the document collection should be able to reproduce _exactly_ the effectiveness scores we report in our regression documentation pages.
 
-We hold this ideal in such high esteem and are so dedicated to replicability that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
+We hold this ideal in such high esteem and are so dedicated to reproducibility that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
 
 Here's how you can help:
-In the course of replicating one of our results, please let us know you've been successful by sending a pull request with a simple note, like what appears at the bottom of [the Robust04 page](regressions-robust04.md).
+In the course of reproducing one of our results, please let us know you've been successful by sending a pull request with a simple note, like what appears at the bottom of [the Robust04 page](regressions-robust04.md).
 Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](../src/main/resources/docgen/templates).
 In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 

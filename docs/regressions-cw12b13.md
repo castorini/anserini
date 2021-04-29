@@ -124,7 +124,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
@@ -149,6 +149,6 @@ ERR20                                   | BM25      | +RM3      | +Ax       | QL
 [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.0838    | 0.0753    | 0.0941    | 0.0768    | 0.0553    | 0.0780    |
 [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.1201    | 0.1066    | 0.0928    | 0.1092    | 0.0928    | 0.0900    |
 
-## Replication Log
+## Reproduction Log[*](reproducibility.md)
 
-* Results replicated by [@matthew-z](https://github.com/matthew-z) on 2019-04-14 (commit [`abaa4c8`](https://github.com/castorini/Anserini/commit/abaa4c8e7cb50e8e4a3677377716f609b7859538))[<sup>*</sup>](https://github.com/castorini/Anserini/pull/590)[<sup>!</sup>](https://github.com/castorini/Anserini/issues/592)
+* Results reproduced by [@matthew-z](https://github.com/matthew-z) on 2019-04-14 (commit [`abaa4c8`](https://github.com/castorini/Anserini/commit/abaa4c8e7cb50e8e4a3677377716f609b7859538))[<sup>*</sup>](https://github.com/castorini/Anserini/pull/590)[<sup>!</sup>](https://github.com/castorini/Anserini/issues/592)

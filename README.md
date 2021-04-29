@@ -9,7 +9,7 @@ Anserini
 [![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
 
 Anserini is an open-source information retrieval toolkit in Java built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
-Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).
+Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).[*](docs/reproducibility.md)
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
 
@@ -41,7 +41,7 @@ With that, you should be ready to go!
 ## Regression Experiments
 
 Anserini is designed to support experiments on various standard IR test collections out of the box.
-The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini replicability promise](docs/regressions.md).
+The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini reproducibility promise](docs/regressions.md).
 For the most part, these runs are based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
 + [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
@@ -82,10 +82,10 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
 + [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
 
-## Replication Guides
+## Reproduction Guides
 
-The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of replicability.
-For the most part, manual copying and pasting of commands into a shell is required to replicate our results.
+The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of reproducibility.
+For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
 
 ### TREC-COVID and CORD-19
 
@@ -98,15 +98,15 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 + [Guide to BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
 + [Guide to BM25 baselines for the MS MARCO Document Ranking Task](docs/experiments-msmarco-doc.md)
-+ [Guide to replicating baselines MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
-+ [Guide to replicating doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
-+ [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
++ [Guide to reproducing baselines MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
++ [Guide to reproducing doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
++ [Guide to reproducing docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
 
 ### Other Experiments
 
-+ [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
 + [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
-+ [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
++ [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
++ [Guide to reproducing "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
@@ -123,8 +123,8 @@ For the most part, manual copying and pasting of commands into a shell is requir
 ## How Can I Contribute?
 
 If you've found Anserini to be helpful, we have a simple request for you to contribute back.
-In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
-Replicability is important to us, and we'd like to know about successes as well as failures.
+In the course of [reproducing](docs/reproducibility.md) baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
+Reproducibility is important to us, and we'd like to know about successes as well as failures.
 Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
 In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
@@ -161,7 +161,7 @@ Maven 3.3+ is also required.
 + Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
 Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
 As a result of this upgrade, results of all regressions have changed slightly.
-To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
+To reproducible old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
 
 ## References
 

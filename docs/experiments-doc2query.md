@@ -1,14 +1,14 @@
 # Anserini: doc2query Experiments
 
-This page describes how to replicate the doc2query document expansion experiments in the following paper:
+This page describes how to reproduce the doc2query document expansion experiments in the following paper:
 
 + Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 
 The basic idea is to train a model, that when given an input document, generates questions that the document might answer (or more broadly, queries for which the document might be relevant).
 These predicted questions (or queries) are then appended to the original documents, which are then indexed as before.
 
-For a complete "from scratch" replication (in particularly, training the seq2seq model), see [this code repo](https://github.com/nyu-dl/dl4ir-doc2query).
-Here, we run through how to replicate the BM25+doc2query condition with our copy of the predicted queries.
+For a complete "from scratch" reproduction (in particularly, training the seq2seq model), see [this code repo](https://github.com/nyu-dl/dl4ir-doc2query).
+Here, we run through how to reproduce the BM25+doc2query condition with our copy of the predicted queries.
 
 Note that [docTTTTTquery](experiments-docTTTTTquery.md) is an improved version of the doc2query model and has largely superseded this model.
 However, these results remain useful as a baseline.
@@ -25,8 +25,8 @@ The GitLab repo is [here](https://git.uwaterloo.ca/jimmylin/doc2query-data/) if 
 
 ## MS MARCO Passage Ranking
 
-To replicate our doc2query results on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking), follow these instructions.
-Before going through this guide, it is recommended that you [replicate our BM25 baselines](experiments-msmarco-passage.md) first.
+To reproduce our doc2query results on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking), follow these instructions.
+Before going through this guide, it is recommended that you [reproduce our BM25 baselines](experiments-msmarco-passage.md) first.
 
 To start, grab the predicted queries:
 
@@ -185,7 +185,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
  runs/run.car17v2.0.bm25.expanded-topk10.txt
 ```
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 ```
 map                   	all	0.1807
@@ -195,11 +195,11 @@ recip_rank            	all	0.2750
 Note that this MAP is slightly higher than the arXiv paper (0.178) because we used
 TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper.
 
-## Replication Log
+## Reproduction Log[*](reproducibility.md)
 
-+ Results replicated by [@justram](https://github.com/justram) on 2019-08-09 (commit [`5f098f`](https://github.com/justram/Anserini/commit/5f098f23527611bca1224149bc2d155adce1e48))
-+ Results replicated by [@ronakice](https://github.com/ronakice) on 2019-08-13 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
-+ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-08 (commit [`5cc923d`](https://github.com/castorini/anserini/commit/5cc923d5c02777d8b25df32ff2e2a59be5badfdd))
-+ Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))
-+ Results replicated by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-25 (commit [`b6e0367`](https://github.com/castorini/anserini/commit/b6e0367ef4e2b4fce9d81c8397ef1188e35971e7))
-+ Results replicated by [@lintool](https://github.com/lintool) on 2020-11-09 (commit [`94eae4`](https://github.com/castorini/anserini/commit/94eae4e06678446954446f2d47dae1666efe134f))
++ Results reproduced by [@justram](https://github.com/justram) on 2019-08-09 (commit [`5f098f`](https://github.com/justram/Anserini/commit/5f098f23527611bca1224149bc2d155adce1e48))
++ Results reproduced by [@ronakice](https://github.com/ronakice) on 2019-08-13 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
++ Results reproduced by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-08 (commit [`5cc923d`](https://github.com/castorini/anserini/commit/5cc923d5c02777d8b25df32ff2e2a59be5badfdd))
++ Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))
++ Results reproduced by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-25 (commit [`b6e0367`](https://github.com/castorini/anserini/commit/b6e0367ef4e2b4fce9d81c8397ef1188e35971e7))
++ Results reproduced by [@lintool](https://github.com/lintool) on 2020-11-09 (commit [`94eae4`](https://github.com/castorini/anserini/commit/94eae4e06678446954446f2d47dae1666efe134f))
