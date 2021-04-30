@@ -66,7 +66,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resour
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
@@ -80,7 +80,7 @@ R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tune
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.72` _on the original passages_.
 See [this page](experiments-msmarco-passage.md) for more details.
 
-To replicate the _exact_ conditions for a leaderboard submission, retrieve using the following command:
+To reproduce the _exact_ conditions for a leaderboard submission, retrieve using the following command:
 
 ```bash
 wget https://www.dropbox.com/s/hq6xjhswiz60siu/queries.dev.small.tsv

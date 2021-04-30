@@ -104,7 +104,7 @@ Resolves inconsistent tie-breaking for BM25prf that leads to non-deterministic r
 + commit [`1217d47`](https://github.com/castorini/anserini/commit/1217d475c88cc4782ff3056506afc43d71bf31fb) (8/9/2019)
 + commit [`75dfaa6`](https://github.com/castorini/anserini/commit/75dfaa6989ed36f76422d7be0d9d424d85705ee3) (8/9/2019)
 
-Added new Doc2query regression `car17v2.0-doc2query` to replicate [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the TREC 2017 Complex Answer Retrieval (CAR) section-level passage retrieval task (v2.0).
+Added new doc2query regression `car17v2.0-doc2query` to reproduce [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the TREC 2017 Complex Answer Retrieval (CAR) section-level passage retrieval task (v2.0).
 Added +Ax and +PRF regressions with both tuned and default BM25 parameters for MS MARCO passage ranking task.
 
 ### August 5, 2019
@@ -118,7 +118,7 @@ Added +Ax and +PRF regressions with both tuned and default BM25 parameters for M
 + commit [`86be3d2`](https://github.com/castorini/anserini/commit/86be3d21ea8bdf9309ca5f85362c2782c3898a19) (6/20/2019)
 + commit [`b656da3`](https://github.com/castorini/anserini/commit/b656da3ed0ec3fa385dfdb9df0d153cd9a78bd7d) (6/20/2019)
 
-Added new Doc2query regression `msmarco-passage-doc2query` to replicate [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the MS MARCO passage ranking task.
+Added new doc2query regression `msmarco-passage-doc2query` to reproduce [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the MS MARCO passage ranking task.
 Added tuned BM25 parameters to `msmarco-doc` regression.
 Associated documentation updated.
 

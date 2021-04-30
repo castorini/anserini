@@ -1,6 +1,6 @@
 # Anserini: "Neural Hype" Baseline Experiments
 
-This page provides documentation for replicating results from two "neural hype" papers, which questioned whether neural ranking models actually represent improvements in _ad hoc_ retrieval effectiveness over well-tuned "competitive baselines" in limited data scenarios:
+This page provides documentation for reproducing results from two "neural hype" papers, which questioned whether neural ranking models actually represent improvements in _ad hoc_ retrieval effectiveness over well-tuned "competitive baselines" in limited data scenarios:
 
 + Jimmy Lin. [The Neural Hype and Comparisons Against Weak Baselines.](http://sigir.org/wp-content/uploads/2019/01/p040.pdf) SIGIR Forum, 52(2):40-51, 2018.
 + Wei Yang, Kuang Lu, Peilin Yang, and Jimmy Lin. [Critically Examining the "Neural Hype": Weak Baselines and the Additivity of Effectiveness Gains from Neural Ranking Models.](https://cs.uwaterloo.ca/~jimmylin/publications/Yang_etal_SIGIR2019.pdf) _SIGIR 2019_.
@@ -12,9 +12,8 @@ The SIGIR Forum article references commit [`2c8cd7a`](https://github.com/castori
 The SIGIR 2019 paper contains experiments performed post upgrade.
 
 The Anserini upgrade to Lucene 8.0 at commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019) broke the regression tests, which was later fixed at commit [`64bae9c`](https://github.com/castorini/anserini/commit/64bae9c8b87ad56bc8cf6ea0c5405eb2a82b3682) (7/3/2019).
-This commit represents the latest state of the code and the results that can be currently replicated.
+This commit represents the latest state of the code and the results that can be currently reproduced.
 See summary in "History" section below.
-
 
 ## Expected Results
 
@@ -108,7 +107,6 @@ This difference arises from rounding when averaging across the folds.
 ## History
 
 The following documents commits that have altered effectiveness figures:
-
 
 + commit [`64bae9c`](https://github.com/castorini/anserini/commit/64bae9c8b87ad56bc8cf6ea0c5405eb2a82b3682) (7/3/2019) - Regression experiments here fixed.
 + commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019) - Upgrade to Lucene 8.0 breaks regression experiments here.
