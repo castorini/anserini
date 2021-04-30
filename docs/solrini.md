@@ -1,6 +1,6 @@
 # Solrini: Anserini Integration with Solr
 
-This page documents code for replicating results from the following paper:
+This page documents code for reproducing results from the following paper:
 
 + Ryan Clancy, Toke Eskildsen, Nick Ruest, and Jimmy Lin. [Solr Integration in the Anserini Information Retrieval Toolkit.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019a.pdf) _Proceedings of the 42nd Annual International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2019)_, July 2019, Paris, France.
 
@@ -72,7 +72,7 @@ Make sure `/path/to/disk45` is updated with the appropriate path for the Robust0
 
 Once indexing has completed, you should be able to query `robust04` from the Solr [query interface](http://localhost:8983/solr/#/robust04/query).
 
-You can also run the following command to replicate Anserini BM25 retrieval:
+You can also run the following command to reproduce Anserini BM25 retrieval:
 
 ```
 sh target/appassembler/bin/SearchSolr -topicreader Trec \
@@ -178,16 +178,16 @@ python src/main/python/run_solr_regression.py --regression robust04 --input /pat
 
 The regression script has been verified to work for [`robust04`](regressions-robust04.md), [`core18`](regressions-core18.md), [`msmarco-passage`](experiments-msmarco-passage.md), [`msmarco-doc`](regressions-msmarco-doc.md).
 
-## Replication Log
+## Reproduction Log[*](reproducibility.md)
 
-+ Results replicated by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`1882d84`](https://github.com/castorini/anserini/commit/1882d84236b13cd4673d2d8fa91003438eea2d82)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-robust04.md)
-+ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-28 (commit [`a79cb62`](https://github.com/castorini/anserini/commit/a79cb62a57a059113a6c3b1523b582b89dccf0a1)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-robust04.md)
-+ Results replicated by [@nikhilro](https://github.com/nikhilro) on 2020-02-12 (commit [`eff7755`](https://github.com/castorini/anserini/commit/eff7755a611bd20ee1d63ac0167f5c8f38cd3074)) for [Washington Post `core18`](regressions-core18.md), [Robust04 `robust04`](regressions-robust04.md), and [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results replicated by [@yuki617](https://github.com/yuki617) on 2020-03-30 (commit [`ec8ee41`](https://github.com/castorini/anserini/commit/ec8ee4145edf6db767cb86fa0d244d17e652eb2e)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`31d843a`](https://github.com/castorini/anserini/commit/31d843a6073bfd7eff7e326f543e3f11845df7fa)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results replicated by [@shaneding](https://github.com/shaneding) on 2020-05-26 (commit [`bed8ead`](https://github.com/castorini/anserini/commit/bed8eadad5f2ba859a2ddd2801db4aaeb3c81485)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results replicated by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS MARCO Passage `msmarco-passage`](regressions-msmarco-passage.md)
-+ Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) and [MS Marco Document `msmarco-doc`](regressions-msmarco-doc.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results replicated by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04 `robust04`](regressions-robust04.md), [Washington Post `core18`](regressions-core18.md), and [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results replicated by [@lintool](https://github.com/lintool) on 2020-11-10 (commit [`e19755`](https://github.com/castorini/anserini/commit/e19755b5fa976127830597bc9fbca203b9f5ad24)), all commands and end-to-end regression script for all four collections
- Results replicated by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-10 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for [MS MARCO Passage](regressions-msmarco-passage.md)
++ Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`1882d84`](https://github.com/castorini/anserini/commit/1882d84236b13cd4673d2d8fa91003438eea2d82)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-robust04.md)
++ Results reproduced by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-28 (commit [`a79cb62`](https://github.com/castorini/anserini/commit/a79cb62a57a059113a6c3b1523b582b89dccf0a1)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-robust04.md)
++ Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-02-12 (commit [`eff7755`](https://github.com/castorini/anserini/commit/eff7755a611bd20ee1d63ac0167f5c8f38cd3074)) for [Washington Post `core18`](regressions-core18.md), [Robust04 `robust04`](regressions-robust04.md), and [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
++ Results reproduced by [@yuki617](https://github.com/yuki617) on 2020-03-30 (commit [`ec8ee41`](https://github.com/castorini/anserini/commit/ec8ee4145edf6db767cb86fa0d244d17e652eb2e)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
++ Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`31d843a`](https://github.com/castorini/anserini/commit/31d843a6073bfd7eff7e326f543e3f11845df7fa)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
++ Results reproduced by [@shaneding](https://github.com/shaneding) on 2020-05-26 (commit [`bed8ead`](https://github.com/castorini/anserini/commit/bed8eadad5f2ba859a2ddd2801db4aaeb3c81485)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
++ Results reproduced by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS MARCO Passage `msmarco-passage`](regressions-msmarco-passage.md)
++ Results reproduced by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) and [MS Marco Document `msmarco-doc`](regressions-msmarco-doc.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
++ Results reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04 `robust04`](regressions-robust04.md), [Washington Post `core18`](regressions-core18.md), and [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
++ Results reproduced by [@lintool](https://github.com/lintool) on 2020-11-10 (commit [`e19755`](https://github.com/castorini/anserini/commit/e19755b5fa976127830597bc9fbca203b9f5ad24)), all commands and end-to-end regression script for all four collections
++ Results reproduced by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-10 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for [MS MARCO Passage](regressions-msmarco-passage.md)

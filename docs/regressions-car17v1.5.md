@@ -82,7 +82,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/top
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|

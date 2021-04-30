@@ -19,7 +19,7 @@ As an alternative to downloading each run separately, clone the repo and you'll 
 
 ## Round 5
 
-These are runs that can be easily replicated with Anserini, from pre-built doc2query expanded CORD-19 indexes we have provided (version from 2020/07/16, the official corpus used in round 5).
+These are runs that can be easily reproduced with Anserini, from pre-built doc2query expanded CORD-19 indexes we have provided (version from 2020/07/16, the official corpus used in round 5).
 They were prepared _for_ round 5 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the cumulative qrels from rounds 1, 2, 3, and 4 ([`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt) provided by NIST, stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
 
 |    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -50,7 +50,7 @@ The final runs after removing judgments from 1, 2, 3, and 4 (cumulatively), are 
 | `r5.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/j1qdqr88cbsybae/expanded.anserini.final-r5.fusion2.txt?dl=1)] | `a65fabe7b5b7bc4216be632296269ce6` |
 | `r5.rf` = Row 9      | [[download](https://www.dropbox.com/s/5bm4pdngh5bx3px/expanded.anserini.final-r5.rf.txt?dl=1)]      | `24f0b75a25273b7b00d3e65065e98147` |
 
-We have written scripts that automate the replication of these baselines:
+We have written scripts that automate the reproduction of these baselines:
 
 ```
 $ python src/main/python/trec-covid/download_doc2query_indexes.py --date 2020-07-16
@@ -101,7 +101,7 @@ This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.7131 | 1.0000 | 0.6755 | 0.9910 | 0.3036 | 0.5166 | 0.4518
 |  9 | abstract  | UDel qgen + RF                  | 0.8160 | 1.0000 | 0.7787 | 0.9960 | 0.3421 | 0.5249 | 0.4107
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be reproduced with the following script:
 
 ```bash
 $ python src/main/python/trec-covid/download_doc2query_indexes.py --date 2020-07-16
@@ -136,7 +136,7 @@ The final runs, after removing judgments from 1, 2, and 3 (cumulatively), are as
 | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/5epunmkexqtupe6/expanded.anserini.final-r4.fusion2.txt?dl=1)] | `590400c12b72ce8ed3b5af2f4c45f039` |
 | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/kqbu3cui214ijyh/expanded.anserini.final-r4.rf.txt?dl=1)]      | `b9e7bb80fd8dc97f93908d895fb07f7f` |
 
-We have written scripts that automate the replication of these baselines:
+We have written scripts that automate the reproduction of these baselines:
 
 ```
 $ python src/main/python/trec-covid/download_doc2query_indexes.py --date 2020-06-19

@@ -23,7 +23,7 @@ If you want to install Kibana, it's just another distribution to unpack and a si
 ## Indexing and Retrieval: Robust04
 
 Once we have a local instance of Elasticsearch up and running, we can index using Elasticsearch through Elastirini.
-In this example, we replicate experiments on [Robust04](regressions-robust04.md).
+In this example, we reproduce experiments on [Robust04](regressions-robust04.md).
 
 First, let's create the index in Elasticsearch.
 We define the schema and the ranking function (BM25) using [this config](../src/main/resources/elasticsearch/index-config.robust04.json):
@@ -44,7 +44,7 @@ sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator
 ```
 
 We may need to wait a few minutes after indexing for the index to "catch up" before performing retrieval, otherwise the evaluation metrics may be off.
-Run the following command to replicate Anserini BM25 retrieval:
+Run the following command to reproduce Anserini BM25 retrieval:
 
 ```bash
 sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 \
@@ -62,7 +62,7 @@ P_30                  	all	0.3102
 
 ## Indexing and Retrieval: Core18
 
-We can replicate the [TREC Washington Post Corpus](regressions-core18.md) results in a similar way.
+We can reproduce the [TREC Washington Post Corpus](regressions-core18.md) results in a similar way.
 First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.core18.json):
 
 ```bash
@@ -97,7 +97,7 @@ P_30                  	all	0.3567
 
 ## Indexing and Retrieval: MS MARCO Passage
 
-We can replicate the [BM25 Baselines on MS MARCO (Passage)](experiments-msmarco-passage.md) results in a similar way.
+We can reproduce the [BM25 Baselines on MS MARCO (Passage)](experiments-msmarco-passage.md) results in a similar way.
 First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.msmarco-passage.json):
 
 ```bash
@@ -131,7 +131,7 @@ recall_1000           	all	0.8573
 
 ## Indexing and Retrieval: MS MARCO Document
 
-We can replicate the [BM25 Baselines on MS MARCO (Doc)](experiments-msmarco-doc.md) results in a similar way.
+We can reproduce the [BM25 Baselines on MS MARCO (Doc)](experiments-msmarco-doc.md) results in a similar way.
 First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.msmarco-doc.json):
 
 ```bash
@@ -189,15 +189,15 @@ python src/main/python/run_es_regression.py --regression [collection] --input [d
 
 For the `collection` meta-parameter, use `robust04`, `core18`, `msmarco-passage`, or `msmarco-doc`, for each of the collections above, respectively.
 
-## Replication Log
+## Reproduction Log[*](reproducibility.md)
 
-+ Results replicated by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`d5ee069`](https://github.com/castorini/anserini/commit/d5ee069399e6a306d7685bda756c1f19db721156)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-robust04.md)
-+ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-26 (commit [`7b76dfb`](https://github.com/castorini/anserini/commit/7b76dfbea7e0c01a3a5dc13e74f54852c780ec9b)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-robust04.md)
-+ Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`07a9b05`](https://github.com/castorini/anserini/commit/07a9b053173637e15be79de4e7fce4d5a93d04fe)) for [MS Marco Passage](regressions-msmarco-passage.md), [Robust04](regressions-robust04.md) and [Core18](regressions-core18.md) using end-to-end [`run_es_regression`](../src/main/python/run_es_regression.py)
-+ Results replicated by [@shaneding](https://github.com/shaneding) on 2020-05-25 (commit [`1de3274`](https://github.com/castorini/anserini/commit/1de3274b057a63382534c5277ffcd772c3fc0d43)) for [MS Marco Passage](regressions-msmarco-passage.md)
-+ Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`94893f1`](https://github.com/castorini/anserini/commit/94893f170e047d77c3ef5b8b995d7fbdd13f4298)) for [MS MARCO Passage](regressions-msmarco-passage.md), [MS MARCO Document](experiments-msmarco-doc.md)
-+ Results replicated by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS MARCO Passage](regressions-msmarco-passage.md)
-+ Results replicated by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04](regressions-robust04.md), [Core18](regressions-core18.md), and [MS MARCO Passage](regressions-msmarco-passage.md)
-+ Results replicated by [@lintool](https://github.com/lintool) on 2020-11-10 (commit [`e19755`](https://github.com/castorini/anserini/commit/e19755b5fa976127830597bc9fbca203b9f5ad24)), all commands and end-to-end regression script for all four collections
-+ Results replicated by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-02 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for [MS MARCO Passage](regressions-msmarco-passage.md)
++ Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`d5ee069`](https://github.com/castorini/anserini/commit/d5ee069399e6a306d7685bda756c1f19db721156)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-robust04.md)
++ Results reproduced by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-26 (commit [`7b76dfb`](https://github.com/castorini/anserini/commit/7b76dfbea7e0c01a3a5dc13e74f54852c780ec9b)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-robust04.md)
++ Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`07a9b05`](https://github.com/castorini/anserini/commit/07a9b053173637e15be79de4e7fce4d5a93d04fe)) for [MS Marco Passage](regressions-msmarco-passage.md), [Robust04](regressions-robust04.md) and [Core18](regressions-core18.md) using end-to-end [`run_es_regression`](../src/main/python/run_es_regression.py)
++ Results reproduced by [@shaneding](https://github.com/shaneding) on 2020-05-25 (commit [`1de3274`](https://github.com/castorini/anserini/commit/1de3274b057a63382534c5277ffcd772c3fc0d43)) for [MS Marco Passage](regressions-msmarco-passage.md)
++ Results reproduced by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`94893f1`](https://github.com/castorini/anserini/commit/94893f170e047d77c3ef5b8b995d7fbdd13f4298)) for [MS MARCO Passage](regressions-msmarco-passage.md), [MS MARCO Document](experiments-msmarco-doc.md)
++ Results reproduced by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS MARCO Passage](regressions-msmarco-passage.md)
++ Results reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04](regressions-robust04.md), [Core18](regressions-core18.md), and [MS MARCO Passage](regressions-msmarco-passage.md)
++ Results reproduced by [@lintool](https://github.com/lintool) on 2020-11-10 (commit [`e19755`](https://github.com/castorini/anserini/commit/e19755b5fa976127830597bc9fbca203b9f5ad24)), all commands and end-to-end regression script for all four collections
++ Results reproduced by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-02 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for [MS MARCO Passage](regressions-msmarco-passage.md)
 
