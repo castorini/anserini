@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,11 @@ import io.anserini.ltr.QueryContext;
 import io.anserini.ltr.QueryFieldContext;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- *
- */
 public class RunList implements FeatureExtractor {
     private String qfield = "analyzed";
     private ConcurrentHashMap<Pair<String, String>, Pair<Integer, Float>> lookup = new ConcurrentHashMap<>();
