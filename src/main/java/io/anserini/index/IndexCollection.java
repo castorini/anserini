@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,8 @@
 
 package io.anserini.index;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import com.google.common.hash.Hashing;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
@@ -82,7 +80,6 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
-import org.mockito.internal.matchers.Any;
 
 import java.io.File;
 import java.io.IOException;
