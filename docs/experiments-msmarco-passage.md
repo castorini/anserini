@@ -2,7 +2,21 @@
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
-We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (Doc2query) for this task.
+We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (doc2query) for this task.
+
+If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
+In particular, you'll want to pay attention to the "What's going on here?" sections.
+
+<details>
+<summary>What's going on here?</summary>
+
+As a really high level summary: in the MS MARCO passage ranking task, you're given a bunch of passages to search and a bunch of queries.
+The system's task is to return the best passages for each query (i.e., passages that are relevant).
+
+Note that "the things you're searching" are called documents (in the generic sense), even though they're actually passages (extracted from web pages) in this case.
+You could be search web pages, PDFs, Excel spreadsheets, and even podcasts.
+Information retrieval researchers refer to these all as "documents".
+</details>
 
 ## Data Prep
 
@@ -21,6 +35,21 @@ tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/
 ```
 
 To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
+
+<details>
+<summary>What's going on here?</summary>
+
+If you peak inside the collection:
+
+```bash
+head collections/msmarco-passage/collection.tsv
+```
+
+You'll see that `collection.tsv` contains the passages that we're searching.
+Each line represents a passage:
+the first column contains a unique identifier for the passage (called the `docid`) and the second column contains the text of the passage itself.
+
+</details>
 
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
@@ -55,6 +84,31 @@ python tools/scripts/msmarco/filter_queries.py \
 ```
 
 The output queries file should contain 6980 lines.
+
+<details>
+<summary>What's going on here?</summary>
+
+Check out the contents of the queries file:
+
+```bash
+$ head collections/msmarco-passage/queries.dev.small.tsv
+1048585	what is paula deen's brother
+2	 Androgen receptor define
+524332	treating tension headaches without medication
+1048642	what is paranoid sc
+524447	treatment of varicose veins in legs
+786674	what is prime rate in canada
+1048876	who plays young dr mallard on ncis
+1048917	what is operating system misconfiguration
+786786	what is priority pass
+524699	tricare service number
+```
+
+These are the queries we're going to feed to the search engine.
+The first field is a unique identifier for the query (called the `qid`) and the second column is the query itself.
+These queries are taken from Bing search logs, so they're "realistic" web queries in that they may be ambiguous, contain typos, etc.
+</details>
+
 We can now perform a retrieval run using this smaller set of queries:
 
 ```bash
@@ -72,6 +126,50 @@ Retrieval speed will vary by machine:
 On a modern desktop with an SSD, we can get ~0.07 s/query, so the run should finish in under ten minutes.
 We can perform multi-threaded retrieval by changing the `-threads` argument.
 
+<details>
+<summary>What's going on here?</summary>
+
+Congratulations, you've performed your first retrieval run!
+
+You feed a search engine a bunch of queries, and the retrieval run is the output of the search engine.
+For each query, the search engine gives back a ranked list of results (i.e., a list of hits).
+
+Let's take a look:
+
+```bash
+$ head runs/run.msmarco-passage.dev.small.tsv
+1048585	7187158	1
+1048585	7187157	2
+1048585	7187163	3
+1048585	7546327	4
+1048585	7187160	5
+1048585	8227279	6
+1048585	7617404	7
+1048585	7187156	8
+1048585	2298838	9
+1048585	7187155	10
+```
+
+The first column is the `qid` (corresponding to the query).
+From above, we can see that `qid` 1048585 is the query "what is paula deen's brother".
+The second column is the `docid` of the retrieved result (i.e., the hit), and the third column is the rank position.
+That is, in a search interface, `docid` 7187158 would be shown in the top position, `docid` 7187157 would be shown in the second position, etc.
+
+You can grep through the collection to see what that actual passage is:
+
+```bash
+$ grep 7187158 collections/msmarco-passage/collection.tsv
+7187158	Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦ Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ
+```
+
+In this case, the hit seems relevant.
+That is, it answers the query.
+So here, the search engine did well.
+
+Note that this particular passage is a bit dirty (garbage characters, dups, etc.)... but that's pretty much a fact of life when you're dealing with the web.
+
+</details>
+
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
 ```bash
@@ -87,6 +185,48 @@ MRR @10: 0.18741227770955546
 QueriesRanked: 6980
 #####################
 ```
+
+<details>
+<summary>What's going on here?</summary>
+
+So how do we know if a search engine is any good?
+One method is manual examination, which is what we did above.
+That is, we actually looked at the results by hand.
+
+Obviously, this isn't scalable if we want to evaluate lots of queries...
+If only someone told us which documents were relevant to which queries...
+
+Well, someone has! (Specifically, human editors hired by Microsoft Bing in this case.)
+These are captured in what are known as relevance judgments.
+Take a look:
+
+```bash
+$ grep 1048585 collections/msmarco-passage/qrels.dev.tsv
+1048585	0	7187158	1
+```
+
+This says that `docid` 7187158 is relevant to `qid` 1048585, which confirms our intuition above.
+The file is in what is known as the qrels format.
+You can ignore the second column.
+The fourth column "1", says that the `docid` is relevant.
+In some cases (though not here), that column might say "0", i.e., that the `docid` is _not_ relevant.
+
+With relevance judgments (qrels), we can now automatically evaluate the search engine output (i.e., the run).
+The final ingredient we need is a metric (i.e., how to score).
+
+Here, we're using a metric called MRR, or mean reciprocal rank.
+The idea is quite simple:
+We look at where the relevant `docid` appears.
+If it appears at rank 1, the system gets a score of one.
+If it appears at rank 2, the system gets a score of 1/2.
+If it appears at rank 3, the system gets a score of 1/3.
+And so on.
+MRR@10 means that we only go down to rank 10.
+If the relevant `docid` doesn't appear in the top 10, then the system gets a score of zero.
+
+That's the score of a query.
+We take the average of the scores across all queries (6980 in this case), and we arrive at the score for the entire run.
+</details>
 
 You can find this entry on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as entry "BM25 (Lucene8, tuned)", so you've just reproduced (part of) a leaderboard submission!
 
@@ -118,6 +258,18 @@ recall_1000           	all	0.8573
 ```
 
 Average precision and recall@1000 are the two metrics we care about the most.
+
+<details>
+<summary>What's going on here?</summary>
+
+Don't worry so much about the details here for now.
+The tl;dr is that there are different formats for run files and lots of different metrics you can compute.
+`trec_eval` is a standard tool used by information retrieval researchers.
+
+In fact, researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century...
+and the question still has not been fully resolved.
+In short, it's complicated.
+</details>
 
 ## BM25 Tuning
 
