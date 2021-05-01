@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,11 @@
 package io.anserini.ltr.feature;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.*;
+import io.anserini.ltr.DocumentContext;
+import io.anserini.ltr.DocumentFieldContext;
+import io.anserini.ltr.FeatureExtractor;
+import io.anserini.ltr.QueryContext;
+import io.anserini.ltr.QueryFieldContext;
 
 /**
  * Returns the size of the document

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,26 @@
 package io.anserini.ltr;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.anserini.ltr.feature.*;
+import io.anserini.ltr.feature.DocSize;
+import io.anserini.ltr.feature.IcTfStat;
+import io.anserini.ltr.feature.IdfStat;
+import io.anserini.ltr.feature.MatchingTermCount;
+import io.anserini.ltr.feature.NormalizedTfStat;
+import io.anserini.ltr.feature.OrderedQueryPairs;
+import io.anserini.ltr.feature.OrderedSequentialPairs;
+import io.anserini.ltr.feature.QueryCoverageRatio;
+import io.anserini.ltr.feature.QueryLength;
+import io.anserini.ltr.feature.SCS;
+import io.anserini.ltr.feature.TfIdfStat;
+import io.anserini.ltr.feature.TfStat;
+import io.anserini.ltr.feature.TpDist;
+import io.anserini.ltr.feature.UniqueTermCount;
+import io.anserini.ltr.feature.UnorderedQueryPairs;
+import io.anserini.ltr.feature.UnorderedSequentialPairs;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,9 +45,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 
 public class FeatureExtractorCli {
   static class DebugArgs {
