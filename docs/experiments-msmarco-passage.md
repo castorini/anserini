@@ -10,11 +10,11 @@ In particular, you'll want to pay attention to the "What's going on here?" secti
 <details>
 <summary>What's going on here?</summary>
 
-As a really high level summary: in the MS MARCO passage ranking task, you're given a bunch of passages to search over and a bunch of queries.
+As a really high level summary: in the MS MARCO passage ranking task, you're given a bunch of passages to search and a bunch of queries.
 The system's task is to return the best passages for each query (i.e., passages that are relevant).
 
-Note that "the things you're searching over" are called documents (in the generic sense), even if you're searching passages (paragraphs) in this case.
-Or you could be search web pages, PDFs, Excel spreadsheets, and even podcasts.
+Note that "the things you're searching" are called documents (in the generic sense), even though they're actually passages (extracted from web pages) in this case.
+You could be search web pages, PDFs, Excel spreadsheets, and even podcasts.
 Information retrieval researchers refer to these all as "documents".
 </details>
 
@@ -45,9 +45,11 @@ If you peak inside the collection:
 head collections/msmarco-passage/collection.tsv
 ```
 
-You'll see that `collection.tsv` contains the passages that we're searching over.
+You'll see that `collection.tsv` contains the passages that we're searching.
 Each line represents a passage:
 the first column contains a unique identifier for the passage (called the `docid`) and the second column contains the text of the passage itself.
+
+</details>
 
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
@@ -56,7 +58,6 @@ python tools/scripts/msmarco/convert_collection_to_jsonl.py \
  --collection-path collections/msmarco-passage/collection.tsv \
  --output-folder collections/msmarco-passage/collection_jsonl
 ```
-</details>
 
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 
@@ -266,7 +267,7 @@ The tl;dr is that there are different formats for run files and lots of differen
 `trec_eval` is a standard tool used by information retrieval researchers.
 
 In fact, researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century...
-and the question still has not be fully resolved.
+and the question still has not been fully resolved.
 In short, it's complicated.
 </details>
 
