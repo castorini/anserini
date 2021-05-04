@@ -4,6 +4,8 @@ This page contains instructions for running BM25 baselines on the [MS MARCO *pas
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
 We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (doc2query) for this task.
 
+**Setup Note:** If you're instantiating an Ubuntu VM on your system or on cloud (AWS and GCP) for this particular task, try to provision enough resources as the tasks could take some time to finish such as RAM > 6GB and storage ~ 100 GB (SSD). This will prevent going back and fixing machine configuration again and again.
+
 If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
 In particular, you'll want to pay attention to the "What's going on here?" sections.
 
@@ -345,3 +347,4 @@ To reproduce these results, the `SearchMsmarco` class above takes `k1` and `b` p
 + Results reproduced by [@printfCalvin](https://github.com/printfCalvin) on 2021-04-11 (commit [`d808d4a`](https://github.com/castorini/anserini/commit/d808d4a50ee69f44493e19a87dc36c7eb99402a9))
 + Results reproduced by [@saileshnankani](https://github.com/saileshnankani) on 2021-04-26 (commit [`5781c87`](https://github.com/castorini/anserini/commit/5781c871db12f0e36139982fbf1c805cfec189ee))
 + Results reproduced by [@andrewyguo](https://github.com/andrewyguo) on 2021-04-29 (commit [`71f3ca6`](https://github.com/castorini/anserini/commit/71f3ca671faf6ddd7b0dea0a1e7f4b590a0a02a5))
++ Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2021-05-04 (commit [`906ca50`](https://github.com/castorini/anserini/commit/906ca5064cfe97266b92868e537e9372ac558e93))
