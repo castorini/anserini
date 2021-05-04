@@ -4,7 +4,7 @@ This page contains instructions for running BM25 baselines on the [MS MARCO *pas
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
 We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (doc2query) for this task.
 
-**Setup Note:** If you're instantiating an Ubuntu VM on your system or on cloud (AWS and GCP) for this particular task, try to provision enough resources as the tasks such as building the index could take some time to finish such as RAM > 6GB and storage ~ 100 GB (SSD). This will prevent going back and fixing machine configuration again and again. Also applies to MS MARCO Document Ranking Task.
+**Setup Note:** If you're instantiating an Ubuntu VM on your system or on cloud (AWS and GCP) for this particular task, try to provision enough resources as the tasks could take some time to finish such as RAM > 6GB and storage ~ 100 GB (SSD). This will prevent going back and fixing machine configuration again and again.
 
 If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
 In particular, you'll want to pay attention to the "What's going on here?" sections.
