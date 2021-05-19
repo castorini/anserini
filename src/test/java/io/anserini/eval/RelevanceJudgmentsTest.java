@@ -257,6 +257,37 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
+  public void testNtcir8Zh() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt");
+    assertNotNull(qrels);
+    assertEquals(100, qrels.getQids().size());
+    assertEquals(110213, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020106.0118"));
+    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020107.0140"));
+  }
+
+  @Test
+  public void testClef2006Fr() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.clef06fr.txt");
+    assertNotNull(qrels);
+    assertEquals(49, qrels.getQids().size());
+    assertEquals(17882, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940106.0082"));
+    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940112.0089"));
+  }
+
+  @Test
+  public void testTrec2002Ar() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.trec02ar.txt");
+    assertNotNull(qrels);
+    assertEquals(50, qrels.getQids().size());
+    assertEquals(38432, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("26", "19940515_AFP_ARB.0115"));
+    assertEquals(1, qrels.getRelevanceGrade("26", "19941213_AFP_ARB.0159"));
+  }
+  
+
+  @Test
   public void testGetQrelsResource() throws IOException {
       String qrels = RelevanceJudgments.getQrelsResource(Qrels.ROBUST04);
       assertNotNull(qrels);
