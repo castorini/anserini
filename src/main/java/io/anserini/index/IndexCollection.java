@@ -51,24 +51,22 @@ import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.da.DanishAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
-
-// add more analyzer
 import org.apache.lucene.analysis.hu.HungarianAnalyzer;
-import org.apache.lucene.analysis.da.DanishAnalyzer;
-import org.apache.lucene.analysis.fi.FinnishAnalyzer;
-import org.apache.lucene.analysis.ru.RussianAnalyzer;
+import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
+import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
-import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
@@ -96,7 +94,6 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-import javax.sound.sampled.Port;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -739,27 +736,23 @@ public final class IndexCollection {
       final Directory dir = FSDirectory.open(indexPath);
       final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
       final ArabicAnalyzer arabicAnalyzer = new ArabicAnalyzer();
-      final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
-      final HindiAnalyzer hindiAnalyzer = new HindiAnalyzer();
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
-      final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
-      final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
-
-      // declare more analyzer
-      final RussianAnalyzer russianAnalyzer = new RussianAnalyzer();
       final DanishAnalyzer danishAnalyzer = new DanishAnalyzer();
-      final HungarianAnalyzer hungarianAnalyzer = new HungarianAnalyzer();
-      final FinnishAnalyzer finnishAnalyzer = new FinnishAnalyzer();
-      final ItalianAnalyzer italianAnalyzer = new ItalianAnalyzer();
-      final TurkishAnalyzer turkishAnalyzer = new TurkishAnalyzer();
-      final ThaiAnalyzer thaiAnalyzer = new ThaiAnalyzer();
-      final SwedishAnalyzer swedishAnalyzer = new SwedishAnalyzer();
-      final NorwegianAnalyzer norwegianAnalyzer = new NorwegianAnalyzer();
       final DutchAnalyzer dutchAnalyzer = new DutchAnalyzer();
-      final PortugueseAnalyzer portugueseAnalyzer = new PortugueseAnalyzer();
+      final FinnishAnalyzer finnishAnalyzer = new FinnishAnalyzer();
+      final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
+      final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
+      final HindiAnalyzer hindiAnalyzer = new HindiAnalyzer();
+      final HungarianAnalyzer hungarianAnalyzer = new HungarianAnalyzer();
       final IndonesianAnalyzer indonesianAnalyzer = new IndonesianAnalyzer();
-
-
+      final ItalianAnalyzer italianAnalyzer = new ItalianAnalyzer();
+      final NorwegianAnalyzer norwegianAnalyzer = new NorwegianAnalyzer();
+      final PortugueseAnalyzer portugueseAnalyzer = new PortugueseAnalyzer();
+      final RussianAnalyzer russianAnalyzer = new RussianAnalyzer();
+      final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
+      final SwedishAnalyzer swedishAnalyzer = new SwedishAnalyzer();
+      final ThaiAnalyzer thaiAnalyzer = new ThaiAnalyzer();
+      final TurkishAnalyzer turkishAnalyzer = new TurkishAnalyzer();
       final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
 
       final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
@@ -769,44 +762,44 @@ public final class IndexCollection {
       final IndexWriterConfig config;
       if (args.collectionClass.equals("TweetCollection")) {
         config = new IndexWriterConfig(tweetAnalyzer);
-      } else if (args.language.equals("zh") || args.language.equals("ja") || args.language.equals("ko")) {
-        config = new IndexWriterConfig(chineseAnalyzer);
       } else if (args.language.equals("ar")) {
         config = new IndexWriterConfig(arabicAnalyzer);
-      } else if (args.language.equals("fr")) {
-        config = new IndexWriterConfig(frenchAnalyzer);
-      } else if (args.language.equals("hi")) {
-        config = new IndexWriterConfig(hindiAnalyzer);
       } else if (args.language.equals("bn")) {
         config = new IndexWriterConfig(bengaliAnalyzer);
+      } else if (args.language.equals("da")) {
+        config = new IndexWriterConfig(danishAnalyzer);
       } else if (args.language.equals("de")) {
         config = new IndexWriterConfig(germanAnalyzer);
       } else if (args.language.equals("es")) {
         config = new IndexWriterConfig(spanishAnalyzer);
       } else if (args.language.equals("fi")) {
         config = new IndexWriterConfig(finnishAnalyzer);
-      } else if (args.language.equals("ru")) {
-        config = new IndexWriterConfig(russianAnalyzer);
+      } else if (args.language.equals("fr")) {
+        config = new IndexWriterConfig(frenchAnalyzer);
+      } else if (args.language.equals("hi")) {
+        config = new IndexWriterConfig(hindiAnalyzer);
       } else if (args.language.equals("hu")) {
         config = new IndexWriterConfig(hungarianAnalyzer);
-      } else if (args.language.equals("it")) {
-        config = new IndexWriterConfig(italianAnalyzer);
-      } else if (args.language.equals("tr")) {
-        config = new IndexWriterConfig(turkishAnalyzer);
-      } else if (args.language.equals("th")) {
-        config = new IndexWriterConfig(thaiAnalyzer);
-      } else if (args.language.equals("no")) {
-        config = new IndexWriterConfig(norwegianAnalyzer);
-      } else if (args.language.equals("sv")) {
-        config = new IndexWriterConfig(swedishAnalyzer);
-      } else if (args.language.equals("nl")) {
-        config = new IndexWriterConfig(dutchAnalyzer);
-      } else if (args.language.equals("pt")) {
-        config = new IndexWriterConfig(portugueseAnalyzer);
-      } else if (args.language.equals("da")) {
-        config = new IndexWriterConfig(danishAnalyzer);
       } else if (args.language.equals("id")) {
         config = new IndexWriterConfig(indonesianAnalyzer);
+      } else if (args.language.equals("it")) {
+        config = new IndexWriterConfig(italianAnalyzer);
+      } else if (args.language.equals("nl")) {
+        config = new IndexWriterConfig(dutchAnalyzer);
+      } else if (args.language.equals("no")) {
+        config = new IndexWriterConfig(norwegianAnalyzer);
+      } else if (args.language.equals("pt")) {
+        config = new IndexWriterConfig(portugueseAnalyzer);
+      } else if (args.language.equals("ru")) {
+        config = new IndexWriterConfig(russianAnalyzer);
+      } else if (args.language.equals("sv")) {
+        config = new IndexWriterConfig(swedishAnalyzer);
+      } else if (args.language.equals("th")) {
+        config = new IndexWriterConfig(thaiAnalyzer);
+      } else if (args.language.equals("tr")) {
+        config = new IndexWriterConfig(turkishAnalyzer);
+      } else if (args.language.equals("zh") || args.language.equals("ja") || args.language.equals("ko")) {
+        config = new IndexWriterConfig(chineseAnalyzer);
       } else if (args.pretokenized) {
         config = new IndexWriterConfig(whitespaceAnalyzer);
       } else {

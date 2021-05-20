@@ -35,24 +35,22 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.da.DanishAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
-
-// add more analyzer
 import org.apache.lucene.analysis.hu.HungarianAnalyzer;
-import org.apache.lucene.analysis.da.DanishAnalyzer;
-import org.apache.lucene.analysis.fi.FinnishAnalyzer;
-import org.apache.lucene.analysis.ru.RussianAnalyzer;
+import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
+import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
-import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -239,44 +237,44 @@ public class SimpleSearcher implements Closeable {
    * @param language language
    */
   public void setLanguage(String language) {
-    if (language.equals("zh") || language.equals("ja") || language.equals("ko")) {
-      this.analyzer = new CJKAnalyzer();
-    } else if (language.equals("ar")) {
+    if (language.equals("ar")) {
       this.analyzer = new ArabicAnalyzer();
-    } else if (language.equals("fr")) {
-      this.analyzer = new FrenchAnalyzer();
-    } else if (language.equals("hi")) {
-      this.analyzer = new HindiAnalyzer();
     } else if (language.equals("bn")) {
       this.analyzer = new BengaliAnalyzer();
     } else if (language.equals("de")) {
       this.analyzer = new GermanAnalyzer();
+    } else if (language.equals("da")) {
+      this.analyzer = new DanishAnalyzer();
     } else if (language.equals("es")) {
       this.analyzer = new SpanishAnalyzer();
     } else if (language.equals("fi")) {
       this.analyzer = new FinnishAnalyzer();
+    } else if (language.equals("fr")) {
+      this.analyzer = new FrenchAnalyzer();
+    } else if (language.equals("hi")) {
+      this.analyzer = new HindiAnalyzer();
+    } else if (language.equals("hu")) {
+      this.analyzer = new HungarianAnalyzer();
+    } else if (language.equals("id")) {
+      this.analyzer = new IndonesianAnalyzer();
+    } else if (language.equals("it")) {
+      this.analyzer = new ItalianAnalyzer();
+    } else if (language.equals("nl")) {
+      this.analyzer = new DutchAnalyzer();
+    } else if (language.equals("no")) {
+      this.analyzer = new NorwegianAnalyzer();
+    } else if (language.equals("pt")) {
+      this.analyzer = new PortugueseAnalyzer();
     } else if (language.equals("ru")) {
       this.analyzer = new RussianAnalyzer();
     } else if (language.equals("sv")) {
       this.analyzer = new SwedishAnalyzer();
-    } else if (language.equals("tr")) {
-      this.analyzer = new TurkishAnalyzer();
     } else if (language.equals("th")) {
       this.analyzer = new ThaiAnalyzer();
-    } else if (language.equals("no")) {
-      this.analyzer = new NorwegianAnalyzer();
-    } else if (language.equals("nl")) {
-      this.analyzer = new DutchAnalyzer();
-    } else if (language.equals("pt")) {
-      this.analyzer = new PortugueseAnalyzer();
-    } else if (language.equals("it")) {
-      this.analyzer = new ItalianAnalyzer();
-    } else if (language.equals("hu")) {
-      this.analyzer = new HungarianAnalyzer();
-    } else if (language.equals("da")) {
-      this.analyzer = new DanishAnalyzer();
-    } else if (language.equals("id")) {
-      this.analyzer = new IndonesianAnalyzer();
+    } else if (language.equals("tr")) {
+      this.analyzer = new TurkishAnalyzer();
+    } else if (language.equals("zh") || language.equals("ja") || language.equals("ko")) {
+      this.analyzer = new CJKAnalyzer();
     }
   }
 
