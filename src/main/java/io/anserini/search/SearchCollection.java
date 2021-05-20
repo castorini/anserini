@@ -50,6 +50,21 @@ import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
+
+// add more analyzer
+import org.apache.lucene.analysis.hu.HungarianAnalyzer;
+import org.apache.lucene.analysis.da.DanishAnalyzer;
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
+import org.apache.lucene.analysis.ru.RussianAnalyzer;
+import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.nl.DutchAnalyzer;
+import org.apache.lucene.analysis.no.NorwegianAnalyzer;
+import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
+import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.th.ThaiAnalyzer;
+import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+import org.apache.lucene.analysis.id.IndonesianAnalyzer;
+
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -298,6 +313,48 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("es")) {
       analyzer = new SpanishAnalyzer();
       LOG.info("Language: es");
+    } else if (args.language.equals("fi")) {
+      analyzer = new FinnishAnalyzer();
+      LOG.info("Language: fi");
+    } else if (args.language.equals("ru")) {
+      analyzer = new RussianAnalyzer();
+      LOG.info("Language: ru");
+    } else if (args.language.equals("hu")) {
+      analyzer = new HungarianAnalyzer();
+      LOG.info("Language: hu");
+    } else if (args.language.equals("it")) {
+      analyzer = new ItalianAnalyzer();
+      LOG.info("Language: it");
+    } else if (args.language.equals("tr")) {
+      analyzer = new TurkishAnalyzer();
+      LOG.info("Language: tr");
+    } else if (args.language.equals("th")) {
+      analyzer = new ThaiAnalyzer();
+      LOG.info("Language: th");
+    } else if (args.language.equals("no")) {
+      analyzer = new NorwegianAnalyzer();
+      LOG.info("Language: no");
+    } else if (args.language.equals("sv")) {
+      analyzer = new SwedishAnalyzer();
+      LOG.info("Language: sv");
+    } else if (args.language.equals("nl")) {
+      analyzer = new DutchAnalyzer();
+      LOG.info("Language: nl");
+    } else if (args.language.equals("pt")) {
+      analyzer = new PortugueseAnalyzer();
+      LOG.info("Language: pt");
+    } else if (args.language.equals("ja")) {
+      analyzer = new CJKAnalyzer();
+      LOG.info("Language: ja");
+    } else if (args.language.equals("ko")) {
+      analyzer = new CJKAnalyzer();
+      LOG.info("Language: ko");
+    } else if (args.language.equals("da")) {
+      analyzer = new DanishAnalyzer();
+      LOG.info("Language: da");
+    } else if (args.language.equals("id")) {
+      analyzer = new IndonesianAnalyzer();
+      LOG.info("Language: id");
     } else if (args.pretokenized) {
       analyzer = new WhitespaceAnalyzer();
       LOG.info("Pretokenized");
