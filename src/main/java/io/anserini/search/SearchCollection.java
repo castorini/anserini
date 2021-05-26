@@ -181,7 +181,7 @@ public final class SearchCollection implements Closeable {
 
         int cnt = 0;
         final long start = System.nanoTime();
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
+        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
 
