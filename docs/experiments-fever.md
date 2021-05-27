@@ -87,10 +87,18 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall \
  collections/fever/qrels.paragraph.dev.txt runs/run.fever-paragraph.dev.txt
 ```
 
-Within the output, we should see:
+The output should be:
 
 ```
-recall_1000           	all	0.9417
+recall_5              	all	0.6622
+recall_10             	all	0.7446
+recall_15             	all	0.7834
+recall_20             	all	0.8059
+recall_30             	all	0.8353
+recall_100            	all	0.8974
+recall_200            	all	0.9176
+recall_500            	all	0.9393
+recall_1000           	all	0.9477
 ```
 
 ## Comparing with FEVER Baseline
@@ -116,9 +124,11 @@ This run produces the following results:
 | 50  |	0.8570          | 0.9047          |
 | 100 |	0.8900          | 0.9267          |
 
+Note that this outperforms the TF-IDF baseline in the FEVER paper at every value of k.
+
 ### BM25 Tuning
 
-The above retrieval uses BM25 default parameters of `k1=0.9`, `b=0.4`. We can tune these parameters to outperform the results of the TF-IDF baseline in the paper.
+The above retrieval uses BM25 default parameters of `k1=0.9`, `b=0.4`. We can tune these parameters to obtain even better retrieval results.
 
 We tune on a subset of the training split of the dataset. We generate that subset:
 
@@ -128,6 +138,8 @@ python src/main/python/fever/generate_subset.py \
  --subset_file collections/fever/train-subset.jsonl \
  --length 2000
 ```
+
+If necessary, to speed up grid search later on, decrease the length of the subset here.
 
 We then generate the queries and qrels files for this subset.
 
@@ -149,13 +161,13 @@ python src/main/python/fever/tune_bm25.py \
  --qrels_file collections/fever/qrels.paragraph.train-subset.tsv
 ```
 
-From the grid search, we observe that the parameters `k1=0.6`, `b=0.5` perform fairly well. If we retrieve on the dev set with these parameters:
+From the grid search, we observe that the parameters `k1=0.9`, `b=0.1` perform fairly well. If we retrieve on the dev set with these parameters:
 
 ```bash
 sh target/appassembler/bin/SearchCollection \
  -index indexes/fever/lucene-index-fever-paragraph \
  -topicreader TsvInt -topics collections/fever/queries.paragraph.dev.tsv \
- -output runs/run.fever-paragraph-0.6-0.5.dev.txt -bm25 -bm25.k1 0.6 -bm25.b 0.5
+ -output runs/run.fever-paragraph-0.9-0.1.dev.txt -bm25 -bm25.k1 0.9 -bm25.b 0.1
 ```
 
 and we evaluate this run file:
@@ -163,21 +175,19 @@ and we evaluate this run file:
 ```bash
 python src/main/python/fever/evaluate_doc_retrieval.py \
  --truth_file collections/fever/paper_dev.jsonl \
- --run_file runs/run.fever-paragraph-0.6-0.5.dev.txt
+ --run_file runs/run.fever-paragraph-0.9-0.1.dev.txt
 ```
 
 then we can achieve the following results:
 
 | k   | Fully Supported | Oracle Accuracy |
 |:----|----------------:|----------------:|
-| 1   | 0.3857          | 0.5905          |
-| 5   | 0.6367          | 0.7578          |
-| 10  | 0.7193          | 0.8129          |
-| 25  | 0.8003          | 0.8669          |
-| 50  | 0.8473          | 0.8982          |
-| 100 | 0.8804          | 0.9203          |
-
-which outperforms the TF-IDF baseline in the FEVER paper at every tested value of k.
+| 1   | 0.4121          | 0.6081          |
+| 5   | 0.6899          | 0.7933          |
+| 10  | 0.7636          | 0.8424          |
+| 25  | 0.8263          | 0.8842          |
+| 50  | 0.8651          | 0.9101          |
+| 100 | 0.8932          | 0.9288          |
 
 ## Reproduction Log[*](reproducibility.md)
 

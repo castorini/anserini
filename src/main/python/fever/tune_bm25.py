@@ -46,21 +46,21 @@ def evaluate_runs(args):
         results = subprocess.check_output(['tools/eval/trec_eval.9.0.4/trec_eval',
                                            args.qrels_file,
                                            run_file,
-                                           '-m recall.1000',
+                                           '-m recall.100',
                                            '-m map'])
         # regex match trec_eval output to get metrics
         match = re.search('map +\tall\t([0-9.]+)', results.decode('utf-8'))
         map = float(match.group(1))
-        match = re.search('recall_1000 +\tall\t([0-9.]+)', results.decode('utf-8'))
+        match = re.search('recall_100 +\tall\t([0-9.]+)', results.decode('utf-8'))
         recall = float(match.group(1))
-        print(f'{run_file}: R@1000 = {recall}, MAP = {map}')
+        print(f'{run_file}: R@100 = {recall}, MAP = {map}')
 
-        # maximize R@1000
+        # maximize R@100
         if recall > max_recall:
             max_recall = recall
             max_file = file
 
-    print(f'Best parameters: {max_file} (R@1000 = {max_recall})')
+    print(f'Best parameters: {max_file} (R@100 = {max_recall})')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Tunes BM25 parameters for FEVER document retrieval.')
