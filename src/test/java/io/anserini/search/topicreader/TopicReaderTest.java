@@ -36,7 +36,7 @@ public class TopicReaderTest {
       String pathParts[] = topic.path.split("\\/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(60, cnt);
+    assertEquals(62, cnt);
   }
 
   @Test
