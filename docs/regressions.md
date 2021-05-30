@@ -13,15 +13,15 @@ Furthermore, the regression documentation pages are auto-generated based on [raw
 Internally at Waterloo, we are continuously running these regression tests to ensure that new commits do not break any existing experimental runs (see below).
 We keep a [change log](regressions-log.md) whenever effectiveness changes or when new regressions are added.
 
-## The Anserini Replicability Promise
+## The Anserini Reproducibility Promise
 
-It is the highest priority of the project to ensure that all regression experiments are replicable _all the time_.
-This means that anyone with the document collection should be able to replicate _exactly_ the effectiveness scores we report in our regression documentation pages.
+It is the highest priority of the project to ensure that all regression experiments are reproducible _all the time_.
+This means that anyone with the document collection should be able to reproduce _exactly_ the effectiveness scores we report in our regression documentation pages.
 
-We hold this ideal in such high esteem and are so dedicated to replicability that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
+We hold this ideal in such high esteem and are so dedicated to reproducibility that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
 
 Here's how you can help:
-In the course of replicating one of our results, please let us know you've been successful by sending a pull request with a simple note, like what appears at the bottom of [the Robust04 page](regressions-robust04.md).
+In the course of reproducing one of our results, please let us know you've been successful by sending a pull request with a simple note, like what appears at the bottom of [the Robust04 page](regressions-robust04.md).
 Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](../src/main/resources/docgen/templates).
 In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
@@ -55,15 +55,25 @@ nohup python src/main/python/run_regression.py --collection car17v2.0-doc2query 
 nohup python src/main/python/run_regression.py --collection msmarco-passage >& logs/log.msmarco-passage &
 nohup python src/main/python/run_regression.py --collection msmarco-passage-doc2query >& logs/log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --collection msmarco-passage-docTTTTTquery >& logs/log.msmarco-passage-docTTTTTquery &
+
 nohup python src/main/python/run_regression.py --collection msmarco-doc >& logs/log.msmarco-doc &
+nohup python src/main/python/run_regression.py --collection msmarco-doc-per-passage >& logs/log.msmarco-doc-per-passage &
 nohup python src/main/python/run_regression.py --collection msmarco-doc-docTTTTTquery-per-doc >& logs/log.msmarco-doc-docTTTTTquery-per-doc &
 nohup python src/main/python/run_regression.py --collection msmarco-doc-docTTTTTquery-per-passage >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --collection dl19-passage >& logs/log.dl19-passage &
 nohup python src/main/python/run_regression.py --collection dl19-doc >& logs/log.dl19-doc &
 
+nohup python src/main/python/run_regression.py --collection dl20-passage >& logs/dl20-passage &
+nohup python src/main/python/run_regression.py --collection dl20-passage-docTTTTTquery >& logs/dl20-passage-docTTTTTquery &
+nohup python src/main/python/run_regression.py --collection dl20-doc >& logs/dl20-doc &
+nohup python src/main/python/run_regression.py --collection dl20-doc-docTTTTTquery-per-doc >& logs/dl20-doc-docTTTTTquery-per-doc &
+
 nohup python src/main/python/run_regression.py --collection backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --collection backgroundlinking19 >& logs/log.backgroundlinking19 &
+nohup python src/main/python/run_regression.py --collection backgroundlinking20 >& logs/log.backgroundlinking20 &
+
+nohup python src/main/python/run_regression.py --collection fever >& logs/log.fever &
 
 nohup python src/main/python/run_regression.py --collection ntcir8-zh >& logs/log.ntcir8-zh &
 nohup python src/main/python/run_regression.py --collection clef06-fr >& logs/log.clef06-fr &
@@ -96,8 +106,10 @@ nohup python src/main/python/run_regression.py --index --collection car17v2.0 >&
 nohup python src/main/python/run_regression.py --index --collection car17v2.0-doc2query >& logs/log.car17v2.0-doc2query &
 
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage >& logs/log.msmarco-passage &
+nohup python src/main/python/run_regression.py --index --collection msmarco-doc-per-passage >& logs/log.msmarco-doc-per-passage &
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage-doc2query >& logs/log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage-docTTTTTquery >& logs/log.msmarco-passage-docTTTTTquery &
+
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc-docTTTTTquery-per-doc >& logs/log.msmarco-doc-docTTTTTquery-per-doc &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc-docTTTTTquery-per-passage >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
@@ -105,8 +117,16 @@ nohup python src/main/python/run_regression.py --index --collection msmarco-doc-
 nohup python src/main/python/run_regression.py --index --collection dl19-passage >& logs/log.dl19-passage &
 nohup python src/main/python/run_regression.py --index --collection dl19-doc >& logs/log.dl19-doc &
 
+nohup python src/main/python/run_regression.py --index --collection dl20-passage >& logs/dl20-passage &
+nohup python src/main/python/run_regression.py --index --collection dl20-passage-docTTTTTquery >& logs/dl20-passage-docTTTTTquery &
+nohup python src/main/python/run_regression.py --index --collection dl20-doc >& logs/dl20-doc &
+nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-doc >& logs/dl20-doc-docTTTTTquery-per-doc &
+
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking19 >& logs/log.backgroundlinking19 &
+nohup python src/main/python/run_regression.py --index --collection backgroundlinking20 >& logs/log.backgroundlinking20 &
+
+nohup python src/main/python/run_regression.py --index --collection fever >& logs/log.fever &
 
 nohup python src/main/python/run_regression.py --index --collection ntcir8-zh >& logs/log.ntcir8-zh &
 nohup python src/main/python/run_regression.py --index --collection clef06-fr >& logs/log.clef06-fr &

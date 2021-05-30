@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.*;
-import io.anserini.ltr.feature.base.OrderedQueryPairs;
-import io.anserini.ltr.feature.base.OrderedSequentialPairs;
-import io.anserini.ltr.feature.base.UnorderedQueryPairs;
-import io.anserini.ltr.feature.base.UnorderedSequentialPairs;
+import io.anserini.ltr.feature.OrderedQueryPairs;
+import io.anserini.ltr.feature.OrderedSequentialPairs;
+import io.anserini.ltr.feature.UnorderedQueryPairs;
+import io.anserini.ltr.feature.UnorderedSequentialPairs;
 import org.junit.Test;
 
 import java.io.IOException;

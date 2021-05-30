@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 
 package io.anserini.eval;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class RelevanceJudgmentsTest {
 
@@ -71,6 +71,26 @@ public class RelevanceJudgmentsTest {
     assertEquals(9260, getQrelsCount(qrels));
     assertEquals(0, qrels.getRelevanceGrade("19335", "1017759"));
     assertEquals(1, qrels.getRelevanceGrade("1133167", "8804478"));
+  }
+
+  @Test
+  public void testTrec20DLDoc() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl20-doc.txt");
+    assertNotNull(qrels);
+    assertEquals(45, qrels.getQids().size());
+    assertEquals(9098, getQrelsCount(qrels));
+    assertEquals(3, qrels.getRelevanceGrade("42255", "D1884223"));
+    assertEquals(3, qrels.getRelevanceGrade("1136962", "D96741"));
+  }
+
+  @Test
+  public void testTrec20DLPassage() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl20-passage.txt");
+    assertNotNull(qrels);
+    assertEquals(54, qrels.getQids().size());
+    assertEquals(11386, getQrelsCount(qrels));
+    assertEquals(2, qrels.getRelevanceGrade("23849", "1020327"));
+    assertEquals(1, qrels.getRelevanceGrade("1136962", "937258"));
   }
 
   @Test
@@ -235,6 +255,37 @@ public class RelevanceJudgmentsTest {
     assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
     assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
   }
+
+  @Test
+  public void testNtcir8Zh() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt");
+    assertNotNull(qrels);
+    assertEquals(100, qrels.getQids().size());
+    assertEquals(110213, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020106.0118"));
+    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020107.0140"));
+  }
+
+  @Test
+  public void testClef2006Fr() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.clef06fr.txt");
+    assertNotNull(qrels);
+    assertEquals(49, qrels.getQids().size());
+    assertEquals(17882, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940106.0082"));
+    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940112.0089"));
+  }
+
+  @Test
+  public void testTrec2002Ar() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.trec02ar.txt");
+    assertNotNull(qrels);
+    assertEquals(50, qrels.getQids().size());
+    assertEquals(38432, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("26", "19940515_AFP_ARB.0115"));
+    assertEquals(1, qrels.getRelevanceGrade("26", "19941213_AFP_ARB.0159"));
+  }
+  
 
   @Test
   public void testGetQrelsResource() throws IOException {

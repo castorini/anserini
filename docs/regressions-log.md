@@ -3,11 +3,30 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### April 13, 2021
+
++ commit [`868afe`](https://github.com/castorini/anserini/commit/868afe9ec07fa477ce817d7a43dd5723cb4c8a86) (04/13/2021)
+
+Updated regressions for the MS MARCO doc ranking task, we now have the complete cross product of {doc indexing, passage indexing} and {no expansion, expansion}.
+Regressions now use tuned parameters.
+
+### March 30, 3021
+
++ commit [`c75c63`](https://github.com/castorini/anserini/commit/c75c63b0d625c88049952fc1c72360f2b6bb07c6) (03/30/2021)
+
+Added regressions for Anserini submissions to TREC 2020 News Track, background linking task.
+
+### March 19, 2021
+
++ commit [`e9af6e`](https://github.com/castorini/anserini/commit/e9af6eca16290ed222f23fcaa9cb1547f8a10d38) (03/19/2021)
+
+Added regressions for Anserini submissions to TREC 2020 Deep Learning Track: passage ranking (also with docTTTTTquery) and document ranking (also with per-document docTTTTTquery).
+
 ### February 24, 2021
 
 + commit [`90d3aa`](https://github.com/castorini/anserini/commit/90d3aa0099990cf26a54afa8458d03b30b3ace02) (02/24/2021)
 
-Fixed bug where multi-line TREC topic titles weren't being fully parsed [(#1482)](https://github.com/castorini/anserini/pull/1482).
+Fixed bug where multi-line TREC topic titles weren't being fully parsed ([#1482](https://github.com/castorini/anserini/pull/1482)).
 Affects [regressions for Disks 1 & 2](https://github.com/castorini/anserini/blob/master/docs/regressions-disk12.md).
 
 ### November 16, 2020
@@ -85,7 +104,7 @@ Resolves inconsistent tie-breaking for BM25prf that leads to non-deterministic r
 + commit [`1217d47`](https://github.com/castorini/anserini/commit/1217d475c88cc4782ff3056506afc43d71bf31fb) (8/9/2019)
 + commit [`75dfaa6`](https://github.com/castorini/anserini/commit/75dfaa6989ed36f76422d7be0d9d424d85705ee3) (8/9/2019)
 
-Added new Doc2query regression `car17v2.0-doc2query` to replicate [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the TREC 2017 Complex Answer Retrieval (CAR) section-level passage retrieval task (v2.0).
+Added new doc2query regression `car17v2.0-doc2query` to reproduce [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the TREC 2017 Complex Answer Retrieval (CAR) section-level passage retrieval task (v2.0).
 Added +Ax and +PRF regressions with both tuned and default BM25 parameters for MS MARCO passage ranking task.
 
 ### August 5, 2019
@@ -99,7 +118,7 @@ Added +Ax and +PRF regressions with both tuned and default BM25 parameters for M
 + commit [`86be3d2`](https://github.com/castorini/anserini/commit/86be3d21ea8bdf9309ca5f85362c2782c3898a19) (6/20/2019)
 + commit [`b656da3`](https://github.com/castorini/anserini/commit/b656da3ed0ec3fa385dfdb9df0d153cd9a78bd7d) (6/20/2019)
 
-Added new Doc2query regression `msmarco-passage-doc2query` to replicate [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the MS MARCO passage ranking task.
+Added new doc2query regression `msmarco-passage-doc2query` to reproduce [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the MS MARCO passage ranking task.
 Added tuned BM25 parameters to `msmarco-doc` regression.
 Associated documentation updated.
 

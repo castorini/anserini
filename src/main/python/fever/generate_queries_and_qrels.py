@@ -14,8 +14,12 @@
 # limitations under the License.
 #
 
-import json
 import argparse
+import json
+"""
+Generates the queries file in TsvInt format and the qrels file in a format
+compatible with trec_eval.
+"""
 
 def generate_queries_and_qrels(args):
     queries = {}
@@ -52,10 +56,10 @@ def generate_queries_and_qrels(args):
                     # write deduped evidences to qrels file
                     if args.granularity == 'sentence':
                         for doc_id, sentence_id in evidences:
-                            qrels_out.write(f'{qid}\t0\t{doc_id}_{sentence_id}\t2\n')
+                            qrels_out.write(f'{qid} 0 {doc_id}_{sentence_id} 2\n')
                     else:  # args.granularity == 'paragraph'
                         for doc_id in evidences:
-                            qrels_out.write(f'{qid}\t0\t{doc_id}\t2\n')
+                            qrels_out.write(f'{qid} 0 {doc_id} 2\n')
 
         # close qrels file if provided
         if args.output_qrels_file:

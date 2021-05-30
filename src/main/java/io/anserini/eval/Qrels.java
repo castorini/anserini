@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,11 +40,13 @@ public enum Qrels {
   CAR17V20_BENCHMARK_Y1_TEST("topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt"),
   TREC2019_DL_DOC("topics-and-qrels/qrels.dl19-doc.txt"),
   TREC2019_DL_PASSAGE("topics-and-qrels/qrels.dl19-passage.txt"),
+  TREC2020_DL_DOC("topics-and-qrels/qrels.dl20-doc.txt"),
+  TREC2020_DL_PASSAGE("topics-and-qrels/qrels.dl20-passage.txt"),
   MSMARCO_DOC_DEV("topics-and-qrels/qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("topics-and-qrels/qrels.msmarco-passage.dev-subset.txt"),
-  NTCIR8_ZH("topics-and-qrels/qrels.ntcir8zh.eval.txt"),
-  CLEF2006_FR("topics-and-qrels/qrels.clef06fr.mono.fr.txt"),
-  TREC2002_AR("topics-and-qrels/qrels.trec02ar-ar.txt"),
+  NTCIR8_ZH("topics-and-qrels/qrels.ntcir8.eval.txt"),
+  CLEF2006_FR("topics-and-qrels/qrels.clef06fr.txt"),
+  TREC2002_AR("topics-and-qrels/qrels.trec02ar.txt"),
   FIRE2012_BN("topics-and-qrels/qrels.fire12bn.176-225.txt"),
   FIRE2012_HI("topics-and-qrels/qrels.fire12hi.176-225.txt"),
   FIRE2012_EN("topics-and-qrels/qrels.fire12en.176-225.txt"),

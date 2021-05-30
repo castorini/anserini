@@ -1,6 +1,6 @@
 # Anserini: Baselines for MS MARCO Document Leaderboard
 
-The page provides instructions for replicating Anserini baseline runs for the [MS MARCO Document Leaderboard](https://microsoft.github.io/MSMARCO-Document-Ranking-Submissions/leaderboard/).
+The page provides instructions for reproducing Anserini baseline runs for the [MS MARCO Document Leaderboard](https://microsoft.github.io/MSMARCO-Document-Ranking-Submissions/leaderboard/).
 Prebuilt indexes can be found [here](https://git.uwaterloo.ca/jimmylin/anserini-indexes/).
 For convenience, we use Pyserini's [feature to automatically download prebuilt indexes](https://github.com/castorini/pyserini/blob/master/docs/prebuilt-indexes.md) to fetch the right indexes, which are downloaded to `~/.cache/pyserini/indexes/`.
 
@@ -199,7 +199,7 @@ QueriesRanked: 5193
 #####################
 ```
 
-## Replication Log
+## Reproduction Log[*](reproducibility.md)
 
-+ Results replicated by [@MXueguang](https://github.com/MXueguang) on 2021-01-06 (commit [`6674291`](https://github.com/castorini/anserini/commit/667429183323b15790a86ef186272216f92ffcbc))
-+ Results replicated by [@ronakice](https://github.com/ronakice) on 2021-01-19 (commit [`5f5dba9`](https://github.com/castorini/anserini/commit/5f5dba948b5cbbf6f73010f2a11d4fe3cca445d6))
++ Results reproduced by [@MXueguang](https://github.com/MXueguang) on 2021-01-06 (commit [`6674291`](https://github.com/castorini/anserini/commit/667429183323b15790a86ef186272216f92ffcbc))
++ Results reproduced by [@ronakice](https://github.com/ronakice) on 2021-01-19 (commit [`5f5dba9`](https://github.com/castorini/anserini/commit/5f5dba948b5cbbf6f73010f2a11d4fe3cca445d6))

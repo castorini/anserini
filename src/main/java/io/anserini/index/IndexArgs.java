@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,6 +121,10 @@ public class IndexArgs {
   @Option(name = "-language", metaVar = "[language]",
       usage = "Analyzer language (ISO 3166 two-letter code).")
   public String language= "en";
+
+  @Option(name = "-pretokenized",
+          usage = "index pre-tokenized collections without any additional stemming, stopword processing")
+  public boolean pretokenized = false;
 
   // Tweet options
 

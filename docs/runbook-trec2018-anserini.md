@@ -8,7 +8,7 @@ In total, the Anserini group participated in three tracks:
 + News Track
 + CENTRE Track
 
-Note that this document is specifically a **runbook** and does not encode regression experiments. Runbooks are designed to help us (i.e., TREC participants) document the steps taken to generate a run. They are primarily designed to make experiments repeatable (i.e., by ourselves), although they might be helpful for others who wish to replicate our runs.
+Note that this document is specifically a **runbook** and does not encode regression experiments. Runbooks are designed to help us (i.e., TREC participants) document the steps taken to generate a run. They are primarily designed to make experiments repeatable (i.e., by ourselves), although they might be helpful for others who wish to reproduce our runs.
 
 However, we concede that _repeatability_ of the runs (even by us) is challenging, since the codebase is always evolving, and by the time we add proper documentation, it might be several months later. See details below... but we try our best...
 
@@ -27,7 +27,7 @@ log.core18.pos+docvectors+rawdocs &
 
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
 
-Commands to replicate submitted runs:
+Commands to reproduce submitted runs:
 
 ```
 target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_bm25 -output core18.anserini_bm25.txt

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.Iso19115Collection;
 import io.anserini.index.IndexArgs;
-import org.apache.lucene.document.*;
-import org.apache.lucene.document.LatLonShape;
-import org.apache.lucene.geo.Polygon;
-import org.apache.lucene.index.Fields;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
 
 public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Collection.Document>{
   protected IndexArgs args;

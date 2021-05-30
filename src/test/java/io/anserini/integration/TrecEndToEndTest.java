@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ package io.anserini.integration;
 import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexArgs;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class TrecEndToEndTest extends EndToEndTest {
@@ -35,14 +37,14 @@ public class TrecEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
-    documents.put("TREC_DOC_1", Map.of(
+    referenceDocs.put("TREC_DOC_1", Map.of(
         "contents", "This is head very simple text",
         "raw", "<HEAD>This is head</HEAD>\n" +
             "<TEXT>\n" +
             "very simple\n" +
             "text\n" +
             "</TEXT>"));
-    documents.put("WSJ_1", Map.of(
+    referenceDocs.put("WSJ_1", Map.of(
         "contents", "head text 01/30/03 content",
         "raw", "<HL>\n" +
             "head text\n" +
@@ -55,7 +57,7 @@ public class TrecEndToEndTest extends EndToEndTest {
             "</LP>\n" +
             "<TEXT>\n" +
             "</TEXT>"));
-    documents.put("DOC222", Map.of(
+    referenceDocs.put("DOC222", Map.of(
         "contents", "HEAD simple enough text text text",
         "raw", "<HEAD>HEAD</HEAD>\n" +
             "<TEXT>\n" +
@@ -65,6 +67,13 @@ public class TrecEndToEndTest extends EndToEndTest {
             "text\n" +
             "text\n" +
             "</TEXT>"));
+
+    referenceDocTokens.put("TREC_DOC_1", Map.of(
+        "contents", Arrays.asList(new String[]{null, null, "head", "veri", "simpl", "text"})));
+    referenceDocTokens.put("WSJ_1", Map.of(
+        "contents", List.of("head", "text", "01", "30", "03", "content")));
+    referenceDocTokens.put("DOC222", Map.of(
+        "contents", List.of("head", "simpl", "enough", "text", "text", "text")));
 
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 12;   // Note that standard analyzer ignores stopwords; includes docids.

@@ -27,7 +27,7 @@ For additional details, see explanation of [common indexing options](common-inde
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
 
 + [`topics.backgroundlinking19.txt`](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt): topics for the background linking task of the TREC 2019 News Track
-+ [`qrels.backgroundlinking18.txt`](../src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt): qrels for the background linking task of the TREC 2019 News Track
++ [`qrels.backgroundlinking19.txt`](../src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt): qrels for the background linking task of the TREC 2019 News Track
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -60,7 +60,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map sr
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 NCDG@5                                  | BM25      | +RM3      | +RM3+DF   |
 :---------------------------------------|-----------|-----------|-----------|
