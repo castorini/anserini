@@ -119,10 +119,10 @@ This run produces the following results:
 |:----|----------------:|----------------:|
 | 1   | 0.3887          | 0.5925          |
 | 5   | 0.6517          | 0.7678          |
-| 10  |	0.7349          | 0.8233          |
-| 25  |	0.8117          | 0.8745          |
-| 50  |	0.8570          | 0.9047          |
-| 100 |	0.8900          | 0.9267          |
+| 10  | 0.7349          | 0.8233          |
+| 25  | 0.8117          | 0.8745          |
+| 50  | 0.8570          | 0.9047          |
+| 100 | 0.8900          | 0.9267          |
 
 Note that this outperforms the TF-IDF baseline in the FEVER paper at every value of k.
 
@@ -158,7 +158,7 @@ python src/main/python/fever/tune_bm25.py \
  --runs_folder runs/fever-bm25 \
  --index_folder indexes/fever/lucene-index-fever-paragraph \
  --queries_file collections/fever/queries.paragraph.train-subset.tsv \
- --qrels_file collections/fever/qrels.paragraph.train-subset.tsv
+ --qrels_file collections/fever/qrels.paragraph.train-subset.txt
 ```
 
 From the grid search, we observe that the parameters `k1=0.9`, `b=0.1` perform fairly well. If we retrieve on the dev set with these parameters:
