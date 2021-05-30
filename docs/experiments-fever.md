@@ -192,3 +192,4 @@ then we can achieve the following results:
 ## Reproduction Log[*](reproducibility.md)
 
 + Results reproduced by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-11-26 (commit [`1b4d0a2`](https://github.com/castorini/anserini/commit/1b4d0a29879a867ca5d1f003f924acc3279455ba))
++ Results reproduced by [@lintool](https://github.com/lintool) on 2021-05-30 (commit [`259d8ec`](https://github.com/castorini/anserini/commit/259d8ecedbba833386f9300a2667ef61b20943d8))
