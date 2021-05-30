@@ -76,6 +76,7 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + [Regressions for the TREC 2018 News Track (Background Linking Task)](docs/regressions-backgroundlinking18.md)
 + [Regressions for the TREC 2019 News Track (Background Linking Task)](docs/regressions-backgroundlinking19.md)
 + [Regressions for the TREC 2020 News Track (Background Linking Task)](docs/regressions-backgroundlinking20.md)
++ [Regressions for the FEVER Fact Verification Task](docs/regressions-fever.md)
 + [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + [Regressions for CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + [Regressions for TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
