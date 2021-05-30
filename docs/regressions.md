@@ -73,6 +73,8 @@ nohup python src/main/python/run_regression.py --collection backgroundlinking18 
 nohup python src/main/python/run_regression.py --collection backgroundlinking19 >& logs/log.backgroundlinking19 &
 nohup python src/main/python/run_regression.py --collection backgroundlinking20 >& logs/log.backgroundlinking20 &
 
+nohup python src/main/python/run_regression.py --collection fever >& logs/log.fever &
+
 nohup python src/main/python/run_regression.py --collection ntcir8-zh >& logs/log.ntcir8-zh &
 nohup python src/main/python/run_regression.py --collection clef06-fr >& logs/log.clef06-fr &
 nohup python src/main/python/run_regression.py --collection trec02-ar >& logs/log.trec02-ar &
@@ -123,6 +125,8 @@ nohup python src/main/python/run_regression.py --index --collection dl20-doc-doc
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking19 >& logs/log.backgroundlinking19 &
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking20 >& logs/log.backgroundlinking20 &
+
+nohup python src/main/python/run_regression.py --index --collection fever >& logs/log.fever &
 
 nohup python src/main/python/run_regression.py --index --collection ntcir8-zh >& logs/log.ntcir8-zh &
 nohup python src/main/python/run_regression.py --index --collection clef06-fr >& logs/log.clef06-fr &
