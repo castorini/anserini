@@ -544,6 +544,7 @@ public class TopicReaderTest {
     assertEquals(8756, (int) topics.lastKey());
     assertEquals("when did the gop take control of the house", topics.get(topics.lastKey()).get("title"));
     assertEquals("['2010']", topics.get(topics.lastKey()).get("answers"));
+    assertEquals("who did the artwork for pink floyd 's wall", topics.get(1726).get("title"));
 
     topics = TopicReader.getTopics(Topics.DPR_NQ_TEST);
     assertNotNull(topics);
@@ -554,6 +555,7 @@ public class TopicReaderTest {
     assertEquals(3609, (int) topics.lastKey());
     assertEquals("when did computer become widespread in homes and schools", topics.get(topics.lastKey()).get("title"));
     assertEquals("['1980s']", topics.get(topics.lastKey()).get("answers"));
+    assertEquals("who sings gim me shelter with mick jagger", topics.get(1756).get("title"));
   }
 
   @Test
@@ -624,6 +626,33 @@ public class TopicReaderTest {
     assertEquals(10569, (int) topics.lastKey());
     assertEquals("What is the seldom used force unit equal to one thousand newtons?", topics.get(topics.lastKey()).get("title"));
     assertEquals("[\"sthène\",\"sthène\",\"sthène\",\"sthène\",\"sthène\"]", topics.get(topics.lastKey()).get("answers"));
+  }
+
+  @Test
+  public void testNq() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.NQ_DEV);
+    assertNotNull(topics);
+    assertEquals(8757, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("who sings does he love me with reba", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['Linda Davis']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(8756, (int) topics.lastKey());
+    assertEquals("when did the gop take control of the house", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['2010']", topics.get(topics.lastKey()).get("answers"));
+    assertEquals("who did the artwork for pink floyd's wall", topics.get(1726).get("title"));
+
+    topics = TopicReader.getTopics(Topics.NQ_TEST);
+    assertNotNull(topics);
+    assertEquals(3610, topics.size());
+    assertEquals(0, (int) topics.firstKey());
+    assertEquals("who got the first nobel prize in physics", topics.get(topics.firstKey()).get("title"));
+    assertEquals("['Wilhelm Conrad Röntgen']", topics.get(topics.firstKey()).get("answers"));
+    assertEquals(3609, (int) topics.lastKey());
+    assertEquals("when did computer become widespread in homes and schools", topics.get(topics.lastKey()).get("title"));
+    assertEquals("['1980s']", topics.get(topics.lastKey()).get("answers"));
+    assertEquals("who sings gimme shelter with mick jagger", topics.get(1756).get("title"));
   }
 
   @Test
