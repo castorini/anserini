@@ -44,10 +44,10 @@ def evaluate_runs(args):
         run_file = os.path.join(args.runs_folder, file)
         # evaluate with trec_eval
         results = subprocess.check_output(['tools/eval/trec_eval.9.0.4/trec_eval',
+                                           '-mrecall.100',
+                                           '-mmap',
                                            args.qrels_file,
-                                           run_file,
-                                           '-m recall.100',
-                                           '-m map'])
+                                           run_file])
         # regex match trec_eval output to get metrics
         match = re.search('map +\tall\t([0-9.]+)', results.decode('utf-8'))
         map = float(match.group(1))
