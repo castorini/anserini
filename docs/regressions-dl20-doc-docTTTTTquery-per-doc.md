@@ -74,22 +74,22 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.4230    | 0.4228    | 0.4150    | 0.4214    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4230    | 0.4228    | 0.4150    | 0.4214    |
 
 
 NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.5885    | 0.5407    | 0.5877    | 0.5705    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5885    | 0.5407    | 0.5877    | 0.5705    |
 
 
 RR                                      | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9369    | 0.8147    | 0.9328    | 0.8547    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.9369    | 0.8147    | 0.9328    | 0.8547    |
 
 
 R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.6412    | 0.6555    | 0.6231    | 0.6326    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6412    | 0.6555    | 0.6231    | 0.6326    |
 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL20 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.

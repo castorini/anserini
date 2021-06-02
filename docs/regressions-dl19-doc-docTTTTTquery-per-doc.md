@@ -1,0 +1,92 @@
+# Anserini: Regressions for [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) w/ per-doc docTTTTTquery
+
+This page describes document expansion experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
+These experimental runs take advantage of [docTTTTTquery](http://doc2query.ai/) expansions on a _per-document_ basis.
+
+Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
+
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-docTTTTTquery-per-doc.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc-docTTTTTquery-per-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+## Indexing
+
+Typical indexing command:
+
+```
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
+ -input /path/to/msmarco-doc \
+ -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 1 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.msmarco-doc &
+```
+
+The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the 45 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt \
+ -bm25 -hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt \
+ -bm25 -rm3 -hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt \
+ -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt \
+ -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2699    | 0.3044    | 0.2662    | 0.2880    |
+
+
+R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4198    | 0.4465    | 0.4041    | 0.4202    |
+
+
+NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5968    | 0.5895    | 0.5917    | 0.5973    |
+
+Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
+Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87` (see [this page](experiments-msmarco-doc.md) for more details about tuning).

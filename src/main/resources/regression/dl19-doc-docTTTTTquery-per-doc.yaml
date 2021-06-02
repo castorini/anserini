@@ -1,5 +1,5 @@
 ---
-name: msmarco-doc-docTTTTTquery-per-doc
+name: msmarco-doc # Note, this is the name of the collection; this way we can share index with the msmarco regressions
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -7,7 +7,7 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: JsonCollection
+collection: CleanTrecCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1
 index_options:
@@ -27,29 +27,20 @@ evals:
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m ndcg_cut.10
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: NDCG@10
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recip_rank
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: RR
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
       - -m recall.100
       - -c
     separator: "\t"
     parse_index: 2
     metric: R@100
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.10
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: NDCG@10
     metric_precision: 4
     can_combine: true
 input_roots:
@@ -63,55 +54,49 @@ index_stats:
   documents (non-empty): 3213834
   total terms: 3748332076
 topics:
-  - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
-    path: topics.dl20.txt
-    qrel: qrels.dl20-doc.txt
+  - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
+    path: topics.dl19-doc.txt
+    qrel: qrels.dl19-doc.txt
 models:
   - name: bm25-default
     display: BM25 (Default)
     params:
       - -bm25
-      - -hits 100  # Note, this is different DL 2020 passage ranking!
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.4230
+        - 0.2699
       NDCG@10:
-        - 0.5885
-      RR:
-        - 0.9369
+        - 0.5968
       R@100:
-        - 0.6412
+        - 0.4198
   - name: bm25-default+rm3
     display: +RM3
     params:
       - -bm25
       - -rm3
-      - -hits 100  # Note, this is different DL 2020 passage ranking!
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.4228
+        - 0.3044
       NDCG@10:
-        - 0.5407
-      RR:
-        - 0.8147
+        - 0.5895
       R@100:
-        - 0.6555
+        - 0.4465
   - name: bm25-tuned
     display: BM25 (Tuned)
     params:
       - -bm25
       - -bm25.k1 3.44
       - -bm25.b 0.87
-      - -hits 100  # Note, this is different DL 2020 passage ranking!
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.4150
+        - 0.2662
       NDCG@10:
-        - 0.5877
-      RR:
-        - 0.9328
+        - 0.5917
       R@100:
-        - 0.6231
+        - 0.4041
   - name: bm25-tuned+rm3
     display: +RM3
     params:
@@ -119,13 +104,11 @@ models:
       - -bm25.k1 3.44
       - -bm25.b 0.87
       - -rm3
-      - -hits 100  # Note, this is different DL 2020 passage ranking!
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.4214
+        - 0.2880
       NDCG@10:
-        - 0.5705
-      RR:
-        - 0.8547
+        - 0.5973
       R@100:
-        - 0.6326
+        - 0.4202
