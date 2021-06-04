@@ -1,5 +1,5 @@
 ---
-name: msmarco-passage # Note, this is the name of the collection; this way we can share index with the msmarco regressions
+name: msmarco-passage-docTTTTTquery # Note, this is the name of the collection; this way we can share index with the msmarco regressions
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
