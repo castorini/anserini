@@ -45,7 +45,7 @@ index_stats:
   documents (non-empty): 8841823
   total terms: 352316036
 topics:
-  - name: "[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
+  - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     path: topics.msmarco-passage.dev-subset.txt
     qrel: qrels.msmarco-passage.dev-subset.txt
 models:

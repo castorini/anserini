@@ -74,13 +74,39 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.2270    | 0.2028    | 0.2293    | 0.2077    |
+[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.2270    | 0.2028    | 0.2293    | 0.2077    |
 
 
 R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8900    | 0.8916    | 0.8911    | 0.8957    |
+[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8900    | 0.8916    | 0.8911    | 0.8957    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.72` _on the original passages_.
 See [this page](experiments-msmarco-passage.md) for more details.
-Note that these results are slightly different from the above referenced page because those experiments make up "fake" scores when converting runs from MS MARCO format into TREC format for evaluation by `trec_eval`.
+
+Note that the above runs are generated with `SearchCollection` in the TREC format, which due to tie-breaking effects gives slightly different results from `SearchMsmarco` in the MS MARCO format.
+
+The following command generates with `SearchMsmarco` the run denoted "BM25 (Tuned)" above (`k1=0.82`, `b=0.68`):
+
+```bash
+$ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
+    -index indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+raw \
+    -queries collections/msmarco-passage/queries.dev.small.tsv \
+    -k1 0.82 -b 0.68 \
+    -output runs/run.msmarco-passage-doc2query
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage-doc2query
+
+#####################
+MRR @10: 0.2213412471005586
+QueriesRanked: 6980
+#####################
+```
+
+Note that this run does _not_ correspond to the scores reported in the following paper (which introduced doc2query):
+
+> Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) arXiv:1904.08375, 2019.
+
+The scores reported in the above paper refer to entry "BM25 (Anserini) + doc2query" dated 2019/04/10 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/).
+The paper/leaderboard run reports 0.215 MRR@10, which is slightly lower than the "BM25 (Tuned)" regression run above, due to an earlier version of Lucene (7.6) and use of default BM25 parameters.

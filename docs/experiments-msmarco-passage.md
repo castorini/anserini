@@ -230,7 +230,8 @@ That's the score of a query.
 We take the average of the scores across all queries (6980 in this case), and we arrive at the score for the entire run.
 </details>
 
-You can find this entry on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as entry "BM25 (Lucene8, tuned)", so you've just reproduced (part of) a leaderboard submission!
+You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
+So you've just reproduced (part of) a leaderboard submission!
 
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
 For that we first need to convert runs and qrels files to the TREC format:
@@ -296,6 +297,9 @@ Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
 Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 | 0.8555
 
 To reproduce these results, the `SearchMsmarco` class above takes `k1` and `b` parameters as command-line arguments, e.g., `-k1 0.60 -b 0.62` (note that the default setting is `k1=0.82` and `b=0.68`).
+
+As mentioned above, the BM25 run with `k1=0.82`, `b=0.68` corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/).
+The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 (but Anserini was using Lucene 7.6 at the time).
 
 ## Reproduction Log[*](reproducibility.md)
 
