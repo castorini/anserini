@@ -57,7 +57,7 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 ```bash
 $ target/appassembler/bin/SearchCollection -topicreader TsvString \
    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-   -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
    -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.trec \
    -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 \
    -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
