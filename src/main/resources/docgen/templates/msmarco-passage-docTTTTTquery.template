@@ -44,32 +44,28 @@ ${effectiveness}
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.72` _on the original passages_.
 See [this page](experiments-msmarco-passage.md) for more details.
 
-To reproduce the _exact_ conditions for a leaderboard submission, retrieve using the following command:
+Note that the above runs are generated with `SearchCollection` in the TREC format, which due to tie-breaking effects gives slightly different results from `SearchMsmarco` in the MS MARCO format.
+
+The following command generates with `SearchMsmarco` the run denoted "BM25 (Tuned)" above (`k1=0.82`, `b=0.68`), which corresponds to the entry "docTTTTTquery" dated 2019/11/27 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/):
 
 ```bash
-wget https://www.dropbox.com/s/hq6xjhswiz60siu/queries.dev.small.tsv
+$ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
+    -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
+    -queries collections/msmarco-passage/queries.dev.small.tsv \
+    -k1 0.82 -b 0.68 \
+    -output runs/run.msmarco-passage-docTTTTTquery
 
-sh target/appassembler/bin/SearchMsmarco -threads 8 \
- -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
- -queries queries.dev.small.tsv \
- -output runs/run.msmarco-passage-docTTTTTquery -hits 1000
-```
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery
 
-Evaluate using the MS MARCO eval script:
-
-```bash
-wget https://www.dropbox.com/s/khsplt2fhqwjs0v/qrels.dev.small.tsv
-
-python tools/scripts/msmarco/msmarco_passage_eval.py qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery
-```
-
-The results should be:
-
-```
 #####################
 MRR @10: 0.27680089370991834
 QueriesRanked: 6980
 #####################
 ```
 
-Which matches the score described in [the docTTTTTquery repo](https://github.com/castorini/docTTTTTquery) and also on the official [MS MARCO leaderboard](http://www.msmarco.org/).
+This corresponds to the score reported in the following paper:
+
+> Rodrigo Nogueira and Jimmy Lin. [From doc2query to docTTTTTquery.](https://cs.uwaterloo.ca/~jimmylin/publications/Nogueira_Lin_2019_docTTTTTquery-v2.pdf) December 2019.
+
+And is identical to the score reported in [the docTTTTTquery repo](https://github.com/castorini/docTTTTTquery).
