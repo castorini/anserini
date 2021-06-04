@@ -48,21 +48,32 @@ ${effectiveness}
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=2.56`, `b=0.59`.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
+See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
-Use the following commands to convert the TREC run files into the MS MARCO format and use the official eval script to compute MRR@100:
+The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
+
+To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (Tuned)" above:
 
 ```bash
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.msmarco.txt
-#####################
-MRR @100: 0.31779258157039647
-QueriesRanked: 5193
-#####################
+$ target/appassembler/bin/SearchCollection -topicreader TsvString \
+   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
+   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.trec \
+   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 \
+   -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
 
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt
+$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
+   --input runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.trec \
+   --output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.txt
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+   --run runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.txt
+
 #####################
-MRR @100: 0.32081861579183807
+MRR @100: 0.32081861579183746
 QueriesRanked: 5193
 #####################
 ```
+
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11.
