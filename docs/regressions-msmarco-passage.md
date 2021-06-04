@@ -130,7 +130,7 @@ QueriesRanked: 6980
 #####################
 ```
 
-The following command generates with `SearchMsmarco` the run denoted "BM25 (Default)" above (`k1=0.9`, `b=0.4`), which corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 on the leaderboard:
+The following command generates with `SearchMsmarco` the run denoted "BM25 (Default)" above (`k1=0.9`, `b=0.4`), which roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 on the leaderboard (but Anserini was using Lucene 7.6 at the time):
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
