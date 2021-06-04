@@ -128,9 +128,11 @@ To generate an MS MARCO submission with the BM25 default parameters, correspondi
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
    -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
-   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/run.msmarco-doc.bm25-default.txt
+   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -output runs/run.msmarco-doc.bm25-default.txt
 
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
    --run runs/run.msmarco-doc.bm25-default.txt
 
 #####################
@@ -146,9 +148,11 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
    -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
-   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/run.msmarco-doc.bm25-tuned.txt
+   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -output runs/run.msmarco-doc.bm25-tuned.txt
 
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
    --run runs/run.msmarco-doc.bm25-tuned.txt
 
 #####################

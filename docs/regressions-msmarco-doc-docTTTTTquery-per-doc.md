@@ -89,7 +89,8 @@ $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.68 -b 0.87 -threads 9
    -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
    -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.txt
 
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
    --run runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.txt
 
 #####################
