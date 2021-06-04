@@ -116,7 +116,11 @@ R@1000                                  | BM25 (Default)| +RM3      | +Ax       
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9180    | 0.9355    | 0.9266    | 0.9187    | 0.9311    | 0.9359    | 0.9341    | 0.9162    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=2.16`, `b=0.61`.
-Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
+
+In these runs, we are retrieving the top 1000 hits for each query and using `trec_eval` to evaluate all 1000 hits.
+Since we're in the passage condition, we fetch the 10000 passages and select the top 1000 documents using MaxP.
+This lets us measure R@100 and R@1000; the latter is particularly important when these runs are used as first-stage retrieval.
+Beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
 See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
 The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.

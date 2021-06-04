@@ -116,8 +116,11 @@ R@1000                                  | BM25 (Default)| +RM3      | +Ax       
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8785    | 0.8369    | 0.8471    | 0.9357    | 0.9307    | 0.9249    | 0.8752    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=4.46`, `b=0.82`.
-See [this page](experiments-msmarco-doc.md) for more details.
-Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
+See [this page](experiments-msmarco-doc.md) for more details on tuning.
+
+In these runs, we are retrieving the top 1000 hits for each query and using `trec_eval` to evaluate all 1000 hits.
+This lets us measure R@100 and R@1000; the latter is particularly important when these runs are used as first-stage retrieval.
+Beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
 See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
 Note that leaderboard runs were generated with `SearchMsmarco` in the MS MARCO format.
