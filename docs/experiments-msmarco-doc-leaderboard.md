@@ -44,6 +44,8 @@ QueriesRanked: 5193
 #####################
 ```
 
+Note that this run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25, default parameters (k1=0.9, b=0.4)" dated 2020/08/16.		
+
 Run with **per-document** configuration, BM25 tuned parameters, optimized for recall@100 (`k1=4.46`, `b=0.82`):
 
 ```bash
@@ -68,7 +70,12 @@ QueriesRanked: 5193
 #####################
 ```
 
+This run was _not_ submitted to the MS MARCO document ranking leaderboard.
+
+
 ### Per-Passage
+
+The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
 
 Run with **per-passage** configuration, BM25 default parameters:
 
@@ -100,6 +107,8 @@ QueriesRanked: 5193
 #####################
 ```
 
+This run was _not_ submitted to the MS MARCO document ranking leaderboard.
+
 Run with **per-passage** configuration, BM25 tuned parameters, optimized for recall@100 (`k1=2.16`, `b=0.61`):
 
 ```bash
@@ -129,6 +138,9 @@ MRR @100: 0.2751202109946902
 QueriesRanked: 5193
 #####################
 ```
+
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 (per passage), parameters tuned for recall@100 (k1=2.16, b=0.61)" dated 2021/01/20.		
+
 
 ## Document Expansion Baselines
 
@@ -165,7 +177,12 @@ QueriesRanked: 5193
 #####################
 ```
 
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per document), parameters tuned for recall@100 (k1=4.68, b=0.87)" dated 2020/12/11.		
+
+
 ### Per-Passage
+
+The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
 
 Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59):
 
@@ -187,8 +204,6 @@ target/appassembler/bin/SearchCollection -topicreader TsvString -topics src/main
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/doc2query-t5-per-passage/eval.trec.txt --output runs/doc2query-t5-per-passage/eval.txt
 ```
 
-Note that the passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
-
 Evaluation:
 
 ```bash
@@ -198,6 +213,9 @@ MRR @100: 0.32081861579183746
 QueriesRanked: 5193
 #####################
 ```
+
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11.		
+
 
 ## Reproduction Log[*](reproducibility.md)
 
