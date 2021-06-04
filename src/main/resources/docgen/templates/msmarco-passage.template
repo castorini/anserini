@@ -44,7 +44,7 @@ ${effectiveness}
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68`.
 See [this page](experiments-msmarco-passage.md) for more details.
-Note that these results are slightly different from the above referenced page because those experiments used `SearchMsmarco` to generate runs in the MS MARCO format, and then converted them into TREC format, which is slightly lossy (due to tie-breaking effects).
+Note that these results are slightly different from the above referenced page because those experiments used `SearchMsmarco` to generate runs in the MS MARCO format, and then converted them into the TREC format, which is slightly lossy (due to tie-breaking effects).
 
 To generate runs corresponding to the submissions on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/), follow the instructions below:
 
