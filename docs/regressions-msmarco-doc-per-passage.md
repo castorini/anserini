@@ -103,35 +103,72 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2688    | 0.2416    | 0.2229    | 0.2325    | 0.2756    | 0.2443    | 0.2350    | 0.2271    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2688    | 0.2416    | 0.2229    | 0.2325    | 0.2756    | 0.2443    | 0.2350    | 0.2271    |
 
 
 R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7849    | 0.7876    | 0.7703    | 0.7714    | 0.8009    | 0.7955    | 0.7909    | 0.7685    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7849    | 0.7876    | 0.7703    | 0.7714    | 0.8009    | 0.7955    | 0.7909    | 0.7685    |
 
 
 R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9180    | 0.9355    | 0.9266    | 0.9187    | 0.9311    | 0.9359    | 0.9341    | 0.9162    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9180    | 0.9355    | 0.9266    | 0.9187    | 0.9311    | 0.9359    | 0.9341    | 0.9162    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=2.16`, `b=0.61`.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
+See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
-Use the following commands to convert the TREC run files into the MS MARCO format and use the official eval script to compute MRR@100:
+The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
+
+To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (Default)" above:
 
 ```bash
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc-per-passage.bm25-default.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc-per-passage.bm25-default.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc-per-passage.bm25-default.topics.msmarco-doc.dev.msmarco.txt
-#####################
-MRR @100: 0.26823493089465705
-QueriesRanked: 5193
-#####################
+$ target/appassembler/bin/SearchCollection -topicreader TsvString \
+   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+   -output runs/run.msmarco-doc-per-passage.bm25-default.trec \
+   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 \
+   -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
 
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc-per-passage.bm25-tuned.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc-per-passage.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc-per-passage.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt
+$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
+   --input runs/run.msmarco-doc-per-passage.bm25-default.trec \
+   --output runs/run.msmarco-doc-per-passage.bm25-default.txt
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+   --run runs/run.msmarco-doc-per-passage.bm25-default.txt
+
 #####################
-MRR @100: 0.2751202109946906
+MRR @100: 0.2682349308946578
 QueriesRanked: 5193
 #####################
 ```
+
+This run was _not_ submitted to the MS MARCO document ranking leaderboard.
+
+To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (Tuned)" above:
+
+```bash
+$ target/appassembler/bin/SearchCollection -topicreader TsvString \
+   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+   -output runs/run.msmarco-doc-per-passage.bm25-tuned.trec \
+   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 1000 \
+   -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+
+$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
+   --input runs/run.msmarco-doc-per-passage.bm25-tuned.trec \
+   --output runs/run.msmarco-doc-per-passage.bm25-tuned.txt
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+   --run runs/run.msmarco-doc-per-passage.bm25-tuned.txt
+
+#####################
+MRR @100: 0.2751202109946902
+QueriesRanked: 5193
+#####################
+```
+
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 (per passage), parameters tuned for recall@100 (k1=2.16, b=0.61)" dated 2021/01/20.
