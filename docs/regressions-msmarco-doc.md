@@ -103,36 +103,58 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2310    | 0.1632    | 0.1147    | 0.1357    | 0.2775    | 0.2238    | 0.1885    | 0.1531    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2310    | 0.1632    | 0.1147    | 0.1357    | 0.2775    | 0.2238    | 0.1885    | 0.1531    |
 
 
 R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7279    | 0.6765    | 0.5750    | 0.6362    | 0.8076    | 0.7789    | 0.7510    | 0.6819    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7279    | 0.6765    | 0.5750    | 0.6362    | 0.8076    | 0.7789    | 0.7510    | 0.6819    |
 
 
 R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc Ranking: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8785    | 0.8369    | 0.8471    | 0.9357    | 0.9307    | 0.9249    | 0.8752    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8785    | 0.8369    | 0.8471    | 0.9357    | 0.9307    | 0.9249    | 0.8752    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=4.46`, `b=0.82`.
 See [this page](experiments-msmarco-doc.md) for more details.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
+See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
-Use the following commands to convert the TREC run files into the MS MARCO format and use the official eval script to compute MRR@100:
+Note that leaderboard runs were generated with `SearchMsmarco` in the MS MARCO format.
+Conversion of a run in that format into the TREC format is slightly lossy due to tie-breaking effects.
+
+To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (Default)" above:
 
 ```bash
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.msmarco.txt
-#####################
-MRR @100: 0.23005723505603545
-QueriesRanked: 5193
-#####################
+$ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
+   -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
+   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/run.msmarco-doc.bm25-default.txt
 
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt --output runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt --k 100 --quiet
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.msmarco.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+   --run runs/run.msmarco-doc.bm25-default.txt
+
 #####################
-MRR @100: 0.2770296928568709
+MRR @100: 0.23005723505603573
 QueriesRanked: 5193
 #####################
 ```
+
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25, default parameters (k1=0.9, b=0.4)" dated 2020/08/16.
+
+To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (Tuned)" above:
+
+```bash
+$ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
+   -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
+   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/run.msmarco-doc.bm25-tuned.txt
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+   --run runs/run.msmarco-doc.bm25-tuned.txt
+
+#####################
+MRR @100: 0.2770296928568702
+QueriesRanked: 5193
+#####################
+```
+
+This run was _not_ submitted to the MS MARCO document ranking leaderboard.

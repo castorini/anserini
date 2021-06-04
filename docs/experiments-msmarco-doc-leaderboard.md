@@ -70,12 +70,12 @@ QueriesRanked: 5193
 #####################
 ```
 
-Note that this run was _not_ submitted to the MS MARCO document ranking leaderboard.
+This run was _not_ submitted to the MS MARCO document ranking leaderboard.
 
 
 ### Per-Passage
 
-Note that the passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
+The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
 
 Run with **per-passage** configuration, BM25 default parameters:
 
@@ -107,7 +107,7 @@ QueriesRanked: 5193
 #####################
 ```
 
-Note that this run was _not_ submitted to the MS MARCO document ranking leaderboard.
+This run was _not_ submitted to the MS MARCO document ranking leaderboard.
 
 Run with **per-passage** configuration, BM25 tuned parameters, optimized for recall@100 (`k1=2.16`, `b=0.61`):
 
@@ -139,7 +139,7 @@ QueriesRanked: 5193
 #####################
 ```
 
-Note that this run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 (per passage), parameters tuned for recall@100 (k1=2.16, b=0.61)" dated 2021/01/20.		
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 (per passage), parameters tuned for recall@100 (k1=2.16, b=0.61)" dated 2021/01/20.		
 
 
 ## Document Expansion Baselines
@@ -177,12 +177,12 @@ QueriesRanked: 5193
 #####################
 ```
 
-Note that this run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per document), parameters tuned for recall@100 (k1=4.68, b=0.87)" dated 2020/12/11.		
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per document), parameters tuned for recall@100 (k1=4.68, b=0.87)" dated 2020/12/11.		
 
 
 ### Per-Passage
 
-Note that the passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
+The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
 
 Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59):
 
@@ -214,7 +214,7 @@ QueriesRanked: 5193
 #####################
 ```
 
-Note that this run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11.		
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11.		
 
 
 ## Reproduction Log[*](reproducibility.md)
