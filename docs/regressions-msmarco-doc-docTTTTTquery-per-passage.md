@@ -81,7 +81,7 @@ This lets us measure R@100 and R@1000; the latter is particularly important when
 Beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
 See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
-The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
+The MaxP passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert the output back into the MS MARCO format for evaluation.
 
 To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (Tuned)" above:
 
