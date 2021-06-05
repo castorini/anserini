@@ -27,20 +27,29 @@ evals:
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m recall.100
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: R@100
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
       - -m ndcg_cut.10
       - -c
     separator: "\t"
     parse_index: 2
     metric: NDCG@10
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recip_rank
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: RR
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.100
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
     metric_precision: 4
     can_combine: true
 input_roots:
@@ -67,6 +76,8 @@ models:
         - 0.3584
       NDCG@10:
         - 0.5271
+      RR:
+        - 0.8479
       R@100:
         - 0.5823
   - name: bm25-default+rm3
@@ -80,6 +91,8 @@ models:
         - 0.3769
       NDCG@10:
         - 0.5159
+      RR:
+        - 0.8136
       R@100:
         - 0.6224
   - name: bm25-default+ax
@@ -95,6 +108,8 @@ models:
         - 0.3854
       NDCG@10:
         - 0.5250
+      RR:
+        - 0.8123
       R@100:
         - 0.6332
   - name: bm25-default+prf
@@ -108,6 +123,8 @@ models:
         - 0.3672
       NDCG@10:
         - 0.5217
+      RR:
+        - 0.7911
       R@100:
         - 0.5994
   - name: bm25-tuned
@@ -122,6 +139,8 @@ models:
         - 0.3456
       NDCG@10:
         - 0.5213
+      RR:
+        - 0.8684
       R@100:
         - 0.5715
   - name: bm25-tuned+rm3
@@ -137,6 +156,8 @@ models:
         - 0.3471
       NDCG@10:
         - 0.4983
+      RR:
+        - 0.7807
       R@100:
         - 0.6013
   - name: bm25-tuned+ax
@@ -154,6 +175,8 @@ models:
         - 0.3495
       NDCG@10:
         - 0.4942
+      RR:
+        - 0.8102
       R@100:
         - 0.6086
   - name: bm25-tuned+prf
@@ -169,5 +192,7 @@ models:
         - 0.3629
       NDCG@10:
         - 0.5260
+      RR:
+        - 0.8478
       R@100:
         - 0.6064

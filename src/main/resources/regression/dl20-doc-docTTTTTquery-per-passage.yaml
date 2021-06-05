@@ -27,20 +27,29 @@ evals:
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m recall.100
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: R@100
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
       - -m ndcg_cut.10
       - -c
     separator: "\t"
     parse_index: 2
     metric: NDCG@10
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recip_rank
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: RR
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.100
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
     metric_precision: 4
     can_combine: true
 input_roots:
@@ -67,6 +76,8 @@ models:
         - 0.4150
       NDCG@10:
         - 0.5957
+      RR:
+        - 0.9361
       R@100:
         - 0.6201
   - name: bm25-default+rm3
@@ -80,6 +91,8 @@ models:
         - 0.4269
       NDCG@10:
         - 0.5848
+      RR:
+        - 0.8944
       R@100:
         - 0.6443
   - name: bm25-tuned
@@ -94,6 +107,8 @@ models:
         - 0.4051
       NDCG@10:
         - 0.5949
+      RR:
+        - 0.9361
       R@100:
         - 0.6237
   - name: bm25-tuned+rm3
@@ -109,5 +124,7 @@ models:
         - 0.4069
       NDCG@10:
         - 0.5773
+      RR:
+        - 0.9161
       R@100:
         - 0.6380

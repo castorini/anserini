@@ -64,13 +64,13 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl20.txt
 ```
 
 ## Effectiveness
@@ -82,18 +82,23 @@ MAP                                     | BM25 (Default)| +RM3      | BM25 (Tune
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4150    | 0.4269    | 0.4051    | 0.4069    |
 
 
-R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6201    | 0.6443    | 0.6237    | 0.6380    |
-
-
 NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5957    | 0.5848    | 0.5949    | 0.5773    |
 
+
+RR                                      | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.9361    | 0.8944    | 0.9361    | 0.9161    |
+
+
+R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6201    | 0.6443    | 0.6237    | 0.6380    |
+
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=2.16`, `b=0.61`.
 An important note here is that tuning was performed on _on the original documents_, not the expanded documents.
 
-Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
+Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 

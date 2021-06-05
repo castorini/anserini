@@ -84,21 +84,21 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-default.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+ax.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+prf.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+ax.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+prf.topics.dl20.txt
 ```
 
 ## Effectiveness
@@ -110,14 +110,19 @@ MAP                                     | BM25 (Default)| +RM3      | +Ax       
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.3584    | 0.3769    | 0.3854    | 0.3672    | 0.3456    | 0.3471    | 0.3495    | 0.3629    |
 
 
-R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5823    | 0.6224    | 0.6332    | 0.5994    | 0.5715    | 0.6013    | 0.6086    | 0.6064    |
-
-
 NDCG@10                                 | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5271    | 0.5159    | 0.5250    | 0.5217    | 0.5213    | 0.4983    | 0.4942    | 0.5260    |
+
+
+RR                                      | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.8479    | 0.8136    | 0.8123    | 0.7911    | 0.8684    | 0.7807    | 0.8102    | 0.8478    |
+
+
+R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5823    | 0.6224    | 0.6332    | 0.5994    | 0.5715    | 0.6013    | 0.6086    | 0.6064    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=2.16`, `b=0.61`.
 
