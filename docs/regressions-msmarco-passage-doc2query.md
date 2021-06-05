@@ -23,7 +23,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
   >& logs/log.msmarco-passage-doc2query &
 ```
 
-The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, appended with the doc2query expansions.
+The directory `/path/to/msmarco-passage-doc2query` should be a directory containing `jsonl` files containing the expanded passage collection.
 [This page](experiments-doc2query.md) explains how to perform this data preparation.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
