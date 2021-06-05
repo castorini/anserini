@@ -8,8 +8,8 @@ Note that there are four different regression conditions for this task, and this
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc-per-passage.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc-per-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
