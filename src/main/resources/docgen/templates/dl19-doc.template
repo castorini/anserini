@@ -4,6 +4,13 @@ This page describes experiments, integrated into Anserini's regression testing f
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
 
+Note that there are four different regression conditions for this task, and this page describes the following:
+
++ **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
++ **Expansion Condition:** none
+
+All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
+
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 

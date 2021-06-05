@@ -1,6 +1,9 @@
-# Anserini: Regressions for MS MARCO Document Ranking
+# Anserini: Regressions for [DL19 (Document)](https://trec.nist.gov/data/deep2019.html)
 
-This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
+This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
+Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
+
 Note that there are four different regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
@@ -119,4 +122,3 @@ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, whi
 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
-These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).

@@ -1,4 +1,4 @@
-# Anserini: Regressions for [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) w/ per-doc docTTTTTquery
+# Anserini: Regressions for [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) w/ per-passage docTTTTTquery
 
 This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
@@ -6,13 +6,13 @@ For additional instructions on working with MS MARCO document collection, refer 
 
 Note that there are four different regression conditions for this task, and this page describes the following:
 
-+ **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
++ **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-docTTTTTquery-per-doc.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc-docTTTTTquery-per-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-docTTTTTquery-per-passage.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc-docTTTTTquery-per-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -20,11 +20,11 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -input /path/to/msmarco-doc-docTTTTTquery-per-doc \
- -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+ -input /path/to/msmarco-doc-docTTTTTquery-per-passage \
+ -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.msmarco-doc-docTTTTTquery-per-doc &
+  >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
 ```
 
 The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
@@ -40,37 +40,37 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.dl19-doc.txt \
- -bm25 -hits 100 &
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl19-doc.txt \
+ -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default+rm3.topics.dl19-doc.txt \
- -bm25 -rm3 -hits 100 &
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl19-doc.txt \
+ -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.dl19-doc.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl19-doc.txt \
+ -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned+rm3.topics.dl19-doc.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt \
+ -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt
 ```
 
 ## Effectiveness
@@ -79,17 +79,17 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2699    | 0.3044    | 0.2662    | 0.2880    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2791    | 0.3025    | 0.2683    | 0.2947    |
 
 
 R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4198    | 0.4465    | 0.4041    | 0.4202    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4092    | 0.4394    | 0.4048    | 0.4246    |
 
 
 NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5968    | 0.5895    | 0.5917    | 0.5973    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.6099    | 0.6318    | 0.6249    | 0.6280    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87` (see [this page](experiments-msmarco-doc.md) for more details about tuning).
 An important note here is that tuning was performed on _on the original documents_, not the expanded documents.
