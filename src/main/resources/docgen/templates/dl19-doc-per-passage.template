@@ -11,8 +11,8 @@ Note that there are four different regression conditions for this task, and this
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-per-passage.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc-per-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -29,7 +29,8 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 5193 dev set questions.
+The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

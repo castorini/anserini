@@ -1,6 +1,6 @@
-# Anserini: Regressions for [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) w/ per-passage docTTTTTquery
+# Anserini: Regressions for [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html) w/ per-passage docTTTTTquery
 
-This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
+This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
 
@@ -41,36 +41,36 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl19-doc.txt \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl20.txt \
  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl19-doc.txt \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl20.txt \
  -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl19-doc.txt \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl20.txt \
  -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+ -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl20.txt \
  -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl20.txt
 ```
 
 ## Effectiveness
@@ -79,17 +79,17 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2791    | 0.3025    | 0.2683    | 0.2947    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4150    | 0.4269    | 0.4051    | 0.4069    |
 
 
 R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4092    | 0.4394    | 0.4048    | 0.4246    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6201    | 0.6443    | 0.6237    | 0.6380    |
 
 
 NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.6099    | 0.6318    | 0.6249    | 0.6280    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5957    | 0.5848    | 0.5949    | 0.5773    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=2.16`, `b=0.61`.
 An important note here is that tuning was performed on _on the original documents_, not the expanded documents.
