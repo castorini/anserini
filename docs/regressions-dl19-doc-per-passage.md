@@ -1,0 +1,122 @@
+# Anserini: Regressions for MS MARCO Document Ranking
+
+This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
+Note that there are four different regression conditions for this task, and this page describes the following:
+
++ **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
++ **Expansion Condition:** none
+
+All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
+
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+## Indexing
+
+Typical indexing command:
+
+```
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
+ -input /path/to/msmarco-doc-per-passage \
+ -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 1 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.msmarco-doc-per-passage &
+```
+
+The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the 5193 dev set questions.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc-per-passage.bm25-default.topics.dl19-doc.txt \
+ -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc-per-passage.bm25-default+rm3.topics.dl19-doc.txt \
+ -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc-per-passage.bm25-default+ax.topics.dl19-doc.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc-per-passage.bm25-default+prf.topics.dl19-doc.txt \
+ -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc-per-passage.bm25-tuned.topics.dl19-doc.txt \
+ -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt \
+ -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc-per-passage.bm25-tuned+ax.topics.dl19-doc.txt \
+ -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+ -output runs/run.msmarco-doc-per-passage.bm25-tuned+prf.topics.dl19-doc.txt \
+ -bm25 -bm25.k1 2.16 -bm25.b 0.61 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-default.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+rm3.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+ax.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+prf.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+ax.topics.dl19-doc.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+prf.topics.dl19-doc.txt
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2441    | 0.2880    | 0.3015    | 0.2821    | 0.2394    | 0.2656    | 0.2934    | 0.2838    |
+
+
+R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.3840    | 0.4356    | 0.4501    | 0.4477    | 0.3903    | 0.4126    | 0.4437    | 0.4362    |
+
+
+NDCG@10                                 | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5276    | 0.5750    | 0.5590    | 0.5591    | 0.5364    | 0.5379    | 0.5546    | 0.5478    |
+
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=2.16`, `b=0.61`.
+
+Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
+Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
