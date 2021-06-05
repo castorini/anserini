@@ -29,7 +29,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
   >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
 ```
 
-The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
+The directory `/path/to/msmarco-doc-docTTTTTquery-per-passage/` should be a directory containing the expanded document collection; see [this link](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini) for how to prepare this collection.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
