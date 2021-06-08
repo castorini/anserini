@@ -92,8 +92,12 @@ NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tune
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5968    | 0.5895    | 0.5917    | 0.5973    |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87` (see [this page](experiments-msmarco-doc.md) for more details about tuning).
-An important note here is that tuning was performed on _on the original documents_, not the expanded documents.
+Explanation of settings:
+
++ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=3.44`, `b=0.87`, tuned using the MS MARCO passage sparse judgments, as described in [this page](experiments-msmarco-doc.md). Tuning was performed on _on the original documents_, not the expanded documents.
+
+Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.

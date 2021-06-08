@@ -95,9 +95,11 @@ R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tune
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.9470    | 0.9463    | 0.9471    | 0.9479    | 0.9506    | 0.9528    |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](experiments-msmarco-passage.md).
-The setting "tuned2" refers to `k1=2.18`, `b=0.86`, which was tuned via grid search to optimize recall@1000 directly _on the expanded passages_ (in 2020/12); this is the configuration reported in the Lin et al. (SIGIR 2021) Pyserini paper.
+Explanation of settings:
+
++ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](experiments-msmarco-passage.md).
++ The setting "tuned2" refers to `k1=2.18`, `b=0.86`, which was specifically tuned to optimize for recall@1000 directly _on the expanded passages_ (in 2020/12); this is the configuration reported in the Lin et al. (SIGIR 2021) Pyserini paper.
 
 Note that the above runs are generated with `SearchCollection` in the TREC format, which due to tie-breaking effects gives slightly different results from `SearchMsmarco` in the MS MARCO format.
 
