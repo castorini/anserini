@@ -54,6 +54,16 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+ -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.msmarco-passage.dev-subset.txt \
+ -bm25 -bm25.k1 2.18 -bm25.b 0.86 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+ -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.msmarco-passage.dev-subset.txt \
+ -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -66,23 +76,30 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resour
 tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 
 tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.msmarco-passage.dev-subset.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.2805    | 0.2243    | 0.2850    | 0.2266    |
+MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      | BM25 (Tuned2)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.2805    | 0.2243    | 0.2850    | 0.2266    | 0.2893    | 0.2464    |
 
 
-R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.9470    | 0.9463    | 0.9471    | 0.9479    |
+R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      | BM25 (Tuned2)| +RM3      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.9470    | 0.9463    | 0.9471    | 0.9479    | 0.9506    | 0.9528    |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68` _on the original passages_.
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
+The setting "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68` _on the original passages_.
 See [this page](experiments-msmarco-passage.md) for more details.
+The setting "tuned2" refers to a setting of `k1=2.18`, `b=0.86`, which was tuned via grid search to optimize recall@1000 directly _on the expanded passages_ (in 2020/12).
+This is the configuration reported in the Lin et al. (SIGIR 2021) Pyserini paper.
 
 Note that the above runs are generated with `SearchCollection` in the TREC format, which due to tie-breaking effects gives slightly different results from `SearchMsmarco` in the MS MARCO format.
 
@@ -93,10 +110,10 @@ $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
     -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
     -queries collections/msmarco-passage/queries.dev.small.tsv \
     -k1 0.82 -b 0.68 \
-    -output runs/run.msmarco-passage-docTTTTTquery
+    -output runs/run.msmarco-passage-docTTTTTquery.1
 
 $ python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery
+   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery.1
 
 #####################
 MRR @10: 0.27680089370991834
@@ -109,3 +126,24 @@ This corresponds to the scores reported in the following paper:
 > Rodrigo Nogueira and Jimmy Lin. [From doc2query to docTTTTTquery.](https://cs.uwaterloo.ca/~jimmylin/publications/Nogueira_Lin_2019_docTTTTTquery-latest.pdf) December 2019.
 
 And are identical to the scores reported in [the docTTTTTquery repo](https://github.com/castorini/docTTTTTquery).
+
+The following command generates with `SearchMsmarco` the run denoted "BM25 (Tuned2)" above (`k1=2.18`, `b=0.86`).
+This does _not_ correspond to an official leaderboard submission.
+
+```bash
+$ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
+    -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
+    -queries collections/msmarco-passage/queries.dev.small.tsv \
+    -k1 2.18 -b 0.86 \
+    -output runs/run.msmarco-passage-docTTTTTquery.2
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery.2
+
+#####################
+MRR @10: 0.281560751807885
+QueriesRanked: 6980
+#####################
+```
+
+This corresponds to the scores reported in the Lin et al. (SIGIR 2021) Pyserini paper.

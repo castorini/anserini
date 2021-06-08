@@ -110,3 +110,30 @@ models:
         - 0.6614
       R@1000:
         - 0.8826
+  - name: bm25-tuned2
+    display: BM25 (Tuned2)
+    params:
+      - -bm25
+      - -bm25.k1 2.18
+      - -bm25.b 0.86
+    results:
+      map:
+        - 0.4046
+      NDCG@10:
+        - 0.6336
+      R@1000:
+        - 0.8134
+  - name: bm25-tuned2+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -bm25.k1 2.18
+      - -bm25.b 0.86
+      - -rm3
+    results:
+      map:
+        - 0.4360
+      NDCG@10:
+        - 0.6528
+      R@1000:
+        - 0.8424
