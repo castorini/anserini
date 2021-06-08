@@ -142,3 +142,8 @@ Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on t
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for DL20 doc ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., MAP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+
+Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by team `anserini`:
+
++ `p_d2q_bm25` = BM25 (Default), `k1=0.9`, `b=0.4`
++ `p_d2q_bm25rm3` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`

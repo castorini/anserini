@@ -135,3 +135,14 @@ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, whi
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for DL19 doc ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., MAP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+
+Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by `BASELINE` group:
+
++ `bm25base_p` = BM25 (Default), `k1=0.9`, `b=0.4`
++ `bm25base_rm3_p` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`
++ `bm25base_ax_p` = BM25 (Default) + Ax, `k1=0.9`, `b=0.4`
++ `bm25base_prf_p` = BM25 (Default) + PRF, `k1=0.9`, `b=0.4`
++ `bm25tuned_p` = BM25 (Tuned), `k1=0.82`, `b=0.68`
++ `bm25tuned_rm3_p` = BM25 (Tuned) + RM3, `k1=0.82`, `b=0.68`
++ `bm25tuned_ax_p` = BM25 (Tuned) + Ax, `k1=0.82`, `b=0.68`
++ `bm25tuned_prf_p` = BM25 (Tuned) + PRF, `k1=0.82`, `b=0.68`

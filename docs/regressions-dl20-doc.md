@@ -129,3 +129,8 @@ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, whi
 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL20 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+
+Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by team `anserini`:
+
++ `d_bm25` = BM25 (Default), `k1=0.9`, `b=0.4`
++ `d_bm25rm3` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`
