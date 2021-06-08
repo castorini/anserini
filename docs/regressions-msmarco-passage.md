@@ -113,7 +113,7 @@ Explanation of settings:
 
 To generate runs corresponding to the submissions on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/), follow the instructions below:
 
-The following command generates with `SearchMsmarco` the run denoted "BM25 (Default)" above (`k1=0.9`, `b=0.4`), which roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 on the leaderboard (but Anserini was using Lucene 7.6 at the time):
+The following command generates with `SearchMsmarco` the run denoted "BM25 (default)" above (`k1=0.9`, `b=0.4`), which roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 on the leaderboard (but Anserini was using Lucene 7.6 at the time):
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
@@ -131,7 +131,7 @@ QueriesRanked: 6980
 #####################
 ```
 
-The following command generates with `SearchMsmarco` the run denoted "BM25 (Tuned)" above (`k1=0.82`, `b=0.68`), which corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the leaderboard:
+The following command generates with `SearchMsmarco` the run denoted "BM25 (tuned)" above (`k1=0.82`, `b=0.68`), which corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the leaderboard:
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \

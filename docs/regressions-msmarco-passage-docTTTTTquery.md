@@ -103,7 +103,7 @@ Explanation of settings:
 
 Note that the above runs are generated with `SearchCollection` in the TREC format, which due to tie-breaking effects gives slightly different results from `SearchMsmarco` in the MS MARCO format.
 
-The following command generates with `SearchMsmarco` the run denoted "BM25 (Tuned)" above (`k1=0.82`, `b=0.68`), which corresponds to the entry "docTTTTTquery" dated 2019/11/27 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/):
+The following command generates with `SearchMsmarco` the run denoted "BM25 (tuned)" above (`k1=0.82`, `b=0.68`), which corresponds to the entry "docTTTTTquery" dated 2019/11/27 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/):
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
@@ -127,7 +127,7 @@ This corresponds to the scores reported in the following paper:
 
 And are identical to the scores reported in [the docTTTTTquery repo](https://github.com/castorini/docTTTTTquery).
 
-The following command generates with `SearchMsmarco` the run denoted "BM25 (Tuned2)" above (`k1=2.18`, `b=0.86`).
+The following command generates with `SearchMsmarco` the run denoted "BM25 (tuned2)" above (`k1=2.18`, `b=0.86`).
 This does _not_ correspond to an official leaderboard submission.
 
 ```bash
