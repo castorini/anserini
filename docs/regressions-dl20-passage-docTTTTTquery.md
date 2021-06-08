@@ -136,10 +136,9 @@ R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tune
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.8452    | 0.8699    | 0.8443    | 0.8692    | 0.8393    | 0.8609    |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-The setting "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68` _on the original passages_ using the MS MARCO passage sparse judgments.
-See [this page](experiments-msmarco-passage.md) for more details.
-The setting "tuned2" refers to a setting of `k1=2.18`, `b=0.86`, which was tuned via grid search to optimize recall@1000 directly _on the expanded passages_ using the MS MARCO passage sparse judgments (in 2020/12).
-Note that settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
+The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_ using the MS MARCO passage sparse judgments, as described in [this page](experiments-msmarco-passage.md).
+The setting "tuned2" refers to `k1=2.18`, `b=0.86`, which was tuned via grid search to optimize recall@1000 directly _on the expanded passages_ using the MS MARCO passage sparse judgments (in 2020/12).
+Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for DL20 doc ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., MAP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
