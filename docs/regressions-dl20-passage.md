@@ -132,27 +132,27 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.2856    | 0.3019    | 0.3240    | 0.3117    | 0.2876    | 0.3056    | 0.3322    | 0.3136    |
 
 
-NDCG@10                                 | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.4796    | 0.4821    | 0.4834    | 0.4721    | 0.4876    | 0.4808    | 0.5027    | 0.4788    |
 
 
-RR                                      | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+RR                                      | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.6585    | 0.6360    | 0.6096    | 0.6157    | 0.6594    | 0.6278    | 0.6328    | 0.6252    |
 
 
-R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+R@100                                   | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.5599    | 0.6046    | 0.6428    | 0.5783    | 0.5669    | 0.6333    | 0.6468    | 0.5782    |
 
 
-R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+R@1000                                  | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.7863    | 0.8217    | 0.8483    | 0.8074    | 0.8031    | 0.8286    | 0.8455    | 0.8121    |
 
@@ -168,5 +168,5 @@ Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades,
 
 Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by team `anserini`:
 
-+ `p_bm25` = BM25 (Default), `k1=0.9`, `b=0.4`
-+ `p_bm25rm3` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`
++ `p_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
++ `p_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`

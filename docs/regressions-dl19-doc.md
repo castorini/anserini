@@ -106,17 +106,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2443    | 0.2772    | 0.2452    | 0.2541    | 0.2318    | 0.2700    | 0.2816    | 0.2758    |
 
 
-R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+R@100                                   | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.3948    | 0.4189    | 0.3945    | 0.4004    | 0.3862    | 0.4193    | 0.4399    | 0.4287    |
 
 
-NDCG@10                                 | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5190    | 0.5169    | 0.4730    | 0.5105    | 0.5140    | 0.5485    | 0.5245    | 0.5280    |
 
@@ -134,11 +134,11 @@ These results correspond to the Anserini baselines reported in the [track overvi
 
 These regressions correspond to official TREC 2019 Deep Learning Track submissions by `BASELINE` group:
 
-+ `bm25base` = BM25 (Default), `k1=0.9`, `b=0.4`
-+ `bm25base_rm3` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`
-+ `bm25base_ax` = BM25 (Default) + Ax, `k1=0.9`, `b=0.4`
-+ `bm25base_prf` = BM25 (Default) + PRF, `k1=0.9`, `b=0.4`
-+ `bm25tuned_p` = BM25 (Tuned), `k1=3.44`, `b=0.87`
-+ `bm25tuned_rm3` = BM25 (Tuned) + RM3, `k1=3.44`, `b=0.87`
-+ `bm25tuned_ax` = BM25 (Tuned) + Ax, `k1=3.44`, `b=0.87`
-+ `bm25tuned_prf` = BM25 (Tuned) + PRF, `k1=3.44`, `b=0.87`
++ `bm25base` = BM25 (default), `k1=0.9`, `b=0.4`
++ `bm25base_rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
++ `bm25base_ax` = BM25 (default) + Ax, `k1=0.9`, `b=0.4`
++ `bm25base_prf` = BM25 (default) + PRF, `k1=0.9`, `b=0.4`
++ `bm25tuned_p` = BM25 (tuned), `k1=3.44`, `b=0.87`
++ `bm25tuned_rm3` = BM25 (tuned) + RM3, `k1=3.44`, `b=0.87`
++ `bm25tuned_ax` = BM25 (tuned) + Ax, `k1=3.44`, `b=0.87`
++ `bm25tuned_prf` = BM25 (tuned) + PRF, `k1=3.44`, `b=0.87`

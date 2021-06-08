@@ -61,7 +61,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 models:
   - name: bm25-default
-    display: BM25 (Default)
+    display: BM25 (default)
     params:
       - -bm25
     results:
@@ -84,7 +84,7 @@ models:
       R@1000:
         - 0.8861
   - name: bm25-tuned
-    display: BM25 (Tuned)
+    display: BM25 (tuned)
     params:
       - -bm25
       - -bm25.k1 0.82
@@ -111,7 +111,7 @@ models:
       R@1000:
         - 0.8826
   - name: bm25-tuned2
-    display: BM25 (Tuned2)
+    display: BM25 (tuned2)
     params:
       - -bm25
       - -bm25.k1 2.18

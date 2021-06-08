@@ -79,22 +79,22 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4150    | 0.4269    | 0.4051    | 0.4069    |
 
 
-NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+NDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5957    | 0.5848    | 0.5949    | 0.5773    |
 
 
-RR                                      | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+RR                                      | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.9361    | 0.8944    | 0.9361    | 0.9161    |
 
 
-R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6201    | 0.6443    | 0.6237    | 0.6380    |
 

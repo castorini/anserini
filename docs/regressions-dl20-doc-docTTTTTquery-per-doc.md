@@ -78,22 +78,22 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4230    | 0.4228    | 0.4150    | 0.4214    |
 
 
-NDCG@10                                 | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+NDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5885    | 0.5407    | 0.5877    | 0.5705    |
 
 
-RR                                      | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+RR                                      | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.9369    | 0.8147    | 0.9328    | 0.8547    |
 
 
-R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6412    | 0.6555    | 0.6231    | 0.6326    |
 
@@ -105,5 +105,5 @@ Also, remember that we keep qrels of _all_ relevance grades, unlike the case for
 
 Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by team `anserini`:
 
-+ `d_d2q_bm25` = BM25 (Default), `k1=0.9`, `b=0.4`
-+ `d_d2q_bm25rm3` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`
++ `d_d2q_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
++ `d_d2q_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`

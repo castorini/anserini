@@ -58,11 +58,11 @@ These results correspond to the Anserini baselines reported in the [track overvi
 
 These regressions correspond to official TREC 2019 Deep Learning Track submissions by `BASELINE` group:
 
-+ `bm25base_p` = BM25 (Default), `k1=0.9`, `b=0.4`
-+ `bm25base_rm3_p` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`
-+ `bm25base_ax_p` = BM25 (Default) + Ax, `k1=0.9`, `b=0.4`
-+ `bm25base_prf_p` = BM25 (Default) + PRF, `k1=0.9`, `b=0.4`
-+ `bm25tuned_p` = BM25 (Tuned), `k1=0.82`, `b=0.68`
-+ `bm25tuned_rm3_p` = BM25 (Tuned) + RM3, `k1=0.82`, `b=0.68`
-+ `bm25tuned_ax_p` = BM25 (Tuned) + Ax, `k1=0.82`, `b=0.68`
-+ `bm25tuned_prf_p` = BM25 (Tuned) + PRF, `k1=0.82`, `b=0.68`
++ `bm25base_p` = BM25 (default), `k1=0.9`, `b=0.4`
++ `bm25base_rm3_p` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
++ `bm25base_ax_p` = BM25 (default) + Ax, `k1=0.9`, `b=0.4`
++ `bm25base_prf_p` = BM25 (default) + PRF, `k1=0.9`, `b=0.4`
++ `bm25tuned_p` = BM25 (tuned), `k1=0.82`, `b=0.68`
++ `bm25tuned_rm3_p` = BM25 (tuned) + RM3, `k1=0.82`, `b=0.68`
++ `bm25tuned_ax_p` = BM25 (tuned) + Ax, `k1=0.82`, `b=0.68`
++ `bm25tuned_prf_p` = BM25 (tuned) + PRF, `k1=0.82`, `b=0.68`

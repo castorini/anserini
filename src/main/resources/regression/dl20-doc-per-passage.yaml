@@ -68,7 +68,7 @@ topics:
     qrel: qrels.dl20-doc.txt
 models:
   - name: bm25-default
-    display: BM25 (Default)
+    display: BM25 (default)
     params:
       - -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
@@ -128,7 +128,7 @@ models:
       R@100:
         - 0.5994
   - name: bm25-tuned
-    display: BM25 (Tuned)
+    display: BM25 (tuned)
     params:
       - -bm25
       - -bm25.k1 2.16

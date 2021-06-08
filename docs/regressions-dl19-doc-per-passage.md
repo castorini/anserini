@@ -107,17 +107,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m ndcg_cut.10 -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2441    | 0.2880    | 0.3015    | 0.2821    | 0.2394    | 0.2656    | 0.2934    | 0.2838    |
 
 
-R@100                                   | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+R@100                                   | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.3840    | 0.4356    | 0.4501    | 0.4477    | 0.3903    | 0.4126    | 0.4437    | 0.4362    |
 
 
-NDCG@10                                 | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5276    | 0.5750    | 0.5590    | 0.5591    | 0.5364    | 0.5379    | 0.5546    | 0.5478    |
 

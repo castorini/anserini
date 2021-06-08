@@ -87,17 +87,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m recall.1000 -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      | BM25 (Tuned2)| +RM3      |
+MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2310    | 0.1632    | 0.2788    | 0.2289    | 0.2775    | 0.2238    |
 
 
-R@100                                   | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      | BM25 (Tuned2)| +RM3      |
+R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7279    | 0.6765    | 0.8065    | 0.7872    | 0.8076    | 0.7789    |
 
 
-R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      | BM25 (Tuned2)| +RM3      |
+R@1000                                  | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8785    | 0.9326    | 0.9320    | 0.9357    | 0.9307    |
 

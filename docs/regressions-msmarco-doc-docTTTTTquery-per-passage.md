@@ -60,17 +60,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m recall.1000 -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| BM25 (Tuned)|
+MAP                                     | BM25 (default)| BM25 (tuned)|
 :---------------------------------------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.3182    | 0.3211    |
 
 
-R@100                                   | BM25 (Default)| BM25 (Tuned)|
+R@100                                   | BM25 (default)| BM25 (tuned)|
 :---------------------------------------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8481    | 0.8627    |
 
 
-R@1000                                  | BM25 (Default)| BM25 (Tuned)|
+R@1000                                  | BM25 (default)| BM25 (tuned)|
 :---------------------------------------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9490    | 0.9530    |
 

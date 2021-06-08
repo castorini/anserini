@@ -68,7 +68,7 @@ topics:
     qrel: qrels.dl20-doc.txt
 models:
   - name: bm25-default
-    display: BM25 (Default)
+    display: BM25 (default)
     params:
       - -bm25
       - -hits 100  # Note, this is different DL 2020 passage ranking!
@@ -129,7 +129,7 @@ models:
       R@100:
         - 0.6104
   - name: bm25-tuned
-    display: BM25 (Tuned)
+    display: BM25 (tuned)
     params:
       - -bm25
       - -bm25.k1 3.44
