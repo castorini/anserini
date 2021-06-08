@@ -126,7 +126,7 @@ Note that retrieval metrics are computed to depth 100 hits per query (as opposed
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
-Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by `BASELINE` group:
+These regressions correspond to official TREC 2019 Deep Learning Track submissions by `BASELINE` group:
 
 + `bm25base` = BM25 (Default), `k1=0.9`, `b=0.4`
 + `bm25base_rm3` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`

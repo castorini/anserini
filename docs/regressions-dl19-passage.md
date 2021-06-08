@@ -136,7 +136,7 @@ Note that retrieval metrics are computed to depth 1000 hits per query (as oppose
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., MAP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
-Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by `BASELINE` group:
+These regressions correspond to official TREC 2019 Deep Learning Track submissions by `BASELINE` group:
 
 + `bm25base_p` = BM25 (Default), `k1=0.9`, `b=0.4`
 + `bm25base_rm3_p` = BM25 (Default) + RM3, `k1=0.9`, `b=0.4`
