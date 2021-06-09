@@ -54,12 +54,12 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.dl20.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
+ -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned+rm3.topics.dl20.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
+ -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -80,25 +80,29 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4230    | 0.4228    | 0.4150    | 0.4214    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4230    | 0.4228    | 0.4098    | 0.4104    |
 
 
 NDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5885    | 0.5407    | 0.5877    | 0.5705    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5885    | 0.5407    | 0.5852    | 0.5743    |
 
 
 RR                                      | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.9369    | 0.8147    | 0.9328    | 0.8547    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.9369    | 0.8147    | 0.9439    | 0.8701    |
 
 
 R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6412    | 0.6555    | 0.6231    | 0.6326    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6412    | 0.6555    | 0.6178    | 0.6127    |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87`.
-An important note here is that tuning was performed on _on the original documents_, not the expanded documents.
+Explanation of settings:
+
++ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=4.68`, `b=0.87`, tuned to optimize for recall@100 (i.e., for first-stage retrieval) on 2019/12.
+
+Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL20 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.

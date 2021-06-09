@@ -99,32 +99,32 @@ models:
     display: BM25 (tuned)
     params:
       - -bm25
-      - -bm25.k1 2.16
-      - -bm25.b 0.61
+      - -bm25.k1 2.56
+      - -bm25.b 0.59
       - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
       map:
-        - 0.4051
+        - 0.4042
       NDCG@10:
-        - 0.5949
+        - 0.5931
       RR:
-        - 0.9361
+        - 0.9469
       R@100:
-        - 0.6237
+        - 0.6192
   - name: bm25-tuned+rm3
     display: +RM3
     params:
       - -bm25
-      - -bm25.k1 2.16
-      - -bm25.b 0.61
+      - -bm25.k1 2.56
+      - -bm25.b 0.59
       - -rm3
       - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
       map:
-        - 0.4069
+        - 0.4023
       NDCG@10:
-        - 0.5773
+        - 0.5723
       RR:
-        - 0.9161
+        - 0.9150
       R@100:
-        - 0.6380
+        - 0.6392
