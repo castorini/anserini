@@ -62,7 +62,7 @@ See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini 
 Note that leaderboard runs were generated with `SearchMsmarco` in the MS MARCO format.
 Conversion of a run in that format into the TREC format is slightly lossy due to tie-breaking effects.
 
-To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (Default)" above:
+To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (default)" above:
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
@@ -80,9 +80,9 @@ QueriesRanked: 5193
 #####################
 ```
 
-This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25, default parameters (k1=0.9, b=0.4)" dated 2020/08/16.
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25, default parameters (k1=0.9, b=0.4)" dated 2020/08/16, and is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
 
-To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (Tuned)" above:
+To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (tuned)" above:
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
@@ -100,4 +100,4 @@ QueriesRanked: 5193
 #####################
 ```
 
-This run was _not_ submitted to the MS MARCO document ranking leaderboard.
+This run was _not_ submitted to the MS MARCO document ranking leaderboard, but is reported in the Lin et al. (SIGIR 2021) Pyserini paper.

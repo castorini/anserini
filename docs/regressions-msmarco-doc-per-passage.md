@@ -119,7 +119,7 @@ R@1000                                  | BM25 (default)| +RM3      | +Ax       
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=2.16`, `b=0.61`, tuned specifically to optimize for recall@100 (i.e., for first-stage retrieval) on 2019/12; see [this page](experiments-msmarco-doc.md) additional details.
++ The setting "tuned" refers to `k1=2.16`, `b=0.61`, tuned specifically to optimize for recall@100 (i.e., for first-stage retrieval) on 2019/12.
 
 In these runs, we are retrieving the top 1000 hits for each query and using `trec_eval` to evaluate all 1000 hits.
 Since we're in the passage condition, we fetch the 10000 passages and select the top 1000 documents using MaxP.
@@ -129,7 +129,7 @@ See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini 
 
 The MaxP passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert the output back into the MS MARCO format for evaluation.
 
-To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (Default)" above:
+To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (default)" above:
 
 ```bash
 $ target/appassembler/bin/SearchCollection -topicreader TsvString \
@@ -153,9 +153,9 @@ QueriesRanked: 5193
 #####################
 ```
 
-This run was _not_ submitted to the MS MARCO document ranking leaderboard.
+This run was _not_ submitted to the MS MARCO document ranking leaderboard, but is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
 
-To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (Tuned)" above:
+To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (tuned)" above:
 
 ```bash
 $ target/appassembler/bin/SearchCollection -topicreader TsvString \
@@ -179,4 +179,4 @@ QueriesRanked: 5193
 #####################
 ```
 
-This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 (per passage), parameters tuned for recall@100 (k1=2.16, b=0.61)" dated 2021/01/20.
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 (per passage), parameters tuned for recall@100 (k1=2.16, b=0.61)" dated 2021/01/20, and is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
