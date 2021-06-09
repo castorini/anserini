@@ -96,6 +96,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
         "-index", indexPath,
         "-input", indexArgs.input,
         "-threads", "2",
+        "-language", indexArgs.language,
         "-collection", indexArgs.collectionClass,
         "-generator", indexArgs.generatorClass));
 
