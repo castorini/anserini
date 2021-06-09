@@ -124,7 +124,7 @@ NDCG@10                                 | BM25 (default)| +RM3      | +Ax       
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=2.16`, `b=0.61`, tuned using the MS MARCO passage sparse judgments (2020/12).
++ The setting "tuned" refers to `k1=2.16`, `b=0.61`, tuned using the MS MARCO passage sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval) on 2020/12.
 
 Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
 
