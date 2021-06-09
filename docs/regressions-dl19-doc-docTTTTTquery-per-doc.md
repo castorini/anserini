@@ -54,12 +54,12 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.dl19-doc.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
+ -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned+rm3.topics.dl19-doc.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
+ -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -80,22 +80,22 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2699    | 0.3044    | 0.2662    | 0.2880    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2699    | 0.3044    | 0.2620    | 0.2812    |
 
 
 R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4198    | 0.4465    | 0.4041    | 0.4202    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4198    | 0.4465    | 0.3992    | 0.4119    |
 
 
 NDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5968    | 0.5895    | 0.5917    | 0.5973    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5968    | 0.5895    | 0.5967    | 0.6075    |
 
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=3.44`, `b=0.87`, tuned using the MS MARCO document sparse judgments on 2019/06. Tuning was performed on _on the original documents_, not the expanded documents.
++ The setting "tuned" refers to `k1=4.68`, `b=0.87`, tuned using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval) on 2019/12.
 
 Settings tuned on the MS MARCO document sparse judgments _may not_ work well on the TREC dense judgments.
 

@@ -87,28 +87,28 @@ models:
     display: BM25 (tuned)
     params:
       - -bm25
-      - -bm25.k1 3.44
+      - -bm25.k1 4.68
       - -bm25.b 0.87
       - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.2662
+        - 0.2620
       NDCG@10:
-        - 0.5917
+        - 0.5967
       R@100:
-        - 0.4041
+        - 0.3992
   - name: bm25-tuned+rm3
     display: +RM3
     params:
       - -bm25
-      - -bm25.k1 3.44
+      - -bm25.k1 4.68
       - -bm25.b 0.87
       - -rm3
       - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.2880
+        - 0.2812
       NDCG@10:
-        - 0.5973
+        - 0.6075
       R@100:
-        - 0.4202
+        - 0.4119
