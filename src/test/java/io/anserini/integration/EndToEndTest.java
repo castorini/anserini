@@ -82,6 +82,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
   @Override
   @Before
   public void setUp() throws Exception {
+    Locale.setDefault(Locale.US);
+
     // We're going to build an index for every test.
     super.setUp();
     indexPath = "test-index" + RANDOM.nextInt(100000);
@@ -187,8 +189,6 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
   @Test
   public void checkIndex() throws IOException {
-    Locale.setDefault(Locale.US);
-
     // Subclasses will override this method and provide the ground truth.
     setCheckIndexGroundTruth();
 
@@ -276,8 +276,6 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
   @Test
   public void testSearching() {
-    Locale.setDefault(Locale.US);
-
     // Subclasses will override this method and provide the ground truth.
     setSearchGroundTruth();
 
