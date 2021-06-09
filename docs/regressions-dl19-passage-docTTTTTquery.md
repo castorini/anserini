@@ -117,7 +117,7 @@ Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
 + The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_ using the MS MARCO passage sparse judgments, as described in [this page](experiments-msmarco-passage.md).
-+ The setting "tuned2" refers to `k1=2.18`, `b=0.86`, which was tuned via grid search to optimize recall@1000 directly _on the expanded passages_ using the MS MARCO passage sparse judgments (in 2020/12).
++ The setting "tuned2" refers to `k1=2.18`, `b=0.86`, tuned via grid search to optimize recall@1000 directly _on the expanded passages_ using the MS MARCO passage sparse judgments (in 2020/12).
 
 Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
 
