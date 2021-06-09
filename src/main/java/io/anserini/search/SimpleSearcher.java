@@ -143,6 +143,9 @@ public class SimpleSearcher implements Closeable {
 
     @Option(name = "-threads", metaVar = "[number]", usage = "Number of threads to use.")
     public int threads = 1;
+
+    @Option(name = "-language", usage = "Analyzer Language")
+    public String language = "en";
   }
 
   protected IndexReader reader;
@@ -762,6 +765,7 @@ public class SimpleSearcher implements Closeable {
 
     final long start = System.nanoTime();
     SimpleSearcher searcher = new SimpleSearcher(searchArgs.index);
+    searcher.setLanguage(searchArgs.language);
     SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
