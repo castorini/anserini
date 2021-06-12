@@ -22,7 +22,6 @@ import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.search.SearchArgs;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class JsonVectorEndToEndTest extends EndToEndTest {
@@ -34,6 +33,7 @@ public class JsonVectorEndToEndTest extends EndToEndTest {
     indexArgs.generatorClass = DefaultLuceneDocumentGenerator.class.getSimpleName();
     indexArgs.pretokenized = true;
     indexArgs.storeRaw = true;
+    indexArgs.impact = true;
 
     return indexArgs;
   }
@@ -58,6 +58,8 @@ public class JsonVectorEndToEndTest extends EndToEndTest {
     topicFile = "src/test/resources/sample_topics/json_vector_topics.tsv";
     SearchArgs searchArg = createDefaultSearchArgs().bm25();
     searchArg.pretokenized = true;
+    searchArg.bm25 = false;
+    searchArg.impact = true;
     testQueries.put("bm25", searchArg);
     queryTokens.put("1", new ArrayList<>());
     queryTokens.get("1").add("f35");

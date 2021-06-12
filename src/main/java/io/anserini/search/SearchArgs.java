@@ -132,6 +132,11 @@ public class SearchArgs {
   public int selectMaxPassage_hits = Integer.MAX_VALUE;
   // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
+  @Option(name = "-impact",
+      forbids = {"-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      usage = "ranking model: BM25")
+  public boolean impact = false;
+
   // -------------------
   // ranking model: bm25
   // -------------------

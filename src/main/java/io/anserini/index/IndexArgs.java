@@ -114,6 +114,10 @@ public class IndexArgs {
       usage = "File containing list of docids, one per line; only these docids will be indexed.")
   public String whitelist = null;
 
+  @Option(name = "-impact",
+      usage = "Boolean switch to store impacts (no norms).")
+  public boolean impact = false;
+
   @Option(name = "-bm25.accurate",
       usage = "Boolean switch to use AccurateBM25Similarity (computes accurate document lengths).")
   public boolean bm25Accurate = false;
