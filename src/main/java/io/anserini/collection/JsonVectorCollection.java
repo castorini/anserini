@@ -17,22 +17,13 @@
 package io.anserini.collection;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
+/**
+ * A JSON document collection where the user can specify directly the vector to be indexed.
+ */
 public class JsonVectorCollection extends DocumentCollection<JsonVectorCollection.Document> {
   public JsonVectorCollection(Path path) {
     this.path = path;
@@ -55,26 +46,24 @@ public class JsonVectorCollection extends DocumentCollection<JsonVectorCollectio
   }
 
   public static class Document extends JsonCollection.Document {
-    private String contents;
+    private final String contents;
 
     public Document(JsonNode json) {
       super(json);
 
+      // We're going to take the map associated with "vector" and generate pseudo-document.
       JsonNode vectorNode = json.get("vector");
 
-      System.out.println("######");
-      System.out.println(vectorNode.toString());
-
+      // Iterate through the features:
       final StringBuilder sb = new StringBuilder();
       vectorNode.fields().forEachRemaining( e -> {
         int cnt = e.getValue().asInt();
+        // Generate pseudo-document by appending the feature cnt times,
+        // where cnt is the value of the feature
         for (int i=0; i<cnt; i++ ) {
-          sb.append(e.getKey() + " ");
+          sb.append(e.getKey()).append(" ");
         }
       });
-
-      System.out.println(super.raw());
-      System.out.println(sb.toString());
 
       this.contents = sb.toString();
     }

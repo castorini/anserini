@@ -17,14 +17,10 @@
 package io.anserini.search.similarity;
 
 import org.apache.lucene.index.FieldInvertState;
-import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.search.CollectionStatistics;
 import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.TermStatistics;
 import org.apache.lucene.search.similarities.Similarity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ImpactSimilarity extends Similarity {
 

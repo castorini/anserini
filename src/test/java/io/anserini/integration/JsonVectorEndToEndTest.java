@@ -56,11 +56,10 @@ public class JsonVectorEndToEndTest extends EndToEndTest {
   protected void setSearchGroundTruth() {
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_vector_topics.tsv";
-    SearchArgs searchArg = createDefaultSearchArgs().bm25();
+    SearchArgs searchArg = createDefaultSearchArgs().impact();
     searchArg.pretokenized = true;
-    searchArg.bm25 = false;
-    searchArg.impact = true;
-    testQueries.put("bm25", searchArg);
+
+    testQueries.put("impact", searchArg);
     queryTokens.put("1", new ArrayList<>());
     queryTokens.get("1").add("f35");
     queryTokens.put("2", new ArrayList<>());
@@ -68,7 +67,7 @@ public class JsonVectorEndToEndTest extends EndToEndTest {
     queryTokens.put("3", new ArrayList<>());
     queryTokens.get("3").add("f4");
 
-    referenceRunOutput.put("bm25", new String[]{
+    referenceRunOutput.put("impact", new String[]{
         "1 Q0 doc2 1 0.613600 Anserini",
         "2 Q0 doc1 1 0.393100 Anserini",
         "3 Q0 doc1 1 0.153100 Anserini",

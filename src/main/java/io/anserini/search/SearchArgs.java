@@ -132,8 +132,12 @@ public class SearchArgs {
   public int selectMaxPassage_hits = Integer.MAX_VALUE;
   // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
+  // ----------------------------------------------------------
+  // ranking model: impact scores (basically, just sum of tf's)
+  // ----------------------------------------------------------
+
   @Option(name = "-impact",
-      forbids = {"-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
       usage = "ranking model: BM25")
   public boolean impact = false;
 
@@ -142,7 +146,7 @@ public class SearchArgs {
   // -------------------
 
   @Option(name = "-bm25",
-      forbids = {"-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
       usage = "ranking model: BM25")
   public boolean bm25 = false;
 
@@ -167,7 +171,7 @@ public class SearchArgs {
   // --------------------------------------------------------
 
   @Option(name = "-qld",
-      forbids = {"-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
       usage = "ranking model: query likelihood with Dirichlet smoothing")
   public boolean qld = false;
 
@@ -187,15 +191,19 @@ public class SearchArgs {
   // -------------------------------------------------------------
 
   @Option(name = "-qljm",
-      forbids = {"-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
       usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
   public boolean qljm = false;
 
   @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "qljm: lambda smoothing parameter")
   public String[] qljm_lambda = new String[]{"0.1"};
 
+  // -----------------------------------------
+  // other ranking models (less commonly used)
+  // -----------------------------------------
+
   @Option(name = "-inl2",
-      forbids = {"bm25", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "bm25", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
       usage = "use I(n)L2 scoring model")
   public boolean inl2 = false;
 
@@ -203,7 +211,7 @@ public class SearchArgs {
   public String[] inl2_c = new String[]{"0.1"};
 
   @Option(name = "-spl",
-      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
+      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
       usage = "use SPL scoring model")
   public boolean spl = false;
 
@@ -211,7 +219,7 @@ public class SearchArgs {
   public String[] spl_c = new String[]{"0.1"};
 
   @Option(name = "-f2exp",
-      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
+      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
       usage = "use F2Exp scoring model")
   public boolean f2exp = false;
 
@@ -219,12 +227,16 @@ public class SearchArgs {
   public String[] f2exp_s = new String[]{"0.5"};
 
   @Option(name = "-f2log",
-      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
+      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
       usage = "use F2Log scoring model")
   public boolean f2log = false;
 
   @Option(name = "-f2log.s", metaVar = "[value]", usage = "F2Log s parameter")
   public String[] f2log_s = new String[]{"0.5"};
+
+  // -------------------------------------------
+  // options for the sequential dependence model
+  // -------------------------------------------
 
   @Option(name = "-sdm", usage = "boolean switch to use Sequential Dependence Model query")
   public boolean sdm = false;
@@ -339,7 +351,21 @@ public class SearchArgs {
   public String qid_queries = "";
 
   // These are convenience methods to support a fluent, method-chaining style of programming.
+  public SearchArgs impact() {
+    this.impact = true;
+    this.bm25 = false;
+    this.qld = false;
+    this.qljm = false;
+    this.inl2 = false;
+    this.spl = false;
+    this.f2exp = false;
+    this.f2log = false;
+
+    return this;
+  }
+
   public SearchArgs bm25() {
+    this.impact = false;
     this.bm25 = true;
     this.qld = false;
     this.qljm = false;
@@ -352,6 +378,7 @@ public class SearchArgs {
   }
 
   public SearchArgs qld() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = true;
     this.qljm = false;
@@ -364,6 +391,7 @@ public class SearchArgs {
   }
 
   public SearchArgs qljm() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = true;
@@ -376,6 +404,7 @@ public class SearchArgs {
   }
 
   public SearchArgs inl2() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = false;
@@ -388,6 +417,7 @@ public class SearchArgs {
   }
 
   public SearchArgs spl() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = false;
@@ -400,6 +430,7 @@ public class SearchArgs {
   }
 
   public SearchArgs f2exp() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = false;
@@ -412,6 +443,7 @@ public class SearchArgs {
   }
 
   public SearchArgs f2log() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = false;
