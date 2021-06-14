@@ -29,6 +29,7 @@ import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.SkippedDocumentException;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
+import io.anserini.search.similarity.ImpactSimilarity;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.commons.pool2.BasePooledObjectFactory;
@@ -807,6 +808,8 @@ public final class IndexCollection {
       }
       if (args.bm25Accurate) {
         config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
+      } if (args.impact ) {
+        config.setSimilarity(new ImpactSimilarity());
       } else {
         config.setSimilarity(new BM25Similarity());
       }
