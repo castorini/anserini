@@ -81,7 +81,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
   /**
    * A file in a JSON collection, typically containing multiple documents.
    */
-  public static class Segment extends FileSegment<JsonCollection.Document> {
+  public static class Segment<T extends Document> extends FileSegment<T>{
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
@@ -104,7 +104,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {
-        bufferedRecord = new JsonCollection.Document(node);
+        bufferedRecord = (T) createNewDocument(node);
         if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
         } else {
@@ -113,7 +113,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       } else if (node.isArray()) {
         if (iter != null && iter.hasNext()) {
           JsonNode json = iter.next();
-          bufferedRecord = new JsonCollection.Document(node);
+          bufferedRecord = (T) createNewDocument(node);
         } else {
           throw new NoSuchElementException("Reached end of JsonNode iterator");
         }
@@ -121,6 +121,10 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
         LOG.error("Error: invalid JsonNode type");
         throw new NoSuchElementException("Invalid JsonNode type");
       }
+    }
+
+    protected Document createNewDocument(JsonNode json) {
+      return new Document(node);
     }
   }
 

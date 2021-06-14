@@ -81,7 +81,7 @@ topics:
     qrel: qrels.dl20-passage.txt
 models:
   - name: bm25-default
-    display: BM25 (Default)
+    display: BM25 (default)
     params:
       - -bm25
     results:
@@ -112,7 +112,7 @@ models:
       R@1000:
         - 0.8699
   - name: bm25-tuned
-    display: BM25 (Tuned)
+    display: BM25 (tuned)
     params:
       - -bm25
       - -bm25.k1 0.82
@@ -146,3 +146,38 @@ models:
         - 0.7143
       R@1000:
         - 0.8692
+  - name: bm25-tuned2
+    display: BM25 (tuned2)
+    params:
+      - -bm25
+      - -bm25.k1 2.18
+      - -bm25.b 0.86
+    results:
+      map:
+        - 0.4171
+      NDCG@10:
+        - 0.6265
+      RR:
+        - 0.7467
+      R@100:
+        - 0.7044
+      R@1000:
+        - 0.8393
+  - name: bm25-tuned2+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -bm25.k1 2.18
+      - -bm25.b 0.86
+      - -rm3
+    results:
+      map:
+        - 0.4347
+      NDCG@10:
+        - 0.6232
+      RR:
+        - 0.7327
+      R@100:
+        - 0.7109
+      R@1000:
+        - 0.8609
