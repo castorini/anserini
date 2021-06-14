@@ -6,6 +6,7 @@ Note that there are four different regression conditions for this task, and this
 + **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
 
+In the passage indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc-docTTTTTquery-per-passage.yaml).
@@ -59,27 +60,34 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.100 -c -m recall.1000 -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| BM25 (Tuned)|
+MAP                                     | BM25 (default)| BM25 (tuned)|
 :---------------------------------------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.3182    | 0.3211    |
 
 
-R@100                                   | BM25 (Default)| BM25 (Tuned)|
+R@100                                   | BM25 (default)| BM25 (tuned)|
 :---------------------------------------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8481    | 0.8627    |
 
 
-R@1000                                  | BM25 (Default)| BM25 (Tuned)|
+R@1000                                  | BM25 (default)| BM25 (tuned)|
 :---------------------------------------|-----------|-----------|
 [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9490    | 0.9530    |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=2.56`, `b=0.59`.
-Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
+Explanation of settings:
+
++ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=2.56`, `b=0.59`, tuned to optimize for recall@100 (i.e., for first-stage retrieval) on 2019/12.
+
+In these runs, we are retrieving the top 1000 hits for each query and using `trec_eval` to evaluate all 1000 hits.
+Since we're in the passage condition, we fetch the 10000 passages and select the top 1000 documents using MaxP.
+This lets us measure R@100 and R@1000; the latter is particularly important when these runs are used as first-stage retrieval.
+Beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
 See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
-The passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert back into MS MARCO format.
+The MaxP passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert the output back into the MS MARCO format for evaluation.
 
-To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (Tuned)" above:
+To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (tuned)" above:
 
 ```bash
 $ target/appassembler/bin/SearchCollection -topicreader TsvString \
@@ -103,4 +111,4 @@ QueriesRanked: 5193
 #####################
 ```
 
-This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11.
+This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11, and is reported in the Lin et al. (SIGIR 2021) Pyserini paper.

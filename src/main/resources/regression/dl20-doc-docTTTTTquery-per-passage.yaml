@@ -1,5 +1,5 @@
 ---
-name: msmarco-passage-docTTTTTquery
+name: msmarco-doc-docTTTTTquery-per-passage # Note, this is the name of the collection; this way we can share index with the msmarco regressions
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -9,7 +9,7 @@ index_root:
 ranking_root:
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
-threads: 9
+threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors
@@ -20,12 +20,11 @@ evals:
     params:
       - -m map
       - -c
-      - -l 2
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
-    can_combine: false
+    can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m ndcg_cut.10
@@ -34,150 +33,98 @@ evals:
     parse_index: 2
     metric: NDCG@10
     metric_precision: 4
-    can_combine: false
+    can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m recip_rank
       - -c
-      - -l 2
     separator: "\t"
     parse_index: 2
     metric: RR
     metric_precision: 4
-    can_combine: false
+    can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m recall.100
       - -c
-      - -l 2
     separator: "\t"
     parse_index: 2
     metric: R@100
     metric_precision: 4
-    can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.1000
-      - -c
-      - -l 2
-    separator: "\t"
-    parse_index: 2
-    metric: R@1000
-    metric_precision: 4
-    can_combine: false
+    can_combine: true
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
-input: collections/msmarco/passage-docTTTTTquery
-index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw
+input: collections/msmarco/doc-docTTTTTquery-per-passage
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw
 index_stats:
-  documents: 8841823
-  documents (non-empty): 8841823
-  total terms: 1986612263
+  documents: 20544550
+  documents (non-empty): 20544550
+  total terms: 4203956960
 topics:
-  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+  - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
     path: topics.dl20.txt
-    qrel: qrels.dl20-passage.txt
+    qrel: qrels.dl20-doc.txt
 models:
   - name: bm25-default
     display: BM25 (default)
     params:
-      - -bm25
+      - -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
       map:
-        - 0.4074
+        - 0.4150
       NDCG@10:
-        - 0.6187
+        - 0.5957
       RR:
-        - 0.7326
+        - 0.9361
       R@100:
-        - 0.7044
-      R@1000:
-        - 0.8452
+        - 0.6201
   - name: bm25-default+rm3
     display: +RM3
     params:
       - -bm25
       - -rm3
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
       map:
-        - 0.4295
+        - 0.4269
       NDCG@10:
-        - 0.6172
+        - 0.5848
       RR:
-        - 0.7424
+        - 0.8944
       R@100:
-        - 0.7153
-      R@1000:
-        - 0.8699
+        - 0.6443
   - name: bm25-tuned
     display: BM25 (tuned)
     params:
       - -bm25
-      - -bm25.k1 0.82
-      - -bm25.b 0.68
+      - -bm25.k1 2.56
+      - -bm25.b 0.59
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
       map:
-        - 0.4082
+        - 0.4042
       NDCG@10:
-        - 0.6192
+        - 0.5931
       RR:
-        - 0.7425
+        - 0.9469
       R@100:
-        - 0.7046
-      R@1000:
-        - 0.8443
+        - 0.6192
   - name: bm25-tuned+rm3
     display: +RM3
     params:
       - -bm25
-      - -bm25.k1 0.82
-      - -bm25.b 0.68
+      - -bm25.k1 2.56
+      - -bm25.b 0.59
       - -rm3
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
       map:
-        - 0.4296
+        - 0.4023
       NDCG@10:
-        - 0.6177
+        - 0.5723
       RR:
-        - 0.7422
+        - 0.9150
       R@100:
-        - 0.7143
-      R@1000:
-        - 0.8692
-  - name: bm25-tuned2
-    display: BM25 (tuned2)
-    params:
-      - -bm25
-      - -bm25.k1 2.18
-      - -bm25.b 0.86
-    results:
-      map:
-        - 0.4171
-      NDCG@10:
-        - 0.6265
-      RR:
-        - 0.7467
-      R@100:
-        - 0.7044
-      R@1000:
-        - 0.8393
-  - name: bm25-tuned2+rm3
-    display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 2.18
-      - -bm25.b 0.86
-      - -rm3
-    results:
-      map:
-        - 0.4347
-      NDCG@10:
-        - 0.6232
-      RR:
-        - 0.7327
-      R@100:
-        - 0.7109
-      R@1000:
-        - 0.8609
+        - 0.6392

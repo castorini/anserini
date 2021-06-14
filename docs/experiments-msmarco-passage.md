@@ -20,6 +20,7 @@ You could be search web pages, PDFs, Excel spreadsheets, and even podcasts.
 Information retrieval researchers refer to these all as "documents".
 </details>
 
+
 ## Data Prep
 
 We're going to use the repository's root directory as the working directory.
@@ -63,6 +64,9 @@ python tools/scripts/msmarco/convert_collection_to_jsonl.py \
 
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 
+
+## Indexing
+
 We can now index these docs as a `JsonCollection` using Anserini:
 
 ```bash
@@ -74,7 +78,8 @@ sh target/appassembler/bin/IndexCollection -threads 9 -collection JsonCollection
 Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
 
-## Performing Retrieval on the Dev Queries
+
+## Retrieval
 
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
