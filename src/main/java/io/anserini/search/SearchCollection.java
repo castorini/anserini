@@ -33,6 +33,7 @@ import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
+import io.anserini.search.similarity.ImpactSimilarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
@@ -425,6 +426,8 @@ public final class SearchCollection implements Closeable {
       for (String s : args.f2log_s) {
         similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), String.format("f2log(s=%s)", s)));
       }
+    } else if (args.impact) {
+      similarities.add(new TaggedSimilarity(new ImpactSimilarity(), "impact()"));
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
     }
