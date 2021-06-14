@@ -10,7 +10,7 @@ Note that there are four different regression conditions for this task, and this
 + **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
 + **Expansion Condition:** none
 
-In the passage indexing condition, we select the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
+In the passage indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-per-passage.yaml).
