@@ -1,8 +1,8 @@
 # Anserini: Regressions for [MS MARCO Passage Retrieval](https://github.com/microsoft/MSMARCO-Passage-Ranking)
 
-This page documents regression experiments for the MS MARCO Passage Retrieval Task with doc2query expansions, as proposed in the following paper:
+This page documents regression experiments for the MS MARCO Passage Retrieval Task with doc2query expansions (also called doc2query-base) , as proposed in the following paper:
 
-+ Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
+> Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) arXiv:1904.08375, 2019.
 
 These experiments are integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-doc2query.md).
@@ -23,7 +23,8 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
   >& logs/log.msmarco-passage-doc2query &
 ```
 
-The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, appended with the doc2query expansions.
+The directory `/path/to/msmarco-passage-doc2query` should be a directory containing `jsonl` files containing the expanded passage collection.
+[This page](experiments-doc2query.md) explains how to perform this data preparation.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -72,21 +73,23 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resour
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.2270    | 0.2028    | 0.2293    | 0.2077    |
 
 
-R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
+R@1000                                  | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8900    | 0.8916    | 0.8911    | 0.8957    |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.72` _on the original passages_.
-See [this page](experiments-msmarco-passage.md) for more details.
+Explanation of settings:
+
++ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](experiments-msmarco-passage.md).
 
 Note that the above runs are generated with `SearchCollection` in the TREC format, which due to tie-breaking effects gives slightly different results from `SearchMsmarco` in the MS MARCO format.
 
-The following command generates with `SearchMsmarco` the run denoted "BM25 (Tuned)" above (`k1=0.82`, `b=0.68`):
+The following command generates with `SearchMsmarco` the run denoted "BM25 (tuned)" above (`k1=0.82`, `b=0.68`):
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
@@ -104,7 +107,7 @@ QueriesRanked: 6980
 #####################
 ```
 
-Note that this run does _not_ correspond to the scores reported in the following paper (which introduced doc2query):
+Note that this run does _not_ correspond to the scores reported in the paper that introduced doc2query:
 
 > Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) arXiv:1904.08375, 2019.
 

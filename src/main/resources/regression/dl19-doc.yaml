@@ -59,7 +59,7 @@ topics:
     qrel: qrels.dl19-doc.txt
 models:
   - name: bm25-default
-    display: BM25 (Default)
+    display: BM25 (default)
     params:
       - -bm25
       - -hits 100  # Note, this is different DL 2019 passage ranking!
@@ -112,7 +112,7 @@ models:
       R@100:
         - 0.4004
   - name: bm25-tuned
-    display: BM25 (Tuned)
+    display: BM25 (tuned)
     params:
       - -bm25
       - -bm25.k1 3.44

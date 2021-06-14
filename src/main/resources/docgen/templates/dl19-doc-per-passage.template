@@ -7,13 +7,14 @@ For additional instructions on working with MS MARCO document collection, refer 
 
 Note that there are four different regression conditions for this task, and this page describes the following:
 
-+ **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
++ **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
 + **Expansion Condition:** none
 
+In the passage indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-per-passage.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc-per-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -23,7 +24,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
+The directory `/path/to/msmarco-doc-per-passage/` should be a directory containing the segmented paragraph collection; see [this link](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini) for how to prepare this collection.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -54,21 +55,9 @@ ${effectiveness}
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=3.44`, `b=0.87`, tuned using the MS MARCO document sparse judgments on 2019/06.
++ The setting "tuned" refers to `k1=2.16`, `b=0.61`, tuned using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval) on 2020/12.
 
 Settings tuned on the MS MARCO document sparse judgments _may not_ work well on the TREC dense judgments.
 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
-These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
-
-These regressions correspond to official TREC 2019 Deep Learning Track submissions by `BASELINE` group:
-
-+ `bm25base` = BM25 (default), `k1=0.9`, `b=0.4`
-+ `bm25base_rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
-+ `bm25base_ax` = BM25 (default) + Ax, `k1=0.9`, `b=0.4`
-+ `bm25base_prf` = BM25 (default) + PRF, `k1=0.9`, `b=0.4`
-+ `bm25tuned_p` = BM25 (tuned), `k1=3.44`, `b=0.87`
-+ `bm25tuned_rm3` = BM25 (tuned) + RM3, `k1=3.44`, `b=0.87`
-+ `bm25tuned_ax` = BM25 (tuned) + Ax, `k1=3.44`, `b=0.87`
-+ `bm25tuned_prf` = BM25 (tuned) + PRF, `k1=3.44`, `b=0.87`

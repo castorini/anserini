@@ -1,5 +1,5 @@
 ---
-name: msmarco-passage-docTTTTTquery
+name: msmarco-passage-docTTTTTquery # Note, this is the name of the collection; this way we can share index with the msmarco regressions
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -28,41 +28,21 @@ evals:
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m ndcg_cut.10
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: NDCG@10
-    metric_precision: 4
-    can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recip_rank
-      - -c
-      - -l 2
-    separator: "\t"
-    parse_index: 2
-    metric: RR
-    metric_precision: 4
-    can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
-      - -l 2
-    separator: "\t"
-    parse_index: 2
-    metric: R@100
-    metric_precision: 4
-    can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
       - -m recall.1000
       - -c
       - -l 2
     separator: "\t"
     parse_index: 2
     metric: R@1000
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.10
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: NDCG@10
     metric_precision: 4
     can_combine: false
 input_roots:
@@ -76,9 +56,9 @@ index_stats:
   documents (non-empty): 8841823
   total terms: 1986612263
 topics:
-  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    path: topics.dl20.txt
-    qrel: qrels.dl20-passage.txt
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)"
+    path: topics.dl19-passage.txt
+    qrel: qrels.dl19-passage.txt
 models:
   - name: bm25-default
     display: BM25 (default)
@@ -86,15 +66,11 @@ models:
       - -bm25
     results:
       map:
-        - 0.4074
+        - 0.4034
       NDCG@10:
-        - 0.6187
-      RR:
-        - 0.7326
-      R@100:
-        - 0.7044
+        - 0.6417
       R@1000:
-        - 0.8452
+        - 0.8310
   - name: bm25-default+rm3
     display: +RM3
     params:
@@ -102,15 +78,11 @@ models:
       - -rm3
     results:
       map:
-        - 0.4295
+        - 0.4485
       NDCG@10:
-        - 0.6172
-      RR:
-        - 0.7424
-      R@100:
-        - 0.7153
+        - 0.6548
       R@1000:
-        - 0.8699
+        - 0.8861
   - name: bm25-tuned
     display: BM25 (tuned)
     params:
@@ -119,15 +91,11 @@ models:
       - -bm25.b 0.68
     results:
       map:
-        - 0.4082
+        - 0.4052
       NDCG@10:
-        - 0.6192
-      RR:
-        - 0.7425
-      R@100:
-        - 0.7046
+        - 0.6482
       R@1000:
-        - 0.8443
+        - 0.8269
   - name: bm25-tuned+rm3
     display: +RM3
     params:
@@ -137,15 +105,11 @@ models:
       - -rm3
     results:
       map:
-        - 0.4296
+        - 0.4520
       NDCG@10:
-        - 0.6177
-      RR:
-        - 0.7422
-      R@100:
-        - 0.7143
+        - 0.6614
       R@1000:
-        - 0.8692
+        - 0.8826
   - name: bm25-tuned2
     display: BM25 (tuned2)
     params:
@@ -154,15 +118,11 @@ models:
       - -bm25.b 0.86
     results:
       map:
-        - 0.4171
+        - 0.4046
       NDCG@10:
-        - 0.6265
-      RR:
-        - 0.7467
-      R@100:
-        - 0.7044
+        - 0.6336
       R@1000:
-        - 0.8393
+        - 0.8134
   - name: bm25-tuned2+rm3
     display: +RM3
     params:
@@ -172,12 +132,8 @@ models:
       - -rm3
     results:
       map:
-        - 0.4347
+        - 0.4360
       NDCG@10:
-        - 0.6232
-      RR:
-        - 0.7327
-      R@100:
-        - 0.7109
+        - 0.6528
       R@1000:
-        - 0.8609
+        - 0.8424

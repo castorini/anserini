@@ -50,7 +50,7 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 models:
   - name: bm25-default
-    display: BM25 (Default)
+    display: BM25 (default)
     params:
       - -bm25
     results:
@@ -69,7 +69,7 @@ models:
       R@1000:
         - 0.8916
   - name: bm25-tuned
-    display: BM25 (Tuned)
+    display: BM25 (tuned)
     params:
       - -bm25
       - -bm25.k1 0.82
