@@ -73,6 +73,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl"));
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<JsonCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
@@ -99,6 +100,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws NoSuchElementException {
       if (node == null) {

@@ -69,7 +69,7 @@ nohup python src/main/python/run_regression.py --collection dl19-doc-docTTTTTque
 nohup python src/main/python/run_regression.py --collection dl19-doc-docTTTTTquery-per-passage >& logs/log.dl19-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --collection dl20-passage >& logs/log.dl20-passage &
-nohup python src/main/python/run_regression.py --collection dl20-passage-docTTTTTquery >& logs/dl20-passage-docTTTTTquery &
+nohup python src/main/python/run_regression.py --collection dl20-passage-docTTTTTquery >& logs/log.dl20-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --collection dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --collection dl20-doc-per-passage >& logs/log.dl20-doc-per-passage &
 nohup python src/main/python/run_regression.py --collection dl20-doc-docTTTTTquery-per-doc >& logs/log.dl20-doc-docTTTTTquery-per-doc &
@@ -128,7 +128,7 @@ nohup python src/main/python/run_regression.py --index --collection dl19-doc-doc
 nohup python src/main/python/run_regression.py --index --collection dl19-doc-docTTTTTquery-per-passage >& logs/log.dl19-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --index --collection dl20-passage >& logs/log.dl20-passage &
-nohup python src/main/python/run_regression.py --index --collection dl20-passage-docTTTTTquery >& logs/dl20-passage-docTTTTTquery &
+nohup python src/main/python/run_regression.py --index --collection dl20-passage-docTTTTTquery >& logs/log.dl20-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --collection dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --index --collection dl20-doc-per-passage >& logs/log.dl20-doc-per-passage &
 nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-doc >& logs/log.dl20-doc-docTTTTTquery-per-doc &
