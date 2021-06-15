@@ -68,10 +68,10 @@ public class JsonVectorEndToEndTest extends EndToEndTest {
     queryTokens.get("3").add("f4");
 
     referenceRunOutput.put("impact", new String[]{
-        "1 Q0 doc2 1 0.613600 Anserini",
-        "2 Q0 doc1 1 0.393100 Anserini",
-        "3 Q0 doc1 1 0.153100 Anserini",
-        "3 Q0 doc2 2 0.135500 Anserini"});
+        "1 Q0 doc2 1 8.000000 Anserini",
+        "2 Q0 doc1 1 1.000000 Anserini",
+        "3 Q0 doc1 1 4.000000 Anserini",
+        "3 Q0 doc2 2 3.000000 Anserini"});
   }
 
 }
