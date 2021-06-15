@@ -24,6 +24,10 @@ public abstract class JsonVectorCollectionTest extends DocumentCollectionTest<Js
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("content"), doc.contents());
-    assertEquals(expected.get("raw"), doc.raw());
+
+    // Checking raw is optional
+    if (expected.get("raw") != null) {
+      assertEquals(expected.get("raw"), doc.raw());
+    }
   }
 }
