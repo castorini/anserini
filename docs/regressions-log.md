@@ -7,7 +7,7 @@ This documentation is useful for figuring why results may have changed over time
 
 + commit [`b58c85`](https://github.com/castorini/anserini/commit/b58c8559b4fc473e857b9ce5ca73523d8d017b41) (06/14/2021)
 
-Overhaul of regressions for MS MARCO {passage, doc} and DL {19, 20}:
+Overhauled regressions for MS MARCO {passage, doc} and DL {19, 20}:
 + MS MARCO passage + {doc2query, docTTTTTquery}
 + MS MARCO doc {per-doc, per-passage} x {doc2query, docTTTTTquery}
 + {DL19, DL20} passage + {doc2query, docTTTTTquery}
