@@ -112,13 +112,6 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
         } else {
           atEOF = true; // there is no more JSON object in the bufferedReader
         }
-      } else if (node.isArray()) {
-        if (iter != null && iter.hasNext()) {
-          JsonNode json = iter.next();
-          bufferedRecord = (T) createNewDocument(node);
-        } else {
-          throw new NoSuchElementException("Reached end of JsonNode iterator");
-        }
       } else {
         LOG.error("Error: invalid JsonNode type");
         throw new NoSuchElementException("Invalid JsonNode type");

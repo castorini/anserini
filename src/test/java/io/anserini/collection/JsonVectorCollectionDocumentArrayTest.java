@@ -27,17 +27,17 @@ import java.util.Map;
 // (2) An array of JSON objects
 // (3) JSON Lines (i.e., one JSON object per line)
 //
-// This is the test case for (3)
-public class JsonVectorCollectionLineObjectTest extends JsonVectorCollectionTest {
+// This is the test case for (2)
+public class JsonVectorCollectionDocumentArrayTest extends JsonVectorCollectionTest {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/json_vector/collection3");
+    collectionPath = Paths.get("src/test/resources/sample_docs/json_vector/collection2");
     collection = new JsonVectorCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/json_vector/collection3/segment1.json");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/json_vector/collection2/segment1.json");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 2);
