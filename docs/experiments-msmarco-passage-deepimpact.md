@@ -86,3 +86,4 @@ The final evaluation metric is very close to the one reported in the paper (0.32
 
 ## Reproduction Log[*](reproducibility.md)
 
++ Results reproduced by [@MXueguang](https://github.com/MXueguang) on 2021-06-17 (commit [`ff618db`](https://github.com/castorini/anserini/commit/ff618dbf87feee0ad75dc42c72a361c05984097d))
