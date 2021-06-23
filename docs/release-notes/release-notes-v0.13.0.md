@@ -4,7 +4,7 @@
 
 + Overhauled regressions for MS MARCO {passage, doc} and DL {19, 20}.
 + Added `JsonVectorCollection` and `ImpactSimilarity`: support for indexing and querying based on pre-defined impacts.
-+ Added reproduction guide for DeepImpact.
++ Added reproduction guide for [DeepImpact](https://arxiv.org/abs/2104.12016).
 + Added FEVER regression.
 + Added updated NQ topics.
 + Improved support for multiple languages.
