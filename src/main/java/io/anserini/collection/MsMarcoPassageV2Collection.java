@@ -90,31 +90,21 @@ public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassag
   /**
    * A document in a JSON collection.
    */
-  public static class Document extends MultifieldSourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
     private String contents;
     private String raw;
-    private Map<String, String> fields;
 
     public Document(JsonNode json) {
       this.raw = json.toPrettyString();
-      this.fields = new HashMap<>();
-
-      json.fields().forEachRemaining( e -> {
-        if ("pid".equals(e.getKey())) {
-          this.id = json.get("pid").asText();
-        } else if ("passage".equals(e.getKey())) {
-          this.contents = json.get("passage").asText();
-        } else {
-          this.fields.put(e.getKey(), e.getValue().asText());
-        }
-      });
+      this.id = json.get("pid").asText();
+      this.contents = json.get("passage").asText();
     }
 
     @Override
     public String id() {
       if (id == null) {
-        throw new RuntimeException("JSON document has no \"id\" field");
+        throw new RuntimeException("Passage does not have the required \"pid\" field!");
       }
       return id;
     }
@@ -122,7 +112,7 @@ public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassag
     @Override
     public String contents() {
       if (contents == null) {
-        throw new RuntimeException("JSON document has no \"contents\" field");
+        throw new RuntimeException("Passage does not have the required \"passage\" field!");
       }
       return contents;
     }
@@ -135,11 +125,6 @@ public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassag
     @Override
     public boolean indexable() {
       return true;
-    }
-
-    @Override
-    public Map<String, String> fields() {
-      return fields;
     }
   }
 }

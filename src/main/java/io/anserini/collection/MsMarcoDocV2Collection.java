@@ -49,7 +49,7 @@ public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Colle
   /**
    * A file in a JSON collection, typically containing multiple documents.
    */
-  public static class Segment<T extends Document> extends FileSegment<T>{
+  public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
@@ -90,7 +90,7 @@ public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Colle
   /**
    * A document in a JSON collection.
    */
-  public static class Document extends MultifieldSourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
     private String raw;
     private Map<String, String> fields;
@@ -111,7 +111,7 @@ public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Colle
     @Override
     public String id() {
       if (id == null) {
-        throw new RuntimeException("JSON document has no \"id\" field");
+        throw new RuntimeException("Document does not have the required \"docid\" field!");
       }
       return id;
     }
@@ -120,7 +120,7 @@ public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Colle
     public String contents() {
       if (!fields.containsKey("url") || !fields.containsKey("title") ||
           !fields.containsKey("headings") || !fields.containsKey("body")) {
-        throw new RuntimeException("Document is missing fields!");
+        throw new RuntimeException("Document is missing required fields!");
       }
 
       return fields.get("url") + " " + fields.get("title") + " " + fields.get("headings") + " " + fields.get("body");
@@ -134,11 +134,6 @@ public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Colle
     @Override
     public boolean indexable() {
       return true;
-    }
-
-    @Override
-    public Map<String, String> fields() {
-      return fields;
     }
   }
 }
