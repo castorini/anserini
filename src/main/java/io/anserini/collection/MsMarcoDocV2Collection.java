@@ -25,13 +25,19 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.zip.GZIPInputStream;
 
 public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Collection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
@@ -56,7 +62,14 @@ public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Colle
 
     public Segment(Path path) throws IOException {
       super(path);
-      bufferedReader = new BufferedReader(new FileReader(path.toString()));
+
+      if (path.toString().endsWith(".gz")) {
+        InputStream stream = new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
+        bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+      } else {
+        bufferedReader = new BufferedReader(new FileReader(path.toString()));
+      }
+
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
