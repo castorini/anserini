@@ -33,16 +33,16 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassageV2Collection.Document> {
+public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Collection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
-  public MsMarcoPassageV2Collection(Path path){
+  public MsMarcoDocV2Collection(Path path){
     this.path = path;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public FileSegment<MsMarcoPassageV2Collection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<MsMarcoDocV2Collection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
@@ -92,7 +92,6 @@ public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassag
    */
   public static class Document extends MultifieldSourceDocument {
     private String id;
-    private String contents;
     private String raw;
     private Map<String, String> fields;
 
@@ -101,10 +100,8 @@ public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassag
       this.fields = new HashMap<>();
 
       json.fields().forEachRemaining( e -> {
-        if ("pid".equals(e.getKey())) {
-          this.id = json.get("pid").asText();
-        } else if ("passage".equals(e.getKey())) {
-          this.contents = json.get("passage").asText();
+        if ("docid".equals(e.getKey())) {
+          this.id = json.get("docid").asText();
         } else {
           this.fields.put(e.getKey(), e.getValue().asText());
         }
@@ -121,10 +118,12 @@ public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassag
 
     @Override
     public String contents() {
-      if (contents == null) {
-        throw new RuntimeException("JSON document has no \"contents\" field");
+      if (!fields.containsKey("url") || !fields.containsKey("title") ||
+          !fields.containsKey("headings") || !fields.containsKey("body")) {
+        throw new RuntimeException("Document is missing fields!");
       }
-      return contents;
+
+      return fields.get("url") + " " + fields.get("title") + " " + fields.get("headings") + " " + fields.get("body");
     }
 
     @Override
