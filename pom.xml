@@ -422,5 +422,10 @@
       <artifactId>commons-csv</artifactId>
       <version>1.8</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analyzers-kuromoji</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
   </dependencies>
 </project>

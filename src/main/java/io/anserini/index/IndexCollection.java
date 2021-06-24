@@ -61,6 +61,7 @@ import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.analysis.hu.HungarianAnalyzer;
 import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
@@ -747,6 +748,7 @@ public final class IndexCollection {
       final HungarianAnalyzer hungarianAnalyzer = new HungarianAnalyzer();
       final IndonesianAnalyzer indonesianAnalyzer = new IndonesianAnalyzer();
       final ItalianAnalyzer italianAnalyzer = new ItalianAnalyzer();
+      final JapaneseAnalyzer japaneseAnalyzer = new JapaneseAnalyzer();
       final NorwegianAnalyzer norwegianAnalyzer = new NorwegianAnalyzer();
       final PortugueseAnalyzer portugueseAnalyzer = new PortugueseAnalyzer();
       final RussianAnalyzer russianAnalyzer = new RussianAnalyzer();
@@ -785,6 +787,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(indonesianAnalyzer);
       } else if (args.language.equals("it")) {
         config = new IndexWriterConfig(italianAnalyzer);
+      } else if (args.language.equals("ja")) {
+        config = new IndexWriterConfig(japaneseAnalyzer);
       } else if (args.language.equals("nl")) {
         config = new IndexWriterConfig(dutchAnalyzer);
       } else if (args.language.equals("no")) {
@@ -799,7 +803,7 @@ public final class IndexCollection {
         config = new IndexWriterConfig(thaiAnalyzer);
       } else if (args.language.equals("tr")) {
         config = new IndexWriterConfig(turkishAnalyzer);
-      } else if (args.language.equals("zh") || args.language.equals("ja") || args.language.equals("ko")) {
+      } else if (args.language.equals("zh") || args.language.equals("ko")) {
         config = new IndexWriterConfig(chineseAnalyzer);
       } else if (args.pretokenized) {
         config = new IndexWriterConfig(whitespaceAnalyzer);

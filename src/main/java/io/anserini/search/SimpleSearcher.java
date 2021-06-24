@@ -44,6 +44,7 @@ import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.analysis.hu.HungarianAnalyzer;
 import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
@@ -262,6 +263,8 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new IndonesianAnalyzer();
     } else if (language.equals("it")) {
       this.analyzer = new ItalianAnalyzer();
+    } else if (language.equals("ja")) {
+      this.analyzer = new JapaneseAnalyzer();
     } else if (language.equals("nl")) {
       this.analyzer = new DutchAnalyzer();
     } else if (language.equals("no")) {
@@ -276,7 +279,7 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new ThaiAnalyzer();
     } else if (language.equals("tr")) {
       this.analyzer = new TurkishAnalyzer();
-    } else if (language.equals("zh") || language.equals("ja") || language.equals("ko")) {
+    } else if (language.equals("zh") || language.equals("ko")) {
       this.analyzer = new CJKAnalyzer();
     }
   }
