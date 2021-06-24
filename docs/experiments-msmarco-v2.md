@@ -17,11 +17,11 @@ The above configuration, on a 2017 iMac Pro with SSD, takes around 30min.
 
 The complete index occupies 72 GB (138,364,198 passages).
 It's big because it includes postions (for phrase queries), document vectors (for relevance feedback), and a complete copy of the collection itself.
-Index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
+The index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
 
 + Without any of the three above option, index size reduces to 12 GB.
-+ With just `-storeRaw`, index size reduces to 47 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers.
++ With just `-storeRaw`, index size reduces to 47 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access.
 
 Indexing the document collection, which is 32 GB compressed:
 
@@ -40,7 +40,7 @@ Index size can be reduced by removing the options `-storePositions`, `-storeDocv
 For reference:
 
 + Without any of the three above option, index size reduces to 9.4 GB.
-+ With just `-storeRaw`, index size reduces to 73 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers.
++ With just `-storeRaw`, index size reduces to 73 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access; evidently, the JSON docs don't compress well.
 
 Perform a run on the dev queries:
 
