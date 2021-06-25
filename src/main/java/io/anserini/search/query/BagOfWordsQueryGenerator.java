@@ -42,8 +42,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     for (String t : collect.keySet()){
       builder.add(new BoostQuery(new TermQuery(new Term(field, t)), (float)collect.get(t)), BooleanClause.Occur.SHOULD);
     }
-    Query query = builder.build();
-    return query;
+    return builder.build();
   }
 
   @Override
