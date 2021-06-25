@@ -38,7 +38,7 @@ public class ImpactSimilarity extends Similarity {
 
   @Override
   public final SimScorer scorer(float boost, CollectionStatistics collectionStats, TermStatistics... termStats) {
-    return new ImpactScorer();
+    return new ImpactScorer(boost);
   }
 
   @Override
@@ -47,13 +47,15 @@ public class ImpactSimilarity extends Similarity {
   }
 
   private static class ImpactScorer extends SimScorer {
+    private final float boost;
 
-    ImpactScorer() {
+    ImpactScorer(float boost) {
+      this.boost = boost;
     }
 
     @Override
     public float score(float freq, long norm) {
-      return freq;
+      return freq*boost;
     }
 
     @Override
