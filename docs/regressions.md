@@ -62,12 +62,18 @@ nohup python src/main/python/run_regression.py --collection msmarco-doc-docTTTTT
 nohup python src/main/python/run_regression.py --collection msmarco-doc-docTTTTTquery-per-passage >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --collection dl19-passage >& logs/log.dl19-passage &
+nohup python src/main/python/run_regression.py --collection dl19-passage-docTTTTTquery >& logs/log.dl19-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --collection dl19-doc >& logs/log.dl19-doc &
+nohup python src/main/python/run_regression.py --collection dl19-doc-per-passage >& logs/log.dl19-doc-per-passage &
+nohup python src/main/python/run_regression.py --collection dl19-doc-docTTTTTquery-per-doc >& logs/log.dl19-doc-docTTTTTquery-per-doc &
+nohup python src/main/python/run_regression.py --collection dl19-doc-docTTTTTquery-per-passage >& logs/log.dl19-doc-docTTTTTquery-per-passage &
 
-nohup python src/main/python/run_regression.py --collection dl20-passage >& logs/dl20-passage &
-nohup python src/main/python/run_regression.py --collection dl20-passage-docTTTTTquery >& logs/dl20-passage-docTTTTTquery &
-nohup python src/main/python/run_regression.py --collection dl20-doc >& logs/dl20-doc &
-nohup python src/main/python/run_regression.py --collection dl20-doc-docTTTTTquery-per-doc >& logs/dl20-doc-docTTTTTquery-per-doc &
+nohup python src/main/python/run_regression.py --collection dl20-passage >& logs/log.dl20-passage &
+nohup python src/main/python/run_regression.py --collection dl20-passage-docTTTTTquery >& logs/log.dl20-passage-docTTTTTquery &
+nohup python src/main/python/run_regression.py --collection dl20-doc >& logs/log.dl20-doc &
+nohup python src/main/python/run_regression.py --collection dl20-doc-per-passage >& logs/log.dl20-doc-per-passage &
+nohup python src/main/python/run_regression.py --collection dl20-doc-docTTTTTquery-per-doc >& logs/log.dl20-doc-docTTTTTquery-per-doc &
+nohup python src/main/python/run_regression.py --collection dl20-doc-docTTTTTquery-per-passage >& logs/log.dl20-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --collection backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --collection backgroundlinking19 >& logs/log.backgroundlinking19 &
@@ -106,21 +112,27 @@ nohup python src/main/python/run_regression.py --index --collection car17v2.0 >&
 nohup python src/main/python/run_regression.py --index --collection car17v2.0-doc2query >& logs/log.car17v2.0-doc2query &
 
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage >& logs/log.msmarco-passage &
-nohup python src/main/python/run_regression.py --index --collection msmarco-doc-per-passage >& logs/log.msmarco-doc-per-passage &
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage-doc2query >& logs/log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage-docTTTTTquery >& logs/log.msmarco-passage-docTTTTTquery &
 
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc >& logs/log.msmarco-doc &
+nohup python src/main/python/run_regression.py --index --collection msmarco-doc-per-passage >& logs/log.msmarco-doc-per-passage &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc-docTTTTTquery-per-doc >& logs/log.msmarco-doc-docTTTTTquery-per-doc &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc-docTTTTTquery-per-passage >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --index --collection dl19-passage >& logs/log.dl19-passage &
+nohup python src/main/python/run_regression.py --index --collection dl19-passage-docTTTTTquery >& logs/log.dl19-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --collection dl19-doc >& logs/log.dl19-doc &
+nohup python src/main/python/run_regression.py --index --collection dl19-doc-per-passage >& logs/log.dl19-doc-per-passage &
+nohup python src/main/python/run_regression.py --index --collection dl19-doc-docTTTTTquery-per-doc >& logs/log.dl19-doc-docTTTTTquery-per-doc &
+nohup python src/main/python/run_regression.py --index --collection dl19-doc-docTTTTTquery-per-passage >& logs/log.dl19-doc-docTTTTTquery-per-passage &
 
-nohup python src/main/python/run_regression.py --index --collection dl20-passage >& logs/dl20-passage &
-nohup python src/main/python/run_regression.py --index --collection dl20-passage-docTTTTTquery >& logs/dl20-passage-docTTTTTquery &
-nohup python src/main/python/run_regression.py --index --collection dl20-doc >& logs/dl20-doc &
-nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-doc >& logs/dl20-doc-docTTTTTquery-per-doc &
+nohup python src/main/python/run_regression.py --index --collection dl20-passage >& logs/log.dl20-passage &
+nohup python src/main/python/run_regression.py --index --collection dl20-passage-docTTTTTquery >& logs/log.dl20-passage-docTTTTTquery &
+nohup python src/main/python/run_regression.py --index --collection dl20-doc >& logs/log.dl20-doc &
+nohup python src/main/python/run_regression.py --index --collection dl20-doc-per-passage >& logs/log.dl20-doc-per-passage &
+nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-doc >& logs/log.dl20-doc-docTTTTTquery-per-doc &
+nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-passage >& logs/log.dl20-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking19 >& logs/log.backgroundlinking19 &

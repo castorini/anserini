@@ -20,6 +20,7 @@ You could be search web pages, PDFs, Excel spreadsheets, and even podcasts.
 Information retrieval researchers refer to these all as "documents".
 </details>
 
+
 ## Data Prep
 
 We're going to use the repository's root directory as the working directory.
@@ -63,6 +64,9 @@ python tools/scripts/msmarco/convert_collection_to_jsonl.py \
 
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 
+
+## Indexing
+
 We can now index these docs as a `JsonCollection` using Anserini:
 
 ```bash
@@ -74,7 +78,8 @@ sh target/appassembler/bin/IndexCollection -threads 9 -collection JsonCollection
 Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
 
-## Performing Retrieval on the Dev Queries
+
+## Retrieval
 
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
@@ -230,7 +235,8 @@ That's the score of a query.
 We take the average of the scores across all queries (6980 in this case), and we arrive at the score for the entire run.
 </details>
 
-You can find this entry on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as entry "BM25 (Lucene8, tuned)", so you've just reproduced (part of) a leaderboard submission!
+You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
+So you've just reproduced (part of) a leaderboard submission!
 
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
 For that we first need to convert runs and qrels files to the TREC format:
@@ -297,6 +303,9 @@ Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 | 0.8555
 
 To reproduce these results, the `SearchMsmarco` class above takes `k1` and `b` parameters as command-line arguments, e.g., `-k1 0.60 -b 0.62` (note that the default setting is `k1=0.82` and `b=0.68`).
 
+As mentioned above, the BM25 run with `k1=0.82`, `b=0.68` corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/).
+The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 (but Anserini was using Lucene 7.6 at the time).
+
 ## Reproduction Log[*](reproducibility.md)
 
 + Results reproduced by [@ronakice](https://github.com/ronakice) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
@@ -349,4 +358,5 @@ To reproduce these results, the `SearchMsmarco` class above takes `k1` and `b` p
 + Results reproduced by [@andrewyguo](https://github.com/andrewyguo) on 2021-04-29 (commit [`71f3ca6`](https://github.com/castorini/anserini/commit/71f3ca671faf6ddd7b0dea0a1e7f4b590a0a02a5))
 + Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2021-05-04 (commit [`906ca50`](https://github.com/castorini/anserini/commit/906ca5064cfe97266b92868e537e9372ac558e93))
 + Results reproduced by [@Albert-Ma](https://github.com/Albert-Ma) on 2021-05-07 (commit [`5bcbccd`](https://github.com/castorini/anserini/commit/5bcbccdb8e67a1c6a1a74da1219fd344c9e80b0b))
-+ Results reproduced by [@rootofallevii](https://github.com/RootofalleviI) on 2021-05-14 (commit [`626da95`](https://github.com/castorini/anserini/commit/626da950249ecc1519c9b07710d1243e0653e1c5)) 
++ Results reproduced by [@rootofallevii](https://github.com/RootofalleviI) on 2021-05-14 (commit [`626da95`](https://github.com/castorini/anserini/commit/626da950249ecc1519c9b07710d1243e0653e1c5))
++ Results reproduced by [@jpark621](https://github.com/jpark621) on 2021-06-01 (commit [`2591e06`](https://github.com/castorini/anserini/commit/2591e063b4bee8881a641cf2167352ac212865a6))

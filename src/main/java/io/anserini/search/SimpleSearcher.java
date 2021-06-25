@@ -44,6 +44,7 @@ import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.analysis.hu.HungarianAnalyzer;
 import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
@@ -143,6 +144,9 @@ public class SimpleSearcher implements Closeable {
 
     @Option(name = "-threads", metaVar = "[number]", usage = "Number of threads to use.")
     public int threads = 1;
+
+    @Option(name = "-language", usage = "Analyzer Language")
+    public String language = "en";
   }
 
   protected IndexReader reader;
@@ -259,6 +263,8 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new IndonesianAnalyzer();
     } else if (language.equals("it")) {
       this.analyzer = new ItalianAnalyzer();
+    } else if (language.equals("ja")) {
+      this.analyzer = new JapaneseAnalyzer();
     } else if (language.equals("nl")) {
       this.analyzer = new DutchAnalyzer();
     } else if (language.equals("no")) {
@@ -273,7 +279,7 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new ThaiAnalyzer();
     } else if (language.equals("tr")) {
       this.analyzer = new TurkishAnalyzer();
-    } else if (language.equals("zh") || language.equals("ja") || language.equals("ko")) {
+    } else if (language.equals("zh") || language.equals("ko")) {
       this.analyzer = new CJKAnalyzer();
     }
   }
@@ -762,6 +768,7 @@ public class SimpleSearcher implements Closeable {
 
     final long start = System.nanoTime();
     SimpleSearcher searcher = new SimpleSearcher(searchArgs.index);
+    searcher.setLanguage(searchArgs.language);
     SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));

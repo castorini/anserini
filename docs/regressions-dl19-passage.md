@@ -1,6 +1,7 @@
 # Anserini: Regressions for [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)
 
-This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
+This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
+
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
@@ -115,22 +116,38 @@ tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.3013    | 0.3390    | 0.3745    | 0.3561    | 0.2903    | 0.3377    | 0.3632    | 0.3684    |
 
 
-R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+R@1000                                  | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.7501    | 0.7998    | 0.8241    | 0.7929    | 0.7450    | 0.7792    | 0.8138    | 0.7988    |
 
 
-NDCG@10                                 | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.5058    | 0.5180    | 0.5511    | 0.5372    | 0.4973    | 0.5231    | 0.5461    | 0.5536    |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68` (see [this page](experiments-msmarco-passage.md) for more details about tuning).
+Explanation of settings:
+
++ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned using the MS MARCO passage sparse judgments, as described in [this page](experiments-msmarco-passage.md).
+
+Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for DL19 doc ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., MAP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+
+These regressions correspond to official TREC 2019 Deep Learning Track submissions by `BASELINE` group:
+
++ `bm25base_p` = BM25 (default), `k1=0.9`, `b=0.4`
++ `bm25base_rm3_p` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
++ `bm25base_ax_p` = BM25 (default) + Ax, `k1=0.9`, `b=0.4`
++ `bm25base_prf_p` = BM25 (default) + PRF, `k1=0.9`, `b=0.4`
++ `bm25tuned_p` = BM25 (tuned), `k1=0.82`, `b=0.68`
++ `bm25tuned_rm3_p` = BM25 (tuned) + RM3, `k1=0.82`, `b=0.68`
++ `bm25tuned_ax_p` = BM25 (tuned) + Ax, `k1=0.82`, `b=0.68`
++ `bm25tuned_prf_p` = BM25 (tuned) + PRF, `k1=0.82`, `b=0.68`

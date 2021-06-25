@@ -25,13 +25,19 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.zip.GZIPInputStream;
 
 /**
  * A JSON document collection.
@@ -70,9 +76,10 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
 
   public JsonCollection(Path path){
     this.path = path;
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl"));
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<JsonCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
@@ -81,14 +88,21 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
   /**
    * A file in a JSON collection, typically containing multiple documents.
    */
-  public static class Segment extends FileSegment<JsonCollection.Document> {
+  public static class Segment<T extends Document> extends FileSegment<T>{
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
     public Segment(Path path) throws IOException {
       super(path);
-      bufferedReader = new BufferedReader(new FileReader(path.toString()));
+
+      if (path.toString().endsWith(".gz")) {
+        InputStream stream = new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
+        bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+      } else {
+        bufferedReader = new BufferedReader(new FileReader(path.toString()));
+      }
+
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
@@ -99,28 +113,26 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws NoSuchElementException {
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {
-        bufferedRecord = new JsonCollection.Document(node);
+        bufferedRecord = (T) createNewDocument(node);
         if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
         } else {
           atEOF = true; // there is no more JSON object in the bufferedReader
         }
-      } else if (node.isArray()) {
-        if (iter != null && iter.hasNext()) {
-          JsonNode json = iter.next();
-          bufferedRecord = new JsonCollection.Document(node);
-        } else {
-          throw new NoSuchElementException("Reached end of JsonNode iterator");
-        }
       } else {
         LOG.error("Error: invalid JsonNode type");
         throw new NoSuchElementException("Invalid JsonNode type");
       }
+    }
+
+    protected Document createNewDocument(JsonNode json) {
+      return new Document(node);
     }
   }
 

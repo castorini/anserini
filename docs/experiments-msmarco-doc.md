@@ -5,6 +5,9 @@ Note that there is a separate [MS MARCO *passage* ranking task](experiments-msma
 
 **Setup Note:** If you're instantiating an Ubuntu VM on your system or on cloud (AWS and GCP), try to provision enough resources as the tasks such as building the index could take some time to finish such as RAM > 8GB and storage > 100 GB (SSD). This will prevent going back and fixing machine configuration again and again.
 
+If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, make sure you do the [passage ranking exercise](experiments-msmarco-passage.md) first.
+Similarly, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
+
 ## Data Prep
 
 We're going to use the repository's root directory as the working directory.
@@ -21,6 +24,9 @@ wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docs.trec.gz -
 
 To confirm, `msmarco-docs.trec.gz` should have MD5 checksum of `d4863e4f342982b51b9a8fc668b2d0c0`.
 
+
+## Indexing
+
 There's no need to uncompress the file, as Anserini can directly index gzipped files.
 Build the index with the following command:
 
@@ -34,7 +40,7 @@ On a modern desktop with an SSD, indexing takes around 40 minutes.
 There should be a total of 3,213,835 documents indexed.
 
 
-## Performing Retrieval on the Dev Queries
+## Retrieval
 
 After indexing finishes, we can do a retrieval run.
 The dev queries are already stored in our repo:
@@ -76,8 +82,6 @@ map                   	all	0.2303
 ```
 
 We see that "out of the box" Anserini is already better!
-
-## MS MARCO Document Ranking Leaderboard
 
 This dataset is part of the [MS MARCO Document Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Document-Ranking-Submissions/leaderboard/).
 Let's try to reproduce runs on there!
@@ -221,3 +225,4 @@ That's it!
 + Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2021-05-04 (commit [`906ca50`](https://github.com/castorini/anserini/commit/906ca5064cfe97266b92868e537e9372ac558e93))
 + Results reproduced by [@Albert-Ma](https://github.com/Albert-Ma) on 2021-05-07 (commit [`5bcbccd`](https://github.com/castorini/anserini/commit/5bcbccdb8e67a1c6a1a74da1219fd344c9e80b0b))
 + Results reproduced by [@rootofallevii](https://github.com/RootofalleviI) on 2021-05-14 (commit [`626da95`](https://github.com/castorini/anserini/commit/626da950249ecc1519c9b07710d1243e0653e1c5))
++ Results reproduced by [@jpark621](https://github.com/jpark621) on 2021-06-01 (commit [`2591e06`](https://github.com/castorini/anserini/commit/2591e063b4bee8881a641cf2167352ac212865a6))

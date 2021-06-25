@@ -82,6 +82,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
   @Override
   @Before
   public void setUp() throws Exception {
+    Locale.setDefault(Locale.US);
+
     // We're going to build an index for every test.
     super.setUp();
     indexPath = "test-index" + RANDOM.nextInt(100000);
@@ -96,6 +98,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
         "-index", indexPath,
         "-input", indexArgs.input,
         "-threads", "2",
+        "-language", indexArgs.language,
         "-collection", indexArgs.collectionClass,
         "-generator", indexArgs.generatorClass));
 
@@ -187,8 +190,6 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
   @Test
   public void checkIndex() throws IOException {
-    Locale.setDefault(Locale.US);
-
     // Subclasses will override this method and provide the ground truth.
     setCheckIndexGroundTruth();
 
@@ -200,8 +201,12 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     for (int i=0; i<reader.maxDoc(); i++) {
       String collectionDocid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
-      assertEquals(referenceDocs.get(collectionDocid).get("raw"), IndexReaderUtils.documentRaw(reader, collectionDocid));
-      assertEquals(referenceDocs.get(collectionDocid).get("contents"), IndexReaderUtils.documentContents(reader, collectionDocid));
+      if (referenceDocs.get(collectionDocid).get("raw") != null) {
+        assertEquals(referenceDocs.get(collectionDocid).get("raw"), IndexReaderUtils.documentRaw(reader, collectionDocid));
+      }
+      if (referenceDocs.get(collectionDocid).get("contents") != null) {
+        assertEquals(referenceDocs.get(collectionDocid).get("contents"), IndexReaderUtils.documentContents(reader, collectionDocid));
+      }
 
       // check list of tokens by calling document vector
       if (!referenceDocTokens.isEmpty()){
@@ -276,8 +281,6 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
   @Test
   public void testSearching() {
-    Locale.setDefault(Locale.US);
-
     // Subclasses will override this method and provide the ground truth.
     setSearchGroundTruth();
 

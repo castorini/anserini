@@ -68,11 +68,17 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + [Regressions for MS MARCO Document Ranking with per-doc docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
 + [Regressions for MS MARCO Document Ranking with per-passage docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Passage Ranking)](docs/regressions-dl19-passage.md)
++ [Regressions for the TREC 2019 Deep Learning Track (Passage Ranking) with docTTTTTquery](docs/regressions-dl19-passage-docTTTTTquery.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Document Ranking)](docs/regressions-dl19-doc.md)
++ [Regressions for the TREC 2019 Deep Learning Track (Document Ranking) per passage](docs/regressions-dl19-doc-per-passage.md)
++ [Regressions for the TREC 2019 Deep Learning Track (Document Ranking) with per-doc docTTTTTquery](docs/regressions-dl19-doc-docTTTTTquery-per-doc.md)
++ [Regressions for the TREC 2019 Deep Learning Track (Document Ranking) with per-passage docTTTTTquery](docs/regressions-dl19-doc-docTTTTTquery-per-passage.md)
 + [Regressions for the TREC 2020 Deep Learning Track (Passage Ranking)](docs/regressions-dl20-passage.md)
 + [Regressions for the TREC 2020 Deep Learning Track (Passage Ranking) with docTTTTTquery](docs/regressions-dl20-passage-docTTTTTquery.md)
 + [Regressions for the TREC 2020 Deep Learning Track (Document Ranking)](docs/regressions-dl20-doc.md)
++ [Regressions for the TREC 2020 Deep Learning Track (Document Ranking) per passage](docs/regressions-dl20-doc-per-passage.md)
 + [Regressions for the TREC 2020 Deep Learning Track (Document Ranking) with per-doc docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)
++ [Regressions for the TREC 2020 Deep Learning Track (Document Ranking) with per-passage docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)
 + [Regressions for the TREC 2018 News Track (Background Linking Task)](docs/regressions-backgroundlinking18.md)
 + [Regressions for the TREC 2019 News Track (Background Linking Task)](docs/regressions-backgroundlinking19.md)
 + [Regressions for the TREC 2020 News Track (Background Linking Task)](docs/regressions-backgroundlinking20.md)
@@ -100,9 +106,11 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 + [Guide to BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
 + [Guide to BM25 baselines for the MS MARCO Document Ranking Task](docs/experiments-msmarco-doc.md)
-+ [Guide to reproducing baselines MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
++ [Guide to reproducing baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
 + [Guide to reproducing doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
 + [Guide to reproducing docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
++ [Guide to reproducing DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
++ [Guide to working with the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
 
 ### Other Experiments
 
@@ -134,6 +142,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.13.0: June 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.0.md)]
 + v0.12.0: April 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.12.0.md)]
 + v0.11.0: February 13, 2021 [[Release Notes](docs/release-notes/release-notes-v0.11.0.md)]
 + v0.10.1: January 8, 2021 [[Release Notes](docs/release-notes/release-notes-v0.10.1.md)]

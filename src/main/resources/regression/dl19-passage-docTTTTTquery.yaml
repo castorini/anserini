@@ -1,0 +1,139 @@
+---
+name: msmarco-passage-docTTTTTquery # Note, this is the name of the collection; this way we can share index with the msmarco regressions
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexReaderUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: JsonCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 9
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRaw
+topic_reader: TsvInt
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m map
+      - -c
+      - -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.1000
+      - -c
+      - -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: R@1000
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.10
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: NDCG@10
+    metric_precision: 4
+    can_combine: false
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/msmarco/passage-docTTTTTquery
+index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 1986612263
+topics:
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)"
+    path: topics.dl19-passage.txt
+    qrel: qrels.dl19-passage.txt
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.4034
+      NDCG@10:
+        - 0.6417
+      R@1000:
+        - 0.8310
+  - name: bm25-default+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.4485
+      NDCG@10:
+        - 0.6548
+      R@1000:
+        - 0.8861
+  - name: bm25-tuned
+    display: BM25 (tuned)
+    params:
+      - -bm25
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
+    results:
+      map:
+        - 0.4052
+      NDCG@10:
+        - 0.6482
+      R@1000:
+        - 0.8269
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
+      - -rm3
+    results:
+      map:
+        - 0.4520
+      NDCG@10:
+        - 0.6614
+      R@1000:
+        - 0.8826
+  - name: bm25-tuned2
+    display: BM25 (tuned2)
+    params:
+      - -bm25
+      - -bm25.k1 2.18
+      - -bm25.b 0.86
+    results:
+      map:
+        - 0.4046
+      NDCG@10:
+        - 0.6336
+      R@1000:
+        - 0.8134
+  - name: bm25-tuned2+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -bm25.k1 2.18
+      - -bm25.b 0.86
+      - -rm3
+    results:
+      map:
+        - 0.4360
+      NDCG@10:
+        - 0.6528
+      R@1000:
+        - 0.8424
