@@ -27,6 +27,8 @@ import org.apache.lucene.search.TermQuery;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /*
  * Bag of Terms query builder
@@ -35,13 +37,13 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
     List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
-  
+    Map<String, Long> collect = tokens.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
-    for (String t : tokens) {
-      builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
+    for (String t : collect.keySet()){
+      builder.add(new BoostQuery(new TermQuery(new Term(field, t)), (float)collect.get(t)), BooleanClause.Occur.SHOULD);
     }
-  
-    return builder.build();
+    Query query = builder.build();
+    return query;
   }
 
   @Override
