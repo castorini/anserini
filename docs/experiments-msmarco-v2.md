@@ -63,3 +63,4 @@ recall_100            	all	0.5956
 
 ## Reproduction Log[*](reproducibility.md)
 
++ Results reproduced by [@ronakice](https://github.com/ronakice) on 2019-08-12 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
