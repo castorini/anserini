@@ -110,6 +110,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + [Guide to reproducing doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
 + [Guide to reproducing docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
 + [Guide to reproducing DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
++ [Guide to working with the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
 
 ### Other Experiments
 
@@ -141,6 +142,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.13.0: June 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.0.md)]
 + v0.12.0: April 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.12.0.md)]
 + v0.11.0: February 13, 2021 [[Release Notes](docs/release-notes/release-notes-v0.11.0.md)]
 + v0.10.1: January 8, 2021 [[Release Notes](docs/release-notes/release-notes-v0.10.1.md)]

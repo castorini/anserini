@@ -39,56 +39,23 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.zip.GZIPInputStream;
 
-/**
- * A JSON document collection.
- * This class reads all <code>.json</code> files in the input directory.
- * Inside each file is either a JSON Object (one document) or a JSON Array (multiple documents) or
- * a JSON Document on each line (not actually valid Json String)
- * Example of JSON Object:
- * <pre>
- * {
- *   "id": "doc1",
- *   "contents": "this is the contents."
- * }
- * </pre>
- * Example of JSON Array:
- * <pre>
- * [
- *   {
- *     "id": "doc1",
- *     "contents": "this is the contents 1."
- *   },
- *   {
- *     "id": "doc2",
- *     "contents": "this is the contents 2."
- *   }
- * ]
- * </pre>
- * Example of JSON objects, each per line (not actually valid Json String):
- * <pre>
- * {"id": "doc1", "contents": "this is the contents 1."}
- * {"id": "doc2", "contents": "this is the contents 2."}
- * </pre>
- *
- */
-public class JsonCollection extends DocumentCollection<JsonCollection.Document> {
+public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Collection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
-  public JsonCollection(Path path){
+  public MsMarcoDocV2Collection(Path path){
     this.path = path;
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public FileSegment<JsonCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<MsMarcoDocV2Collection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
    * A file in a JSON collection, typically containing multiple documents.
    */
-  public static class Segment<T extends Document> extends FileSegment<T>{
+  public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
@@ -107,9 +74,6 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
         node = iterator.next();
-        if (node.isArray()) {
-          iter = node.elements();
-        }
       }
     }
 
@@ -139,9 +103,8 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
   /**
    * A document in a JSON collection.
    */
-  public static class Document extends MultifieldSourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
-    private String contents;
     private String raw;
     private Map<String, String> fields;
 
@@ -150,10 +113,8 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       this.fields = new HashMap<>();
 
       json.fields().forEachRemaining( e -> {
-        if ("id".equals(e.getKey())) {
-          this.id = json.get("id").asText();
-        } else if ("contents".equals(e.getKey())) {
-          this.contents = json.get("contents").asText();
+        if ("docid".equals(e.getKey())) {
+          this.id = json.get("docid").asText();
         } else {
           this.fields.put(e.getKey(), e.getValue().asText());
         }
@@ -163,17 +124,19 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     @Override
     public String id() {
       if (id == null) {
-        throw new RuntimeException("JSON document has no \"id\" field");
+        throw new RuntimeException("Document does not have the required \"docid\" field!");
       }
       return id;
     }
 
     @Override
     public String contents() {
-      if (contents == null) {
-        throw new RuntimeException("JSON document has no \"contents\" field");
+      if (!fields.containsKey("url") || !fields.containsKey("title") ||
+          !fields.containsKey("headings") || !fields.containsKey("body")) {
+        throw new RuntimeException("Document is missing required fields!");
       }
-      return contents;
+
+      return fields.get("url") + " " + fields.get("title") + " " + fields.get("headings") + " " + fields.get("body");
     }
 
     @Override
@@ -184,11 +147,6 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     @Override
     public boolean indexable() {
       return true;
-    }
-
-    @Override
-    public Map<String, String> fields() {
-      return fields;
     }
   }
 }
