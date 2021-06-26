@@ -2,6 +2,8 @@
 
 This guide presents information for working with V2 of the MS MARCO passage and document test collections.
 
+If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+
 Indexing the passage collection, which is 20 GB compressed:
 
 ```
