@@ -281,6 +281,10 @@ public class SearchArgs {
       usage = "RM3 parameter: flag to print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
+  @Option(name = "-rm3.noTermFilter",
+      usage = "RM3 parameter: turn off English term filter")
+  public boolean rm3_noTermFilter = false;
+
   // ------------------------------
   // query expansion model: bm25prf
   // ------------------------------
