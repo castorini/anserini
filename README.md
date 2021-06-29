@@ -22,7 +22,7 @@ A low-effort way to try out Anserini is to look at our [online notebooks](https:
 For convenience, we've pre-built a few common indexes, available to download [here](https://git.uwaterloo.ca/jimmylin/anserini-indexes).
 
 You'll need Java 11 and Maven 3.3+ to build Anserini.
-Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned.
+Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned (alternatively, use `git submodule update --init`).
 Then, build using using Maven:
 
 ```
@@ -110,6 +110,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + [Guide to reproducing doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
 + [Guide to reproducing docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
 + [Guide to reproducing DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
++ [Guide to reproducing uniCOIL for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-unicoil.md)
 + [Guide to working with the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
 
 ### Other Experiments
