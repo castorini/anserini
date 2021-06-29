@@ -453,7 +453,8 @@ public final class SearchCollection implements Closeable {
 
             RerankerCascade cascade = new RerankerCascade(tag);
             cascade.add(new Rm3Reranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
-                Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery));
+                Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery,
+                !args.rm3_noTermFilter));
             cascade.add(new ScoreTiesAdjusterReranker());
             cascades.add(cascade);
           }
