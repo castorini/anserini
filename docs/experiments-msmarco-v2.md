@@ -2,6 +2,8 @@
 
 This guide presents information for working with V2 of the MS MARCO passage and document test collections.
 
+If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+
 Indexing the passage collection, which is 20 GB compressed:
 
 ```
@@ -59,6 +61,9 @@ map                   	all	0.1552
 recip_rank            	all	0.1572
 recall_100            	all	0.5956
 ```
+
+Currently (06/26/2021), indexing doesn't work in [Pyserini](http://pyserini.io/) yet (will work once we push next release).
+However, Pyserini _can_ work directly with an index built in Java by Anserini; just pass the index path to `SimpleSearcher`.
 
 
 ## Reproduction Log[*](reproducibility.md)
