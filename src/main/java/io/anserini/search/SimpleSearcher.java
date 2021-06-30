@@ -308,7 +308,7 @@ public class SimpleSearcher implements Closeable {
   public void setRM3() {
     SearchArgs defaults = new SearchArgs();
     setRM3(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
-        Float.parseFloat(defaults.rm3_originalQueryWeight[0]), false);
+        Float.parseFloat(defaults.rm3_originalQueryWeight[0]));
   }
 
   /**
@@ -319,7 +319,7 @@ public class SimpleSearcher implements Closeable {
    * @param originalQueryWeight weight to assign to the original query
    */
   public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight) {
-    setRM3(fbTerms, fbDocs, originalQueryWeight, false);
+    setRM3(fbTerms, fbDocs, originalQueryWeight, false, true);
   }
 
   /**
@@ -329,12 +329,13 @@ public class SimpleSearcher implements Closeable {
    * @param fbDocs number of expansion documents
    * @param originalQueryWeight weight to assign to the original query
    * @param outputQuery flag to print original and expanded queries
+   * @param filterTerms whether to filter terms to be English only
    */
-  public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
+  public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     useRM3 = true;
     cascade = new RerankerCascade("rm3");
     cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
-        fbTerms, fbDocs, originalQueryWeight, outputQuery));
+        fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
