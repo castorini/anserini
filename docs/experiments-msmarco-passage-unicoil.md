@@ -48,7 +48,7 @@ The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, 
 To ensure that the tokenization in the index aligns exactly with the queries, we use pre-tokenized queries.
 First, fetch the MS MARCO passage ranking dev set queries: 
 
-```
+```bash
 wget https://git.uwaterloo.ca/jimmylin/unicoil/-/raw/master/topics.msmarco-passage.dev-subset.unicoil.tsv.gz -P collections/
 
 # Alternate mirror
