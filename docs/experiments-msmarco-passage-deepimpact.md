@@ -15,6 +15,10 @@ First, we need to download and extract the MS MARCO passage dataset with DeepImp
 
 ```bash
 wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/msmarco-passage-deepimpact-b8.tar.gz -P collections/
+
+# Alternate mirror
+wget https://vault.cs.uwaterloo.ca/s/8xabiYom7nYJcB7/download -O collections/msmarco-passage-deepimpact-b8.tar.gz
+
 tar -xzvf collections/msmarco-passage-deepimpact-b8.tar.gz -C collections/
 ```
 
@@ -46,6 +50,9 @@ First, fetch the MS MARCO passage ranking dev set queries:
 
 ```
 wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/topics.msmarco-passage.dev-subset.deep-impact.tsv -P collections/
+
+# Alternate mirror
+wget https://vault.cs.uwaterloo.ca/s/py2CToTmaz6FoTq/download -O collections/topics.msmarco-passage.dev-subset.deep-impact.tsv
 ```
 
 We can now run retrieval:

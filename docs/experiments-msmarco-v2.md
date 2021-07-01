@@ -67,6 +67,6 @@ However, Pyserini _can_ work directly with an index built in Java by Anserini; j
 
 
 ## Reproduction Log[*](reproducibility.md)
-+ Results reproduced by [@ronakice](https://github.com/ronakice) on 2019-06-25 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
-+ Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`6f9352f`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
-+  Results reproduced by [@spacemanidol](https://github.com/spacemanidol) on 2021-06-28 (commit [`ec506b6`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
++ Results reproduced by [@ronakice](https://github.com/ronakice) on 2021-06-25 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
++ Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
++ Results reproduced by [@spacemanidol](https://github.com/spacemanidol) on 2021-06-28 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
