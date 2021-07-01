@@ -36,7 +36,7 @@ def perform_fusion(method: FusionMethod, runs: List[TrecRun], output_path: str, 
     print('Performing fusion ->', method)
 
     if method == FusionMethod.RRF:
-        fused_run = fusion.reciprocal_rank_fusion(runs, max_docs=10000)
+        fused_run = fusion.reciprocal_rank_fusion(runs, max_docs=max_docs)
         fused_run.print_subset(output_path, topics=fused_run.topics())
     elif method == FusionMethod.COMBO_SUM:
         with open(output_path, 'w+') as f:
