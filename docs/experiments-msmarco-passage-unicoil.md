@@ -15,6 +15,10 @@ First, we need to download and extract the MS MARCO passage dataset with uniCOIL
 
 ```bash
 wget https://git.uwaterloo.ca/jimmylin/unicoil/-/raw/master/msmarco-passage-unicoil-b8.tar -P collections/
+
+# Alternate mirror
+wget https://vault.cs.uwaterloo.ca/s/Rm6fknT432YdBts/download -O collections/msmarco-passage-unicoil-b8.tar
+
 tar -xvf collections/msmarco-passage-unicoil-b8.tar -C collections/
 ```
 
@@ -44,8 +48,12 @@ The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, 
 To ensure that the tokenization in the index aligns exactly with the queries, we use pre-tokenized queries.
 First, fetch the MS MARCO passage ranking dev set queries: 
 
-```
+```bash
 wget https://git.uwaterloo.ca/jimmylin/unicoil/-/raw/master/topics.msmarco-passage.dev-subset.unicoil.tsv.gz -P collections/
+
+# Alternate mirror
+wget https://vault.cs.uwaterloo.ca/s/QGoHeBm4YsAgt6H/download -O collections/topics.msmarco-passage.dev-subset.unicoil.tsv.gz
+
 gzip -d collections/topics.msmarco-passage.dev-subset.unicoil.tsv.gz
 ```
 
