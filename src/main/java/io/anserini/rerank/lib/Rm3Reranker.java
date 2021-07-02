@@ -58,14 +58,16 @@ public class Rm3Reranker implements Reranker {
   private final int fbDocs;
   private final float originalQueryWeight;
   private final boolean outputQuery;
+  private final boolean filterTerms;
 
-  public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
+  public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     this.analyzer = analyzer;
     this.field = field;
     this.fbTerms = fbTerms;
     this.fbDocs = fbDocs;
     this.originalQueryWeight = originalQueryWeight;
     this.outputQuery = outputQuery;
+    this.filterTerms = filterTerms;
   }
 
   @Override
@@ -196,7 +198,7 @@ public class Rm3Reranker implements Reranker {
         String term = text.utf8ToString();
 
         if (term.length() < 2 || term.length() > 20) continue;
-        if (!term.matches("[a-z0-9]+")) continue;
+        if (this.filterTerms && !term.matches("[a-z0-9]+")) continue;
 
         // This seemingly arbitrary logic needs some explanation. See following PR for details:
         //   https://github.com/castorini/Anserini/pull/289
