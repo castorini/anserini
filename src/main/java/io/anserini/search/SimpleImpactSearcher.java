@@ -1,6 +1,5 @@
 package io.anserini.search;
 
-import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
@@ -8,14 +7,9 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.similarity.ImpactSimilarity;
-import io.anserini.search.topicreader.TopicReader;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -27,25 +21,16 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -82,9 +67,8 @@ public class SimpleImpactSearcher implements Closeable {
   
     protected IndexReader reader;
     protected Similarity similarity;
-    protected Analyzer analyzer;
+    protected BagOfWordsQueryGenerator generator;
     protected RerankerCascade cascade;
-  
     protected IndexSearcher searcher = null;
   
     /**
@@ -119,17 +103,6 @@ public class SimpleImpactSearcher implements Closeable {
      * @throws IOException if errors encountered during initialization
      */
     public SimpleImpactSearcher(String indexDir) throws IOException {
-      this(indexDir, new WhitespaceAnalyzer());
-    }
-  
-    /**
-     * Creates a {@code SimpleImpactSearcher} with a specified analyzer.
-     *
-     * @param indexDir index directory
-     * @param analyzer analyzer to use
-     * @throws IOException if errors encountered during initialization
-     */
-    public SimpleImpactSearcher(String indexDir, Analyzer analyzer) throws IOException {
       Path indexPath = Paths.get(indexDir);
   
       if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -139,7 +112,7 @@ public class SimpleImpactSearcher implements Closeable {
       this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
       // Default to using ImpactSimilarity.
       this.similarity = new ImpactSimilarity();
-      this.analyzer = analyzer;
+      this.generator = new BagOfWordsQueryGenerator();
       cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
     }
@@ -182,23 +155,8 @@ public class SimpleImpactSearcher implements Closeable {
      * @param threads number of threads
      * @return a map of query id to search results
      */
-    public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
-      QueryGenerator generator = new BagOfWordsQueryGenerator();
-      return batchSearchFields(generator, queries, qids, k, threads, new HashMap<>());
-    }
-  
-    /**
-     * Searches the collection using multiple threads.
-     *
-     * @param generator the method for generating queries
-     * @param queries list of queries
-     * @param qids list of unique query ids
-     * @param k number of hits
-     * @param threads number of threads
-     * @return a map of query id to search results
-     */
-    public Map<String, Result[]> batchSearch(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads) {
-      return batchSearchFields(generator, queries, qids, k, threads, new HashMap<>());
+    public Map<String, Result[]> batchSearch(List<Map<String, Float>> queries, List<String> qids, int k, int threads) {
+      return batchSearchFields(queries, qids, k, threads, new HashMap<>());
     }
   
     /**
@@ -212,25 +170,7 @@ public class SimpleImpactSearcher implements Closeable {
      * @param fields map of fields to search with weights
      * @return a map of query id to search results
      */
-    public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads,
-                                                   Map<String, Float> fields) {
-      QueryGenerator generator = new BagOfWordsQueryGenerator();
-      return batchSearchFields(generator, queries, qids, k, threads, fields);
-    }
-  
-    /**
-     * Searches the provided fields weighted by their boosts, using multiple threads.
-     * Batch version of {@link #searchFields(String, Map, int)}.
-     *
-     * @param generator the method for generating queries
-     * @param queries list of queries
-     * @param qids list of unique query ids
-     * @param k number of hits
-     * @param threads number of threads
-     * @param fields map of fields to search with weights
-     * @return a map of query id to search results
-     */
-    public Map<String, Result[]> batchSearchFields(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads,
+    public Map<String, Result[]> batchSearchFields(List<Map<String, Float>> queries, List<String> qids, int k, int threads,
                                                    Map<String, Float> fields) {
       // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
       // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
@@ -246,14 +186,14 @@ public class SimpleImpactSearcher implements Closeable {
       AtomicLong index = new AtomicLong();
       int queryCnt = queries.size();
       for (int q = 0; q < queryCnt; ++q) {
-        String query = queries.get(q);
+        Map<String, Float> query = queries.get(q);
         String qid = qids.get(q);
         executor.execute(() -> {
           try {
             if (fields.size() > 0) {
-              results.put(qid, searchFields(generator, query, fields, k));
+              results.put(qid, searchFields(query, fields, k));
             } else {
-              results.put(qid, search(generator, query, k));
+              results.put(qid, search(query, k));
             }
           } catch (IOException e) {
             throw new CompletionException(e);
@@ -297,54 +237,26 @@ public class SimpleImpactSearcher implements Closeable {
      * @return array of search results
      * @throws IOException if error encountered during search
      */
-    public Result[] search(String q) throws IOException {
+    public Result[] search(Map<String, Float> q) throws IOException {
       return search(q, 10);
     }
   
     /**
-     * Searches the collection, returning a specified number of hits.
+     * Searches the collection.
      *
      * @param q query
      * @param k number of hits
      * @return array of search results
      * @throws IOException if error encountered during search
      */
-    public Result[] search(String q, int k) throws IOException {
-      Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
-      List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
+    public Result[] search(Map<String, Float> q, int k) throws IOException {
+      Query query = generator.buildQuery(IndexArgs.CONTENTS, q);
   
-      return search(query, queryTokens, q, k);
-    }
-  
-    /**
-     * Searches the collection with a pre-constructed Lucene {@link Query}.
-     *
-     * @param query Lucene query
-     * @param k number of hits
-     * @return array of search results
-     * @throws IOException if error encountered during search
-     */
-    public Result[] search(Query query, int k) throws IOException {
-      return search(query, null, null, k);
-    }
-  
-    /**
-     * Searches the collection with a specified {@link QueryGenerator}.
-     *
-     * @param generator the method for generating queries
-     * @param q query
-     * @param k number of hits
-     * @return array of search results
-     * @throws IOException if error encountered during search
-     */
-    public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
-      Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
-  
-      return search(query, null, null, k);
+      return _search(query, k);
     }
   
     // internal implementation
-    protected Result[] search(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
+    protected Result[] _search(Query query, int k) throws IOException {
       // Create an IndexSearch only once. Note that the object is thread safe.
       if (searcher == null) {
         searcher = new IndexSearcher(reader);
@@ -359,7 +271,7 @@ public class SimpleImpactSearcher implements Closeable {
       RerankerContext context;
       rs = searcher.search(query, k, BREAK_SCORE_TIES_BY_DOCID, true);
       context = new RerankerContext<>(searcher, null, query, null,
-            queryString, queryTokens, null, searchArgs);
+            null, null, null, searchArgs);
   
       ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   
@@ -390,30 +302,12 @@ public class SimpleImpactSearcher implements Closeable {
      * @return array of search results
      * @throws IOException if error encountered during search
      */
-    public Result[] searchFields(String q, Map<String, Float> fields, int k) throws IOException {
-      // Note that this is used for MS MARCO experiments with document expansion.
-      QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
-      return searchFields(queryGenerator, q, fields, k);
-    }
-  
-    /**
-     * Searches the provided fields weighted by their boosts.
-     *
-     * @param generator the method for generating queries
-     * @param q query
-     * @param fields map of fields to search with weights
-     * @param k number of hits
-     * @return array of search results
-     * @throws IOException if error encountered during search
-     */
-    public Result[] searchFields(QueryGenerator generator, String q, Map<String, Float> fields, int k) throws IOException {
+    public Result[] searchFields(Map<String, Float> q, Map<String, Float> fields, int k) throws IOException {
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(similarity);
   
-      Query query = generator.buildQuery(fields, analyzer, q);
-      List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
-  
-      return search(query, queryTokens, q, k);
+      Query query = generator.buildQuery(fields, q);  
+      return _search(query, k);
     }
   
     /**
@@ -525,59 +419,7 @@ public class SimpleImpactSearcher implements Closeable {
     // from Java. The main method here exposes only barebone options, primarily designed to verify that results from
     // SimpleImpactSearcher are *exactly* the same as SearchCollection (e.g., via automated regression scripts).
     public static void main(String[] args) throws Exception {
-      Args searchArgs = new Args();
-      CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
-  
-      try {
-        parser.parseArgument(args);
-      } catch (CmdLineException e) {
-        System.err.println(e.getMessage());
-        parser.printUsage(System.err);
-        System.err.println("Example: SimpleImpactSearcher" + parser.printExample(OptionHandlerFilter.REQUIRED));
-        return;
-      }
-  
-      final long start = System.nanoTime();
-      SimpleImpactSearcher searcher = new SimpleImpactSearcher(searchArgs.index);
-      SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
-      PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
-      
-      if (searchArgs.threads == 1) {
-        for (Object id : topics.keySet()) {
-          Result[] results = searcher.search(topics.get(id).get("title"), searchArgs.hits);
-  
-          for (int i = 0; i < results.length; i++) {
-            out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
-                id, results[i].docid, (i + 1), results[i].score));
-          }
-        }
-      } else {
-        List<String> qids = new ArrayList<>();
-        List<String> queries = new ArrayList<>();
-  
-        for (Object id : topics.keySet()) {
-          qids.add(id.toString());
-          queries.add(topics.get(id).get("title"));
-        }
-  
-        Map<String, Result[]> allResults = searcher.batchSearch(queries, qids, searchArgs.hits, searchArgs.threads);
-  
-        // We iterate through, in natural object order.
-        for (Object id : topics.keySet()) {
-          Result[] results = allResults.get(id.toString());
-  
-          for (int i = 0; i < results.length; i++) {
-            out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
-                id, results[i].docid, (i + 1), results[i].score));
-          }
-        }
-      }
-  
-      out.close();
-      searcher.close();
-  
-      final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-      LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+        System.out.println("Not Implement");
     }
   }
   
