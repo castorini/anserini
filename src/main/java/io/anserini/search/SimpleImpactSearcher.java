@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.search;
 
 import io.anserini.index.IndexArgs;
@@ -21,14 +37,12 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.Option;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionException;
@@ -46,24 +60,6 @@ public class SimpleImpactSearcher implements Closeable {
     public static final Sort BREAK_SCORE_TIES_BY_DOCID =
         new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
     private static final Logger LOG = LogManager.getLogger(SimpleImpactSearcher.class);
-  
-    public static final class Args {
-      @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index.")
-      public String index;
-  
-      @Option(name = "-topics", metaVar = "[file]", required = true, usage = "Topics file.")
-      public String topics;
-  
-      @Option(name = "-output", metaVar = "[file]", required = true, usage = "Output run file.")
-      public String output;
-  
-      @Option(name = "-hits", metaVar = "[number]", usage = "Max number of hits to return.")
-      public int hits = 1000;
-  
-      @Option(name = "-threads", metaVar = "[number]", usage = "Number of threads to use.")
-      public int threads = 1;
-  
-    }
   
     protected IndexReader reader;
     protected Similarity similarity;
@@ -147,7 +143,7 @@ public class SimpleImpactSearcher implements Closeable {
     }
   
     /**
-     * Searches the collection using multiple threads.
+     * Searches in batch
      *
      * @param queries list of queries
      * @param qids list of unique query ids
@@ -156,22 +152,6 @@ public class SimpleImpactSearcher implements Closeable {
      * @return a map of query id to search results
      */
     public Map<String, Result[]> batchSearch(List<Map<String, Float>> queries, List<String> qids, int k, int threads) {
-      return batchSearchFields(queries, qids, k, threads, new HashMap<>());
-    }
-  
-    /**
-     * Searches the provided fields weighted by their boosts, using multiple threads.
-     * Batch version of {@link #searchFields(String, Map, int)}.
-     *
-     * @param queries list of queries
-     * @param qids list of unique query ids
-     * @param k number of hits
-     * @param threads number of threads
-     * @param fields map of fields to search with weights
-     * @return a map of query id to search results
-     */
-    public Map<String, Result[]> batchSearchFields(List<Map<String, Float>> queries, List<String> qids, int k, int threads,
-                                                   Map<String, Float> fields) {
       // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
       // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
       if (searcher == null) {
@@ -190,11 +170,7 @@ public class SimpleImpactSearcher implements Closeable {
         String qid = qids.get(q);
         executor.execute(() -> {
           try {
-            if (fields.size() > 0) {
-              results.put(qid, searchFields(query, fields, k));
-            } else {
-              results.put(qid, search(query, k));
-            }
+            results.put(qid, search(query, k));
           } catch (IOException e) {
             throw new CompletionException(e);
           }
@@ -291,23 +267,6 @@ public class SimpleImpactSearcher implements Closeable {
       }
   
       return results;
-    }
-  
-    /**
-     * Searches the provided fields weighted by their boosts.
-     *
-     * @param q query
-     * @param fields map of fields to search with weights
-     * @param k number of hits
-     * @return array of search results
-     * @throws IOException if error encountered during search
-     */
-    public Result[] searchFields(Map<String, Float> q, Map<String, Float> fields, int k) throws IOException {
-      IndexSearcher searcher = new IndexSearcher(reader);
-      searcher.setSimilarity(similarity);
-  
-      Query query = generator.buildQuery(fields, q);  
-      return _search(query, k);
     }
   
     /**
@@ -409,17 +368,6 @@ public class SimpleImpactSearcher implements Closeable {
      */
     public String documentRaw(String docid) {
       return IndexReaderUtils.documentRaw(reader, docid);
-    }
-  
-    // Note that this class is primarily meant to be used by automated regression scripts, not humans!
-    // tl;dr - Do not use this class for running experiments. Use SearchCollection instead!
-    //
-    // SimpleImpactSearcher is the main class that exposes search functionality for Pyserini (in Python).
-    // As such, it has a different code path than SearchCollection, the preferred entry point for running experiments
-    // from Java. The main method here exposes only barebone options, primarily designed to verify that results from
-    // SimpleImpactSearcher are *exactly* the same as SearchCollection (e.g., via automated regression scripts).
-    public static void main(String[] args) throws Exception {
-        System.out.println("Not Implement");
     }
   }
   
