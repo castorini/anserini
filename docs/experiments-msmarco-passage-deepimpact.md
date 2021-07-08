@@ -15,6 +15,10 @@ First, we need to download and extract the MS MARCO passage dataset with DeepImp
 
 ```bash
 wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/msmarco-passage-deepimpact-b8.tar.gz -P collections/
+
+# Alternate mirror
+wget https://vault.cs.uwaterloo.ca/s/8xabiYom7nYJcB7/download -O collections/msmarco-passage-deepimpact-b8.tar.gz
+
 tar -xzvf collections/msmarco-passage-deepimpact-b8.tar.gz -C collections/
 ```
 
@@ -46,6 +50,9 @@ First, fetch the MS MARCO passage ranking dev set queries:
 
 ```
 wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/topics.msmarco-passage.dev-subset.deep-impact.tsv -P collections/
+
+# Alternate mirror
+wget https://vault.cs.uwaterloo.ca/s/py2CToTmaz6FoTq/download -O collections/topics.msmarco-passage.dev-subset.deep-impact.tsv
 ```
 
 We can now run retrieval:
@@ -88,3 +95,4 @@ The final evaluation metric is very close to the one reported in the paper (0.32
 
 + Results reproduced by [@MXueguang](https://github.com/MXueguang) on 2021-06-17 (commit [`ff618db`](https://github.com/castorini/anserini/commit/ff618dbf87feee0ad75dc42c72a361c05984097d))
 + Results reproduced by [@JMMackenzie](https://github.com/jmmackenzie) on 2021-06-22 (commit [`490434`](https://github.com/castorini/anserini/commit/490434172a035b6eade8c17771aed83cc7f5d996))
++ Results reproduced by [@amyxie361](https://github.com/amyxie361) on 2021-06-22 (commit [`6f9352`](https://github.com/castorini/anserini/commit/6f9352fc5d6a4938fadc2bda9d0c428056eec5f0))
