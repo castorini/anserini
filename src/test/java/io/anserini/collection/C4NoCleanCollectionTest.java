@@ -26,10 +26,10 @@ public class C4NoCleanCollectionTest extends C4CollectionTest {
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    collectionPath = Paths.get("src/test/resources/sample_docs/noclean_c4");
+    collectionPath = Paths.get("src/test/resources/sample_docs/c4_noclean");
     collection = new C4NoCleanCollection(collectionPath);
-    Path segment = Paths.get("src/test/resources/sample_docs/noclean_c4/c4-train.00001-of-01024.json.gz");
-    Path segment2 = Paths.get("src/test/resources/sample_docs/noclean_c4/c4-train.00002-of-01024.json.gz");
+    Path segment = Paths.get("src/test/resources/sample_docs/c4_noclean/c4-train.00001-of-01024.json.gz");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/c4_noclean/c4-train.00002-of-01024.json.gz");
 
     segmentPaths.add(segment);
     segmentPaths.add(segment2);
