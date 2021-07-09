@@ -26,10 +26,10 @@ public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<NoC
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    collectionPath = Paths.get("src/test/resources/sample_docs/clean_c4_with_docno");
+    collectionPath = Paths.get("src/test/resources/sample_docs/noclean_c4_with_docno");
     collection = new NoCleanC4Collection(collectionPath);
-    Path segment = Paths.get("src/test/resources/sample_docs/clean_c4_with_docno/c4-train.00001-of-01024.json.gz");
-    Path segment2 = Paths.get("src/test/resources/sample_docs/clean_c4_with_docno/c4-train.00002-of-01024.json.gz");
+    Path segment = Paths.get("src/test/resources/sample_docs/noclean_c4_with_docno/c4-train.00001-of-01024.json.gz");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/noclean_c4_with_docno/c4-train.00002-of-01024.json.gz");
 
     segmentPaths.add(segment);
     segmentPaths.add(segment2);
@@ -39,10 +39,10 @@ public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<NoC
 
     totalSegments = 2;
     totalDocs = 4;
-    expected.put("c4-0001-000000", Map.of("id", "id1", "text", "test text", "timestamp", "1556008007", "url", "http://www.test.com"));
-    expected.put("c4-0001-000001", Map.of("id", "id2", "text", "test text2", "timestamp", "1587630407", "url", "http://www.test2.com"));
-    expected.put("c4-0002-000000", Map.of("id", "id3", "text", "test text-2", "timestamp", "1556008007", "url", "http://www.test-2.com"));
-    expected.put("c4-0002-000001", Map.of("id", "id4", "text", "test text2-2", "timestamp", "1587630407", "url", "http://www.test2-2.com"));
+    expected.put("en.noclean.c4-train.0001-01024.0", Map.of("id", "en.noclean.c4-train.0001-01024.0", "text", "test text", "timestamp", "1556008007", "url", "http://www.test.com"));
+    expected.put("en.noclean.c4-train.0001-01024.1", Map.of("id", "en.noclean.c4-train.0001-01024.1", "text", "test text2", "timestamp", "1587630407", "url", "http://www.test2.com"));
+    expected.put("en.noclean.c4-train.0002-01024.0", Map.of("id", "en.noclean.c4-train.0002-01024.0", "text", "test text-2", "timestamp", "1556008007", "url", "http://www.test-2.com"));
+    expected.put("en.noclean.c4-train.0002-01024.1", Map.of("id", "en.noclean.c4-train.0002-01024.1", "text", "test text2-2", "timestamp", "1587630407", "url", "http://www.test2-2.com"));
   }
 
   @Override
