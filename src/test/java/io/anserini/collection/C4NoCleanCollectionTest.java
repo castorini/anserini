@@ -22,7 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class C4NoCleanCollectionTest extends C4CollectionTest {
+public class C4NoCleanCollectionTest extends DocumentCollectionTest<C4NoCleanCollection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
@@ -50,7 +50,7 @@ public class C4NoCleanCollectionTest extends C4CollectionTest {
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("text"), doc.contents());
-    assertEquals((long) Long.valueOf(expected.get("timestamp")), ((C4Collection.Document) doc).getTimestamp());
-    assertEquals(expected.get("url"), ((C4Collection.Document) doc).getUrl());
+    assertEquals((long) Long.valueOf(expected.get("timestamp")), ((C4NoCleanCollection.Document) doc).getTimestamp());
+    assertEquals(expected.get("url"), ((C4NoCleanCollection.Document) doc).getUrl());
   }
 }
