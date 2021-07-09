@@ -39,10 +39,10 @@ public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<NoC
 
     totalSegments = 2;
     totalDocs = 4;
-    expected.put("en.noclean.c4-train.0001-01024.0", Map.of("id", "en.noclean.c4-train.0001-01024.0", "text", "test text", "timestamp", "1556008007", "url", "http://www.test.com"));
-    expected.put("en.noclean.c4-train.0001-01024.1", Map.of("id", "en.noclean.c4-train.0001-01024.1", "text", "test text2", "timestamp", "1587630407", "url", "http://www.test2.com"));
-    expected.put("en.noclean.c4-train.0002-01024.0", Map.of("id", "en.noclean.c4-train.0002-01024.0", "text", "test text-2", "timestamp", "1556008007", "url", "http://www.test-2.com"));
-    expected.put("en.noclean.c4-train.0002-01024.1", Map.of("id", "en.noclean.c4-train.0002-01024.1", "text", "test text2-2", "timestamp", "1587630407", "url", "http://www.test2-2.com"));
+    expected.put("en.noclean.c4-train.0001-of-01024.0", Map.of("id", "en.noclean.c4-train.0001-of-01024.0", "text", "test text", "timestamp", "1556008007", "url", "http://www.test.com"));
+    expected.put("en.noclean.c4-train.0001-of-01024.1", Map.of("id", "en.noclean.c4-train.0001-of-01024.1", "text", "test text2", "timestamp", "1587630407", "url", "http://www.test2.com"));
+    expected.put("en.noclean.c4-train.0002-of-01024.0", Map.of("id", "en.noclean.c4-train.0002-of-01024.0", "text", "test text-2", "timestamp", "1556008007", "url", "http://www.test-2.com"));
+    expected.put("en.noclean.c4-train.0002-of-01024.1", Map.of("id", "en.noclean.c4-train.0002-of-01024.1", "text", "test text2-2", "timestamp", "1587630407", "url", "http://www.test2-2.com"));
   }
 
   @Override
