@@ -111,7 +111,7 @@ public class NoCleanC4Collection extends DocumentCollection<NoCleanC4Collection.
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else {
-        bufferedRecord = new CleanC4Collection.Document(node, fileName, count);
+        bufferedRecord = new NoCleanC4Collection.Document(node, fileName, count);
         if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
           count++;
