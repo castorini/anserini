@@ -89,6 +89,7 @@ public class NoCleanC4Collection extends DocumentCollection<NoCleanC4Collection.
       filePath = path.toString();
       int fileNumStart = filePath.indexOf("c4-train.") + 9;
       // plus one to remove leading zero
+      fileName = filePath;
       // fileName = filePath.substring(fileNumStart + 1, fileNumStart + 5);
       if (filePath.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
@@ -139,7 +140,7 @@ public class NoCleanC4Collection extends DocumentCollection<NoCleanC4Collection.
         this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
       }
       
-      System.out.println("#####################"+this.id);
+      System.out.println("##################### "+this.id);
       this.url = json.get("url").asText();
       String dateTime = json.get("timestamp").asText();
       Instant i = Instant.parse(dateTime);
