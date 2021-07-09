@@ -22,12 +22,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<NoCleanC4Collection.Document> {
+public class C4NoCleanCollectionWithDocNoTest extends DocumentCollectionTest<C4NoCleanCollection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
     collectionPath = Paths.get("src/test/resources/sample_docs/noclean_c4_with_docno");
-    collection = new NoCleanC4Collection(collectionPath);
+    collection = new C4Collection(collectionPath);
     Path segment = Paths.get("src/test/resources/sample_docs/noclean_c4_with_docno/c4-train.00001-of-01024.json.gz");
     Path segment2 = Paths.get("src/test/resources/sample_docs/noclean_c4_with_docno/c4-train.00002-of-01024.json.gz");
 
