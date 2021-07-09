@@ -42,47 +42,7 @@ public class C4NoCleanCollection extends C4Collection {
     super(path);
   }
 
-  // @Override
-  // public FileSegment<NoCleanC4Collection.Document> createFileSegment(Path p) throws IOException {
-  //   return new Segment(p);
-  // }
-
-  // removes control characters
-  // static class CtrlFilterStream extends FilterInputStream {
-  //   public CtrlFilterStream(InputStream in) {
-  //     super(in);
-  //   }
-
-  //   @Override
-  //   public int read() throws IOException {
-  //     int character = super.read();
-  //     if (character == 127 || character < 32)
-  //       return 0;
-  //     return character;
-  //   }
-  // }
-
-  // private int getFileNumber(String fileName) {
-  //   try {
-  //     int fileNumStart = fileName.indexOf("c4-train.") + 9;
-  //     return Integer.parseInt(fileName.substring(fileNumStart, fileNumStart + 5));
-  //   } catch (final NumberFormatException e) {
-  //     return fileName.hashCode();
-  //   }
-  // }
-
-  // @Override
-  // public List<Path> getSegmentPaths(int shardCount, int currShard) {
-  //   List<Path> segments = super.getSegmentPaths();
-  //   return segments.stream().filter(x -> getFileNumber(x.toString()) % shardCount == currShard).collect(Collectors.toList());
-  // }
-
-  public static class Segment extends FileSegment<C4NoCleanCollection.Document>{
-    private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
-    private JsonNode node = null;
-    private String filePath;
-    private String fileName;
-    private int count = 0;
+  public static class Segment extends C4Collection.Segment{
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -105,75 +65,18 @@ public class C4NoCleanCollection extends C4Collection {
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       node = iterator.next();
     }
-
-    @Override
-    public void readNext() throws NoSuchElementException {
-      if (node == null) {
-        throw new NoSuchElementException("JsonNode is empty");
-      } else {
-        bufferedRecord = new C4NoCleanCollection.Document(node, fileName, count);
-        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
-          node = iterator.next();
-          count++;
-        } else {
-          atEOF = true; // there is no more JSON object in the bufferedReader
-        }
-      }
-    }
   }
 
-  public static class Document implements SourceDocument {
-    private String id;
-    private String contents;
-    private String raw;
-    private String url;
-    private long timestamp;
+  public static class Document implements C4Collection.Document {
 
     public Document(JsonNode json, String filename, int jsonLoc) {
-      this.raw = json.toPrettyString();
-      this.contents = json.get("text").asText();
+      super(json, filename, jsonLoc);
       
-      try{
+      try {
         this.id = json.get("docno").asText();
-      }catch(Exception e){
+      } catch(Exception e) { 
         this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
       }
-      
-      this.url = json.get("url").asText();
-      String dateTime = json.get("timestamp").asText();
-      Instant i = Instant.parse(dateTime);
-      this.timestamp = i.getEpochSecond();
-    }
-
-    public String getUrl() {
-      return url;
-    }
-
-    public long getTimestamp() {
-      return timestamp;
-    }
-
-    @Override
-    public String id() {
-      return id;
-    }
-
-    @Override
-    public String contents() {
-      if (contents == null) {
-        throw new RuntimeException("JSON document has no \"contents\" field");
-      }
-      return contents;
-    }
-
-    @Override
-    public String raw() {
-      return raw;
-    }
-
-    @Override
-    public boolean indexable() {
-      return true;
     }
   }
 }
