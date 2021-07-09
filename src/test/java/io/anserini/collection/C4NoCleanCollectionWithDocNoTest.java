@@ -50,7 +50,7 @@ public class C4NoCleanCollectionWithDocNoTest extends C4CollectionTest {
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("text"), doc.contents());
-    assertEquals((long) Long.valueOf(expected.get("timestamp")), ((C4NoCleanCollection.Document) doc).getTimestamp());
-    assertEquals(expected.get("url"), ((C4NoCleanCollection.Document) doc).getUrl());
+    assertEquals((long) Long.valueOf(expected.get("timestamp")), ((C4Collection.Document) doc).getTimestamp());
+    assertEquals(expected.get("url"), ((C4Collection.Document) doc).getUrl());
   }
 }
