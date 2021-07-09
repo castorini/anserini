@@ -121,11 +121,11 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       }
     }
 
-    public String getFilePath(){
+    public static String getFilePath(){
       return filePath;
     }
 
-    public void setFileName(String filename){
+    public static void setFileName(String filename){
       fileName = filename;
     }
   }
@@ -180,7 +180,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       return true;
     }
 
-    public void setId(String id){
+    public static void setId(String id){
       this.id = id;
     }
   }
