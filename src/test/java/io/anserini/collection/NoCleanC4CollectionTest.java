@@ -48,7 +48,6 @@ public class NoCleanC4CollectionTest extends DocumentCollectionTest<NoCleanC4Col
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     assertTrue(doc.indexable());
-    System.out.println("#####################"+doc.id());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("text"), doc.contents());
     assertEquals((long) Long.valueOf(expected.get("timestamp")), ((NoCleanC4Collection.Document) doc).getTimestamp());
