@@ -38,7 +38,7 @@ import java.util.zip.GZIPInputStream;
 
 
 public class C4NoCleanCollection extends C4Collection {
-  public NoCleanC4Collection(Path path) {
+  public C4NoCleanCollection(Path path) {
     super(path);
   }
 
