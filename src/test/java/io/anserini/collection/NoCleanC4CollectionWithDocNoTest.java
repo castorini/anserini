@@ -22,7 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<NoCleanC4CollectionWithDocNoTest.Document> {
+public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<NoCleanC4Collection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
