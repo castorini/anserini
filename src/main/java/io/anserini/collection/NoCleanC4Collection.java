@@ -37,45 +37,46 @@ import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 
-public class NoCleanC4Collection extends DocumentCollection<NoCleanC4Collection.Document> {
+public class NoCleanC4Collection extends C4Collection {
   public NoCleanC4Collection(Path path) {
-    this.path = path;
+    // this.path = path;
+    super(path);
   }
 
-  @Override
-  public FileSegment<NoCleanC4Collection.Document> createFileSegment(Path p) throws IOException {
-    return new Segment(p);
-  }
+  // @Override
+  // public FileSegment<NoCleanC4Collection.Document> createFileSegment(Path p) throws IOException {
+  //   return new Segment(p);
+  // }
 
-  // removes control characters
-  static class CtrlFilterStream extends FilterInputStream {
-    public CtrlFilterStream(InputStream in) {
-      super(in);
-    }
+  // // removes control characters
+  // static class CtrlFilterStream extends FilterInputStream {
+  //   public CtrlFilterStream(InputStream in) {
+  //     super(in);
+  //   }
 
-    @Override
-    public int read() throws IOException {
-      int character = super.read();
-      if (character == 127 || character < 32)
-        return 0;
-      return character;
-    }
-  }
+  //   @Override
+  //   public int read() throws IOException {
+  //     int character = super.read();
+  //     if (character == 127 || character < 32)
+  //       return 0;
+  //     return character;
+  //   }
+  // }
 
-  private int getFileNumber(String fileName) {
-    try {
-      int fileNumStart = fileName.indexOf("c4-train.") + 9;
-      return Integer.parseInt(fileName.substring(fileNumStart, fileNumStart + 5));
-    } catch (final NumberFormatException e) {
-      return fileName.hashCode();
-    }
-  }
+  // private int getFileNumber(String fileName) {
+  //   try {
+  //     int fileNumStart = fileName.indexOf("c4-train.") + 9;
+  //     return Integer.parseInt(fileName.substring(fileNumStart, fileNumStart + 5));
+  //   } catch (final NumberFormatException e) {
+  //     return fileName.hashCode();
+  //   }
+  // }
 
-  @Override
-  public List<Path> getSegmentPaths(int shardCount, int currShard) {
-    List<Path> segments = super.getSegmentPaths();
-    return segments.stream().filter(x -> getFileNumber(x.toString()) % shardCount == currShard).collect(Collectors.toList());
-  }
+  // @Override
+  // public List<Path> getSegmentPaths(int shardCount, int currShard) {
+  //   List<Path> segments = super.getSegmentPaths();
+  //   return segments.stream().filter(x -> getFileNumber(x.toString()) % shardCount == currShard).collect(Collectors.toList());
+  // }
 
   public static class Segment extends FileSegment<NoCleanC4Collection.Document>{
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
