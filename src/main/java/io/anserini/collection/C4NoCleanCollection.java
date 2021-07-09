@@ -38,9 +38,9 @@ import java.util.zip.GZIPInputStream;
 
 
 public class C4NoCleanCollection extends C4Collection {
-  // public NoCleanC4Collection(Path path) {
-  //   this.path = path;
-  // }
+  public NoCleanC4Collection(Path path) {
+    super(path);
+  }
 
   // @Override
   // public FileSegment<NoCleanC4Collection.Document> createFileSegment(Path p) throws IOException {
@@ -77,7 +77,6 @@ public class C4NoCleanCollection extends C4Collection {
   //   return segments.stream().filter(x -> getFileNumber(x.toString()) % shardCount == currShard).collect(Collectors.toList());
   // }
 
-  @Override
   public static class Segment extends FileSegment<C4Collection.Document>{
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
     private JsonNode node = null;
@@ -123,7 +122,6 @@ public class C4NoCleanCollection extends C4Collection {
     }
   }
 
-  @Override
   public static class Document implements SourceDocument {
     private String id;
     private String contents;
