@@ -89,7 +89,7 @@ public class NoCleanC4Collection extends DocumentCollection<NoCleanC4Collection.
       filePath = path.toString();
       int fileNumStart = filePath.indexOf("c4-train.") + 9;
       // plus one to remove leading zero
-      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 15);
+      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
       if (filePath.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
                 Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
