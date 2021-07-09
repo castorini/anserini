@@ -22,12 +22,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<CleanCleanC4CollectionTest.Document> {
+public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<NoCleanC4CollectionWithDocNoTest.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
     collectionPath = Paths.get("src/test/resources/sample_docs/clean_c4_with_docno");
-    collection = new CleanC4Collection(collectionPath);
+    collection = new NoCleanC4Collection(collectionPath);
     Path segment = Paths.get("src/test/resources/sample_docs/clean_c4_with_docno/c4-train.00001-of-01024.json.gz");
     Path segment2 = Paths.get("src/test/resources/sample_docs/clean_c4_with_docno/c4-train.00002-of-01024.json.gz");
 
@@ -50,7 +50,7 @@ public class NoCleanC4CollectionWithDocNoTest extends DocumentCollectionTest<Cle
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("text"), doc.contents());
-    assertEquals((long) Long.valueOf(expected.get("timestamp")), ((CleanC4Collection.Document) doc).getTimestamp());
-    assertEquals(expected.get("url"), ((CleanC4Collection.Document) doc).getUrl());
+    assertEquals((long) Long.valueOf(expected.get("timestamp")), ((NoCleanC4Collection.Document) doc).getTimestamp());
+    assertEquals(expected.get("url"), ((NoCleanC4Collection.Document) doc).getUrl());
   }
 }
