@@ -46,28 +46,13 @@ public class C4NoCleanCollection extends C4Collection {
 
     public Segment(Path path) throws IOException {
       super(path);
-      filePath = path.toString();
-      int fileNumStart = filePath.indexOf("c4-train.") + 9;
+      int fileNumStart = C4Collection.Segment.getFilePath().indexOf("c4-train.") + 9;
       // plus one to remove leading zero
-      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
-      if (filePath.endsWith(".gz")) { //.gz
-        InputStream stream = new GZIPInputStream(
-                Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
-        CtrlFilterStream filteredStream = new CtrlFilterStream(stream);
-        bufferedReader = new BufferedReader(new InputStreamReader(filteredStream, StandardCharsets.UTF_8));
-      } else { // plain text file
-        InputStream stream = new FileInputStream(filePath);
-        CtrlFilterStream filteredStream = new CtrlFilterStream(stream);
-        bufferedReader = new BufferedReader(new InputStreamReader(filteredStream, StandardCharsets.UTF_8));
-      }
-      // reading as a json file
-      ObjectMapper mapper = new ObjectMapper();
-      iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
-      node = iterator.next();
+      C4Collection.setFileName(filePath.substring(fileNumStart + 1, fileNumStart + 14));
     }
   }
 
-  public static class Document implements C4Collection.Document {
+  public static class Document extends C4Collection.Document {
 
     public Document(JsonNode json, String filename, int jsonLoc) {
       super(json, filename, jsonLoc);
