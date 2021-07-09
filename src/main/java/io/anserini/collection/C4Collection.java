@@ -80,8 +80,8 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
   public static class Segment extends FileSegment<C4Collection.Document>{
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
     private JsonNode node = null;
-    private String filePath;
-    private String fileName;
+    private static String filePath;
+    private static String fileName;
     private int count = 0;
 
     public Segment(Path path) throws IOException {
@@ -131,7 +131,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
   }
 
   public static class Document implements SourceDocument {
-    private String id;
+    private static String id;
     private String contents;
     private String raw;
     private String url;
