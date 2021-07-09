@@ -136,10 +136,10 @@ public class NoCleanC4Collection extends DocumentCollection<NoCleanC4Collection.
       try{
         this.id = json.get("docno").asText();
       }catch(Exception e){
-        System.out.println("#####################"+this.id);
         this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
       }
       
+      System.out.println("#####################"+this.id);
       this.url = json.get("url").asText();
       String dateTime = json.get("timestamp").asText();
       Instant i = Instant.parse(dateTime);
