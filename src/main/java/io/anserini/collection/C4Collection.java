@@ -180,8 +180,8 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       return true;
     }
 
-    public static void setId(String id){
-      this.id = id;
+    public static void setId(String idS){
+      id = idS;
     }
   }
 }
