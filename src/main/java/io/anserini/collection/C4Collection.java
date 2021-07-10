@@ -80,8 +80,8 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
   public static class Segment extends FileSegment<C4Collection.Document>{
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
     private JsonNode node = null;
-    private static String filePath;
-    private static String fileName;
+    protected String filePath;
+    protected String fileName;
     private int count = 0;
 
     public Segment(Path path) throws IOException {
@@ -121,17 +121,17 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       }
     }
 
-    public static String getFilePath(){
-      return filePath;
-    }
+    // public static String getFilePath(){
+    //   return filePath;
+    // }
 
-    public static void setFileName(String filename){
-      fileName = filename;
-    }
+    // public static void setFileName(String filename){
+    //   fileName = filename;
+    // }
   }
 
   public static class Document implements SourceDocument {
-    private static String id;
+    protected String id;
     private String contents;
     private String raw;
     private String url;
@@ -180,8 +180,8 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       return true;
     }
 
-    public static void setId(String idS){
-      id = idS;
-    }
+    // public static void setId(String idS){
+    //   id = idS;
+    // }
   }
 }

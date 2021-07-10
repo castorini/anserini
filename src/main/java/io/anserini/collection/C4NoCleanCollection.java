@@ -46,10 +46,10 @@ public class C4NoCleanCollection extends C4Collection {
 
     public Segment(Path path) throws IOException {
       super(path);
-      String pathS = C4Collection.Segment.getFilePath();
-      int fileNumStart = pathS.indexOf("c4-train.") + 9;
+      // String pathS = C4Collection.Segment.getFilePath();
+      int fileNumStart = filePath.indexOf("c4-train.") + 9;
       // plus one to remove leading zero
-      C4Collection.Segment.setFileName(pathS.substring(fileNumStart + 1, fileNumStart + 14));
+      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14));
     }
   }
 
@@ -59,9 +59,9 @@ public class C4NoCleanCollection extends C4Collection {
       super(json, filename, jsonLoc);
       
       try {
-        C4Collection.Document.setId(json.get("docno").asText());
+        this.id = json.get("docno").asText();
       } catch(Exception e) { 
-        C4Collection.Document.setId(String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc));
+        this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
       }
     }
   }
