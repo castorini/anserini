@@ -38,12 +38,9 @@ import java.util.zip.GZIPInputStream;
 
 
 public class C4NoCleanCollection extends C4Collection {
+  
   public C4NoCleanCollection(Path path) {
     super(path);
-  }
-
-  public FileSegment<C4NoCleanCollection.Document> createFileSegment(Path p) throws IOException {
-    return new Segment(p);
   }
 
   public static class Segment extends C4Collection.Segment{
@@ -53,6 +50,7 @@ public class C4NoCleanCollection extends C4Collection {
       int fileNumStart = filePath.indexOf("c4-train.") + 9;
       // plus one to remove leading zero
       fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
+      System.out.println("I am here 1"+this.id);
     }
 
     @Override
@@ -66,6 +64,7 @@ public class C4NoCleanCollection extends C4Collection {
           count++;
         } else {
           atEOF = true; // there is no more JSON object in the bufferedReader
+          System.out.println("I am here 2"+this.id);
         }
       }
     }
@@ -81,7 +80,7 @@ public class C4NoCleanCollection extends C4Collection {
       } catch(Exception e) { 
         this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
       }
-      System.out.println("######### "+this.id);
+      System.out.println("I am here 4"+this.id);
     }
   }
 }
