@@ -78,11 +78,11 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
   }
 
   public static class Segment extends FileSegment<C4Collection.Document>{
-    private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
-    private JsonNode node = null;
+    protected MappingIterator<JsonNode> iterator; // iterator for JSON line objects
+    protected JsonNode node = null;
     protected String filePath;
     protected String fileName;
-    private int count = 0;
+    protected int count = 0;
 
     public Segment(Path path) throws IOException {
       super(path);
