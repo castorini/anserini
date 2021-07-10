@@ -22,7 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class C4NoCleanCollectionTest extends DocumentCollectionTest<C4Collection.Document> {
+public class C4NoCleanCollectionTest extends C4CollectionTest {
   @Before
   public void setUp() throws Exception {
     super.setUp();
@@ -45,13 +45,12 @@ public class C4NoCleanCollectionTest extends DocumentCollectionTest<C4Collection
     expected.put("en.noclean.c4-train.0002-of-01024.1", Map.of("id", "en.noclean.c4-train.0002-of-01024.1", "text", "test text2-2", "timestamp", "1587630407", "url", "http://www.test2-2.com"));
   }
 
-  @Override
-  void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    assertTrue(doc.indexable());
-    assertEquals(expected.get("id"), ((C4NoCleanCollection.Document) doc).id());
-    // System.out.println("################## "+doc.id());
-    assertEquals(expected.get("text"), doc.contents());
-    assertEquals((long) Long.valueOf(expected.get("timestamp")), ((C4NoCleanCollection.Document) doc).getTimestamp());
-    assertEquals(expected.get("url"), ((C4NoCleanCollection.Document) doc).getUrl());
-  }
+  // @Override
+  // void checkDocument(SourceDocument doc, Map<String, String> expected) {
+  //   assertTrue(doc.indexable());
+  //   assertEquals(expected.get("id"), doc.id());
+  //   assertEquals(expected.get("text"), doc.contents());
+  //   assertEquals((long) Long.valueOf(expected.get("timestamp")), ((C4NoCleanCollection.Document) doc).getTimestamp());
+  //   assertEquals(expected.get("url"), ((C4NoCleanCollection.Document) doc).getUrl());
+  // }
 }
