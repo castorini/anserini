@@ -90,10 +90,11 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       int fileNumStart = filePath.indexOf("c4-train.") + 9;
       if(C4Collection.this instanceof C4Collection){
         // plus one to remove leading zero
+        System.out.println("############ "+fileName);
         fileName = filePath.substring(fileNumStart + 1, fileNumStart + 5);
       } else{
         fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
-        System.out.println("############ "+fileName);
+        
       }
       if (filePath.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
@@ -118,9 +119,9 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       } else {
         if(C4Collection.this instanceof C4Collection){
           bufferedRecord = new C4Collection.Document(node, fileName, count);
+          System.out.println("############ Document");
         } else{
           bufferedRecord = new C4NoCleanCollection.Document(node, fileName, count);
-          System.out.println("############ Document");
         }
         
         if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
