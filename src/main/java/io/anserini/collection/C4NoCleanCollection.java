@@ -42,9 +42,9 @@ public class C4NoCleanCollection extends C4Collection {
     super(path);
   }
 
-  // public FileSegment<C4NoCleanCollection.Document> createFileSegment(Path p) throws IOException {
-  //   return new Segment(p);
-  // }
+  public FileSegment<C4NoCleanCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
+  }
 
   public static class Segment extends C4Collection.Segment{
 
