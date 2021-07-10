@@ -120,14 +120,6 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
         }
       }
     }
-
-    // public static String getFilePath(){
-    //   return filePath;
-    // }
-
-    // public static void setFileName(String filename){
-    //   fileName = filename;
-    // }
   }
 
   public static class Document implements SourceDocument {
@@ -179,9 +171,5 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     public boolean indexable() {
       return true;
     }
-
-    // public static void setId(String idS){
-    //   id = idS;
-    // }
   }
 }

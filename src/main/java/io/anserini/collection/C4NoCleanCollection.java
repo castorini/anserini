@@ -46,7 +46,6 @@ public class C4NoCleanCollection extends C4Collection {
 
     public Segment(Path path) throws IOException {
       super(path);
-      // String pathS = C4Collection.Segment.getFilePath();
       int fileNumStart = filePath.indexOf("c4-train.") + 9;
       // plus one to remove leading zero
       fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
