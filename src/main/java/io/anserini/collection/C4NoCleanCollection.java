@@ -43,33 +43,6 @@ public class C4NoCleanCollection extends C4Collection {
     super(path);
   }
 
-  public static class Segment extends C4Collection.Segment{
-
-    public Segment(Path path) throws IOException {
-      super(path);
-      int fileNumStart = filePath.indexOf("c4-train.") + 9;
-      // plus one to remove leading zero
-      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
-      System.out.println("I am here 1"+fileName);
-    }
-
-    @Override
-    public void readNext() throws NoSuchElementException {
-      System.out.println("I am here 2");
-      if (node == null) {
-        throw new NoSuchElementException("JsonNode is empty");
-      } else {
-        bufferedRecord = new C4NoCleanCollection.Document(node, fileName, count);
-        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
-          node = iterator.next();
-          count++;
-        } else {
-          atEOF = true; // there is no more JSON object in the bufferedReader
-        }
-      }
-    }
-  }
-
   public static class Document extends C4Collection.Document {
 
     public Document(JsonNode json, String filename, int jsonLoc) {
@@ -80,7 +53,6 @@ public class C4NoCleanCollection extends C4Collection {
       } catch(Exception e) { 
         this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
       }
-      System.out.println("I am here 4"+this.id);
     }
   }
 }
