@@ -81,6 +81,7 @@ public class C4NoCleanCollection extends C4Collection {
       } catch(Exception e) { 
         this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
       }
+      System.out.println("######### "+this.id);
     }
   }
 }
