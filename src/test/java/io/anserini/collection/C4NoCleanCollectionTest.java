@@ -47,7 +47,6 @@ public class C4NoCleanCollectionTest extends DocumentCollectionTest<C4Collection
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    doc = (C4NoCleanCollection.Document) doc;
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("text"), doc.contents());
