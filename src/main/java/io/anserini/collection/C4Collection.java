@@ -91,7 +91,6 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       if(C4Collection.this instanceof C4NoCleanCollection){
         // plus one to remove leading zero
         fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
-        System.out.println("############ "+fileName);
       } else{
         fileName = filePath.substring(fileNumStart + 1, fileNumStart + 5);
         
@@ -119,7 +118,6 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       } else {
         if(C4Collection.this instanceof C4NoCleanCollection){
           bufferedRecord = new C4NoCleanCollection.Document(node, fileName, count);
-          System.out.println("############ Document");
         } else{
           bufferedRecord = new C4Collection.Document(node, fileName, count);
         }
