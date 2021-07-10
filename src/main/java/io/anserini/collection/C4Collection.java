@@ -77,7 +77,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     return segments.stream().filter(x -> getFileNumber(x.toString()) % shardCount == currShard).collect(Collectors.toList());
   }
 
-  public static class Segment extends FileSegment<C4Collection.Document>{
+  public class Segment extends FileSegment<C4Collection.Document>{
     protected MappingIterator<JsonNode> iterator; // iterator for JSON line objects
     protected JsonNode node = null;
     protected String filePath;
