@@ -88,7 +88,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       super(path);
       filePath = path.toString();
       int fileNumStart = filePath.indexOf("c4-train.") + 9;
-      if(C4Collection.this instanceof C4Collection){
+      if(C4Collection.this instanceof C4NoCleanCollection){
         // plus one to remove leading zero
         System.out.println("############ "+fileName);
         fileName = filePath.substring(fileNumStart + 1, fileNumStart + 5);
@@ -117,7 +117,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else {
-        if(C4Collection.this instanceof C4Collection){
+        if(C4Collection.this instanceof C4NoCleanCollection){
           bufferedRecord = new C4Collection.Document(node, fileName, count);
           System.out.println("############ Document");
         } else{
