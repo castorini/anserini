@@ -50,11 +50,12 @@ public class C4NoCleanCollection extends C4Collection {
       int fileNumStart = filePath.indexOf("c4-train.") + 9;
       // plus one to remove leading zero
       fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
-      System.out.println("I am here 1"+this.id);
+      System.out.println("I am here 1"+fileName);
     }
 
     @Override
     public void readNext() throws NoSuchElementException {
+      System.out.println("I am here 2");
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else {
@@ -64,7 +65,6 @@ public class C4NoCleanCollection extends C4Collection {
           count++;
         } else {
           atEOF = true; // there is no more JSON object in the bufferedReader
-          System.out.println("I am here 2"+this.id);
         }
       }
     }
