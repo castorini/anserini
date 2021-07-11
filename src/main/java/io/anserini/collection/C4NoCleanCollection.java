@@ -32,6 +32,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -51,9 +53,9 @@ public class C4NoCleanCollection extends C4Collection {
 
     public Segment(Path path) throws IOException {
       super(path);
-      int fileNumStart = filePath.indexOf("c4-train.") + 9;
-      // plus one to remove leading zero
-      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
+      Pattern pattern = Pattern.compile("\\d{5}-of-\\d{5}");
+      Matcher matcher = pattern.matcher(filePath);
+      fileName = matcher.group(1);
     }
 
     @Override
