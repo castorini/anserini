@@ -53,7 +53,7 @@ public class C4NoCleanCollection extends C4Collection {
 
     public Segment(Path path) throws IOException {
       super(path);
-      Pattern pattern = Pattern.compile("\d{5}-of-\d{5}");
+      Pattern pattern = Pattern.compile("d{5}-of-d{5}");
       Matcher matcher = pattern.matcher(filePath);
       fileName = matcher.group(1);
     }
