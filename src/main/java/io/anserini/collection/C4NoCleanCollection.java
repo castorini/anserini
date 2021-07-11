@@ -53,9 +53,11 @@ public class C4NoCleanCollection extends C4Collection {
 
     public Segment(Path path) throws IOException {
       super(path);
-      Pattern pattern = Pattern.compile("d{5}-of-d{5}");
+      Pattern pattern = Pattern.compile("c4-train.\\d{5}-of-\\d{5}");
       Matcher matcher = pattern.matcher(filePath);
-      fileName = matcher.group(1);
+      if(matcher.find()){
+        fileName = matcher.group();
+      }
     }
 
     @Override
@@ -82,7 +84,7 @@ public class C4NoCleanCollection extends C4Collection {
       try {
         this.id = json.get("docno").asText();
       } catch(Exception e) { 
-        this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
+        this.id = String.format("en.noclean.%s.%d", filename, jsonLoc);
       }
     }
   }
