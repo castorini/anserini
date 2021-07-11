@@ -38,9 +38,38 @@ import java.util.zip.GZIPInputStream;
 
 
 public class C4NoCleanCollection extends C4Collection {
-  
   public C4NoCleanCollection(Path path) {
     super(path);
+  }
+
+  @Override
+  public FileSegment<C4NoCleanCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
+  }
+
+  public static class Segment extends C4Collection.Segment{
+
+    public Segment(Path path) throws IOException {
+      super(path);
+      int fileNumStart = filePath.indexOf("c4-train.") + 9;
+      // plus one to remove leading zero
+      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
+    }
+
+    @Override
+    public void readNext() throws NoSuchElementException {
+      if (node == null) {
+        throw new NoSuchElementException("JsonNode is empty");
+      } else {
+        bufferedRecord = new C4NoCleanCollection.Document(node, fileName, count);
+        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+          node = iterator.next();
+          count++;
+        } else {
+          atEOF = true; // there is no more JSON object in the bufferedReader
+        }
+      }
+    }
   }
 
   public static class Document extends C4Collection.Document {
@@ -53,6 +82,7 @@ public class C4NoCleanCollection extends C4Collection {
       } catch(Exception e) { 
         this.id = String.format("en.noclean.c4-train.%s.%d", filename, jsonLoc);
       }
+      System.out.println("######### "+this.id);
     }
   }
 }

@@ -87,14 +87,8 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     public Segment(Path path) throws IOException {
       super(path);
       filePath = path.toString();
-      int fileNumStart = filePath.indexOf("c4-train.") + 9;
-      if(C4Collection.this instanceof C4NoCleanCollection){
-        // plus one to remove leading zero
-        fileName = filePath.substring(fileNumStart + 1, fileNumStart + 14);
-      } else{
-        fileName = filePath.substring(fileNumStart + 1, fileNumStart + 5);
-        
-      }
+      int fileNumStart = filePath.indexOf("c4-train.") + 9;  
+      fileName = filePath.substring(fileNumStart + 1, fileNumStart + 5);
       if (filePath.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
                 Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
@@ -116,12 +110,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else {
-        if(C4Collection.this instanceof C4NoCleanCollection){
-          bufferedRecord = new C4NoCleanCollection.Document(node, fileName, count);
-        } else{
-          bufferedRecord = new C4Collection.Document(node, fileName, count);
-        }
-        
+        bufferedRecord = new C4Collection.Document(node, fileName, count);
         if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
           count++;
