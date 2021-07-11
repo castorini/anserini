@@ -43,7 +43,7 @@ public class C4NoCleanCollection extends C4Collection {
   }
 
   @Override
-  public FileSegment<C4NoCleanCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<C4Collection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
