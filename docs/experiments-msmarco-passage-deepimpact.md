@@ -2,11 +2,12 @@
 
 This page describes how to reproduce the DeepImpact experiments in the following paper:
 
-> Antonio Mallia, Omar Khattab, Nicola Tonellotto, and Torsten Suel. [Learning Passage Impacts for Inverted Indexes.](https://arxiv.org/abs/2104.12016) _arXiv:2104.12016_.
+> Antonio Mallia, Omar Khattab, Nicola Tonellotto, and Torsten Suel. [Learning Passage Impacts for Inverted Indexes.](https://dl.acm.org/doi/10.1145/3404835.3463030) _SIGIR 2021_.
 
 Here, we start with a version of the MS MARCO passage corpus that has already been processed with DeepImpact, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
 
+Note that Pyserini provides [a comparable reproduction guide](https://github.com/castorini/pyserini/blob/master/docs/experiments-deepimpact.md), so if you don't like Java, you can get _exactly_ the same results from Python.
 
 ## Data Prep
 
