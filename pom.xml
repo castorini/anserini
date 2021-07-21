@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.13.2-SNAPSHOT</version>
+  <version>0.13.2</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -34,7 +34,7 @@
     <connection>scm:git:git@github.com:castorini/Anserini.git</connection>
     <developerConnection>scm:git:git@github.com:castorini/Anserini.git</developerConnection>
     <url>git@github.com:castorini/Anserini.git</url>
-    <tag>HEAD</tag>
+    <tag>anserini-0.13.2</tag>
   </scm>
 
   <repositories>
