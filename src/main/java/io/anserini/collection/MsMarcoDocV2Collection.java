@@ -141,6 +141,10 @@ public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Colle
         throw new RuntimeException("Document is missing required fields!");
       }
 
+      // Here, in both the original corpus and the segmented corpus, we index all the fields concatenated together.
+      // Empirically, this has proven to be the most effective (based on the dev queries).
+      // It might be nice to make "what to index" configurable, but there's not a good way to specify this
+      // in the indexing driver via command-line parameters.
       if (fields.containsKey("body")) {
         return fields.get("url") + " " + fields.get("title") + " " + fields.get("headings") + " " + fields.get("body");
       }

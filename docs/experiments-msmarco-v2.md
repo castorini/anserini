@@ -50,6 +50,8 @@ For reference:
 + Without any of the three above option, index size reduces to 9.4 GB.
 + With just `-storeRaw`, index size reduces to 73 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access; evidently, the JSON docs don't compress well.
 
+Each "document" in the index comprises the url, title, headings, and body fields concatenated together.
+
 Download the queries and qrels:
 
 ```bash
@@ -100,6 +102,8 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
  -input /store/collections/msmarco/msmarco_v2_doc_segmented \
  -index indexes/msmarco-doc-v2-segmented
 ```
+
+Each "document" in the index comprises the url, title, headings, and segment fields concatenated together.
 
 Perform runs on the dev queries (both sets):
 
