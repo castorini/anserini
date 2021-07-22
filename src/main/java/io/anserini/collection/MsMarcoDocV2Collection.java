@@ -131,12 +131,25 @@ public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Colle
 
     @Override
     public String contents() {
-      if (!fields.containsKey("url") || !fields.containsKey("title") ||
-          !fields.containsKey("headings") || !fields.containsKey("body")) {
+      // We handle both the original corpus as well as our segmented variant.
+      // They differ in the key they use to store the main contents:
+      // The original corpus uses "body", while our variant uses "segment".
+      // This difference allows us to easily figure out which version we're processing,
+      // and to (potentially) process them differently (although we're not doing so currently).
+      if (!fields.containsKey("url") || !fields.containsKey("title") || !fields.containsKey("headings") ||
+              (!fields.containsKey("body") && !fields.containsKey("segment")) ) {
         throw new RuntimeException("Document is missing required fields!");
       }
 
-      return fields.get("url") + " " + fields.get("title") + " " + fields.get("headings") + " " + fields.get("body");
+      // Here, in both the original corpus and the segmented corpus, we index all the fields concatenated together.
+      // Empirically, this has proven to be the most effective (based on the dev queries).
+      // It might be nice to make "what to index" configurable, but there's not a good way to specify this
+      // in the indexing driver via command-line parameters.
+      if (fields.containsKey("body")) {
+        return fields.get("url") + " " + fields.get("title") + " " + fields.get("headings") + " " + fields.get("body");
+      }
+
+      return fields.get("url") + " " + fields.get("title") + " " + fields.get("headings") + " " + fields.get("segment");
     }
 
     @Override
