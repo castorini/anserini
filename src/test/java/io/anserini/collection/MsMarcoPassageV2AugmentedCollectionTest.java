@@ -31,8 +31,8 @@ public class MsMarcoPassageV2AugmentedCollectionTest extends DocumentCollectionT
     collectionPath = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_augmented/");
     collection = new MsMarcoPassageV2Collection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_augmented/docs0.json");
-    Path segment2 = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_augmented/docs1.json");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_augmented/docs0.json.gz");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_augmented/docs1.json.gz");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 2);
@@ -43,16 +43,16 @@ public class MsMarcoPassageV2AugmentedCollectionTest extends DocumentCollectionT
     totalSegments = 2;
     totalDocs = 4;
 
-    expected.put("msmarco_passage_00_0", Map.of("id", "msmarco_passage_00_0"));
-    expected.put("msmarco_passage_00_172", Map.of("id", "msmarco_passage_00_172"));
-    expected.put("msmarco_passage_07_2393", Map.of("id", "msmarco_passage_07_2393"));
-    expected.put("msmarco_passage_07_2852", Map.of("id", "msmarco_passage_07_2852"));
+    expected.put("msmarco_passage_00_0", Map.of("id", "msmarco_passage_00_0", "contents_length", "206"));
+    expected.put("msmarco_passage_00_172", Map.of("id", "msmarco_passage_00_172", "contents_length", "425"));
+    expected.put("msmarco_passage_07_2393", Map.of("id", "msmarco_passage_07_2393", "contents_length", "978"));
+    expected.put("msmarco_passage_07_2852", Map.of("id", "msmarco_passage_07_2852", "contents_length", "992"));
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
-    System.out.println(doc.contents());
+    assertEquals(expected.get("contents_length"), doc.contents().length() + "");
   }
 }
