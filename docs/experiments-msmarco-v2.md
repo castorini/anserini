@@ -28,6 +28,81 @@ For reference:
 + Without any of the three above option, index size reduces to 12 GB.
 + With just `-storeRaw`, index size reduces to 47 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access.
 
+Download the queries and qrels:
+
+```
+wget https://msmarco.blob.core.windows.net/msmarcoranking/passv2_dev_queries.tsv -P collections/
+wget https://msmarco.blob.core.windows.net/msmarcoranking/passv2_dev_qrels.tsv -P collections/
+wget https://msmarco.blob.core.windows.net/msmarcoranking/passv2_dev2_queries.tsv -P collections/
+wget https://msmarco.blob.core.windows.net/msmarcoranking/passv2_dev2_qrels.tsv -P collections/
+```
+
+Perform runs on the dev queries (both sets):
+
+```
+target/appassembler/bin/SearchCollection -index indexes/msmarco-passage-v2 \
+ -topicreader TsvInt -topics collections/passv2_dev_queries.tsv \
+ -output runs/run.msmarco-passage-v2.dev1.txt -bm25 -hits 100
+
+target/appassembler/bin/SearchCollection -index indexes/msmarco-passage-v2 \
+ -topicreader TsvInt -topics collections/passv2_dev2_queries.tsv \
+ -output runs/run.msmarco-passage-v2.dev2.txt -bm25 -hits 100
+```
+
+Evaluation:
+
+```bash
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/passv2_dev_qrels.tsv runs/run.msmarco-passage-v2.dev1.txt
+map                   	all	0.0709
+recip_rank            	all	0.0719
+recall_100            	all	0.3397
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/passv2_dev2_qrels.tsv runs/run.msmarco-passage-v2.dev2.txt
+map                   	all	0.0794
+recip_rank            	all	0.0802
+recall_100            	all	0.3459
+```
+
+## Passage Collection (Augmented)
+
+We have constructed an augmented version of the passage collection; we haven't figured out how to distribute it yet, so these experiments are only reproducible on a Waterloo machine (`orca` to be exact):
+
+Indexing:
+
+```
+sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Collection \
+ -generator DefaultLuceneDocumentGenerator -threads 10 \
+ -input /store/collections/msmarco/msmarco_v2_passage_augmented \
+ -index indexes/msmarco-passage-v2-augmented \
+ -storePositions -storeDocvectors -storeRaw
+```
+
+Perform runs on the dev queries (both sets):
+
+```
+target/appassembler/bin/SearchCollection -index indexes/msmarco-passage-v2-augmented \
+ -topicreader TsvInt -topics collections/passv2_dev_queries.tsv \
+ -output runs/run.msmarco-passage-v2-augmented.dev1.txt -bm25 -hits 100
+
+target/appassembler/bin/SearchCollection -index indexes/msmarco-passage-v2-augmented \
+ -topicreader TsvInt -topics collections/passv2_dev2_queries.tsv \
+ -output runs/run.msmarco-passage-v2-augmented.dev2.txt -bm25 -hits 100
+```
+
+Evaluation:
+
+```bash
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/passv2_dev_qrels.tsv runs/run.msmarco-passage-v2-augmented.dev1.txt
+map                   	all	0.0863
+recip_rank            	all	0.0872
+recall_100            	all	0.4030
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/passv2_dev2_qrels.tsv runs/run.msmarco-passage-v2-augmented.dev2.txt
+map                   	all	0.0904
+recip_rank            	all	0.0917
+recall_100            	all	0.4159
+```
+
 ## Document Collection
 
 Download and unpack the collection into `collections/`:
@@ -86,9 +161,6 @@ map                   	all	0.1639
 recip_rank            	all	0.1659
 recall_100            	all	0.5970
 ```
-
-Currently (06/26/2021), indexing doesn't work in [Pyserini](http://pyserini.io/) yet (will work once we push next release).
-However, Pyserini _can_ work directly with an index built in Java by Anserini; just pass the index path to `SimpleSearcher`.
 
 ## Document Collection (Segmented)
 

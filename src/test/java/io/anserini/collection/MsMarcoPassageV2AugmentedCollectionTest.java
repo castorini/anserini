@@ -22,29 +22,31 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class MsMarcoPassageV2CollectionCompressedTest extends DocumentCollectionTest<MsMarcoPassageV2Collection.Document> {
+public class MsMarcoPassageV2AugmentedCollectionTest extends DocumentCollectionTest<MsMarcoPassageV2Collection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_gz/");
+    collectionPath = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_augmented/");
     collection = new MsMarcoPassageV2Collection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_gz/docs.json.gz");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_augmented/docs0.json.gz");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_augmented/docs1.json.gz");
 
     segmentPaths.add(segment1);
-    segmentDocCounts.put(segment1, 6);
+    segmentDocCounts.put(segment1, 2);
 
-    totalSegments = 1;
-    totalDocs = 6;
+    segmentPaths.add(segment2);
+    segmentDocCounts.put(segment2, 2);
 
-    expected.put("msmarco_passage_00_0", Map.of("id", "msmarco_passage_00_0", "contents_length", "76"));
-    expected.put("msmarco_passage_00_172", Map.of("id", "msmarco_passage_00_172", "contents_length", "295"));
-    expected.put("msmarco_passage_00_587", Map.of("id", "msmarco_passage_00_587", "contents_length", "290"));
-    expected.put("msmarco_passage_00_997", Map.of("id", "msmarco_passage_00_997", "contents_length", "318"));
-    expected.put("msmarco_passage_00_1451", Map.of("id", "msmarco_passage_00_1451", "contents_length", "223"));
-    expected.put("msmarco_passage_00_1778", Map.of("id", "msmarco_passage_00_1778", "contents_length", "284"));
+    totalSegments = 2;
+    totalDocs = 4;
+
+    expected.put("msmarco_passage_00_0", Map.of("id", "msmarco_passage_00_0", "contents_length", "206"));
+    expected.put("msmarco_passage_00_172", Map.of("id", "msmarco_passage_00_172", "contents_length", "425"));
+    expected.put("msmarco_passage_07_2393", Map.of("id", "msmarco_passage_07_2393", "contents_length", "978"));
+    expected.put("msmarco_passage_07_2852", Map.of("id", "msmarco_passage_07_2852", "contents_length", "992"));
   }
 
   @Override
