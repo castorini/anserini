@@ -105,13 +105,20 @@ public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassag
    */
   public static class Document implements SourceDocument {
     private String id;
-    private String contents;
     private String raw;
+    private Map<String, String> fields;
 
     public Document(JsonNode json) {
       this.raw = json.toPrettyString();
-      this.id = json.get("pid").asText();
-      this.contents = json.get("passage").asText();
+      this.fields = new HashMap<>();
+
+      json.fields().forEachRemaining( e -> {
+        if ("pid".equals(e.getKey())) {
+          this.id = json.get("pid").asText();
+        } else {
+          this.fields.put(e.getKey(), e.getValue().asText());
+        }
+      });
     }
 
     @Override
@@ -124,10 +131,26 @@ public class MsMarcoPassageV2Collection extends DocumentCollection<MsMarcoPassag
 
     @Override
     public String contents() {
-      if (contents == null) {
-        throw new RuntimeException("Passage does not have the required \"passage\" field!");
+      if (!fields.containsKey("passage")) {
+        throw new RuntimeException("Document is missing required fields!");
       }
-      return contents;
+
+      StringBuilder sb = new StringBuilder();
+      if (fields.containsKey("url")) {
+        sb.append(fields.get("url")).append(" ");
+      }
+
+      if (fields.containsKey("title")) {
+        sb.append(fields.get("title")).append(" ");
+      }
+
+      if (fields.containsKey("headings")) {
+        sb.append(fields.get("headings")).append(" ");
+      }
+
+      sb.append(fields.get("passage"));
+
+      return sb.toString();
     }
 
     @Override
