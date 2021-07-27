@@ -164,18 +164,36 @@ recall_100            	all	0.5970
 
 ## Document Collection (Segmented)
 
-We have constructed a segmented version of the document collection; we haven't figured out how to distribute it yet, so these experiments are only reproducible on a Waterloo machine (`orca` to be exact):
+A well-known limitation of transformer-based rerankers is that they are unable to perform inference over long segments of text all at once.
+One standard solution to address this shortcoming is the MaxP technique of [Dai and Callan (2019)](https://dl.acm.org/doi/10.1145/3331184.3331303): perform document retrieval, segment each document into passages, apply inference on each passage independently, then take the passage with the highest score as the representative of the document for ranking.
 
-Indexing:
+An alternative to this approach is to segment the collection _prior_ to indexing (i.e., each passage is indexed separately as a "document"), perform retrieval over the passages, and then feed these passages directly to a transformer-based reranker.
+We present exactly such a baseline for first-stage retrieval here.
+
+We segmented the document collection with [this Python script](https://github.com/castorini/pyserini/blob/master/scripts/msmarco_v2/segment_docs.py).
+As a summary, the script trims each document to 10k characters, and then applies a 10-sentence sliding window with a 5-sentence stride to generate the passages.
+This approach is similar to the results reported in [Pradeep et al. (2021)](https://arxiv.org/abs/2101.05667), which has been demonstrated to be effective.
+Sentence chunking is performed with spaCy (v2.3.5); the version is important if you want to _exactly_ reproduce our results from scratch with the Python script above.
+We have also experimented with _not_ trimming each document to the first 10k characters; the corpus becomes much bigger and the results become worse on the dev queries below.
+
+For convenience, the Microsoft organizers have kindly offered to host of copy of the segmented corpus, `msmarco_v2_doc_segmented.tar` (26 GB, MD5 checksum of `f18c3a75eb3426efeb6040dca3e885dc`).
+The tarball can be downloaded [here](https://msmarco.blob.core.windows.net//msmarcoranking/msmarco_v2_doc_segmented.tar).
+Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+
+The segmented document collection can be indexed with the following command:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
  -generator DefaultLuceneDocumentGenerator -threads 10 \
- -input /store/collections/msmarco/msmarco_v2_doc_segmented \
- -index indexes/msmarco-doc-v2-segmented
+ -input collections/msmarco_v2_doc_segmented \
+ -index indexes/msmarco-doc-v2-segmented \
+ -storePositions -storeDocvectors -storeRaw
 ```
 
-Each "document" in the index comprises the url, title, headings, and segment fields concatenated together.
+There are a total of 124,131,414 "documents" in the collection.
+Each "document" comprises the url, title, headings, and segment fields concatenated together.
+With the above indexing configuration, the index size comes to 245 GB.
+However, the index can be reduced by playing with the indexing options discussed above.
 
 Perform runs on the dev queries (both sets):
 
@@ -202,6 +220,8 @@ map                   	all	0.1903
 recip_rank            	all	0.1930
 recall_100            	all	0.6629
 ```
+
+As we can see, even as first-stage retrieval (i.e., without reranking), retrieval over the segmented collection is more effective than retrieval over the original document collection.
 
 ## Reproduction Log[*](reproducibility.md)
 
