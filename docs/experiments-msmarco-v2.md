@@ -177,7 +177,7 @@ Sentence chunking is performed with spaCy (v2.3.5); the version is important if 
 We have also experimented with _not_ trimming each document to the first 10k characters; the corpus becomes much bigger and the results become worse on the dev queries below.
 
 For convenience, the Microsoft organizers have kindly offered to host of copy of the segmented corpus, `msmarco_v2_doc_segmented.tar` (26 GB, MD5 checksum of `f18c3a75eb3426efeb6040dca3e885dc`).
-The tarball can be downloaded [here](https://msmarco.blob.core.windows.net//msmarcoranking/msmarco_v2_doc_segmented.tar).
+The tarball can be downloaded [here](https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_doc_segmented.tar).
 Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
 The segmented document collection can be indexed with the following command:
@@ -194,6 +194,7 @@ There are a total of 124,131,414 "documents" in the collection.
 Each "document" comprises the url, title, headings, and segment fields concatenated together.
 With the above indexing configuration, the index size comes to 245 GB.
 However, the index can be reduced by playing with the indexing options discussed above.
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size will be smaller at 137 GB.
 
 Perform runs on the dev queries (both sets):
 
