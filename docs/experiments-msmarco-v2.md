@@ -65,17 +65,28 @@ recall_100            	all	0.3459
 
 ## Passage Collection (Augmented)
 
-We have constructed an augmented version of the passage collection; we haven't figured out how to distribute it yet, so these experiments are only reproducible on a Waterloo machine (`orca` to be exact):
+The passage corpus contains only passage texts; it is missing additional information such as the title of the page it comes from and the URL of the page.
+This information is available in the document collection, and we have written [a Python script](https://github.com/castorini/pyserini/blob/master/scripts/msmarco_v2/augment_passage_corpus.py) to augment the passage collection with these additional fields (specifically `url`, `title`, `headings`).
 
-Indexing:
+For convenience, this augmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_passage_augmented.tar` (21 GB, MD5 checksum of `69acf3962608b614dbaaeb10282b2ab8`).
+The tarball can be downloaded [here](https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage_augmented.tar).
+Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+
+Indexing this augmented collection:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Collection \
- -generator DefaultLuceneDocumentGenerator -threads 10 \
- -input /store/collections/msmarco/msmarco_v2_passage_augmented \
+ -generator DefaultLuceneDocumentGenerator -threads 70 \
+ -input collections/msmarco_v2_passage_augmented \
  -index indexes/msmarco-passage-v2-augmented \
  -storePositions -storeDocvectors -storeRaw
 ```
+
+There are a total of 138,364,198 passages in the collection (exactly the same as the original passage collection).
+In each "document" in the index comprises the url, title, headings, and passage fields concatenated together.
+With the above indexing configuration, the index size comes to 162 GB.
+However, the index size can be reduced by playing with the indexing options discussed above.
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 95 GB.
 
 Perform runs on the dev queries (both sets):
 
@@ -102,6 +113,8 @@ map                   	all	0.0904
 recip_rank            	all	0.0917
 recall_100            	all	0.4159
 ```
+
+We see that adding these additional fields gives a nice bump to effectiveness.
 
 ## Document Collection
 
@@ -176,7 +189,7 @@ This approach is similar to the results reported in [Pradeep et al. (2021)](http
 Sentence chunking is performed with spaCy (v2.3.5); the version is important if you want to _exactly_ reproduce our results from scratch with the Python script above.
 We have also experimented with _not_ trimming each document to the first 10k characters; the corpus becomes much bigger and the results become worse on the dev queries below.
 
-For convenience, the Microsoft organizers have kindly offered to host of copy of the segmented corpus, `msmarco_v2_doc_segmented.tar` (26 GB, MD5 checksum of `f18c3a75eb3426efeb6040dca3e885dc`).
+For convenience, this segmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_doc_segmented.tar` (26 GB, MD5 checksum of `f18c3a75eb3426efeb6040dca3e885dc`).
 The tarball can be downloaded [here](https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_doc_segmented.tar).
 Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
@@ -193,8 +206,8 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
 There are a total of 124,131,414 "documents" in the collection.
 Each "document" comprises the url, title, headings, and segment fields concatenated together.
 With the above indexing configuration, the index size comes to 245 GB.
-However, the index can be reduced by playing with the indexing options discussed above.
-For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size will be smaller at 137 GB.
+However, the index size can be reduced by playing with the indexing options discussed above.
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 137 GB.
 
 Perform runs on the dev queries (both sets):
 
