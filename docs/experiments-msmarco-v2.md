@@ -77,7 +77,7 @@ Indexing this augmented collection:
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Collection \
  -generator DefaultLuceneDocumentGenerator -threads 70 \
- -input /store/collections/msmarco/msmarco_v2_passage_augmented \
+ -input collections/msmarco_v2_passage_augmented \
  -index indexes/msmarco-passage-v2-augmented \
  -storePositions -storeDocvectors -storeRaw
 ```
@@ -85,8 +85,8 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Collectio
 There are a total of 138,364,198 passages in the collection.
 In each "document" in the index comprises the url, title, headings, and passage fields concatenated together.
 With the above indexing configuration, the index size comes to 162 GB.
-However, the index can be reduced by playing with the indexing options discussed above.
-For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size will be smaller at 95 GB.
+However, the index size can be reduced by playing with the indexing options discussed above.
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 95 GB.
 
 Perform runs on the dev queries (both sets):
 
@@ -114,7 +114,7 @@ recip_rank            	all	0.0917
 recall_100            	all	0.4159
 ```
 
-
+We see that adding these additional fields gives a nice bump to effectiveness.
 
 ## Document Collection
 
@@ -206,8 +206,8 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
 There are a total of 124,131,414 "documents" in the collection.
 Each "document" comprises the url, title, headings, and segment fields concatenated together.
 With the above indexing configuration, the index size comes to 245 GB.
-However, the index can be reduced by playing with the indexing options discussed above.
-For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size will be smaller at 137 GB.
+However, the index size can be reduced by playing with the indexing options discussed above.
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 137 GB.
 
 Perform runs on the dev queries (both sets):
 
