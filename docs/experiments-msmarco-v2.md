@@ -3,11 +3,16 @@
 This guide presents information for working with V2 of the MS MARCO passage and document test collections, available [here](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html).
 
 If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+For example, to download passage collection,
+```
+azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
+```
+The speedup using `azcopy` here is significant, in our case, it takes ~1 to 2min to download this tarball, compared to 2+ hours when using `wget`.
 
 ## Passage Collection
 
 Download and unpack the collection into `collections/`:
-Indexing the passage collection, which is 20 GB compressed:
+Indexing the passage collection, which is 21 GB compressed.
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Collection \
@@ -22,11 +27,11 @@ The above configuration, on a 2017 iMac Pro with SSD, takes around 30min.
 
 The complete index occupies 72 GB (138,364,198 passages).
 It's big because it includes postions (for phrase queries), document vectors (for relevance feedback), and a complete copy of the collection itself.
-The index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
+The index size as well as index time can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
 
-+ Without any of the three above option, index size reduces to 12 GB.
-+ With just `-storeRaw`, index size reduces to 47 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access.
++ Without any of the three above option, index size reduces to 12 GB (indexed in ~13min).
++ With just `-storeRaw`, index size reduces to 47 GB (indexed in ~17min). This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access.
 
 Download the queries and qrels:
 
@@ -84,9 +89,9 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Collectio
 
 There are a total of 138,364,198 passages in the collection (exactly the same as the original passage collection).
 In each "document" in the index comprises the url, title, headings, and passage fields concatenated together.
-With the above indexing configuration, the index size comes to 162 GB.
+With the above indexing configuration, the index size comes to 162 GB (indexed in ~40min).
 However, the index size can be reduced by playing with the indexing options discussed above.
-For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 95 GB.
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 95 GB (~28 min index time).
 
 Perform runs on the dev queries (both sets):
 
@@ -119,7 +124,7 @@ We see that adding these additional fields gives a nice bump to effectiveness.
 ## Document Collection
 
 Download and unpack the collection into `collections/`:
-Indexing the document collection, which is 32 GB compressed:
+Indexing the document collection, which is 33 GB compressed.
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
@@ -130,13 +135,13 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
 ```
 
 Same instructions as above.
-On the same machine, indexing takes around 40min.
+On the same machine, indexing takes around 34min.
 Complete index occupies 134 GB (11,959,635 documents).
 Index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
 
-+ Without any of the three above option, index size reduces to 9.4 GB.
-+ With just `-storeRaw`, index size reduces to 73 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access; evidently, the JSON docs don't compress well.
++ Without any of the three above option, index size reduces to 9.4 GB (indexed in ~18min).
++ With just `-storeRaw`, index size reduces to 73 GB (indexed in ~25min). This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access; evidently, the JSON docs don't compress well.
 
 Each "document" in the index comprises the url, title, headings, and body fields concatenated together.
 
@@ -205,9 +210,9 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
 
 There are a total of 124,131,414 "documents" in the collection.
 Each "document" comprises the url, title, headings, and segment fields concatenated together.
-With the above indexing configuration, the index size comes to 245 GB.
+With the above indexing configuration, the index size comes to 226 GB (indexed in ~1h).
 However, the index size can be reduced by playing with the indexing options discussed above.
-For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 137 GB.
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 124 GB (indexed in ~48min).
 
 Perform runs on the dev queries (both sets):
 
@@ -243,3 +248,4 @@ As we can see, even as first-stage retrieval (i.e., without reranking), retrieva
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
 + Results reproduced by [@spacemanidol](https://github.com/spacemanidol) on 2021-06-28 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`dbc71ee`](https://github.com/castorini/anserini/commit/dbc71ee51fc7dbcdcb9118c9f7ad554b8b753a27))
++ Results reproduced by [@t-k-](https://github.com/t-k-) on 2021-07-29 (commit [`52b76f63`](https://github.com/castorini/anserini/commit/52b76f63b163036e8fad1a6e1b10b431b4ddd06c))
