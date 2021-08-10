@@ -31,7 +31,7 @@ The index size as well as index time can be reduced by removing the options `-st
 For reference:
 
 + Without any of the three above option, index size reduces to 12 GB (indexed in ~13min).
-+ With just `-storeRaw`, index size reduces to 47 GB (indexed in ~17min). This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access.
++ With just `-storeRaw`, index size reduces to 47 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access.
 
 Download the queries and qrels:
 
