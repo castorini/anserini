@@ -7,7 +7,7 @@ For example, to download passage collection,
 ```
 azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
-The speedup using `azcopy` here is significant, in our case, it takes ~1 to 2min to download this tarball, compared to 2+ hours when using `wget`.
+The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors.
 
 ## Passage Collection
 
