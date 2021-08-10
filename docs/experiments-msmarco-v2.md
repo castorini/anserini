@@ -212,7 +212,7 @@ There are a total of 124,131,414 "documents" in the collection.
 Each "document" comprises the url, title, headings, and segment fields concatenated together.
 With the above indexing configuration, the index size comes to 226 GB (indexed in ~1h).
 However, the index size can be reduced by playing with the indexing options discussed above.
-For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 124 GB (indexed in ~48min).
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 124 GB.
 
 Perform runs on the dev queries (both sets):
 
