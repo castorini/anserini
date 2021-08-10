@@ -3,11 +3,16 @@
 This guide presents information for working with V2 of the MS MARCO passage and document test collections, available [here](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html).
 
 If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+For example, to download passage collection,
+```
+azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
+```
+The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors.
 
 ## Passage Collection
 
 Download and unpack the collection into `collections/`:
-Indexing the passage collection, which is 20 GB compressed:
+Indexing the passage collection, which is 21 GB compressed.
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Collection \
@@ -22,7 +27,7 @@ The above configuration, on a 2017 iMac Pro with SSD, takes around 30min.
 
 The complete index occupies 72 GB (138,364,198 passages).
 It's big because it includes postions (for phrase queries), document vectors (for relevance feedback), and a complete copy of the collection itself.
-The index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
+The index size as well as index time can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
 
 + Without any of the three above option, index size reduces to 12 GB.
@@ -119,7 +124,7 @@ We see that adding these additional fields gives a nice bump to effectiveness.
 ## Document Collection
 
 Download and unpack the collection into `collections/`:
-Indexing the document collection, which is 32 GB compressed:
+Indexing the document collection, which is 33 GB compressed.
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
@@ -130,7 +135,7 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
 ```
 
 Same instructions as above.
-On the same machine, indexing takes around 40min.
+On the same machine, indexing takes around 40 minutes.
 Complete index occupies 134 GB (11,959,635 documents).
 Index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
@@ -205,9 +210,9 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
 
 There are a total of 124,131,414 "documents" in the collection.
 Each "document" comprises the url, title, headings, and segment fields concatenated together.
-With the above indexing configuration, the index size comes to 245 GB.
+With the above indexing configuration, the index size comes to 226 GB.
 However, the index size can be reduced by playing with the indexing options discussed above.
-For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 137 GB.
+For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 124 GB.
 
 Perform runs on the dev queries (both sets):
 
@@ -243,3 +248,4 @@ As we can see, even as first-stage retrieval (i.e., without reranking), retrieva
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
 + Results reproduced by [@spacemanidol](https://github.com/spacemanidol) on 2021-06-28 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`dbc71ee`](https://github.com/castorini/anserini/commit/dbc71ee51fc7dbcdcb9118c9f7ad554b8b753a27))
++ Results reproduced by [@t-k-](https://github.com/t-k-) on 2021-07-29 (commit [`52b76f63`](https://github.com/castorini/anserini/commit/52b76f63b163036e8fad1a6e1b10b431b4ddd06c))
