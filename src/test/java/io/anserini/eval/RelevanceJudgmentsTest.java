@@ -114,6 +114,46 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
+  public void testMsmarcoDocV2Dev() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(4552, qrels.getQids().size());
+    assertEquals(4702, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_doc_17_2560009121"));
+    assertEquals(1, qrels.getRelevanceGrade("999942", "msmarco_doc_06_956348348"));
+  }
+
+  @Test
+  public void testMsmarcoDocV2Dev2() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev2.txt");
+    assertNotNull(qrels);
+    assertEquals(5000, qrels.getQids().size());
+    assertEquals(5178, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_doc_08_73026062"));
+    assertEquals(1, qrels.getRelevanceGrade("999937", "msmarco_doc_05_319743607"));
+  }
+
+  @Test
+  public void testMsmarcoDocV2Passage() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(3903, qrels.getQids().size());
+    assertEquals(4009, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("763878", "msmarco_passage_33_459057644"));
+    assertEquals(1, qrels.getRelevanceGrade("1091692", "msmarco_passage_23_330102695"));
+  }
+
+  @Test
+  public void testMsmarcoDocV2Passage2() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev2.txt");
+    assertNotNull(qrels);
+    assertEquals(4281, qrels.getQids().size());
+    assertEquals(4411, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("419507", "msmarco_passage_04_254301507"));
+    assertEquals(1, qrels.getRelevanceGrade("961297", "msmarco_passage_18_858458289"));
+  }
+
+  @Test
   public void testCore17() {
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.core17.txt");
     assertNotNull(qrels);
