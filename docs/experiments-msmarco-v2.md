@@ -141,7 +141,7 @@ Index size can be reduced by removing the options `-storePositions`, `-storeDocv
 For reference:
 
 + Without any of the three above option, index size reduces to 9.4 GB (indexed in ~18min).
-+ With just `-storeRaw`, index size reduces to 73 GB (indexed in ~25min). This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access; evidently, the JSON docs don't compress well.
++ With just `-storeRaw`, index size reduces to 73 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access; evidently, the JSON docs don't compress well.
 
 Each "document" in the index comprises the url, title, headings, and body fields concatenated together.
 
