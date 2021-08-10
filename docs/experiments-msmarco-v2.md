@@ -1,4 +1,4 @@
-# Anserini: Guide to Working with the MS MARCO V2 Collections
+# Anserini: BM25 Baselines for the MS MARCO V2 Collections
 
 This guide presents information for working with V2 of the MS MARCO passage and document test collections, available [here](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html).
 
