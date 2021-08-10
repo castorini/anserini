@@ -89,7 +89,7 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Collectio
 
 There are a total of 138,364,198 passages in the collection (exactly the same as the original passage collection).
 In each "document" in the index comprises the url, title, headings, and passage fields concatenated together.
-With the above indexing configuration, the index size comes to 162 GB (indexed in ~40min).
+With the above indexing configuration, the index size comes to 162 GB.
 However, the index size can be reduced by playing with the indexing options discussed above.
 For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 95 GB.
 
