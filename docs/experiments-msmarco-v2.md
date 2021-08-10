@@ -135,7 +135,7 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoDocV2Collection \
 ```
 
 Same instructions as above.
-On the same machine, indexing takes around 34min.
+On the same machine, indexing takes around 40 minutes.
 Complete index occupies 134 GB (11,959,635 documents).
 Index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
