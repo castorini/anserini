@@ -1,4 +1,4 @@
-# Anserini: Guide to Working with the MS MARCO V2 Collections
+# Anserini: BM25 Baselines for the MS MARCO V2 Collections
 
 This guide presents information for working with V2 of the MS MARCO passage and document test collections, available [here](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html).
 
@@ -8,6 +8,7 @@ For example, to download passage collection,
 azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
 The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors.
+Queries and qrels are already included in this repo.
 
 ## Passage Collection
 
@@ -33,40 +34,40 @@ For reference:
 + Without any of the three above option, index size reduces to 12 GB.
 + With just `-storeRaw`, index size reduces to 47 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access.
 
-Download the queries and qrels:
-
-```
-wget https://msmarco.blob.core.windows.net/msmarcoranking/passv2_dev_queries.tsv -P collections/
-wget https://msmarco.blob.core.windows.net/msmarcoranking/passv2_dev_qrels.tsv -P collections/
-wget https://msmarco.blob.core.windows.net/msmarcoranking/passv2_dev2_queries.tsv -P collections/
-wget https://msmarco.blob.core.windows.net/msmarcoranking/passv2_dev2_qrels.tsv -P collections/
-```
-
 Perform runs on the dev queries (both sets):
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/msmarco-passage-v2 \
- -topicreader TsvInt -topics collections/passv2_dev_queries.tsv \
- -output runs/run.msmarco-passage-v2.dev1.txt -bm25 -hits 100
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage-v2.dev.txt \
+ -output runs/run.msmarco-passage-v2.dev.txt -bm25 -hits 1000
 
 target/appassembler/bin/SearchCollection -index indexes/msmarco-passage-v2 \
- -topicreader TsvInt -topics collections/passv2_dev2_queries.tsv \
- -output runs/run.msmarco-passage-v2.dev2.txt -bm25 -hits 100
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage-v2.dev2.txt \
+ -output runs/run.msmarco-passage-v2.dev2.txt -bm25 -hits 1000
 ```
 
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/passv2_dev_qrels.tsv runs/run.msmarco-passage-v2.dev1.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev.txt runs/run.msmarco-passage-v2.dev.txt
 map                   	all	0.0709
 recip_rank            	all	0.0719
-recall_100            	all	0.3397
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/passv2_dev2_qrels.tsv runs/run.msmarco-passage-v2.dev2.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev.txt runs/run.msmarco-passage-v2.dev.txt
+recall_100            	all	0.3397
+recall_1000           	all	0.5733
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev2.txt runs/run.msmarco-passage-v2.dev2.txt
 map                   	all	0.0794
 recip_rank            	all	0.0802
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev2.txt runs/run.msmarco-passage-v2.dev2.txt
 recall_100            	all	0.3459
+recall_1000           	all	0.5839
 ```
+
+Note that we evaluate MAP and MRR at a cutoff of 100 hits to match the official evaluation metrics.
+However, we measure recall at both 100 and 1000 hits; the latter is a common setting for reranking.
 
 ## Passage Collection (Augmented)
 
@@ -97,26 +98,32 @@ Perform runs on the dev queries (both sets):
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/msmarco-passage-v2-augmented \
- -topicreader TsvInt -topics collections/passv2_dev_queries.tsv \
- -output runs/run.msmarco-passage-v2-augmented.dev1.txt -bm25 -hits 100
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage-v2.dev.txt \
+ -output runs/run.msmarco-passage-v2-augmented.dev.txt -bm25 -hits 1000
 
 target/appassembler/bin/SearchCollection -index indexes/msmarco-passage-v2-augmented \
- -topicreader TsvInt -topics collections/passv2_dev2_queries.tsv \
- -output runs/run.msmarco-passage-v2-augmented.dev2.txt -bm25 -hits 100
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage-v2.dev2.txt \
+ -output runs/run.msmarco-passage-v2-augmented.dev2.txt -bm25 -hits 1000
 ```
 
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/passv2_dev_qrels.tsv runs/run.msmarco-passage-v2-augmented.dev1.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev.txt runs/run.msmarco-passage-v2-augmented.dev.txt
 map                   	all	0.0863
 recip_rank            	all	0.0872
-recall_100            	all	0.4030
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/passv2_dev2_qrels.tsv runs/run.msmarco-passage-v2-augmented.dev2.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev.txt runs/run.msmarco-passage-v2-augmented.dev.txt
+recall_100            	all	0.4030
+recall_1000           	all	0.6925
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev2.txt runs/run.msmarco-passage-v2-augmented.dev2.txt
 map                   	all	0.0904
 recip_rank            	all	0.0917
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev2.txt runs/run.msmarco-passage-v2-augmented.dev2.txt
 recall_100            	all	0.4159
+recall_1000           	all	0.6933
 ```
 
 We see that adding these additional fields gives a nice bump to effectiveness.
@@ -145,40 +152,40 @@ For reference:
 
 Each "document" in the index comprises the url, title, headings, and body fields concatenated together.
 
-Download the queries and qrels:
-
-```bash
-wget https://msmarco.blob.core.windows.net/msmarcoranking/docv2_dev_queries.tsv -P collections/
-wget https://msmarco.blob.core.windows.net/msmarcoranking/docv2_dev_qrels.tsv -P collections/
-wget https://msmarco.blob.core.windows.net/msmarcoranking/docv2_dev2_queries.tsv -P collections/
-wget https://msmarco.blob.core.windows.net/msmarcoranking/docv2_dev2_qrels.tsv -P collections/
-```
-
 Perform runs on the dev queries (both sets):
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/msmarco-doc-v2 \
- -topicreader TsvInt -topics collections/docv2_dev_queries.tsv \
- -output runs/run.msmarco-doc-v2.dev1.txt -bm25 -hits 100
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc-v2.dev.txt \
+ -output runs/run.msmarco-doc-v2.dev.txt -bm25 -hits 1000
 
 target/appassembler/bin/SearchCollection -index indexes/msmarco-doc-v2 \
- -topicreader TsvInt -topics collections/docv2_dev2_queries.tsv \
- -output runs/run.msmarco-doc-v2.dev2.txt -bm25 -hits 100
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc-v2.dev2.txt \
+ -output runs/run.msmarco-doc-v2.dev2.txt -bm25 -hits 1000
 ```
 
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/docv2_dev_qrels.tsv runs/run.msmarco-doc-v2.dev1.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev.txt runs/run.msmarco-doc-v2.dev.txt
 map                   	all	0.1552
 recip_rank            	all	0.1572
-recall_100            	all	0.5956
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/docv2_dev2_qrels.tsv runs/run.msmarco-doc-v2.dev2.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev.txt runs/run.msmarco-doc-v2.dev.txt
+recall_100            	all	0.5956
+recall_1000           	all	0.8054
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev2.txt runs/run.msmarco-doc-v2.dev2.txt
 map                   	all	0.1639
 recip_rank            	all	0.1659
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev2.txt runs/run.msmarco-doc-v2.dev2.txt
 recall_100            	all	0.5970
+recall_1000           	all	0.8029
 ```
+
+Similar to the passage case, we evaluate MAP and MRR at a cutoff of 100 hits to match the official evaluation metrics.
+However, we measure recall at both 100 and 1000 hits; the latter is a common setting for reranking.
 
 ## Document Collection (Segmented)
 
@@ -218,26 +225,34 @@ Perform runs on the dev queries (both sets):
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/msmarco-doc-v2-segmented \
-  -topicreader TsvInt -topics collections/docv2_dev_queries.tsv -output runs/run.msmarco-doc-v2-segmented.dev1.txt \
-  -bm25 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc-v2.dev.txt \
+  -output runs/run.msmarco-doc-v2-segmented.dev.txt \
+  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 
 target/appassembler/bin/SearchCollection -index indexes/msmarco-doc-v2-segmented \
-  -topicreader TsvInt -topics collections/docv2_dev2_queries.tsv -output runs/run.msmarco-doc-v2-segmented.dev2.txt \
-  -bm25 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc-v2.dev2.txt \
+  -output runs/run.msmarco-doc-v2-segmented.dev2.txt \
+  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 ```
 
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/docv2_dev_qrels.tsv runs/run.msmarco-doc-v2-segmented.dev1.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev.txt runs/run.msmarco-doc-v2-segmented.dev.txt
 map                   	all	0.1875
 recip_rank            	all	0.1896
-recall_100            	all	0.6555
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recall.100 -m recip_rank collections/docv2_dev2_qrels.tsv runs/run.msmarco-doc-v2-segmented.dev2.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev.txt runs/run.msmarco-doc-v2-segmented.dev.txt
+recall_100            	all	0.6555
+recall_1000           	all	0.8542
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev2.txt runs/run.msmarco-doc-v2-segmented.dev2.txt
 map                   	all	0.1903
 recip_rank            	all	0.1930
+
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev2.txt runs/run.msmarco-doc-v2-segmented.dev2.txt
 recall_100            	all	0.6629
+recall_1000           	all	0.8549
 ```
 
 As we can see, even as first-stage retrieval (i.e., without reranking), retrieval over the segmented collection is more effective than retrieval over the original document collection.
