@@ -104,14 +104,14 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 ### MS MARCO
 
-+ [Guide to BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
-+ [Guide to BM25 baselines for the MS MARCO Document Ranking Task](docs/experiments-msmarco-doc.md)
-+ [Guide to reproducing baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
-+ [Guide to reproducing doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
-+ [Guide to reproducing docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
-+ [Guide to reproducing DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
-+ [Guide to reproducing uniCOIL for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-unicoil.md)
-+ [Guide to working with the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
++ [Reproducing BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
++ [Reproducing BM25 baselines for the MS MARCO Document Ranking Task](docs/experiments-msmarco-doc.md)
++ [Reproducing baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
++ [Reproducing doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
++ [Reproducing docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
++ [Reproducing DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
++ [Reproducing uniCOIL for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-unicoil.md)
++ [Reproducing BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
 
 ### Other Experiments
 
@@ -143,6 +143,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.13.2: July 20, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.2.md)]
 + v0.13.1: June 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.1.md)]
 + v0.13.0: June 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.0.md)]
 + v0.12.0: April 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.12.0.md)]
