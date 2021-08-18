@@ -806,6 +806,7 @@ public final class IndexCollection {
       } else if (args.language.equals("zh") || args.language.equals("ko")) {
         config = new IndexWriterConfig(chineseAnalyzer);
       } else if (args.language.equals("sw") || args.language.equals("te")) {
+        // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
         config = new IndexWriterConfig(whitespaceAnalyzer);
       } else if (args.pretokenized) {
         config = new IndexWriterConfig(whitespaceAnalyzer);
