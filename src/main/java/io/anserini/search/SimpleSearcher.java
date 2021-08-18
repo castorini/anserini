@@ -284,6 +284,7 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new CJKAnalyzer();
     } else if (language.equals("sw") || language.equals("te")) {
       this.analyzer = new WhitespaceAnalyzer();
+      // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
     }
   }
 
