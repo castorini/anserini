@@ -805,6 +805,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(turkishAnalyzer);
       } else if (args.language.equals("zh") || args.language.equals("ko")) {
         config = new IndexWriterConfig(chineseAnalyzer);
+      } else if (args.language.equals("sw") || args.language.equals("te")) {
+        config = new IndexWriterConfig(whitespaceAnalyzer);
       } else if (args.pretokenized) {
         config = new IndexWriterConfig(whitespaceAnalyzer);
       } else {
