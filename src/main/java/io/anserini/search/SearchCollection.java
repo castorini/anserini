@@ -355,7 +355,7 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("zh")) {
       analyzer = new CJKAnalyzer();
       LOG.info("Language: zh");
-    } else if (args.pretokenized) {
+    } else if (args.pretokenized || args.language.equals("sw") || args.language.equals("te")) {
       analyzer = new WhitespaceAnalyzer();
       LOG.info("Pretokenized");
     } else {
