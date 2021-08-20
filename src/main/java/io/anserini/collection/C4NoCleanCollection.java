@@ -93,7 +93,7 @@ public class C4NoCleanCollection extends C4Collection {
       return super.contents() + " " + super.getUrl();
     }
 
-    public String text(){
+    public String getText(){
       return super.contents();
     }
 

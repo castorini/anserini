@@ -140,6 +140,14 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       this.timestamp = i.getEpochSecond();
     }
 
+    public String getUrl() {
+      return url;
+    }
+
+    public long getTimestamp() {
+      return timestamp;
+    }
+
     @Override
     public String id() {
       return id;
