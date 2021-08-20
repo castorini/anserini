@@ -123,9 +123,9 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
 
   public static class Document implements SourceDocument {
     protected String id;
+    protected String url;
     private String contents;
     private String raw;
-    private String url;
     private long timestamp;
 
     public Document(JsonNode json, String filename, int jsonLoc) {
@@ -138,14 +138,6 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       String dateTime = json.get("timestamp").asText();
       Instant i = Instant.parse(dateTime);
       this.timestamp = i.getEpochSecond();
-    }
-
-    public String getUrl() {
-      return url;
-    }
-
-    public long getTimestamp() {
-      return timestamp;
     }
 
     @Override
