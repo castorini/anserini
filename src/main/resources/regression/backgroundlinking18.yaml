@@ -23,7 +23,7 @@ collection: WashingtonPostCollection
 index_stats:
   documents: 595031
   documents (non-empty): 595030
-  total terms: 318219945
+  total terms: 318219870
 topics:
   - name: "[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)"
     path: topics.backgroundlinking18.txt
