@@ -87,5 +87,15 @@ public class C4NoCleanCollection extends C4Collection {
         this.id = String.format("en.noclean.%s.%d", filename, jsonLoc);
       }
     }
+
+    @Override
+    public String contents(){
+      return super.contents() + " " + super.getUrl();
+    }
+
+    public String getText(){
+      return super.contents();
+    }
+
   }
 }
