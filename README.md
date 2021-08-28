@@ -57,16 +57,10 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + [Regressions for ClueWeb12](docs/regressions-cw12.md)
 + [Regressions for Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md)
 + [Regressions for Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
-+ [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
-+ [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
-+ [Regressions for Complex Answer Retrieval v2.0 (CAR17) with doc2query expansion](docs/regressions-car17v2.0-doc2query.md)
-+ [Regressions for MS MARCO Passage Ranking](docs/regressions-msmarco-passage.md)
-+ [Regressions for MS MARCO Passage Ranking with doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
-+ [Regressions for MS MARCO Passage Ranking with docTTTTTquery expansion](docs/regressions-msmarco-passage-docTTTTTquery.md)
-+ [Regressions for MS MARCO Document Ranking](docs/regressions-msmarco-doc.md)
-+ [Regressions for MS MARCO Document Ranking (Per Passage)](docs/regressions-msmarco-doc-per-passage.md)
-+ [Regressions for MS MARCO Document Ranking with per-doc docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
-+ [Regressions for MS MARCO Document Ranking with per-passage docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)
++ Regressions for Complex Answer Retrieval (CAR17): [[v1.5](docs/regressions-car17v1.5.md)] [[v2.0](docs/regressions-car17v2.0.md)] [[v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)]
++ Regressions for MS MARCO Passage Ranking: [[base](docs/regressions-msmarco-passage.md)] [[doc2query](docs/regressions-msmarco-passage-doc2query.md)] [[docTTTTTquery](docs/regressions-msmarco-passage-docTTTTTquery.md)]
++ Regressions for MS MARCO Document Ranking (Per Doc): [[base](docs/regressions-msmarco-doc.md)] [[docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)]
++ Regressions for MS MARCO Document Ranking (Per Passage): [[base](docs/regressions-msmarco-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)]
 + [Regressions for the TREC 2019 Deep Learning Track (Passage Ranking)](docs/regressions-dl19-passage.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Passage Ranking) with docTTTTTquery](docs/regressions-dl19-passage-docTTTTTquery.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Document Ranking)](docs/regressions-dl19-doc.md)
