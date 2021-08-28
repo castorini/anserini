@@ -175,7 +175,7 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
         dry_run (bool): if True, print out commands without actually running them
     """
     fail_str = '\033[91m[FAIL]\033[0m '
-    ok_str = ' [OK]   '
+    ok_str = '   [OK] '
     logger.info('='*10+'Verifying Results'+'='*10)
     success = True
     for model in yaml_data['models']:

@@ -1,0 +1,128 @@
+---
+name: msmarco-passage-v2
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexReaderUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: MsMarcoPassageV2Collection
+generator: DefaultLuceneDocumentGenerator
+threads: 18
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRaw
+topic_reader: TsvInt
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -M 100
+      - -m map
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -M 100
+      - -m recip_rank
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: MRR@100
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.100
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.1000
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@1000
+    metric_precision: 4
+    can_combine: false
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/msmarco/msmarco_v2_passage
+index_path: indexes/lucene-index.msmarco-passage-v2.pos+docvectors+raw
+index_stats:
+  documents: 138364198
+  documents (non-empty): 138364197
+  total terms: 4673266762
+topics:
+  - name: "[MS MARCO Passage V2: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    path: topics.msmarco-passage-v2.dev.txt
+    qrel: qrels.msmarco-passage-v2.dev.txt
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.0709
+      MRR@100:
+        - 0.0719
+      R@100:
+        - 0.3397
+      R@1000:
+        - 0.5733
+  - name: bm25-default+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.0611
+      MRR@100:
+        - 0.0619
+      R@100:
+        - 0.3377
+      R@1000:
+        - 0.5933
+  - name: bm25-default+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -axiom
+      - -axiom.deterministic
+      - -rerankCutoff 20
+    results:
+      map:
+        - 0.0592
+      MRR@100:
+        - 0.0601
+      R@100:
+        - 0.3482
+      R@1000:
+        - 0.6064
+  - name: bm25-default+prf
+    display: +PRF
+    params:
+      - -bm25
+      - -bm25prf
+    results:
+      map:
+        - 0.0595
+      MRR@100:
+        - 0.0607
+      R@100:
+        - 0.3495
+      R@1000:
+        - 0.5968
