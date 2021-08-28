@@ -45,18 +45,11 @@ Anserini is designed to support experiments on various standard IR test collecti
 The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini reproducibility promise](docs/regressions.md).
 For the most part, these runs are based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
-+ Regressions for [Disks 1 &amp; 2](docs/regressions-disk12.md)
-+ Regressions for [Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
-+ Regressions for [AQUAINT (Robust05)](docs/regressions-robust05.md)
-+ Regressions for [the New York Times Corpus (Core17)](docs/regressions-core17.md)
-+ Regressions for [the Washington Post Corpus (Core18)](docs/regressions-core18.md)
-+ Regressions for [Wt10g](docs/regressions-wt10g.md)
-+ Regressions for [Gov2](docs/regressions-gov2.md)
-+ Regressions for [ClueWeb09 (Category B)](docs/regressions-cw09b.md)
-+ Regressions for [ClueWeb12-B13](docs/regressions-cw12b13.md)
-+ Regressions for [ClueWeb12](docs/regressions-cw12.md)
-+ Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md)
-+ Regressions for [Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
++ Regressions for [Disks 1 &amp; 2](docs/regressions-disk12.md), [Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md), [AQUAINT (Robust05)](docs/regressions-robust05.md)
++ Regressions for [the New York Times Corpus (Core17)](docs/regressions-core17.md), [the Washington Post Corpus (Core18)](docs/regressions-core18.md)
++ Regressions for [Wt10g](docs/regressions-wt10g.md), [Gov2](docs/regressions-gov2.md)
++ Regressions for [ClueWeb09 (Category B)](docs/regressions-cw09b.md), [ClueWeb12-B13](docs/regressions-cw12b13.md), [ClueWeb12](docs/regressions-cw12.md)
++ Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + Regressions for Complex Answer Retrieval (CAR17): [[v1.5](docs/regressions-car17v1.5.md)] [[v2.0](docs/regressions-car17v2.0.md)] [[v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)]
 + Regressions for MS MARCO Passage Ranking: [[base](docs/regressions-msmarco-passage.md)] [[doc2query](docs/regressions-msmarco-passage-doc2query.md)] [[docTTTTTquery](docs/regressions-msmarco-passage-docTTTTTquery.md)]
 + Regressions for MS MARCO Document Ranking - Per Doc: [[base](docs/regressions-msmarco-doc.md)] [[docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)]
@@ -65,14 +58,10 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + Regressions for the TREC 2019 Deep Learning Track (Document Ranking) - Per Doc: [[base](docs/regressions-dl19-doc.md)] [[docTTTTTquery](docs/regressions-dl19-doc-docTTTTTquery-per-doc.md)]
 + Regressions for the TREC 2019 Deep Learning Track (Document Ranking) - Per Passage: [[base](docs/regressions-dl19-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-dl19-doc-docTTTTTquery-per-passage.md)]
 + Regressions for the TREC 2020 Deep Learning Track (Passage Ranking): [[base](docs/regressions-dl20-passage.md)] [[docTTTTTquery](docs/regressions-dl20-passage-docTTTTTquery.md)]
-+ [Regressions for the TREC 2020 Deep Learning Track (Document Ranking)](docs/regressions-dl20-doc.md)
-+ [Regressions for the TREC 2020 Deep Learning Track (Document Ranking) with per-doc docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)
-+ [Regressions for the TREC 2020 Deep Learning Track (Document Ranking) per passage](docs/regressions-dl20-doc-per-passage.md)
-+ [Regressions for the TREC 2020 Deep Learning Track (Document Ranking) with per-passage docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)
-+ [Regressions for the TREC 2018 News Track (Background Linking Task)](docs/regressions-backgroundlinking18.md)
-+ [Regressions for the TREC 2019 News Track (Background Linking Task)](docs/regressions-backgroundlinking19.md)
-+ [Regressions for the TREC 2020 News Track (Background Linking Task)](docs/regressions-backgroundlinking20.md)
-+ [Regressions for the FEVER Fact Verification Task](docs/regressions-fever.md)
++ Regressions for the TREC 2020 Deep Learning Track (Document Ranking) - Per Doc: [[base](docs/regressions-dl20-doc.md)] [[docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)]
++ Regressions for the TREC 2020 Deep Learning Track (Document Ranking) - Per Passage: [[base](docs/regressions-dl20-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)]
++ Regressions for the TREC News Track (Background Linking Task): [[2018](docs/regressions-backgroundlinking18.md)] [[2019](docs/regressions-backgroundlinking19.md)] [[2020](docs/regressions-backgroundlinking20.md)]
++ Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
