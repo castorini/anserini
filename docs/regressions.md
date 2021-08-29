@@ -134,6 +134,9 @@ nohup python src/main/python/run_regression.py --index --collection dl20-doc-per
 nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-doc >& logs/log.dl20-doc-docTTTTTquery-per-doc &
 nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-passage >& logs/log.dl20-doc-docTTTTTquery-per-passage &
 
+nohup python src/main/python/run_regression.py --index --collection msmarco-passage-v2 >& logs/log.msmarco-passage-v2 &
+nohup python src/main/python/run_regression.py --index --collection msmarco-passage-v2-augmented >& logs/log.msmarco-passage-v2-augmented &
+
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking19 >& logs/log.backgroundlinking19 &
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking20 >& logs/log.backgroundlinking20 &
