@@ -85,12 +85,12 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.2495    | 0.3135    | 0.2841    | 0.2526    | 0.3073    | 0.2919    |
+[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.2496    | 0.3139    | 0.2840    | 0.2527    | 0.3074    | 0.2920    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.3567    | 0.4200    | 0.3947    | 0.3653    | 0.4000    | 0.4020    |
+[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.3573    | 0.4200    | 0.3947    | 0.3653    | 0.3993    | 0.4013    |
 
 ## Reproduction Log[*](reproducibility.md)
 

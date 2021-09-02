@@ -40,7 +40,7 @@ index_path: indexes/lucene-index.disk12.pos+docvectors+raw
 index_stats:
   documents: 741676
   documents (non-empty): 741675
-  total terms: 217199327
+  total terms: 217199384
 topics:
   - name: "[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)"
     path: topics.adhoc.51-100.txt

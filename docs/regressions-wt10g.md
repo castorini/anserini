@@ -84,9 +84,9 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)| 0.1992    | 0.2276    | 0.2200    | 0.2021    | 0.2188    | 0.2275    |
+[Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)| 0.1991    | 0.2270    | 0.2196    | 0.2021    | 0.2188    | 0.2268    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)| 0.2214    | 0.2398    | 0.2483    | 0.2180    | 0.2310    | 0.2514    |
+[Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)| 0.2211    | 0.2401    | 0.2466    | 0.2180    | 0.2306    | 0.2469    |
