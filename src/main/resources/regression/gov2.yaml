@@ -38,9 +38,9 @@ evals:
     metric_precision: 4
     can_combine: true
 index_stats:
-  documents: 25172934
-  documents (non-empty): 25170664
-  total terms: 17345062322
+  documents: 25170853
+  documents (non-empty): 25170665
+  total terms: 17345663488
 topics:
   - name: "[TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)"
     path: topics.terabyte04.701-750.txt
@@ -59,8 +59,8 @@ models:
     results:
       map:
         - 0.2689
-        - 0.3390
-        - 0.3080
+        - 0.3391
+        - 0.3081
       p30:
         - 0.4864
         - 0.5540
@@ -73,11 +73,11 @@ models:
     results:
       map:
         - 0.2844
-        - 0.3820
-        - 0.3377
+        - 0.3812
+        - 0.3378
       p30:
         - 0.5190
-        - 0.5920
+        - 0.5913
         - 0.5160
   - name: bm25+ax
     display: +Ax
@@ -89,13 +89,13 @@ models:
       - -rerankCutoff 20
     results:
       map:
-        - 0.2669
-        - 0.3666
-        - 0.3069
+        - 0.2730
+        - 0.3649
+        - 0.3129
       p30:
-        - 0.4993
-        - 0.5933
-        - 0.5033
+        - 0.5156
+        - 0.5873
+        - 0.5073
   - name: ql
     display: QL
     params:
@@ -103,12 +103,12 @@ models:
     results:
       map:
         - 0.2681
-        - 0.3303
+        - 0.3304
         - 0.2997
       p30:
         - 0.4755
-        - 0.5347
-        - 0.4720
+        - 0.5340
+        - 0.4727
   - name: ql+rm3
     display: +RM3
     params:
@@ -116,13 +116,13 @@ models:
       - -rm3
     results:
       map:
-        - 0.2708
-        - 0.3559
+        - 0.2709
+        - 0.3550
         - 0.3154
       p30:
-        - 0.4925
-        - 0.5620
-        - 0.4847
+        - 0.4932
+        - 0.5567
+        - 0.4840
   - name: ql+ax
     display: +Ax
     params:
@@ -133,10 +133,10 @@ models:
       - -rerankCutoff 20
     results:
       map:
-        - 0.2666
-        - 0.3646
-        - 0.3084
+        - 0.2678
+        - 0.3614
+        - 0.3109
       p30:
-        - 0.4932
-        - 0.5840
-        - 0.4920
+        - 0.4925
+        - 0.5867
+        - 0.4960

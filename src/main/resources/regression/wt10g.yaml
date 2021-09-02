@@ -39,9 +39,9 @@ input_roots:
 input: collections/web/wt10g/
 index_path: indexes/lucene-index.wt10g.pos+docvectors+raw
 index_stats:
-  documents: 1688402
-  documents (non-empty): 1688291
-  total terms: 752790242
+  documents: 1688390
+  documents (non-empty): 1688299
+  total terms: 752785964
 topics:
   - name: "[Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)"
     path: topics.adhoc.451-550.txt
@@ -53,9 +53,9 @@ models:
       - -bm25
     results:
       map:
-        - 0.1992
+        - 0.1991
       p30:
-        - 0.2214
+        - 0.2211
   - name: bm25+rm3
     display: +RM3
     params:
@@ -63,9 +63,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.2276
+        - 0.2270
       p30:
-        - 0.2398
+        - 0.2401
   - name: bm25+ax
     display: +Ax
     params:
@@ -76,9 +76,9 @@ models:
       - -rerankCutoff 20
     results:
       map:
-        - 0.2200
+        - 0.2196
       p30:
-        - 0.2483
+        - 0.2466
   - name: ql
     display: QL
     params:
@@ -97,7 +97,7 @@ models:
       map:
         - 0.2188
       p30:
-        - 0.2310
+        - 0.2306
   - name: ql+ax
     display: +Ax
     params:
@@ -108,6 +108,6 @@ models:
       - -rerankCutoff 20
     results:
       map:
-        - 0.2275
+        - 0.2268
       p30:
-        - 0.2514
+        - 0.2469
