@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### September 2, 2021
+
++ commit [`b58c85`](https://github.com/castorini/anserini/commit/f86e4e193eee806e935720c2ea8c549babb02c53) (09/02/2021)
+
+Upgraded jsoup from v1.8.3 to v1.14.2 to address a security vulnerability.
+Minor changes to the following regressions: `backgroundlinking18`, `backgroundlinking19`, `backgroundlinking20`, `core18`, `cw09b`, `cw12`, `cw12b13`, `disk12`, `gov2`, `wt10g`.
+
 ### June 14, 2021
 
 + commit [`b58c85`](https://github.com/castorini/anserini/commit/b58c8559b4fc473e857b9ce5ca73523d8d017b41) (06/14/2021)
