@@ -73,6 +73,7 @@ models:
     display: BM25 (default)
     params:
       - -bm25
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
         - 0.1875
@@ -87,15 +88,16 @@ models:
     params:
       - -bm25
       - -rm3
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
-        - 0.0966
+        - 0.1648
       MRR@100:
-        - 0.0974
+        - 0.1664
       R@100:
-        - 0.5121
+        - 0.6558
       R@1000:
-        - 0.7694
+        - 0.8605
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -103,26 +105,28 @@ models:
       - -axiom
       - -axiom.deterministic
       - -rerankCutoff 20
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
-        - 0.0665
+        - 0.1344
       MRR@100:
-        - 0.0675
+        - 0.1360
       R@100:
-        - 0.4075
+        - 0.5593
       R@1000:
-        - 0.6852
+        - 0.8161
   - name: bm25-default+prf
     display: +PRF
     params:
       - -bm25
       - -bm25prf
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
-        - 0.0834
+        - 0.1528
       MRR@100:
-        - 0.0845
+        - 0.1547
       R@100:
-        - 0.4681
+        - 0.5945
       R@1000:
-        - 0.7385
+        - 0.8270
