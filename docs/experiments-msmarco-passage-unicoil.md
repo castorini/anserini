@@ -50,7 +50,7 @@ The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, 
 To ensure that the tokenization in the index aligns exactly with the queries, we use pre-tokenized queries.
 The queries are already stored in the repo, so we can run retrieval directly:
 
-```
+```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil-b8 \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
  -output runs/run.msmarco-passage-unicoil-b8.trec \
@@ -66,16 +66,13 @@ wget https://vault.cs.uwaterloo.ca/s/QGoHeBm4YsAgt6H/download -O collections/top
 # MD5 checksum: 1af1da05ae5fe0b9d8ddf2d143b6e7f8
 ```
 
-We can now run retrieval:
-
-
 Query evaluation is much slower than with bag-of-words BM25; a complete run can take around 15 min.
 Note that, mirroring the indexing options, we specify `-impact -pretokenized` here also.
 
 The output is in TREC output format.
 Let's convert to MS MARCO output format and then evaluate:
 
-```
+```bash
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
    --input runs/run.msmarco-passage-unicoil-b8.trec \
    --output runs/run.msmarco-passage-unicoil-b8.txt --quiet

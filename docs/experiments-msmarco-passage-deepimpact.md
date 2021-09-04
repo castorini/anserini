@@ -49,7 +49,7 @@ The indexing speed may vary; on a modern desktop with an SSD (using 18 threads, 
 To ensure that the tokenization in the index aligns exactly with the queries, we use pre-tokenized queries.
 The queries are already stored in the repo, so we can run retrieval directly:
 
-```
+```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-deepimpact-b8 \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deep-impact.tsv.gz \
  -output runs/run.msmarco-passage-deepimpact-b8.trec \
@@ -58,7 +58,7 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-pas
 
 The queries are also available to download at the following locations:
 
-```
+```bash
 wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/topics.msmarco-passage.dev-subset.deep-impact.tsv.gz -P collections/
 wget https://vault.cs.uwaterloo.ca/s/NYibRJ9bXs5PspH/download -O collections/topics.msmarco-passage.dev-subset.deep-impact.tsv.gz
 
@@ -71,7 +71,7 @@ Note that, mirroring the indexing options, we specify `-impact -pretokenized` he
 The output is in TREC output format.
 Let's convert to MS MARCO output format and then evaluate:
 
-```
+```bash
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
    --input runs/run.msmarco-passage-deepimpact-b8.trec \
    --output runs/run.msmarco-passage-deepimpact-b8.txt --quiet
