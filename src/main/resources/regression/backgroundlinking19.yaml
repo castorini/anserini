@@ -23,13 +23,13 @@ collection: WashingtonPostCollection
 index_stats:
   documents: 595031
   documents (non-empty): 595030
-  total terms: 318219945
+  total terms: 318219870
 topics:
   - name: "[TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)"
     path: topics.backgroundlinking19.txt
     qrel: qrels.backgroundlinking19.txt
 evals:
-  - command: eval/trec_eval.9.0.4/trec_eval
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -c -M1000 -m ndcg_cut.5
     separator: "\t"
@@ -37,7 +37,7 @@ evals:
     metric: NCDG@5
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -c -M1000 -m map
     separator: "\t"
@@ -52,7 +52,7 @@ models:
       - -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100
     results:
       AP:
-        - 0.3027
+        - 0.3029
       NCDG@5:
         - 0.4785
   - name: bm25+rm3
@@ -61,7 +61,7 @@ models:
       - -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
       AP:
-        - 0.3790
+        - 0.3786
       NCDG@5:
         - 0.5217
   - name: bm25+rm3+df
@@ -70,6 +70,6 @@ models:
       - -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
       AP:
-        - 0.3158
+        - 0.3154
       NCDG@5:
         - 0.5051

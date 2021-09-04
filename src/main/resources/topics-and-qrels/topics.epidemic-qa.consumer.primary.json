@@ -1,0 +1,182 @@
+[
+    {
+        "question_id": "CQ101",
+        "question": "If the common cold is a type of coronavirus and we're unable to find a cure, why does the medical community have confidence we will find a vaccine for COVID-19?",
+        "query": "coronavirus vaccine landscape",
+        "background": "Looking for information on global efforts to support vaccine development, such as Operation Warp Speed, as well as pathways to develop vaccines, e.g., the vaccines that use killed germs."
+    },
+    {
+        "question_id": "CQ102",
+        "question": "Does adequate sleep prevent COVID-19?",
+        "query": "Sleep prevent covid",
+        "background": "Looking for any confirmation that better sleep may prevent COVID-19 and the amount of sleep needed."
+    },
+    {
+        "question_id": "CQ103",
+        "question": "Can I go home when I have COVID-19 and pneumonia?",
+        "query": "COVID-19 hospital discharge",
+        "background": "looking for information on leaving hospital after the symptoms  stopped and the temperature is normal. Also looking for guidelines on need for self-isolation after hospital discharge. "
+    },
+    {
+        "question_id": "CQ104",
+        "question": "What endocrine complications are  linked to COVID-19?",
+        "query": "endocrine complications covid-19",
+        "background": "Looking for information on damage to endocrine organs, such as thyroid, and short- and long-term endocrine diseases caused by  SARS-CoV-2"
+    },
+    {
+        "question_id": "CQ105",
+        "question": "How long do COVID-19 antibodies stay in your system?",
+        "query": "COVID-19 immunity duration",
+        "background": "Looking for information on how long a person will not get COVID after having it. "
+    },
+    {
+        "question_id": "CQ106",
+        "question": "How are people coping with the COVID-19 vaccine?",
+        "query": "adverse reactions to COVID-19 vaccines",
+        "background": "Looking for information on complications that could be caused by COVID-19 vaccines."
+    },
+    {
+        "question_id": "CQ107",
+        "question": "Is remdesivir recommended as treatment for COVID-19?",
+        "query": "results of remdesivir trials",
+        "background": "Looking for information on the pros and cons of getting remdesivir treatments for COVID-19."
+    },
+    {
+        "question_id": "CQ108",
+        "question": "How often is a COVID-19 test result wrong?",
+        "query": "covid tests accuracy",
+        "background": "Looking for information on how likely the COVID-19 test will show I don\u2019t have the virus even  if I have it or show that I have the disease even if I don\u2019t.  "
+    },
+    {
+        "question_id": "CQ109",
+        "question": "What anti-diabetic medications are the safest during the COVID-19 pandemic?",
+        "query": "covid-19  diabetes dpp4",
+        "background": "Looking for information on specific risks of COVID-19 for diabetics and links between COVID-19 and anti-diabetic medications."
+    },
+    {
+        "question_id": "CQ110",
+        "question": "Do school-age children (ages 6-12) who wear n95 masks to school versus wearing surgical masks to school have a reduced risk of contracting COVID-19?",
+        "query": "masks for children at school ",
+        "background": "Looking for information on which masks will best prevent COVID-19 in my child with least harm."
+    },
+    {
+        "question_id": "CQ111",
+        "question": "If I donate plasma, could I reduce my own immunity to COVID-19?",
+        "query": "Factors that influence duration of immunity to COVID-19",
+        "background": "Looking for information on how quickly my antibodies will be replenished id I donate convalescent plasma, and  plasma donation safety issues overall. "
+    },
+    {
+        "question_id": "CQ112",
+        "question": "Why is COVID-19 more severe the second time?",
+        "query": "COVID-19 reinfection",
+        "background": "Looking for information about severity of COVID-19 reinfection, how likely is it to get the same virus a second time, and how often can people get reinfected."
+    },
+    {
+        "question_id": "CQ113",
+        "question": "What is delayed COVID-19 immune response?",
+        "query": "Delayed COVID-19 immune response",
+        "background": "Looking for definition of delayed immune response and its role in the severity of COVID-19."
+    },
+    {
+        "question_id": "CQ114",
+        "question": "Why were COVID-19 vaccine trials paused?",
+        "query": "pauses for COVID-19 vaccine trials",
+        "background": "Looking for reasons to pause clinical trials, such as adverse reactions, illness in the participants and other reasons. Which trials were stopped, for what vaccines and whether the trials were resumed. How were the reasons for halting the trials resolved?"
+    },
+    {
+        "question_id": "CQ115",
+        "question": "Could a person\u2019s DNA explain why some get hit hard by the coronavirus?",
+        "query": "covid gene links",
+        "background": "Looking for information on genetic factors, such as gender, that influence outcomes of COVID-19."
+    },
+    {
+        "question_id": "CQ116",
+        "question": "What could prevent mild COVID-19 from getting worse?",
+        "query": "pathways triggered by SARS-CoV-2",
+        "background": "Looking for information on   preventing  the immune system from overreacting to  COVID-19. "
+    },
+    {
+        "question_id": "CQ117",
+        "question": "What are recommendations and advice in case of COVID-19 resurgence?",
+        "query": "covid-19 resurgence",
+        "background": "Looking for information on preventing getting COVID-19 as it resurges. "
+    },
+    {
+        "question_id": "CQ118",
+        "question": "Is Swedish approach to the COVID-19 pandemic working?",
+        "query": "herd immunity vs. COVID-19 containment strategies",
+        "background": "Looking for information about health outcomes and economic consequences of COVID-19 in countries that did not establish physical distancing. "
+    },
+    {
+        "question_id": "CQ119",
+        "question": "How long after I feel better from COVID-19 can I go back to work?",
+        "query": "Return to work after COVID-19",
+        "background": "Looking for information on returning to work after recovering from COVID-19. "
+    },
+    {
+        "question_id": "CQ120",
+        "question": "What roles do  interleukins and IL-inhibitors play in COVID-19?",
+        "query": "Interleukins and interleukin inhibitors in COVID-19",
+        "background": "Looking for basic information about interleukins and their role in COVID-19."
+    },
+    {
+        "question_id": "CQ121",
+        "question": "Which of the COVID-19 vaccines will be most effective and safe?",
+        "query": "COVID-19 vaccine candidates",
+        "background": "Looking information on COVID-19 vaccine safety, potential side-effects caused by the vaccines and their ability to prevent COVID-19."
+    },
+    {
+        "question_id": "CQ122",
+        "question": "Are steroids  dangerous or protective if I have COVID-19?",
+        "query": "COVID-19 and steroids",
+        "background": "Looking for information on side-effects and benefits of taking steroids in people infected with SARS-CoV-2. "
+    },
+    {
+        "question_id": "CQ123",
+        "question": "Are there alternative treatments for COVID-19?",
+        "query": "Covid-19 and alternative medicine",
+        "background": "Looking for information on supplements and life-style changes that could prevent or treat COVID-19."
+    },
+    {
+        "question_id": "CQ124",
+        "question": "Is COVID-19 getting stronger as the virus mutates?",
+        "query": "SARS-CoV-2 mutations",
+        "background": "Looking for information about changes in the SARS-CoV-2 virus that could make it more dangerous. "
+    },
+    {
+        "question_id": "CQ125",
+        "question": "Can science predict how coronavirus will change?",
+        "query": "SARS-CoV-2 mutation predictions",
+        "background": "Looking for information supporting or contradicting the predictions that coronavirus will mutate into more infectious COVID-19."
+    },
+    {
+        "question_id": "CQ126",
+        "question": "How safe is air travel during the COVID-19 pandemic?",
+        "query": "covid-19 air travel safety",
+        "background": "Looking for information about COVID-19 infection spread related to air travel. "
+    },
+    {
+        "question_id": "CQ127",
+        "question": "When is it safe to visit my doctor virtually and when do I have to see the doctor in-person?",
+        "query": "covid-19 telehealth",
+        "background": "Looking for information on when visiting my doctor virtually is enough and will not reduce the quality of healthcare. "
+    },
+    {
+        "question_id": "CQ128",
+        "question": "Who will get COVID--19 vaccine first and why?",
+        "query": "covid-19 vaccine distribution plans",
+        "background": "Looking for information on when different populations and professions will get COVID-19 vaccines."
+    },
+    {
+        "question_id": "CQ129",
+        "question": "How to build my child\u2019s social skills and prevent psychological harm during COVID-19?",
+        "query": "covid-19 child social skills and psychology",
+        "background": "Looking for information on supporting my child\u2019s development and reducing harm from the COVID-19 pandemic."
+    },
+    {
+        "question_id": "CQ130",
+        "question": "How risky are everyday life activities during COVID-19?",
+        "query": "risks of everyday activities during COVID-19",
+        "background": "Looking for risks of getting COVID-19 while shopping, recreation and other everyday life activities."
+    }
+]

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
                 Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else { // plain text file
-        bufferedReader = new BufferedReader(new FileReader(fileName));
+        bufferedReader = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8));
       }
     }
 

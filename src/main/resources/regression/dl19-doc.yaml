@@ -1,5 +1,5 @@
 ---
-name: msmacro-doc # Note, this is the name of the collection; this way we can share index with the msmarco regressions
+name: msmarco-doc # Note, this is the name of the collection; this way we can share index with the msmarco regressions
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -16,7 +16,7 @@ index_options:
   - -storeRaw
 topic_reader: TsvInt
 evals:
-  - command: eval/trec_eval.9.0.4/trec_eval
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
       - -c
@@ -25,25 +25,7 @@ evals:
     metric: map
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m ndcg_cut.10
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: NDCG@10
-    metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recip_rank
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: RR
-    metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m recall.100
       - -c
@@ -52,13 +34,13 @@ evals:
     metric: R@100
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m recall.1000
+      - -m ndcg_cut.10
       - -c
     separator: "\t"
     parse_index: 2
-    metric: R@1000
+    metric: NDCG@10
     metric_precision: 4
     can_combine: true
 input_roots:
@@ -77,36 +59,30 @@ topics:
     qrel: qrels.dl19-doc.txt
 models:
   - name: bm25-default
-    display: BM25 (Default)
+    display: BM25 (default)
     params:
       - -bm25
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.3309
+        - 0.2443
       NDCG@10:
         - 0.5190
-      RR:
-        - 0.8046
       R@100:
         - 0.3948
-      R@1000:
-        - 0.6966
   - name: bm25-default+rm3
     display: +RM3
     params:
       - -bm25
       - -rm3
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.3870
+        - 0.2772
       NDCG@10:
         - 0.5169
-      RR:
-        - 0.7718
       R@100:
         - 0.4189
-      R@1000:
-        - 0.7504
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -114,50 +90,41 @@ models:
       - -axiom
       - -axiom.deterministic
       - -rerankCutoff 20
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.3516
+        - 0.2452
       NDCG@10:
         - 0.4730
-      RR:
-        - 0.7428
       R@100:
         - 0.3945
-      R@1000:
-        - 0.7323
   - name: bm25-default+prf
     display: +PRF
     params:
       - -bm25
       - -bm25prf
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.3624
+        - 0.2541
       NDCG@10:
         - 0.5105
-      RR:
-        - 0.7775
       R@100:
         - 0.4004
-      R@1000:
-        - 0.7357
   - name: bm25-tuned
-    display: BM25 (Tuned)
+    display: BM25 (tuned)
     params:
       - -bm25
       - -bm25.k1 3.44
       - -bm25.b 0.87
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.3138
+        - 0.2318
       NDCG@10:
         - 0.5140
-      RR:
-        - 0.8872
       R@100:
         - 0.3862
-      R@1000:
-        - 0.6810
   - name: bm25-tuned+rm3
     display: +RM3
     params:
@@ -165,17 +132,14 @@ models:
       - -bm25.k1 3.44
       - -bm25.b 0.87
       - -rm3
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.3697
+        - 0.2700
       NDCG@10:
         - 0.5485
-      RR:
-        - 0.8074
       R@100:
         - 0.4193
-      R@1000:
-        - 0.7282
   - name: bm25-tuned+ax
     display: +Ax
     params:
@@ -185,17 +149,14 @@ models:
       - -axiom
       - -axiom.deterministic
       - -rerankCutoff 20
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.3860
+        - 0.2816
       NDCG@10:
         - 0.5245
-      RR:
-        - 0.7492
       R@100:
         - 0.4399
-      R@1000:
-        - 0.7545
   - name: bm25-tuned+prf
     display: +PRF
     params:
@@ -203,14 +164,11 @@ models:
       - -bm25.k1 3.44
       - -bm25.b 0.87
       - -bm25prf
+      - -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
-        - 0.3858
+        - 0.2758
       NDCG@10:
         - 0.5280
-      RR:
-        - 0.8007
       R@100:
         - 0.4287
-      R@1000:
-        - 0.7553

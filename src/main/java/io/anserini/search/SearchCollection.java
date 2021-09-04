@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.rerank.RerankerCascade;
@@ -34,27 +33,41 @@ import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
+import io.anserini.search.similarity.ImpactSimilarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.da.DanishAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.hu.HungarianAnalyzer;
+import org.apache.lucene.analysis.id.IndonesianAnalyzer;
+import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.nl.DutchAnalyzer;
+import org.apache.lucene.analysis.no.NorwegianAnalyzer;
+import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
+import org.apache.lucene.analysis.ru.RussianAnalyzer;
+import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.th.ThaiAnalyzer;
+import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.BooleanClause;
@@ -87,26 +100,25 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.BufferedInputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.StandardOpenOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -118,6 +130,10 @@ import java.util.concurrent.TimeUnit;
  * Main entry point for search.
  */
 public final class SearchCollection implements Closeable {
+  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
+  // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
+  // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
+  // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchArgs.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
@@ -133,7 +149,8 @@ public final class SearchCollection implements Closeable {
   private List<RerankerCascade> cascades;
   private final boolean isRerank;
   private Map<String, ScoredDocuments> qrels;
-  private Set<String> queriesWithRel; 
+  private Set<String> queriesWithRel;
+  private Map<String, List<String>> queries = new HashMap<>(); // let query tokens get exposed to the test (with analyzer)
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -166,7 +183,7 @@ public final class SearchCollection implements Closeable {
 
         int cnt = 0;
         final long start = System.nanoTime();
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
+        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
 
@@ -212,8 +229,8 @@ public final class SearchCollection implements Closeable {
           for (int i = 0; i < docs.documents.length; i++) {
             String docid = docs.documents[i].get(IndexArgs.ID);
 
-            if (args.strip_segment_id) {
-              docid = docid.split("\\.")[0];
+            if (args.selectMaxPassage) {
+              docid = docid.split(args.selectMaxPassage_delimiter)[0];
             }
 
             if (docids.contains(docid))
@@ -224,11 +241,18 @@ public final class SearchCollection implements Closeable {
 
             // Note that this option is set to false by default because duplicate documents usually indicate some
             // underlying indexing issues, and we don't want to just eat errors silently.
-            if (args.removedups) {
+            //
+            // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
+            // duplicates.
+            if (args.removedups || args.selectMaxPassage) {
               docids.add(docid);
             }
 
             rank++;
+
+            if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
+              break;
+            }
           }
           cnt++;
           if (cnt % 100 == 0) {
@@ -268,35 +292,79 @@ public final class SearchCollection implements Closeable {
     if (args.searchtweets) {
       LOG.info("Searching tweets? true");
       analyzer = new TweetAnalyzer();
-    } else if (args.language.equals("zh")) {
-      analyzer = new CJKAnalyzer();
-      LOG.info("Language: zh");
     } else if (args.language.equals("ar")) {
       analyzer = new ArabicAnalyzer();
       LOG.info("Language: ar");
-    } else if (args.language.equals("fr")) {
-      analyzer = new FrenchAnalyzer();
-      LOG.info("Language: fr");
-    } else if (args.language.equals("hi")) {
-      analyzer = new HindiAnalyzer();
-      LOG.info("Language: hi");
     } else if (args.language.equals("bn")) {
       analyzer = new BengaliAnalyzer();
       LOG.info("Language: bn");
+    } else if (args.language.equals("da")) {
+      analyzer = new DanishAnalyzer();
+      LOG.info("Language: da");
     } else if (args.language.equals("de")) {
       analyzer = new GermanAnalyzer();
       LOG.info("Language: de");
     } else if (args.language.equals("es")) {
       analyzer = new SpanishAnalyzer();
       LOG.info("Language: es");
+    } else if (args.language.equals("fi")) {
+      analyzer = new FinnishAnalyzer();
+      LOG.info("Language: fi");
+    } else if (args.language.equals("fr")) {
+      analyzer = new FrenchAnalyzer();
+      LOG.info("Language: fr");
+    } else if (args.language.equals("hi")) {
+      analyzer = new HindiAnalyzer();
+      LOG.info("Language: hi");
+    } else if (args.language.equals("hu")) {
+      analyzer = new HungarianAnalyzer();
+      LOG.info("Language: hu");
+    } else if (args.language.equals("id")) {
+      analyzer = new IndonesianAnalyzer();
+      LOG.info("Language: id");
+    } else if (args.language.equals("it")) {
+      analyzer = new ItalianAnalyzer();
+      LOG.info("Language: it");
+    } else if (args.language.equals("ja")) {
+      analyzer = new JapaneseAnalyzer();
+      LOG.info("Language: ja");
+    } else if (args.language.equals("ko")) {
+      analyzer = new CJKAnalyzer();
+      LOG.info("Language: ko");
+    } else if (args.language.equals("nl")) {
+      analyzer = new DutchAnalyzer();
+      LOG.info("Language: nl");
+    } else if (args.language.equals("no")) {
+      analyzer = new NorwegianAnalyzer();
+      LOG.info("Language: no");
+    } else if (args.language.equals("pt")) {
+      analyzer = new PortugueseAnalyzer();
+      LOG.info("Language: pt");
+    } else if (args.language.equals("ru")) {
+      analyzer = new RussianAnalyzer();
+      LOG.info("Language: ru");
+    } else if (args.language.equals("sv")) {
+      analyzer = new SwedishAnalyzer();
+      LOG.info("Language: sv");
+    } else if (args.language.equals("th")) {
+      analyzer = new ThaiAnalyzer();
+      LOG.info("Language: th");
+    } else if (args.language.equals("tr")) {
+      analyzer = new TurkishAnalyzer();
+      LOG.info("Language: tr");
+    } else if (args.language.equals("zh")) {
+      analyzer = new CJKAnalyzer();
+      LOG.info("Language: zh");
+    } else if (args.pretokenized || args.language.equals("sw") || args.language.equals("te")) {
+      analyzer = new WhitespaceAnalyzer();
+      LOG.info("Pretokenized");
     } else {
       // Default to English
-      analyzer = args.keepstop ?
-          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET) :
-          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
+      analyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
       LOG.info("Language: en");
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);
+      LOG.info("Stopwords file " + args.stopwords);
     }
 
     isRerank = args.rm3 || args.axiom || args.bm25prf;
@@ -359,6 +427,8 @@ public final class SearchCollection implements Closeable {
       for (String s : args.f2log_s) {
         similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), String.format("f2log(s=%s)", s)));
       }
+    } else if (args.impact) {
+      similarities.add(new TaggedSimilarity(new ImpactSimilarity(), "impact()"));
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
     }
@@ -383,7 +453,8 @@ public final class SearchCollection implements Closeable {
 
             RerankerCascade cascade = new RerankerCascade(tag);
             cascade.add(new Rm3Reranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
-                Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery));
+                Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery,
+                !args.rm3_noTermFilter));
             cascade.add(new ScoreTiesAdjusterReranker());
             cascades.add(cascade);
           }
@@ -550,14 +621,15 @@ public final class SearchCollection implements Closeable {
     if (args.sdm) {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     } else {
+      QueryGenerator generator;
       try {
-        QueryGenerator generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
+        generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
             .getConstructor().newInstance();
-        query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
       } catch (Exception e) {
         e.printStackTrace();
         throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
       }
+      query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
@@ -570,6 +642,8 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
+
+    queries.put(qid.toString(), queryTokens);
 
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
@@ -682,6 +756,10 @@ public final class SearchCollection implements Closeable {
     }
 
     return cascade.run(scoredFbDocs,  context);
+  }
+
+  public Map<String, List<String>> getQueries(){
+    return queries;
   }
 
   public static void main(String[] args) throws Exception {

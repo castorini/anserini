@@ -20,54 +20,47 @@ import re
 import subprocess
 
 def grid_search(args):
-    for k1 in [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]:
-        for b in [0.5, 0.6, 0.7, 0.8, 0.9]:
+    for k1 in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]:
+        for b in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]:
             print(f'Retrieving with k1 = {k1}, b = {b}...')
             run_file = os.path.join(args.runs_folder, f'run.fever.bm25.k1_{k1}.b_{b}.txt')
             if os.path.isfile(run_file):
                 print('Run already exists, skipping!')
             else:
-                subprocess.call(f'python3 tools/scripts/msmarco/retrieve.py '
-                                f'--index {args.index_folder} '
-                                f'--queries {args.queries_file} '
-                                f'--output {run_file} '
-                                f'--k1 {k1} '
-                                f'--b {b} '
-                                f'--hits 1000',
+                subprocess.call(f'sh target/appassembler/bin/SearchCollection '
+                                f'-index {args.index_folder} '
+                                f'-topics {args.queries_file} '
+                                '-topicreader TsvInt '
+                                f'-output {run_file} '
+                                '-bm25 '
+                                f'-bm25.k1 {k1} '
+                                f'-bm25.b {b}',
                                 shell=True)
 
 def evaluate_runs(args):
     max_recall = 0
     max_file = ''
     for file in os.listdir(args.runs_folder):
-        # skip TREC files that are in the folder
-        if file.endswith('trec'):
-            continue
         run_file = os.path.join(args.runs_folder, file)
-        # convert TSV to a TREC run file
-        subprocess.call(f'python3 tools/scripts/msmarco/convert_msmarco_to_trec_run.py '
-                        f'--input {run_file} '
-                        f'--output {run_file}.trec',
-                        shell=True)
         # evaluate with trec_eval
         results = subprocess.check_output(['tools/eval/trec_eval.9.0.4/trec_eval',
+                                           '-mrecall.100',
+                                           '-mmap',
                                            args.qrels_file,
-                                           f'{run_file}.trec',
-                                           '-mrecall.1000',
-                                           '-mmap'])
+                                           run_file])
         # regex match trec_eval output to get metrics
         match = re.search('map +\tall\t([0-9.]+)', results.decode('utf-8'))
         map = float(match.group(1))
-        match = re.search('recall_1000 +\tall\t([0-9.]+)', results.decode('utf-8'))
+        match = re.search('recall_100 +\tall\t([0-9.]+)', results.decode('utf-8'))
         recall = float(match.group(1))
-        print(f'{run_file}: R@1000 = {recall}, MAP = {map}')
+        print(f'{run_file}: R@100 = {recall}, MAP = {map}')
 
-        # maximize R@1000
+        # maximize R@100
         if recall > max_recall:
             max_recall = recall
             max_file = file
 
-    print(f'Best parameters: {max_file} (R@1000 = {max_recall})')
+    print(f'Best parameters: {max_file} (R@100 = {max_recall})')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Tunes BM25 parameters for FEVER document retrieval.')

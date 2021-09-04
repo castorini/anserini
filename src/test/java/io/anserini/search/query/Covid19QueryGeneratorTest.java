@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,7 @@ package io.anserini.search.query;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -38,7 +35,7 @@ public class Covid19QueryGeneratorTest {
 
     // no mention of covid-19, just pass through
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "incubation period");
-    assertEquals("contents:incub contents:period", query.toString());
+    assertEquals("(contents:incub)^1.0 (contents:period)^1.0", query.toString());
 
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "incubation period covid-19");
     assertEquals("contents:incub contents:period (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")", query.toString());
@@ -57,7 +54,7 @@ public class Covid19QueryGeneratorTest {
 
     // no mention of covid-19, just pass through
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "drugs");
-    assertEquals("contents:drug", query.toString());
+    assertEquals("(contents:drug)^1.0", query.toString());
 
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "coronavirus drugs");
     assertEquals("contents:drug (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")", query.toString());

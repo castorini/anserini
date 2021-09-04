@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,35 +18,27 @@ package io.anserini.ltr;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexOptions;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.MockDirectoryWrapper;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.After;
 import org.junit.Before;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This class will contain setup and teardown code for testing feature extractors
@@ -54,65 +46,30 @@ import java.util.Random;
 abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
   protected static final String TEST_FIELD_NAME = IndexArgs.CONTENTS;
   protected static final Analyzer TEST_ANALYZER = new EnglishAnalyzer();
-  protected static final QueryParser TEST_PARSER = new QueryParser(TEST_FIELD_NAME, TEST_ANALYZER);
-  protected static final String DEFAULT_QID = "1";
+  protected static final Analyzer NON_STOP_TEST_ANALYZER = new WhitespaceAnalyzer();
 
   // Acceptable delta for float assert
   protected static final float DELTA = 0.01f;
-  protected Directory DIRECTORY;
 
+  protected Directory DIRECTORY;
   protected IndexWriter testWriter;
 
-  /**
-   * A lot of feature extractors are tested individually, easy way to wrap the chain
-   * @param extractors  The extractors
-   * @return
-   */
-  protected static FeatureExtractors getChain(FeatureExtractor... extractors ) {
-    FeatureExtractors chain = new FeatureExtractors();
-    for (FeatureExtractor extractor : extractors) {
-      chain.add(extractor);
-    }
-    return chain;
+  protected static List<FeatureExtractor> getChain(FeatureExtractor... extractors ) {
+    return Arrays.asList(extractors);
   }
 
-  protected Document addTestDocument(String testText) throws IOException {
+  protected void addTestDocument(String testText, String docId) throws IOException {
     FieldType fieldType = new FieldType();
     fieldType.setStored(true);
     fieldType.setStoreTermVectors(true);
-    fieldType.setStoreTermVectorOffsets(true);
     fieldType.setStoreTermVectorPositions(true);
-    fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
+    fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
     Field field = new Field(TEST_FIELD_NAME, testText, fieldType);
     Document doc = new Document();
     doc.add(field);
+    doc.add(new StringField(IndexArgs.ID, docId, Field.Store.YES));
     testWriter.addDocument(doc);
     testWriter.commit();
-    return doc;
-  }
-
-  /**
-   * The reranker context constructed will return with a searcher
-   * and the query we want with dummy query ids and null filter
-   * @return
-   */
-  @SuppressWarnings("unchecked")
-  protected RerankerContext<T> makeTestContext(String queryText) {
-    try {
-	  RerankerContext<T> context = new RerankerContext<T>(
-	    new IndexSearcher(DirectoryReader.open(DIRECTORY)),
-        (T) DEFAULT_QID,
-        TEST_PARSER.parse(queryText),
-        null,
-        queryText,
-        AnalyzerUtils.analyze(TEST_ANALYZER, queryText),
-        null, null);
-      return context;
-    } catch (ParseException e) {
-      return null;
-    } catch (IOException e) {
-      return null;
-    }
   }
 
   /**
@@ -124,8 +81,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    // Use a RAMDirectory instead of MemoryIndex because we might test with multiple documents
-    DIRECTORY = new MockDirectoryWrapper(new Random(), new ByteBuffersDirectory());
+    DIRECTORY = FSDirectory.open(createTempDir());
     testWriter = new IndexWriter(DIRECTORY, new IndexWriterConfig(TEST_ANALYZER));
   }
 
@@ -147,14 +103,32 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    * @param queryText
    */
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
-                                     FeatureExtractors extractors) throws IOException {
-    assertFeatureValues(expected, queryText, Arrays.asList(docText), extractors,0);
+                                     List<FeatureExtractor> extractors) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, "-1", queryText, Arrays.asList(docText), extractors,0);
   }
 
   // just add a signature for single extractor
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
-                                     FeatureExtractor extractor) throws IOException {
-    assertFeatureValues(expected, queryText, Arrays.asList(docText), getChain(extractor),0);
+                                     FeatureExtractor extractor) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, "-1", queryText, Arrays.asList(docText), Arrays.asList(extractor),0);
+  }
+
+  // just add a signature for single extractor
+  protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
+                                     FeatureExtractor extractor, int docToExtract) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, "-1" , queryText, docTexts, Arrays.asList(extractor),docToExtract);
+  }
+
+  // just add a signature for single extractor
+  protected void assertFeatureValues(float[] expected, String qid, String queryText, String docTexts,
+                                     FeatureExtractor extractor) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, qid , queryText, Arrays.asList(docTexts), Arrays.asList(extractor),0);
+  }
+
+  // just add a signature for single extractor
+  protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
+                                     List<FeatureExtractor> extractors, int docToExtract) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, "-1" , queryText, docTexts, extractors, docToExtract);
   }
 
   /**
@@ -165,22 +139,36 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    * @param extractors          The chain of feature extractors to use
    * @param docToExtract        Index of the document we want to compute features for
    */
-  protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
-                                     FeatureExtractors extractors, int docToExtract) throws IOException {
-    List<Document> addedDocs = new ArrayList<>();
+  protected void assertFeatureValues(float[] expected, String qid, String queryText, List<String> docTexts,
+                                     List<FeatureExtractor> extractors, int docToExtract) throws IOException, ExecutionException, InterruptedException {
+    int id = 0;
     for (String docText : docTexts) {
-      Document testDoc = addTestDocument(docText);
-      addedDocs.add(testDoc);
+      addTestDocument(docText, String.format("doc%s", id));
+      id += 1;
     }
-    testWriter.forceMerge(1);
+    testWriter.commit();
 
-    Document testDoc = addedDocs.get(docToExtract);
-    RerankerContext<T> context = makeTestContext(queryText);
-    IndexReader reader = context.getIndexSearcher().getIndexReader();
-    Terms terms = reader.getTermVector(docToExtract, TEST_FIELD_NAME);
-    float[] extractedFeatureValues = extractors.extractAll(testDoc, terms, context);
+    FeatureExtractorUtils utils = new FeatureExtractorUtils(DirectoryReader.open(DIRECTORY));
+    for(FeatureExtractor extractor: extractors){
+      utils.add(extractor);
+    }
+    String docIdToExtract = String.format("doc%s", docToExtract);
 
-    assertArrayEquals(expected, extractedFeatureValues, DELTA);
+
+    List<debugOutput> extractedFeatureValues = utils.extract(qid, Arrays.asList(docIdToExtract), AnalyzerUtils.analyze(TEST_ANALYZER, queryText));
+    List<Float> extractFeatures = null;
+    for(debugOutput doc: extractedFeatureValues) {
+      if(doc.pid.equals(docIdToExtract))
+        if(extractFeatures == null)
+          extractFeatures = doc.features;
+    }
+    float[] extractFeaturesArray = new float[extractFeatures.size()];
+    for (int i=0; i < extractFeaturesArray.length; i++)
+    {
+      extractFeaturesArray[i] = extractFeatures.get(i).floatValue();
+    }
+    assertArrayEquals(expected, extractFeaturesArray, DELTA);
+    utils.close();
   }
 
 }

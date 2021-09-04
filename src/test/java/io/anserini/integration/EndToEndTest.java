@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package io.anserini.integration;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
+import io.anserini.index.NotStoredException;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
@@ -44,6 +45,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -61,7 +63,9 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected String topicFile;
   protected String searchOutputPrefix = "e2eTestSearch";
   protected Map<String, String[]> referenceRunOutput = new HashMap<>();
-  protected Map<String, Map<String, String>> documents = new HashMap<>();
+  protected Map<String, Map<String, String>> referenceDocs = new HashMap<>();
+  protected Map<String, Map<String, List<String>>> referenceDocTokens = new HashMap<>();
+  protected Map<String, List<String>>  queryTokens = new HashMap<>();
 
   // These are the sources of truth
   protected int fieldNormStatusTotalFields;
@@ -78,6 +82,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
   @Override
   @Before
   public void setUp() throws Exception {
+    Locale.setDefault(Locale.US);
+
     // We're going to build an index for every test.
     super.setUp();
     indexPath = "test-index" + RANDOM.nextInt(100000);
@@ -92,6 +98,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
         "-index", indexPath,
         "-input", indexArgs.input,
         "-threads", "2",
+        "-language", indexArgs.language,
         "-collection", indexArgs.collectionClass,
         "-generator", indexArgs.generatorClass));
 
@@ -136,6 +143,17 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     if (indexArgs.quiet) {
       args.add("-quiet");
+    }
+
+    if (indexArgs.shardCount > 1) {
+      args.add("-shard.count");
+      args.add(Integer.toString(indexArgs.shardCount));
+      args.add("-shard.current");
+      args.add(Integer.toString(indexArgs.shardCurrent));
+    }
+
+    if (indexArgs.pretokenized){
+      args.add("-pretokenized");
     }
 
     IndexCollection.main(args.toArray(new String[args.size()]));
@@ -183,10 +201,22 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     for (int i=0; i<reader.maxDoc(); i++) {
       String collectionDocid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
-      assertEquals(documents.get(collectionDocid).get("raw"),
-          IndexReaderUtils.documentRaw(reader, collectionDocid));
-      assertEquals(documents.get(collectionDocid).get("contents"),
-          IndexReaderUtils.documentContents(reader, collectionDocid));
+      if (referenceDocs.get(collectionDocid).get("raw") != null) {
+        assertEquals(referenceDocs.get(collectionDocid).get("raw"), IndexReaderUtils.documentRaw(reader, collectionDocid));
+      }
+      if (referenceDocs.get(collectionDocid).get("contents") != null) {
+        assertEquals(referenceDocs.get(collectionDocid).get("contents"), IndexReaderUtils.documentContents(reader, collectionDocid));
+      }
+
+      // check list of tokens by calling document vector
+      if (!referenceDocTokens.isEmpty()){
+        try {
+          List<String> docTokens = IndexReaderUtils.getDocumentTokens(reader, collectionDocid);
+          assertEquals(referenceDocTokens.get(collectionDocid).get("contents"), docTokens);
+        } catch (NotStoredException e) {
+          e.printStackTrace();
+        }
+      }
     }
     reader.close();
 
@@ -258,7 +288,12 @@ public abstract class EndToEndTest extends LuceneTestCase {
       for (Map.Entry<String, SearchArgs> entry : testQueries.entrySet()) {
         SearchCollection searcher = new SearchCollection(entry.getValue());
         searcher.runTopics();
+        Map<String, List<String>> actualQuery = searcher.getQueries();
         searcher.close();
+        //check query tokens
+        if(!queryTokens.isEmpty()){
+          assertEquals(queryTokens, actualQuery);
+        }
         checkRankingResults(entry.getKey(), entry.getValue().output);
         // Remember to cleanup run files.
         cleanup.add(new File(entry.getValue().output));

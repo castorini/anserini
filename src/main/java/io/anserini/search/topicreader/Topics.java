@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,8 +45,17 @@ public enum Topics {
   MB14(MicroblogTopicReader.class, "topics-and-qrels/topics.microblog2014.txt"),
   CAR17V15_BENCHMARK_Y1_TEST(CarTopicReader.class, "topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt"),
   CAR17V20_BENCHMARK_Y1_TEST(CarTopicReader.class, "topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt"),
+  TREC2019_DL_DOC(TsvIntTopicReader.class,"topics-and-qrels/topics.dl19-doc.txt"),
+  TREC2019_DL_PASSAGE(TsvIntTopicReader.class,"topics-and-qrels/topics.dl19-passage.txt"),
+  TREC2020_DL(TsvIntTopicReader.class,"topics-and-qrels/topics.dl20.txt"),
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.dev.txt"),
+  MSMARCO_DOC_TEST(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.test.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.txt"),
+  MSMARCO_PASSAGE_TEST_SUBSET(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.test-subset.txt"),
+  MSMARCO_DOC_V2_DEV(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc-v2.dev.txt"),
+  MSMARCO_DOC_V2_DEV2(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc-v2.dev2.txt"),
+  MSMARCO_PASSAGE_V2_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage-v2.dev.txt"),
+  MSMARCO_PASSAGE_V2_DEV2(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage-v2.dev2.txt"),
   NTCIR8_ZH(TsvStringTopicReader.class, "topics-and-qrels/topics.ntcir8zh.eval.txt"),
   CLEF2006_FR(TsvStringTopicReader.class, "topics-and-qrels/topics.clef06fr.mono.fr.txt"),
   TREC2002_AR(TrecTopicReader.class, "topics-and-qrels/topics.trec02ar-ar.txt"),
@@ -61,8 +70,22 @@ public enum Topics {
   COVID_ROUND3_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round3-udel.xml"),
   COVID_ROUND4(CovidTopicReader.class, "topics-and-qrels/topics.covid-round4.xml"),
   COVID_ROUND4_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round4-udel.xml"),
+  COVID_ROUND5(CovidTopicReader.class, "topics-and-qrels/topics.covid-round5.xml"),
+  COVID_ROUND5_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round5-udel.xml"),
   TREC2018_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking18.txt"),
-  TREC2019_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking19.txt");
+  TREC2019_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking19.txt"),
+  TREC2020_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking20.txt"),
+  EPIDEMIC_QA_EXPERT_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.expert.prelim.json"),
+  EPIDEMIC_QA_CONSUMER_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"),
+  DPR_NQ_DEV(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.nq.dev.txt"),
+  DPR_NQ_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.nq.test.txt"),
+  DPR_TRIVIA_DEV(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.trivia.dev.txt"),
+  DPR_TRIVIA_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.dpr.trivia.test.txt"),
+  DPR_WQ_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.wq.test.txt"),
+  DPR_CURATED_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.curated.test.txt"),
+  DPR_SQUAD_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.squad.test.txt"),
+  NQ_DEV(DprNqTopicReader.class, "topics-and-qrels/topics.nq.dev.txt"),
+  NQ_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.nq.test.txt");
 
   public final String path;
   public final Class readerClass;

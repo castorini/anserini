@@ -16,16 +16,27 @@ index_options:
   - -storeRaw
 topic_reader: TsvInt
 evals:
-  - command: eval/trec_eval.9.0.4/trec_eval
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
       - -c
+      - -l 2
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.1000
+      - -c
+      - -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: R@1000
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m ndcg_cut.10
       - -c
@@ -33,34 +44,7 @@ evals:
     parse_index: 2
     metric: NDCG@10
     metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recip_rank
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: RR
-    metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: R@100
-    metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.1000
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: R@1000
-    metric_precision: 4
-    can_combine: true
+    can_combine: false
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
@@ -77,20 +61,16 @@ topics:
     qrel: qrels.dl19-passage.txt
 models:
   - name: bm25-default
-    display: BM25 (Default)
+    display: BM25 (default)
     params:
       - -bm25
     results:
       map:
-        - 0.3773
+        - 0.3013
       NDCG@10:
         - 0.5058
-      RR:
-        - 0.8245
-      R@100:
-        - 0.4531
       R@1000:
-        - 0.7389
+        - 0.7501
   - name: bm25-default+rm3
     display: +RM3
     params:
@@ -98,15 +78,11 @@ models:
       - -rm3
     results:
       map:
-        - 0.4270
+        - 0.3390
       NDCG@10:
         - 0.5180
-      RR:
-        - 0.8167
-      R@100:
-        - 0.4761
       R@1000:
-        - 0.7882
+        - 0.7998
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -116,15 +92,11 @@ models:
       - -rerankCutoff 20
     results:
       map:
-        - 0.4651
+        - 0.3745
       NDCG@10:
         - 0.5511
-      RR:
-        - 0.7736
-      R@100:
-        - 0.4995
       R@1000:
-        - 0.8129
+        - 0.8241
   - name: bm25-default+prf
     display: +PRF
     params:
@@ -132,32 +104,24 @@ models:
       - -bm25prf
     results:
       map:
-        - 0.4533
+        - 0.3561
       NDCG@10:
         - 0.5372
-      RR:
-        - 0.8170
-      R@100:
-        - 0.4974
       R@1000:
-        - 0.7845
+        - 0.7929
   - name: bm25-tuned
-    display: BM25 (Tuned)
+    display: BM25 (tuned)
     params:
       - -bm25
       - -bm25.k1 0.82
       - -bm25.b 0.68
     results:
       map:
-        - 0.3766
+        - 0.2903
       NDCG@10:
         - 0.4973
-      RR:
-        - 0.8457
-      R@100:
-        - 0.4603
       R@1000:
-        - 0.7384
+        - 0.7450
   - name: bm25-tuned+rm3
     display: +RM3
     params:
@@ -167,15 +131,11 @@ models:
       - -rm3
     results:
       map:
-        - 0.4249
+        - 0.3377
       NDCG@10:
         - 0.5231
-      RR:
-        - 0.8229
-      R@100:
-        - 0.4747
       R@1000:
-        - 0.7762
+        - 0.7792
   - name: bm25-tuned+ax
     display: +Ax
     params:
@@ -187,15 +147,11 @@ models:
       - -rerankCutoff 20
     results:
       map:
-        - 0.4722
+        - 0.3632
       NDCG@10:
         - 0.5461
-      RR:
-        - 0.8218
-      R@100:
-        - 0.5065
       R@1000:
-        - 0.8094
+        - 0.8138
   - name: bm25-tuned+prf
     display: +PRF
     params:
@@ -205,12 +161,8 @@ models:
       - -bm25prf
     results:
       map:
-        - 0.4522
+        - 0.3684
       NDCG@10:
         - 0.5536
-      RR:
-        - 0.8178
-      R@100:
-        - 0.4969
       R@1000:
-        - 0.7894
+        - 0.7988

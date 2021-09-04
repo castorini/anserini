@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,10 @@ public class IndexArgs {
 
   // This is the name of the field in the Lucene document where the raw document is stored.
   public static final String RAW = "raw";
+
+  // This is the name of the field in the Lucene document where the entity document is stored.
+  public static final String ENTITY = "entity";
+
 
   private static final int TIMEOUT = 600 * 1000;
 
@@ -110,6 +114,10 @@ public class IndexArgs {
       usage = "File containing list of docids, one per line; only these docids will be indexed.")
   public String whitelist = null;
 
+  @Option(name = "-impact",
+      usage = "Boolean switch to store impacts (no norms).")
+  public boolean impact = false;
+
   @Option(name = "-bm25.accurate",
       usage = "Boolean switch to use AccurateBM25Similarity (computes accurate document lengths).")
   public boolean bm25Accurate = false;
@@ -117,6 +125,10 @@ public class IndexArgs {
   @Option(name = "-language", metaVar = "[language]",
       usage = "Analyzer language (ISO 3166 two-letter code).")
   public String language= "en";
+
+  @Option(name = "-pretokenized",
+          usage = "index pre-tokenized collections without any additional stemming, stopword processing")
+  public boolean pretokenized = false;
 
   // Tweet options
 
@@ -183,6 +195,10 @@ public class IndexArgs {
   @Option(name = "-es.batch", metaVar = "[n]",
       usage = "Elasticsearch batch index requests size.")
   public int esBatch = 1000;
+
+  @Option(name = "-es.bulk", metaVar = "[n]",
+      usage = "Elasticsearch max bulk requests size in bytes.")
+  public int esBulk = 80000000;
 
   @Option(name = "-es.hostname", metaVar = "[host]",
       usage = "Elasticsearch host.")

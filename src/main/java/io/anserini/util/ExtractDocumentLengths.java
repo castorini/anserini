@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,18 @@
 package io.anserini.util;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.index.NotStoredException;
+import io.anserini.index.IndexReaderUtils;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.SmallFloat;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -72,14 +76,15 @@ public class ExtractDocumentLengths {
     long lossyTotalTerms = 0;
     long exactTotalTerms = 0;
 
-    out.println("docid\tdoc_length\tunique_term_count\tlossy_doc_length\tlossy_unique_term_count");
+    out.println("internal_docid\texternal_docid\tdoc_length\tunique_term_count\tlossy_doc_length\tlossy_unique_term_count");
     for (int i = 0; i < numDocs; i++) {
       Terms terms = reader.getTermVector(i, IndexArgs.CONTENTS);
       if (terms == null) {
         // It could be the case that TermVectors weren't stored when constructing the index, or we're just missing a
         // TermVector for a zero-length document. Warn, but don't throw exception.
-        System.err.println(String.format("Warning: TermVector not available for docid %d.", i));
-        out.println(String.format("%d\t0\t0\t0\t0", i));
+        String external_did = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
+        System.err.println(String.format("Warning: TermVector not available for docid %s.", external_did));
+        out.println(String.format("%d\t%s\t0\t0\t0\t0", i, external_did));
         continue;
       }
 
@@ -90,7 +95,8 @@ public class ExtractDocumentLengths {
       // See https://github.com/apache/lucene-solr/blob/master/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java
       int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
-      out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
+      out.println(String.format("%d\t%s\t%d\t%d\t%d\t%d", i, IndexReaderUtils.convertLuceneDocidToDocid(reader, i),
+              exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
       lossyTotalTerms += lossyDoclength;
       exactTotalTerms += exactDoclength;
     }

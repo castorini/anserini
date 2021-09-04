@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public class AclAnthologyEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
-    documents.put("E17-1003", Map.of(
+    referenceDocs.put("E17-1003", Map.of(
         "contents",
         "Exploring Different Dimensions of Attention for Uncertainty Detection Neural networks with attention " +
             "have proven effective for many natural language processing tasks. In this paper, we develop attention " +
@@ -58,12 +58,12 @@ public class AclAnthologyEndToEndTest extends EndToEndTest {
             "Our novel architectures set the new state of the art on a Wikipedia benchmark dataset and perform " +
             "similar to the state-of-the-art model on a biomedical benchmark which uses a large set of linguistic " +
             "features."));
-    documents.put("C00-1003", Map.of(
+    referenceDocs.put("C00-1003", Map.of(
         "contents",
         "Selectional Restrictions in HPSG ",
         "raw",
         "Selectional Restrictions in HPSG "));
-    documents.put("C00-1007", Map.of(
+    referenceDocs.put("C00-1007", Map.of(
         "contents",
         "Exploiting a Probabilistic Hierarchical Model for Generation ",
         "raw",

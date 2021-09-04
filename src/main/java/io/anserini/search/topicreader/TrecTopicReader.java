@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class TrecTopicReader extends TopicReader<Integer> {
   protected StringBuilder read(BufferedReader reader, String prefix, StringBuilder sb,
                                boolean collectMatchLine, boolean collectAll) throws IOException {
     sb = (sb == null ? new StringBuilder() : sb);
-    String sep = "";
+    String sep = (sb == null ? "" : newline);
     while (true) {
       String line = reader.readLine();
       if (line == null) {
@@ -86,24 +86,14 @@ public class TrecTopicReader extends TopicReader<Integer> {
 
         // title
         sb = read(bRdr, "<title>", null, true, false);
+        sb = read(bRdr, "<desc>", sb, false, true);
         k = sb.indexOf(":");
         if (k == -1) {
-          k = sb.indexOf(">");
-        }
-        String title = sb.substring(k + 1).trim();
-
-        //malformed titles, read again
-        if (title.isEmpty()) {
-          sb = read(bRdr, "", null, true, false);
-          k = sb.indexOf(":");
-          if (k == -1) {
             k = sb.indexOf(">");
-          }
-          title = sb.substring(k + 1).trim();
         }
+        String title = sb.substring(k + 1).replaceAll("\\s+", " ").trim();
 
         // Read the description...
-        read(bRdr, "<desc>", null, false, false);
         sb.setLength(0);
         String line = null;
         while ((line = bRdr.readLine()) != null) {
@@ -133,7 +123,7 @@ public class TrecTopicReader extends TopicReader<Integer> {
         // we got a topic!
         // this is for core track 2018 fix
         id = id.replaceAll("</num>", "").trim();
-        title = title.replaceAll("</title>", "");
+        title = title.replaceAll("</title>", "").trim();
         description = description.replaceAll("</desc>", "");
         narrative = narrative.replaceAll("</narr>", "");
         // this is for core track 2018 fix

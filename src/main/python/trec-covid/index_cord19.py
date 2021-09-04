@@ -53,38 +53,31 @@ def download_url(url, save_dir):
 
 def download_collection(date):
     print(f'Downloading CORD-19 release of {date}...')
-    collection_dir = f'collections/cord19-{date}'
-    documents_url = f'https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/{date}/document_parses.tar.gz'
-    documents_local = f'{collection_dir}/document_parses.tar.gz'
-    documents_dir_local = f'{collection_dir}/document_parses'
-    metadata_url = f'https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/{date}/metadata.csv'
-    metadata_local = f'{collection_dir}/metadata.csv'
+    collection_dir = f'collections/'
+    tarball_url = f'https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/historical_releases/cord-19_{date}.tar.gz'
+    tarball_local = os.path.join(collection_dir, f'cord-19_{date}.tar.gz')
 
-    if not os.path.isdir(collection_dir):
-        print(f'{collection_dir} does not exist, creating...')
-        os.mkdir(collection_dir)
+    if not os.path.exists(tarball_local):
+        print(f'Fetching {tarball_url}...')
+        download_url(tarball_url, collection_dir)
     else:
-        print(f'{collection_dir} already exists.')
+        print(f'{tarball_local} already exists, skipping download.')
 
-    if not os.path.exists(metadata_local):
-        print(f'Fetching {metadata_url}...')
-        download_url(metadata_url, collection_dir)
-    else:
-        print(f'{metadata_local} already exists, skipping download.')
+    print(f'Extracting {tarball_local} into {collection_dir}')
+    tarball = tarfile.open(tarball_local)
+    tarball.extractall(collection_dir)
+    tarball.close()
 
-    if not os.path.exists(documents_local):
-        print(f'Fetching {documents_url}...')
-        download_url(documents_url, collection_dir)
-    else:
-        print(f'{documents_local} already exists, skipping download.')
+    docparses = os.path.join(collection_dir, date, 'document_parses.tar.gz')
+    collection_base = os.path.join(collection_dir, date)
 
-    if not os.path.isdir(documents_dir_local):
-        print(f'Extracting documents into {documents_dir_local}')
-        tarball = tarfile.open(documents_local)
-        tarball.extractall(collection_dir)
-        tarball.close()
-    else:
-        print(f'{documents_dir_local} already exists, skipping unpacking.')
+    print(f'Extracting {docparses} into {collection_base}...')
+    tarball = tarfile.open(docparses)
+    tarball.extractall(collection_base)
+    tarball.close()
+
+    print(f'Renaming {collection_base}')
+    os.rename(collection_base, os.path.join(collection_dir, f'cord19-{date}'))
 
 
 def build_indexes(date):
@@ -163,7 +156,7 @@ def verify_indexes(date):
     paragraph_index = f'indexes/lucene-index-cord19-paragraph-{date} '
     os.system(f'sh target/appassembler/bin/SearchCollection -index {paragraph_index} -topicreader Covid ' +
               f'-topics {topics} -topicfield query+question ' +
-              f'-removedups -strip_segment_id -bm25 -hits 1000 -output runs/verify.{date}.paragraph.txt')
+              f'-selectMaxPassage -bm25 -hits 1000 -output runs/verify.{date}.paragraph.txt')
     os.system(f'python tools/scripts/filter_run.py --whitelist {whitelist} --k 1000 ' +
               f'--input runs/verify.{date}.paragraph.txt --output runs/verify.{date}.paragraph.filtered.txt')
     paragraph_metrics = evaluate_run(f'verify.{date}.paragraph.filtered.txt')

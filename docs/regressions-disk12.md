@@ -9,9 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/disk12 \
- -index indexes/lucene-index.disk12.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.disk12.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
+ -input /path/to/disk12 \
+ -index indexes/lucene-index.disk12.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.disk12 &
 ```
 
 The directory `/path/to/disk12/` should be the root directory of [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A), i.e., `ls /path/to/disk12/` should bring up subdirectories like `doe`, `wsj`.
@@ -34,106 +37,124 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -bm25 -output run.disk12.bm25.topics.adhoc.51-100.txt &
+ -output runs/run.disk12.bm25.topics.adhoc.51-100.txt \
+ -bm25 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -bm25 -output run.disk12.bm25.topics.adhoc.101-150.txt &
+ -output runs/run.disk12.bm25.topics.adhoc.101-150.txt \
+ -bm25 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -bm25 -output run.disk12.bm25.topics.adhoc.151-200.txt &
+ -output runs/run.disk12.bm25.topics.adhoc.151-200.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -bm25 -rm3 -output run.disk12.bm25+rm3.topics.adhoc.51-100.txt &
+ -output runs/run.disk12.bm25+rm3.topics.adhoc.51-100.txt \
+ -bm25 -rm3 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -bm25 -rm3 -output run.disk12.bm25+rm3.topics.adhoc.101-150.txt &
+ -output runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt \
+ -bm25 -rm3 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -bm25 -rm3 -output run.disk12.bm25+rm3.topics.adhoc.151-200.txt &
+ -output runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.51-100.txt &
+ -output runs/run.disk12.bm25+ax.topics.adhoc.51-100.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.101-150.txt &
+ -output runs/run.disk12.bm25+ax.topics.adhoc.101-150.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.151-200.txt &
+ -output runs/run.disk12.bm25+ax.topics.adhoc.151-200.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -qld -output run.disk12.ql.topics.adhoc.51-100.txt &
+ -output runs/run.disk12.ql.topics.adhoc.51-100.txt \
+ -qld &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -qld -output run.disk12.ql.topics.adhoc.101-150.txt &
+ -output runs/run.disk12.ql.topics.adhoc.101-150.txt \
+ -qld &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -qld -output run.disk12.ql.topics.adhoc.151-200.txt &
+ -output runs/run.disk12.ql.topics.adhoc.151-200.txt \
+ -qld &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -qld -rm3 -output run.disk12.ql+rm3.topics.adhoc.51-100.txt &
+ -output runs/run.disk12.ql+rm3.topics.adhoc.51-100.txt \
+ -qld -rm3 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -qld -rm3 -output run.disk12.ql+rm3.topics.adhoc.101-150.txt &
+ -output runs/run.disk12.ql+rm3.topics.adhoc.101-150.txt \
+ -qld -rm3 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -qld -rm3 -output run.disk12.ql+rm3.topics.adhoc.151-200.txt &
+ -output runs/run.disk12.ql+rm3.topics.adhoc.151-200.txt \
+ -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.51-100.txt &
+ -output runs/run.disk12.ql+ax.topics.adhoc.51-100.txt \
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.101-150.txt &
+ -output runs/run.disk12.ql+ax.topics.adhoc.101-150.txt \
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.151-200.txt &
+ -output runs/run.disk12.ql+ax.topics.adhoc.151-200.txt \
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt run.disk12.bm25.topics.adhoc.51-100.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt run.disk12.bm25.topics.adhoc.101-150.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt run.disk12.bm25.topics.adhoc.151-200.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25.topics.adhoc.51-100.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25.topics.adhoc.101-150.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25.topics.adhoc.151-200.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt run.disk12.bm25+rm3.topics.adhoc.51-100.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt run.disk12.bm25+rm3.topics.adhoc.101-150.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt run.disk12.bm25+rm3.topics.adhoc.151-200.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25+rm3.topics.adhoc.51-100.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt run.disk12.bm25+ax.topics.adhoc.51-100.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt run.disk12.bm25+ax.topics.adhoc.101-150.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt run.disk12.bm25+ax.topics.adhoc.151-200.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25+ax.topics.adhoc.51-100.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25+ax.topics.adhoc.101-150.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25+ax.topics.adhoc.151-200.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt run.disk12.ql.topics.adhoc.51-100.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt run.disk12.ql.topics.adhoc.101-150.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt run.disk12.ql.topics.adhoc.151-200.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.ql.topics.adhoc.51-100.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.ql.topics.adhoc.101-150.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.ql.topics.adhoc.151-200.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt run.disk12.ql+rm3.topics.adhoc.51-100.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt run.disk12.ql+rm3.topics.adhoc.101-150.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt run.disk12.ql+rm3.topics.adhoc.151-200.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.ql+rm3.topics.adhoc.51-100.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.ql+rm3.topics.adhoc.101-150.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.ql+rm3.topics.adhoc.151-200.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt run.disk12.ql+ax.topics.adhoc.51-100.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt run.disk12.ql+ax.topics.adhoc.101-150.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt run.disk12.ql+ax.topics.adhoc.151-200.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.ql+ax.topics.adhoc.51-100.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.ql+ax.topics.adhoc.101-150.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.ql+ax.topics.adhoc.151-200.txt
 ```
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.2273    | 0.2634    | 0.2640    | 0.2189    | 0.2435    | 0.2501    |
-[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.2010    | 0.2587    | 0.2722    | 0.2015    | 0.2442    | 0.2593    |
-[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.2580    | 0.3390    | 0.3318    | 0.2518    | 0.3042    | 0.3103    |
+[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.2277    | 0.2628    | 0.2648    | 0.2188    | 0.2465    | 0.2502    |
+[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.2003    | 0.2578    | 0.2698    | 0.2010    | 0.2429    | 0.2596    |
+[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.2634    | 0.3345    | 0.3407    | 0.2580    | 0.3037    | 0.3129    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.4533    | 0.4800    | 0.5067    | 0.4520    | 0.4627    | 0.4953    |
-[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.4280    | 0.4593    | 0.4753    | 0.4207    | 0.4420    | 0.4740    |
-[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.4740    | 0.5273    | 0.5100    | 0.4580    | 0.4913    | 0.5167    |
+[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.4540    | 0.4860    | 0.5127    | 0.4553    | 0.4680    | 0.4947    |
+[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.4253    | 0.4580    | 0.4720    | 0.4193    | 0.4400    | 0.4760    |
+[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.4860    | 0.5260    | 0.5273    | 0.4753    | 0.4967    | 0.5187    |

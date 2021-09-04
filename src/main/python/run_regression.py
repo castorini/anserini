@@ -174,13 +174,15 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
         yaml_data (dict): the yaml config
         dry_run (bool): if True, print out commands without actually running them
     """
+    fail_str = '\033[91m[FAIL]\033[0m '
+    ok_str = '   [OK] '
     logger.info('='*10+'Verifying Results'+'='*10)
     success = True
     for model in yaml_data['models']:
         for i, topic in enumerate(yaml_data['topics']):
             for eval in yaml_data['evals']:
                 eval_cmd = [
-                  os.path.join(yaml_data['root'], 'tools/' + eval['command']),
+                  os.path.join(yaml_data['root'], eval['command']),
                   ' '.join(eval['params']) if eval['params'] else '',
                   os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
                   os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path']))
@@ -195,19 +197,12 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
                 eval_out = out.strip().split(eval['separator'])[eval['parse_index']]
                 expected = round(model['results'][eval['metric']][i], eval['metric_precision'])
                 actual = round(float(eval_out), eval['metric_precision'])
-                res = {
-                    'collection': yaml_data['name'],
-                    'model': model['name'],
-                    'topic': topic['name'],
-                    'metric': eval['metric'],
-                    'expected': expected,
-                    'actual': actual
-                }
+                result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3}'.format(expected, actual, eval['metric'], model['name'])
                 if is_close(expected, actual):
-                    logger.info(json.dumps(res, sort_keys=True))
+                    logger.info(ok_str + result_str)
                 else:
                     success = False
-                    logger.error('!'*5+json.dumps(res, sort_keys=True)+'!'*5)
+                    logger.error(fail_str + result_str)
                     if fail_eval:
                         assert False
     if success:

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package io.anserini.collection;
@@ -29,7 +28,7 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * A collection of WARC files from CCNewsEn corpus (TODO: Add URL).
+ * A collection of WARC files from CCNewsEn corpus (https://doi.org/10.1145/3340531.3412762).
  * This can be used to read the CommonCrawlNewsEn WARC files
  */
 public class CommonCrawlNewsEnWarcCollection extends DocumentCollection<CommonCrawlNewsEnWarcCollection.Document> {
@@ -78,7 +77,7 @@ public class CommonCrawlNewsEnWarcCollection extends DocumentCollection<CommonCr
    *
    * A document from the
    * CommonCrawlNewsEn WARC collection.
-   * TODO: Add URL
+   * See: https://doi.org/10.1145/3340531.3412762
    * 
    */
   public static class Document extends WarcBaseDocument {

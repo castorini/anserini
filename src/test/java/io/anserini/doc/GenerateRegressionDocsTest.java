@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,22 +36,27 @@ public class GenerateRegressionDocsTest {
 
     for (final File fileEntry : new File(templatesRoot.toURI()).listFiles()) {
       String fileName = fileEntry.getName();
-      String collection = fileEntry.getName().replaceAll(".template", "");
-      URL yaml = GenerateRegressionDocsTest.class.getResource(String.format("/regression/%s.yaml", collection));
+      // This is the name of the test, which can be different from the name of the collection,
+      // e.g., multiple topics run on the same collection.
+      String testName = fileEntry.getName().replaceAll(".template", "");
+
+      URL yaml = GenerateRegressionDocsTest.class.getResource(String.format("/regression/%s.yaml", testName));
       DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
+      String collection = data.getName();
+
       Map<String, String> valuesMap = new HashMap<>();
       valuesMap.put("index_cmds", data.generateIndexingCommand(collection));
       valuesMap.put("ranking_cmds", data.generateRankingCommand(collection));
       valuesMap.put("eval_cmds", data.generateEvalCommand(collection));
       valuesMap.put("effectiveness", data.generateEffectiveness(collection));
       StrSubstitutor sub = new StrSubstitutor(valuesMap);
-      URL template = GenerateRegressionDocsTest.class.getResource(String.format("/docgen/templates/%s.template", collection));
+      URL template = GenerateRegressionDocsTest.class.getResource(String.format("/docgen/templates/%s.template", testName));
       Scanner scanner = new Scanner(new File(template.toURI()), "UTF-8");
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();
       String resolvedString = sub.replace(text);
 
-      FileUtils.writeStringToFile(new File(String.format("docs/regressions-%s.md", collection)),
+      FileUtils.writeStringToFile(new File(String.format("docs/regressions-%s.md", testName)),
         resolvedString, "UTF-8");
     }
   }

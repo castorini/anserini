@@ -8,26 +8,22 @@ Anserini
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
 
-Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
-Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).
+Anserini is a toolkit for reproducible information retrieval research.
+By building on Lucene, we aim to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
+Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).[*](docs/reproducibility.md)
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
 
 ## Getting Started
 
+Many Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
+If you're looking for basic indexing and search capabilities, you might want to start there.
 A low-effort way to try out Anserini is to look at our [online notebooks](https://github.com/castorini/anserini-notebooks), which will allow you to get started with just a few clicks.
 For convenience, we've pre-built a few common indexes, available to download [here](https://git.uwaterloo.ca/jimmylin/anserini-indexes).
 
-If you want to build Anserini itself, then start by verifying the main dependencies:
-
-+ Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
-Maven 3.3+ is also required.
-+ Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
-Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
-As a result of this upgrade, results of all regressions have changed slightly.
-To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
-
-After cloning our repo (use `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned), build using Maven:
+You'll need Java 11 and Maven 3.3+ to build Anserini.
+Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned (alternatively, use `git submodule update --init`).
+Then, build using using Maven:
 
 ```
 mvn clean package appassembler:assemble
@@ -43,68 +39,73 @@ cd tools/eval/ndeval && make && cd ../../..
 
 With that, you should be ready to go!
 
-## Anserini Regression Experiments
+## Regression Experiments
 
 Anserini is designed to support experiments on various standard IR test collections out of the box.
-The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini replicability promise](docs/regressions.md).
+The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini reproducibility promise](docs/regressions.md).
 For the most part, these runs are based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
-+ [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
-+ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
-+ [Regressions for AQUAINT (Robust05)](docs/regressions-robust05.md)
-+ [Regressions for the New York Times (Core17)](docs/regressions-core17.md)
-+ [Regressions for the Washington Post (Core18)](docs/regressions-core18.md)
-+ [Regressions for Wt10g](docs/regressions-wt10g.md)
-+ [Regressions for Gov2](docs/regressions-gov2.md)
-+ [Regressions for ClueWeb09 (Category B)](docs/regressions-cw09b.md)
-+ [Regressions for ClueWeb12-B13](docs/regressions-cw12b13.md)
-+ [Regressions for ClueWeb12](docs/regressions-cw12.md)
-+ [Regressions for Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md)
-+ [Regressions for Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
-+ [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
-+ [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
-+ [Regressions for Complex Answer Retrieval v2.0 (CAR17) with doc2query expansion](docs/regressions-car17v2.0-doc2query.md)
-+ [Regressions for the MS MARCO Passage Retrieval Task](docs/regressions-msmarco-passage.md)
-+ [Regressions for the MS MARCO Passage Retrieval Task with doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
-+ [Regressions for the MS MARCO Passage Retrieval Task with docTTTTTquery expansion](docs/regressions-msmarco-passage-docTTTTTquery.md)
-+ [Regressions for the MS MARCO Document Retrieval](docs/regressions-msmarco-doc.md)
-+ [Regressions for the TREC 2019 Deep Learning Track (Passage Ranking Task)](docs/regressions-dl19-passage.md)
-+ [Regressions for the TREC 2019 Deep Learning Track (Document Ranking Task)](docs/regressions-dl19-doc.md)
-+ [Regressions for the TREC 2018 News Track (Background Linking Task)](docs/regressions-backgroundlinking18.md)
-+ [Regressions for the TREC 2019 News Track (Background Linking Task)](docs/regressions-backgroundlinking19.md)
-+ [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
-+ [Regressions for CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
-+ [Regressions for TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
-+ [Regressions for FIRE 2012 Monolingual Bengali](docs/regressions-fire12-bn.md)
-+ [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
-+ [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
++ Regressions for [Disks 1 &amp; 2](docs/regressions-disk12.md), [Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md), [AQUAINT (Robust05)](docs/regressions-robust05.md)
++ Regressions for [the New York Times Corpus (Core17)](docs/regressions-core17.md), [the Washington Post Corpus (Core18)](docs/regressions-core18.md)
++ Regressions for [Wt10g](docs/regressions-wt10g.md), [Gov2](docs/regressions-gov2.md)
++ Regressions for [ClueWeb09 (Category B)](docs/regressions-cw09b.md), [ClueWeb12-B13](docs/regressions-cw12b13.md), [ClueWeb12](docs/regressions-cw12.md)
++ Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
++ Regressions for Complex Answer Retrieval (CAR17): [[v1.5](docs/regressions-car17v1.5.md)] [[v2.0](docs/regressions-car17v2.0.md)] [[v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)]
++ Regressions for MS MARCO Passage Ranking: [[base](docs/regressions-msmarco-passage.md)] [[doc2query](docs/regressions-msmarco-passage-doc2query.md)] [[docTTTTTquery](docs/regressions-msmarco-passage-docTTTTTquery.md)]
++ Regressions for MS MARCO Document Ranking, Per Doc: [[base](docs/regressions-msmarco-doc.md)] [[docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)]
++ Regressions for MS MARCO Document Ranking, Per Passage: [[base](docs/regressions-msmarco-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)]
++ Regressions for the TREC 2019 Deep Learning Track (Passage): [[base](docs/regressions-dl19-passage.md)] [[docTTTTTquery](docs/regressions-dl19-passage-docTTTTTquery.md)]
++ Regressions for the TREC 2019 Deep Learning Track (Document), Per Doc: [[base](docs/regressions-dl19-doc.md)] [[docTTTTTquery](docs/regressions-dl19-doc-docTTTTTquery-per-doc.md)]
++ Regressions for the TREC 2019 Deep Learning Track (Document), Per Passage: [[base](docs/regressions-dl19-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-dl19-doc-docTTTTTquery-per-passage.md)]
++ Regressions for the TREC 2020 Deep Learning Track (Passage): [[base](docs/regressions-dl20-passage.md)] [[docTTTTTquery](docs/regressions-dl20-passage-docTTTTTquery.md)]
++ Regressions for the TREC 2020 Deep Learning Track (Document), Per Doc: [[base](docs/regressions-dl20-doc.md)] [[docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)]
++ Regressions for the TREC 2020 Deep Learning Track (Document), Per Passage: [[base](docs/regressions-dl20-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)]
++ Regressions for MS MARCO Passage Ranking (V2): [[base](docs/regressions-msmarco-passage-v2.md)] [[base on augmented corpus](docs/regressions-msmarco-passage-v2-augmented.md)]
++ Regressions for MS MARCO Document Ranking (V2): [[base](docs/regressions-msmarco-doc-v2.md)] [[base on segmented corpus](docs/regressions-msmarco-doc-v2-segmented.md)]
++ Regressions for the TREC News Track (Background Linking Task): [[2018](docs/regressions-backgroundlinking18.md)] [[2019](docs/regressions-backgroundlinking19.md)] [[2020](docs/regressions-backgroundlinking20.md)]
++ Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
++ Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
++ Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
++ Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
++ Regressions for FIRE 2012: [[Monolingual Bengali](docs/regressions-fire12-bn.md)] [[Monolingual Hindi](docs/regressions-fire12-hi.md)] [[Monolingual English](docs/regressions-fire12-en.md)]
 
-## Additional Documentation
+## Reproduction Guides
 
-The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of replicability.
-For the most part, manual copying and pasting of commands into a shell is required to replicate our results:
+The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of reproducibility.
+For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
 
-+ [Working with AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
-+ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
+### TREC-COVID and CORD-19
+
++ [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
++ [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
++ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
+
+### MS MARCO
+
++ [Reproducing BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
++ [Reproducing BM25 baselines for the MS MARCO Document Ranking Task](docs/experiments-msmarco-doc.md)
++ [Reproducing baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
++ [Reproducing doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
++ [Reproducing docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
++ [Reproducing DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
++ [Reproducing uniCOIL for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-unicoil.md)
++ [Reproducing BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
+
+### Other Experiments
+
 + [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
-+ [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
-+ [Guide to BM25 baselines for the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
-+ [Guide to BM25 baselines for the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
 + [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
-+ [Guide to replicating doc2query results](docs/experiments-doc2query.md)
-+ [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
++ [Guide to reproducing "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
 
-See [this page](docs/additional.md) for additional documentation.
+## Additional Documentation
 
-## Other Features
-
-+ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)
++ Use Anserini in Python via [Pyserini](http://pyserini.io/)
 + Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)
 + Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)
 + Anserini supports [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on arbitrary dense vectors with Lucene
@@ -112,8 +113,8 @@ See [this page](docs/additional.md) for additional documentation.
 ## How Can I Contribute?
 
 If you've found Anserini to be helpful, we have a simple request for you to contribute back.
-In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
-Replicability is important to us, and we'd like to know about successes as well as failures.
+In the course of [reproducing](docs/reproducibility.md) baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
+Reproducibility is important to us, and we'd like to know about successes as well as failures.
 Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
 In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
@@ -121,6 +122,14 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.13.3: August 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.3.md)]
++ v0.13.2: July 20, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.2.md)]
++ v0.13.1: June 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.1.md)]
++ v0.13.0: June 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.0.md)]
++ v0.12.0: April 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.12.0.md)]
++ v0.11.0: February 13, 2021 [[Release Notes](docs/release-notes/release-notes-v0.11.0.md)]
++ v0.10.1: January 8, 2021 [[Release Notes](docs/release-notes/release-notes-v0.10.1.md)]
++ v0.10.0: November 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.10.0.md)]
 + v0.9.4: June 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.4.md)]
 + v0.9.3: May 26, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.3.md)]
 + v0.9.2: May 14, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.2.md)]
@@ -138,6 +147,15 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 + v0.3.0: December 16, 2018 [[Release Notes](docs/release-notes/release-notes-v0.3.0.md)]
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
 + v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
+
+## Historical Notes
+
++ Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
+Maven 3.3+ is also required.
++ Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
+Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
+As a result of this upgrade, results of all regressions have changed slightly.
+To reproducible old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
 
 ## References
 

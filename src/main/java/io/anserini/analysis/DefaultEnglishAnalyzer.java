@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package io.anserini.analysis;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.LowerCaseFilter;
 import org.apache.lucene.analysis.StopFilter;
@@ -28,6 +29,10 @@ import org.apache.lucene.analysis.en.KStemFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.SetKeywordMarkerFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class DefaultEnglishAnalyzer extends StopwordAnalyzerBase {
   private final boolean stem;
@@ -126,5 +131,27 @@ public class DefaultEnglishAnalyzer extends StopwordAnalyzerBase {
    */
   public static final DefaultEnglishAnalyzer newNonStemmingInstance(CharArraySet stopwords) {
     return new DefaultEnglishAnalyzer(stopwords);
+  }
+
+  /**
+   * Creates an analyzer given common command line arguments.
+   * @param stemmer either "porter" or "krovetz"
+   * @param keepStopwords flag that allows keeping all stopwords. If true, then stopwordsFile must be null.
+   * @param stopwordsFile a text file with one stopword per line. If null, the default stopwords set is used.
+   *
+   * @return analyzer as configured
+   * @throws IOException if there's an error reading the stopwords file
+   */
+  public static DefaultEnglishAnalyzer fromArguments(String stemmer, boolean keepStopwords, String stopwordsFile) throws IOException {
+    if (keepStopwords) {
+      assert stopwordsFile == null;
+      return DefaultEnglishAnalyzer.newStemmingInstance(stemmer, CharArraySet.EMPTY_SET);
+    } else if (stopwordsFile != null) {
+      List<String> stopWords = FileUtils.readLines(new File(stopwordsFile), "utf-8");
+      CharArraySet stopWordsSet = new CharArraySet(stopWords, false);
+      return DefaultEnglishAnalyzer.newStemmingInstance(stemmer, CharArraySet.unmodifiableSet(stopWordsSet));
+    } else {
+      return DefaultEnglishAnalyzer.newStemmingInstance(stemmer);
+    }
   }
 }

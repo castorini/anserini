@@ -1,19 +1,18 @@
-# -*- coding: utf-8 -*-
-'''
-Anserini: A Lucene toolkit for replicable information retrieval research
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-'''
+#
+# Pyserini: Python interface to the Anserini IR toolkit built on Lucene
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 import argparse
 import logging
@@ -21,6 +20,7 @@ import math
 import os
 import requests
 import time
+
 import regression_utils
 
 # Note that this class is specifically written with REST API requests instead of the
@@ -32,16 +32,20 @@ ch.setFormatter(logging.Formatter('%(asctime)s %(levelname)s - %(message)s'))
 logger.addHandler(ch)
 logger.setLevel(logging.INFO)
 
+
 class ElasticsearchClient:
     def __init__(self):
         pass
 
-    def is_alive(self):
+    @staticmethod
+    def is_alive():
         try:
             response = requests.get('http://localhost:9200/')
             response.raise_for_status()
-        except: return False
-        else: return True
+        except requests.exceptions.RequestException:
+            return False
+        else:
+            return True
 
     def does_index_exist(self, collection):
         # Make sure ES is alive:
@@ -49,9 +53,12 @@ class ElasticsearchClient:
             try:
                 response = requests.get('http://localhost:9200/{}'.format(collection))
                 response.raise_for_status()
-            except: return False
-            else: return True
-        else: raise Exception('ES does not appear to be alive!')
+            except requests.exceptions.RequestException:
+                return False
+            else:
+                return True
+        else:
+            raise Exception('ES does not appear to be alive!')
 
     def delete_index(self, collection):
         logger.info('Deleting index {}...'.format(collection))
@@ -60,9 +67,12 @@ class ElasticsearchClient:
             try:
                 response = requests.request('DELETE', url='http://localhost:9200/{}'.format(collection))
                 response.raise_for_status()
-            except: return False
-            else: return True
-        else: raise Exception('The index {} does not exist!'.format(collection))
+            except requests.exceptions.RequestException:
+                return False
+            else:
+                return True
+        else:
+            raise Exception('The index {} does not exist!'.format(collection))
 
     def create_index(self, collection):
         logger.info('Creating index {}...'.format(collection))
@@ -74,11 +84,12 @@ class ElasticsearchClient:
             logger.info('Using index config for {} at {}'.format(collection, filename))
             with open(filename, mode='r') as file:
                 json = file.read()
+            response = ''
             try:
                 response = requests.request('PUT', url='http://localhost:9200/{}'.format(collection),
                                             data=json, headers={'Content-type': 'application/json'})
                 response.raise_for_status()
-            except:
+            except requests.exceptions.RequestException:
                 logger.info(response)
                 return False
             else:
@@ -93,7 +104,6 @@ class ElasticsearchClient:
         if not self.does_index_exist(collection):
             raise Exception('The index {} does not exist!'.format(collection))
         # TODO: abstract this into an external config instead of hard-coded.
-        command = ''
         if collection == 'robust04':
             command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
                       '-generator DefaultLuceneDocumentGenerator -es -es.index robust04 -threads 16 -input ' + \
@@ -107,9 +117,9 @@ class ElasticsearchClient:
                       '-generator WashingtonPostGenerator -es -es.index core18 -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeContents'
         elif collection == 'msmarco-doc':
-             command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
-                       '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-doc -threads 1 -input ' + \
-                       path + ' -storePositions -storeDocvectors -storeRaw'
+            command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
+                      '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-doc -threads 1 -input ' + \
+                      path + ' -storePositions -storeDocvectors -storeRaw'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
@@ -119,7 +129,6 @@ class ElasticsearchClient:
         if not self.does_index_exist(collection):
             raise Exception('The index {} does not exist!'.format(collection))
         # TODO: abstract this into an external config instead of hard-coded.
-        command = ''
         if collection == 'robust04':
             command = 'sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.robust04.txt ' + \
@@ -133,28 +142,30 @@ class ElasticsearchClient:
                       '-topics src/main/resources/topics-and-qrels/topics.core18.txt ' + \
                       '-output runs/run.es.core18.bm25.topics.core18.txt'
         elif collection == 'msmarco-doc':
-             command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-doc ' + \
-                       '-topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt ' + \
-                       '-output runs/run.es.msmarco-doc.txt'
+            command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-doc ' + \
+                      '-topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt ' + \
+                      '-output runs/run.es.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
         logger.info('Retrieval command: ' + command)
-        output = regression_utils.run_shell_command(command, logger, echo=True)
+        regression_utils.run_shell_command(command, logger, echo=True)
         logger.info('Retrieval complete!')
 
         if collection == 'robust04':
-            command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
-                      'src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.es.robust04.bm25.topics.robust04.txt'
+            command = 'tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
+                      'src/main/resources/topics-and-qrels/qrels.robust04.txt ' + \
+                      'runs/run.es.robust04.bm25.topics.robust04.txt'
         elif collection == 'msmarco-passage':
-            command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
-                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.es.msmarco-passage.txt'
+            command = 'tools/eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt ' + \
+                      'runs/run.es.msmarco-passage.txt'
         elif collection == 'core18':
-            command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
+            command = 'tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
                       'src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt'
         elif collection == 'msmarco-doc':
-             command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
-                       'src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmarco-doc.txt'
+            command = 'tools/eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -162,28 +173,37 @@ class ElasticsearchClient:
         output = regression_utils.run_shell_command(command, logger, capture=True)
         ap = float(output[0].split('\t')[2])
 
-        expected = 0
-        if collection == 'robust04': expected = 0.2531
-        elif collection == 'msmarco-passage': expected = 0.1956
-        elif collection == 'core18': expected = 0.2495
-        elif collection == 'msmarco-doc': expected = 0.2308
-        else: raise Exception('Unknown collection: {}'.format(collection))
+        if collection == 'robust04':
+            expected = 0.2531
+        elif collection == 'msmarco-passage':
+            expected = 0.1956
+        elif collection == 'core18':
+            expected = 0.2495
+        elif collection == 'msmarco-doc':
+            expected = 0.2308
+        else:
+            raise Exception('Unknown collection: {}'.format(collection))
 
-        if math.isclose(ap, expected): logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
-        else: logger.info('[FAILED] {} MAP, expected {} MAP!'.format(ap, expected))
-
+        if math.isclose(ap, expected):
+            logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
+        else:
+            logger.info('[FAILED] {} MAP, expected {} MAP!'.format(ap, expected))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Program for running Elasticsearch regressions.')
-    parser.add_argument('--ping', action='store_true', default=False, help='ping ES and exit')
-    parser.add_argument('--check-index-exists', default='', type=str, metavar='collection', help='check if index exists')
-    parser.add_argument('--delete-index', default='', type=str, metavar='collection', help='deletes index')
-    parser.add_argument('--create-index', default='', type=str, metavar='collection', help='creates index')
-    parser.add_argument('--insert-docs', default='', type=str, metavar='collection', help='insert documents into index')
-    parser.add_argument('--input', default='', type=str, metavar='directory', help='location of documents to insert into index')
-    parser.add_argument('--evaluate', default='', type=str, metavar='collection', help='search and evaluate on collection')
-    parser.add_argument('--regression', default='', type=str, metavar='collection', help='run end-to-end regression')
+    parser.add_argument('--ping', action='store_true', default=False, help='Ping ES and exit.')
+    parser.add_argument('--check-index-exists', default='', type=str, metavar='collection',
+                        help='Check if index exists.')
+    parser.add_argument('--delete-index', default='', type=str, metavar='collection', help='Delete index.')
+    parser.add_argument('--create-index', default='', type=str, metavar='collection', help='Create index.')
+    parser.add_argument('--insert-docs', default='', type=str, metavar='collection',
+                        help='Insert documents into index.')
+    parser.add_argument('--input', default='', type=str, metavar='directory',
+                        help='Location of documents to insert into index.')
+    parser.add_argument('--evaluate', default='', type=str, metavar='collection',
+                        help='Search and evaluate on collection.')
+    parser.add_argument('--regression', default='', type=str, metavar='collection', help='Run end-to-end regression.')
 
     args = parser.parse_args()
     es = ElasticsearchClient()

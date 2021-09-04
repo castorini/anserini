@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,13 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.DisjunctionMaxQueryGenerator;
+import io.anserini.search.query.QueryGenerator;
 import org.apache.commons.io.FileUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -78,6 +84,26 @@ public class SearchMsmarco {
     @Option(name = "-fields", metaVar = "[key=value]", handler = MapOptionHandler.class,
             usage = "Fields to search with assigned float weights.")
     public Map<String, String> fields = new HashMap<>();
+
+    @Option(name = "-dismax", usage = "Use disjunction max queries when searching multiple fields.")
+    public boolean dismax = false;
+
+    @Option(name = "-dismax.tiebreaker", metaVar = "[value]", usage = "The tiebreaker weight to use in disjunction max queries.")
+    public float dismax_tiebreaker = 0.0f;
+
+    @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
+    public boolean keepstop = false;
+
+    @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
+    public String stemmer = "porter";
+
+    @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
+            usage = "Path to file with stopwords.")
+    public String stopwords = null;
+
+    @Option(name = "-pretokenized", usage = "Boolean switch to accept pre tokenized jsonl.")
+    public boolean pretokenized = false;
+
   }
 
   public static void main(String[] args) throws Exception {
@@ -93,12 +119,20 @@ public class SearchMsmarco {
       return;
     }
 
-    Map<String, Float> fields = new HashMap<>();
-    retrieveArgs.fields.forEach((key, value) -> fields.put(key, Float.valueOf(value)));
-
     long totalStartTime = System.nanoTime();
 
-    SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index);
+    Analyzer analyzer;
+    if (retrieveArgs.pretokenized){
+      analyzer = new WhitespaceAnalyzer();
+      System.out.println("Initializing whilte space analyzer");
+    } else {
+      analyzer = DefaultEnglishAnalyzer.fromArguments(
+              retrieveArgs.stemmer, retrieveArgs.keepstop, retrieveArgs.stopwords);
+      System.out.println("Initializing analyzer with stemmer=" + retrieveArgs.stemmer + ", keepstop=" +
+              retrieveArgs.keepstop + ", stopwords=" + retrieveArgs.stopwords);
+    }
+
+    SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index, analyzer);
     searcher.setBM25(retrieveArgs.k1, retrieveArgs.b);
     System.out.println("Initializing BM25, setting k1=" + retrieveArgs.k1 + " and b=" + retrieveArgs.b + "");
 
@@ -108,8 +142,19 @@ public class SearchMsmarco {
               + " and originalQueryWeight=" + retrieveArgs.originalQueryWeight);
     }
 
+    Map<String, Float> fields = new HashMap<>();
+    retrieveArgs.fields.forEach((key, value) -> fields.put(key, Float.valueOf(value)));
     if (retrieveArgs.fields.size() > 0) {
       System.out.println("Performing weighted field search with fields=" + retrieveArgs.fields);
+    }
+
+    QueryGenerator queryGenerator;
+    if (retrieveArgs.dismax) {
+      queryGenerator = new DisjunctionMaxQueryGenerator(retrieveArgs.dismax_tiebreaker);
+      System.out.println("Initializing dismax query generator, with tiebreaker=" + retrieveArgs.dismax_tiebreaker);
+    } else {
+      queryGenerator = new BagOfWordsQueryGenerator();
+      System.out.println("Initializing bag-of-words query generator.");
     }
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(retrieveArgs.output), StandardCharsets.US_ASCII));
@@ -127,9 +172,9 @@ public class SearchMsmarco {
 
         SimpleSearcher.Result[] hits;
         if (retrieveArgs.fields.size() > 0) {
-          hits = searcher.searchFields(query, fields, retrieveArgs.hits);
+          hits = searcher.searchFields(queryGenerator, query, fields, retrieveArgs.hits);
         } else {
-          hits = searcher.search(query, retrieveArgs.hits);
+          hits = searcher.search(queryGenerator, query, retrieveArgs.hits);
         }
 
         if (lineNumber % 100 == 0) {
@@ -150,9 +195,9 @@ public class SearchMsmarco {
 
       Map<String, SimpleSearcher.Result[]> results;
       if (retrieveArgs.fields.size() > 0) {
-        results = searcher.batchSearchFields(queries, qids, retrieveArgs.hits, retrieveArgs.threads, fields);
+        results = searcher.batchSearchFields(queryGenerator, queries, qids, retrieveArgs.hits, retrieveArgs.threads, fields);
       } else {
-        results = searcher.batchSearch(queries, qids, retrieveArgs.hits, retrieveArgs.threads);
+        results = searcher.batchSearch(queryGenerator, queries, qids, retrieveArgs.hits, retrieveArgs.threads);
       }
 
       for (String qid : qids) {

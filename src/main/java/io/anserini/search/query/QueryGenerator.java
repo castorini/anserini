@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,12 @@ package io.anserini.search.query;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.Query;
 
+import java.util.Map;
+
 public abstract class QueryGenerator {
   public abstract Query buildQuery(String field, Analyzer analyzer, String queryText);
+
+  public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText) {
+    throw new UnsupportedOperationException("The query generator does not support multi-field searches.");
+  }
 }

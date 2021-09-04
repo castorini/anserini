@@ -11,13 +11,16 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/clef06-fr \
- -index indexes/lucene-index.clef06-fr.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language fr >& logs/log.clef06-fr.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
+ -input /path/to/clef06-fr \
+ -index indexes/lucene-index.clef06-fr.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw -language fr \
+  >& logs/log.clef06-fr &
 ```
 
 The collection comprises news articles from ATS (SDA) and Le Monde totaling 177,452 documents.
-Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [preprocessing script](../src/main/python/clir/document_preprocess.py) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that has been lost; if you have problems replicating our results, get in touch directly).
+Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [preprocessing script](../src/main/python/clir/document_preprocess.py) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that has been lost; if you have problems reproducing our results, get in touch directly).
 The directory `/path/to/clef06-fr/` should point to the location of the processed collection.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
@@ -34,18 +37,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.clef06-fr.pos+docvectors+raw \
  -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt \
- -language fr -bm25 -output run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt &
+ -output runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt \
+ -language fr -bm25 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.clef06fr.txt run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.clef06fr.txt runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
 ```
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
