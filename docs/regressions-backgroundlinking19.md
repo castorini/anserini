@@ -69,5 +69,5 @@ NCDG@5                                  | BM25      | +RM3      | +RM3+DF   |
 
 AP                                      | BM25      | +RM3      | +RM3+DF   |
 :---------------------------------------|-----------|-----------|-----------|
-[TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)| 0.3027    | 0.3790    | 0.3158    |
+[TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)| 0.3029    | 0.3786    | 0.3154    |
 
