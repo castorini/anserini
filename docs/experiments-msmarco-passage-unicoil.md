@@ -21,7 +21,7 @@ wget https://git.uwaterloo.ca/jimmylin/unicoil/-/raw/master/msmarco-passage-unic
 # Alternate mirror
 wget https://vault.cs.uwaterloo.ca/s/Rm6fknT432YdBts/download -O collections/msmarco-passage-unicoil-b8.tar
 
-tar -xvf collections/msmarco-passage-unicoil-b8.tar -C collections/
+tar xvf collections/msmarco-passage-unicoil-b8.tar -C collections/
 ```
 
 To confirm, `msmarco-passage-unicoil-b8.tar` should have MD5 checksum of `eb28c059fad906da2840ce77949bffd7`.
@@ -52,7 +52,7 @@ The queries are already stored in the repo, so we can run retrieval directly:
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil-b8 \
- -topicreader TsvInt -topics collections/topics.msmarco-passage.dev-subset.unicoil.tsv \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
  -output runs/run.msmarco-passage-unicoil-b8.trec \
  -impact -pretokenized
 ```
