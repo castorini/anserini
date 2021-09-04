@@ -3,9 +3,18 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### September 4, 2021
+
++ commit [`112438`](https://github.com/castorini/anserini/commit/112438c85f642c3b6b5006af68f82457a43d602f) (09/02/2021)
+
+Added regressions for MS MARCO V2 corpora, standard BM25 + PRF configurations w/ default parameters:
+
++ raw passage corpus, augmented passage corpus
++ raw doc corpus, segmented doc corpus
+
 ### September 2, 2021
 
-+ commit [`b58c85`](https://github.com/castorini/anserini/commit/f86e4e193eee806e935720c2ea8c549babb02c53) (09/02/2021)
++ commit [`f86e4e`](https://github.com/castorini/anserini/commit/f86e4e193eee806e935720c2ea8c549babb02c53) (09/02/2021)
 
 Upgraded jsoup from v1.8.3 to v1.14.2 to address a security vulnerability.
 Minor changes to the following regressions: `backgroundlinking18`, `backgroundlinking19`, `backgroundlinking20`, `core18`, `cw09b`, `cw12`, `cw12b13`, `disk12`, `gov2`, `wt10g`.
