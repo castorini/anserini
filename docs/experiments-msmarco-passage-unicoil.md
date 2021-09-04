@@ -21,7 +21,7 @@ wget https://git.uwaterloo.ca/jimmylin/unicoil/-/raw/master/msmarco-passage-unic
 # Alternate mirror
 wget https://vault.cs.uwaterloo.ca/s/Rm6fknT432YdBts/download -O collections/msmarco-passage-unicoil-b8.tar
 
-tar -xvf collections/msmarco-passage-unicoil-b8.tar -C collections/
+tar xvf collections/msmarco-passage-unicoil-b8.tar -C collections/
 ```
 
 To confirm, `msmarco-passage-unicoil-b8.tar` should have MD5 checksum of `eb28c059fad906da2840ce77949bffd7`.
@@ -48,24 +48,22 @@ The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, 
 ## Retrieval
 
 To ensure that the tokenization in the index aligns exactly with the queries, we use pre-tokenized queries.
-First, fetch the MS MARCO passage ranking dev set queries: 
+The queries are already stored in the repo, so we can run retrieval directly:
+
+```bash
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil-b8 \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
+ -output runs/run.msmarco-passage-unicoil-b8.trec \
+ -impact -pretokenized
+```
+
+The queries are also available to download at the following locations:
 
 ```bash
 wget https://git.uwaterloo.ca/jimmylin/unicoil/-/raw/master/topics.msmarco-passage.dev-subset.unicoil.tsv.gz -P collections/
-
-# Alternate mirror
 wget https://vault.cs.uwaterloo.ca/s/QGoHeBm4YsAgt6H/download -O collections/topics.msmarco-passage.dev-subset.unicoil.tsv.gz
 
-gzip -d collections/topics.msmarco-passage.dev-subset.unicoil.tsv.gz
-```
-
-We can now run retrieval:
-
-```
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil-b8 \
- -topicreader TsvInt -topics collections/topics.msmarco-passage.dev-subset.unicoil.tsv \
- -output runs/run.msmarco-passage-unicoil-b8.trec \
- -impact -pretokenized
+# MD5 checksum: 1af1da05ae5fe0b9d8ddf2d143b6e7f8
 ```
 
 Query evaluation is much slower than with bag-of-words BM25; a complete run can take around 15 min.
@@ -74,7 +72,7 @@ Note that, mirroring the indexing options, we specify `-impact -pretokenized` he
 The output is in TREC output format.
 Let's convert to MS MARCO output format and then evaluate:
 
-```
+```bash
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
    --input runs/run.msmarco-passage-unicoil-b8.trec \
    --output runs/run.msmarco-passage-unicoil-b8.txt --quiet

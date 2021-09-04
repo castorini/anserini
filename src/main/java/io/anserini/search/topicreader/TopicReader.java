@@ -17,6 +17,7 @@
 package io.anserini.search.topicreader;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,6 +31,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.zip.GZIPInputStream;
 
 /**
  * A reader of topics, i.e., information needs or queries, in a variety of standard formats.
@@ -37,6 +39,7 @@ import java.util.SortedMap;
  * @param <K> type of the topic id
  */
 public abstract class TopicReader<K> {
+  protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
 
   static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = new HashMap<>();
@@ -82,14 +85,21 @@ public abstract class TopicReader<K> {
    * @throws IOException if error encountered reading topics
    */
   public SortedMap<K, Map<String, String>> read() throws IOException {
-    InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
-    BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
-    return read(bRdr);
+    BufferedReader bufferedReader;
+    if (topicFile.toString().endsWith(".gz")) {
+      InputStream stream = new GZIPInputStream(Files.newInputStream(topicFile, StandardOpenOption.READ), BUFFER_SIZE);
+      bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+    } else {
+      InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
+      bufferedReader = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
+    }
+
+    return read(bufferedReader);
   }
 
   public SortedMap<K, Map<String, String>> read(String str) throws IOException {
-    BufferedReader bRdr = new BufferedReader(new StringReader(str));
-    return read(bRdr);
+    BufferedReader bufferedReader = new BufferedReader(new StringReader(str));
+    return read(bufferedReader);
   }
 
   abstract public SortedMap<K, Map<String, String>> read(BufferedReader bRdr) throws IOException;
