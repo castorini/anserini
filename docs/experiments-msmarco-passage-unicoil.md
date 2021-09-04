@@ -48,18 +48,7 @@ The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, 
 ## Retrieval
 
 To ensure that the tokenization in the index aligns exactly with the queries, we use pre-tokenized queries.
-First, fetch the MS MARCO passage ranking dev set queries: 
-
-```bash
-wget https://git.uwaterloo.ca/jimmylin/unicoil/-/raw/master/topics.msmarco-passage.dev-subset.unicoil.tsv.gz -P collections/
-
-# Alternate mirror
-wget https://vault.cs.uwaterloo.ca/s/QGoHeBm4YsAgt6H/download -O collections/topics.msmarco-passage.dev-subset.unicoil.tsv.gz
-
-gzip -d collections/topics.msmarco-passage.dev-subset.unicoil.tsv.gz
-```
-
-We can now run retrieval:
+The queries are already stored in the repo, so we can run retrieval directly:
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil-b8 \
@@ -67,6 +56,18 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-pas
  -output runs/run.msmarco-passage-unicoil-b8.trec \
  -impact -pretokenized
 ```
+
+The queries are also available to download at the following locations:
+
+```bash
+wget https://git.uwaterloo.ca/jimmylin/unicoil/-/raw/master/topics.msmarco-passage.dev-subset.unicoil.tsv.gz -P collections/
+wget https://vault.cs.uwaterloo.ca/s/QGoHeBm4YsAgt6H/download -O collections/topics.msmarco-passage.dev-subset.unicoil.tsv.gz
+
+# MD5 checksum: 1af1da05ae5fe0b9d8ddf2d143b6e7f8
+```
+
+We can now run retrieval:
+
 
 Query evaluation is much slower than with bag-of-words BM25; a complete run can take around 15 min.
 Note that, mirroring the indexing options, we specify `-impact -pretokenized` here also.
