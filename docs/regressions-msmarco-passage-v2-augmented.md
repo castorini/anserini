@@ -1,7 +1,7 @@
 # Anserini: Regressions for [MS MARCO Passage Ranking (V2)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
 
 This page documents regression experiments for passage ranking _on the augmented version_ of the MS MARCO Passage (V2) corpus, which is integrated into Anserini's regression testing framework.
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-v2-augmented.md).
+For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-v2-augmented.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-v2-augmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -27,7 +27,7 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the [dev queries](../src/main/resources/topics-and-qrels/topics.msmarco-passage-v2.dev.txt).
+These regression experiments use the [dev queries](../src/main/resources/topics-and-qrels/topics.msmarco-passage-v2.dev.txt).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

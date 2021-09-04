@@ -1,4 +1,4 @@
-# Anserini: Regressions for [MS MARCO Document Ranking (V2) Segmented](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
+# Anserini: Regressions for [MS MARCO Document Ranking (V2)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
 
 This page documents regression experiments for document ranking _on the segmented version_ of the MS MARCO Document (V2) corpus, which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-v2.md).
@@ -27,7 +27,7 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the [dev queries](../src/main/resources/topics-and-qrels/topics.msmarco-doc-v2.dev.txt).
+These regression experiments use the [dev queries](../src/main/resources/topics-and-qrels/topics.msmarco-doc-v2.dev.txt).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
