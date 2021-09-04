@@ -1,10 +1,10 @@
-# Anserini: Regressions for [MS MARCO Passage Ranking (V2) Augmented](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
+# Anserini: Regressions for [MS MARCO Passage Ranking (V2)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
 
 This page documents regression experiments for passage ranking _on the augmented version_ of the MS MARCO Passage (V2) corpus, which is integrated into Anserini's regression testing framework.
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-v2.md).
+For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-v2-augmented.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-v2.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-v2.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-v2-augmented.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-v2-augmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -19,7 +19,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection MsMarcoPassageV2Col
   >& logs/log.msmarco-passage-v2-augmented &
 ```
 
-The directory `/path/to/msmarco-passage-v2/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+The directory `/path/to/msmarco-passage-v2-augmented/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 See [this page](experiments-msmarco-v2.md) for additional details.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
