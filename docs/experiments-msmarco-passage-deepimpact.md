@@ -15,7 +15,7 @@ We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO passage dataset with DeepImpact processing:
 
 ```bash
-wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/msmarco-passage-deepimpact-b8.tar -P collections/
+wget https://git.uwaterloo.ca/jimmylin/deepimpact/raw/master/msmarco-passage-deepimpact-b8.tar -P collections/
 
 # Alternate mirror
 wget https://vault.cs.uwaterloo.ca/s/57AE5aAjzw2ox2n/download -O collections/msmarco-passage-deepimpact-b8.tar
@@ -51,7 +51,7 @@ The queries are already stored in the repo, so we can run retrieval directly:
 
 ```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-deepimpact-b8 \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deep-impact.tsv.gz \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
  -output runs/run.msmarco-passage-deepimpact-b8.trec \
  -impact -pretokenized
 ```
@@ -59,8 +59,8 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-pas
 The queries are also available to download at the following locations:
 
 ```bash
-wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/topics.msmarco-passage.dev-subset.deep-impact.tsv.gz -P collections/
-wget https://vault.cs.uwaterloo.ca/s/NYibRJ9bXs5PspH/download -O collections/topics.msmarco-passage.dev-subset.deep-impact.tsv.gz
+wget https://git.uwaterloo.ca/jimmylin/deepimpact/raw/master/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz -P collections/
+wget https://vault.cs.uwaterloo.ca/s/NYibRJ9bXs5PspH/download -O collections/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz
 
 # MD5 checksum: 88a2987d6a25b1be11c82e87677a262e
 ```
