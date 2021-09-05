@@ -90,6 +90,8 @@ QueriesRanked: 6980
 #####################
 ```
 
+This corresponds to the effectiveness reported in the paper.
+
 
 ## Reproduction Log[*](reproducibility.md)
 

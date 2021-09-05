@@ -55,7 +55,7 @@ index_stats:
   total terms: 35455908214
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
-    path: topics.msmarco-passage.dev-subset.deep-impact.tsv.gz
+    path: topics.msmarco-passage.dev-subset.deepimpact.tsv.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
 models:
   - name: deepimpact
