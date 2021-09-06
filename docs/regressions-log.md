@@ -3,9 +3,15 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### September 5, 2021
+
++ commit [`f79fb6`](https://github.com/castorini/anserini/commit/f79fb67845b4b68b8c177eacb5832c209847dc29) (09/05/2021)
+
+Added regressions for DeepImpact and uniCOIL on MS MARCO passage.
+
 ### September 4, 2021
 
-+ commit [`112438`](https://github.com/castorini/anserini/commit/112438c85f642c3b6b5006af68f82457a43d602f) (09/02/2021)
++ commit [`112438`](https://github.com/castorini/anserini/commit/112438c85f642c3b6b5006af68f82457a43d602f) (09/04/2021)
 
 Added regressions for MS MARCO V2 corpora, standard BM25 + PRF configurations w/ default parameters:
 
