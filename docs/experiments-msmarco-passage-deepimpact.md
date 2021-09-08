@@ -15,15 +15,15 @@ We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO passage dataset with DeepImpact processing:
 
 ```bash
-wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/msmarco-passage-deepimpact-b8.tar.gz -P collections/
+wget https://git.uwaterloo.ca/jimmylin/deepimpact/raw/master/msmarco-passage-deepimpact-b8.tar -P collections/
 
 # Alternate mirror
-wget https://vault.cs.uwaterloo.ca/s/8xabiYom7nYJcB7/download -O collections/msmarco-passage-deepimpact-b8.tar.gz
+wget https://vault.cs.uwaterloo.ca/s/57AE5aAjzw2ox2n/download -O collections/msmarco-passage-deepimpact-b8.tar
 
-tar -xzvf collections/msmarco-passage-deepimpact-b8.tar.gz -C collections/
+tar xvf collections/msmarco-passage-deepimpact-b8.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-deepimpact-b8.tar.gz` should have MD5 checksum of `8ea0ebdd707d5853a87940e5bdfd9b00`.
+To confirm, `msmarco-passage-deepimpact-b8.tar` should have MD5 checksum of `3c317cb4f9f9bcd3bbec60f05047561a`.
 
 
 ## Indexing
@@ -47,22 +47,22 @@ The indexing speed may vary; on a modern desktop with an SSD (using 18 threads, 
 ## Retrieval
 
 To ensure that the tokenization in the index aligns exactly with the queries, we use pre-tokenized queries.
-First, fetch the MS MARCO passage ranking dev set queries: 
+The queries are already stored in the repo, so we can run retrieval directly:
 
-```
-wget https://git.uwaterloo.ca/jimmylin/deep-impact/raw/master/topics.msmarco-passage.dev-subset.deep-impact.tsv -P collections/
-
-# Alternate mirror
-wget https://vault.cs.uwaterloo.ca/s/py2CToTmaz6FoTq/download -O collections/topics.msmarco-passage.dev-subset.deep-impact.tsv
-```
-
-We can now run retrieval:
-
-```
+```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-deepimpact-b8 \
- -topicreader TsvInt -topics collections/topics.msmarco-passage.dev-subset.deep-impact.tsv \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
  -output runs/run.msmarco-passage-deepimpact-b8.trec \
  -impact -pretokenized
+```
+
+The queries are also available to download at the following locations:
+
+```bash
+wget https://git.uwaterloo.ca/jimmylin/deepimpact/raw/master/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz -P collections/
+wget https://vault.cs.uwaterloo.ca/s/NYibRJ9bXs5PspH/download -O collections/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz
+
+# MD5 checksum: 88a2987d6a25b1be11c82e87677a262e
 ```
 
 Query evaluation is much slower than with bag-of-words BM25; a complete run can take around half an hour.
@@ -71,7 +71,7 @@ Note that, mirroring the indexing options, we specify `-impact -pretokenized` he
 The output is in TREC output format.
 Let's convert to MS MARCO output format and then evaluate:
 
-```
+```bash
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
    --input runs/run.msmarco-passage-deepimpact-b8.trec \
    --output runs/run.msmarco-passage-deepimpact-b8.txt --quiet
