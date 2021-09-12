@@ -230,3 +230,4 @@ That's it!
 + Results reproduced by [@mzzchy](https://github.com/mzzchy) on 2021-07-05 (commit [`589928b`](https://github.com/castorini/anserini/commit/589928b1873b3ebe00234becd8b5da9d573dda6d))
 + Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2021-07-16 (commit [`43ad899`](https://github.com/castorini/anserini/commit/43ad899337ac5e3b219d899bb218c4bcae18b1e6))
 + Results reproduced by [@apokali](https://github.com/apokali) on 2021-08-19 (commit[`ad4caeb`](https://github.com/castorini/anserini/commit/ad4caeb59ec512d0ce07412e6c4b873a8b841da4))
++ Results reproduced by [@leungjch](https://github.com/leungjch) on 2021-09-12 (commit [`f79fb67`](https://github.com/castorini/anserini/commit/f79fb67845b4b68b8c177eacb5832c209847dc29))
