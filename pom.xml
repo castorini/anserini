@@ -286,11 +286,6 @@
       <artifactId>lucene-analyzers-kuromoji</artifactId>
       <version>${lucene.version}</version>
     </dependency>
-    <!--dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-backward-codecs</artifactId>
-      <version>${lucene.version}</version>
-    </dependency-->
     <dependency> <!-- only needed for testing -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>
@@ -408,6 +403,16 @@
       <version>2.6.0</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>1.21</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>1.10.19</version>
@@ -418,9 +423,9 @@
       <version>1.0.17</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-csv</artifactId>
-      <version>1.8</version>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>30.1.1-jre</version>
     </dependency>
   </dependencies>
 </project>
