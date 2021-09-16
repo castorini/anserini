@@ -91,7 +91,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
-        <version>2.0.0</version>
+        <version>2.1.0</version>
         <configuration>
           <extraJvmArguments>-Xms512M -Xmx31G</extraJvmArguments>
           <repositoryLayout>flat</repositoryLayout>
@@ -171,7 +171,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.3.1</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -187,7 +187,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.2.4</version>
         <executions>
           <execution>
             <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
@@ -227,7 +227,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -237,12 +237,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.0-M4</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.6</version>
+        <version>3.0.1</version>
         <executions>
           <execution>
             <id>sign-artifacts</id>
@@ -256,7 +256,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.2</version>
+        <version>0.8.7</version>
         <executions>
           <execution>
             <goals>
@@ -295,7 +295,7 @@
     <dependency> <!-- only needed for testing -->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -317,27 +317,32 @@
     <dependency>
       <groupId>org.tukaani</groupId>
       <artifactId>xz</artifactId>
-      <version>1.5</version>
+      <version>1.9</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.10.1</version>
+      <version>2.12.5</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.10.5.1</version>
+      <version>2.12.5</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.12.5</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jdk8</artifactId>
-      <version>2.10.1</version>
+      <version>2.12.5</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
-      <version>2.10.1</version>
+      <version>2.12.5</version>
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
@@ -348,23 +353,23 @@
     <dependency>
       <groupId>args4j</groupId>
       <artifactId>args4j</artifactId>
-      <version>2.32</version>
+      <version>2.33</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
-      <version>2.13.3</version>
+      <version>2.14.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.13.3</version>
+      <version>2.14.1</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.29</version>
+      <version>1.7.32</version>
     </dependency>
     <dependency>
       <groupId>io.anserini</groupId>
@@ -400,7 +405,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-pool2</artifactId>
-      <version>2.6.0</version>
+      <version>2.11.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -420,7 +425,7 @@
     <dependency>
       <groupId>org.jbibtex</groupId>
       <artifactId>jbibtex</artifactId>
-      <version>1.0.17</version>
+      <version>1.0.19</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
