@@ -104,6 +104,9 @@ public class SearchArgs {
   @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
 
+  @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
+  public String format = "trec";
+
   // ---------------------------------------------
   // Simple built-in support for passage retrieval
   // ---------------------------------------------
