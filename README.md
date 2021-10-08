@@ -61,8 +61,8 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + Regressions for the TREC 2020 Deep Learning Track (Passage): [[base](docs/regressions-dl20-passage.md)] [[docTTTTTquery](docs/regressions-dl20-passage-docTTTTTquery.md)]
 + Regressions for the TREC 2020 Deep Learning Track (Document), Per Doc: [[base](docs/regressions-dl20-doc.md)] [[docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)]
 + Regressions for the TREC 2020 Deep Learning Track (Document), Per Passage: [[base](docs/regressions-dl20-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)]
-+ Regressions for MS MARCO Passage Ranking (V2): [[base](docs/regressions-msmarco-passage-v2.md)] [[base on augmented corpus](docs/regressions-msmarco-passage-v2-augmented.md)]
-+ Regressions for MS MARCO Document Ranking (V2): [[base](docs/regressions-msmarco-doc-v2.md)] [[base on segmented corpus](docs/regressions-msmarco-doc-v2-segmented.md)]
++ Regressions for MS MARCO (V2) Passage Ranking: [[base](docs/regressions-msmarco-v2-passage.md)] [[base on augmented corpus](docs/regressions-msmarco-v2-passage-augmented.md)]
++ Regressions for MS MARCO (V2) Document Ranking: [[base](docs/regressions-msmarco-v2-doc.md)] [[base on segmented corpus](docs/regressions-msmarco-v2-doc-segmented.md)]
 + Regressions for the TREC News Track (Background Linking Task): [[2018](docs/regressions-backgroundlinking18.md)] [[2019](docs/regressions-backgroundlinking19.md)] [[2020](docs/regressions-backgroundlinking20.md)]
 + Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
