@@ -100,37 +100,45 @@ We can now index these docs as a `JsonVectorCollection` using Anserini:
 
 ```bash
 sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
- -input collections/msmarco-passage-unicoil-b8/ \
- -index indexes/lucene-index.msmarco-passage-unicoil-b8 \
+ -input collections/msmarco-doc-per-passage-expansion-unicoil-d2q-b8/ \
+ -index indexes/lucene-index.msmarco-doc-per-passage-expansion-unicoil-d2q-b8 \
  -generator DefaultLuceneDocumentGenerator -impact -pretokenized \
  -threads 12
 ```
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
 
+Upon completion, we should have an index with 20,545,677 documents.
+The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, per above), indexing takes around an hour.
+
 ### Retrieval
 
 We can now run retrieval:
 
 ```bash
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage-expansion-unicoil-d2q-b8 \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
+ -output runs/run.msmarco-doc-unicoil-d2q-b8.tsv -format msmarco \
+ -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 \
+ -impact -pretokenized
 ```
 
-Query evaluation is much slower than with bag-of-words BM25; a complete run takes around 30 minutes (on a single thread).
+Query evaluation is much slower than with bag-of-words BM25; a complete run takes around 50 minutes (on a single thread).
 Note that, mirroring the indexing options, we specify `-impact -pretokenized` here also.
 
 With `-format msmarco`, runs are already in the MS MARCO output format, so we can evaluate directly:
 
 ```bash
-python tools/scripts/msmarco/msmarco_passage_eval.py \
-   tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-b8.txt
+python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+ --run runs/run.msmarco-doc-unicoil-d2q-b8.tsv
 ```
 
 The results should be as follows:
 
 ```
 #####################
-MRR @10: 0.35155222404147896
-QueriesRanked: 6980
+MRR @100: 0.352997702662614
+QueriesRanked: 5193
 #####################
 ```
 
