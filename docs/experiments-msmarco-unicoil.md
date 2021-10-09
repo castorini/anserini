@@ -1,4 +1,4 @@
-# Anserini: uniCOIL (w/ doc2query-T5) for MS MARCO (V1)
+# Anserini: uniCOIL w/ doc2query-T5 for MS MARCO V1
 
 This page describes how to reproduce the uniCOIL experiments in the following paper:
 
@@ -34,7 +34,7 @@ We can now index these docs as a `JsonVectorCollection` using Anserini:
 ```bash
 sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
  -input collections/msmarco-passage-unicoil-b8/ \
- -index indexes/lucene-index.msmarco-passage-unicoil-b8 \
+ -index indexes/lucene-index.msmarco-passage.unicoil-b8 \
  -generator DefaultLuceneDocumentGenerator -impact -pretokenized \
  -threads 12
 ```
@@ -50,20 +50,20 @@ To ensure that the tokenization in the index aligns exactly with the queries, we
 The queries are already stored in the repo, so we can run retrieval directly:
 
 ```bash
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil-b8 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.unicoil-b8 \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
- -output runs/run.msmarco-passage-unicoil-b8.tsv -format msmarco \
+ -output runs/run.msmarco-passage.unicoil-b8.tsv -format msmarco \
  -impact -pretokenized
 ```
 
 Query evaluation is much slower than with bag-of-words BM25; a complete run takes around 30 minutes (on a single thread).
-Note that, mirroring the indexing options, we specify `-impact -pretokenized` here also.
+Note that, mirroring the indexing options, we also specify `-impact -pretokenized` here.
 
 With `-format msmarco`, runs are already in the MS MARCO output format, so we can evaluate directly:
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
-   tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-b8.txt
+   tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.unicoil-b8.txt
 ```
 
 The results should be as follows:
@@ -101,7 +101,7 @@ We can now index these docs as a `JsonVectorCollection` using Anserini:
 ```bash
 sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
  -input collections/msmarco-doc-per-passage-expansion-unicoil-d2q-b8/ \
- -index indexes/lucene-index.msmarco-doc-per-passage-expansion-unicoil-d2q-b8 \
+ -index indexes/lucene-index.msmarco-doc-per-passage-expansion.unicoil-d2q-b8 \
  -generator DefaultLuceneDocumentGenerator -impact -pretokenized \
  -threads 12
 ```
@@ -116,9 +116,9 @@ The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, 
 We can now run retrieval:
 
 ```bash
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage-expansion-unicoil-d2q-b8 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-per-passage-expansion.unicoil-d2q-b8 \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
- -output runs/run.msmarco-doc-unicoil-d2q-b8.tsv -format msmarco \
+ -output runs/run.msmarco-doc.unicoil-d2q-b8.tsv -format msmarco \
  -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 \
  -impact -pretokenized
 ```
@@ -130,7 +130,7 @@ With `-format msmarco`, runs are already in the MS MARCO output format, so we ca
 
 ```bash
 python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
- --run runs/run.msmarco-doc-unicoil-d2q-b8.tsv
+ --run runs/run.msmarco-doc.unicoil-d2q-b8.tsv
 ```
 
 The results should be as follows:
