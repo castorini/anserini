@@ -31,24 +31,22 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.zip.GZIPInputStream;
 
-public class MsMarcoDocV2Collection extends DocumentCollection<MsMarcoDocV2Collection.Document> {
+public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
-  public MsMarcoDocV2Collection(Path path){
+  public MsMarcoV2DocCollection(Path path){
     this.path = path;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public FileSegment<MsMarcoDocV2Collection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<MsMarcoV2DocCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 

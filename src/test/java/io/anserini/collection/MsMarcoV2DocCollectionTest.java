@@ -22,16 +22,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class MsMarcoDocV2CollectionTest extends DocumentCollectionTest<MsMarcoDocV2Collection.Document> {
+public class MsMarcoV2DocCollectionTest extends DocumentCollectionTest<MsMarcoV2DocCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/msmarco_doc_v2/");
-    collection = new MsMarcoDocV2Collection(collectionPath);
+    collectionPath = Paths.get("src/test/resources/sample_docs/msmarco_v2_doc/");
+    collection = new MsMarcoV2DocCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/msmarco_doc_v2/docs.json");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/msmarco_v2_doc/docs.json");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 2);
