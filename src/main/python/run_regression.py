@@ -78,7 +78,7 @@ def construct_indexing_command(yaml_data, args):
     # or by checking various locations specified in the YAML.
     collection_path = None
     if args.collection_path != '':
-        if  os.path.exists(args.collection_path):
+        if os.path.exists(args.collection_path):
             collection_path = args.collection_path
     else:
         for input_root in yaml_data['input_roots']:
@@ -107,7 +107,9 @@ def construct_indexing_command(yaml_data, args):
         '-input', collection_path,
         '-index', yaml_data['index_path']
     ]
-    index_command.extend(yaml_data['index_options'])
+    if yaml_data['index_options']:
+        index_command.extend(yaml_data['index_options'])
+
     return index_command
 
 

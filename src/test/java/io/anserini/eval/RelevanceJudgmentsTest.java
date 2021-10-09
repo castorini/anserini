@@ -115,7 +115,7 @@ public class RelevanceJudgmentsTest {
 
   @Test
   public void testMsmarcoDocV2Dev() {
-    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt");
     assertNotNull(qrels);
     assertEquals(4552, qrels.getQids().size());
     assertEquals(4702, getQrelsCount(qrels));
@@ -125,7 +125,7 @@ public class RelevanceJudgmentsTest {
 
   @Test
   public void testMsmarcoDocV2Dev2() {
-    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc-v2.dev2.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt");
     assertNotNull(qrels);
     assertEquals(5000, qrels.getQids().size());
     assertEquals(5178, getQrelsCount(qrels));
@@ -135,7 +135,7 @@ public class RelevanceJudgmentsTest {
 
   @Test
   public void testMsmarcoDocV2Passage() {
-    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt");
     assertNotNull(qrels);
     assertEquals(3903, qrels.getQids().size());
     assertEquals(4009, getQrelsCount(qrels));
@@ -145,7 +145,7 @@ public class RelevanceJudgmentsTest {
 
   @Test
   public void testMsmarcoDocV2Passage2() {
-    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-passage-v2.dev2.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt");
     assertNotNull(qrels);
     assertEquals(4281, qrels.getQids().size());
     assertEquals(4411, getQrelsCount(qrels));

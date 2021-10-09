@@ -22,16 +22,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class MsMarcoPassageV2CollectionCompressedTest extends DocumentCollectionTest<MsMarcoPassageV2Collection.Document> {
+public class MsMarcoV2PassageCollectionCompressedTest extends DocumentCollectionTest<MsMarcoV2PassageCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_gz/");
-    collection = new MsMarcoPassageV2Collection(collectionPath);
+    collectionPath = Paths.get("src/test/resources/sample_docs/msmarco_v2_passage_gz/");
+    collection = new MsMarcoV2PassageCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/msmarco_passage_v2_gz/docs.json.gz");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/msmarco_v2_passage_gz/docs.json.gz");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 6);
