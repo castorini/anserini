@@ -1,4 +1,4 @@
-# Anserini: uniCOIL w/ TILDE for MS MARCO  V1 Passage Ranking
+# Anserini: uniCOIL w/ TILDE for MS MARCO V1 Passage Ranking
 
 This page describes how to reproduce experiments using uniCOIL with TILDE document expansion on the MS MARCO passage corpus, as described in the following paper:
 
