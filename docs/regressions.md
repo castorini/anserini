@@ -78,11 +78,11 @@ nohup python src/main/python/run_regression.py --collection dl20-doc-per-passage
 nohup python src/main/python/run_regression.py --collection dl20-doc-docTTTTTquery-per-doc >& logs/log.dl20-doc-docTTTTTquery-per-doc &
 nohup python src/main/python/run_regression.py --collection dl20-doc-docTTTTTquery-per-passage >& logs/log.dl20-doc-docTTTTTquery-per-passage &
 
-nohup python src/main/python/run_regression.py --collection msmarco-passage-v2 >& logs/log.msmarco-passage-v2 &
-nohup python src/main/python/run_regression.py --collection msmarco-passage-v2-augmented >& logs/log.msmarco-passage-v2-augmented &
+nohup python src/main/python/run_regression.py --collection msmarco-v2-passage >& logs/log.msmarco-v2-passage &
+nohup python src/main/python/run_regression.py --collection msmarco-v2-passage-augmented >& logs/log.msmarco-v2-passage-augmented &
 
-nohup python src/main/python/run_regression.py --collection msmarco-doc-v2 >& logs/log.msmarco-doc-v2 &
-nohup python src/main/python/run_regression.py --collection msmarco-doc-v2-segmented >& logs/log.msmarco-doc-v2-segmented &
+nohup python src/main/python/run_regression.py --collection msmarco-v2-doc >& logs/log.msmarco-v2-doc &
+nohup python src/main/python/run_regression.py --collection msmarco-v2-doc-segmented >& logs/log.msmarco-v2-doc-segmented &
 
 nohup python src/main/python/run_regression.py --collection backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --collection backgroundlinking19 >& logs/log.backgroundlinking19 &
@@ -146,11 +146,11 @@ nohup python src/main/python/run_regression.py --index --collection dl20-doc-per
 nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-doc >& logs/log.dl20-doc-docTTTTTquery-per-doc &
 nohup python src/main/python/run_regression.py --index --collection dl20-doc-docTTTTTquery-per-passage >& logs/log.dl20-doc-docTTTTTquery-per-passage &
 
-nohup python src/main/python/run_regression.py --index --collection msmarco-passage-v2 >& logs/log.msmarco-passage-v2 &
-nohup python src/main/python/run_regression.py --index --collection msmarco-passage-v2-augmented >& logs/log.msmarco-passage-v2-augmented &
+nohup python src/main/python/run_regression.py --index --collection msmarco-v2-passage >& logs/log.msmarco-v2-passage &
+nohup python src/main/python/run_regression.py --index --collection msmarco-v2-passage-augmented >& logs/log.msmarco-v2-passage-augmented &
 
-nohup python src/main/python/run_regression.py --index --collection msmarco-doc-v2 >& logs/log.msmarco-doc-v2 &
-nohup python src/main/python/run_regression.py --index --collection msmarco-doc-v2-segmented >& logs/log.msmarco-doc-v2-segmented &
+nohup python src/main/python/run_regression.py --index --collection msmarco-v2-doc >& logs/log.msmarco-v2-doc &
+nohup python src/main/python/run_regression.py --index --collection msmarco-v2-doc-segmented >& logs/log.msmarco-v2-doc-segmented &
 
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --index --collection backgroundlinking19 >& logs/log.backgroundlinking19 &
