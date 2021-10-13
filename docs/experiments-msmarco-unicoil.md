@@ -25,7 +25,7 @@ wget https://vault.cs.uwaterloo.ca/s/Rm6fknT432YdBts/download -O collections/msm
 tar xvf collections/msmarco-passage-unicoil-b8.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-unicoil-b8.tar` should have MD5 checksum of `eb28c059fad906da2840ce77949bffd7`.
+To confirm, `msmarco-passage-unicoil-b8.tar` is ~3.3 GB and has MD5 checksum `eb28c059fad906da2840ce77949bffd7`.
 
 ## Indexing
 
@@ -42,7 +42,7 @@ sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
 
 Upon completion, we should have an index with 8,841,823 documents.
-The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, per above), indexing takes around 20 minutes.
+The indexing speed may vary; on a modern desktop with an SSD (using 12 threads, per above), indexing takes around 15 minutes.
 
 ### Retrieval
 
@@ -63,7 +63,7 @@ With `-format msmarco`, runs are already in the MS MARCO output format, so we ca
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
-   tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.unicoil-b8.txt
+   tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.unicoil-b8.tsv
 ```
 
 The results should be as follows:
