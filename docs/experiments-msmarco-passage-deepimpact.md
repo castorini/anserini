@@ -50,8 +50,8 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-pas
  -impact -pretokenized
 ```
 
-Query evaluation is much slower than with bag-of-words BM25; a complete run takes around 30 minutes (on a single thread).
 Note that, mirroring the indexing options, we also specify `-impact -pretokenized` here.
+Query evaluation is much slower than with bag-of-words BM25; a complete run takes around 30 minutes (on a single thread).
 
 With `-format msmarco`, runs are already in the MS MARCO output format, so we can evaluate directly:
 
