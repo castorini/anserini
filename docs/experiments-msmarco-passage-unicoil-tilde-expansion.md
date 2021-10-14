@@ -85,3 +85,6 @@ QueriesRanked: 6980
 This corresponds to the effectiveness reported in the paper.
 
 ## Reproduction Log[*](reproducibility.md)
+
+Results reproduced by [@MXueguang](https://github.com/MXueguang) on 2021-09-14 (commit [`a05fc52`](https://github.com/castorini/anserini/commit/a05fc5215a6d9de77bd5f4b8f874f608442024a3))
+
