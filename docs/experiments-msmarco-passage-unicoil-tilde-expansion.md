@@ -32,7 +32,7 @@ wget https://vault.cs.uwaterloo.ca/s/6LECmLdiaBoPwrL/download -O collections/msm
 tar xvf collections/msmarco-passage-unicoil-tilde-expansion-b8.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-unicoil-tilde-expansion-b8.tar` should have MD5 checksum of `be0a786033140ebb7a984a3e155c19ae`.
+To confirm, `msmarco-passage-unicoil-tilde-expansion-b8.tar` is ~3.9 GB and has MD5 checksum `be0a786033140ebb7a984a3e155c19ae`.
 
 ## Indexing
 
@@ -63,8 +63,8 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-pas
  -impact -pretokenized
 ```
 
-Query evaluation is much slower than with bag-of-words BM25; a complete run takes around 30 minutes (on a single thread).
 Note that, mirroring the indexing options, we also specify `-impact -pretokenized` here.
+Query evaluation is much slower than with bag-of-words BM25; a complete run takes around 30 minutes (on a single thread).
 
 With `-format msmarco`, runs are already in the MS MARCO output format, so we can evaluate directly:
 
