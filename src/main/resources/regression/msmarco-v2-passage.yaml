@@ -1,5 +1,5 @@
 ---
-name: msmarco-passage-v2-augmented
+name: msmarco-v2-passage
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -7,7 +7,7 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: MsMarcoPassageV2Collection
+collection: MsMarcoV2PassageCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 18
 index_options:
@@ -58,16 +58,16 @@ input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
-input: collections/msmarco/msmarco_v2_passage_augmented
-index_path: indexes/lucene-index.msmarco-passage-v2-augmented.pos+docvectors+raw
+input: collections/msmarco/msmarco_v2_passage
+index_path: indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw
 index_stats:
   documents: 138364198
-  documents (non-empty): 138364198
-  total terms: 15272964956
+  documents (non-empty): 138364197
+  total terms: 4673266762
 topics:
-  - name: "[MS MARCO Passage V2: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
-    path: topics.msmarco-passage-v2.dev.txt
-    qrel: qrels.msmarco-passage-v2.dev.txt
+  - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    path: topics.msmarco-v2-passage.dev.txt
+    qrel: qrels.msmarco-v2-passage.dev.txt
 models:
   - name: bm25-default
     display: BM25 (default)
@@ -75,13 +75,13 @@ models:
       - -bm25
     results:
       map:
-        - 0.0863
+        - 0.0709
       MRR@100:
-        - 0.0872
+        - 0.0719
       R@100:
-        - 0.4030
+        - 0.3397
       R@1000:
-        - 0.6925
+        - 0.5733
   - name: bm25-default+rm3
     display: +RM3
     params:
@@ -89,13 +89,13 @@ models:
       - -rm3
     results:
       map:
-        - 0.0669
+        - 0.0611
       MRR@100:
-        - 0.0674
+        - 0.0619
       R@100:
-        - 0.3734
+        - 0.3377
       R@1000:
-        - 0.6859
+        - 0.5933
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -105,13 +105,13 @@ models:
       - -rerankCutoff 20
     results:
       map:
-        - 0.0431
+        - 0.0592
       MRR@100:
-        - 0.0434
+        - 0.0601
       R@100:
-        - 0.2998
+        - 0.3482
       R@1000:
-        - 0.5887
+        - 0.6064
   - name: bm25-default+prf
     display: +PRF
     params:
@@ -119,10 +119,10 @@ models:
       - -bm25prf
     results:
       map:
-        - 0.0542
+        - 0.0595
       MRR@100:
-        - 0.0547
+        - 0.0607
       R@100:
-        - 0.3338
+        - 0.3495
       R@1000:
-        - 0.6157
+        - 0.5968
