@@ -69,3 +69,4 @@ python tools/scripts/msmarco/msmarco_passage_eval.py \
 This corresponds to the effectiveness reported in the paper.
 
 ## Reproduction Log[*](reproducibility.md)
++ Results reproduced by [@jmmackenzie](https://github.com/jmmackenzie) on 2021-10-15 (commit [`52b76f6`](https://github.com/castorini/anserini/commit/52b76f63b163036e8fad1a6e1b10b431b4ddd06c))
