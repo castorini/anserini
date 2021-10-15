@@ -27,6 +27,10 @@ import java.util.Set;
 public class RelevanceJudgments {
   final private Map<String, Map<String, Integer>> qrels;
 
+  public static RelevanceJudgments fromQrels(Qrels qrels) {
+    return new RelevanceJudgments("src/main/resources/" + qrels.path);
+  }
+
   public RelevanceJudgments(String file) {
     qrels = new HashMap<>();
 
