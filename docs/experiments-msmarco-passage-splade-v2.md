@@ -66,6 +66,15 @@ python tools/scripts/msmarco/msmarco_passage_eval.py \
    tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.distill-splade-max.tsv
 ```
 
+The results should be as follows:
+
+```
+#####################
+MRR @10: 0.36852691363078205
+QueriesRanked: 6980
+#####################
+```
+
 This corresponds to the effectiveness reported in the paper.
 
 ## Reproduction Log[*](reproducibility.md)
