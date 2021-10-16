@@ -46,7 +46,7 @@ The queries are already stored in the repo, so we can run retrieval directly:
 ```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.deepimpact-b8 \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
- -output runs/run.msmarco-passage.deepimpact-b8.trec -format msmarco \
+ -output runs/run.msmarco-passage.deepimpact-b8.tsv -format msmarco \
  -impact -pretokenized
 ```
 
@@ -57,7 +57,7 @@ With `-format msmarco`, runs are already in the MS MARCO output format, so we ca
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.deepimpact-b8.trec
+   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.deepimpact-b8.tsv
 ```
 
 The results should be as follows:
