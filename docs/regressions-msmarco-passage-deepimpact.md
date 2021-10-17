@@ -71,12 +71,12 @@ In order to reproduce results reported in the paper, we need to convert to MS MA
 
 ```bash
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deep-impact.tsv.gz \
-   --output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deep-impact.tsv.gz.msmarco --quiet
+   --input runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
+   --output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz.msmarco --quiet
 
 python tools/scripts/msmarco/msmarco_passage_eval.py \
    collections/msmarco-passage/qrels.dev.small.tsv \
-   runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deep-impact.tsv.gz.msmarco
+   runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz.msmarco
 ```
 
 The results should be as follows:

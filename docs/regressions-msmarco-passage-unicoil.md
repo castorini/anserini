@@ -1,4 +1,4 @@
-# Anserini: Regressions for uniCOIL w/ doc2query-T5 on [MS MARCO Passage](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini: Regressions for uniCOIL on [MS MARCO Passage](https://github.com/microsoft/MSMARCO-Passage-Ranking)
 
 This page documents regression experiments for uniCOIL on the MS MARCO Passage Ranking Task, which is integrated into Anserini's regression testing framework.
 The uniCOIL model is described in the following paper:
