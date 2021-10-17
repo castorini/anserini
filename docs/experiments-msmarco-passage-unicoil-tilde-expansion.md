@@ -2,8 +2,7 @@
 
 This page describes how to reproduce experiments using uniCOIL with TILDE document expansion on the MS MARCO passage corpus, as described in the following paper:
 
-> Shengyao Zhuang and Guido Zuccon. [Fast Passage Re-ranking with Contextualized Exact Term
-Matching and Efficient Passage Expansion.](https://arxiv.org/pdf/2108.08513) _arXiv:2108.08513_.
+> Shengyao Zhuang and Guido Zuccon. [Fast Passage Re-ranking with Contextualized Exact Term Matching and Efficient Passage Expansion.](https://arxiv.org/pdf/2108.08513) _arXiv:2108.08513_.
 
 The original uniCOIL model is described here:
 

@@ -17,9 +17,9 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
  -input /path/to/msmarco-passage-unicoil \
- -index indexes/lucene-index.msmarco-passage-unicoil.raw \
+ -index indexes/lucene-index.msmarco-passage-unicoil \
  -generator DefaultLuceneDocumentGenerator \
- -threads 16 -impact -pretokenized -storeRaw \
+ -threads 16 -impact -pretokenized \
   >& logs/log.msmarco-passage-unicoil &
 ```
 
@@ -36,7 +36,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil.raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
  -output runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
  -impact -pretokenized &
