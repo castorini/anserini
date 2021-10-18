@@ -7,8 +7,8 @@ The model is described in the following paper:
 
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage-splade-v2.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-splade-v2.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-splade-v2.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-distill-splade-max.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-distill-splade-max.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
