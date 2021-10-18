@@ -52,17 +52,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recip_rank -c -m recall.1000 -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | uniCOIL   |
+MAP                                     | uniCOIL w/ doc2query-T5 expansion|
 :---------------------------------------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3574    |
 
 
-MRR                                     | uniCOIL   |
+MRR                                     | uniCOIL w/ doc2query-T5 expansion|
 :---------------------------------------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3625    |
 
 
-R@1000                                  | uniCOIL   |
+R@1000                                  | uniCOIL w/ doc2query-T5 expansion|
 :---------------------------------------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.9582    |
 
