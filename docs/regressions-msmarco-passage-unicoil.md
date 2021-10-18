@@ -5,7 +5,7 @@ The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage-unicoil.md).
+For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-unicoil.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-unicoil.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -24,7 +24,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollectio
 ```
 
 The directory `/path/to/msmarco-passage-unicoil/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
-See [this page](experiments-msmarco-passage-unicoil.md) for additional details.
+See [this page](experiments-msmarco-unicoil.md) for additional details.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -52,17 +52,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recip_rank -c -m recall.1000 -
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | uniCOIL   |
+MAP                                     | uniCOIL w/ doc2query-T5 expansion|
 :---------------------------------------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3574    |
 
 
-MRR                                     | uniCOIL   |
+MRR                                     | uniCOIL w/ doc2query-T5 expansion|
 :---------------------------------------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3625    |
 
 
-R@1000                                  | uniCOIL   |
+R@1000                                  | uniCOIL w/ doc2query-T5 expansion|
 :---------------------------------------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.9582    |
 
