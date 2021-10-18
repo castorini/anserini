@@ -54,6 +54,7 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + Regressions for MS MARCO Passage Ranking: [baselines](docs/regressions-msmarco-passage.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
 + Regressions for MS MARCO Passage Ranking: [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md)
 + Regressions for MS MARCO Passage Ranking: [uniCOIL with doc2query-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
++ Regressions for MS MARCO Passage Ranking: [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md)
 + Regressions for MS MARCO Document Ranking, Per Doc: [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
 + Regressions for MS MARCO Document Ranking, Per Passage: [baselines](docs/regressions-msmarco-doc-per-passage.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)
 + Regressions for TREC 2019 Deep Learning (Passage): [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)

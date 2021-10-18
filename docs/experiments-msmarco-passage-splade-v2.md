@@ -1,11 +1,11 @@
 # Anserini: SPLADEv2 for MS MARCO V1 Passage Ranking
 
-This page describes how to reproduce with Pyserini the DistilSPLADE-max experiments in the following paper:
+This page describes how to reproduce the SPLADEv2 results with the DistilSPLADE-max model from the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, Stéphane Clinchant. [SPLADE v2: Sparse Lexical and Expansion Model for Information Retrieval.](https://arxiv.org/abs/2109.10086) _arXiv:2109.10086_.
 
-Here, we start with a version of the MS MARCO passage corpus that has already been processed with SPLADE, i.e., gone through document expansion and term reweighting.
-Thus, no neural inference is involved. As SPLADE weights are given in fp16, they have been converted to integer by taking the round of weight*100.
+Here, we start with a version of the MS MARCO passage corpus that has already been processed with the model, i.e., gone through document expansion and term reweighting.
+Thus, no neural inference is involved. As the model weights are provided in fp16, they have been converted to integers by taking the round of weight*100.
 
 Note that Pyserini provides [a comparable reproduction guide](https://github.com/castorini/pyserini/blob/master/docs/experiments-spladev2.md), so if you don't like Java, you can get _exactly_ the same results from Python.
 
