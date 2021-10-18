@@ -38,31 +38,31 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
- -output runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
+ -output runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
  -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recip_rank -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recip_rank -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | uniCOIL   |
+MAP                                     | uniCOIL w/ TILDE expansion|
 :---------------------------------------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3560    |
+[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3561    |
 
 
-MRR                                     | uniCOIL   |
+MRR                                     | uniCOIL w/ TILDE expansion|
 :---------------------------------------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3606    |
+[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3607    |
 
 
-R@1000                                  | uniCOIL   |
+R@1000                                  | uniCOIL w/ TILDE expansion|
 :---------------------------------------|-----------|
 [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.9646    |
 

@@ -57,15 +57,15 @@ topics:
     path: topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
 models:
-  - name: unicoil
-    display: uniCOIL
+  - name: unicoil-tilde-expansion
+    display: uniCOIL w/ TILDE expansion
     params:
       - -impact -pretokenized
     results:
       map:
-        - 0.3560
+        - 0.3561
       mrr:
-        - 0.3606
+        - 0.3607
       R@1000:
         - 0.9646
 
