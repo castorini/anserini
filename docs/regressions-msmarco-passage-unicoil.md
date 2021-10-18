@@ -24,7 +24,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollectio
 ```
 
 The directory `/path/to/msmarco-passage-unicoil/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
-See [this page](experiments-msmarco-passage-unicoil.md) for additional details.
+See [this page](experiments-msmarco-unicoil.md) for additional details.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
