@@ -34,7 +34,8 @@ public class ScoreTiesAdjusterReranker implements Reranker {
 
     int dup = 0;
     for (int i=0; i<docs.documents.length; i++) {
-      docs.scores[i] = Math.round(docs.scores[i] * 1e4f) / 1e4f;
+      // Double here because otherwise we might run into overflow issues; this was encountered with SPLADEv2.
+      docs.scores[i] = (float) (Math.round(docs.scores[i] * 1e4d) / 1e4d);
 
       // If we encounter ties, we want to perturb the final score a tiny bit.
       // Here's the basic approach, by example. Say our starting ranked list was:
