@@ -71,12 +71,12 @@ In order to reproduce results reported in the paper, we need to convert to MS MA
 
 ```bash
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
-   --output runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz.msmarco --quiet
+   --input runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
+   --output runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz.msmarco --quiet
 
 python tools/scripts/msmarco/msmarco_passage_eval.py \
    tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-   runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz.msmarco
+   runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz.msmarco
 ```
 
 The results should be as follows:
