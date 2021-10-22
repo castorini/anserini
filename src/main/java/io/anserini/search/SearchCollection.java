@@ -236,8 +236,12 @@ public final class SearchCollection implements Closeable {
             if (docids.contains(docid))
               continue;
 
-            out.println(String.format(Locale.US, "%s Q0 %s %d %f %s",
-                qid, docid, rank, docs.scores[i], runTag));
+            if ("msmarco".equals(args.format)) {
+              out.println(String.format(Locale.US, "%s\t%s\t%d", qid, docid, rank));
+            } else {
+              out.println(String.format(Locale.US, "%s Q0 %s %d %f %s",
+                      qid, docid, rank, docs.scores[i], runTag));
+            }
 
             // Note that this option is set to false by default because duplicate documents usually indicate some
             // underlying indexing issues, and we don't want to just eat errors silently.

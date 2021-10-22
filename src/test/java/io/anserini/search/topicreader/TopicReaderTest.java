@@ -529,7 +529,7 @@ public class TopicReaderTest {
     assertEquals(1136966, (int) topics.lastKey());
     assertEquals("#ffffff color code", topics.get(topics.lastKey()).get("title"));
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_DOC_V2_DEV);
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_DOC_DEV);
     assertNotNull(topics);
     assertEquals(4552, topics.size());
     assertEquals(2, (int) topics.firstKey());
@@ -537,7 +537,7 @@ public class TopicReaderTest {
     assertEquals(1102390, (int) topics.lastKey());
     assertEquals("why do children get aggressive", topics.get(topics.lastKey()).get("title"));
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_DOC_V2_DEV2);
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_DOC_DEV2);
     assertNotNull(topics);
     assertEquals(5000, topics.size());
     assertEquals(361, (int) topics.firstKey());
@@ -545,7 +545,7 @@ public class TopicReaderTest {
     assertEquals(1102413, (int) topics.lastKey());
     assertEquals("why do a ferritin level", topics.get(topics.lastKey()).get("title"));
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_V2_DEV);
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV);
     assertNotNull(topics);
     assertEquals(3903, topics.size());
     assertEquals(2, (int) topics.firstKey());
@@ -553,7 +553,7 @@ public class TopicReaderTest {
     assertEquals(1102390, (int) topics.lastKey());
     assertEquals("why do children get aggressive", topics.get(topics.lastKey()).get("title"));
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_V2_DEV2);
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2);
     assertNotNull(topics);
     assertEquals(4281, topics.size());
     assertEquals(1325, (int) topics.firstKey());
@@ -751,25 +751,25 @@ public class TopicReaderTest {
     assertEquals("term service agreement definition", topics.get("57").get("title"));
     assertEquals("#ffffff color code", topics.get("1136966").get("title"));
 
-    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_DOC_V2_DEV);
+    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_V2_DOC_DEV);
     assertNotNull(topics);
     assertEquals(4552, topics.size());
     assertEquals("Androgen receptor define", topics.get("2").get("title"));
     assertEquals("why do children get aggressive", topics.get("1102390").get("title"));
 
-    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_DOC_V2_DEV2);
+    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_V2_DOC_DEV2);
     assertNotNull(topics);
     assertEquals(5000, topics.size());
     assertEquals(". irritability medical definition", topics.get("361").get("title"));
     assertEquals("why do a ferritin level", topics.get("1102413").get("title"));
 
-    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_PASSAGE_V2_DEV);
+    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_V2_PASSAGE_DEV);
     assertNotNull(topics);
     assertEquals(3903, topics.size());
     assertEquals("Androgen receptor define", topics.get("2").get("title"));
     assertEquals("why do children get aggressive", topics.get("1102390").get("title"));
 
-    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_PASSAGE_V2_DEV2);
+    topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_V2_PASSAGE_DEV2);
     assertNotNull(topics);
     assertEquals(4281, topics.size());
     assertEquals("323 area code zip code", topics.get("1325").get("title"));

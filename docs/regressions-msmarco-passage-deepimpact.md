@@ -17,9 +17,9 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
  -input /path/to/msmarco-passage-deepimpact \
- -index indexes/lucene-index.msmarco-passage-deepimpact.raw \
+ -index indexes/lucene-index.msmarco-passage-deepimpact \
  -generator DefaultLuceneDocumentGenerator \
- -threads 16 -impact -pretokenized -storeRaw \
+ -threads 16 -impact -pretokenized \
   >& logs/log.msmarco-passage-deepimpact &
 ```
 
@@ -36,7 +36,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-deepimpact.raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-deepimpact \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
  -output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
  -impact -pretokenized &
@@ -71,12 +71,12 @@ In order to reproduce results reported in the paper, we need to convert to MS MA
 
 ```bash
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deep-impact.tsv.gz \
-   --output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deep-impact.tsv.gz.msmarco --quiet
+   --input runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
+   --output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz.msmarco --quiet
 
 python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv \
-   runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deep-impact.tsv.gz.msmarco
+   tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+   runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz.msmarco
 ```
 
 The results should be as follows:

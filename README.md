@@ -50,25 +50,27 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + Regressions for [Wt10g](docs/regressions-wt10g.md), [Gov2](docs/regressions-gov2.md)
 + Regressions for [ClueWeb09 (Category B)](docs/regressions-cw09b.md), [ClueWeb12-B13](docs/regressions-cw12b13.md), [ClueWeb12](docs/regressions-cw12.md)
 + Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
-+ Regressions for Complex Answer Retrieval (CAR17): [[v1.5](docs/regressions-car17v1.5.md)] [[v2.0](docs/regressions-car17v2.0.md)] [[v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)]
-+ Regressions for MS MARCO Passage Ranking: [[base](docs/regressions-msmarco-passage.md)] [[doc2query](docs/regressions-msmarco-passage-doc2query.md)] [[docTTTTTquery](docs/regressions-msmarco-passage-docTTTTTquery.md)]
-+ Regressions for MS MARCO Passage Ranking: [[DeepImpact](docs/regressions-msmarco-passage-deepimpact.md)] [[uniCOIL](docs/regressions-msmarco-passage-unicoil.md)]
-+ Regressions for MS MARCO Document Ranking, Per Doc: [[base](docs/regressions-msmarco-doc.md)] [[docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)]
-+ Regressions for MS MARCO Document Ranking, Per Passage: [[base](docs/regressions-msmarco-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)]
-+ Regressions for the TREC 2019 Deep Learning Track (Passage): [[base](docs/regressions-dl19-passage.md)] [[docTTTTTquery](docs/regressions-dl19-passage-docTTTTTquery.md)]
-+ Regressions for the TREC 2019 Deep Learning Track (Document), Per Doc: [[base](docs/regressions-dl19-doc.md)] [[docTTTTTquery](docs/regressions-dl19-doc-docTTTTTquery-per-doc.md)]
-+ Regressions for the TREC 2019 Deep Learning Track (Document), Per Passage: [[base](docs/regressions-dl19-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-dl19-doc-docTTTTTquery-per-passage.md)]
-+ Regressions for the TREC 2020 Deep Learning Track (Passage): [[base](docs/regressions-dl20-passage.md)] [[docTTTTTquery](docs/regressions-dl20-passage-docTTTTTquery.md)]
-+ Regressions for the TREC 2020 Deep Learning Track (Document), Per Doc: [[base](docs/regressions-dl20-doc.md)] [[docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)]
-+ Regressions for the TREC 2020 Deep Learning Track (Document), Per Passage: [[base](docs/regressions-dl20-doc-per-passage.md)] [[docTTTTTquery](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)]
-+ Regressions for MS MARCO Passage Ranking (V2): [[base](docs/regressions-msmarco-passage-v2.md)] [[base on augmented corpus](docs/regressions-msmarco-passage-v2-augmented.md)]
-+ Regressions for MS MARCO Document Ranking (V2): [[base](docs/regressions-msmarco-doc-v2.md)] [[base on segmented corpus](docs/regressions-msmarco-doc-v2-segmented.md)]
-+ Regressions for the TREC News Track (Background Linking Task): [[2018](docs/regressions-backgroundlinking18.md)] [[2019](docs/regressions-backgroundlinking19.md)] [[2020](docs/regressions-backgroundlinking20.md)]
++ Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions-car17v1.5.md), [v2.0](docs/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)
++ Regressions for MS MARCO Passage Ranking: [baselines](docs/regressions-msmarco-passage.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
++ Regressions for MS MARCO Passage Ranking: [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md)
++ Regressions for MS MARCO Passage Ranking: [uniCOIL with doc2query-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
++ Regressions for MS MARCO Passage Ranking: [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md)
++ Regressions for MS MARCO Document Ranking, Per Doc: [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
++ Regressions for MS MARCO Document Ranking, Per Passage: [baselines](docs/regressions-msmarco-doc-per-passage.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)
++ Regressions for TREC 2019 Deep Learning (Passage): [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
++ Regressions for TREC 2019 Deep Learning (Document), Per Doc: [baselines](docs/regressions-dl19-doc.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery-per-doc.md)
++ Regressions for TREC 2019 Deep Learning (Document), Per Passage: [baselines](docs/regressions-dl19-doc-per-passage.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery-per-passage.md)
++ Regressions for TREC 2020 Deep Learning (Passage): [baselines](docs/regressions-dl20-passage.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
++ Regressions for TREC 2020 Deep Learning (Document), Per Doc: [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)
++ Regressions for TREC 2020 Deep Learning (Document), Per Passage: [baselines](docs/regressions-dl20-doc-per-passage.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)
++ Regressions for MS MARCO (V2) Passage Ranking: [baselines](docs/regressions-msmarco-v2-passage.md), [baselines on augmented corpus](docs/regressions-msmarco-v2-passage-augmented.md)
++ Regressions for MS MARCO (V2) Document Ranking: [baselines](docs/regressions-msmarco-v2-doc.md), [baselines on segmented corpus](docs/regressions-msmarco-v2-doc-segmented.md)
++ Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions-backgroundlinking18.md), [2019](docs/regressions-backgroundlinking19.md), [2020](docs/regressions-backgroundlinking20.md)
 + Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
-+ Regressions for FIRE 2012: [[Monolingual Bengali](docs/regressions-fire12-bn.md)] [[Monolingual Hindi](docs/regressions-fire12-hi.md)] [[Monolingual English](docs/regressions-fire12-en.md)]
++ Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
 
 ## Reproduction Guides
 
@@ -84,14 +86,16 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 ### MS MARCO
 
-+ [Reproducing BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
-+ [Reproducing BM25 baselines for the MS MARCO Document Ranking Task](docs/experiments-msmarco-doc.md)
-+ [Reproducing baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
-+ [Reproducing doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
-+ [Reproducing docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
-+ [Reproducing DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
-+ [Reproducing uniCOIL for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-unicoil.md)
-+ [Reproducing BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
++ Reproducing [BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
++ Reproducing [BM25 baselines for the MS MARCO Document Ranking Task](docs/experiments-msmarco-doc.md)
++ Reproducing [baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
++ Reproducing [doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
++ Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
++ Reproducing [DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
++ Reproducing [uniCOIL experiments with doc2query-T5 expansions for MS MARCO V1](docs/experiments-msmarco-unicoil.md)
++ Reproducing [uniCOIL experiments with TILDE expansions for MS MARCO V1 Passage Ranking](docs/experiments-msmarco-passage-unicoil-tilde-expansion.md)
++ Reproducing [SPLADEv2 experiments for MS MARCO V1 Passage Ranking](docs/experiments-msmarco-passage-splade-v2.md)
++ Reproducing [BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
 
 ### Other Experiments
 
@@ -123,6 +127,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.13.4: October 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.4.md)]
 + v0.13.3: August 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.3.md)]
 + v0.13.2: July 20, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.2.md)]
 + v0.13.1: June 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.1.md)]
