@@ -37,6 +37,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// Simple program to benchmark IO performance, reading collections from disk.
 public final class BenchmarkCollectionReader {
   private static final Logger LOG = LogManager.getLogger(BenchmarkCollectionReader.class);
 
@@ -51,11 +52,11 @@ public final class BenchmarkCollectionReader {
     public String collectionClass;
   }
 
-  private final class MapThread extends Thread {
+  private final class ReaderThread extends Thread {
     final private Path inputFile;
     final private DocumentCollection collection;
 
-    private MapThread(DocumentCollection collection, Path inputFile) {
+    private ReaderThread(DocumentCollection collection, Path inputFile) {
       this.collection = collection;
       this.inputFile = inputFile;
 
@@ -68,7 +69,7 @@ public final class BenchmarkCollectionReader {
         @SuppressWarnings("unchecked")
         FileSegment<SourceDocument> segment = (FileSegment) collection.createFileSegment(inputFile);
 
-        // We're calling these records because the documents may not in indexable.
+        // We're calling these records because the documents may not an indexable.
         AtomicInteger records = new AtomicInteger();
         segment.iterator().forEachRemaining(d -> {
           records.incrementAndGet();
@@ -119,7 +120,7 @@ public final class BenchmarkCollectionReader {
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new BenchmarkCollectionReader.MapThread(collection, (Path) segmentPaths.get(i)));
+      executor.execute(new ReaderThread(collection, (Path) segmentPaths.get(i)));
     }
 
     executor.shutdown();
