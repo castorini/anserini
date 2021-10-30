@@ -63,7 +63,8 @@ public enum Qrels {
   COVID_ROUND4_CUMULATIVE("topics-and-qrels/qrels.covid-round4-cumulative.txt"),
   COVID_ROUND5("topics-and-qrels/qrels.covid-round5.txt"),
   TREC2018_BL("topics-and-qrels/qrels.backgroundlinking18.txt"),
-  TREC2019_BL("topics-and-qrels/qrels.backgroundlinking19.txt");
+  TREC2019_BL("topics-and-qrels/qrels.backgroundlinking19.txt"),
+  TREC2020_BL("topics-and-qrels/qrels.backgroundlinking20.txt");
 
   public final String path;
 
