@@ -1,6 +1,7 @@
 # Anserini: BM25 Baselines for the MS MARCO V2 Collections
 
-This guide presents information for working with the MS MARCO V2 passage and document test collections, available [here](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html).
+This guide contains instructions for running baselines on the MS MARCO V2 passage and document test collections, available [here](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html).
+Note that Pyserini provides a [comparable guide](https://github.com/castorini/pyserini/blob/msmarco-v2/docs/experiments-msmarco-v2.md), so if you don't like Java, you can get the same results from Python.
 
 If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 For example, to download passage collection:
@@ -9,40 +10,40 @@ For example, to download passage collection:
 azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
 The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors.
-Queries and qrels are already included in this repo.
+Just download the collections; queries and qrels are already included in this repo.
 
 ## Passage Collection
 
-Download and unpack the collection into `collections/`:
-Indexing the passage collection, which is 21 GB compressed.
+Download and unpack the collection into `collections/`.
+Here's the indexing command for the passage collection, which is 21 GB compressed:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_passage \
- -index indexes/msmarco-v2-passage \
+ -index indexes/lucene-index.msmarco-v2-passage \
  -storePositions -storeDocvectors -storeRaw
 ```
 
 Adjust `-threads` as appropriate.
-The above configuration, on a 2017 iMac Pro with SSD, takes around 30min.
+The above configuration, on a 2017 iMac Pro with SSD, takes around 30 minutes.
 
 The complete index occupies 72 GB (138,364,198 passages).
 It's big because it includes postions (for phrase queries), document vectors (for relevance feedback), and a complete copy of the collection itself.
-The index size as well as index time can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
+The index size as well as indexing time can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
 
 + Without any of the three above option, index size reduces to 12 GB.
-+ With just `-storeRaw`, index size reduces to 47 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access.
++ With just `-storeRaw`, index size reduces to 47 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to the compressed size of the raw collection is due to support for per-document random access.
 
 Perform runs on the dev queries (both sets):
 
 ```
-target/appassembler/bin/SearchCollection -index indexes/msmarco-v2-passage \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
  -output runs/run.msmarco-v2-passage.dev.txt -bm25 -hits 1000
 
-target/appassembler/bin/SearchCollection -index indexes/msmarco-v2-passage \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
  -output runs/run.msmarco-v2-passage.dev2.txt -bm25 -hits 1000
 ```
@@ -72,7 +73,7 @@ However, we measure recall at both 100 and 1000 hits; the latter is a common set
 
 ## Passage Collection (Augmented)
 
-The passage corpus contains only passage texts; it is missing additional information such as the title of the page it comes from and the URL of the page.
+The passage corpus contains only passage texts; it is missing additional information such as the title of the page the passage comes from and the URL of the page.
 This information is available in the document collection, and we have written [a Python script](https://github.com/castorini/pyserini/blob/master/scripts/msmarco_v2/augment_passage_corpus.py) to augment the passage collection with these additional fields (specifically `url`, `title`, `headings`).
 
 For convenience, this augmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_passage_augmented.tar` (21 GB, MD5 checksum of `69acf3962608b614dbaaeb10282b2ab8`).
@@ -83,14 +84,14 @@ Indexing this augmented collection:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCollection \
- -generator DefaultLuceneDocumentGenerator -threads 70 \
+ -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_passage_augmented \
- -index indexes/msmarco-v2-passage-augmented \
+ -index indexes/lucene-index.msmarco-v2-passage-augmented \
  -storePositions -storeDocvectors -storeRaw
 ```
 
 There are a total of 138,364,198 passages in the collection (exactly the same as the original passage collection).
-In each "document" in the index comprises the url, title, headings, and passage fields concatenated together.
+Each "document" in the index comprises the url, title, headings, and passage fields concatenated together.
 With the above indexing configuration, the index size comes to 162 GB.
 However, the index size can be reduced by playing with the indexing options discussed above.
 For example, with just the `-storeRaw` option, which supports bag-of-words first-stage retrieval with stored raw documents that can be fetched and passed to a downstream reranker, the index size comes out to 95 GB.
@@ -98,11 +99,11 @@ For example, with just the `-storeRaw` option, which supports bag-of-words first
 Perform runs on the dev queries (both sets):
 
 ```
-target/appassembler/bin/SearchCollection -index indexes/msmarco-v2-passage-augmented \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
  -output runs/run.msmarco-v2-passage-augmented.dev.txt -bm25 -hits 1000
 
-target/appassembler/bin/SearchCollection -index indexes/msmarco-v2-passage-augmented \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
  -output runs/run.msmarco-v2-passage-augmented.dev2.txt -bm25 -hits 1000
 ```
@@ -131,36 +132,36 @@ We see that adding these additional fields gives a nice bump to effectiveness.
 
 ## Document Collection
 
-Download and unpack the collection into `collections/`:
-Indexing the document collection, which is 33 GB compressed.
+Download and unpack the collection into `collections/`.
+Here's the indexing command for the document collection, which is 33 GB compressed:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_doc \
- -index indexes/msmarco-v2-doc \
+ -index indexes/lucene-index.msmarco-v2-doc \
  -storePositions -storeDocvectors -storeRaw
 ```
 
 Same instructions as above.
-On the same machine, indexing takes around 40 minutes.
-Complete index occupies 134 GB (11,959,635 documents).
+On the same machine as described above, indexing takes around 40 minutes.
+The complete index with the above configuration occupies 134 GB (11,959,635 documents).
 Index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
 
-+ Without any of the three above option, index size reduces to 9.4 GB.
-+ With just `-storeRaw`, index size reduces to 73 GB. This setting contains the raw JSON document, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to compressed size of raw collection is due to support for per-document random access; evidently, the JSON docs don't compress well.
++ Without any of the three above options, index size reduces to 9.4 GB.
++ With just `-storeRaw`, index size reduces to 73 GB. This setting stores the raw JSON documents, which makes it suitable for use as first-stage retrieval to support downstream rerankers. Bloat compared to the compressed size of the raw collection is due to support for per-document random access; evidently, the JSON documents don't compress well.
 
 Each "document" in the index comprises the url, title, headings, and body fields concatenated together.
 
 Perform runs on the dev queries (both sets):
 
 ```
-target/appassembler/bin/SearchCollection -index indexes/msmarco-v2-doc \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
  -output runs/run.msmarco-v2-doc.dev.txt -bm25 -hits 1000
 
-target/appassembler/bin/SearchCollection -index indexes/msmarco-v2-doc \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
  -output runs/run.msmarco-v2-doc.dev2.txt -bm25 -hits 1000
 ```
@@ -191,16 +192,16 @@ However, we measure recall at both 100 and 1000 hits; the latter is a common set
 ## Document Collection (Segmented)
 
 A well-known limitation of transformer-based rerankers is that they are unable to perform inference over long segments of text all at once.
-One standard solution to address this shortcoming is the MaxP technique of [Dai and Callan (2019)](https://dl.acm.org/doi/10.1145/3331184.3331303): perform document retrieval, segment each document into passages, apply inference on each passage independently, then take the passage with the highest score as the representative of the document for ranking.
+One standard solution to address this shortcoming is the MaxP technique of [Dai and Callan (2019)](https://dl.acm.org/doi/10.1145/3331184.3331303): perform document retrieval, segment each document into passages, apply inference to each passage independently, then take the passage with the highest score as the representative of the document for ranking.
 
 An alternative to this approach is to segment the collection _prior_ to indexing (i.e., each passage is indexed separately as a "document"), perform retrieval over the passages, and then feed these passages directly to a transformer-based reranker.
 We present exactly such a baseline for first-stage retrieval here.
 
 We segmented the document collection with [this Python script](https://github.com/castorini/pyserini/blob/master/scripts/msmarco_v2/segment_docs.py).
 As a summary, the script trims each document to 10k characters, and then applies a 10-sentence sliding window with a 5-sentence stride to generate the passages.
-This approach is similar to the results reported in [Pradeep et al. (2021)](https://arxiv.org/abs/2101.05667), which has been demonstrated to be effective.
-Sentence chunking is performed with spaCy (v2.3.5); the version is important if you want to _exactly_ reproduce our results from scratch with the Python script above.
-We have also experimented with _not_ trimming each document to the first 10k characters; the corpus becomes much bigger and the results become worse on the dev queries below.
+This approach is similar to the technique reported in [Pradeep et al. (2021)](https://arxiv.org/abs/2101.05667), which has been demonstrated to be effective.
+Sentence chunking is performed with spaCy (v2.3.5); the version is important if you want to _exactly_ reproduce our results from scratch with the Python script.
+We have also experimented with _not_ trimming each document to the first 10k characters; the collection becomes much bigger and the results become worse on the dev queries below.
 
 For convenience, this segmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_doc_segmented.tar` (26 GB, MD5 checksum of `f18c3a75eb3426efeb6040dca3e885dc`).
 The tarball can be downloaded [here](https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_doc_segmented.tar).
@@ -210,9 +211,9 @@ The segmented document collection can be indexed with the following command:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
- -generator DefaultLuceneDocumentGenerator -threads 10 \
+ -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_doc_segmented \
- -index indexes/msmarco-v2-doc-segmented \
+ -index indexes/lucene-index.msmarco-v2-doc-segmented \
  -storePositions -storeDocvectors -storeRaw
 ```
 
@@ -225,12 +226,12 @@ For example, with just the `-storeRaw` option, which supports bag-of-words first
 Perform runs on the dev queries (both sets):
 
 ```
-target/appassembler/bin/SearchCollection -index indexes/msmarco-v2-doc-segmented \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc-segmented.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 
-target/appassembler/bin/SearchCollection -index indexes/msmarco-v2-doc-segmented \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc-segmented.dev2.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
