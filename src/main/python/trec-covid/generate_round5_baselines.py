@@ -93,10 +93,13 @@ def main():
     complete_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-complete.txt'
     round5_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round5.txt'
 
-    #verify_stored_runs(stored_runs)
+    # MD5 checksums don't match anymore, see https://github.com/castorini/anserini/issues/1669
+    check_md5_flag = False
+
+    verify_stored_runs(stored_runs)
     perform_runs(5, indexes)
-    perform_fusion(5, cumulative_runs, check_md5=False)
-    prepare_final_submissions(5, final_runs, check_md5=False)
+    perform_fusion(5, cumulative_runs, check_md5=check_md5_flag)
+    prepare_final_submissions(5, final_runs, check_md5=check_md5_flag)
 
     expected_metrics = {
         'anserini.covid-r5.abstract.qq.bm25.txt':
@@ -127,7 +130,7 @@ def main():
             {'topics': 50, 'ndcg_cut_10': 0.6177, 'judged_cut_10': 0.6620, 'ndcg_cut_20': 0.5738,
              'judged_cut_20': 0.6510, 'map': 0.2657, 'recall_1000': 0.5505, 'judged_cut_1000': 0.2562},
     }
-    evaluate_runs(round4_cumulative_qrels, cumulative_runs, expected=expected_metrics, check_md5=False)
+    evaluate_runs(round4_cumulative_qrels, cumulative_runs, expected=expected_metrics, check_md5=check_md5_flag)
 
     expected_metrics = {
         'anserini.covid-r5.abstract.qq.bm25.txt':
@@ -158,7 +161,7 @@ def main():
             {'topics': 50, 'ndcg_cut_10': 0.8395, 'judged_cut_10': 1.0000, 'ndcg_cut_20': 0.7955,
              'judged_cut_20': 0.9990, 'map': 0.3911, 'recall_1000': 0.5536, 'judged_cut_1000': 0.4607},
     }
-    evaluate_runs(complete_qrels, cumulative_runs, expected=expected_metrics, check_md5=False)
+    evaluate_runs(complete_qrels, cumulative_runs, expected=expected_metrics, check_md5=check_md5_flag)
 
     expected_metrics = {
         'anserini.final-r5.fusion1.txt':
@@ -180,7 +183,7 @@ def main():
             {'topics': 50, 'ndcg_cut_10': 0.7944, 'judged_cut_10': 0.9860, 'ndcg_cut_20': 0.7346,
              'judged_cut_20': 0.9470, 'map': 0.3280, 'recall_1000': 0.6378, 'judged_cut_1000': 0.2201},
     }
-    evaluate_runs(round5_qrels, final_runs, expected=expected_metrics, check_md5=True)
+    evaluate_runs(round5_qrels, final_runs, expected=expected_metrics, check_md5=check_md5_flag)
 
 
 if __name__ == '__main__':
