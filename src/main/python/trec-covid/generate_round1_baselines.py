@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-"""Perform Anserini baseline runs for TREC-COVID Round 2."""
+"""Perform Anserini baseline runs for TREC-COVID Round 1."""
 
 import os
 import sys
