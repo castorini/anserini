@@ -178,7 +178,7 @@ class ElasticsearchClient:
         elif collection == 'msmarco-passage':
             expected = 0.1956
         elif collection == 'core18':
-            expected = 0.2495
+            expected = 0.2496
         elif collection == 'msmarco-doc':
             expected = 0.2308
         else:
@@ -250,7 +250,7 @@ if __name__ == '__main__':
         es.insert_docs(args.regression, args.input)
         # Documents ingested into ES are not immediately searchable. There are lots of 'refresh' options
         # to control the visibility behavior, but the simplest solution is just to wait for a bit...
-        logger.info('Document ingestion complete. Sleeping now for 60s...')
-        time.sleep(60)
+        logger.info('Document ingestion complete. Sleeping now for 120s...')
+        time.sleep(120)
         logger.info('Waking up!')
         es.evaluate(args.regression)
