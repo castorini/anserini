@@ -115,10 +115,12 @@ sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection 
 
 We are now able to access interactive search and visualization capabilities from Kibana at [`http://localhost:5601/`](http://localhost:5601).
 
-Here's an example: in the above webapp, create an "Index Pattern".
-Set the index pattern to `cord19`, and use `publish_time` as the time filter.
-Then navigate to "Discover" in Kibana to run a search.
-If you're not getting any results, be sure you've expanded the date range, next to the search bar.
+Here's an example:
+
+1. Click on the hamburger icon, then click "Discover" under "Analytics".
+2. Create "Index Pattern": set the index pattern to `cord19`, and use `publish_time` as the timestamp field.
+3. Go back to "Discover" under "Analytics"; now run a search, e.g., "incubation period". Be sure to expand the date, which is a dropdown box to the right of the search box; something like "Last 10 years" works well.
+4. You should be able to see search results as well as a histogram of the dates in which those articles ar published!
 
 ## Reproduction Log[*](reproducibility.md)
 
@@ -126,3 +128,4 @@ If you're not getting any results, be sure you've expanded the date range, next 
 + Reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) on CORD-19 release of 2020/06/19.
 + Reproduced by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-07-26 (commit [`fad12be`](https://github.com/castorini/anserini/commit/539f7d43a0183454a633f34aa20b46d2eeec1a19)) on CORD-19 release of 2020/07/25.
 + Reproduced by [@lintool](https://github.com/lintool) on 2020-11-23 (commit [`746447`](https://github.com/castorini/anserini/commit/746447af47db5bb032eb551623c11219467c961e)) on CORD-19 release of 2020/07/16 with Solr v8.3.0 and ES/Kibana v7.10.0.
++ Reproduced by [@lintool](https://github.com/lintool) on 2021-11-02 (commit [`cb0c44`](https://github.com/castorini/anserini/commit/cb0c44cd209c4cad3327942216a736aa4bbe21cc)) on CORD-19 release of 2020/07/16 with Solr v8.10.1 and ES/Kibana v7.15.1.
