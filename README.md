@@ -76,13 +76,6 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of reproducibility.
 For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
 
-### TREC-COVID and CORD-19
-
-+ [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
-+ [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
-+ [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
-+ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
-
 ### MS MARCO
 
 + Reproducing [BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
@@ -95,6 +88,13 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Reproducing [uniCOIL experiments with TILDE expansions for MS MARCO V1 Passage Ranking](docs/experiments-msmarco-passage-unicoil-tilde-expansion.md)
 + Reproducing [SPLADEv2 experiments for MS MARCO V1 Passage Ranking](docs/experiments-msmarco-passage-splade-v2.md)
 + Reproducing [BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
+
+### TREC-COVID and CORD-19
+
++ [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
++ [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
++ [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
++ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
 
 ### Other Experiments
 
