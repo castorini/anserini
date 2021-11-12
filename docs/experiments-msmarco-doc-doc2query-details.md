@@ -11,13 +11,14 @@ At that point in time, we made two mistakes:
 2. We did not materialize the segmented corpus. That is, we did not separately store a copy of the segemented texts.
 
 The doc2query-T5 sentence predictions were made on a collection that contains 20,545,677 segments.
-However, when the [Anserini regressions](regressions-msmarco-doc-docTTTTTquery-per-passage.md) were built (specifically, the `msmarco-doc-docTTTTTquery-per-passage` condition), the index only had 20,544,550 segments.
+However, when the Anserini regressions were built (specifically, the [`msmarco-doc-docTTTTTquery-per-passage`](regressions-msmarco-doc-docTTTTTquery-per-passage.md) condition), the index only had 20,544,550 segments.
 This meant that in the regressions, some relatively small fraction of segments were misaligned with the doc2query-T5 expansions.
 
 We did not discover this discrepancy until November 2021.
 This meant that a bug was "set in stone" as "ground truth" in our regression framework.
 
 Separately, around July 2021, Xueguang performed extensive experiments with many many different versions of spaCy and was able to find a version that also produced 20,545,677 segments.
+This was for dense retrieval experiments, as we were not aware of the doc2query-T5 issues at the time.
 It is likely, but we cannot know for sure, that this was the same segmentation that generated the original doc2query-T5 expansions.
 Fortunately, Xueguang was able to save a copy of this segmented corpus.
 Unfortunately, he doesn't remember what version of spaCy generated it either.
