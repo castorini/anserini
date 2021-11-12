@@ -1,4 +1,4 @@
-# Anserini: MS MARCO V1 Document Ranking w/ docTTTTTquery
+# Anserini: Reproducibility Notes for MS MARCO V1 Doc Ranking
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Reproducibility is hard.</p>&mdash; Jimmy Lin (@lintool) <a href="https://twitter.com/lintool/status/1458853999298465796?ref_src=twsrc%5Etfw">November 11, 2021</a></blockquote>
 

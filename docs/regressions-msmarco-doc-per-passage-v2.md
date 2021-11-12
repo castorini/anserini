@@ -150,12 +150,10 @@ $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --run runs/run.msmarco-doc-per-passage-v2.bm25-default.txt
 
 #####################
-MRR @100: 0.2682349308946578
+MRR @100: 0.26029445206377066
 QueriesRanked: 5193
 #####################
 ```
-
-This run was _not_ submitted to the MS MARCO document ranking leaderboard, but is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
 
 To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (tuned)" above:
 
@@ -176,7 +174,7 @@ $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --run runs/run.msmarco-doc-per-passage-v2.bm25-tuned.txt
 
 #####################
-MRR @100: 0.2751202109946902
+MRR @100: 0.2633426142578288
 QueriesRanked: 5193
 #####################
 ```
