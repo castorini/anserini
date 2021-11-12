@@ -83,6 +83,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Reproducing [baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
 + Reproducing [doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
 + Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
++ Notes about reproduction issues with [MS MARCO Document Ranking w/ docTTTTTquery](docs/experiments-msmarco-doc-doc2query-details.md)
 + Reproducing [DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
 + Reproducing [uniCOIL experiments with doc2query-T5 expansions for MS MARCO V1](docs/experiments-msmarco-unicoil.md)
 + Reproducing [uniCOIL experiments with TILDE expansions for MS MARCO V1 Passage Ranking](docs/experiments-msmarco-passage-unicoil-tilde-expansion.md)
