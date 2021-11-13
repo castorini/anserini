@@ -62,6 +62,28 @@ See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini 
 
 The MaxP passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert the output back into the MS MARCO format for evaluation.
 
+To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (default)" above:
+
+```bash
+$ target/appassembler/bin/SearchCollection -topicreader TsvString \
+   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
+   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.txt -format msmarco \
+   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 \
+   -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+   --run runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.txt
+
+#####################
+MRR @100: 0.31779258157039536
+QueriesRanked: 5193
+#####################
+```
+
+Note that the above command uses `-format msmarco` instead of first outputting in TREC format and then converting to MS MARCO format using `tools/scripts/msmarco/convert_trec_to_msmarco_run.py`; both yield the exact same results.
+
 To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (tuned)" above:
 
 ```bash
