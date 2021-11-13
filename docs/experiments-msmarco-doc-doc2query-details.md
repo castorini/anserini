@@ -17,11 +17,10 @@ This meant that in the regressions, some relatively small fraction of segments w
 We did not discover this discrepancy until November 2021.
 This meant that a bug was "set in stone" as "ground truth" in our regression framework.
 
-Separately, around July 2021, Xueguang performed extensive experiments with many many different versions of spaCy and was able to find a version that also produced 20,545,677 segments.
+Separately, around July 2021, Xueguang performed extensive experiments with many many different versions of spaCy and was able to find a version that also produced 20,545,677 segments (spaCy 2.1.6).
 This was for dense retrieval experiments, as we were not aware of the doc2query-T5 issues at the time.
-It is likely, but we cannot know for sure, that this was the same segmentation that generated the original doc2query-T5 expansions.
+It is very likely, but we cannot know for sure, that this was the same segmentation that generated the original doc2query-T5 expansions.
 Fortunately, Xueguang was able to save a copy of this segmented corpus.
-Unfortunately, he doesn't remember what version of spaCy generated it either.
 
 So, now we have:
 
