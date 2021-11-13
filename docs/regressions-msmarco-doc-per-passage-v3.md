@@ -137,13 +137,9 @@ To generate an MS MARCO submission with the BM25 default parameters, correspondi
 $ target/appassembler/bin/SearchCollection -topicreader TsvString \
    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
    -index indexes/lucene-index.msmarco-doc-per-passage-v3.pos+docvectors+raw \
-   -output runs/run.msmarco-doc-per-passage-v3.bm25-default.trec \
+   -output runs/run.msmarco-doc-per-passage-v3.bm25-default.txt -format msmarco \
    -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 \
    -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
-
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-doc-per-passage-v3.bm25-default.trec \
-   --output runs/run.msmarco-doc-per-passage-v3.bm25-default.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
@@ -161,13 +157,9 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 $ target/appassembler/bin/SearchCollection -topicreader TsvString \
    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
    -index indexes/lucene-index.msmarco-doc-per-passage-v3.pos+docvectors+raw \
-   -output runs/run.msmarco-doc-per-passage-v3.bm25-tuned.trec \
+   -output runs/run.msmarco-doc-per-passage-v3.bm25-tuned.txt -format msmarco \
    -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 1000 \
    -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
-
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-doc-per-passage-v3.bm25-tuned.trec \
-   --output runs/run.msmarco-doc-per-passage-v3.bm25-tuned.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \

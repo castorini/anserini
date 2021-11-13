@@ -95,13 +95,9 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 $ target/appassembler/bin/SearchCollection -topicreader TsvString \
    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
    -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
-   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.trec \
+   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.txt -format msmarco \
    -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 \
    -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
-
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.trec \
-   --output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
@@ -114,3 +110,4 @@ QueriesRanked: 5193
 ```
 
 This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11, and is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
+Note that the above command uses `-format msmarco` instead of first outputting in TREC format and then converting to MS MARCO format using `tools/scripts/msmarco/convert_trec_to_msmarco_run.py`; both yield the exact same results.
