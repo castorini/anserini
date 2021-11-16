@@ -1,5 +1,5 @@
 ---
-name: msmarco-v2-passage-augmented
+name: msmarco-v2-doc-segmented-dev2
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -7,7 +7,7 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: MsMarcoV2PassageCollection
+collection: MsMarcoV2DocCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 18
 index_options:
@@ -58,44 +58,46 @@ input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
-input: collections/msmarco/msmarco_v2_passage_augmented
-index_path: indexes/lucene-index.msmarco-v2-passage-augmented.pos+docvectors+raw
+input: collections/msmarco/msmarco_v2_doc_segmented
+index_path: indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw
 index_stats:
-  documents: 138364198
-  documents (non-empty): 138364198
-  total terms: 15272964956
+  documents: 124131414
+  documents (non-empty): 124131414
+  total terms: 24780915974
 topics:
-  - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
-    path: topics.msmarco-v2-passage.dev2.txt
-    qrel: qrels.msmarco-v2-passage.dev2.txt
+  - name: "[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    path: topics.msmarco-v2-doc.dev2.txt
+    qrel: qrels.msmarco-v2-doc.dev2.txt
 models:
   - name: bm25-default
     display: BM25 (default)
     params:
       - -bm25
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
-        - 0.0904
+        - 0.1903
       MRR@100:
-        - 0.0917
+        - 0.1930
       R@100:
-        - 0.4159
+        - 0.6629
       R@1000:
-        - 0.6933
+        - 0.8549
   - name: bm25-default+rm3
     display: +RM3
     params:
       - -bm25
       - -rm3
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
-        - 0.0692
+        - 0.1679
       MRR@100:
-        - 0.0701
+        - 0.1701
       R@100:
-        - 0.3852
+        - 0.6561
       R@1000:
-        - 0.6838
+        - 0.8633
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -103,26 +105,28 @@ models:
       - -axiom
       - -axiom.deterministic
       - -rerankCutoff 20
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
-        - 0.0442
+        - 0.1345
       MRR@100:
-        - 0.0446
+        - 0.1366
       R@100:
-        - 0.3220
+        - 0.5800
       R@1000:
-        - 0.6043
+        - 0.8210
   - name: bm25-default+prf
     display: +PRF
     params:
       - -bm25
       - -bm25prf
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
-        - 0.0563
+        - 0.1565
       MRR@100:
-        - 0.0572
+        - 0.1587
       R@100:
-        - 0.3505
+        - 0.6134
       R@1000:
-        - 0.6351
+        - 0.8280

@@ -65,7 +65,7 @@ index_stats:
   documents (non-empty): 138364197
   total terms: 4673266762
 topics:
-  - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+  - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     path: topics.msmarco-v2-passage.dev2.txt
     qrel: qrels.msmarco-v2-passage.dev2.txt
 models:
