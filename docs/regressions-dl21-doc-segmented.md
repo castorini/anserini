@@ -1,9 +1,9 @@
-# Anserini: Regressions for [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)
+# Anserini: Regressions for [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
 
-This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
+This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Document Ranking Task) on the MS MARCO V2 _segmented_ document collection using relevance judgments from NIST.
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
+For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-v2.md).
 
 Note that there are four different regression conditions for this task, and this page describes the following:
 
@@ -12,8 +12,8 @@ Note that there are four different regression conditions for this task, and this
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-doc.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-doc-segmented.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-doc-segmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -35,8 +35,8 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 45 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
+The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -114,18 +114,7 @@ R@1000                                  | BM25 (default)| +RM3      | +Ax       
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.6930    | 0.7694    | 0.7934    | 0.7423    |
 
-Explanation of settings:
+Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
 
-+ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=3.44`, `b=0.87`, tuned on 2019/06 and used for TREC 2019 Deep Learning Track baseline runs.
-+ The setting "tuned2" refers to `k1=4.46`, `b=0.82`, tuned using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval) on 2019/12; see [this page](experiments-msmarco-doc.md) additional details.
-
-Settings tuned on the MS MARCO document sparse judgments _may not_ work well on the TREC dense judgments.
-
-Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 passage ranking).
-Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL20 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
-
-Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by team `anserini`:
-
-+ `d_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
-+ `d_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
++ `dseg_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
++ `dseg_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
