@@ -9,6 +9,8 @@ Note that there are four different regression conditions for this task, and this
 In the passage indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
+**NOTE**: This is the `msmarco-doc-docTTTTTquery-per-passage` variant (there's also `msmarco-doc-docTTTTTquery-per-passage-v3`), see [this page](experiments-msmarco-doc-doc2query-details.md) for detailed notes about differences between these variants.
+
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc-docTTTTTquery-per-passage.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc-docTTTTTquery-per-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
@@ -87,19 +89,37 @@ See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini 
 
 The MaxP passage retrieval functionality is only available in `SearchCollection`; we use a simple script to convert the output back into the MS MARCO format for evaluation.
 
+To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (default)" above:
+
+```bash
+$ target/appassembler/bin/SearchCollection -topicreader TsvString \
+   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
+   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.txt -format msmarco \
+   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 \
+   -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+   --run runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.txt
+
+#####################
+MRR @100: 0.31779258157039536
+QueriesRanked: 5193
+#####################
+```
+
+Note that the above command uses `-format msmarco` instead of first outputting in TREC format and then converting to MS MARCO format using `tools/scripts/msmarco/convert_trec_to_msmarco_run.py`; both yield the exact same results.
+
 To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (tuned)" above:
 
 ```bash
 $ target/appassembler/bin/SearchCollection -topicreader TsvString \
    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
    -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
-   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.trec \
+   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.txt -format msmarco \
    -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 \
    -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
-
-$ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.trec \
-   --output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
@@ -112,3 +132,4 @@ QueriesRanked: 5193
 ```
 
 This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11, and is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
+Note that the above command uses `-format msmarco` instead of first outputting in TREC format and then converting to MS MARCO format using `tools/scripts/msmarco/convert_trec_to_msmarco_run.py`; both yield the exact same results.
