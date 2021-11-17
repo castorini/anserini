@@ -76,7 +76,7 @@ index_stats:
   documents (non-empty): 138364198
   total terms: 15272964956
 topics:
-  - name: "[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+  - name: "[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     path: topics.dl21.txt
     qrel: qrels.dl21-passage.txt
 models:

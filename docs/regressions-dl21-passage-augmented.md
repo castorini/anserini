@@ -86,27 +86,27 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP@100                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.0977    | 0.1050    | 0.0849    | 0.0959    |
+[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.0977    | 0.1050    | 0.0849    | 0.0959    |
 
 
 MRR@100                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5303    | 0.4906    | 0.4269    | 0.4737    |
+[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5303    | 0.4906    | 0.4269    | 0.4737    |
 
 
 NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.3977    | 0.3906    | 0.2927    | 0.3488    |
+[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.3977    | 0.3906    | 0.2927    | 0.3488    |
 
 
 R@100                                   | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.2704    | 0.2737    | 0.2481    | 0.2661    |
+[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.2704    | 0.2737    | 0.2481    | 0.2661    |
 
 
 R@1000                                  | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5875    | 0.6209    | 0.5819    | 0.5852    |
+[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5875    | 0.6209    | 0.5819    | 0.5852    |
 
 Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
 
