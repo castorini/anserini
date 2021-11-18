@@ -37,7 +37,7 @@ evals:
     parse_index: 2
     metric: MRR@100
     metric_precision: 4
-    can_combine: true
+    can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m ndcg_cut.10
@@ -46,11 +46,12 @@ evals:
     parse_index: 2
     metric: NDCG@10
     metric_precision: 4
-    can_combine: true
+    can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m recall.100
       - -c
+      - -l 2
     separator: "\t"
     parse_index: 2
     metric: R@100
@@ -60,6 +61,7 @@ evals:
     params:
       - -m recall.1000
       - -c
+      - -l 2
     separator: "\t"
     parse_index: 2
     metric: R@1000
@@ -92,9 +94,9 @@ models:
       NDCG@10:
         - 0.4458
       R@100:
-        - 0.3332
+        - 0.3261
       R@1000:
-        - 0.6113
+        - 0.6149
   - name: bm25-default+rm3
     display: +RM3
     params:
@@ -108,9 +110,9 @@ models:
       NDCG@10:
         - 0.4480
       R@100:
-        - 0.3381
+        - 0.3498
       R@1000:
-        - 0.6611
+        - 0.6619
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -126,9 +128,9 @@ models:
       NDCG@10:
         - 0.4851
       R@100:
-        - 0.3577
+        - 0.3803
       R@1000:
-        - 0.6785
+        - 0.6882
   - name: bm25-default+prf
     display: +PRF
     params:
@@ -142,6 +144,6 @@ models:
       NDCG@10:
         - 0.4740
       R@100:
-        - 0.3535
+        - 0.3745
       R@1000:
-        - 0.6531
+        - 0.6643

@@ -64,24 +64,28 @@ Evaluation can be performed using `trec_eval`:
 
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt
 
 tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt
 
 tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt
 
 tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt
 ```
 
 ## Effectiveness
@@ -105,12 +109,12 @@ NDCG@10                                 | BM25 (default)| +RM3      | +Ax       
 
 R@100                                   | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.2704    | 0.2737    | 0.2481    | 0.2661    |
+[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.2709    | 0.2795    | 0.2645    | 0.2729    |
 
 
 R@1000                                  | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5875    | 0.6209    | 0.5819    | 0.5852    |
+[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5835    | 0.6268    | 0.6085    | 0.5952    |
 
 Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
 
