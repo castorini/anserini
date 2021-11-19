@@ -310,15 +310,24 @@ public final class SearchCollection implements Closeable {
 
         LOG.info(desc + ": " + topics.size() + " queries processed in " +
             DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-            String.format(" ~%.2f q/s", topics.size()/durationMillis/1000.0));
+            String.format(" = ~%.2f q/s", topics.size()/(durationMillis/1000.0)));
 
         // Now we write the results to a run file.
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
 
-        if (topics.firstKey().equals(2) && topics.get(2).get("title").equals("Androgen receptor define") ) {
+        boolean isMSMARCO_passage = topics.firstKey().equals(2) && topics.get(2).get("title").equals("Androgen receptor define");
+        boolean isMAMARCO_doc = topics.firstKey().equals(2) && topics.get(2).get("title").equals("androgen receptor define");
+        if (isMSMARCO_passage || isMAMARCO_doc) {
           String raw = "";
+          System.out.println("HERE!!!!");
           try {
-            InputStream inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path);
+            InputStream inputStream = null;
+            if (isMSMARCO_passage) {
+              inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path);
+            } else {
+              inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_DOC_DEV.path);
+            }
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
