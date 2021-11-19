@@ -193,7 +193,7 @@ public final class SearchCollection implements Closeable {
         }
 
         // ThreadPool for parallelizing the execution of individual queries:
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(parallelism);
         // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
         // will go into the final run file) as the value.
         ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
