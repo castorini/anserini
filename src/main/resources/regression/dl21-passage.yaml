@@ -1,5 +1,5 @@
 ---
-name: msmarco-v2-passage-augmented
+name: msmarco-v2-passage
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -21,25 +21,37 @@ evals:
       - -M 100
       - -m map
       - -c
+      - -l 2
     separator: "\t"
     parse_index: 2
-    metric: map
+    metric: MAP@100
     metric_precision: 4
-    can_combine: true
+    can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -M 100
       - -m recip_rank
       - -c
+      - -l 2
     separator: "\t"
     parse_index: 2
     metric: MRR@100
     metric_precision: 4
-    can_combine: true
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.10
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: NDCG@10
+    metric_precision: 4
+    can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -m recall.100
       - -c
+      - -l 2
     separator: "\t"
     parse_index: 2
     metric: R@100
@@ -49,6 +61,7 @@ evals:
     params:
       - -m recall.1000
       - -c
+      - -l 2
     separator: "\t"
     parse_index: 2
     metric: R@1000
@@ -58,44 +71,48 @@ input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
-input: collections/msmarco/msmarco_v2_passage_augmented
-index_path: indexes/lucene-index.msmarco-v2-passage-augmented.pos+docvectors+raw
+input: collections/msmarco/msmarco_v2_passage
+index_path: indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw
 index_stats:
   documents: 138364198
-  documents (non-empty): 138364198
-  total terms: 15272964956
+  documents (non-empty): 138364197
+  total terms: 4673266762
 topics:
-  - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
-    path: topics.msmarco-v2-passage.dev.txt
-    qrel: qrels.msmarco-v2-passage.dev.txt
+  - name: "[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    path: topics.dl21.txt
+    qrel: qrels.dl21-passage.txt
 models:
   - name: bm25-default
     display: BM25 (default)
     params:
       - -bm25
     results:
-      map:
-        - 0.0863
+      MAP@100:
+        - 0.1357
       MRR@100:
-        - 0.0872
+        - 0.5060
+      NDCG@10:
+        - 0.4458
       R@100:
-        - 0.4030
+        - 0.3261
       R@1000:
-        - 0.6925
+        - 0.6149
   - name: bm25-default+rm3
     display: +RM3
     params:
       - -bm25
       - -rm3
     results:
-      map:
-        - 0.0669
+      MAP@100:
+        - 0.1632
       MRR@100:
-        - 0.0674
+        - 0.4925
+      NDCG@10:
+        - 0.4480
       R@100:
-        - 0.3734
+        - 0.3498
       R@1000:
-        - 0.6859
+        - 0.6619
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -104,25 +121,29 @@ models:
       - -axiom.deterministic
       - -rerankCutoff 20
     results:
-      map:
-        - 0.0431
+      MAP@100:
+        - 0.1907
       MRR@100:
-        - 0.0434
+        - 0.5733
+      NDCG@10:
+        - 0.4851
       R@100:
-        - 0.2998
+        - 0.3803
       R@1000:
-        - 0.5887
+        - 0.6882
   - name: bm25-default+prf
     display: +PRF
     params:
       - -bm25
       - -bm25prf
     results:
-      map:
-        - 0.0542
+      MAP@100:
+        - 0.1821
       MRR@100:
-        - 0.0547
+        - 0.5532
+      NDCG@10:
+        - 0.4740
       R@100:
-        - 0.3338
+        - 0.3745
       R@1000:
-        - 0.6157
+        - 0.6643
