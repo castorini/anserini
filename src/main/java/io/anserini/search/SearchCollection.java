@@ -109,6 +109,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -122,9 +123,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Main entry point for search.
@@ -162,8 +167,7 @@ public final class SearchCollection implements Closeable {
     final private String runTag;
 
     private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
-                           RerankerCascade cascade, Map<String, ScoredDocuments> qrels, String outputPath, 
-                           String runTag) {
+                           RerankerCascade cascade, Map<String, ScoredDocuments> qrels, String outputPath, String runTag) {
       this.reader = reader;
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
@@ -178,100 +182,136 @@ public final class SearchCollection implements Closeable {
     @Override
     public void run() {
       try {
-        String id = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
-        LOG.info("[Start] " + id);
+        // A short descriptor of the ranking setup.
+        final String desc = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
 
-        int cnt = 0;
+        // ThreadPool for parallelizing the execution of individual queries:
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
+        // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
+        // will go into the final run file) as the value.
+        ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
+        AtomicInteger cnt = new AtomicInteger();
+
         final long start = System.nanoTime();
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
 
-          String queryString = "";
-          if (args.topicfield.contains("+")) {
-            for (String field : args.topicfield.split("\\+")) {
-              queryString += " " + entry.getValue().get(field);
-            }
-          } else {
-            queryString = entry.getValue().get(args.topicfield);
-          }
+          // This is the per-query execution, in parallel.
+          executor.execute(() -> {
+            // This is for holding the results.
+            StringBuilder out = new StringBuilder();
 
-          ScoredDocuments queryQrels = null;
-          boolean hasRelDocs = false;
-          String qidString = qid.toString();
-          if (qrels != null){
-            queryQrels = qrels.get(qidString);
-            if (queriesWithRel.contains(qidString)) {
-              hasRelDocs = true;
-            }
-          }
-          ScoredDocuments docs;
-          if (args.searchtweets) {
-            docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
-          } else if (args.backgroundlinking) {
-            docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
-          } else {
-            docs = search(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
-          }
-
-          // For removing duplicate docids.
-          Set<String> docids = new HashSet<>();
-
-          /*
-           * the first column is the topic number.
-           * the second column is currently unused and should always be "Q0".
-           * the third column is the official document identifier of the retrieved document.
-           * the fourth column is the rank the document is retrieved.
-           * the fifth column shows the score (integer or floating point) that generated the ranking.
-           * the sixth column is called the "run tag" and should be a unique identifier for your
-           */
-          int rank = 1;
-          for (int i = 0; i < docs.documents.length; i++) {
-            String docid = docs.documents[i].get(IndexArgs.ID);
-
-            if (args.selectMaxPassage) {
-              docid = docid.split(args.selectMaxPassage_delimiter)[0];
-            }
-
-            if (docids.contains(docid))
-              continue;
-
-            if ("msmarco".equals(args.format)) {
-              out.println(String.format(Locale.US, "%s\t%s\t%d", qid, docid, rank));
+            String queryString = "";
+            if (args.topicfield.contains("+")) {
+              for (String field : args.topicfield.split("\\+")) {
+                queryString += " " + entry.getValue().get(field);
+              }
             } else {
-              out.println(String.format(Locale.US, "%s Q0 %s %d %f %s",
-                      qid, docid, rank, docs.scores[i], runTag));
+              queryString = entry.getValue().get(args.topicfield);
             }
 
-            // Note that this option is set to false by default because duplicate documents usually indicate some
-            // underlying indexing issues, and we don't want to just eat errors silently.
-            //
-            // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
-            // duplicates.
-            if (args.removedups || args.selectMaxPassage) {
-              docids.add(docid);
+            ScoredDocuments queryQrels = null;
+            boolean hasRelDocs = false;
+            String qidString = qid.toString();
+            if (qrels != null) {
+              queryQrels = qrels.get(qidString);
+              if (queriesWithRel.contains(qidString)) {
+                hasRelDocs = true;
+              }
+            }
+            ScoredDocuments docs;
+            try {
+              if (args.searchtweets) {
+                docs = searchTweets(this.searcher, qid, queryString,
+                    Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
+              } else if (args.backgroundlinking) {
+                docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
+              } else {
+                docs = search(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
+              }
+            } catch (IOException e) {
+              throw new CompletionException(e);
             }
 
-            rank++;
+            // For removing duplicate docids.
+            Set<String> docids = new HashSet<>();
 
-            if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
-              break;
+            int rank = 1;
+            for (int i = 0; i < docs.documents.length; i++) {
+              String docid = docs.documents[i].get(IndexArgs.ID);
+
+              if (args.selectMaxPassage) {
+                docid = docid.split(args.selectMaxPassage_delimiter)[0];
+              }
+
+              if (docids.contains(docid))
+                continue;
+
+              if ("msmarco".equals(args.format)) {
+                // MS MARCO output format:
+                out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, docid, rank));
+              } else {
+                // Standard TREC format:
+                // + the first column is the topic number.
+                // + the second column is currently unused and should always be "Q0".
+                // + the third column is the official document identifier of the retrieved document.
+                // + the fourth column is the rank the document is retrieved.
+                // + the fifth column shows the score (integer or floating point) that generated the ranking.
+                // + the sixth column is called the "run tag" and should be a unique identifier for your
+                out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n",
+                    qid, docid, rank, docs.scores[i], runTag));
+              }
+
+              // Note that this option is set to false by default because duplicate documents usually indicate some
+              // underlying indexing issues, and we don't want to just eat errors silently.
+              //
+              // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
+              // duplicates.
+              if (args.removedups || args.selectMaxPassage) {
+                docids.add(docid);
+              }
+
+              rank++;
+
+              if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
+                break;
+              }
             }
-          }
-          cnt++;
-          if (cnt % 100 == 0) {
-            LOG.info(String.format("%d queries processed", cnt));
-          }
+
+            results.put(qid, out.toString());
+            int n = cnt.incrementAndGet();
+            if (n % 100 == 0) {
+              LOG.info(String.format("%s: %d queries processed", desc, n));
+            }
+          });
+        }
+
+        executor.shutdown();
+
+        try {
+          // Wait for existing tasks to terminate.
+          while (!executor.awaitTermination(1, TimeUnit.MINUTES));
+        } catch (InterruptedException ie) {
+          // (Re-)Cancel if current thread also interrupted.
+          executor.shutdownNow();
+          // Preserve interrupt status.
+          Thread.currentThread().interrupt();
+        }
+        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+
+        LOG.info(desc + ": " + topics.size() + " queries processed in " +
+            DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+
+        // Now we write the results to a run file.
+        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
+        for (K qid : results.keySet()) {
+          out.print(results.get(qid));
         }
         out.flush();
         out.close();
-        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
-        LOG.info("[End  ] " + id);
-        LOG.info(topics.size() + " topics processed in "
-            + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
       } catch (Exception e) {
-        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception: ", e);
       }
     }
   }
@@ -368,7 +408,9 @@ public final class SearchCollection implements Closeable {
       LOG.info("Language: en");
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);
-      LOG.info("Stopwords file " + args.stopwords);
+      LOG.info("Stopwords file: " + args.stopwords);
+      LOG.info("Number of threads to use for running different parameter configurations: " + args.threads);
+      LOG.info("Number of threads to use for each individual parameter configuration: " + args.parallelism);
     }
 
     isRerank = args.rm3 || args.axiom || args.bm25prf;
