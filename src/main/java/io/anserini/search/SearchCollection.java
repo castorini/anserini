@@ -37,6 +37,7 @@ import io.anserini.search.similarity.ImpactSimilarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.Topics;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -130,6 +131,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Main entry point for search.
@@ -307,12 +309,33 @@ public final class SearchCollection implements Closeable {
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
         LOG.info(desc + ": " + topics.size() + " queries processed in " +
-            DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+            DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+            String.format(" ~%.2f q/s", topics.size()/durationMillis/1000.0));
 
         // Now we write the results to a run file.
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
-        for (K qid : results.keySet()) {
-          out.print(results.get(qid));
+
+        if (topics.firstKey().equals(2) && topics.get(2).get("title").equals("Androgen receptor define") ) {
+          String raw = "";
+          try {
+            InputStream inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+              line = line.trim();
+              String[] arr = line.split("\\t");
+              out.print(results.get(Integer.parseInt(arr[0])));
+            }
+
+            inputStream.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        } else {
+          for (K qid : results.keySet()) {
+            out.print(results.get(qid));
+          }
         }
         out.flush();
         out.close();

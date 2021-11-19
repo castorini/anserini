@@ -119,6 +119,10 @@ public class SearchMsmarco {
       return;
     }
 
+    System.out.println("###############################################################################");
+    System.out.println("WARNING: This class has been deprecated and may be removed in a future release!");
+    System.out.println("###############################################################################\n");
+
     long totalStartTime = System.nanoTime();
 
     Analyzer analyzer;
