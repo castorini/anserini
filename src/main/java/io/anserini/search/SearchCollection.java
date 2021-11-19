@@ -315,11 +315,18 @@ public final class SearchCollection implements Closeable {
         // Now we write the results to a run file.
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
 
+        // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
+        // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
+        // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
+        // results in different orders. Due to the way that the MS MARCO V1 eval scripts are written (they report MRR to
+        // an excessive number of significant digits), different orders yield slightly different metric values (due to
+        // floating point precision issues). Just to retain exactly the same output as SearchMsmarco (which was used to,
+        // for example, generate Anserini leaderboard runs), we add an ugly hack here to dump the results in the order
+        // of the qids in the query files.
         boolean isMSMARCO_passage = topics.firstKey().equals(2) && topics.get(2).get("title").equals("Androgen receptor define");
         boolean isMAMARCO_doc = topics.firstKey().equals(2) && topics.get(2).get("title").equals("androgen receptor define");
         if (isMSMARCO_passage || isMAMARCO_doc) {
           String raw = "";
-          System.out.println("HERE!!!!");
           try {
             InputStream inputStream = null;
             if (isMSMARCO_passage) {
@@ -329,7 +336,6 @@ public final class SearchCollection implements Closeable {
             }
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
             String line;
             while ((line = reader.readLine()) != null) {
               line = line.trim();
@@ -342,6 +348,7 @@ public final class SearchCollection implements Closeable {
             e.printStackTrace();
           }
         } else {
+          // This is the default case: just dump out the qids by their natural order.
           for (K qid : results.keySet()) {
             out.print(results.get(qid));
           }
@@ -864,7 +871,7 @@ public final class SearchCollection implements Closeable {
     SearchCollection searcher;
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
-    // except messages and display on console.
+    // exception messages and display on console.
     try {
       searcher = new SearchCollection(searchArgs);
     } catch (IllegalArgumentException e1) {
