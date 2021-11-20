@@ -455,8 +455,8 @@ public final class SearchCollection implements Closeable {
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);
       LOG.info("Stopwords file: " + args.stopwords);
-      LOG.info("Number of threads to use for running different parameter configurations: " + args.threads);
-      LOG.info("Number of threads to use for each individual parameter configuration: " + args.parallelism);
+      LOG.info("Number of threads for running different parameter configurations: " + args.threads);
+      LOG.info("Number of threads for running each individual parameter configuration: " + args.parallelism);
     }
 
     isRerank = args.rm3 || args.axiom || args.bm25prf;

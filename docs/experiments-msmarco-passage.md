@@ -32,7 +32,7 @@ mkdir collections/msmarco-passage
 wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 # Alternative mirror:
-# wget https://www.dropbox.com/s/9f54jg2f71ray3b/collectionandqueries.tar.gz -P collections/msmarco-passage
+# wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
@@ -119,19 +119,20 @@ These queries are taken from Bing search logs, so they're "realistic" web querie
 We can now perform a retrieval run using this smaller set of queries:
 
 ```bash
-sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 1 \
+sh target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
  -index indexes/msmarco-passage/lucene-index-msmarco \
- -queries collections/msmarco-passage/queries.dev.small.tsv \
- -output runs/run.msmarco-passage.dev.small.tsv
+ -topicreader TsvInt -topics collections/msmarco-passage/queries.dev.small.tsv \
+ -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68
 ```
 
-Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
+The above command uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
 The option `-hits` specifies the number of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
 
 Retrieval speed will vary by machine:
-On a modern desktop with an SSD, we can get ~0.07 s/query, so the run should finish in under ten minutes.
-We can perform multi-threaded retrieval by changing the `-threads` argument.
+On a reasonably modern desktop with an SSD, with four threads (as specified above), the run takes a couple of minutes.
+Adjust the parallelism by changing the `-parallelism` argument.
 
 <details>
 <summary>What's going on here?</summary>
@@ -208,7 +209,7 @@ These are captured in what are known as relevance judgments.
 Take a look:
 
 ```bash
-$ grep 1048585 collections/msmarco-passage/qrels.dev.tsv
+$ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv
 1048585	0	7187158	1
 ```
 
