@@ -1,5 +1,5 @@
 ---
-name: msmarco-v2-doc-segmented-unicoil-noexp-0shot-dev
+name: msmarco-v2-doc-segmented-unicoil-noexp-0shot-dev2
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -65,8 +65,8 @@ index_stats:
   total terms: 805830282591
 topics:
   - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
-    path: topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz
-    qrel: qrels.msmarco-v2-doc.dev.txt
+    path: topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz
+    qrel: qrels.msmarco-v2-doc.dev2.txt
 models:
   - name: unicoil-noexp-0shot
     display: uniCOIL (no expansion, zero-shot)
@@ -76,10 +76,10 @@ models:
       - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       map:
-        - 0.2050
+        - 0.2082
       MRR@100:
-        - 0.2069
+        - 0.2098
       R@100:
-        - 0.7198
+        - 0.7266
       R@1000:
-        - 0.8854
+        - 0.8899

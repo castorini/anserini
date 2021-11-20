@@ -1,6 +1,6 @@
 # Anserini: Regressions for [MS MARCO (V2) Passage Ranking](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
 
-This page documents regression experiments for passage ranking _on the augmented version_ of the MS MARCO (V2) passage corpus using the dev2 queries, which is integrated into Anserini's regression testing framework.
+This page describes regression experiments for passage ranking _on the augmented version_ of the MS MARCO (V2) passage corpus using the dev2 queries, which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-passage-augmented-dev2.yaml).

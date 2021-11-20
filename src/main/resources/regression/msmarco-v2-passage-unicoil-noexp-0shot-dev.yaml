@@ -1,5 +1,5 @@
 ---
-name: msmarco-v2-passage-unicoil-noexp-0shot
+name: msmarco-v2-passage-unicoil-noexp-0shot-dev
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -65,7 +65,7 @@ index_stats:
   total terms: 411330032512
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
-    path: topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz
+    path: topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz
     qrel: qrels.msmarco-v2-passage.dev.txt
 models:
   - name: unicoil-noexp-0shot
