@@ -3,8 +3,8 @@
 This page describes regression experiments for passage ranking on the MS MARCO (V2) passage corpus using the dev2 queries, which is integrated into Anserini's regression testing framework.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with no document expansion.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-passage-dev.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-v2-passage-dev.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-passage-unicoil-noexp-0shot-dev2.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-v2-passage-unicoil-noexp-0shot-dev2.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -19,15 +19,13 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollectio
   >& logs/log.msmarco-v2-passage-unicoil-noexp-0shot-dev2 &
 ```
 
-The directory `/path/to/msmarco-v2-passage/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
-See [this page](experiments-msmarco-v2.md) for additional details.
-
+The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-These regression experiments use the [dev queries](../src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt).
+These regression experiments use the [dev2 queries](../src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

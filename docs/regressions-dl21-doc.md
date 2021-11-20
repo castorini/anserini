@@ -30,7 +30,8 @@ nohup sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollect
   >& logs/log.dl21-doc &
 ```
 
-The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
+The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+See [this page](experiments-msmarco-v2.md) for additional details.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -38,7 +39,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
 The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+<!-- The original data can be found [here](https://trec.nist.gov/data/deep2021.html). -->
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

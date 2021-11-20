@@ -10,8 +10,8 @@ The qrels will be added to Anserini when they are publicly released in Spring 20
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-v2.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-passage.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-passage-unicoil-noexp-0shot.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-passage-unicoil-noexp-0shot.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -26,8 +26,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollectio
   >& logs/log.dl21-passage-unicoil-noexp-0shot &
 ```
 
-The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
-[This page](experiments-msmarco-passage.md) explains how to perform this conversion.
+The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -35,7 +34,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
 The regression experiments here evaluate on the 53 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+<!-- The original data can be found [here](https://trec.nist.gov/data/deep2021.html). -->
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
