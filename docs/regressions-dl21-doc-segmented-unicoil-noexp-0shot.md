@@ -82,7 +82,5 @@ R@1000                                  | uniCOIL (no expansion, zero-shot)|
 :---------------------------------------|-----------|
 [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.6767    |
 
-Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
-
-+ `dseg_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
-+ `dseg_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
+This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
+The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
