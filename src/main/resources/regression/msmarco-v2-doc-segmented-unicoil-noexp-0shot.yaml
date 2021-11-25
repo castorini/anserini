@@ -1,5 +1,5 @@
 ---
-name: msmarco-v2-doc-dev
+name: msmarco-v2-doc-segmented-unicoil-noexp-0shot
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -7,13 +7,12 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: MsMarcoV2DocCollection
+collection: JsonVectorCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 18
 index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
+  - -impact
+  - -pretokenized
 topic_reader: TsvInt
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -23,7 +22,7 @@ evals:
       - -c
     separator: "\t"
     parse_index: 2
-    metric: map
+    metric: MAP
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -58,71 +57,36 @@ input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
-input: collections/msmarco/msmarco_v2_doc
-index_path: indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw
+input: collections/msmarco/msmarco-doc-v2-seg-unicoil-noexp-0shot-b8
+index_path: indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot
 index_stats:
-  documents: 11959635
-  documents (non-empty): 11959635
-  total terms: 14165661202
+  documents: 124131404
+  documents (non-empty): 124131404
+  total terms: 805830282591
 topics:
   - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
-    path: topics.msmarco-v2-doc.dev.txt
+    path: topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz
     qrel: qrels.msmarco-v2-doc.dev.txt
+  - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    path: topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz
+    qrel: qrels.msmarco-v2-doc.dev2.txt
 models:
-  - name: bm25-default
-    display: BM25 (default)
+  - name: unicoil-noexp-0shot
+    display: uniCOIL (no expansion, zero-shot)
     params:
-      - -bm25
+      - -impact
+      - -pretokenized
+      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
-        - 0.1552
+      MAP:
+        - 0.2050
+        - 0.2082
       MRR@100:
-        - 0.1572
+        - 0.2069
+        - 0.2098
       R@100:
-        - 0.5956
+        - 0.7198
+        - 0.7266
       R@1000:
-        - 0.8054
-  - name: bm25-default+rm3
-    display: +RM3
-    params:
-      - -bm25
-      - -rm3
-    results:
-      map:
-        - 0.0966
-      MRR@100:
-        - 0.0974
-      R@100:
-        - 0.5121
-      R@1000:
-        - 0.7694
-  - name: bm25-default+ax
-    display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
-    results:
-      map:
-        - 0.0665
-      MRR@100:
-        - 0.0675
-      R@100:
-        - 0.4075
-      R@1000:
-        - 0.6852
-  - name: bm25-default+prf
-    display: +PRF
-    params:
-      - -bm25
-      - -bm25prf
-    results:
-      map:
-        - 0.0834
-      MRR@100:
-        - 0.0845
-      R@100:
-        - 0.4681
-      R@1000:
-        - 0.7385
+        - 0.8854
+        - 0.8899
