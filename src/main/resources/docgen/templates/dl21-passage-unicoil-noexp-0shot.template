@@ -1,6 +1,7 @@
 # Anserini: Regressions for [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Passage Ranking Task) on the MS MARCO V2 _augmented_ passage collection using relevance judgments from NIST.
+This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Passage Ranking Task) on the MS MARCO V2 passage collection using relevance judgments from NIST.
+Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with no document expansion.
 
 At the time this regression was created (November 2021), the qrels are only available to TREC participants.
 You must download the qrels from NIST's "active participants" password-protected site and place at `src/main/resources/topics-and-qrels/qrels.dl21-passage.txt`.
@@ -9,8 +10,8 @@ The qrels will be added to Anserini when they are publicly released in Spring 20
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-v2.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-passage-augmented.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-passage-augmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-passage-unicoil-noexp-0shot.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-passage-unicoil-noexp-0shot.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -21,7 +22,6 @@ ${index_cmds}
 ```
 
 The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
-See [this page](experiments-msmarco-v2.md) for additional details.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -49,7 +49,5 @@ With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
-
-+ `paug_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
-+ `paug_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
+This run roughly corresponds to run `d_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
+The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
