@@ -25,8 +25,8 @@ nohup sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCol
   >& logs/log.msmarco-v2-passage-augmented &
 ```
 
-The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
-[This page](experiments-msmarco-passage.md) explains how to perform this conversion.
+The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+See [this page](experiments-msmarco-v2.md) for additional details.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -34,7 +34,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
 The regression experiments here evaluate on the 53 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+<!-- The original data can be found [here](https://trec.nist.gov/data/deep2021.html). -->
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
