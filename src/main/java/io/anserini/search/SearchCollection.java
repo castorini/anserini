@@ -323,13 +323,18 @@ public final class SearchCollection implements Closeable {
         // floating point precision issues). Just to retain exactly the same output as SearchMsmarco (which was used to,
         // for example, generate Anserini leaderboard runs), we add an ugly hack here to dump the results in the order
         // of the qids in the query files.
-        boolean isMSMARCO_passage = topics.firstKey().equals(2) && topics.get(2).get("title").equals("Androgen receptor define");
-        boolean isMAMARCO_doc = topics.firstKey().equals(2) && topics.get(2).get("title").equals("androgen receptor define");
-        if (isMSMARCO_passage || isMAMARCO_doc) {
+        boolean isMSMARCOv1_passage = topics.firstKey().equals(2) &&
+            topics.get(2).get("title").equals("Androgen receptor define") &&
+            topics.keySet().size() == 6980;
+        boolean isMAMARCOv1_doc = topics.firstKey().equals(2) &&
+            topics.get(2).get("title").equals("androgen receptor define") &&
+            topics.keySet().size() == 5193;
+
+        if (isMSMARCOv1_passage || isMAMARCOv1_doc) {
           String raw = "";
           try {
             InputStream inputStream = null;
-            if (isMSMARCO_passage) {
+            if (isMSMARCOv1_passage) {
               inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path);
             } else {
               inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_DOC_DEV.path);
