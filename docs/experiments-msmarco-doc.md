@@ -19,7 +19,7 @@ mkdir collections/msmarco-doc
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docs.trec.gz -P collections/msmarco-doc
 
 # Alternative mirror:
-# wget https://www.dropbox.com/s/w6caao3sfx9nluo/msmarco-docs.trec.gz -P collections/msmarco-doc
+# wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-docs.trec.gz -P collections/msmarco-doc
 ```
 
 To confirm, `msmarco-docs.trec.gz` should have MD5 checksum of `d4863e4f342982b51b9a8fc668b2d0c0`.
@@ -46,13 +46,15 @@ After indexing finishes, we can do a retrieval run.
 The dev queries are already stored in our repo:
 
 ```
-target/appassembler/bin/SearchCollection -topicreader TsvInt \
+target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
  -index indexes/msmarco-doc/lucene-index-msmarco \
- -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc.dev.bm25.txt -bm25
 ```
 
-On a modern desktop with an SSD, the run takes around 12 minutes.
+Retrieval speed will vary by machine:
+On a reasonably modern desktop with an SSD, with four threads (as specified above), the run takes less than five minutes.
+Adjust the parallelism by changing the `-parallelism` argument.
 
 After the run completes, we can evaluate with `trec_eval`:
 
@@ -87,13 +89,13 @@ This dataset is part of the [MS MARCO Document Ranking Leaderboard](https://micr
 Let's try to reproduce runs on there!
 
 A few minor details to pay attention to: the official metric is MRR@100, so we want to only return the top 100 hits, and the submission files to the leaderboard have a slightly different format.
-So, we use `SearchMsmarco` instead of `SearchCollection`:
 
 ```bash
-sh target/appassembler/bin/SearchMsmarco -hits 100 -threads 1 \
- -index indexes/msmarco-doc/lucene-index-msmarco/ \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -k1 0.9 -b 0.4
+target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
+ -index indexes/msmarco-doc/lucene-index-msmarco \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -format msmarco \
+ -bm25 -bm25.k1 0.9 -bm25.b 0.4
 ```
 
 The command above uses the default BM25 parameters (`k1=0.9`, `b=0.4`), and note we set `-hits 100`.
@@ -112,10 +114,11 @@ The above run corresponds to "Anserini's BM25, default parameters (k1=0.9, b=0.4
 Here's the invocation for BM25 with parameters optimized for recall@100 (`k1=4.46`, `b=0.82`):
 
 ```bash
-sh target/appassembler/bin/SearchMsmarco -hits 100 -threads 1 \
- -index indexes/msmarco-doc/lucene-index-msmarco/ \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -k1 4.46 -b 0.82
+target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
+ -index indexes/msmarco-doc/lucene-index-msmarco \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -format msmarco \
+ -bm25 -bm25.k1 4.46 -bm25.b 0.82
 ```
 
 Command for evaluation:
@@ -160,19 +163,21 @@ Note that MRR@100 is computed with the leaderboard eval script (with 100 hits pe
 So, we need to use different search programs, for example:
 
 ```
-$ target/appassembler/bin/SearchCollection -topicreader TsvInt \
- -index indexes/msmarco-doc/lucene-index-msmarco \
- -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.dev.opt-mrr.txt -bm25 -bm25.k1 3.8 -bm25.b 0.87
+$ target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
+   -index indexes/msmarco-doc/lucene-index-msmarco \
+   -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -output runs/run.msmarco-doc.dev.opt-mrr.txt \
+   -bm25 -bm25.k1 3.8 -bm25.b 0.87
 
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
 map                   	all	0.2789
 recall_1000           	all	0.9326
 
-$ sh target/appassembler/bin/SearchMsmarco -hits 100 -threads 1 \
- -index indexes/msmarco-doc/lucene-index-msmarco/ \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -k1 3.8 -b 0.87
+$ target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
+   -index indexes/msmarco-doc/lucene-index-msmarco \
+   -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -format msmarco \
+   -bm25 -bm25.k1 3.8 -bm25.b 0.87
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt
 #####################
