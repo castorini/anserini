@@ -1,10 +1,9 @@
 Anserini
 ========
-[![Build Status](https://travis-ci.org/castorini/anserini.svg?branch=master)](https://travis-ci.org/castorini/anserini)
+[![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
 [![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
 [![Generic badge](https://img.shields.io/badge/Lucene-v8.3.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/8.3.0/)
 [![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini?color=brightgreen)](https://search.maven.org/search?q=a:anserini)
-[![PyPI](https://img.shields.io/pypi/v/pyserini?color=brightgreen)](https://pypi.org/project/pyserini/)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
 
@@ -51,20 +50,29 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + Regressions for [ClueWeb09 (Category B)](docs/regressions-cw09b.md), [ClueWeb12-B13](docs/regressions-cw12b13.md), [ClueWeb12](docs/regressions-cw12.md)
 + Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions-car17v1.5.md), [v2.0](docs/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)
-+ Regressions for MS MARCO Passage Ranking: [baselines](docs/regressions-msmarco-passage.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
-+ Regressions for MS MARCO Passage Ranking: [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md)
-+ Regressions for MS MARCO Passage Ranking: [uniCOIL with doc2query-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
-+ Regressions for MS MARCO Passage Ranking: [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md)
-+ Regressions for MS MARCO Document Ranking, Per Doc: [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
-+ Regressions for MS MARCO Document Ranking, Per Passage: [baselines](docs/regressions-msmarco-doc-per-passage.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)
-+ Regressions for TREC 2019 Deep Learning (Passage): [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
-+ Regressions for TREC 2019 Deep Learning (Document), Per Doc: [baselines](docs/regressions-dl19-doc.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery-per-doc.md)
-+ Regressions for TREC 2019 Deep Learning (Document), Per Passage: [baselines](docs/regressions-dl19-doc-per-passage.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery-per-passage.md)
-+ Regressions for TREC 2020 Deep Learning (Passage): [baselines](docs/regressions-dl20-passage.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
-+ Regressions for TREC 2020 Deep Learning (Document), Per Doc: [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)
-+ Regressions for TREC 2020 Deep Learning (Document), Per Passage: [baselines](docs/regressions-dl20-doc-per-passage.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)
-+ Regressions for MS MARCO (V2) Passage Ranking: [baselines](docs/regressions-msmarco-v2-passage.md), [baselines on augmented corpus](docs/regressions-msmarco-v2-passage-augmented.md)
-+ Regressions for MS MARCO (V2) Document Ranking: [baselines](docs/regressions-msmarco-v2-doc.md), [baselines on segmented corpus](docs/regressions-msmarco-v2-doc-segmented.md)
++ Regressions for MS MARCO (V1) Passage Ranking:
+  + Bag-of-words models: [baselines](docs/regressions-msmarco-passage.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
+  + Sparse learned models: [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [uniCOIL with doc2query-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md)
++ Regressions for MS MARCO (V1) Document Ranking:
+  + Per doc method: [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
+  + Per passage method: [baselines](docs/regressions-msmarco-doc-per-passage.md) ([v2](docs/regressions-msmarco-doc-per-passage-v2.md), [v3](docs/regressions-msmarco-doc-per-passage-v3.md))[*](docs/experiments-msmarco-doc-doc2query-details.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md) ([v3](docs/regressions-msmarco-doc-docTTTTTquery-per-passage-v3.md))[*](docs/experiments-msmarco-doc-doc2query-details.md)
++ Regressions for TREC 2019 Deep Learning Track:
+  + Passage ranking: [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
+  + Document ranking, per doc method: [baselines](docs/regressions-dl19-doc.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery-per-doc.md)
+  + Document ranking, per passage method: [baselines](docs/regressions-dl19-doc-per-passage.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery-per-passage.md)
++ Regressions for TREC 2020 Deep Learning Track:
+  + Passage ranking: [baselines](docs/regressions-dl20-passage.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
+  + Document ranking, per doc method: [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)
+  + Document ranking, per passage method: [baselines](docs/regressions-dl20-doc-per-passage.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)
++ Regressions for MS MARCO (V2) Passage Ranking:
+  + Bag-of-words models: [baselines](docs/regressions-msmarco-v2-passage.md), [on augmented corpus](docs/regressions-msmarco-v2-passage-augmented.md)
+  + Sparse learned models: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md)
++ Regressions for MS MARCO (V2) Document Ranking:
+  + Bag-of-words models: [baselines](docs/regressions-msmarco-v2-doc.md), [on segmented corpus](docs/regressions-msmarco-v2-doc-segmented.md)
+  + Sparse learned models: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot.md)
++ Regressions for TREC 2021 Deep Learning Track:
+  + Passage ranking: [baselines](docs/regressions-dl21-passage.md), [on augmented corpus](docs/regressions-dl21-passage-augmented.md), [uniCOIL noexp zero-shot](docs/regressions-dl21-passage-unicoil-noexp-0shot.md)
+  + Document ranking: [baselines](docs/regressions-dl21-doc.md), [on segmented corpus](docs/regressions-dl21-doc-segmented.md), [uniCOIL noexp zero-shot](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot.md)
 + Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions-backgroundlinking18.md), [2019](docs/regressions-backgroundlinking19.md), [2020](docs/regressions-backgroundlinking20.md)
 + Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
@@ -77,13 +85,6 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of reproducibility.
 For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
 
-### TREC-COVID and CORD-19
-
-+ [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
-+ [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
-+ [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
-+ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
-
 ### MS MARCO
 
 + Reproducing [BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
@@ -91,11 +92,19 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Reproducing [baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
 + Reproducing [doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
 + Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
++ Notes about reproduction issues with [MS MARCO Document Ranking w/ docTTTTTquery](docs/experiments-msmarco-doc-doc2query-details.md)
 + Reproducing [DeepImpact for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage-deepimpact.md)
 + Reproducing [uniCOIL experiments with doc2query-T5 expansions for MS MARCO V1](docs/experiments-msmarco-unicoil.md)
 + Reproducing [uniCOIL experiments with TILDE expansions for MS MARCO V1 Passage Ranking](docs/experiments-msmarco-passage-unicoil-tilde-expansion.md)
 + Reproducing [SPLADEv2 experiments for MS MARCO V1 Passage Ranking](docs/experiments-msmarco-passage-splade-v2.md)
 + Reproducing [BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
+
+### TREC-COVID and CORD-19
+
++ [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
++ [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
++ [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
++ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
 
 ### Other Experiments
 
@@ -127,6 +136,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.13.5: November 2, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.5.md)]
 + v0.13.4: October 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.4.md)]
 + v0.13.3: August 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.3.md)]
 + v0.13.2: July 20, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.2.md)]

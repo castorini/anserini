@@ -23,7 +23,7 @@ evals:
       - -c
     separator: "\t"
     parse_index: 2
-    metric: map
+    metric: MAP
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -68,34 +68,45 @@ topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     path: topics.msmarco-v2-passage.dev.txt
     qrel: qrels.msmarco-v2-passage.dev.txt
+  - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    path: topics.msmarco-v2-passage.dev2.txt
+    qrel: qrels.msmarco-v2-passage.dev2.txt
 models:
   - name: bm25-default
     display: BM25 (default)
     params:
       - -bm25
     results:
-      map:
+      MAP:
         - 0.0709
+        - 0.0794
       MRR@100:
         - 0.0719
+        - 0.0802
       R@100:
         - 0.3397
+        - 0.3459
       R@1000:
         - 0.5733
+        - 0.5839
   - name: bm25-default+rm3
     display: +RM3
     params:
       - -bm25
       - -rm3
     results:
-      map:
+      MAP:
         - 0.0611
+        - 0.0647
       MRR@100:
         - 0.0619
+        - 0.0654
       R@100:
         - 0.3377
+        - 0.3435
       R@1000:
         - 0.5933
+        - 0.6049
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -104,25 +115,33 @@ models:
       - -axiom.deterministic
       - -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.0592
+        - 0.0642
       MRR@100:
         - 0.0601
+        - 0.0647
       R@100:
         - 0.3482
+        - 0.3554
       R@1000:
         - 0.6064
+        - 0.6254
   - name: bm25-default+prf
     display: +PRF
     params:
       - -bm25
       - -bm25prf
     results:
-      map:
+      MAP:
         - 0.0595
+        - 0.0632
       MRR@100:
         - 0.0607
+        - 0.0640
       R@100:
         - 0.3495
+        - 0.3595
       R@1000:
         - 0.5968
+        - 0.6169

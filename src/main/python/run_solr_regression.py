@@ -170,7 +170,7 @@ class SolrClient:
         ap = float(output[0].split('\t')[2])
 
         if collection == 'core18':
-            expected = 0.2495
+            expected = 0.2496
         elif collection == 'robust04':
             expected = 0.2531
         elif collection == 'msmarco-passage':

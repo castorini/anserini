@@ -23,7 +23,7 @@ evals:
       - -c
     separator: "\t"
     parse_index: 2
-    metric: map
+    metric: MAP
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -68,6 +68,9 @@ topics:
   - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     path: topics.msmarco-v2-doc.dev.txt
     qrel: qrels.msmarco-v2-doc.dev.txt
+  - name: "[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    path: topics.msmarco-v2-doc.dev2.txt
+    qrel: qrels.msmarco-v2-doc.dev2.txt
 models:
   - name: bm25-default
     display: BM25 (default)
@@ -75,14 +78,18 @@ models:
       - -bm25
       - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
+      MAP:
         - 0.1875
+        - 0.1903
       MRR@100:
         - 0.1896
+        - 0.1930
       R@100:
         - 0.6555
+        - 0.6629
       R@1000:
         - 0.8542
+        - 0.8549
   - name: bm25-default+rm3
     display: +RM3
     params:
@@ -90,14 +97,18 @@ models:
       - -rm3
       - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
+      MAP:
         - 0.1648
+        - 0.1679
       MRR@100:
         - 0.1664
+        - 0.1701
       R@100:
         - 0.6558
+        - 0.6561
       R@1000:
         - 0.8605
+        - 0.8633
   - name: bm25-default+ax
     display: +Ax
     params:
@@ -107,14 +118,18 @@ models:
       - -rerankCutoff 20
       - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
+      MAP:
         - 0.1344
+        - 0.1345
       MRR@100:
         - 0.1360
+        - 0.1366
       R@100:
         - 0.5593
+        - 0.5800
       R@1000:
         - 0.8161
+        - 0.8210
   - name: bm25-default+prf
     display: +PRF
     params:
@@ -122,11 +137,15 @@ models:
       - -bm25prf
       - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
+      MAP:
         - 0.1528
+        - 0.1565
       MRR@100:
         - 0.1547
+        - 0.1587
       R@100:
         - 0.5945
+        - 0.6134
       R@1000:
         - 0.8270
+        - 0.8280

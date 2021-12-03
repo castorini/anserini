@@ -344,6 +344,23 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
+  public void testTrec2020BL() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt");
+    assertNotNull(qrels);
+    assertEquals(49, qrels.getQids().size());
+    assertEquals(17764, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("886", "00183d98-741b-11e5-8248-98e0f5a2e830"));
+    assertEquals(0, qrels.getRelevanceGrade("935", "ff0a760128ecdbcc096cafc8cd553255"));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2020_BL);
+    assertNotNull(qrels);
+    assertEquals(49, qrels.getQids().size());
+    assertEquals(17764, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("886", "00183d98-741b-11e5-8248-98e0f5a2e830"));
+    assertEquals(0, qrels.getRelevanceGrade("935", "ff0a760128ecdbcc096cafc8cd553255"));
+  }
+
+  @Test
   public void testCovidRound1() {
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round1.txt");
     assertNotNull(qrels);

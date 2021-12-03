@@ -114,8 +114,15 @@ public abstract class TopicReader<K> {
   @SuppressWarnings("unchecked")
   public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) {
     try {
-      InputStream inputStream = TopicReader.class.getClassLoader().getResourceAsStream(topics.path);
-      String raw = new String(inputStream.readAllBytes());
+      String raw;
+      InputStream inputStream;
+      if (topics.path.endsWith(".gz")) {
+        inputStream = new GZIPInputStream(TopicReader.class.getClassLoader().getResourceAsStream(topics.path));
+      } else {
+        inputStream = TopicReader.class.getClassLoader().getResourceAsStream(topics.path);
+      }
+      raw = new String(inputStream.readAllBytes());
+      inputStream.close();
 
       // Get the constructor
       Constructor[] ctors = topics.readerClass.getDeclaredConstructors();
@@ -124,6 +131,7 @@ public abstract class TopicReader<K> {
       return reader.read(raw);
 
     } catch (Exception e) {
+      e.printStackTrace();
       return null;
     }
   }
