@@ -79,6 +79,7 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
++ Regressions for Mr. TyDi: [ar](docs/regressions-mrtydi-1.1-arabic.md)
 
 ## Reproduction Guides
 
