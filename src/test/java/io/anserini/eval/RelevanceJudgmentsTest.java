@@ -546,4 +546,39 @@ public class RelevanceJudgmentsTest {
     assertEquals(0, qrels.getRelevanceGrade("26", "19940515_AFP_ARB.0115"));
     assertEquals(1, qrels.getRelevanceGrade("26", "19941213_AFP_ARB.0159"));
   }
+
+  @Test
+  public void testMrTyDi() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt");
+    assertNotNull(qrels);
+    assertEquals(12377, qrels.getQids().size());
+    assertEquals(12377, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_AR_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(12377, qrels.getQids().size());
+    assertEquals(12377, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(3115, qrels.getQids().size());
+    assertEquals(3115, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_AR_DEV);
+    assertNotNull(qrels);
+    assertEquals(3115, qrels.getQids().size());
+    assertEquals(3115, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt");
+    assertNotNull(qrels);
+    assertEquals(1081, qrels.getQids().size());
+    assertEquals(1257, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_AR_TEST);
+    assertNotNull(qrels);
+    assertEquals(1081, qrels.getQids().size());
+    assertEquals(1257, getQrelsCount(qrels));
+  }
 }

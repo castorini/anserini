@@ -89,7 +89,10 @@ public enum Topics {
   DPR_CURATED_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.curated.test.txt"),
   DPR_SQUAD_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.squad.test.txt"),
   NQ_DEV(DprNqTopicReader.class, "topics-and-qrels/topics.nq.dev.txt"),
-  NQ_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.nq.test.txt");
+  NQ_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.nq.test.txt"),
+  MRTYDI_V11_AR_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.train.txt.gz"),
+  MRTYDI_V11_AR_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.dev.txt.gz"),
+  MRTYDI_V11_AR_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.test.txt.gz");
 
   public final String path;
   public final Class readerClass;
