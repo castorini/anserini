@@ -45,10 +45,13 @@ public class GenerateRegressionDocsTest {
       String collection = data.getName();
 
       Map<String, String> valuesMap = new HashMap<>();
+      valuesMap.put("yaml", String.format("../src/main/resources/regression/%s.yaml", testName));
+      valuesMap.put("template", String.format("../src/main/resources/docgen/templates/%s.template", testName));
       valuesMap.put("index_cmds", data.generateIndexingCommand(collection));
       valuesMap.put("ranking_cmds", data.generateRankingCommand(collection));
       valuesMap.put("eval_cmds", data.generateEvalCommand(collection));
       valuesMap.put("effectiveness", data.generateEffectiveness(collection));
+
       StrSubstitutor sub = new StrSubstitutor(valuesMap);
       URL template = GenerateRegressionDocsTest.class.getResource(String.format("/docgen/templates/%s.template", testName));
       Scanner scanner = new Scanner(new File(template.toURI()), "UTF-8");
