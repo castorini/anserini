@@ -51,7 +51,7 @@ public class MrTyDiCollection extends DocumentCollection<MrTyDiCollection.Docume
   }
 
   /**
-   * A file in a JSON collection, typically containing multiple documents.
+   * A file in a corpus for Mr. TyDi.
    */
   public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
@@ -99,7 +99,7 @@ public class MrTyDiCollection extends DocumentCollection<MrTyDiCollection.Docume
   }
 
   /**
-   * A document in a JSON collection.
+   * A document in a corpus for Mr. TyDi.
    */
   public static class Document implements SourceDocument {
     private String id;

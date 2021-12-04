@@ -11,11 +11,11 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection MrTyDiCollection \
- -input /path/to/mrtydi-v1.1-arabic \
+ -input /path/to/mrtydi-v1.1-ar \
  -index indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw -language ar \
-  >& logs/log.mrtydi-v1.1-arabic &
+  >& logs/log.mrtydi-v1.1-ar &
 ```
 
 See [this page](https://github.com/castorini/mr.tydi) for more details about the Mr. TyDi corpus.
@@ -28,24 +28,24 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.train.txt.gz \
- -output runs/run.mrtydi-v1.1-arabic.bm25.topics.mrtydi-v1.1-ar.train.txt.gz \
+ -output runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.train.txt.gz \
  -language ar -bm25 -hits 100 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.dev.txt.gz \
- -output runs/run.mrtydi-v1.1-arabic.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz \
+ -output runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz \
  -language ar -bm25 -hits 100 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.test.txt.gz \
- -output runs/run.mrtydi-v1.1-arabic.bm25.topics.mrtydi-v1.1-ar.test.txt.gz \
+ -output runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.test.txt.gz \
  -language ar -bm25 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt runs/run.mrtydi-v1.1-arabic.bm25.topics.mrtydi-v1.1-ar.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt runs/run.mrtydi-v1.1-arabic.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt runs/run.mrtydi-v1.1-arabic.bm25.topics.mrtydi-v1.1-ar.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.train.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.test.txt.gz
 ```
 
 ## Effectiveness

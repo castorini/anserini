@@ -1,5 +1,5 @@
 ---
-name: mrtydi-v1.1-arabic
+name: mrtydi-v1.1-ar
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
