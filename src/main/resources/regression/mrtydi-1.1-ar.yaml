@@ -50,14 +50,14 @@ index_stats:
   total terms: 92529014
 topics:
   - name: "[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)"
-    path: topics.mrtydi-v1.1-arabic.train.txt.gz
-    qrel: qrels.mrtydi-v1.1-arabic.train.txt
+    path: topics.mrtydi-v1.1-ar.train.txt.gz
+    qrel: qrels.mrtydi-v1.1-ar.train.txt
   - name: "[Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)"
-    path: topics.mrtydi-v1.1-arabic.dev.txt.gz
-    qrel: qrels.mrtydi-v1.1-arabic.dev.txt
+    path: topics.mrtydi-v1.1-ar.dev.txt.gz
+    qrel: qrels.mrtydi-v1.1-ar.dev.txt
   - name: "[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)"
-    path: topics.mrtydi-v1.1-arabic.test.txt.gz
-    qrel: qrels.mrtydi-v1.1-arabic.test.txt
+    path: topics.mrtydi-v1.1-ar.test.txt.gz
+    qrel: qrels.mrtydi-v1.1-ar.test.txt
 models:
   - name: bm25
     display: BM25
