@@ -49,13 +49,13 @@ index_stats:
   documents (non-empty): 2106586
   total terms: 92529014
 topics:
-  - name: "[Mr. TyDi (Arabic): train)](https://github.com/castorini/mr.tydi)"
+  - name: "[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-arabic.train.txt.gz
     qrel: qrels.mrtydi-v1.1-arabic.train.txt
-  - name: "[Mr. TyDi (Arabic): dev)](https://github.com/castorini/mr.tydi)"
+  - name: "[Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-arabic.dev.txt.gz
     qrel: qrels.mrtydi-v1.1-arabic.dev.txt
-  - name: "[Mr. TyDi (Arabic): test)](https://github.com/castorini/mr.tydi)"
+  - name: "[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-arabic.test.txt.gz
     qrel: qrels.mrtydi-v1.1-arabic.test.txt
 models:
