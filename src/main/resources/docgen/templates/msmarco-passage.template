@@ -49,6 +49,12 @@ Explanation of settings:
 
 To generate runs corresponding to the submissions on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/), follow the instructions below:
 
+## Additional Implementation Details
+
+Note that leaderboard runs prior to December 2021 were generated with `SearchMsmarco` directly in the MS MARCO format.
+Conversion of a run in that format into the TREC format is slightly lossy due to tie-breaking effects.
+See [#1458](https://github.com/castorini/anserini/issues/1458) for additional discussion about unifying `SearchMsmarco` and `SearchCollection`.
+
 The following command generates with `SearchMsmarco` the run denoted "BM25 (default)" above (`k1=0.9`, `b=0.4`), which roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 on the leaderboard (but Anserini was using Lucene 7.6 at the time):
 
 ```bash
@@ -84,3 +90,7 @@ MRR @10: 0.18741227770955546
 QueriesRanked: 6980
 #####################
 ```
+
+As of December 2021, `SearchMsmarco` has been deprecated and replaced by `SearchCollection` (see [#1458](https://github.com/castorini/anserini/issues/1458)).
+The commands above have been retained for historical reasons only.
+The refactored (intra-configuration) multi-threaded implementation of `SearchCollection` (see [#1678](https://github.com/castorini/anserini/pull/1678)) generates output run files that are _indentical_ to those above.

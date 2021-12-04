@@ -114,8 +114,11 @@ This lets us measure R@100 and R@1000; the latter is particularly important when
 Beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
 See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
-Note that leaderboard runs were generated with `SearchMsmarco` in the MS MARCO format.
+## Additional Implementation Details
+
+Note that leaderboard runs prior to December 2021 were generated with `SearchMsmarco` directly in the MS MARCO format.
 Conversion of a run in that format into the TREC format is slightly lossy due to tie-breaking effects.
+See [#1458](https://github.com/castorini/anserini/issues/1458) for additional discussion about unifying `SearchMsmarco` and `SearchCollection`.
 
 To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (default)" above:
 
@@ -156,3 +159,7 @@ QueriesRanked: 5193
 ```
 
 This run was _not_ submitted to the MS MARCO document ranking leaderboard, but is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
+
+As of December 2021, `SearchMsmarco` has been deprecated and replaced by `SearchCollection` (see [#1458](https://github.com/castorini/anserini/issues/1458)).
+The commands above have been retained for historical reasons only.
+The refactored (intra-configuration) multi-threaded implementation of `SearchCollection` (see [#1678](https://github.com/castorini/anserini/pull/1678)) generates output run files that are _indentical_ to those above.
