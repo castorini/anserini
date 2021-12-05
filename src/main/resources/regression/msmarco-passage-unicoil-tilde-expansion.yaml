@@ -1,7 +1,7 @@
 ---
-name: msmarco-passage-unicoil-tilde-expansion
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: msmarco-passage-unicoil-tilde-expansion
+corpus_path: collections/msmarco/msmarco-passage-unicoil-tilde-expansion-b8/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -42,11 +42,6 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/msmarco-passage-unicoil-tilde-expansion-b8/
 index_path: indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion
 index_stats:
   documents: 8841823
@@ -54,6 +49,7 @@ index_stats:
   total terms: 73040108576
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
+    id: dev
     path: topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
 models:

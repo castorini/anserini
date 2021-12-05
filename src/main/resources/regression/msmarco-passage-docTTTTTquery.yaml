@@ -1,7 +1,7 @@
 ---
-name: msmarco-passage-docTTTTTquery
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: msmarco-passage-docTTTTTquery
+corpus_path: collections/msmarco/passage-docTTTTTquery
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -34,11 +34,6 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/passage-docTTTTTquery
 index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw
 index_stats:
   documents: 8841823
@@ -46,6 +41,7 @@ index_stats:
   total terms: 1986612263
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
+    id: dev
     path: topics.msmarco-passage.dev-subset.txt
     qrel: qrels.msmarco-passage.dev-subset.txt
 models:

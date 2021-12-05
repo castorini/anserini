@@ -1,7 +1,7 @@
 ---
-name: trec02-ar
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: trec02-ar
+corpus_path: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -43,11 +43,6 @@ evals:
     metric: ndcg20
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts
 index_path: indexes/lucene-index.trec02-ar.pos+docvectors+raw
 index_stats:
   documents: 383872

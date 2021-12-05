@@ -1,7 +1,7 @@
 ---
-name: robust04
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: robust04
+corpus_path: collections/newswire/disk45/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -32,11 +32,6 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/disk45/
 index_path: indexes/lucene-index.robust04.pos+docvectors+raw
 index_stats:
   documents: 528030

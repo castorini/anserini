@@ -1,7 +1,7 @@
 ---
-name: dl21-doc
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: msmarco-v2-doc
+corpus_path: collections/msmarco/msmarco_v2_doc
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -63,11 +63,6 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: false
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/msmarco_v2_doc
 index_path: indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw
 index_stats:
   documents: 11959635
@@ -75,6 +70,7 @@ index_stats:
   total terms: 14165661202
 topics:
   - name: "[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    id: dl21
     path: topics.dl21.txt
     qrel: qrels.dl21-doc.txt
 models:

@@ -1,16 +1,11 @@
 ---
-name: cw12
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: cw12
+corpus_path: collections/web/ClueWeb12/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/web/ClueWeb12/
 index_path: indexes/lucene-index.cw12.pos+docvectors+raw
 collection: ClueWeb12Collection
 generator: DefaultLuceneDocumentGenerator

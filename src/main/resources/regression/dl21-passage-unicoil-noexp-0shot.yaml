@@ -1,7 +1,7 @@
 ---
-name: dl21-passage-unicoil-noexp-0shot
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: msmarco-v2-passage-unicoil-noexp-0shot
+corpus_path: collections/msmarco/msmarco-passage-v2-unicoil-noexp-0shot-b8
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -66,11 +66,6 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: false
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/msmarco-passage-v2-unicoil-noexp-0shot-b8
 index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot
 index_stats:
   documents: 138364198
@@ -78,6 +73,7 @@ index_stats:
   total terms: 411330032512
 topics:
   - name: "[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    id: dl21
     path: topics.dl21.unicoil-noexp.0shot.tsv.gz
     qrel: qrels.dl21-passage.txt
 models:

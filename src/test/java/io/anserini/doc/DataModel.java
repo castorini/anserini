@@ -25,9 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 public class DataModel {
-  private String name;
-  private String index_command;
-  private String index_utils_command;
+  private static final String INDEX_COMMAND = "target/appassembler/bin/IndexCollection";
+
+  private String corpus;
+  private String corpus_path;
+
   private String search_command;
   private String topic_root;
   private String qrels_root;
@@ -37,8 +39,6 @@ public class DataModel {
   private String generator;
   private int threads;
   private String topic_reader;
-  private List<String> input_roots;
-  private String input;
   private String index_path;
   private List<String> index_options;
   private List<String> search_options;
@@ -46,6 +46,22 @@ public class DataModel {
   private List<Model> models;
   private List<Topic> topics;
   private List<Eval> evals;
+
+  public String getCorpus() {
+    return corpus;
+  }
+
+  public void setCorpus(String corpus) {
+    this.corpus = corpus;
+  }
+
+  public String getCorpus_path() {
+    return corpus_path;
+  }
+
+  public void setCorpus_path(String corpus_path) {
+    this.corpus_path = corpus_path;
+  }
 
   public Map<String, Long> getIndex_stats() {
     return index_stats;
@@ -77,30 +93,6 @@ public class DataModel {
 
   public void setModels(List<Model> models) {
     this.models = models;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getIndex_command() {
-    return index_command;
-  }
-
-  public void setIndex_command(String index_command) {
-    this.index_command = index_command;
-  }
-
-  public String getIndex_utils_command() {
-    return index_utils_command;
-  }
-
-  public void setIndex_utils_command(String index_utils_command) {
-    this.index_utils_command = index_utils_command;
   }
 
   public String getSearch_command() {
@@ -175,22 +167,6 @@ public class DataModel {
     this.topic_reader = topic_reader;
   }
   
-  public List<String> getInput_roots() {
-    return input_roots;
-  }
-  
-  public void setInput_roots(List<String> input_roots) {
-    this.input_roots = input_roots;
-  }
-  
-  public String getInput() {
-    return input;
-  }
-
-  public void setInput(String input) {
-    this.input = input;
-  }
-
   public String getIndex_path() {
     return index_path;
   }
@@ -201,11 +177,14 @@ public class DataModel {
 
   static class Topic {
     private String name;
+    private String id;
     private String path;
     private String qrel;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getPath() { return path; }
     public void setPath(String path) { this.path = path; }
     public String getQrel() { return qrel; }
@@ -277,7 +256,7 @@ public class DataModel {
     }
     StringBuilder builder = new StringBuilder();
     builder.append("nohup sh ");
-    builder.append(getIndex_command());
+    builder.append(INDEX_COMMAND);
     builder.append(" -collection ").append(getCollection()).append(" \\\n");
     builder.append(" -input ").append("/path/to/"+collection).append(" \\\n");
     builder.append(" -index ").append(getIndex_path()).append(" \\\n");

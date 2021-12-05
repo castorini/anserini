@@ -1,17 +1,12 @@
 ---
-name: mb11
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: mb11
+corpus_path: collections/twitter/Tweets2011-corpus/json.gold/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/twitter/Tweets2011-corpus/json.gold/
 index_path: indexes/lucene-index.mb11.pos+docvectors+raw
 collection: TweetCollection
 threads: 44

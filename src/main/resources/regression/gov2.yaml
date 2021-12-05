@@ -1,16 +1,11 @@
 ---
-name: gov2
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: gov2
+corpus_path: collections/web/gov2/gov2-corpus/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/web/gov2/gov2-corpus/
 index_path: indexes/lucene-index.gov2.pos+docvectors+raw
 collection: TrecwebCollection
 threads: 44

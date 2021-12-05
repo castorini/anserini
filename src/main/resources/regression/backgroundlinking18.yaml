@@ -1,29 +1,25 @@
 ---
-name: backgroundlinking18
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
+corpus: backgroundlinking18
+corpus_path: collections/newswire/WashingtonPost.v2/data/
+
+index_path: indexes/lucene-index.core18.pos+docvectors+raw
+collection: WashingtonPostCollection
 generator: WashingtonPostGenerator
 threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRaw
-topic_reader: BackgroundLinking
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/WashingtonPost.v2/data/
-index_path: indexes/lucene-index.core18.pos+docvectors+raw
-collection: WashingtonPostCollection
 index_stats:
   documents: 595031
   documents (non-empty): 595030
   total terms: 318219870
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+topic_reader: BackgroundLinking
 topics:
   - name: "[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)"
     path: topics.backgroundlinking18.txt

@@ -23,11 +23,11 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
- -input /path/to/dl21-doc \
+ -input /path/to/msmarco-v2-doc \
  -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 18 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.dl21-doc &
+  >& logs/log.msmarco-v2-doc &
 ```
 
 The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
@@ -46,47 +46,47 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.dl21-doc.bm25-default.topics.dl21.txt \
+ -output runs/run.msmarco-v2-doc.bm25-default.topics.dl21.txt \
  -hits 1000 -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.dl21-doc.bm25-default+rm3.topics.dl21.txt \
+ -output runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt \
  -hits 1000 -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.dl21-doc.bm25-default+ax.topics.dl21.txt \
+ -output runs/run.msmarco-v2-doc.bm25-default+ax.topics.dl21.txt \
  -hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.dl21-doc.bm25-default+prf.topics.dl21.txt \
+ -output runs/run.msmarco-v2-doc.bm25-default+prf.topics.dl21.txt \
  -hits 1000 -bm25 -bm25prf &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default.topics.dl21.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+ax.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+ax.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+ax.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+ax.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+ax.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+ax.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+ax.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+ax.topics.dl21.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+prf.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+prf.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+prf.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc.bm25-default+prf.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+prf.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+prf.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+prf.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc.bm25-default+prf.topics.dl21.txt
 ```
 
 ## Effectiveness

@@ -1,7 +1,7 @@
 ---
-name: clef06-fr
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: clef06-fr
+corpus_path: collections/newswire/clir/clef2006-fr.json
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -43,11 +43,6 @@ evals:
     metric: ndcg20
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/clir/clef2006-fr.json
 index_path: indexes/lucene-index.clef06-fr.pos+docvectors+raw
 index_stats:
   documents: 171109

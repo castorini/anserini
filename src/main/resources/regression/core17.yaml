@@ -1,7 +1,7 @@
 ---
-name: core17
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: core17
+corpus_path: collections/newswire/NYTcorpus/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -13,11 +13,6 @@ index_options:
   - -storeDocvectors
   - -storeRaw
 topic_reader: Trec
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/NYTcorpus/
 index_path: indexes/lucene-index.core17.pos+docvectors+raw
 collection: NewYorkTimesCollection
 index_stats:

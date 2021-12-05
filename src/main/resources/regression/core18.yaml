@@ -1,7 +1,7 @@
 ---
-name: core18
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: core18
+corpus_path: collections/newswire/WashingtonPost.v2/data/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -13,11 +13,6 @@ index_options:
   - -storeDocvectors
   - -storeRaw
 topic_reader: Trec
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/WashingtonPost.v2/data/
 index_path: indexes/lucene-index.core18.pos+docvectors+raw
 collection: WashingtonPostCollection
 index_stats:

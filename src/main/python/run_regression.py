@@ -36,6 +36,18 @@ ch.setFormatter(formatter)
 # add the handlers to the logger
 logger.addHandler(ch)
 
+# These are the locations where corpora can be found on specific machines.
+# There is no need to specify them on a per-file basis.
+CORPUS_ROOTS = [
+    '',            # here, stored in this directory
+    '/tuna1/',     # on tuna
+    '/store/',     # on orca
+    '/scratch2/'   # on damiano
+]
+
+INDEX_COMMAND = 'target/appassembler/bin/IndexCollection'
+INDEX_STATS_COMMAND = 'target/appassembler/bin/IndexReaderUtils'
+
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
@@ -55,7 +67,7 @@ def get_index_path(yaml_data):
     """Find the index path."""
     index_path = yaml_data['index_path']
     if not index_path or not os.path.exists(index_path):
-        for input_root in yaml_data['input_roots']:
+        for input_root in CORPUS_ROOTS:
             index_path = os.path.join(input_root, yaml_data['index_path'])
             if os.path.exists(index_path):
                 break
@@ -81,8 +93,8 @@ def construct_indexing_command(yaml_data, args):
         if os.path.exists(args.collection_path):
             collection_path = args.collection_path
     else:
-        for input_root in yaml_data['input_roots']:
-            collection_path = os.path.join(input_root, yaml_data['input'])
+        for input_root in CORPUS_ROOTS:
+            collection_path = os.path.join(input_root, yaml_data['corpus_path'])
             if os.path.exists(collection_path):
                 break
 
@@ -100,7 +112,7 @@ def construct_indexing_command(yaml_data, args):
         os.makedirs('indexes')
 
     index_command = [
-        os.path.join(yaml_data['root'], yaml_data['index_command']),
+        os.path.join(yaml_data['root'], INDEX_COMMAND),
         '-collection', yaml_data['collection'],
         '-generator', yaml_data['generator'],
         '-threads', str(threads),
@@ -124,7 +136,7 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
     index_path = get_index_path(yaml_data)
     logger.info('[Index]: ' + index_path)
     index_utils_command = [
-        os.path.join(yaml_data['root'], yaml_data['index_utils_command']),
+        os.path.join(yaml_data['root'], INDEX_STATS_COMMAND),
         '-index', index_path, '-stats'
     ]
     if dry_run:
@@ -140,6 +152,22 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
                 assert value == yaml_data['index_stats'][stat]
                 logger.info(line)
         logger.info('='*10+'Verifying Index Succeed'+'='*10)
+
+
+def generate_run_file_name(corpus, topic, model_name):
+    if 'id' in topic:
+        topics = topic['id']
+    else:
+        topics = topic['path']
+        if topics.endswith('.gz'):
+            topics = topics[:-3]
+        if topics.endswith('.txt'):
+            topics = topics[:-4]
+        if topics.startswith('topics.'):
+            topics = topics[7:]
+
+    run_file_name = 'run.{0}.{1}.{2}'.format(corpus, topics, model_name)
+    return run_file_name
 
 
 def construct_ranking_command(output_root, yaml_data, build_index=True):
@@ -161,7 +189,7 @@ def construct_ranking_command(output_root, yaml_data, build_index=True):
             '-index', get_index_path(yaml_data),
             ' '.join(model['params']),
             '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
-            '-output', os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])),
+            '-output', os.path.join(output_root, generate_run_file_name(yaml_data['corpus'], topic, model['name'])),
         ] + (yaml_data['search_options'] if 'search_options' in yaml_data else [])
         for (model, topic) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
@@ -187,7 +215,7 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
                   os.path.join(yaml_data['root'], eval['command']),
                   ' '.join(eval['params']) if eval['params'] else '',
                   os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
-                  os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path']))
+                  os.path.join(output_root, generate_run_file_name(yaml_data['corpus'], topic, model['name']))
                 ]
                 if dry_run:
                     logger.info(' '.join(eval_cmd))

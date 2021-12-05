@@ -1,7 +1,7 @@
 ---
-name: fire12-en
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: fire12-en
+corpus_path: collections/fire/english/en.docs.2011
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -43,11 +43,6 @@ evals:
     metric: ndcg20
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/fire/english/en.docs.2011
 index_path: indexes/lucene-index.fire12-en.pos+docvectors+raw
 index_stats:
   documents: 392577

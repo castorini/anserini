@@ -1,7 +1,7 @@
 ---
-name: car17v2.0-doc2query
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: car17v2.0-doc2query
+corpus_path: collections/car/paragraphCorpus.v2.0-expanded-topk10/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -13,11 +13,6 @@ index_options:
   - -storeDocvectors
   - -storeRaw
 topic_reader: Car
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/car/paragraphCorpus.v2.0-expanded-topk10/
 index_path: indexes/lucene-index.car17v2.0-doc2query.pos+docvectors+raw
 collection: JsonCollection
 index_stats:

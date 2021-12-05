@@ -1,7 +1,7 @@
 ---
-name: wt10g
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: wt10g
+corpus_path: collections/web/wt10g/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -32,11 +32,6 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/web/wt10g/
 index_path: indexes/lucene-index.wt10g.pos+docvectors+raw
 index_stats:
   documents: 1688390

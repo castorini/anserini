@@ -1,7 +1,7 @@
 ---
-name: msmarco-doc-docTTTTTquery-per-doc
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: msmarco-doc-docTTTTTquery-per-doc
+corpus_path: collections/msmarco/doc-docTTTTTquery-per-doc
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -52,11 +52,6 @@ evals:
     metric: R@100
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/doc-docTTTTTquery-per-doc
 index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw
 index_stats:
   documents: 3213834
@@ -64,6 +59,7 @@ index_stats:
   total terms: 3748332076
 topics:
   - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
     path: topics.dl20.txt
     qrel: qrels.dl20-doc.txt
 models:

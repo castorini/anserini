@@ -1,7 +1,7 @@
 ---
-name: car17v1.5
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: car17v1.5
+corpus_path: collections/car/paragraphCorpus.v1.5/
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -13,11 +13,6 @@ index_options:
   - -storeDocvectors
   - -storeRaw
 topic_reader: Car
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/car/paragraphCorpus.v1.5/
 index_path: indexes/lucene-index.car17v1.5.pos+docvectors+raw
 collection: CarCollection
 index_stats:
