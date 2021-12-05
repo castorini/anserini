@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(70, cnt);
+    assertEquals(73, cnt);
   }
 
   @Test
@@ -1177,6 +1177,13 @@ public class TopicReaderTest {
     assertEquals("Includes increasing/decreasing rates of depression, anxiety, panic disorder, "+
                  "and other psychiatric and mental health conditions.",
                  expertTopics.get(expertTopics.lastKey()).get("background"));
+  }
+
+  @Test
+  public void testMrTyDiTopics() {
+    assertEquals(12377, TopicReader.getTopics(Topics.MRTYDI_V11_AR_TRAIN).keySet().size());
+    assertEquals(3115, TopicReader.getTopics(Topics.MRTYDI_V11_AR_DEV).keySet().size());
+    assertEquals(1081, TopicReader.getTopics(Topics.MRTYDI_V11_AR_TEST).keySet().size());
   }
 
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {

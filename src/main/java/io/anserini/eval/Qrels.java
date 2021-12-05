@@ -16,6 +16,8 @@
 
 package io.anserini.eval;
 
+import io.anserini.search.topicreader.TsvIntTopicReader;
+
 public enum Qrels {
   TREC1_ADHOC("topics-and-qrels/qrels.adhoc.51-100.txt"),
   TREC2_ADHOC("topics-and-qrels/qrels.adhoc.101-150.txt"),
@@ -64,7 +66,10 @@ public enum Qrels {
   COVID_ROUND5("topics-and-qrels/qrels.covid-round5.txt"),
   TREC2018_BL("topics-and-qrels/qrels.backgroundlinking18.txt"),
   TREC2019_BL("topics-and-qrels/qrels.backgroundlinking19.txt"),
-  TREC2020_BL("topics-and-qrels/qrels.backgroundlinking20.txt");
+  TREC2020_BL("topics-and-qrels/qrels.backgroundlinking20.txt"),
+  MRTYDI_V11_AR_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt"),
+  MRTYDI_V11_AR_DEV("topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt"),
+  MRTYDI_V11_AR_TEST("topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt");
 
   public final String path;
 

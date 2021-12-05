@@ -1,0 +1,74 @@
+---
+name: mrtydi-v1.1-ar
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexReaderUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: MrTyDiCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRaw
+  - -language ar
+search_options:
+  - -language ar
+topic_reader: TsvInt
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -M 100
+      - -m recip_rank
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: MRR@100
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.100
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: true
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/mr-tydi-corpus/mrtydi-v1.1-arabic
+index_path: indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw
+index_stats:
+  documents: 2106586
+  documents (non-empty): 2106586
+  total terms: 92529014
+topics:
+  - name: "[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-ar.train.txt.gz
+    qrel: qrels.mrtydi-v1.1-ar.train.txt
+  - name: "[Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-ar.dev.txt.gz
+    qrel: qrels.mrtydi-v1.1-ar.dev.txt
+  - name: "[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-ar.test.txt.gz
+    qrel: qrels.mrtydi-v1.1-ar.test.txt
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -bm25 -hits 100
+    results:
+      MRR@100:
+        - 0.3356
+        - 0.3462
+        - 0.3682
+      R@100:
+        - 0.7944
+        - 0.7872
+        - 0.7928
