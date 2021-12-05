@@ -649,6 +649,7 @@ public final class IndexCollection {
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
+    LOG.info("Language: " + args.language);
     LOG.info("Stemmer: " + args.stemmer);
     LOG.info("Keep stopwords? " + args.keepStopwords);
     LOG.info("Stopwords: " + args.stopwords);
