@@ -85,7 +85,7 @@ public abstract class SolrEndToEndTest extends LuceneTestCase {
     FileUtils.copyDirectory(getFile("solr/anserini"), new File(configSetBaseDir + File.separator + "anserini"));
 
     SolrResourceLoader loader = new SolrResourceLoader(solrHome.toPath());
-    NodeConfig config = new NodeConfig.NodeConfigBuilder("embeddedSolrServerNode", loader)
+    NodeConfig config = new NodeConfig.NodeConfigBuilder("embeddedSolrServerNode", loader.getInstancePath())
         .setConfigSetBaseDirectory(configSetBaseDir.getAbsolutePath()).build();
     client = new EmbeddedSolrServer(config, getCollectionName());
     LOG.info("Created Embedded Solr Server");
