@@ -6,10 +6,7 @@ index_path: indexes/lucene-index.car-paragraphCorpus.v1.5.pos+docvectors+raw
 collection: CarCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 29678360
   documents (non-empty): 29674425

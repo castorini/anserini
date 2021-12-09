@@ -6,10 +6,7 @@ index_path: indexes/lucene-index.cw09b.pos+docvectors+raw
 collection: ClueWeb09Collection
 generator: DefaultLuceneDocumentGenerator
 threads: 44
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 50220186
   documents (non-empty): 50220156

@@ -6,11 +6,7 @@ index_path: indexes/lucene-index.clef06-fr.pos+docvectors+raw
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 16
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-  - -language fr
+index_options: -storePositions -storeDocvectors -storeRaw -language fr
 index_stats:
   documents: 171109
   documents (non-empty): 171109

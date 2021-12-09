@@ -6,10 +6,7 @@ index_path: indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query.pos+docvecto
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 30
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 29794697
   documents (non-empty): 29794694

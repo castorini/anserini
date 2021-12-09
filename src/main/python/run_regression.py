@@ -119,8 +119,10 @@ def construct_indexing_command(yaml_data, args):
         '-input', collection_path,
         '-index', yaml_data['index_path']
     ]
-    if yaml_data['index_options']:
+    if isinstance(yaml_data['index_options'], list):
         index_command.extend(yaml_data['index_options'])
+    else:
+        index_command.append(yaml_data['index_options'])
 
     return index_command
 

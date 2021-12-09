@@ -10,10 +10,7 @@ ranking_root:
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 16
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
+index_options: -storePositions -storeDocvectors -storeRaw
 topic_reader: TsvInt
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval

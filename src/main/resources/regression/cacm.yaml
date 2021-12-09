@@ -6,10 +6,7 @@ index_path: indexes/lucene-index.cacm.pos+docvectors
 collection: HtmlCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 8
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -optimize
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3204
   documents (non-empty): 3204

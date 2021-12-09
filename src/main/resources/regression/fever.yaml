@@ -6,10 +6,7 @@ index_path: indexes/lucene-index.fever-paragraph
 collection: FeverParagraphCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 5396106
   documents (non-empty): 5396060
