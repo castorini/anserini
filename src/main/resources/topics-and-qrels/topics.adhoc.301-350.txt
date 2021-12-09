@@ -1,0 +1,1146 @@
+<top>
+
+<num> Number: 301 
+<title> International Organized Crime 
+
+<desc> Description: 
+Identify organizations that participate in international criminal
+activity, the activity, and, if possible, collaborating organizations
+and the countries involved.
+
+<narr> Narrative: 
+A relevant document must as a minimum identify the organization and the
+type of illegal activity (e.g., Columbian cartel exporting cocaine).
+Vague references to international drug trade without identification of
+the organization(s) involved would not be relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 302
+<title> Poliomyelitis and Post-Polio 
+
+<desc> Description: 
+Is the disease of Poliomyelitis (polio) under control in the
+world?
+ 
+<narr> Narrative: 
+Relevant documents should contain data or outbreaks of the 
+polio disease (large or small scale), medical protection 
+against the disease, reports on what has been labeled as 
+"post-polio" problems.  Of interest would be location of 
+the cases, how severe, as well as what is being done in 
+the "post-polio" area.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 303 
+<title> Hubble Telescope Achievements 
+
+<desc> Description: 
+Identify positive accomplishments of the Hubble telescope since it
+was launched in 1991.
+
+<narr> Narrative: 
+Documents are relevant that show the Hubble telescope has produced 
+new data, better quality data than previously available, data that 
+has increased human knowledge of the universe, or data that has led
+to disproving previously existing theories or hypotheses.  Documents
+limited to the shortcomings of the telescope would be irrelevant.  
+Details of repairs or modifications to the telescope without 
+reference to positive achievements would not be relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 304 
+<title> Endangered Species (Mammals) 
+
+<desc> Description: 
+Compile a list of mammals that are considered to be endangered,
+identify their habitat and, if possible, specify what threatens them.
+
+<narr> Narrative: 
+Any document identifying a mammal as endangered is relevant.  
+Statements of authorities disputing the endangered status would also
+be relevant.  A document containing information on habitat and
+populations of a mammal identified elsewhere as endangered would also
+be relevant even if the document at hand did not identify the species
+as endangered.  Generalized statements about endangered species 
+without reference to specific mammals would not be relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 305
+<title> Most Dangerous Vehicles 
+
+<desc> Description: 
+Which are the most crashworthy, and least crashworthy, 
+passenger vehicles?
+ 
+<narr> Narrative: 
+A relevant document will contain information on the 
+crashworthiness of a given vehicle or vehicles that 
+can be used to draw a comparison with other vehicles.  
+The document will have to describe/compare vehicles, 
+not drivers.  For instance, it should be expected 
+that vehicles preferred by 16-25 year-olds would be 
+involved in more crashes, because that age group is
+involved in more crashes.  I would view number of 
+fatalities per 100 crashes to be more revealing of 
+a vehicle's crashworthiness than the number of
+crashes per 100,000 miles, for example.
+
+</top>
+
+
+<top>
+
+<num> Number: 306
+<title> African Civilian Deaths 
+
+<desc> Description: 
+How many civilian non-combatants have been killed in 
+the various civil wars in Africa?
+ 
+<narr> Narrative: 
+A relevant document will contain specific casualty 
+information for a given area, country, or region.  
+It will cite numbers of civilian deaths caused 
+directly or indirectly by armed conflict.
+
+</top>
+
+
+<top>
+
+<num> Number: 307 
+<title> New Hydroelectric Projects 
+
+<desc> Description: 
+Identify hydroelectric projects proposed or under construction by
+country and location.  Detailed description of nature, extent,
+purpose, problems, and consequences is desirable.
+
+<narr> Narrative: 
+Relevant documents would contain as a minimum a clear statement 
+that a hydroelectric project is planned or construction is under 
+way and the location of the project.  Renovation of existing
+facilities would be judged not relevant unless plans call for a
+significant increase in acre-feet or reservoir or a marked change
+in the environmental impact of the project.  Arguments for and
+against proposed projects are relevant as long as they are supported 
+by specifics, including as a minimum the name or location of the
+project.  A statement that an individual or organization is for or
+against such projects in general would not be relevant.  Proposals
+or projects underway to dismantle existing facilities or drain
+existing reservoirs are not relevant, nor are articles reporting a
+decision to drop a proposed plan.
+
+</top>
+
+
+<top>
+
+<num> Number: 308 
+<title> Implant Dentistry 
+
+<desc> Description: 
+What are the advantages and/or disadvantages of tooth implants?
+
+<narr> Narrative: 
+A tooth replacement procedure, begun in the 1960s by Doctor
+Branemark, is becoming more widely used today.  It involves 
+the replacement of a lost tooth/teeth by an implantation 
+process which secures the fabricated tooth to a titanium post
+with an adhesive resulting in a stable and sturdy denture 
+almost like the original.  A relevant document will include 
+any clinical experiment, report, study, paper, or medical 
+discussion which describes the advantages or disadvantages of 
+tooth implant(s), conditions under which such a procedure is 
+favorable, denture comfort and function compared to false teeth, 
+bridge, or plate and comparative cost differential.
+
+</top>
+
+
+<top>
+
+<num> Number: 309 
+<title> Rap and Crime 
+
+<desc> Description: 
+Evidence that rap music has a negative effect on young people.
+
+<narr> Narrative: 
+The lyrics to Rap music are replete with words which degrade
+women, glorify drug abuse, the killing of policemen and even
+romanticize suicide.  A crusade was begun a few years ago in
+which the music industry was asked "to clean up its act" 
+because of the detrimental effect it was having upon teenagers.  
+There were some instances in which teenagers, who demonstrated 
+no sign of internal strife, committed suicide.  The only clues
+to their self-destruction were notes found near the bodies with
+lyrics from Rap songs relating to suicide.  A relevant item 
+should include any psychological study, evidence, poll, 
+documentation, or psychological opinion that Rap music has a 
+deleterious effect upon young people and has led to a discernible
+change in personality, life style, crime, alteration of personality
+or any other negative effect upon the psyche, mores, and culture
+of teenagers.
+
+</top>
+
+
+<top>
+
+<num> Number: 310
+<title> Radio Waves and Brain Cancer 
+
+<desc> Description: 
+Evidence that radio waves from radio towers or car phones affect
+brain cancer occurrence.
+
+<narr> Narrative: 
+Persons living near radio towers and more recently persons using
+car phones have been diagnosed with brain cancer.  The argument 
+rages regarding the direct association of one with the other.
+The incidence of cancer among the groups cited is considered, by
+some, to be higher than that found in the normal population.  A 
+relevant document includes any experiment with animals, statistical 
+study, articles, news items which report on the incidence of brain 
+cancer being higher/lower/same as those persons who live near a 
+radio tower and those using car phones as compared to those in the 
+general population.
+
+</top>
+
+
+<top>
+
+<num> Number: 311
+<title> Industrial Espionage 
+
+<desc> Description: 
+Document will discuss the theft of trade secrets along with 
+the sources of information:  trade journals, business meetings,
+data from Patent Offices, trade shows, or analysis of a 
+competitor's products.
+
+<narr> Narrative: 
+A relevant document will contain specific information on the
+theft of trade secrets on new or existing technology.  Relevant
+information includes, but is not limited to, espionage in the
+highly competitive fashion industry, toy companies, drug firms,
+and computer companies.  An apparently legal way of stealing
+company secrets is by using the Freedom of Information Act, 
+passed by the U.S. Congress in 1966 to help people and the 
+press get information for the public good.  The law has often
+been used instead by companies for private gain.  Documents
+discussing company counterespionage are also considered to be
+relevant. 
+
+</top>
+
+
+<top>
+
+<num> Number: 312
+<title> Hydroponics 
+
+<desc> Description: 
+Document will discuss the science of growing plants in
+water or some substance other than soil.
+
+<narr> Narrative: 
+A relevant document will contain specific information 
+on the necessary nutrients, experiments, types of 
+substrates, and/or any other pertinent facts related 
+to the science of hydroponics.  Related information 
+includes, but is not limited to, the history of
+hydroponics, advantages over standard soil agricultural
+practices, or the approach of suspending roots in a 
+humid enclosure and spraying them periodically with a
+nutrient solution to promote plant growth.
+
+</top>
+
+
+<top>
+
+<num> Number: 313
+<title> Magnetic Levitation-Maglev 
+
+<desc> Description: 
+Commercial uses of Magnetic Levitation.
+
+<narr> Narrative: 
+A relevant document must contain Magnetic Levitation
+or Maglev.  It should be concerned with possible
+commercial applications of this phenomenon to 
+include primarily mass transit, but also other
+commercial applications such as Maglev flywheels 
+for cars.  Discussions of superconductivity when
+linked to Maglev and government support plans when 
+linked to Maglev are also relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 314
+<title> Marine Vegetation 
+
+<desc> Description: 
+Commercial harvesting of marine vegetation such as 
+algae, seaweed and kelp for food and drug purposes.
+
+<narr> Narrative: 
+Recent research has shown that marine vegetation 
+is a valuable source of both food (human and animal)
+and a potentially useful drug.  This search will 
+focus primarily on these two uses.  Also to be 
+considered relevant would be instances of other
+possible commercial uses such as fertilizer, etc.
+
+</top>
+
+
+<top>
+
+<num> Number: 315
+<title> Unexplained Highway Accidents
+
+<desc> Description: 
+How many fatal highway accidents are there each 
+year that are not resolved as to cause.
+ 
+<narr> Narrative: 
+A relevant document will contain data relating to 
+highway accidents where the cause of the accident 
+cannot be determined.  Typical of such accidents 
+would be those where one vehicle "suddenly swerves 
+into oncoming traffic."  
+
+</top>
+
+
+<top>
+
+<num> Number: 316
+<title> Polygamy Polyandry Polygyny  
+
+<desc> Description: 
+A look at the roots and prevalence of polygamy 
+in the world today.
+
+<narr> Narrative: 
+Polygamy is a form of marriage which permits a
+person to have more than one husband or wife.
+Polyandry refers to one woman sharing two or 
+more husbands at the same time.  Polygyny refers
+to one man sharing two or more wives at the 
+same time.  Primary focus of the search will be
+the prevalence of these practices in the world
+today and societal attitudes towards these
+practices.  Also relevant would be discussions
+of the roots and practical sources of these
+customs.  A modern development in this area is
+serial polygamy, a phrase coined to label the
+practice of men who take a series of wives in
+sequence as a solution to practical welfare,
+considerations of child care, housing, etc.
+Documents discussing serial polygamy will not
+be considered relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 317
+<title> Unsolicited Faxes 
+
+<desc> Description: 
+Have regulations been passed by the FCC banning
+junk facsimile (fax)?  If so, are they effective?
+ 
+<narr> Narrative: 
+Relevant documents will provide information on 
+the cost of junk fax transmitted to individuals
+or businesses.  Documents which contain laws or
+regulations passed banning junk fax or articles
+indicating the effectiveness or ineffectiveness
+of these laws are relevant.  Additionally, any
+document showing where unsolicited/junk fax is 
+an invasion of privacy is also relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 318
+<title> Best Retirement Country 
+
+<desc> Description: 
+Aside from the United States, which country offers 
+the best living conditions and quality of life for 
+a U.S. retiree?
+ 
+<narr> Narrative: 
+A relevant document will contain information describing 
+the living conditions and/or costs in one or more foreign 
+countries.  It will provide information that a potential 
+retiree could use in deciding where to establish a 
+retirement home.
+
+</top>
+
+
+<top>
+
+<num> Number: 319
+<title> New Fuel Sources 
+
+<desc> Description: 
+What research is ongoing for new fuel sources.
+ 
+<narr> Narrative: 
+Relevant documents will contain information on
+the actual research being accomplished for new
+fuel sources.  Documents may also reveal company
+(companies) involved in this research.  Listing(s)
+of possible new fuel sources is also of relevance.
+Relevant documents can also show how much current
+fuel sources are available, however, articles
+which simply refer to current sources are not
+relevant.  Documents about nuclear power are 
+relevant only if they discuss new developments in
+the nuclear field, such as the processing of spent
+fuel to establish a new nuclear fuel system.
+
+</top>
+
+
+<top>
+
+<num> Number: 320
+<title> Undersea Fiber Optic Cable 
+
+<desc> Description: 
+Fiber optic link around the globe (Flag) will be
+the world's longest undersea fiber optic cable.
+Who's involved and how extensive is the technology
+on this system.  What problems exist?
+ 
+<narr> Narrative: 
+Relevant documents will reference companies involved
+in building the system or the technology needed for
+such an endeavor.  Of relevance also would be information
+on the link up points of FLAG or landing sites or 
+interconnection with other telecommunication cables.
+Relevant documents may reference any regulatory problems
+with the system once constructed.  A non-relevant 
+document would contain information on other fiber optic
+systems currently in place.
+
+</top>
+
+
+<top>
+
+<num> Number: 321
+<title> Women in Parliaments 
+
+<desc> Description: 
+Pertinent documents will reflect the fact that women
+continue to be poorly represented in parliaments 
+across the world, and the gap in political power
+between the sexes is very wide, particularly in the
+Third World.
+ 
+<narr> Narrative: 
+Pertinent documents relating to this issue will 
+discuss the lack of representation by women, the
+countries that mandate the inclusion of a certain
+percentage of women in their legislatures, decreases
+if any in female representation in legislatures, and
+those countries in which there is no representation
+of women.
+
+</top>
+
+
+<top>
+
+<num> Number: 322
+<title> International Art Crime 
+
+<desc> Description: 
+Isolate instances of fraud or embezzlement in the international
+art trade.
+ 
+<narr> Narrative: 
+A relevant document is any report that identifies an instance
+of fraud or embezzlement in the international buying or selling
+of art objects.  Objects include paintings, jewelry, sculptures
+and any other valuable works of art.  Specific instances must be
+identified for a document to be relevant; generalities are not
+relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 323
+<title> Literary/Journalistic Plagiarism 
+
+<desc> Description: 
+Find instances of plagiarism in the literary and journalistic
+worlds.
+ 
+<narr> Narrative: 
+A relevant document will report any occasion or suspected instance
+of plagiarism in the areas of either literature or journalism.
+Relevant documents will also include such areas as doctorate and
+master's theses and will encompass writings as well as the ideas
+and concepts developed by some authors and taken or borrowed by
+others without attribution.
+
+</top>
+
+
+<top>
+
+<num> Number: 324
+<title> Argentine/British Relations
+
+<desc> Description: 
+Define Argentine and British international relations 
+ 
+<narr> Narrative: 
+It has been 15 years since the war between Argentina
+and the United Kingdom in 1982 over sovereignty in the
+Falkland Islands.  A relevant report will describe 
+their relations after that period.  Any kind of 
+international contact between the two countries is
+relevant, to include commercial, economic, cultural,
+diplomatic, or military exchanges.  Negative reports
+on the absence of such exchanges are also desirable.
+Reports containing information on direct exchanges
+between Argentina and the Falkland Islands are also
+relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 325
+<title> Cult Lifestyles 
+
+<desc> Description: 
+Describe a cult by name and identify the cult members'
+activities in their everyday life.
+ 
+<narr> Narrative: 
+A relevant document would include the name of the cult
+and offer information about the members' lifestyles.
+It may include how they dress or what they do to attain
+the ultimate goal of the organization.  A relevant 
+document may tell what they eat or how they contribute
+to the cult.  Just the mention of the existence of a 
+cult by name with no other clarifying information would
+not be relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 326
+<title> Ferry Sinkings  
+
+<desc> Description: 
+Any report of a ferry sinking where 100 or more people
+lost their lives.
+ 
+<narr> Narrative: 
+To be relevant, a document must identify a ferry that 
+has sunk causing the death of 100 or more humans.  It
+must identify the ferry by name or place where the 
+sinking occurred.  Details of the cause of the sinking
+would be helpful but are not necessary to be relevant.
+A reference to a ferry sinking without the number of
+deaths would not be relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 327
+<title> Modern Slavery 
+
+<desc> Description: 
+Identify a country or a city where there is evidence
+of human slavery being practiced in the eighties or
+nineties.
+ 
+<narr> Narrative: 
+A relevant document would present evidence of current
+slavery practices being carried out.  It would identify
+a specific country or city and give some information on
+who the slaves are, or who was buying or selling them,
+and for what purposes they were being used.  References
+to slavery being carried out several years ago would not
+be relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 328
+<title> Pope Beatifications
+
+<desc> Description: 
+Identify an individual that has been beatified by the Pope.
+ 
+<narr> Narrative: 
+To be relevant, the document must include the person's name
+as well as the person's deeds or actions that led to the
+recognition by the Pope.  It must also include when such
+actions or deeds occurred by giving the year or period
+of time, i.e., "late 17th century".
+
+</top>
+
+
+<top>
+
+<num> Number: 329
+<title> Mexican Air Pollution 
+
+<desc> Description: 
+Mexico City has the worst air pollution in the
+world.  Pertinent Documents would contain the
+specific steps Mexican authorities have taken
+to combat this deplorable situation.
+ 
+<narr> Narrative: 
+Relevant documents would discuss the steps the
+Mexican Government has taken to alleviate the
+air pollution in Mexico City.  Steps such as 
+reducing the number of automobiles in the city,
+encouraging the use of mass public transportation,
+and creating new mass transportation systems are 
+relevant, among others.  Mention of any new
+methods in the design stage would also be 
+appropriate.
+
+</top>
+
+
+<top>
+
+<num> Number: 330
+<title> Iran-Iraq Cooperation 
+
+<desc> Description: 
+This query is looking for examples of cooperation or
+friendly ties between Iran and Iraq, or ways in which
+the two countries could be considered allies.
+ 
+<narr> Narrative: 
+A relevant document would mention such things as mutually
+beneficial economic, military, religious, or social 
+relations; cooperation on border control or treatment of
+minorities; collaboration in getting around trade sanctions
+placed upon either country, etc.  (Any mention of the 
+possible return of the airplanes Iraq flew to Iran during 
+the Gulf War would also be relevant).
+
+</top>
+
+
+<top>
+
+<num> Number: 331
+<title> World Bank Criticism 
+
+<desc> Description: 
+What criticisms have been made of World Bank policies, 
+activities or personnel?
+ 
+<narr> Narrative: 
+This query is looking for any instances where the 
+World Bank has been accused of things like not being
+responsive to the unique problems of individual countries,
+of being too strict in its policies, of pursuing agendas
+that are biased because of their benefits to western 
+countries, of being no longer useful or practical, of
+its personnel being difficult to work with, etc.
+
+</top>
+
+
+<top>
+
+<num> Number: 332
+<title> Income Tax Evasion
+
+<desc> Description: 
+This query is looking for investigations that have 
+targeted evaders of U.S. income tax.
+ 
+<narr> Narrative: 
+A relevant document would mention investigations 
+either in the U.S. or abroad of people suspected of
+evading U.S. income tax laws.  Of particular interest
+are investigations involving revenue from illegal 
+activities, as a strategy to bring known or suspected
+criminals to justice.
+
+</top>
+
+
+<top>
+
+<num> Number: 333
+<title> Antibiotics Bacteria Disease 
+
+<desc> Description: 
+Determine the reasons why bacteria seems to be winning
+the war against antibiotics and rendering antibiotics
+now less effective in treating diseases than they were
+in the past.
+ 
+<narr> Narrative: 
+A relevant document will address the questions of how 
+and why, and to what degree, bacteria are able to fend 
+off the curative effects of antibiotics.  Overuse of 
+antibiotics, as well as the increasing use of antibiotics
+in promoting the growth of crops and animals whose food
+products are meant for human consumption have played roles
+in creating a situation where every known bacteria-generated
+disease now has versions that resist at least one of the 
+more than 100 antibiotics now in use.
+
+</top>
+
+
+<top>
+
+<num> Number: 334
+<title> Export Controls Cryptography 
+
+<desc> Description: 
+Determine the usefulness and effectiveness of 
+continuing to maintain export controls on 
+encryption software.
+ 
+<narr> Narrative: 
+Relevant documents will argue for or against
+continuing to make encryption software subject to
+export controls.  Since 1993 quality encryption 
+software to ensure the secrecy of communications
+has been available, but the U.S. Government has 
+considered such software to be subject to the same
+export controls as munitions, and has sought to 
+restrict the export of encryption software unless 
+it contains a device which could allow the U.S. to
+read the underlying messages.  Business interests 
+say that this will make it impossible for U.S. producers
+to compete in the international market.
+
+</top>
+
+
+<top>
+
+<num> Number: 335
+<title> Adoptive Biological Parents 
+
+<desc> Description: 
+Identify the problems, and solutions to those problems, 
+which arise in the relationships among biological
+parents, adoptive parents, and the child or children 
+involved.
+ 
+<narr> Narrative: 
+A relevant document will report on court procedures 
+and decisions which affect the rights of biological
+parents, adoptive parents, as well as the adopted 
+child.  Problems arise when the biological parents 
+of a child given up for adoption decide that they 
+or he/she would like to reclaim the child against 
+the wishes of the adoptive parents.  Problems also 
+arise when the adopted child tries to identify and
+contact the biological parents, but find the way
+blocked by sealed court orders.
+
+</top>
+
+
+<top>
+
+<num> Number: 336
+<title> Black Bear Attacks 
+
+<desc> Description: 
+A relevant document would discuss the frequency
+of vicious black bear attacks worldwide and the
+possible causes for this savage behavior.
+ 
+<narr> Narrative: 
+It has been reported that food or cosmetics 
+sometimes attract hungry black bears, causing
+them to viciously attack humans.  Relevant 
+documents would include the aforementioned 
+causes as well as speculation preferably from
+the scientific community as to other possible
+causes of vicious attacks by black bears.  A
+relevant document would also detail steps 
+taken or new methods devised by wildlife 
+officials to control and/or modify the
+savageness of the black bear.
+
+</top>
+
+
+<top>
+
+<num> Number: 337
+<title> Viral Hepatitis 
+
+<desc> Description: 
+What research has been done on viral hepatitis 
+and what progress has been made in its treatment?
+ 
+<narr> Narrative: 
+A relevant document might include any of the 
+following information: 
+
+-- A medical procedure used in the treatment of
+   hepatitis.
+
+-- Ongoing research in vaccines, including the 
+   identity of the strain of hepatitis.
+
+-- How hepatitis affects the body's immune system.
+
+-- Third World countries' reports on control of
+   the disease.
+
+</top>
+
+
+<top>
+
+<num> Number: 338
+<title> Risk of Aspirin 
+
+<desc> Description: 
+What adverse effects have people experienced while taking 
+aspirin repeatedly?
+ 
+<narr> Narrative: 
+A relevant document should identify any adverse effects 
+experienced from the repeated use of aspirin. Possible 
+effects might include intestinal bleeding, inflammation 
+of the stomach, or various forms of ulcers. The purpose 
+of the individual's repeated aspirin use should also 
+be stated.
+
+</top>
+
+
+<top>
+
+<num> Number: 339
+<title> Alzheimer's Drug Treatment 
+
+<desc> Description: 
+What drugs are being used in the treatment of 
+Alzheimer's Disease and how successful are they?
+ 
+<narr> Narrative: 
+A relevant document should name a drug used in 
+the treatment of Alzheimer's Disease and also 
+its manufacturer, and should give some indication 
+of the drug's success or failure.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 340
+<title> Land Mine Ban 
+
+<desc> Description: 
+Identify any actions being taken to propel the
+nations of the world toward a treaty banning
+the production, transfer and use of land mines.
+ 
+<narr> Narrative: 
+Brought about by various conflicts, there are an 
+estimated 100 million land mines buried in 60
+countries with thousands of acres of land made 
+unusable.  It is estimated that every 22 minutes
+a man, woman or child is killed or maimed by a
+land mine.  Identify any actions being taken to 
+propel the nations of the world toward a treaty 
+banning the production, transfer and use of land 
+mines.  Also, of interest, would be identification 
+of actions being undertaken to sanitize the thousands 
+of acres now made unusable due to use of these mines.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 341
+<title> Airport Security 
+
+<desc> Description: 
+A relevant document would discuss how effective
+government orders to better scrutinize passengers
+and luggage on international flights and to step
+up screening of all carry-on baggage has been.
+ 
+<narr> Narrative: 
+A relevant document would contain reports on what
+new steps airports worldwide have taken to better 
+scrutinize passengers and their luggage on 
+international flights and to step up screening of
+all carry-on baggage.  With the increase in 
+international terrorism and in the wake of the
+TWA Flight 800 disaster, articles on airport 
+security relating in particular to additional
+steps taken by airports to increase flight safety
+would be relevant.  The mere mention of enhanced 
+security does not constitute relevance.  Additional
+steps refer to something beyond just passenger
+and carry-on screening using the normal methods.
+Examples of new steps would be additional personnel, 
+sophisticated monitoring and screening devices, 
+and extraordinary measures to check luggage in the 
+baggage compartment.
+
+</top>
+
+
+<top>
+
+<num> Number: 342
+<title> Diplomatic Expulsion 
+
+<desc> Description: 
+The end of the Cold War seems to have intensified
+economic competition and has started to generate 
+serious friction between nations as attempts are 
+made by diplomatic personnel to acquire sensitive
+trade and technology information or to obtain 
+information on highly classified industrial projects.
+Identify instances where attempts have been made 
+by personnel with diplomatic status to obtain 
+information of this nature.
+
+<narr> Narrative: 
+Identify instances where attempts have been made 
+by personnel with diplomatic status to obtain 
+information of this nature.  Of interest would be 
+the country(s) involved, the information hopefully 
+acquired, or if the exposure resulted in expulsion 
+of diplomatic personnel. 
+
+</top>
+
+
+<top>
+
+<num> Number: 343
+<title> Police Deaths
+
+<desc> Description: 
+Identify instances where a civilian policeman has
+been killed either during performance of his duty
+or because of other association with this occupation,
+e.g., killed for the gun, to keep from testifying, 
+etc.
+
+<narr> Narrative: 
+Whatever the reason, be it a breakdown in family values
+or loss of respect for an authoritative figure, there
+seems to have been a substantial increase in the number
+of policemen being killed.  Identify instances where a 
+civilian policeman has been killed either during 
+performance of his duty or because of other association 
+with this occupation, e.g., killed for the gun, to keep 
+from testifying, etc.  Military police or foreign
+military-type personnel considered policemen should not
+be considered relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 344
+<title> Abuses of E-Mail 
+
+<desc> Description: 
+The availability of E-mail to many people through their
+job or school affiliation has allowed for many efficiencies
+in communications but also has provided the opportunity for
+abuses.  What steps have been taken world-wide by those 
+bearing the cost of E-mail to prevent excesses?
+
+<narr> Narrative: 
+To be relevant, a document will concern dissatisfaction by 
+an entity paying for the cost of electronic mail.  Particularly
+sought are items which relate to system users (such as employees)
+who abuse the system by engaging in communications of the type
+not related to the payer's desired use of the system.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 345
+<title> Overseas Tobacco Sales 
+
+<desc> Description: 
+Health studies primarily in the U.S. have caused reductions
+in tobacco sales here, but the economic impact has caused
+U.S. tobacco companies to look overseas for customers.
+What impact have the health and economic factors had overseas?
+
+<narr> Narrative: 
+To be relevant, an item will discuss either an increase or 
+decrease in the sales of U.S. tobacco products overseas, and
+attribute this to health findings or more aggressive marketing
+by U.S. companies or the foreign companies they own or cooperate
+with.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 346
+<title> Educational Standards 
+
+<desc> Description: 
+There has long been a call for standards in U.S. education,
+these calls frequently citing the superiority of foreign 
+school systems.  Are there many countries outside the U.S.
+which have standards for pre-teen students?  If so, which
+are those countries and what standards have been set?
+
+<narr> Narrative: 
+To be relevant, an item will specify the foreign country 
+which has adopted standards for children up to the age of 
+12 and more specifically give some detail of what the 
+standards are (e.g., computer training, 2 years of foreign
+language).
+ 
+</top>
+
+
+<top>
+
+<num> Number: 347
+<title> Wildlife Extinction 
+
+<desc> Description: 
+The spotted owl episode in America highlighted U.S. efforts
+to prevent the extinction of wildlife species.  What is not
+well known is the effort of other countries to prevent the
+demise of species native to their countries.  What other 
+countries have begun efforts to prevent such declines?
+
+<narr> Narrative: 
+A relevant item will specify the country, the involved 
+species, and steps taken to save the species.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 348
+<title> Agoraphobia 
+
+<desc> Description: 
+Is the fear of open or public places (Agoraphobia) a
+widespread disorder or relatively unknown?
+
+<narr> Narrative: 
+Relevant documents contain data on this physical/mental
+disorder, including information on the person affected,
+profession of the individual, impact on the life work of
+the individual, as well as any data on how these 
+individuals cope with this disorder.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 349
+<title> Metabolism 
+
+<desc> Description: 
+Document will discuss the chemical reactions 
+necessary to keep living cells healthy and/or
+producing energy.
+ 
+<narr> Narrative: 
+A relevant document will contain specific information
+on the catabolic and anabolic reactions of the metabolic
+process.  Relevant information includes, but is not 
+limited to, the reactions occurring in metabolism, 
+biochemical processes (Glycolysis or Krebs cycle for
+production of energy), and disorders associated with 
+the metabolic rate.
+
+</top>
+
+
+<top>
+
+<num> Number: 350
+<title> Health and Computer Terminals 
+
+<desc> Description: 
+Is it hazardous to the health of individuals to	work
+with computer terminals on a daily basis?
+ 
+<narr> Narrative: 
+Relevant documents would contain any information that 
+expands on any physical disorder/problems that may be
+associated with the daily working with computer terminals.
+Such things as carpel tunnel, cataracts, and fatigue have 
+been said to be associated, but how widespread are these or
+other problems and what is being done to alleviate any
+health problems.
+ 
+</top>
