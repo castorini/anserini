@@ -548,7 +548,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDi() {
+  public void testMrTyDiAr() {
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt");
@@ -581,4 +581,355 @@ public class RelevanceJudgmentsTest {
     assertEquals(1081, qrels.getQids().size());
     assertEquals(1257, getQrelsCount(qrels));
   }
+
+  @Test
+  public void testMrTyDiBn() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt");
+    assertNotNull(qrels);
+    assertEquals(1713, qrels.getQids().size());
+    assertEquals(1719, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_BN_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(1713, qrels.getQids().size());
+    assertEquals(1719, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(440, qrels.getQids().size());
+    assertEquals(443, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_BN_DEV);
+    assertNotNull(qrels);
+    assertEquals(440, qrels.getQids().size());
+    assertEquals(443, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt");
+    assertNotNull(qrels);
+    assertEquals(111, qrels.getQids().size());
+    assertEquals(130, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_BN_TEST);
+    assertNotNull(qrels);
+    assertEquals(111, qrels.getQids().size());
+    assertEquals(130, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiEn() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-en.train.txt");
+    assertNotNull(qrels);
+    assertEquals(3547, qrels.getQids().size());
+    assertEquals(3547, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_EN_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(3547, qrels.getQids().size());
+    assertEquals(3547, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-en.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(878, qrels.getQids().size());
+    assertEquals(878, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_EN_DEV);
+    assertNotNull(qrels);
+    assertEquals(878, qrels.getQids().size());
+    assertEquals(878, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-en.test.txt");
+    assertNotNull(qrels);
+    assertEquals(744, qrels.getQids().size());
+    assertEquals(935, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_EN_TEST);
+    assertNotNull(qrels);
+    assertEquals(744, qrels.getQids().size());
+    assertEquals(935, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiFi() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.train.txt");
+    assertNotNull(qrels);
+    assertEquals(6561, qrels.getQids().size());
+    assertEquals(6561, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_FI_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(6561, qrels.getQids().size());
+    assertEquals(6561, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(1738, qrels.getQids().size());
+    assertEquals(1738, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_FI_DEV);
+    assertNotNull(qrels);
+    assertEquals(1738, qrels.getQids().size());
+    assertEquals(1738, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.test.txt");
+    assertNotNull(qrels);
+    assertEquals(1254, qrels.getQids().size());
+    assertEquals(1451, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_FI_TEST);
+    assertNotNull(qrels);
+    assertEquals(1254, qrels.getQids().size());
+    assertEquals(1451, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiId() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.train.txt");
+    assertNotNull(qrels);
+    assertEquals(4902, qrels.getQids().size());
+    assertEquals(4902, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_ID_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(4902, qrels.getQids().size());
+    assertEquals(4902, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(1224, qrels.getQids().size());
+    assertEquals(1224, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_ID_DEV);
+    assertNotNull(qrels);
+    assertEquals(1224, qrels.getQids().size());
+    assertEquals(1224, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.test.txt");
+    assertNotNull(qrels);
+    assertEquals(829, qrels.getQids().size());
+    assertEquals(961, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_ID_TEST);
+    assertNotNull(qrels);
+    assertEquals(829, qrels.getQids().size());
+    assertEquals(961, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiJa() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ja.train.txt");
+    assertNotNull(qrels);
+    assertEquals(3697, qrels.getQids().size());
+    assertEquals(3697, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_JA_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(3697, qrels.getQids().size());
+    assertEquals(3697, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ja.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(928, qrels.getQids().size());
+    assertEquals(928, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_JA_DEV);
+    assertNotNull(qrels);
+    assertEquals(928, qrels.getQids().size());
+    assertEquals(928, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ja.test.txt");
+    assertNotNull(qrels);
+    assertEquals(720, qrels.getQids().size());
+    assertEquals(923, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_JA_TEST);
+    assertNotNull(qrels);
+    assertEquals(720, qrels.getQids().size());
+    assertEquals(923, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiKo() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ko.train.txt");
+    assertNotNull(qrels);
+    assertEquals(1295, qrels.getQids().size());
+    assertEquals(1317, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_KO_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(1295, qrels.getQids().size());
+    assertEquals(1317, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ko.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(303, qrels.getQids().size());
+    assertEquals(307, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_KO_DEV);
+    assertNotNull(qrels);
+    assertEquals(303, qrels.getQids().size());
+    assertEquals(307, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ko.test.txt");
+    assertNotNull(qrels);
+    assertEquals(421, qrels.getQids().size());
+    assertEquals(492, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_KO_TEST);
+    assertNotNull(qrels);
+    assertEquals(421, qrels.getQids().size());
+    assertEquals(492, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiRu() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt");
+    assertNotNull(qrels);
+    assertEquals(5366, qrels.getQids().size());
+    assertEquals(5366, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_RU_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(5366, qrels.getQids().size());
+    assertEquals(5366, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(1375, qrels.getQids().size());
+    assertEquals(1375, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_RU_DEV);
+    assertNotNull(qrels);
+    assertEquals(1375, qrels.getQids().size());
+    assertEquals(1375, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt");
+    assertNotNull(qrels);
+    assertEquals(995, qrels.getQids().size());
+    assertEquals(1168, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_RU_TEST);
+    assertNotNull(qrels);
+    assertEquals(995, qrels.getQids().size());
+    assertEquals(1168, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiSw() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-sw.train.txt");
+    assertNotNull(qrels);
+    assertEquals(2072, qrels.getQids().size());
+    assertEquals(2401, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_SW_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(2072, qrels.getQids().size());
+    assertEquals(2401, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-sw.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(526, qrels.getQids().size());
+    assertEquals(623, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_SW_DEV);
+    assertNotNull(qrels);
+    assertEquals(526, qrels.getQids().size());
+    assertEquals(623, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-sw.test.txt");
+    assertNotNull(qrels);
+    assertEquals(670, qrels.getQids().size());
+    assertEquals(743, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_SW_TEST);
+    assertNotNull(qrels);
+    assertEquals(670, qrels.getQids().size());
+    assertEquals(743, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiTe() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.train.txt");
+    assertNotNull(qrels);
+    assertEquals(3880, qrels.getQids().size());
+    assertEquals(3880, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_TE_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(3880, qrels.getQids().size());
+    assertEquals(3880, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(983, qrels.getQids().size());
+    assertEquals(983, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_TE_DEV);
+    assertNotNull(qrels);
+    assertEquals(983, qrels.getQids().size());
+    assertEquals(983, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.test.txt");
+    assertNotNull(qrels);
+    assertEquals(646, qrels.getQids().size());
+    assertEquals(677, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_TE_TEST);
+    assertNotNull(qrels);
+    assertEquals(646, qrels.getQids().size());
+    assertEquals(677, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMrTyDiTh() {
+    RelevanceJudgments qrels;
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-th.train.txt");
+    assertNotNull(qrels);
+    assertEquals(3319, qrels.getQids().size());
+    assertEquals(3360, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_TH_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(3319, qrels.getQids().size());
+    assertEquals(3360, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-th.dev.txt");
+    assertNotNull(qrels);
+    assertEquals(807, qrels.getQids().size());
+    assertEquals(817, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_TH_DEV);
+    assertNotNull(qrels);
+    assertEquals(807, qrels.getQids().size());
+    assertEquals(817, getQrelsCount(qrels));
+
+    qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-th.test.txt");
+    assertNotNull(qrels);
+    assertEquals(1190, qrels.getQids().size());
+    assertEquals(1368, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_TH_TEST);
+    assertNotNull(qrels);
+    assertEquals(1190, qrels.getQids().size());
+    assertEquals(1368, getQrelsCount(qrels));
+  }
+
 }
