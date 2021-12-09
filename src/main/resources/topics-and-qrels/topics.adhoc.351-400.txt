@@ -1,0 +1,992 @@
+<top>
+
+<num> Number: 351 
+<title> Falkland petroleum exploration 
+
+<desc> Description: 
+What information is available on petroleum exploration in 
+the South Atlantic near the Falkland Islands?
+
+<narr> Narrative: 
+Any document discussing petroleum exploration in the
+South Atlantic near the Falkland Islands is considered
+relevant.  Documents discussing petroleum exploration in 
+continental South America are not relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 352 
+<title> British Chunnel impact  
+
+<desc> Description: 
+What impact has the Chunnel had on the British economy and/or 
+the life style of the British?
+
+<narr> Narrative: 
+Documents discussing the following issues are relevant:
+
+ - projected and actual impact on the life styles of the British 
+ - Long term changes to economic policy and relations
+ - major changes to other transportation systems linked with 
+   the Continent
+
+Documents discussing the following issues are not relevant:
+
+ - expense and construction schedule 
+ - routine marketing ploys by other channel crossers (i.e.,
+   schedule changes, price drops, etc.) 
+ 
+</top>
+
+
+<top>
+
+<num> Number: 353 
+<title> Antarctica exploration
+
+<desc> Description: 
+Identify systematic explorations and scientific investigations
+of Antarctica, current or planned.
+
+<narr> Narrative: 
+Documents discussing the following issues are relevant:
+
+ - systematic explorations and scientific investigations of Antarctica
+   (e.g., seismology, ionospheric physics, possible economic development)
+ - other research currently conducted or planned for the future
+ - banning of mineral mining 
+
+Documents discussing tourism are non-relevant.  Documents discussing 
+"disrupting scientific experiments" are non-relevant unless a specific
+experiment is identified.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 354 
+<title> journalist risks 
+
+<desc> Description: 
+Identify instances where a journalist has been put at risk (e.g.,
+killed, arrested or taken hostage) in the performance of his work.
+
+<narr> Narrative: 
+Any document identifying an instance where a journalist or 
+correspondent has been killed, arrested or taken hostage in the 
+performance of his work is relevant.  
+
+</top>
+
+
+<top>
+
+<num> Number: 355
+<title> ocean remote sensing 
+
+<desc> Description: 
+Identify documents discussing the development and application of
+spaceborne ocean remote sensing.
+
+<narr> Narrative: 
+Documents discussing the development and application of spaceborne 
+ocean remote sensing in oceanography, seabed prospecting and 
+mining, or any marine-science activity are relevant.  Documents 
+that discuss the application of satellite remote sensing in 
+geography, agriculture, forestry, mining and mineral prospecting 
+or any land-bound science are not relevant, nor are references 
+to international marketing or promotional advertizing of any 
+remote-sensing technology.  Synthetic aperture radar (SAR) 
+employed in ocean remote sensing is relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 356
+<title> postmenopausal estrogen Britain
+
+<desc> Description: 
+Identify documents discussing the use of estrogen by 
+postmenopausal women in Britain. 
+
+<narr> Narrative: 
+The use of hormone replacement therapy outside of the United 
+Kingdom is not relevant.  United Kingdom and British 
+development and marketing of estrogen suppressing 
+drugs are relevant.   
+
+</top>
+
+
+<top>
+
+<num> Number: 357
+<title> territorial waters dispute 
+
+<desc> Description: 
+Identify documents discussing international boundary 
+disputes relevant to the 200-mile special economic 
+zones or 12-mile territorial waters subsequent to 
+the passing of the "International Convention on the 
+Law of the Sea".
+
+<narr> Narrative: 
+To be relevant, documents must discuss an international 
+boundary dispute relevant to the 200-mile special 
+economic zones or 12-mile territorial waters subsequent 
+to the passing of the "International Convention on the 
+Law of the Sea".  Documents that merely express agreement 
+or disagreement with any of the precepts of the "Law of 
+the Sea" are not relevant, nor are any documents that 
+passively allude to the existence of the convention or 
+any of its non-controversial applications. 
+
+</top>
+
+
+<top>
+
+<num> Number: 358
+<title> blood-alcohol fatalities
+
+<desc> Description: 
+What role does blood-alcohol level play in 
+automobile accident fatalities?
+
+<narr> Narrative: 
+Relevant documents must contain information
+on automobile accidents in which there was a 
+fatality and the blood-alcohol level of the
+driver of the vehicle must be identified.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 359
+<title> mutual fund predictors 
+
+<desc> Description: 
+Are there reliable and consistent predictors of
+mutual fund performance?
+
+<narr> Narrative: 
+A document must contain at least one factor 
+such as: rankings, risks, yields, or costs,
+and fund performance to be relevant.  
+Documents that discuss mutual fund rankings 
+are considered relevant.  
+
+</top>
+
+
+<top>
+
+<num> Number: 360
+<title> drug legalization benefits 
+
+<desc> Description: 
+What are the benefits, if any, of drug legalization?
+
+<narr> Narrative: 
+Relevant documents may contain information on perceived
+benefits of drug legalization, such as crime reduction, 
+improved treatment using monies which otherwise would 
+have gone for crime fighting, reduced drug addiction, 
+and increased governmental income.  Documents that 
+discuss drug legalization and whether legalization
+is or is not perceived to be beneficial are relevant.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 361
+<title> clothing sweatshops 
+
+<desc> Description: 
+Identify documents that discuss clothing sweatshops.
+
+<narr> Narrative: 
+A relevant document must identify the country, the working
+conditions, salary, and type of clothing or shoes being 
+produced.  Relevant documents may also include the name of 
+the business or company or the type of manufacturing, such 
+as:  "designer label".
+
+</top>
+
+
+<top>
+
+<num> Number: 362
+<title> human smuggling 
+
+<desc> Description: 
+Identify incidents of human smuggling.
+
+<narr> Narrative: 
+A relevant document shows an incident of humans 
+(at least ten) being smuggled.  The smugglers 
+would have to realize a monetary gain for their 
+actions, while the people being smuggled may or 
+may not be willing participants.
+
+</top>
+
+
+<top>
+
+<num> Number: 363
+<title> transportation tunnel disasters 
+
+<desc> Description: 
+What disasters have occurred in tunnels used for
+transportation?
+ 
+<narr> Narrative: 
+A relevant document identifies a disaster in a tunnel 
+used for trains, motor vehicles, or people.  Wind 
+tunnels and tunnels used for wiring, sewage, water, oil,
+etc. are not relevant.  The cause of the problem may be 
+fire, earthquake, flood, or explosion and can be 
+accidental or planned.  Documents that discuss tunnel 
+disasters occurring during construction of a tunnel 
+are relevant if lives were threatened.
+
+</top>
+
+
+<top>
+
+<num> Number: 364
+<title> rabies 
+
+<desc> Description: 
+Identify documents discussing cases where rabies
+have been confirmed and what, if anything, is 
+being done about it.
+ 
+<narr> Narrative: 
+A relevant document identifies confirmed cases 
+of rabies and may contain actions taken to correct 
+the problem.
+
+</top>
+
+
+<top>
+
+<num> Number: 365
+<title> El Nino 
+
+<desc> Description: 
+What effects have been attributed to El Nino?
+ 
+<narr> Narrative: 
+A document is relevant if it describes a particular
+phenomenon (either specific event or generalization)
+like flood, drought, warming, etc. and names 
+El Nino as the cause or as being a contributing 
+factor.
+
+</top>
+
+
+<top>
+
+<num> Number: 366
+<title> commercial cyanide uses 
+
+<desc> Description: 
+What are the industrial or commercial uses of 
+cyanide or its derivatives? 
+ 
+<narr> Narrative: 
+A document is relevant if it names or describes a 
+process that uses cyanide commercially or mentions
+that cyanide-rich waste comes from a particular
+industry.  
+
+</top>
+
+
+<top>
+
+<num> Number: 367
+<title> piracy 
+
+<desc> Description: 
+What modern instances have there been of old fashioned
+piracy, the boarding or taking control of boats? 
+ 
+<narr> Narrative: 
+Documents discussing piracy on any body of water are
+relevant.  Documents discussing the legal taking of 
+ships or their contents by a national authority are 
+non-relevant.  Clashes between fishing vessels over
+fishing are not relevant, unless one vessel is 
+boarded.  
+
+</top>
+
+
+<top>
+
+<num> Number: 368
+<title> in vitro fertilization 
+
+<desc> Description: 
+Identify documents that discuss in vitro
+fertilization.
+ 
+<narr> Narrative: 
+A relevant document will describe any aspect
+of the process of in vitro fertilization:
+uniting two human germ cells (sperm and egg)
+outside of the human body and in an artificial
+environment.   Documents that describe related 
+techniques, such as the freezing of eggs, 
+sperm, or embryos for future implantation are
+also relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 369
+<title> anorexia nervosa bulimia 
+
+<desc> Description: 
+What are the causes and treatments of anorexia nervosa
+and bulimia?
+ 
+<narr> Narrative: 
+A relevant document will describe the causes of the 
+eating disorders, anorexia nervosa or bulimia.
+Documents that describe symptoms including the taking of 
+laxatives, self-induced vomiting and excessive exercise 
+are relevant.  Discussions of the treatment of the 
+disorders are also relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 370
+<title> food/drug laws 
+
+<desc> Description: 
+What are the laws dealing with the quality and processing
+of food, beverages, or drugs?
+ 
+<narr> Narrative: 
+A relevant document will contain specific information on 
+the laws dealing with such matters as quality control in
+processing, the use of additives and preservatives, the 
+avoidance of impurities and poisonous substances, spoilage
+prevention, nutritional enrichment, and/or the grading of
+meat and vegetables.  Relevant information includes, but 
+is not limited to, federal regulations targeting three 
+major areas of label abuse:  deceptive definitions, 
+misleading health claims, and untrue serving sizes and
+proposed standard definitions for such terms as high 
+fiber and low fat.
+
+</top>
+
+
+<top>
+
+<num> Number: 371
+<title> health insurance holistic 
+
+<desc> Description: 
+What is the extent of health insurance coverage of 
+holistic or other non-traditional medicine/medical treatments
+(for example, acupuncture)?
+
+<narr> Narrative: 
+Discussions of whether or not particular health insurance
+plans cover alternative treatments are relevant.  Discussions
+of coverage for preventative programs such as health 
+education or wellness sessions are also relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 372
+<title> Native American casino
+
+<desc> Description: 
+Identify documents that discuss the growth of Native
+American casino gambling.
+
+<narr> Narrative: 
+Relevant documents include discussions regarding
+Native American casino gambling: its social 
+implications, effects on local and Native American
+economies, and legal aspects related to Native
+American tribal autonomy.
+
+</top>
+
+
+<top>
+
+<num> Number: 373
+<title> encryption equipment export 
+
+<desc> Description: 
+Identify documents that discuss the concerns of
+the United States regarding the export of 
+encryption equipment.
+
+<narr> Narrative: 
+Documents that merely mention the name of a company
+or group that produces encryption equipment but does
+not mention the exportation and/or commercial exploitation
+of the encryption equipment are not relevant.  Documents 
+which refer to governmental access into the encryption 
+systems for the purposes of counter-intelligence or 
+anti-crime activities are relevant. 
+
+</top>
+
+
+<top>
+
+<num> Number: 374
+<title> Nobel prize winners 
+
+<desc> Description: 
+Identify and provide background information on Nobel
+prize winners.
+
+<narr> Narrative: 
+At a minimum, relevant documents must contain the 
+following information:  year of Nobel prize award, 
+field of study, and recipients name.  When the 
+document announces what is obviously a current award,
+no year is required.
+
+</top>
+
+
+<top>
+
+<num> Number: 375
+<title> hydrogen energy 
+
+<desc> Description: 
+What is the status of research on hydrogen as a 
+feasible energy source?
+
+<narr> Narrative: 
+A relevant document will describe progress in 
+research on controlled hydrogen fusion or the use
+of hydrogen as fuel to power engines.
+
+</top>
+
+
+<top>
+
+<num> Number: 376
+<title> World Court 
+
+<desc> Description: 
+What types of cases were heard by the World Court
+(International Court of Justice)?
+
+<narr> Narrative: 
+Documents that report on particular cases heard by the
+World Court, including war tribunals created by the 
+Court, are relevant.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 377
+<title> cigar smoking 
+
+<desc> Description: 
+Identify documents that discuss the renewed 
+popularity of cigar smoking.
+
+<narr> Narrative: 
+A relevant document will discuss the extent of
+the resurgence of cigar smoking or the social
+and economic issues attendant to it.  Documents
+that discuss "Cigar Nights", "Cigar Rooms" and
+cigar production are relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 378
+<title> euro opposition 
+
+<desc> Description: 
+Identify documents that discuss opposition to the
+introduction of the euro, the European currency.
+
+<narr> Narrative: 
+A relevant document should include the countries
+or individuals who oppose the use of the euro and 
+the reason(s) for their opposition to its use.
+
+</top>
+
+
+<top>
+
+<num> Number: 379
+<title> mainstreaming 
+
+<desc> Description: 
+Identify documents that discuss mainstreaming
+children with physical or mental impairments.
+
+<narr> Narrative: 
+A relevant document will include the pros and
+cons of mainstreaming children with physical
+or mental impairments, the benefits to the 
+impaired child, as well as the attitude, beliefs
+and concerns of teachers and school administrators
+with regard to taking time away from the "normal
+children". 
+
+</top>
+
+
+<top>
+
+<num> Number: 380
+<title> obesity medical treatment 
+
+<desc> Description: 
+Identify documents that discuss medical treatment
+of obesity. 
+
+<narr> Narrative: 
+A relevant document should identify prescribed
+legal medications or treatments used to combat
+obesity and the positive or negative affects
+resulting from the applications.
+
+</top>
+
+
+<top>
+
+<num> Number: 381
+<title> alternative medicine 
+
+<desc> Description: 
+What forms of alternative medicine are being
+used in the treatment of illnesses or diseases
+and how successful are they?
+
+<narr> Narrative: 
+A relevant document should identify a form of
+alternative medicine which is being utilized 
+in the treatment of a disease or illness, 
+identify the illness or disease being treated,
+and provide an indication of the success of the
+procedure.
+
+</top>
+
+
+<top>
+
+<num> Number: 382
+<title> hydrogen fuel automobiles 
+
+<desc> Description: 
+Identify documents that discuss the use of hydrogen as 
+a fuel for piston driven automobiles (safe storage a
+concern) or the use of hydrogen in fuel cells to generate
+electricity to drive the car.
+ 
+<narr> Narrative: 
+A relevant document may discuss either hydrogen using fuel 
+cells to electrically power automobiles or it may discuss 
+the safe storage of hydrogen gas in a fuel tank through 
+the use of metal hydrides for use in piston engines. 
+
+</top>
+
+
+<top>
+
+<num> Number: 383
+<title> mental illness drugs
+
+<desc> Description: 
+Identify drugs used in the treatment of mental illness.  
+ 
+<narr> Narrative: 
+A relevant document will include the name of a specific
+or generic type of drug.  Generalities are not relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 384
+<title> space station moon 
+
+<desc> Description: 
+Identify documents that discuss the building of
+a space station with the intent of colonizing the
+moon.
+ 
+<narr> Narrative: 
+A relevant document will discuss the purpose of a 
+space station, initiatives towards colonizing the 
+moon, impediments which thus far have thwarted such a 
+project, plans currently underway or in the planning
+stages for such a venture; cost, countries prepared
+to make a commitment of men, resources, facilities
+and money to accomplish such a feat.
+
+</top>
+
+
+<top>
+
+<num> Number: 385
+<title> hybrid fuel cars 
+
+<desc> Description: 
+Identify documents that discuss the current status of
+hybrid automobile engines, (i.e., cars fueled by something
+other than gasoline only).
+ 
+<narr> Narrative: 
+A relevant document may include research on non-gasoline 
+powered engines or prototypes that may be fueled by natural 
+gas, methanol, alcohol; cost to the consumer; health benefits 
+derived; and shortcomings in horsepower and passenger comfort.
+
+</top>
+
+
+<top>
+
+<num> Number: 386
+<title> teaching disabled children 
+
+<desc> Description: 
+What methods are currently utilized or anticipated in 
+the teaching of disabled children?
+  
+<narr> Narrative: 
+A relevant document should identify a method or procedure
+currently used in the teaching of disabled children or one 
+that is anticipated being available in the near future. 
+
+</top>
+
+
+<top>
+
+<num> Number: 387
+<title> radioactive waste 
+
+<desc> Description: 
+Identify documents that discuss effective and safe ways to 
+permanently handle long-lived radioactive wastes.
+ 
+<narr> Narrative: 
+Documents that discuss incineration, cementation, bitumenization, 
+vitrification, and in underground nuclear explosion are relevant.
+
+</top>
+
+
+<top>
+
+<num> Number: 388
+<title> organic soil enhancement 
+
+<desc> Description: 
+Identify documents that discuss the use of organic
+fertilizers (composted sludge, ash, vegetable waste, 
+microorganisms, etc.) as soil enhancers. 
+  
+<narr> Narrative: 
+The focus of the topic is on soil enhancement.  
+Documents that discuss other uses of organic material
+are not relevant, nor are documents that concentrate
+solely on chemical fertilizers.
+
+</top>
+
+
+<top>
+
+<num> Number: 389
+<title> illegal technology transfer 
+
+<desc> Description: 
+What specific entities have been accused of illegal 
+technology transfer such as: selling their products, 
+formulas, etc. directly or indirectly to foreign 
+entities for other than peaceful purposes?
+  
+<narr> Narrative: 
+To be relevant, a selected document must specifically
+identify a person, company, or governmental entity 
+which provided articles useful for hostile purposes
+to entities outside of their own country and such 
+provision violated the laws of the provider's country.
+
+</top>
+
+
+<top>
+
+<num> Number: 390
+<title> orphan drugs 
+
+<desc> Description: 
+Find documents that discuss issues associated with so-called 
+"orphan drugs", that is, drugs that treat diseases affecting 
+relatively few people.
+ 
+<narr> Narrative: 
+A relevant document will discuss how the Orphan Drug Act 
+is working on behalf of those who suffer from orphan 
+diseases and conditions, or how this matter is handled in 
+other countries.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 391
+<title> R&D drug prices 
+
+<desc> Description: 
+Identify documents that discuss the impact of the cost of research
+and development (R&D) on the price of drugs.  
+
+<narr> Narrative: 
+Documents that describe how any aspect of the development of a drug
+affects its price are relevant.  Documents that discuss other factors
+that affect drug prices, such as advertising, without also discussing
+R&D costs, are not relevant.
+
+ 
+</top>
+
+
+<top>
+
+<num> Number: 392
+<title> robotics 
+
+<desc> Description: 
+What are the applications of robotics in the world today?
+
+<narr> Narrative: 
+Documents concerning R&D or testing of robotic equipment
+are not relevant, nor are documents discussing future 
+applications of robotics.  If the task completed seems to
+be merely another computer function rather than a task 
+usually done by people, then it is not relevant.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 393
+<title> mercy killing 
+
+<desc> Description: 
+Identify documents that discuss mercy killings.
+
+<narr> Narrative: 
+All individual cases of mercy killing are relevant, except
+that "letters to the editor" mentioning cases are not relevant.  
+The removal of life support systems is relevant.  A general 
+mention or description of a case without specifics, such as 
+victim's name are not relevant.  Cases determined to be a
+murder-suicide are not relevant.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 394
+<title> home schooling 
+
+<desc> Description: 
+Identify documents that discuss the education of 
+children at home (home schooling). 
+
+<narr> Narrative: 
+A relevant document would contain any data on
+the education of children in a home environment.
+Included could be data on where, by whom, 
+community acceptance, and successes.  Additional
+data on programs aiding the education of 
+disadvantaged children in an away-from-school
+environment such as mobile vehicle classrooms
+would be considered as home schooling and are 
+therefore relevant.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 395
+<title> tourism 
+
+<desc> Description: 
+Provide examples of successful attempts to attract 
+tourism as a means to improve a local economy.
+
+<narr> Narrative: 
+To be relevant, a selected document will specify
+the entity (city, state, country, governmental unit)
+which has achieved an economic increase due to the 
+entity's efforts at boosting tourism.  Documents 
+which only concern plans for increasing tourism are
+not relevant, only documents which detail an actual
+increase are relevant.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 396
+<title> sick building syndrome 
+
+<desc> Description: 
+Identify documents that discuss sick building syndrome or
+building-related illnesses.
+ 
+<narr> Narrative: 
+A relevant document would contain any data that refers to 
+the sick building or building-related illnesses, including
+illnesses caused by asbestos, air conditioning, pollution
+controls.  Work-related illnesses not caused by the building,
+such as carpal tunnel syndrome, are not relevant.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 397
+<title> automobile recalls
+
+<desc> Description: 
+Identify documents that discuss the reasons for 
+automobile recalls. 
+ 
+<narr> Narrative: 
+A relevant document will specify major or minor reasons 
+for automobile recalls by car manufacturers.  Documents 
+that discuss truck recalls are not relevant.  
+ 
+</top>
+
+
+<top>
+
+<num> Number: 398
+<title> dismantling Europe's arsenal 
+
+<desc> Description: 
+Identify documents that discuss the 
+European Conventional Arms Cut as it
+relates to the dismantling of Europe's
+arsenal.
+ 
+<narr> Narrative: 
+Relevant documents may address any of the
+following issues:  reducing conventional (non-
+nuclear) forces in Europe (CFE), efforts toward 
+reduction that have begun or have been accomplished, 
+the numbers of weapons or manpower reduced through 
+this treaty, comparisons of numbers of reductions 
+made by the Warsaw Pact and NATO, and the effect 
+this arms cut is having on European nations.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 399
+<title> oceanographic vessels 
+
+<desc> Description: 
+Identify documents that discuss the 
+activities or equipment of oceanographic 
+vessels.
+  
+<narr> Narrative: 
+Relevant documents will contain information on
+the activity of oceanographic vessels regardless
+of nationality.  Such items as undersea mapping,
+monitoring global warming, marine environmental
+monitoring and the use of deep sea robots to 
+search for sunken ships are relevant to oceanography
+activity.  Also relevant are such actions as using
+the vessel for research and development of new 
+equipment or exploring oceanic resources.  Any 
+reference to equipment in use aboard an oceanographic
+vessel is relevant.  Documents that identify a vessel
+as a survey ship which is involved in oceanographic
+activity is also relevant.
+ 
+</top>
+
+
+<top>
+
+<num> Number: 400 
+<title> Amazon rain forest 
+
+<desc> Description: 
+What measures are being taken by local South
+American authorities to preserve the Amazon
+tropical rain forest?
+ 
+<narr> Narrative: 
+Relevant documents may identify: the official 
+organizations, institutions, and individuals
+of the countries included in the Amazon rain
+forest; the measures being taken by them to
+preserve the rain forest; and indications of
+degrees of success in these endeavors.
+ 
+</top>
