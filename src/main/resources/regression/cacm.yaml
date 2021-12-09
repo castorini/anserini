@@ -21,7 +21,6 @@ ranking_root:
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 
-topic_reader: Cacm
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
@@ -40,10 +39,13 @@ evals:
     metric_precision: 4
     can_combine: true
 
+topic_reader: Cacm
 topics:
   - name: "CACM All"
+    id: cacm
     path: topics.cacm.txt
     qrel: qrels.cacm.txt
+
 models:
   - name: bm25
     params:

@@ -1,28 +1,25 @@
 ---
-corpus: core17
+corpus: nyt
 corpus_path: collections/newswire/NYTcorpus/
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
+index_path: indexes/lucene-index.nyt.pos+docvectors+raw
+collection: NewYorkTimesCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRaw
-topic_reader: Trec
-index_path: indexes/lucene-index.core17.pos+docvectors+raw
-collection: NewYorkTimesCollection
 index_stats:
   documents: 1855650
   documents (non-empty): 1855650
   total terms: 751047962
-topics:
-  - name: "[TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)"
-    path: topics.core17.txt
-    qrel: qrels.core17.txt
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
@@ -40,6 +37,14 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
+
+topic_reader: Trec
+topics:
+  - name: "[TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)"
+    id: core17
+    path: topics.core17.txt
+    qrel: qrels.core17.txt
+
 models:
   - name: bm25
     display: BM25

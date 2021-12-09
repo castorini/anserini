@@ -2,10 +2,6 @@
 corpus: cw09b
 corpus_path: collections/web/ClueWeb09b/
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
 index_path: indexes/lucene-index.cw09b.pos+docvectors+raw
 collection: ClueWeb09Collection
 generator: DefaultLuceneDocumentGenerator
@@ -14,21 +10,16 @@ index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRaw
-topic_reader: Webxml
 index_stats:
   documents: 50220186
   documents (non-empty): 50220156
   total terms: 31300822176
-topics:
-  - name: "[TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)"
-    path: topics.web.51-100.txt
-    qrel: qrels.web.51-100.txt
-  - name: "[TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)"
-    path: topics.web.101-150.txt
-    qrel: qrels.web.101-150.txt
-  - name: "[TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)"
-    path: topics.web.151-200.txt
-    qrel: qrels.web.151-200.txt
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
@@ -58,6 +49,19 @@ evals:
     parse_index: -1
     metric: err20
     metric_precision: 5
+
+topic_reader: Webxml
+topics:
+  - name: "[TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)"
+    path: topics.web.51-100.txt
+    qrel: qrels.web.51-100.txt
+  - name: "[TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)"
+    path: topics.web.101-150.txt
+    qrel: qrels.web.101-150.txt
+  - name: "[TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)"
+    path: topics.web.151-200.txt
+    qrel: qrels.web.151-200.txt
+
 models:
   - name: bm25
     display: BM25

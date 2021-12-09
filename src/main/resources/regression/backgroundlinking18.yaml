@@ -1,8 +1,8 @@
 ---
-corpus: backgroundlinking18
+corpus: wapo.v2
 corpus_path: collections/newswire/WashingtonPost.v2/data/
 
-index_path: indexes/lucene-index.core18.pos+docvectors+raw
+index_path: indexes/lucene-index.wapo.v2.pos+docvectors+raw
 collection: WashingtonPostCollection
 generator: WashingtonPostGenerator
 threads: 1
@@ -19,11 +19,7 @@ search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
-topic_reader: BackgroundLinking
-topics:
-  - name: "[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)"
-    path: topics.backgroundlinking18.txt
-    qrel: qrels.backgroundlinking18.txt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
@@ -41,6 +37,14 @@ evals:
     metric: AP
     metric_precision: 4
     can_combine: true
+
+topic_reader: BackgroundLinking
+topics:
+  - name: "[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)"
+    id: bglink18
+    path: topics.backgroundlinking18.txt
+    qrel: qrels.backgroundlinking18.txt
+
 models:
   - name: bm25
     display: BM25

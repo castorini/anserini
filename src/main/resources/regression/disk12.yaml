@@ -52,6 +52,7 @@ topics:
     id: trec3
     path: topics.adhoc.151-200.txt
     qrel: qrels.adhoc.151-200.txt
+
 models:
   - name: bm25
     display: BM25
