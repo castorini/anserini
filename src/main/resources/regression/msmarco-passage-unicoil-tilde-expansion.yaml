@@ -2,6 +2,12 @@
 corpus: msmarco-passage-unicoil-tilde-expansion
 corpus_path: collections/msmarco/msmarco-passage-unicoil-tilde-expansion-b8/
 
+index_path: indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 73040108576
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -11,7 +17,7 @@ collection: JsonVectorCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 16
 index_options: -impact -pretokenized
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
@@ -34,16 +40,14 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: true
-index_path: indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion
-index_stats:
-  documents: 8841823
-  documents (non-empty): 8841823
-  total terms: 73040108576
+
+topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
     path: topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
+
 models:
   - name: unicoil-tilde-expansion
     display: uniCOIL w/ TILDE expansion

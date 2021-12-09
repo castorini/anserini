@@ -2,16 +2,22 @@
 corpus: msmarco-passage
 corpus_path: collections/msmarco/passage/
 
+index_path: indexes/lucene-index.msmarco-passage.pos+docvectors+raw
+collection: JsonCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 9
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 352316036
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: JsonCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 9
-index_options: -storePositions -storeDocvectors -storeRaw
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
@@ -27,16 +33,14 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: true
-index_path: indexes/lucene-index.msmarco-passage.pos+docvectors+raw
-index_stats:
-  documents: 8841823
-  documents (non-empty): 8841823
-  total terms: 352316036
+
+topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
     path: topics.msmarco-passage.dev-subset.txt
     qrel: qrels.msmarco-passage.dev-subset.txt
+
 models:
   - name: bm25-default
     display: BM25 (default)

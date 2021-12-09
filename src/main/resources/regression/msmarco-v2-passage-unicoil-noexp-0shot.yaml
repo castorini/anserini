@@ -2,16 +2,22 @@
 corpus: msmarco-v2-passage-unicoil-noexp-0shot
 corpus_path: collections/msmarco/msmarco-passage-v2-unicoil-noexp-0shot-b8
 
+index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot
+collection: JsonVectorCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 18
+index_options: -impact -pretokenized
+index_stats:
+  documents: 138364198
+  documents (non-empty): 138364198
+  total terms: 411330032512
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: JsonVectorCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 18
-index_options: -impact -pretokenized
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m map
@@ -41,11 +47,8 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: false
-index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot
-index_stats:
-  documents: 138364198
-  documents (non-empty): 138364198
-  total terms: 411330032512
+
+topic_reader: TsvInt
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev
@@ -55,6 +58,7 @@ topics:
     id: dev2
     path: topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz
     qrel: qrels.msmarco-v2-passage.dev2.txt
+
 models:
   - name: unicoil-noexp-0shot
     display: uniCOIL (no expansion, zero-shot)

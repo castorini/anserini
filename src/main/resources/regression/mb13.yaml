@@ -2,35 +2,22 @@
 corpus: mb13
 corpus_path: collections/twitter/Tweets2013-corpus/data/
 
+index_path: indexes/lucene-index.mb13.pos+docvectors+raw
+collection: TweetCollection
+threads: 44
+generator: TweetGenerator
+index_options: -storePositions -storeDocvectors -storeRaw -uniqueDocid -optimize -tweet.keepUrls -tweet.stemming
+index_stats:
+  documents: 203145916
+  documents (non-empty): 203143249
+  total terms: 2099082204
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-index_path: indexes/lucene-index.mb13.pos+docvectors+raw
-collection: TweetCollection
-threads: 44
-generator: TweetGenerator
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-  - -uniqueDocid
-  - -optimize
-  - -tweet.keepUrls
-  - -tweet.stemming
-index_stats:
-  documents: 203145916
-  documents (non-empty): 203143249
-  total terms: 2099082204
-topic_reader: Microblog
-topics:
-  - name: "[TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)"
-    path: topics.microblog2013.txt
-    qrel: qrels.microblog2013.txt
-  - name: "[TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)"
-    path: topics.microblog2014.txt
-    qrel: qrels.microblog2014.txt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m map
@@ -46,6 +33,16 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
+
+topic_reader: Microblog
+topics:
+  - name: "[TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)"
+    path: topics.microblog2013.txt
+    qrel: qrels.microblog2013.txt
+  - name: "[TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)"
+    path: topics.microblog2014.txt
+    qrel: qrels.microblog2014.txt
+
 models:
   - name: bm25
     display: BM25

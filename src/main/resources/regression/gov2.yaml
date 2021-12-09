@@ -2,16 +2,21 @@
 corpus: gov2
 corpus_path: collections/web/gov2/gov2-corpus/
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
 index_path: indexes/lucene-index.gov2.pos+docvectors+raw
 collection: TrecwebCollection
 threads: 44
 generator: DefaultLuceneDocumentGenerator
 index_options: -storePositions -storeDocvectors -storeRaw
-topic_reader: Trec
+index_stats:
+  documents: 25170853
+  documents (non-empty): 25170665
+  total terms: 17345663488
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m map
@@ -27,10 +32,8 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
-index_stats:
-  documents: 25170853
-  documents (non-empty): 25170665
-  total terms: 17345663488
+
+topic_reader: Trec
 topics:
   - name: "[TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)"
     path: topics.terabyte04.701-750.txt
@@ -41,6 +44,7 @@ topics:
   - name: "[TREC 2006 Terabyte Track (Topics 801-850)](../src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt)"
     path: topics.terabyte06.801-850.txt
     qrel: qrels.terabyte06.801-850.txt
+
 models:
   - name: bm25
     display: BM25

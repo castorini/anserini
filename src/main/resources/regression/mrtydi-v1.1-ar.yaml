@@ -2,22 +2,24 @@
 corpus: mrtydi-v1.1-ar
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-arabic
 
+index_path: indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw
+collection: MrTyDiCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language ar
+index_stats:
+  documents: 2106586
+  documents (non-empty): 2106586
+  total terms: 92529014
+
 search_command: target/appassembler/bin/SearchCollection
+search_options:
+  - -language ar
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: MrTyDiCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-  - -language ar
-search_options:
-  - -language ar
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m recip_rank
@@ -33,11 +35,8 @@ evals:
     metric: R@100
     metric_precision: 4
     can_combine: true
-index_path: indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw
-index_stats:
-  documents: 2106586
-  documents (non-empty): 2106586
-  total terms: 92529014
+
+topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-ar.train.txt.gz
@@ -48,6 +47,7 @@ topics:
   - name: "[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-ar.test.txt.gz
     qrel: qrels.mrtydi-v1.1-ar.test.txt
+
 models:
   - name: bm25
     display: BM25

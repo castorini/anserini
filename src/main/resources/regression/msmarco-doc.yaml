@@ -2,16 +2,22 @@
 corpus: msmarco-doc
 corpus_path: collections/msmarco/doc/
 
+index_path: indexes/lucene-index.msmarco-doc.pos+docvectors+raw
+collection: CleanTrecCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 3213835
+  documents (non-empty): 3213835
+  total terms: 2748636047
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: CleanTrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
-index_options: -storePositions -storeDocvectors -storeRaw
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
@@ -34,16 +40,14 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: true
-index_path: indexes/lucene-index.msmarco-doc.pos+docvectors+raw
-index_stats:
-  documents: 3213835
-  documents (non-empty): 3213835
-  total terms: 2748636047
+
+topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
     id: dev
     path: topics.msmarco-doc.dev.txt
     qrel: qrels.msmarco-doc.dev.txt
+
 models:
   - name: bm25-default
     display: BM25 (default)

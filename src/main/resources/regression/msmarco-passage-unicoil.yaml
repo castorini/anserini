@@ -2,16 +2,22 @@
 corpus: msmarco-passage-unicoil
 corpus_path: collections/msmarco/msmarco-passage-unicoil-b8/
 
+index_path: indexes/lucene-index.msmarco-passage-unicoil
+collection: JsonVectorCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 16
+index_options: -impact -pretokenized
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 44495093768
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: JsonVectorCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
-index_options: -impact -pretokenized
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
@@ -34,16 +40,14 @@ evals:
     metric: R@1000
     metric_precision: 4
     can_combine: true
-index_path: indexes/lucene-index.msmarco-passage-unicoil
-index_stats:
-  documents: 8841823
-  documents (non-empty): 8841823
-  total terms: 44495093768
+
+topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
     path: topics.msmarco-passage.dev-subset.unicoil.tsv.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
+
 models:
   - name: unicoil
     display: uniCOIL w/ doc2query-T5 expansion
