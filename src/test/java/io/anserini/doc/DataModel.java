@@ -40,7 +40,7 @@ public class DataModel {
   private int threads;
   private String topic_reader;
   private String index_path;
-  private List<String> index_options;
+  private String index_options;
   private List<String> search_options;
   private Map<String, Long> index_stats;
   private List<Model> models;
@@ -208,7 +208,7 @@ public class DataModel {
 
   static class Eval {
     private String command;
-    private List<String> params;
+    private String params;
     private String separator;
     private int parse_index;
     private String metric;
@@ -219,8 +219,10 @@ public class DataModel {
     public void setCan_combine(boolean can_combine) { this.can_combine = can_combine; }
     public String getCommand() { return command; }
     public void setCommand(String command) { this.command = command; }
-    public List<String> getParams() { return params; }
-    public void setParams(List<String> params) { this.params = params; }
+
+    public String getParams() { return params; }
+    public void setParams(String params) { this.params = params; }
+
     public String getSeparator() { return separator; }
     public void setSeparator(String separator) { this.separator = separator; }
     public int getParse_index() { return parse_index; }
@@ -231,11 +233,11 @@ public class DataModel {
     public void setMetric_precision(int metric_precision) { this.metric_precision = metric_precision; }
   }
 
-  public List<String> getIndex_options() {
+  public String getIndex_options() {
     return index_options;
   }
 
-  public void setIndex_options(List<String> index_options) {
+  public void setIndex_options(String index_options) {
     this.index_options = index_options;
   }
 
@@ -249,11 +251,10 @@ public class DataModel {
 
   public String generateIndexingCommand(String collection) {
     boolean containRawDocs = false;
-    for (String option : getIndex_options()) {
-      if (option.contains("-storeRaw")) {
-        containRawDocs = true;
-      }
+    if (getIndex_options().contains("-storeRaw")) {
+      containRawDocs = true;
     }
+
     StringBuilder builder = new StringBuilder();
     builder.append("nohup sh ");
     builder.append(INDEX_COMMAND);
@@ -262,20 +263,17 @@ public class DataModel {
     builder.append(" -index ").append(getIndex_path()).append(" \\\n");
     builder.append(" -generator ").append(getGenerator()).append(" \\\n");
     builder.append(" -threads ").append(getThreads());
-    for (String option : getIndex_options()) {
-      builder.append(" ").append(option);
-    }
+    builder.append(" ").append(getIndex_options());
     builder.append(" \\\n").append(String.format("  >& logs/log.%s &", collection));
     return builder.toString();
   }
 
   public String generateRankingCommand(String collection) {
     boolean containRawDocs = false;
-    for (String option : getIndex_options()) {
-      if (option.contains("-storeRaw")) {
-        containRawDocs = true;
-      }
+    if (getIndex_options().contains("-storeRaw")) {
+      containRawDocs = true;
     }
+
     StringBuilder builder = new StringBuilder();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
@@ -313,9 +311,7 @@ public class DataModel {
           String evalCmd = eval.getCommand();
           String evalCmdOption = "";
           if (eval.getParams() != null) {
-            for (String option : eval.getParams()) {
-              evalCmdOption += " "+option;
-            }
+            evalCmdOption += " "+eval.getParams();
           }
           String evalCmdResidual = "";
           evalCmdResidual += " "+Paths.get(getQrels_root(), topic.getQrel());

@@ -45,9 +45,9 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.fever
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
 ```
 
 ## Effectiveness

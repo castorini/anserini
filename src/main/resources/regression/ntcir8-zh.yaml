@@ -6,13 +6,8 @@ index_path: indexes/lucene-index.ntcir8-zh.pos+docvectors+raw
 collection: CleanTrecCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 16
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-  - -language zh
-  - -uniqueDocid
-  - -optimize # we need this, because without, "documents (non-empty)" would be non-deterministic, failing regression.
+index_options: -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize
+# we need -optimize because without, "documents (non-empty)" would be non-deterministic, failing regression.
 index_stats:
   documents: 308832
   documents (non-empty): 308832

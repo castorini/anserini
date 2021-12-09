@@ -117,12 +117,9 @@ def construct_indexing_command(yaml_data, args):
         '-generator', yaml_data['generator'],
         '-threads', str(threads),
         '-input', collection_path,
-        '-index', yaml_data['index_path']
+        '-index', yaml_data['index_path'],
+        yaml_data['index_options']
     ]
-    if isinstance(yaml_data['index_options'], list):
-        index_command.extend(yaml_data['index_options'])
-    else:
-        index_command.append(yaml_data['index_options'])
 
     return index_command
 
@@ -213,14 +210,8 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
     for model in yaml_data['models']:
         for i, topic in enumerate(yaml_data['topics']):
             for eval in yaml_data['evals']:
-                eval_params = ''
-                if eval['params']:
-                    if isinstance(eval['params'], list):
-                        eval_params = ' '.join(eval['params'])
-                    else:
-                        eval_params = eval['params']
                 eval_cmd = [
-                  os.path.join(yaml_data['root'], eval['command']), eval_params,
+                  os.path.join(yaml_data['root'], eval['command']), eval['params'],
                   os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
                   os.path.join(output_root, generate_run_file_name(yaml_data['corpus'], topic, model['name']))
                 ]

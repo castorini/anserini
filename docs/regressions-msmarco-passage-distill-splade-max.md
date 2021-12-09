@@ -45,7 +45,7 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recip_rank -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz
 ```
 
 ## Effectiveness

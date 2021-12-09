@@ -10,11 +10,11 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
- -input /path/to/core18 \
- -index indexes/lucene-index.core18.pos+docvectors+raw \
+ -input /path/to/wapo.v2 \
+ -index indexes/lucene-index.wapo.v2.pos+docvectors+raw \
  -generator WashingtonPostGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.core18 &
+  >& logs/log.wapo.v2 &
 ```
 
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
@@ -32,51 +32,51 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
- -output runs/run.core18.bm25.topics.core18.txt \
+ -output runs/run.wapo.v2.bm25.topics.core18.txt \
  -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
- -output runs/run.core18.bm25+rm3.topics.core18.txt \
+ -output runs/run.wapo.v2.bm25+rm3.topics.core18.txt \
  -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
- -output runs/run.core18.bm25+ax.topics.core18.txt \
+ -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
- -output runs/run.core18.ql.topics.core18.txt \
+ -output runs/run.wapo.v2.ql.topics.core18.txt \
  -qld &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
- -output runs/run.core18.ql+rm3.topics.core18.txt \
+ -output runs/run.wapo.v2.ql+rm3.topics.core18.txt \
  -qld -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
- -output runs/run.core18.ql+ax.topics.core18.txt \
+ -output runs/run.wapo.v2.ql+ax.topics.core18.txt \
  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.core18.bm25.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.core18.bm25+rm3.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.core18.bm25+ax.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.core18.ql.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.core18.ql+rm3.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.core18.ql+ax.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
 ```
 
 ## Effectiveness
