@@ -20,29 +20,21 @@ ranking_root:
 
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-      - -c
-      - -l 2
+    params: -m map -c -l 2
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.1000
-      - -c
-      - -l 2
+    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric: R@1000
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m ndcg_cut.10
-      - -c
+    params: -m ndcg_cut.10 -c
     separator: "\t"
     parse_index: 2
     metric: NDCG@10

@@ -10,57 +10,39 @@ ranking_root:
 collection: JsonVectorCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 18
-index_options:
-  - -impact
-  - -pretokenized
+index_options: -impact -pretokenized
 topic_reader: TsvInt
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m map
-      - -c
-      - -l 2
+    params: -c -M 100 -m map -l 2
     separator: "\t"
     parse_index: 2
     metric: MAP@100
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m recip_rank
-      - -c
-      - -l 2
+    params: -c -M 100 -m recip_rank -l 2
     separator: "\t"
     parse_index: 2
     metric: MRR@100
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m ndcg_cut.10
-      - -c
+    params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric: NDCG@10
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
-      - -l 2
+    params: -c -m recall.100 -l 2
     separator: "\t"
     parse_index: 2
     metric: R@100
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.1000
-      - -c
-      - -l 2
+    params: -c -m recall.1000 -l 2
     separator: "\t"
     parse_index: 2
     metric: R@1000

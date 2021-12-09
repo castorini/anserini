@@ -2,42 +2,44 @@
 corpus: robust04
 corpus_path: collections/newswire/disk45/
 
+index_path: indexes/lucene-index.robust04.pos+docvectors+raw
+collection: TrecCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 528030
+  documents (non-empty): 528030
+  total terms: 174540872
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: TrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
-index_options: -storePositions -storeDocvectors -storeRaw
-topic_reader: Trec
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
+    params: -m map
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m P.30
+    params: -m P.30
     separator: "\t"
     parse_index: 2
     metric: p30
     metric_precision: 4
     can_combine: true
-index_path: indexes/lucene-index.robust04.pos+docvectors+raw
-index_stats:
-  documents: 528030
-  documents (non-empty): 528030
-  total terms: 174540872
+
+topic_reader: Trec
 topics:
   - name: "[TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)"
     path: topics.robust04.txt
     qrel: qrels.robust04.txt
+
 models:
   - name: bm25
     display: BM25
