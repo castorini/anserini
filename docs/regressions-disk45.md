@@ -1,8 +1,8 @@
-# Anserini: Regressions for [Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html)
+# Anserini: Regressions for [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html)
 
-This page describes regressions for ad hoc topics from the early TRECs, which use [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A).
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/disk12.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/disk12.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page describes regressions for ad hoc topics from TREC 7-8, which use [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/disk45.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/disk45.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -17,7 +17,8 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
   >& logs/log.disk45 &
 ```
 
-The directory `/path/to/disk12/` should be the root directory of [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A), i.e., `ls /path/to/disk12/` should bring up subdirectories like `doe`, `wsj`.
+The directory `/path/to/disk45/` should be the root directory of [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html); inside each there should be subdirectories like `ft`, `fr94`.
+Note that Anserini ignores the `cr` folder when indexing, which is the standard configuration.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
