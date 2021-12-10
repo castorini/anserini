@@ -1,0 +1,126 @@
+---
+name: disk45
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexReaderUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: TrecCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 16
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRaw
+topic_reader: Trec
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/newswire/disk45/
+index_path: indexes/lucene-index.disk45.pos+docvectors+raw
+index_stats:
+  documents: 528030
+  documents (non-empty): 528030
+  total terms: 174540872
+topics:
+  - name: "[TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)"
+    path: topics.adhoc.351-400.txt
+    qrel: qrels.adhoc.351-400.txt
+  - name: "[TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)"
+    path: topics.adhoc.401-450.txt
+    qrel: qrels.adhoc.401-450.txt
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.1862
+        - 0.2515
+      p30:
+        - 0.3093
+        - 0.3560
+  - name: bm25+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.2354
+        - 0.2750
+      p30:
+        - 0.3447
+        - 0.3760
+  - name: bm25+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -axiom
+      - -axiom.deterministic
+      - -rerankCutoff 20
+    results:
+      map:
+        - 0.2431
+        - 0.2812
+      p30:
+        - 0.3287
+        - 0.3753
+  - name: ql
+    display: QL
+    params:
+      - -qld
+    results:
+      map:
+        - 0.1843
+        - 0.2460
+      p30:
+        - 0.3073
+        - 0.3480
+  - name: ql+rm3
+    display: +RM3
+    params:
+      - -qld
+      - -rm3
+    results:
+      map:
+        - 0.2168
+        - 0.2702
+      p30:
+        - 0.3307
+        - 0.3680
+  - name: ql+ax
+    display: +Ax
+    params:
+      - -qld
+      - -axiom
+      - -axiom.deterministic
+      - -rerankCutoff 20
+    results:
+      map:
+        - 0.2298
+        - 0.2647
+      p30:
+        - 0.3193
+        - 0.3500
