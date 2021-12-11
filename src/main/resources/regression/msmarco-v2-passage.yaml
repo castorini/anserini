@@ -1,76 +1,64 @@
 ---
-name: msmarco-v2-passage
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: msmarco-v2-passage
+corpus_path: collections/msmarco/msmarco_v2_passage
+
+index_path: indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw
+collection: MsMarcoV2PassageCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 18
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 138364198
+  documents (non-empty): 138364197
+  total terms: 4673266762
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: MsMarcoV2PassageCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 18
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m map
-      - -c
+    params: -c -M 100 -m map
     separator: "\t"
     parse_index: 2
     metric: MAP
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m recip_rank
-      - -c
+    params: -c -M 100 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric: MRR@100
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
+    params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric: R@100
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.1000
-      - -c
+    params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
     metric: R@1000
     metric_precision: 4
     can_combine: false
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/msmarco_v2_passage
-index_path: indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw
-index_stats:
-  documents: 138364198
-  documents (non-empty): 138364197
-  total terms: 4673266762
+
+topic_reader: TsvInt
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev
     path: topics.msmarco-v2-passage.dev.txt
     qrel: qrels.msmarco-v2-passage.dev.txt
   - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev2
     path: topics.msmarco-v2-passage.dev2.txt
     qrel: qrels.msmarco-v2-passage.dev2.txt
+
 models:
   - name: bm25-default
     display: BM25 (default)
