@@ -130,7 +130,8 @@ For the most part, manual copying and pasting of commands into a shell is requir
 If you've found Anserini to be helpful, we have a simple request for you to contribute back.
 In the course of [reproducing](docs/reproducibility.md) baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
 Reproducibility is important to us, and we'd like to know about successes as well as failures.
-Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
+Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates),
+and be re-generated using the [build.sh](https://github.com/castorini/anserini/blob/master/bin/build.sh) scripts.
 In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
 Beyond that, there are always [open issues](https://github.com/castorini/anserini/issues) we would appreciate help on!
