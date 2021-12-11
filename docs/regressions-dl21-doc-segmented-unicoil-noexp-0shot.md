@@ -19,11 +19,11 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
- -input /path/to/dl21-doc-segmented-unicoil-noexp-0shot \
+ -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot \
  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot \
  -generator DefaultLuceneDocumentGenerator \
  -threads 18 -impact -pretokenized \
-  >& logs/log.dl21-doc-segmented-unicoil-noexp-0shot &
+  >& logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot &
 ```
 
 The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
@@ -41,17 +41,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
- -output runs/run.dl21-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz \
+ -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz \
  -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m map -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.dl21-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.tsv.gz
 ```
 
 ## Effectiveness

@@ -1,29 +1,49 @@
 ---
-name: cw12
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/web/ClueWeb12/
+corpus: cw12
+corpus_path: collections/web/ClueWeb12/
+
 index_path: indexes/lucene-index.cw12.pos+docvectors+raw
 collection: ClueWeb12Collection
 generator: DefaultLuceneDocumentGenerator
 threads: 44
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: Webxml
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 731645141
   documents (non-empty): 731542236
   total terms: 429234508918
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/gdeval.pl
+    separator: ","
+    parse_index: -2
+    metric: ndcg20
+    metric_precision: 5
+  - command: tools/eval/gdeval.pl
+    separator: ","
+    parse_index: -1
+    metric: err20
+    metric_precision: 5
+
+topic_reader: Webxml
 topics:
   - name: "[TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)"
     path: topics.web.201-250.txt
@@ -31,35 +51,7 @@ topics:
   - name: "[TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)"
     path: topics.web.251-300.txt
     qrel: qrels.web.251-300.txt
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-    separator: "\t"
-    parse_index: 2
-    metric: map
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m P.30
-    separator: "\t"
-    parse_index: 2
-    metric: p30
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/gdeval.pl
-    params:
-    separator: ","
-    parse_index: -2
-    metric: ndcg20
-    metric_precision: 5
-  - command: tools/eval/gdeval.pl
-    params:
-    separator: ","
-    parse_index: -1
-    metric: err20
-    metric_precision: 5
+
 models:
   - name: bm25
     display: BM25

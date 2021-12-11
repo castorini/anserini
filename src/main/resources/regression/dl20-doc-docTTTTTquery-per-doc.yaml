@@ -1,71 +1,60 @@
 ---
-name: msmarco-doc-docTTTTTquery-per-doc
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: msmarco-doc-docTTTTTquery-per-doc
+corpus_path: collections/msmarco/doc-docTTTTTquery-per-doc
+
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw
+collection: JsonCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 3213834
+  documents (non-empty): 3213834
+  total terms: 3748332076
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: JsonCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-      - -c
+    params: -c -m map
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m ndcg_cut.10
-      - -c
+    params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric: NDCG@10
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recip_rank
-      - -c
+    params: -c -m recip_rank
     separator: "\t"
     parse_index: 2
     metric: RR
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
+    params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric: R@100
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/doc-docTTTTTquery-per-doc
-index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw
-index_stats:
-  documents: 3213834
-  documents (non-empty): 3213834
-  total terms: 3748332076
+
+topic_reader: TsvInt
 topics:
   - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
     path: topics.dl20.txt
     qrel: qrels.dl20-doc.txt
+
 models:
   - name: bm25-default
     display: BM25 (default)
