@@ -47,7 +47,7 @@ CORPUS_ROOTS = [
 
 INDEX_COMMAND = 'target/appassembler/bin/IndexCollection'
 INDEX_STATS_COMMAND = 'target/appassembler/bin/IndexReaderUtils'
-
+SEARCH_COMMAND = 'target/appassembler/bin/SearchCollection'
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
@@ -183,13 +183,13 @@ def construct_ranking_command(output_root, yaml_data, build_index=True):
     """
     ranking_commands = [
         [
-            os.path.join(yaml_data['root'], yaml_data['search_command']),
-            '-topicreader', yaml_data['topic_reader'],
+            SEARCH_COMMAND,
             '-index', get_index_path(yaml_data),
-            ' '.join(model['params']),
             '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
+            '-topicreader', yaml_data['topic_reader'],
             '-output', os.path.join(output_root, generate_run_file_name(yaml_data['corpus'], topic, model['name'])),
-        ] + (yaml_data['search_options'] if 'search_options' in yaml_data else [])
+            model['params']
+        ]
         for (model, topic) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
     return ranking_commands
@@ -209,7 +209,7 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
     success = True
     for model in yaml_data['models']:
         for i, topic in enumerate(yaml_data['topics']):
-            for eval in yaml_data['evals']:
+            for eval in yaml_data['metrics']:
                 eval_cmd = [
                   os.path.join(yaml_data['root'], eval['command']), eval['params'] if 'params' in eval and eval['params'] else '',
                   os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
@@ -225,7 +225,7 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
                 eval_out = out.strip().split(eval['separator'])[eval['parse_index']]
                 expected = round(model['results'][eval['metric']][i], eval['metric_precision'])
                 actual = round(float(eval_out), eval['metric_precision'])
-                result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3}'.format(expected, actual, eval['metric'], model['name'])
+                result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3} topics: {4}'.format(expected, actual, eval['metric'], model['name'], topic['id'])
                 if is_close(expected, actual):
                     logger.info(ok_str + result_str)
                 else:

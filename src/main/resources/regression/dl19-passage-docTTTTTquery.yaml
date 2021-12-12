@@ -2,7 +2,7 @@
 corpus: msmarco-passage-docTTTTTquery
 corpus_path: collections/msmarco/passage-docTTTTTquery
 
-index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw
+index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 9
@@ -11,12 +11,6 @@ index_stats:
   documents: 8841823
   documents (non-empty): 8841823
   total terms: 1986612263
-
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
 
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -42,6 +36,8 @@ evals:
     can_combine: false
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)"
     id: dl19

@@ -2,7 +2,7 @@
 corpus: car-paragraphCorpus.v2.0
 corpus_path: collections/car/paragraphCorpus.v2.0/
 
-index_path: indexes/lucene-index.car-paragraphCorpus.v2.0.pos+docvectors+raw
+index_path: indexes/lucene-index.car-paragraphCorpus.v2.0
 collection: CarCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1
@@ -11,11 +11,6 @@ index_stats:
   documents: 29794689
   documents (non-empty): 29791059
   total terms: 1249754054
-
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
 
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -34,6 +29,8 @@ evals:
     can_combine: true
 
 topic_reader: Car
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)"
     id: car17v2.0

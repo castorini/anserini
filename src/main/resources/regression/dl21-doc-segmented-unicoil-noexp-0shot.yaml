@@ -12,12 +12,6 @@ index_stats:
   documents (non-empty): 124131404
   total terms: 805830282591
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m map
@@ -56,6 +50,8 @@ evals:
     can_combine: false
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl21

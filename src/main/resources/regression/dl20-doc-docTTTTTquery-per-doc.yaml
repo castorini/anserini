@@ -2,7 +2,7 @@
 corpus: msmarco-doc-docTTTTTquery-per-doc
 corpus_path: collections/msmarco/doc-docTTTTTquery-per-doc
 
-index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1
@@ -11,12 +11,6 @@ index_stats:
   documents: 3213834
   documents (non-empty): 3213834
   total terms: 3748332076
-
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
 
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -49,6 +43,8 @@ evals:
     can_combine: true
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20

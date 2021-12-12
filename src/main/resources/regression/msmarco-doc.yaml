@@ -12,12 +12,6 @@ index_stats:
   documents (non-empty): 3213835
   total terms: 2748636047
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
@@ -42,6 +36,8 @@ evals:
     can_combine: true
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
     id: dev
@@ -51,8 +47,7 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params:
-      - -bm25
+    params: -bm25
     results:
       map:
         - 0.2310
@@ -62,9 +57,7 @@ models:
         - 0.8856
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
       map:
         - 0.1632
@@ -74,10 +67,7 @@ models:
         - 0.8785
   - name: bm25-tuned
     display: BM25 (tuned)
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87
     results:
       map:
         - 0.2788
@@ -87,11 +77,7 @@ models:
         - 0.9326
   - name: bm25-tuned+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
-      - -rm3
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3
     results:
       map:
         - 0.2289
@@ -101,10 +87,7 @@ models:
         - 0.9320
   - name: bm25-tuned2
     display: BM25 (tuned2)
-    params:
-      - -bm25
-      - -bm25.k1 4.46
-      - -bm25.b 0.82
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82
     results:
       map:
         - 0.2775
@@ -114,11 +97,7 @@ models:
         - 0.9357
   - name: bm25-tuned2+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 4.46
-      - -bm25.b 0.82
-      - -rm3
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3
     results:
       map:
         - 0.2238

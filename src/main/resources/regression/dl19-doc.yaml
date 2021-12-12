@@ -2,7 +2,7 @@
 corpus: msmarco-doc
 corpus_path: collections/msmarco/doc/
 
-index_path: indexes/lucene-index.msmarco-doc.pos+docvectors+raw
+index_path: indexes/lucene-index.msmarco-doc
 collection: CleanTrecCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1
@@ -11,12 +11,6 @@ index_stats:
   documents: 3213835
   documents (non-empty): 3213835
   total terms: 2748636047
-
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
 
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -42,6 +36,8 @@ evals:
     can_combine: true
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
     id: dl19
@@ -51,9 +47,7 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params:
-      - -bm25
-      - -hits 100  # Note, this is different DL 2019 passage ranking!
+    params: -bm25 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
         - 0.2443
@@ -63,10 +57,7 @@ models:
         - 0.3948
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
-      - -hits 100  # Note, this is different DL 2019 passage ranking!
+    params: -bm25 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
         - 0.2772
@@ -76,12 +67,7 @@ models:
         - 0.4189
   - name: bm25-default+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
-      - -hits 100  # Note, this is different DL 2019 passage ranking!
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
         - 0.2452
@@ -91,10 +77,7 @@ models:
         - 0.3945
   - name: bm25-default+prf
     display: +PRF
-    params:
-      - -bm25
-      - -bm25prf
-      - -hits 100  # Note, this is different DL 2019 passage ranking!
+    params: -bm25 -bm25prf -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
         - 0.2541
@@ -104,11 +87,7 @@ models:
         - 0.4004
   - name: bm25-tuned
     display: BM25 (tuned)
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
-      - -hits 100  # Note, this is different DL 2019 passage ranking!
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
         - 0.2318
@@ -118,12 +97,7 @@ models:
         - 0.3862
   - name: bm25-tuned+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
-      - -rm3
-      - -hits 100  # Note, this is different DL 2019 passage ranking!
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
         - 0.2700
@@ -133,14 +107,7 @@ models:
         - 0.4193
   - name: bm25-tuned+ax
     display: +Ax
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
-      - -hits 100  # Note, this is different DL 2019 passage ranking!
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
         - 0.2816
@@ -150,12 +117,7 @@ models:
         - 0.4399
   - name: bm25-tuned+prf
     display: +PRF
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
-      - -bm25prf
-      - -hits 100  # Note, this is different DL 2019 passage ranking!
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       map:
         - 0.2758
