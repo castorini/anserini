@@ -197,13 +197,19 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <!-- This fixes the issue "An SPI class of type org.apache.lucene.codecs.Codec with name ... does not exist."
-                   cf. https://stackoverflow.com/questions/38361533/an-spi-class-of-type-org-apache-lucene-codecs-codec-with-name-lucene54-does-no/38382096 -->
+              <!-- See https://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html
+
+                JAR files providing implementations of some interfaces often ship with a META-INF/services/ directory
+                that maps interfaces to their implementation classes for lookup by the service locator. To relocate
+                the class names of these implementation classes, and to merge multiple implementations of the same
+                interface into one service entry, the ServicesResourceTransformer can be used.
+
+                Lucene needs 'META-INF/services/org.apache.lucene.codecs.Codec' to find the proper codecs.
+
+                cf. https://stackoverflow.com/questions/38361533/an-spi-class-of-type-org-apache-lucene-codecs-codec-with-name-lucene54-does-no/38382096
+              -->
               <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/services/org.apache.lucene.codecs.Codec</resource>
-                  <resource>META-INF/services/org.apache.lucene.codecs.PostingsFormat</resource>
-                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
               </transformers>
               <!-- This fixes the issue "Invalid signature file digest for Manifest main attributes"
                    cf. http://zhentao-li.blogspot.com/2012/06/maven-shade-plugin-invalid-signature.html -->
