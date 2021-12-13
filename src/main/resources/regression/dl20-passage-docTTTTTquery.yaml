@@ -1,84 +1,67 @@
 ---
-name: msmarco-passage-docTTTTTquery
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: msmarco-passage-docTTTTTquery
+corpus_path: collections/msmarco/passage-docTTTTTquery
+
+index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw
+collection: JsonCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 9
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 1986612263
+
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: JsonCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 9
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-      - -c
-      - -l 2
+    params: -c -m map -l 2
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m ndcg_cut.10
-      - -c
+    params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric: NDCG@10
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recip_rank
-      - -c
-      - -l 2
+    params: -c -m recip_rank -l 2
     separator: "\t"
     parse_index: 2
     metric: RR
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
-      - -l 2
+    params: -c -m recall.100 -l 2
     separator: "\t"
     parse_index: 2
     metric: R@100
     metric_precision: 4
     can_combine: false
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.1000
-      - -c
-      - -l 2
+    params: -c -m recall.1000 -l 2
     separator: "\t"
     parse_index: 2
     metric: R@1000
     metric_precision: 4
     can_combine: false
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/passage-docTTTTTquery
-index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw
-index_stats:
-  documents: 8841823
-  documents (non-empty): 8841823
-  total terms: 1986612263
+
+topic_reader: TsvInt
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
     path: topics.dl20.txt
     qrel: qrels.dl20-passage.txt
+
 models:
   - name: bm25-default
     display: BM25 (default)

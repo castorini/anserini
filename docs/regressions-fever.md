@@ -12,7 +12,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection FeverParagraphCollection \
  -input /path/to/fever \
- -index indexes/fever/lucene-index-fever-paragraph \
+ -index indexes/lucene-index.fever-paragraph \
  -generator DefaultLuceneDocumentGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.fever &
@@ -31,12 +31,12 @@ The original data can be found [here](https://fever.ai/resources.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/fever/lucene-index-fever-paragraph \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.fever-paragraph \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.fever.dev.txt \
  -output runs/run.fever.bm25-default.topics.fever.dev.txt \
  -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/fever/lucene-index-fever-paragraph \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.fever-paragraph \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.fever.dev.txt \
  -output runs/run.fever.bm25-tuned.topics.fever.dev.txt \
  -bm25 -bm25.k1 0.9 -bm25.b 0.1 &
@@ -45,9 +45,9 @@ nohup target/appassembler/bin/SearchCollection -index indexes/fever/lucene-index
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
 ```
 
 ## Effectiveness

@@ -1,46 +1,39 @@
 ---
-name: gov2
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/web/gov2/gov2-corpus/
+corpus: gov2
+corpus_path: collections/web/gov2/gov2-corpus/
+
 index_path: indexes/lucene-index.gov2.pos+docvectors+raw
 collection: TrecwebCollection
 threads: 44
 generator: DefaultLuceneDocumentGenerator
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: Trec
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 25170853
+  documents (non-empty): 25170665
+  total terms: 17345663488
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
+    params: -m map
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m P.30
+    params: -m P.30
     separator: "\t"
     parse_index: 2
     metric: p30
     metric_precision: 4
     can_combine: true
-index_stats:
-  documents: 25170853
-  documents (non-empty): 25170665
-  total terms: 17345663488
+
+topic_reader: Trec
 topics:
   - name: "[TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)"
     path: topics.terabyte04.701-750.txt
@@ -51,6 +44,7 @@ topics:
   - name: "[TREC 2006 Terabyte Track (Topics 801-850)](../src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt)"
     path: topics.terabyte06.801-850.txt
     qrel: qrels.terabyte06.801-850.txt
+
 models:
   - name: bm25
     display: BM25

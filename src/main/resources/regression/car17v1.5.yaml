@@ -1,50 +1,45 @@
 ---
-name: car17v1.5
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
+corpus: car-paragraphCorpus.v1.5
+corpus_path: collections/car/paragraphCorpus.v1.5/
+
+index_path: indexes/lucene-index.car-paragraphCorpus.v1.5.pos+docvectors+raw
+collection: CarCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: Car
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/car/paragraphCorpus.v1.5/
-index_path: indexes/lucene-index.car17v1.5.pos+docvectors+raw
-collection: CarCollection
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 29678360
   documents (non-empty): 29674425
   total terms: 1257909884
-topics:
-  - name: "[TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)"
-    path: topics.car17v1.5.benchmarkY1test.txt
-    qrel: qrels.car17v1.5.benchmarkY1test.txt
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
+    params: -m map
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recip_rank
+    params: -m recip_rank
     separator: "\t"
     parse_index: 2
     metric: recip_rank
     metric_precision: 4
     can_combine: true
+
+topic_reader: Car
+topics:
+  - name: "[TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)"
+    id: car17v1.5
+    path: topics.car17v1.5.benchmarkY1test.txt
+    qrel: qrels.car17v1.5.benchmarkY1test.txt
+
 models:
   - name: bm25
     display: BM25

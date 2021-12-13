@@ -1,50 +1,45 @@
 ---
-name: core18
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
+corpus: wapo.v2
+corpus_path: collections/newswire/WashingtonPost.v2/data/
+
+index_path: indexes/lucene-index.wapo.v2.pos+docvectors+raw
+collection: WashingtonPostCollection
 generator: WashingtonPostGenerator
 threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: Trec
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/WashingtonPost.v2/data/
-index_path: indexes/lucene-index.core18.pos+docvectors+raw
-collection: WashingtonPostCollection
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 595031
   documents (non-empty): 595030
   total terms: 318219870
-topics:
-  - name: "[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)"
-    path: topics.core18.txt
-    qrel: qrels.core18.txt
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
+    params: -m map
     separator: "\t"
     parse_index: 2
     metric: map
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m P.30
+    params: -m P.30
     separator: "\t"
     parse_index: 2
     metric: p30
     metric_precision: 4
     can_combine: true
+
+topic_reader: Trec
+topics:
+  - name: "[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)"
+    id: core18
+    path: topics.core18.txt
+    qrel: qrels.core18.txt
+
 models:
   - name: bm25
     display: BM25
