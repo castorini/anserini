@@ -35,7 +35,6 @@ Copy and paste the following lines into console to run the regressions from the 
 ```
 nohup python src/main/python/run_regression.py --index --collection disk12 >& logs/log.disk12 &
 nohup python src/main/python/run_regression.py --index --collection disk45 >& logs/log.disk45 &
-nohup python src/main/python/run_regression.py --index --collection robust04 >& logs/log.robust04 &
 nohup python src/main/python/run_regression.py --index --collection robust05 >& logs/log.robust05 &
 nohup python src/main/python/run_regression.py --index --collection core17 >& logs/log.core17 &
 nohup python src/main/python/run_regression.py --index --collection core18 >& logs/log.core18 &
