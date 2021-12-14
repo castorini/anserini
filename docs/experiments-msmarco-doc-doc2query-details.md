@@ -25,5 +25,6 @@ Fortunately, Xueguang was able to save a copy of this segmented corpus.
 So, now we have:
 
 + `doc-per-passage-v2`: materialized corpus with 20,545,677 segments.
-+ `doc-per-passage-v3`: same as above, except with URL. Note that bag-of-words search over this variant yields higher effectiveness than above, but for input to an encoder, you probably don't want to include the URL.
++ `doc-per-passage-v3`: same as above, except with URL and title (and delimited by newlines. Note that bag-of-words search over this variant yields higher effectiveness than above, but for input to an encoder, you probably don't want to include the URL.
 + `doc-docTTTTTquery-per-doc-v3`: `doc-per-passage-v3`, but with the doc2query-T5 expansions added in. 
++ `doc-v3`: this is the "per-doc" counterpart of `doc-per-passage-v3`. This differs slightly `doc`, which is based on the corpus in TREC doc format.

@@ -11,6 +11,11 @@ All four conditions are described in detail [here](https://github.com/castorini/
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+**NOTE**: There are two closely related regression conditions, `doc` and `doc-v3`.
+The first is based the corpus in TREC format.
+The second is based on a corpus in jsonl created by concatentating the URL, title, and contents (with newlines).
+See [this page](experiments-msmarco-doc-doc2query-details.md) for detailed notes about differences between these variants.
+
 ## Indexing
 
 Typical indexing command:
