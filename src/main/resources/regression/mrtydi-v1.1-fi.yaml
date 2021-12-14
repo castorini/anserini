@@ -1,53 +1,42 @@
 ---
-name: mrtydi-v1.1-fi
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: mrtydi-v1.1-fi
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-finnish
+
+index_path: indexes/lucene-index.mrtydi-v1.1-finnish.pos+docvectors+raw
+collection: MrTyDiCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language fi
+index_stats:
+  documents: 2106586
+  documents (non-empty): 2106586
+  total terms: 92529014
+
 search_command: target/appassembler/bin/SearchCollection
+search_options:
+  - -language fi
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: MrTyDiCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-  - -language fi
-search_options:
-  - -language fi
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m recip_rank
-      - -c
+    params: -c -M 100 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric: MRR@100
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
+    params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric: R@100
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/mr-tydi-corpus/mrtydi-v1.1-finnish
-index_path: indexes/lucene-index.mrtydi-v1.1-finnish.pos+docvectors+raw
-index_stats:
-  documents: 2106586
-  documents (non-empty): 2106586
-  total terms: 92529014
+
+topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Finnish): train](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-fi.train.txt.gz
@@ -58,6 +47,7 @@ topics:
   - name: "[Mr. TyDi (Finnish): test](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-fi.test.txt.gz
     qrel: qrels.mrtydi-v1.1-fi.test.txt
+
 models:
   - name: bm25
     display: BM25

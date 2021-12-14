@@ -1,53 +1,42 @@
 ---
-name: mrtydi-v1.1-indonesian
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: mrtydi-v1.1-id
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-indonesian
+
+index_path: indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw
+collection: MrTyDiCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language id
+index_stats:
+  documents: 2106586
+  documents (non-empty): 2106586
+  total terms: 92529014
+
 search_command: target/appassembler/bin/SearchCollection
+search_options:
+  - -language id
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: MrTyDiCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-  - -language id
-search_options:
-  - -language id
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m recip_rank
-      - -c
+    params: -c -M 100 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric: MRR@100
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
+    params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric: R@100
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/mr-tydi-corpus/mrtydi-v1.1-indonesian
-index_path: indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw
-index_stats:
-  documents: 2106586
-  documents (non-empty): 2106586
-  total terms: 92529014
+
+topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Indonesian): train](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-id.train.txt.gz
@@ -58,6 +47,7 @@ topics:
   - name: "[Mr. TyDi (Indonesian): test](https://github.com/castorini/mr.tydi)"
     path: topics.mrtydi-v1.1-id.test.txt.gz
     qrel: qrels.mrtydi-v1.1-id.test.txt
+
 models:
   - name: bm25
     display: BM25

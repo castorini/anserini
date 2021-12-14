@@ -1,63 +1,53 @@
 ---
-name: mrtydi-v1.1-ja
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
+corpus: mrtydi-v1.1-ja
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-japanese
+
+index_path: indexes/lucene-index.mrtydi-v1.1-japanese.pos+docvectors+raw
+collection: MrTyDiCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language ja
+index_stats:
+  documents: 2106586
+  documents (non-empty): 2106586
+  total terms: 92529014
+
 search_command: target/appassembler/bin/SearchCollection
+search_options:
+  - -language ja
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: MrTyDiCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-  - -language ja
-search_options:
-  - -language ja
-topic_reader: TsvInt
+
 evals:
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m recip_rank
-      - -c
+    params: -c -M 100 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric: MRR@100
     metric_precision: 4
     can_combine: true
   - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
+    params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric: R@100
     metric_precision: 4
     can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/mr-tydi-corpus/mrtydi-v1.1-japanese
-index_path: indexes/lucene-index.mrtydi-v1.1-japanese.pos+docvectors+raw
-index_stats:
-  documents: 2106586
-  documents (non-empty): 2106586
-  total terms: 92529014
+
+topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)"
-    path: topics.mrtydi-v1.1-ar.train.txt.gz
-    qrel: qrels.mrtydi-v1.1-ar.train.txt
+    path: topics.mrtydi-v1.1-ja.train.txt.gz
+    qrel: qrels.mrtydi-v1.1-ja.train.txt
   - name: "[Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)"
-    path: topics.mrtydi-v1.1-ar.dev.txt.gz
-    qrel: qrels.mrtydi-v1.1-ar.dev.txt
+    path: topics.mrtydi-v1.1-ja.dev.txt.gz
+    qrel: qrels.mrtydi-v1.1-ja.dev.txt
   - name: "[Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)"
-    path: topics.mrtydi-v1.1-ar.test.txt.gz
-    qrel: qrels.mrtydi-v1.1-ar.test.txt
+    path: topics.mrtydi-v1.1-ja.test.txt.gz
+    qrel: qrels.mrtydi-v1.1-ja.test.txt
+
 models:
   - name: bm25
     display: BM25

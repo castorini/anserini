@@ -27,25 +27,25 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-japanese.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.train.txt.gz \
- -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ar.train.txt.gz \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ja.train.txt.gz \
+ -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.train.txt.gz \
  -language ja -bm25 -hits 100 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-japanese.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.dev.txt.gz \
- -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ja.dev.txt.gz \
+ -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.dev.txt.gz \
  -language ja -bm25 -hits 100 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-japanese.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.test.txt.gz \
- -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ar.test.txt.gz \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ja.test.txt.gz \
+ -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.test.txt.gz \
  -language ja -bm25 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ar.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ar.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ja.train.txt runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.train.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ja.dev.txt runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.dev.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ja.test.txt runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.test.txt.gz
 ```
 
 ## Effectiveness

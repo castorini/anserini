@@ -11,11 +11,11 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection MrTyDiCollection \
- -input /path/to/mrtydi-v1.1-russian \
- -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
+ -input /path/to/mrtydi-v1.1-ru \
+ -index indexes/lucene-index.mrtydi-v1.1-russian.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw -language ru \
-  >& logs/log.mrtydi-v1.1-russian &
+  >& logs/log.mrtydi-v1.1-ru &
 ```
 
 See [this page](https://github.com/castorini/mr.tydi) for more details about the Mr. TyDi corpus.
@@ -26,26 +26,26 @@ For additional details, see explanation of [common indexing options](common-inde
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-russian.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ru.train.txt.gz \
- -output runs/run.mrtydi-v1.1-russian.bm25.topics.mrtydi-v1.1-ru.train.txt.gz \
+ -output runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.train.txt.gz \
  -language ru -bm25 -hits 100 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-russian.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ru.dev.txt.gz \
- -output runs/run.mrtydi-v1.1-russian.bm25.topics.mrtydi-v1.1-ru.dev.txt.gz \
+ -output runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.dev.txt.gz \
  -language ru -bm25 -hits 100 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-russian.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ru.test.txt.gz \
- -output runs/run.mrtydi-v1.1-russian.bm25.topics.mrtydi-v1.1-ru.test.txt.gz \
+ -output runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.test.txt.gz \
  -language ru -bm25 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt runs/run.mrtydi-v1.1-russian.bm25.topics.mrtydi-v1.1-ru.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt runs/run.mrtydi-v1.1-russian.bm25.topics.mrtydi-v1.1-ru.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt runs/run.mrtydi-v1.1-russian.bm25.topics.mrtydi-v1.1-ru.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.train.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.dev.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.test.txt.gz
 ```
 
 ## Effectiveness

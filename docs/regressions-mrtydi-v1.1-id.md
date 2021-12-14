@@ -11,11 +11,11 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection MrTyDiCollection \
- -input /path/to/mrtydi-v1.1-indonesian \
+ -input /path/to/mrtydi-v1.1-id \
  -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw -language id \
-  >& logs/log.mrtydi-v1.1-indonesian &
+  >& logs/log.mrtydi-v1.1-id &
 ```
 
 See [this page](https://github.com/castorini/mr.tydi) for more details about the Mr. TyDi corpus.
@@ -28,24 +28,24 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.train.txt.gz \
- -output runs/run.mrtydi-v1.1-indonesian.bm25.topics.mrtydi-v1.1-id.train.txt.gz \
+ -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.train.txt.gz \
  -language id -bm25 -hits 100 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.dev.txt.gz \
- -output runs/run.mrtydi-v1.1-indonesian.bm25.topics.mrtydi-v1.1-id.dev.txt.gz \
+ -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.dev.txt.gz \
  -language id -bm25 -hits 100 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.test.txt.gz \
- -output runs/run.mrtydi-v1.1-indonesian.bm25.topics.mrtydi-v1.1-id.test.txt.gz \
+ -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.test.txt.gz \
  -language id -bm25 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.train.txt runs/run.mrtydi-v1.1-indonesian.bm25.topics.mrtydi-v1.1-id.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.dev.txt runs/run.mrtydi-v1.1-indonesian.bm25.topics.mrtydi-v1.1-id.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.test.txt runs/run.mrtydi-v1.1-indonesian.bm25.topics.mrtydi-v1.1-id.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.train.txt runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.train.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.dev.txt runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.dev.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.test.txt runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.test.txt.gz
 ```
 
 ## Effectiveness

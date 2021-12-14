@@ -12,7 +12,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection MrTyDiCollection \
  -input /path/to/mrtydi-v1.1-te \
- -index indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw \
+ -index indexes/lucene-index.mrtydi-v1.1-telugu.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw -pretokenized \
   >& logs/log.mrtydi-v1.1-te &
@@ -26,26 +26,26 @@ For additional details, see explanation of [common indexing options](common-inde
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.train.txt.gz \
- -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-ar.train.txt.gz \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-telugu.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-te.train.txt.gz \
+ -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.train.txt.gz \
  -pretokenized -bm25 -hits 100 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.dev.txt.gz \
- -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-telugu.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-te.dev.txt.gz \
+ -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.dev.txt.gz \
  -pretokenized -bm25 -hits 100 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-arabic.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ar.test.txt.gz \
- -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-ar.test.txt.gz \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-telugu.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-te.test.txt.gz \
+ -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.test.txt.gz \
  -pretokenized -bm25 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-ar.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -M 100 -m recip_rank -c -m recall.100 -c src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-ar.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.train.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.train.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.dev.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.dev.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.test.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.test.txt.gz
 ```
 
 ## Effectiveness
@@ -54,13 +54,13 @@ With the above commands, you should be able to reproduce the following results:
 
 MRR@100                                 | BM25      |
 :---------------------------------------|-----------|
-[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)| 0.3356    |
-[Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)| 0.3462    |
-[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)| 0.3682    |
+[Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)| 0.3356    |
+[Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)| 0.3462    |
+[Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)| 0.3682    |
 
 
 R@100                                   | BM25      |
 :---------------------------------------|-----------|
-[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)| 0.7944    |
-[Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)| 0.7872    |
-[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)| 0.7928    |
+[Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)| 0.7944    |
+[Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)| 0.7872    |
+[Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)| 0.7928    |
