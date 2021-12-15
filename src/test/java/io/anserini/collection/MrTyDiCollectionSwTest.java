@@ -22,16 +22,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class MrTyDiCollectionTest extends DocumentCollectionTest<MrTyDiCollection.Document> {
+public class MrTyDiCollectionSwTest extends DocumentCollectionTest<MrTyDiCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/mrtydi-1.1/ar");
+    collectionPath = Paths.get("src/test/resources/sample_docs/mrtydi-1.1/sw");
     collection = new MrTyDiCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/mrtydi-1.1/ar/corpus.jsonl.gz");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/mrtydi-1.1/sw/corpus.jsonl.gz");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 4);
@@ -39,10 +39,10 @@ public class MrTyDiCollectionTest extends DocumentCollectionTest<MrTyDiCollectio
     totalSegments = 1;
     totalDocs = 4;
 
-    expected.put("7#0", Map.of("id", "7#0"));
-    expected.put("7#1", Map.of("id", "7#1"));
-    expected.put("7#2", Map.of("id", "7#2"));
-    expected.put("7#3", Map.of("id", "7#3"));
+    expected.put("2#0", Map.of("id", "2#0"));
+    expected.put("2#1", Map.of("id", "2#1"));
+    expected.put("2#2", Map.of("id", "2#2"));
+    expected.put("2#3", Map.of("id", "2#3"));
   }
 
   @Override
