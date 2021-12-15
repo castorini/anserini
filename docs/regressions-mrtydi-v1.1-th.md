@@ -54,13 +54,13 @@ With the above commands, you should be able to reproduce the following results:
 
 MRR@100                                 | BM25      |
 :---------------------------------------|-----------|
-[Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)| 0.3356    |
-[Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)| 0.3462    |
-[Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)| 0.3682    |
+[Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)| 0.3543    |
+[Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)| 0.3586    |
+[Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)| 0.4012    |
 
 
 R@100                                   | BM25      |
 :---------------------------------------|-----------|
-[Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)| 0.7944    |
-[Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)| 0.7872    |
-[Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)| 0.7928    |
+[Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)| 0.8349    |
+[Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)| 0.8536    |
+[Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)| 0.8529    |
