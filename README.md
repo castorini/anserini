@@ -54,7 +54,7 @@ For the most part, these runs are based on [_default_ parameter settings](https:
   + Bag-of-words models: [baselines](docs/regressions-msmarco-passage.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
   + Sparse learned models: [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [uniCOIL with doc2query-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md)
 + Regressions for MS MARCO (V1) Document Ranking:
-  + Per doc method: [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
+  + Per doc method: [baselines](docs/regressions-msmarco-doc.md) ([v3](docs/regressions-msmarco-doc-v3.md))[*](docs/experiments-msmarco-doc-doc2query-details.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md) ([v3](docs/regressions-msmarco-doc-docTTTTTquery-per-doc-v3.md))[*](docs/experiments-msmarco-doc-doc2query-details.md)
   + Per passage method: [baselines](docs/regressions-msmarco-doc-per-passage.md) ([v2](docs/regressions-msmarco-doc-per-passage-v2.md), [v3](docs/regressions-msmarco-doc-per-passage-v3.md))[*](docs/experiments-msmarco-doc-doc2query-details.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md) ([v3](docs/regressions-msmarco-doc-docTTTTTquery-per-passage-v3.md))[*](docs/experiments-msmarco-doc-doc2query-details.md)
 + Regressions for TREC 2019 Deep Learning Track:
   + Passage ranking: [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)

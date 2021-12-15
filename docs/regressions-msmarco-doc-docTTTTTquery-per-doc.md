@@ -11,6 +11,8 @@ All four conditions are described in detail [here](https://github.com/castorini/
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc-docTTTTTquery-per-doc.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc-docTTTTTquery-per-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+**NOTE**: This is the `msmarco-doc-docTTTTTquery-per-doc` variant (there's also `msmarco-doc-docTTTTTquery-per-doc-v3`), see [this page](experiments-msmarco-doc-doc2query-details.md) for detailed notes about differences between these variants.
+
 ## Indexing
 
 Typical indexing command:

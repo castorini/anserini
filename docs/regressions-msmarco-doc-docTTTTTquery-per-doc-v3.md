@@ -8,17 +8,22 @@ Note that there are four different regression conditions for this task, and this
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 
-The exact configurations for these regressions are stored in [this YAML file](${yaml}).
-Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc-docTTTTTquery-per-doc-v3.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc-docTTTTTquery-per-doc-v3.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
-**NOTE**: This is the `msmarco-doc-docTTTTTquery-per-doc` variant (there's also `msmarco-doc-docTTTTTquery-per-doc-v3`), see [this page](experiments-msmarco-doc-doc2query-details.md) for detailed notes about differences between these variants.
+**NOTE**: This is the `msmarco-doc-docTTTTTquery-per-doc-v3` variant (there's also `msmarco-doc-docTTTTTquery-per-doc`), see [this page](experiments-msmarco-doc-doc2query-details.md) for detailed notes about differences between these variants.
 
 ## Indexing
 
 Typical indexing command:
 
 ```
-${index_cmds}
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
+ -input /path/to/msmarco-doc-docTTTTTquery-per-doc-v3 \
+ -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc-v3.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.msmarco-doc-docTTTTTquery-per-doc-v3 &
 ```
 
 The directory `/path/to/msmarco-doc-docTTTTTquery-per-doc/` should be a directory containing the expanded document collection; see [this link](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini) for how to prepare this collection.
@@ -33,20 +38,42 @@ The regression experiments here evaluate on the 5193 dev set questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-${ranking_cmds}
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc-v3.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -output runs/run.msmarco-doc-docTTTTTquery-per-doc-v3.bm25-default.topics.msmarco-doc.dev.txt \
+ -bm25 &
+
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc-v3.pos+docvectors+raw \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -output runs/run.msmarco-doc-docTTTTTquery-per-doc-v3.bm25-tuned.topics.msmarco-doc.dev.txt \
+ -bm25 -bm25.k1 4.68 -bm25.b 0.87 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-${eval_cmds}
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery-per-doc-v3.bm25-default.topics.msmarco-doc.dev.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery-per-doc-v3.bm25-tuned.topics.msmarco-doc.dev.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-${effectiveness}
+MAP                                     | BM25 (default)| BM25 (tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2888    | 0.3271    |
+
+
+R@100                                   | BM25 (default)| BM25 (tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7993    | 0.8608    |
+
+
+R@1000                                  | BM25 (default)| BM25 (tuned)|
+:---------------------------------------|-----------|-----------|
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9253    | 0.9547    |
 
 Explanation of settings:
 
