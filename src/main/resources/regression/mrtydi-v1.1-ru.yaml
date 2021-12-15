@@ -1,0 +1,64 @@
+---
+corpus: mrtydi-v1.1-ru
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-russian
+
+index_path: indexes/lucene-index.mrtydi-v1.1-russian.pos+docvectors+raw
+collection: MrTyDiCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language ru
+index_stats:
+  documents: 9597504
+  documents (non-empty): 9597504
+  total terms: 346329152
+
+search_command: target/appassembler/bin/SearchCollection
+search_options:
+  - -language ru
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric: MRR@100
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topics:
+  - name: "[Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-ru.train.txt.gz
+    qrel: qrels.mrtydi-v1.1-ru.train.txt
+  - name: "[Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-ru.dev.txt.gz
+    qrel: qrels.mrtydi-v1.1-ru.dev.txt
+  - name: "[Mr. TyDi (Russian): test](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-ru.test.txt.gz
+    qrel: qrels.mrtydi-v1.1-ru.test.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -bm25 -hits 100
+    results:
+      MRR@100:
+        - 0.2205
+        - 0.2152
+        - 0.3129
+      R@100:
+        - 0.5706
+        - 0.5673
+        - 0.6482
