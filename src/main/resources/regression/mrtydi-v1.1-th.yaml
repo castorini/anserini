@@ -8,9 +8,9 @@ generator: DefaultLuceneDocumentGenerator
 threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw -language th
 index_stats:
-  documents: 2106586
-  documents (non-empty): 2106586
-  total terms: 92529014
+  documents: 568855
+  documents (non-empty): 568855
+  total terms: 31550936
 
 search_command: target/appassembler/bin/SearchCollection
 search_options:
