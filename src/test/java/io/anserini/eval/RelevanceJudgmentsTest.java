@@ -890,6 +890,9 @@ public class RelevanceJudgmentsTest {
     assertNotNull(qrels);
     assertEquals(646, qrels.getQids().size());
     assertEquals(677, getQrelsCount(qrels));
+    // The value 677 differs from Mr. TyDi paper.
+    // The paper reported 664, which is the qrel size before fixing the document slicing bug.
+    // 677 should be the correct number.
 
     qrels = RelevanceJudgments.fromQrels(Qrels.MRTYDI_V11_TE_TEST);
     assertNotNull(qrels);
