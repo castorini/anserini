@@ -1,0 +1,64 @@
+---
+corpus: mrtydi-v1.1-id
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-indonesian
+
+index_path: indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw
+collection: MrTyDiCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language id
+index_stats:
+  documents: 1469399
+  documents (non-empty): 1469399
+  total terms: 52493134
+
+search_command: target/appassembler/bin/SearchCollection
+search_options:
+  - -language id
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric: MRR@100
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topics:
+  - name: "[Mr. TyDi (Indonesian): train](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-id.train.txt.gz
+    qrel: qrels.mrtydi-v1.1-id.train.txt
+  - name: "[Mr. TyDi (Indonesian): dev](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-id.dev.txt.gz
+    qrel: qrels.mrtydi-v1.1-id.dev.txt
+  - name: "[Mr. TyDi (Indonesian): test](https://github.com/castorini/mr.tydi)"
+    path: topics.mrtydi-v1.1-id.test.txt.gz
+    qrel: qrels.mrtydi-v1.1-id.test.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -bm25 -hits 100
+    results:
+      MRR@100:
+        - 0.2972
+        - 0.2937
+        - 0.3762
+      R@100:
+        - 0.7948
+        - 0.7827
+        - 0.8426
