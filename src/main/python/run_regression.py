@@ -84,7 +84,7 @@ def construct_indexing_command(yaml_data, args):
     Returns:
         (:obj:`list` of :obj:`str`): the command as a list that can be executed by calling subprocess.call(command)
     """
-    logger.info('='*10+'Indexing'+'='*10)
+    logger.info('='*10 + ' Indexing ' + '='*10)
 
     # Determine the input collection path, either from the command line,
     # or by checking various locations specified in the YAML.
@@ -131,9 +131,9 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
     Args:
         yaml_data (dict): the yaml config
     """
-    logger.info('='*10+'Verifying Index'+'='*10)
+    logger.info('='*10 + ' Verifying Index ' + '='*10)
     index_path = get_index_path(yaml_data)
-    logger.info('[Index]: ' + index_path)
+    logger.info('index: ' + index_path)
     index_utils_command = [
         os.path.join(yaml_data['root'], INDEX_STATS_COMMAND),
         '-index', index_path, '-stats'
@@ -150,7 +150,7 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
                     print('{}: expected={}, actual={}'.format(stat, yaml_data['index_stats'][stat], value))
                 assert value == yaml_data['index_stats'][stat]
                 logger.info(line)
-        logger.info('='*10+'Verifying Index Succeed'+'='*10)
+        logger.info('Index statistics successfully verified!')
 
 
 def generate_run_file_name(corpus, topic, model_name):
@@ -205,7 +205,7 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
     """
     fail_str = '\033[91m[FAIL]\033[0m '
     ok_str = '   [OK] '
-    logger.info('='*10+'Verifying Results'+'='*10)
+    logger.info('='*10 + ' Verifying Results: ' + yaml_data['corpus'] + ' ' + '='*10)
     success = True
     for model in yaml_data['models']:
         for i, topic in enumerate(yaml_data['topics']):
@@ -281,7 +281,7 @@ if __name__ == '__main__':
     verify_index(yaml_data, args.index, args.dry_run)
 
     if not args.no_retrieval:
-        logger.info('='*10+'Ranking'+'='*10)
+        logger.info('='*10 + ' Ranking ' + '='*10)
         run_cmds = construct_ranking_command(args.output_root, yaml_data, args.index)
         p = Pool(args.parallelism)
         p.map(ranking_atom, run_cmds)
