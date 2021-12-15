@@ -43,11 +43,11 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)"
-    id: trec13
+    id: trec2013
     path: topics.web.201-250.txt
     qrel: qrels.web.201-250.txt
   - name: "[TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)"
-    id: trec14
+    id: trec2014
     path: topics.web.251-300.txt
     qrel: qrels.web.251-300.txt
 
@@ -97,7 +97,7 @@ models:
       nDCG@20:
         - 0.19935
         - 0.22201
-      err20:
+      ERR@20:
         - 0.12325
         - 0.13234
   - name: ql+rm3
