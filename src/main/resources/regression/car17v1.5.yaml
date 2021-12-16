@@ -44,7 +44,7 @@ models:
     results:
       MAP:
         - 0.1562
-      recip_rank:
+      MRR:
         - 0.2331
   - name: bm25+rm3
     display: +RM3
@@ -60,7 +60,7 @@ models:
     results:
       MAP:
         - 0.1358 
-      recip_rank:
+      MRR:
         - 0.1949
   - name: ql
     display: QL
@@ -76,7 +76,7 @@ models:
     results:
       MAP:
         - 0.1080
-      recip_rank:
+      MRR:
         - 0.1599
   - name: ql+ax
     display: +Ax
@@ -84,5 +84,5 @@ models:
     results:
       MAP:
         - 0.1048
-      recip_rank:
+      MRR:
         - 0.1524
