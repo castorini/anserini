@@ -1,0 +1,46 @@
+# Anserini: JDIQ 2018 Experiments
+
+This page documents the script used in the following article to compute optimal retrieval effectiveness by grid search over model parameters:
+
++ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) Journal of Data and Information Quality, 10(4), Article 16, 2018.
+
+**Important note**: We clearly state in the article:
+
+> For all systems, we report results from parameter tuning to optimize average precision (AP) at rank 1000 on the newswire collections, WT10g, and Gov2, and NDCG@20 for the ClueWeb collections.
+> There was no separation of training and test data, so these results should be interpreted as oracle settings.
+
+If you're going to refer to these effectiveness results, _please_ be aware of what you're comparing!
+
+**Additional note**: The values produced by these scripts are _slightly_ different than those reported in the article.
+The reason for these differences stems from the fact that Anserini evolved throughout the peer review process; the values reported in the article were those generated when the manuscript was submitted.
+By the time the article was published, the implementation of Anserini has progressed.
+As Anserini continues to improve we will update these scripts, which will lead to further divergences between the published values.
+Unfortunately, this is an unavoidable aspect of empirical research on software artifacts.
+
+**Update (12/18/2018)**:
+Regression effectiveness values changed at commit [`e71df7a`](https://github.com/castorini/anserini/commit/e71df7aee42c7776a63b9845600a4075632fa11c) with upgrade to Lucene 7.6.
+
+**Update (6/12/2019)**:
+With commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131), which upgrades Anserini to Lucene 8.0, we are no longer maintaining the reproducibility of these experiments.
+That is, running these commands will produce results different from the numbers reported here.
+The most recent version in which these results are reproduce is the [v0.5.1](https://github.com/castorini/anserini/releases) release (6/11/2019).
+
+## Parameter Tuning
+
+Invoke the tuning script on various collections as follows, on `tuna`:
+
+```
+nohup python src/main/python/jdiq2018/run_regression.py --collection disk12 >& jdiq2018.disk12.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection robust04 >& jdiq2018.robust04.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection robust05 >& jdiq2018.robust05.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection wt10g >& jdiq2018.wt10g.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection gov2 >& jdiq2018.gov2.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection cw09b --metrics map ndcg20 err20 >& jdiq2018.cw09b.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection cw12b13 --metrics map ndcg20 err20 >& jdiq2018.cw12b13.log &
+```
+
+The script assumes hard-coded index directories; modify as appropriate.
+
+## Effectiveness
+
+${results}

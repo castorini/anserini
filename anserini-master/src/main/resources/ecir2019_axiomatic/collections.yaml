@@ -1,0 +1,165 @@
+---
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_roots:
+  - /tuna1/
+  - /scratch2/
+collections:
+    disk12:
+      name: disk12
+      index_path: indexes/lucene-index.disk12.pos+docvectors+rawdocs
+      topic_reader: Trec
+      topics:
+        - topics.51-100.txt
+        - topics.101-150.txt
+        - topics.151-200.txt
+      qrel: qrels.disk12.all.txt
+      evals:
+        - command: eval/trec_eval.9.0.4/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true
+    robust04:
+      name: robust04
+      index_path: indexes/lucene-index.robust04.pos+docvectors+rawdocs
+      topic_reader: Trec
+      topics:
+        - topics.robust04.301-450.601-700.txt
+      qrel: qrels.robust2004.txt
+      evals:
+        - command: eval/trec_eval.9.0.4/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true
+    robust05:
+      name: robust05
+      index_path: indexes/lucene-index.robust05.pos+docvectors+rawdocs
+      topic_reader: Trec
+      topics:
+        - topics.robust05.txt
+      qrel: qrels.robust2005.txt
+      evals:
+        - command: eval/trec_eval.9.0.4/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true
+    core17:
+      name: core17
+      index_path: indexes/lucene-index.core17.pos+docvectors+rawdocs
+      topic_reader: Trec
+      topics:
+        - topics.core17.txt
+      qrel: qrels.core17.txt
+      evals:
+        - command: eval/trec_eval.9.0.4/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true
+    wt10g:
+      name: wt10g
+      index_path: indexes/lucene-index.wt10g.pos+docvectors+rawdocs
+      topic_reader: Trec
+      topics:
+        - topics.451-550.txt
+      qrel: qrels.451-550.txt
+      evals:
+        - command: eval/trec_eval.9.0.4/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true
+    gov2:
+      name: gov2
+      index_path: indexes/lucene-index.gov2.pos+docvectors+rawdocs
+      topic_reader: Trec
+      topics:
+        - topics.701-750.txt
+        - topics.751-800.txt
+        - topics.801-850.txt
+      qrel: qrels.gov2.all.txt
+      evals:
+        - command: eval/trec_eval.9.0.4/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true
+    cw09b:
+      name: cw09b
+      index_path: indexes/lucene-index.cw09b.pos+docvectors+rawdocs
+      topic_reader: Webxml
+      topics:
+        - topics.web.51-100.txt
+        - topics.web.101-150.txt
+        - topics.web.151-200.txt
+      qrel: qrels.cw09.all.txt
+      evals:
+        - command: eval/gdeval.pl
+          params: ""
+          separator: ","
+          parse_index: -2
+          metric: ndcg20
+          metric_precision: 5
+    cw12b13:
+      name: cw12b13
+      index_path: indexes/lucene-index.cw12b13.pos+docvectors+rawdocs
+      topic_reader: Webxml
+      topics:
+        - topics.web.201-250.txt
+        - topics.web.251-300.txt
+      qrel: qrels.cw12.all.txt
+      evals:
+        - command: eval/gdeval.pl
+          params: ""
+          separator: ","
+          parse_index: -2
+          metric: ndcg20
+          metric_precision: 5
+    mb11:
+      name: mb11
+      index_path: indexes/lucene-index.mb11.pos+docvectors+rawdocs
+      topic_reader: Microblog
+      topics:
+        - topics.microblog2011.txt
+        - topics.microblog2012.txt
+      qrel: qrels.mb11.all.txt
+      evals:
+        - command: eval/trec_eval.9.0.4/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true
+    mb13:
+      name: mb13
+      index_path: indexes/lucene-index.mb13.pos+docvectors+rawdocs
+      topic_reader: Microblog
+      topics:
+        - topics.microblog2013.txt
+        - topics.microblog2014.txt
+      qrel: qrels.mb13.all.txt
+      evals:
+        - command: eval/trec_eval.9.0.4/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true

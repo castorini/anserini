@@ -1,0 +1,49 @@
+301-AH	Nestlé Marken
+302-AH	Verbraucherboykott
+303-AH	Italienische Gemälde
+304-AH	Weltkulturerbestätten
+305-AH	Ölpreise
+306-AH	ETA-Aktivitäten in Frankreich
+307-AH	In Schottland spielende Filme
+308-AH	Sonnenfinsternis
+309-AH	"Harte" Drogen
+310-AH	Behandlung von Industrieabfall
+311-AH	Arbeitslosigkeit in Europa
+312-AH	Hundeattacken
+313-AH	Hundertjahrfeiern
+314-AH	Gefährdete Arten
+315-AH	Doping im Sport
+316-AH	Streiks
+317-AH	Medikamente gegen Krebs
+318-AH	Sexualerziehung
+319-AH	Weltweite Opiumproduktion
+320-AH	Energiekrise
+321-AH	Die Taliban in Afghanistan
+322-AH	Atomenergie
+323-AH	Verschärfung von Visabedingungen
+324-AH	Supermodels
+325-AH	Studiengebühren
+326-AH	Emmy
+327-AH	Erdbeben in Mexico Stadt
+328-AH	Irakische Kurden und die Türkei
+329-AH	Konsequenzen einer Scheidung von Charles und Diana
+330-AH	Filme mit Keanu Reeves
+331-AH	Zedillos Wirtschaftspolitik
+333-AH	Gerichtsverfahren gegen Paul Touvier
+334-AH	Wahl von George W. Bush
+335-AH	Labour nach John Smith
+336-AH	NBA Arbeitskämpfe
+337-AH	Bürgerkrieg im Jemen
+338-AH	Auslieferung und Gerichtsverfahren von Carlos
+339-AH	Sinn Fein und die englisch-irische Erklärung
+340-AH	Neuer Premierminister von Quebec
+341-AH	Diebstahl von "Der Schrei"
+342-AH	"Vier Hochzeiten und eine Beerdigung"
+343-AH	Südafrikanische Nationalpartei
+344-AH	Brasilien gegen Schweden im Weltcup-Halbfinale
+345-AH	Skilanglauf bei den Olympischen Spielen
+346-AH	Grand-Slam-Gewinner
+347-AH	Film-Oscar 1994
+348-AH	Yann Piats Ermordung
+349-AH	Nixons Tod
+350-AH	Ayrton Sennas Tod

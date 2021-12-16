@@ -1,0 +1,798 @@
+<top>
+
+<num> Number: AR26
+<title> Kurdistan Independence 
+
+<desc> Description: 
+How does the National Council of Resistance relate to the potential
+independence of Kurdistan? 
+
+<narr> Narrative:  
+Articles reporting activities of the National Council of Resistance are
+considered on topic. Articles discussing Ocalan's leadership within the
+context of the Kurdish efforts toward independence are also considered on 
+topic. 
+
+</top>
+
+<top>
+
+<num> Number: AR27
+<title> Iranian and Iraqi P.O.W.'s
+
+<desc> Description: 
+What is the status of P.O.W.'s held over from the Iran/Iraq war?
+
+<narr> Narrative:  
+Articles concerning political concessions and deals made in which P.O.W.'s
+are used as bargaining chips are considered on topic.  Articles
+discussing the release of prisoners are considered on topic. Articles
+discussing health issues of prisoners, conditions within compounds, death
+rates among prisoners etc are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR28
+<title> Hazardous waste disposal 
+
+<desc> Description: 
+What problems does North Africa face in the disposal of Hazardous Wastes? 
+
+<narr> Narrative:  
+Articles labeled yes discuss specific issues North African countries are
+dealing with in their effort to dispose of Hazardous Wastes.  Articles
+reporting accidents, spills etc. within the context of specific disposal
+efforts are also considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR29
+<title>  Saudi Internet Service Providers
+
+<desc> Description: 
+Who provides internet services in Saudi Arabia?
+
+<narr> Narrative:  
+Articles labeled yes directly address specific ISP's in Saudi Arabia.
+
+</top>
+
+<top>
+
+<num> Number: AR30
+<title> Iraqi Satellite Television
+
+<desc> Description: 
+What is the importance of satellite television in Iraq?
+
+<narr> Narrative:  
+Articles reporting the increase in popularity of and access to satellite 
+television are considered on topic.  In addition, articles discussing the 
+increased availability of diverse media are considered on topic. 
+
+</top>
+
+<top>
+
+<num> Number: AR31
+<title> Trade Integration
+
+<desc> Description: 
+What is the reaction to efforts to deepen interregional trade and promote
+international trade integration in the Middle East and North Africa? 
+
+<narr> Narrative:  
+Articles reporting boycotts in reaction to new trade initiatives are
+considered on topic.  In addition, articles concerning the development of
+new business relations as facilitated by greater trade integration efforts
+are also considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR32
+<title> Caspian Beluga Conservation
+
+<desc> Description: 
+What Beluga conservation projects are present in the Caspian region?
+
+<narr> Narrative:  
+Articles discussing particular conservation projects are considered on topic.
+In addition, articles that address the effect of inappropriate maintenance of 
+the Caspian ecosystem on Beluga sales profits within the context of the 
+necessity for conservation initiatives are considered on topic. 
+
+</top>
+
+<top>
+
+<num> Number: AR33
+<title> Suez Canal Traffic
+
+<desc> Description: 
+What impact do U.S. military vessels in the Suez canal have on the region
+politically and economically?
+
+<narr> Narrative:  
+Articles addressing local reaction to U.S. military presence in the Suez
+Canal are considered on topic.  In addition, articles concerning any
+economic impact resulting from U.S. presence, e.g. trade interruption etc,
+are also considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR34
+<title> Agricultural Development project
+
+<desc> Description: 
+What is the effect of opposition parties on the Northern Sinai Agricultural
+Development project?
+
+<narr> Narrative:  
+Articles related to the transportation of  
+water from the  Nile to North Sinai within the context of the effects of 
+opposition to the Development project are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR35
+<title> Mina Sulman/Umm Qasr Sea Link
+
+<desc> Description: 
+What is the importance of the commercial sea link between Mina Sulman Bahrain
+and Umm Qasr Iraq?
+
+<narr> Narrative:  
+Articles labeled yes discuss the fiscal benefits of an operational
+commercial sea link between Mina Sulman Bahrain and Umm Qasr Iraq.
+
+</top>
+
+<top>
+
+<num> Number: AR36
+<title> 'Oil for Food' program
+
+<desc> Description: 
+What is  Russia's role in the construction of Iraqi power station under the
+ 'oil for food' program?
+How is Russia going to  construct an  Iraqi power station under the 'oil for
+food' program?
+
+<narr> Narrative:  
+Articles concerning the 'oil for food' program in general-- when the
+construction of an Iraqi power station is mentioned-- are considered on
+topic.  Articles addressing the construction of a power station under the
+'oil for food' program more directly are also considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR37
+<title> Beirut Film Festival
+
+<desc> Description: 
+How did European filmmakers participate in the Beirut International Film
+Festival?  
+
+<narr> Narrative:  
+Articles discussing European films participating in the Beirut Film
+Festival are considered on topic.  In addition, articles discussing the 
+attendance of particular European directors/producers at the Beirut Film 
+Festival are labeled yes.
+
+</top>
+
+<top>
+
+<num> Number: AR38
+<title> Traditional Arab Arts
+
+<desc> Description: 
+How has traditional Arab dance and music modernized?
+
+<narr> Narrative:  
+Articles discussing modern influences on Traditional Arab Arts are
+considered on topic.  In addition, articles reporting Arts Festivals that 
+feature artists whose work reflects modern influence are considered on topic.  
+
+</top>
+
+<top>
+
+<num> Number: AR39
+<title> Jerash Festival Critics
+
+<desc> Description: 
+How have critics responded to the Jerash Festival in Jordan?
+
+<narr> Narrative:  
+Articles labeled yes include critical reviews of specific performances that 
+took place at the Jerash Festival.
+
+</top>
+
+<top>
+
+<num> Number: AR40
+<title> Iranian Caspian Access
+
+<desc> Description: 
+What access does Iran have to Caspian Sea resources?
+
+<narr> Narrative:  
+Articles reporting agreements and treaties concerning the Caspian in which
+Iran is partner in the respective agreement are considered on topic.  
+Articles concerning Russo-Iranian cooperation in the context of the Caspian 
+resources and the issue of U.S. presence in the region as an impediment to 
+Iranian access are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR41
+<title> Meningitis Vaccine Access
+
+<desc> Description: 
+What is the availability of the meningitis vaccine in the MENA?
+
+<narr> Narrative:  
+Articles reporting  incidents of meningitis infection and the resulting 
+vaccinations are considered on topic. Articles discussing efforts to
+acquire sufficient funds in order to purchase vaccines are considered on
+topic.  Articles concerning outbreaks of meningitis infections as
+facilitated by a lack of access to the vaccine are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR42
+<title> Sadeq al-Sadr Assassination 
+
+<desc> Description: 
+How are religious students in al-Najef persecuted since the assassination of
+Sadeq al-Sadr?
+
+<narr> Narrative:  
+Articles reporting demonstrations staged by religious students in response
+to the assassination that are rapidly and violently squelched by local
+authorities are considered on topic.  Articles concerning censorship of
+religious students who attempt to speak on the subject of the assassination 
+are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR43
+<title> Child/Motherhood Welfare Society  
+
+<desc> Description: 
+How does The Child and Motherhood Welfare Society provide aid and
+assistance to women and children in the MENA? 
+
+<narr> Narrative:  
+Articles labeled yes report specific grants provided to the Child and
+Motherhood Welfare Society.
+
+</top>
+
+<top>
+
+<num> Number: AR44
+<title> Gaza International Airport
+
+<desc> Description: 
+What controversy surrounds the opening of Gaza International Airport?
+
+<narr> Narrative:  
+Articles reporting security issues and other concerns causing the opening 
+of the airport to be delayed are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR45
+<title> Wye River Agreement
+
+<desc> Description: 
+What difficulties surround the implementation of the Wye River
+agreement?
+
+<narr> Narrative:  
+Most of the articles talk about events that took place after the Wye
+Plantation agreement.   Articles concerning the negotiation process 
+are not included. 
+
+</top>
+
+<top>
+
+<num> Number: AR46
+<title> Lahoud's Presidential Victory 
+
+<desc> Description: 
+What is the public and political reaction to Lahoud's victory in the
+Lebanese presidential elections?
+
+<narr> Narrative:  
+Articles in response to Lahoud's victory which  discuss public and political
+responses are considered on topic.  
+
+</top>
+
+<top>
+
+<num> Number: AR47
+<title> European Union Expansion
+
+<desc> Description: 
+What is the response to the EU's plan to add six countries to its ranks? 
+
+<narr> Narrative:  
+Most articles concern issues with Turkey becoming a member of the
+European Union  within the context of the addition of six countries. 
+
+</top>
+
+<top>
+
+<num> Number: AR48
+<title> Refugees in Zaire
+
+<desc> Description: 
+How is ethnic violence in refugee camps in Zaire addressed in the Arab Press?
+
+<narr> Narrative:  
+Articles labeled yes report incidents of ethnic violence in 
+refugee camps in Zaire; the larger issues created by this ethnic conflict are 
+also considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR49
+<title> Earthquake in Turkey
+
+<desc> Description: 
+How has the earthquake in Turkey affected the local population?
+
+<narr> Narrative:  
+Articles reporting damages, fatalities, increase in unemployment and the
+displacement of people as a result of the earthquake are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR50
+<title> Transnational Muslim Brotherhood
+
+<desc> Description: 
+What are the Transnational connections of the Muslim brotherhood ?
+
+<narr> Narrative:  
+Articles report Muslim Brotherhood activity in and outside of Egypt in
+which participants reside in various countries; e.g. cooperation between
+Muslim Brothers in Syria and Egypt.
+
+</top>
+
+<top>
+
+<num> Number: AR51
+<title> Personal Status Law.
+
+<desc> Description: 
+How are female non-government organizations relating to the Personal Status Law?
+
+<narr> Narrative:  
+Articles discussing action taken by women's organizations within the
+context  of the  Personal Status Law in effort to achieve greater social 
+equality are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR52
+<title>  Nile Basin Initiative
+
+<desc> Description: 
+How has Sudan participated in the Nile Basin Initiative?
+
+<narr> Narrative:  
+Articles reporting on Nile Basin negotiations/meetings in which Sudan 
+participated are considered on topic.  Articles that discuss the Nile Basin 
+generally without addresses Sudanese participation are excluded.
+
+</top>
+
+<top>
+
+<num> Number: AR53
+<title> Tunisian Urban Transport
+
+<desc> Description: 
+What steps are being taken to improve urban transport in Tunisia?
+
+<narr> Narrative:  
+Articles discussing road construction projects and other infrastructural 
+improvement projects are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR54
+<title> Blue Nile Dam
+
+<desc> Description: 
+How do Ethiopian development efforts affect dam construction in the Blue Nile?
+
+<narr> Narrative:  
+Articles reporting  on the negotiations concerning development efforts and 
+dam construction in the Nile Basin are considered on topic.  
+
+</top>
+
+<top>
+
+<num> Number: AR55
+<title> Umm Kalthoum's Influence
+
+<desc> Description: 
+How has Umm kalthoum influenced contemporary Arab musicians?
+
+<narr> Narrative:  
+Articles that discuss the Umm Kalthoum's continuing influence 
+on Arab musicians are considered on topic.  In addition, articles about
+the TV series based on her life and musical career are also included.
+
+</top>
+
+<top>
+
+<num> Number: AR56
+<title> Indo-Pakistani Political Instability
+
+<desc> Description: 
+What are the results of the political instability between India and Pakistan?
+
+<narr> Narrative:  
+Articles concerning nuclear testing are considered on topic.  In addition,
+articles concerning tension and violence in the conflict over Kashmir are 
+considered on topic. 
+
+</top>
+
+<top>
+
+<num> Number: AR57
+<title> Palestinian Students, Israeli Schools
+
+<desc> Description: 
+What is the situation of Palestinian Students in Israeli Schools?
+
+<narr> Narrative:  
+Articles included address the situation of Palestinian students in East
+Jerusalem.
+
+</top>
+
+<top>
+
+<num> Number: AR58
+<title> Pan Am Lockerbie Negotiations
+
+<desc> Description: 
+How is Ghadafi participating in political and legal negotiations related to
+the Lockerbie Pan Am plane bombing? 
+
+<narr> Narrative:  
+Articles discussing proposals put forth for Ghadafi's consideration are
+included; i.e.Ghadafi's attendance at a particular meeting is not necessary 
+for the article to be considered on topic. Articles concerning  Ghadafi's 
+attendance to particular meetings for negotiation are also included. 
+
+</top>
+
+<top>
+
+<num> Number: AR59
+<title> Bosnian War Crimes Tribunal
+
+<desc> Description: 
+What is the response to Bosnian War Crimes Tribunal?
+
+<narr> Narrative:  
+All articles labeled yes discuss the Bosnian War Crimes Tribunal.
+Topics addressed include: trials, convictions and those who were indicted
+and imprisoned.
+
+</top>
+
+<top>
+
+<num> Number: AR60
+<title> Microsoft Anti-trust Case
+
+<desc> Description: 
+What is that response to the Microsoft Anti-Trust case?
+
+<narr> Narrative:  
+Articles labeled yes discuss the reactions of individuals, companies, and
+the U.S. government to the anti-trust case against Microsoft.
+Also included are articles discussing the media's coverage of the case.
+Articles concerning the value of Microsoft shares in the context of the
+anti-trust case are also included.
+
+</top>
+
+<top>
+
+<num> Number: AR61
+<title> Southern Lebanon, Israeli Retaliation 
+
+<desc> Description: 
+How does Israel retaliate against the Hezbollah in Lebanon?
+
+<narr> Narrative:  
+Articles concerning Israeli military response to specific Hezbollah
+operations are included. Articles discussing the Peace Process specifically 
+are not included.
+Hezbollah 
+
+</top>
+
+<top>
+
+<num> Number: AR62
+<title> Netanyahu's re-election campaign
+
+<desc> Description: 
+What is Netanyahu's re-election campaign?
+
+<narr> Narrative:  
+Articles discussing the influence of the Israeli-Palestinian conflict--and 
+specific events arising from that conflict-- on Netanyahu's campaign are
+considered on topic.  Articles concerning particular alliances formed in
+effort to achieve a stronger position during the election are considered on 
+topic.  Articles discussing slogans and events directly related to the
+campaign are also considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR63
+<title> Changes, Russian Constitution
+
+<desc> Description: 
+What changes to the Russian constitution does Yeltsin want to implement?
+
+<narr> Narrative:  
+Articles included are primarily focused on Yeltsin's approval of
+constitutional changes; very little detail concerning the nature of the
+changes was included.
+
+</top>
+
+<top>
+
+<num> Number: AR64
+<title> security measures, sporting events 
+
+<desc> Description: 
+What kind of security measures are instituted in France at large sporting 
+events and soccer matches?
+
+<narr> Narrative:  
+Articles that report the  arrests of unruly fans at particular matches are
+considered on topic.  Articles concerning organization of police and
+security forces to deal specifically with increased pedestrian  and vehicle 
+traffic created by sporting events are also considered on topic. 
+
+</top>
+
+<top>
+
+<num> Number: AR65
+<title> Mad Cow and EU
+
+<desc> Description: 
+What measures are being taken by member countries of the European Union to 
+prevent the spread of mad cow disease?
+
+<narr> Narrative:  
+Articles reporting measures taken in Europe to prevent the spread of mad
+cow disease are considered on topic. Articles concerning a ban on dairy and
+meat products from some European countries are considered on topic. 
+In addition,articles discussing Mad Cow research as it pertains to prevention
+are also considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR66
+<title> Arab countries and mad cow
+
+<desc> Description: 
+How are Arab countries responding to the spread of Mad Cow disease?
+
+<narr> Narrative:  
+Articles which discuss any measures taken in the Arab world to avoid the
+spread of Mad Cow disease to Arab countries are considered on topic.
+Articles announcing bans on the purchasing and importing  of livestock from
+Great Britain are considered on topic.  Articles reporting an increase in 
+domestic cultivation of foodstuffs in effort to counteract any shortages
+created by such bans are considered on topic. 
+
+</top>
+
+<top>
+
+<num> Number: AR67
+<title> Clinton and Camp David talks
+
+<desc> Description: 
+What role did the U.S. government, specifically Bill Clinton play in the Camp
+David negotiations?
+
+<narr> Narrative:  
+The role of American advisers and politicians led by the 
+U.S. President Bill Clinton in the Camp David negotiations are considered
+on topic.  Efforts made by Clinton and his American colleagues to organize
+the negotiations and overlook process are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR68
+<title> AlFayed, Dodi and Diana's deaths
+
+<desc> Description: 
+How did alFayed respond to the death of his son Dodi and Princess
+Diana?
+
+<narr> Narrative:  
+Articles reporting Mohammad alFayed's response to  the death of his son
+and Princess Diana  are considered on topic.  Articles outlining conspiracy 
+theories posited by alFayed- or his reaction to such theories are
+considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR69
+<title> Mir returns to earth
+
+<desc> Description: 
+What  are the financial and manpower issues influencing
+the Russian's policy concerning the Mir?
+
+<narr> Narrative:  
+Articles reporting financial and personnel shortages leading to policy
+change, revisions of the Mir's orbit schedule etc. are considered on
+topic.  In addition, articles concerning the institution of these changes
+are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR70
+<title> bin Laden Targets U.S.
+
+<desc> Description: 
+How is bin Laden related to attacks against American targets?
+
+<narr> Narrative:  
+Articles reporting bombings at American embassies in Nairobi, Kenya that
+mention bin Laden as suspect or participant are considered on topic.  In 
+addition, articles concerning the bombing of the American vessel U.S.S. Cole
+in Yemin that mention bin Laden as suspect or participant are considered on 
+topic. Articles concerning the collection of evidence of OBL's participation 
+are considered on topic if they discuss the actual evidence.   
+
+</top>
+
+<top>
+
+<num> Number: AR71
+<title> The Pope in Palestine
+
+<desc> Description: 
+What is the Pope's relationship with  Palestine and the Palestinian
+authority?
+
+<narr> Narrative:  
+Articles that report papal visits to Palestine are considered on topic.
+In addition, articles that report speeches made by the Pope in which he
+discusses the Palestinian land are considered on topic.  Articles
+concerning the religious significance of Palestinian lands, e.g. Bethlehem 
+in the eyes of the Catholic Church are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR72
+<title> NATO, Serbo-Kosovar Conflict
+
+<desc> Description: 
+How did NATO participate in the Serbian Kosovar conflict?
+
+<narr> Narrative:  
+Articles labeled yes report the direct intervention of NATO forces in the
+effort to disarm the Kosovo Liberation Army.  In addition, articles
+concerning peace keeping efforts taken by NATO are also considered on topic. 
+
+</top>
+
+<top>
+
+<num> Number: AR73
+<title> Chechnyan Attacks against Russia
+
+<desc> Description: 
+What attacks have the Chechnyans waged against Russian targets and military
+personnel?
+
+<narr> Narrative:  
+Articles reporting Chechnyan attacks against Russian targets are considered 
+on topic.  Individual terrorist attacks as well as more organized military
+incursions are considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR74
+<title> Year 2000 bug
+
+<desc> Description: 
+How did Arab countries prepare to deal with the Y2K problem?
+
+<narr> Narrative:  
+Articles labeled yes discuss Arab countries' responses to the 
+threat of the Y2K bug.  Articles outlining specific efforts to prepare for
+Y2K in order to avoid complications are also considered on topic.  Articles 
+that report precautions taken worldwide, without discussing the
+Arab world in particular, are not considered on topic.
+
+</top>
+
+<top>
+
+<num> Number: AR75
+<title> Computer viruses in Arab world
+
+<desc> Description: 
+How are the industrial and commercial sectors in the Arab world affected by computer viruses?  
+
+<narr> Narrative:  
+Articles labeled yes deal with the costs and expenses of computer viruses
+in different countries in the Arab world. Stories that involved the effects
+of computer viruses on other countries in the world were excluded from the
+search.
+
+</top>
+

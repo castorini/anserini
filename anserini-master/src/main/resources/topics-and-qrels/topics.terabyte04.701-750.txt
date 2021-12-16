@@ -1,0 +1,830 @@
+<top>
+<num> Number: 701
+
+<title> U.S. oil industry history
+
+<desc> Description:
+Describe the history of the U.S. oil industry
+
+<narr> Narrative:
+Relevant documents will include those on historical exploration and
+drilling as well as history of regulatory bodies. Relevant are history
+of the oil industry in various states, even if drilling began in 1950
+or later.
+
+</top>
+
+<top>
+<num> Number: 702
+
+<title> Pearl farming
+
+<desc> Description:
+Pearl farming operations: actual farming operations described,
+culturing pearls, "Japanese pearl productions," status of pearl
+farming, production.
+
+<narr> Narrative:
+Definitions of difference between natural, cultured, and imitation
+pearls is relevant. Description of how pearls are formed and
+discussion of mussel production for use in pearl preselection is
+relevant. "Pearl industry" with no further detail is NOT
+relevant. Rules for jewelers is relevant.  Statistics on pearl
+production are relevant.
+
+</top>
+
+<top>
+<num> Number: 703
+
+<title> U.S. against International Criminal Court
+
+<desc> Description:
+What are the arguments the U.S. uses against joining the International 
+Criminal Court?
+
+<narr> Narrative:
+The title of an article alone is not sufficient to make a document
+relevant, nor are lists of articles relevant without descriptions of their
+content.
+
+</top>
+
+<top>
+<num> Number: 704
+
+<title> Green party political views
+
+<desc> Description:
+What are the goals and political views of the Green Party.
+
+<narr> Narrative:
+Evidence that the Green Party is a recognized U.S. political party is
+relevant.  Documents which reveal their goals, values, or political
+views are relevant.  Attempts by green party members to stop or
+interrupt U.S. government efforts regarding certain environmental
+actions which they disagree with is not relevant.  Any members names
+noted are considered relevant.
+
+</top>
+
+<top>
+<num> Number: 705
+
+<title> Iraq foreign debt reduction
+
+<desc> Description:
+Identify any efforts, proposed or undertaken, by world governments to seek 
+reduction of Iraq's foreign debt.
+
+<narr> Narrative: Documents noting this subject as a topic for
+discussion (e.g. at U.N. and G7) are relevant. Money pledged for
+reconstruction is irrelevant.
+
+</top>
+
+<top>
+<num> Number: 706
+
+<title> Controlling type II diabetes
+
+<desc> Description:
+What are methods used to control type II diabetes?
+
+<narr> Narrative:
+Items containing such controls as determining blood sugar levels and
+keeping triglycerides, cholesterol and blood pressure in normal ranges
+are relevant. Mention of mild to moderate weight loss, regular
+exercise and learning new behaviors and attitudes, medications is
+relevant.
+
+</top>
+
+<top>
+<num> Number: 707
+
+<title> Aspirin cancer prevention
+
+<desc> Description:
+What evidence is there that aspirin may help prevent cancer?
+
+<narr> Narrative:
+Relevant documents will state the type of cancer and the organizations
+which made the findings that aspirin was useful in prevention.
+Documents which appear to only link to the desired information,
+rather than having this information in the document, are not relevant.
+
+</top>
+
+<top>
+<num> Number: 708
+
+<title> Decorative slate sources
+
+<desc> Description:
+What are sources of slate stone for decorative use?
+
+<narr> Narrative:
+Relevant documents will mention where slate can be obtained that is
+appropriate for decorative uses such as flooring, counter tops, or art.
+Quarries as well as distributors are relevant.  "Slate belt" does not
+imply a source of slate.
+
+</top>
+
+<top>
+<num> Number: 709
+
+<title> Horse racing jockey weight
+
+<desc> Description:
+What are the limits and regulations concerning jockey weight in horse
+racing?
+
+<narr> Narrative:
+Documents which discuss rules for horse racing relating to the weight
+of the jockey are relevant.  Documents which give a minimum jockey
+weight are relevant.  List of titles of sections with no text are NOT
+relevant.
+
+</top>
+
+<top>
+<num> Number: 710
+
+<title> Prostate cancer treatments
+
+<desc> Description:
+What are the various treatments for prostate cancer?
+
+<narr> Narrative: 
+Relevant cancer treatments include radiation therapy, radioactive
+pellets, hormonal therapy and surgery. "Watchful waiting" is also
+considered relevant.
+
+</top>
+
+<top>
+<num> Number: 711
+
+<title> Train station security measures
+
+<desc> Description:
+What security measures have been employed at train stations due to
+heightened security concerns?
+
+<narr> Narrative:
+Use of national guard forces is considered relevant. Surveillance
+cameras, more police officers, K-9 units, and better ID checks are
+considered relevant.
+
+</top>
+
+<top>
+<num> Number: 712
+
+<title> Pyramid scheme
+
+<desc> Description:
+What are some actual examples of pyramid schemes?
+
+<narr> Narrative:
+A relevant document must describe the actual pyramid scheme, not just
+the place it occurred or that it was a pyramid scheme.  Theoretical
+description of a pyramid scheme is not relevant. Ponzi schemes are
+relevant (they are a type of pyramid).
+
+</top>
+
+<top>
+<num> Number: 713
+
+<title> Chesapeake Bay Maryland clean
+
+<desc> Description:
+What is the state of Maryland doing to clean up the Chesapeake Bay?
+
+<narr> Narrative:
+Relevant documents will describe what Maryland in particular is doing
+to clean up the Bay.  Documents that focus on other states that only
+mention Maryland in a group of cooperating states are not relevant.
+
+</top>
+
+<top>
+<num> Number: 714
+
+<title> License restrictions older drivers
+
+<desc> Description:
+What restrictions are placed on older persons renewing their drivers'
+licenses in the U.S.?
+
+<narr> Narrative:
+Not relevant are documents on restrictions for persons with medical
+conditions, not necessarily related to age. Also not relevant are lists
+of publications on drivers licenses for older persons which give no
+restriction information.
+
+</top>
+
+<top>
+<num> Number: 715
+
+<title> Schizophrenia drugs
+
+<desc> Description:
+What organizations (private or governmental) are developing drugs to combat 
+schizophrenia?
+
+<narr> Narrative:
+Mention of pharmaceutical companies and university laboratories
+developing drugs is relevant. Also relevant are entities (such as
+NIMH) engaged in clinical trials of drugs which had been developed but
+were still under investigation.
+
+</top>
+
+<top>
+<num> Number: 716
+
+<title> Spammer arrest sue
+
+<desc> Description:
+Have any spammers been arrested or sued for sending unsolicited
+e-mail?
+
+<narr> Narrative:
+Instances of arrests, prosecutions, convictions, and punishments of
+spammers, and lawsuits against them are relevant.  Documents which
+describe laws to limit spam without giving details of lawsuits or
+criminal trials are not relevant.
+
+
+</top>
+
+<top>
+<num> Number: 717
+
+<title> Gifted talented student programs
+
+<desc> Description:
+What states or localities offer programs for gifted and talented students?
+
+<narr> Narrative:
+Relevant is any document that shows a state or locality offers a
+program for gifted and talented children. Not relevant are documents
+on federal programs for gifted and talented children, nor information
+on organizations that promote programs for gifted and talented
+students.
+
+</top>
+
+<top>
+<num> Number: 718
+
+<title> Controlling acid rain
+
+<desc> Description:
+What methods are used to control acid rain and its effects?
+
+<narr> Narrative:
+Documents pertaining to the decrease or eliminations of sulfur dioxide
+and nitrogen oxides into the air are relevant. Any reduction of the
+burning of fossil fuels is also relevant. Documents pertaining to the
+"Clean Air Act" are considered relevant.
+
+</top>
+
+<top>
+<num> Number: 719
+
+<title> Cruise ship damage sea life
+
+<desc> Description:
+What kinds of harm do cruise ships do to sea life such as coral reefs,
+and what is the extent of the damage?
+
+<narr> Narrative:
+References to "large ships" or "shipping" are relevant unless a
+freighter or other type of non-cruise ship is specified or is
+otherwise apparent from name or picture.
+
+</top>
+
+<top>
+<num> Number: 720
+
+<title> Federal welfare reform
+
+<desc> Description:
+Find documents about Federal welfare reform legislation, regulation,
+and policy.
+
+<narr> Narrative:
+Documents pertaining to welfare reform by a state are irrelevant.
+Resources such as pertinent legislation, regulations, policy and
+reports on the progress of Federal welfare reform are relevant.
+
+</top>
+
+<top>
+<num> Number: 721
+
+<title> Census data applications
+
+<desc> Description:
+What applications are there for U.S. decennial census data, and how is
+it used?
+
+<narr> Narrative:
+Relevant documents must clearly describe how census data is used.
+Documents which only list types of available census data are not
+relevant.
+
+</top>
+
+<top>
+<num> Number: 722
+
+<title> Iran terrorism
+
+<desc> Description:
+In what ways does Iran support terrorism?
+
+<narr> Narrative:
+Documents state only that Iran supports terrorism, without giving
+details, are not relevant.  Relevant documents will identify terrorist
+groups sponsored by Iran, official links between Iran and terrorist
+attacks, or funding trails.
+
+</top>
+
+<top>
+<num> Number: 723
+
+<title> Executive privilege
+
+<desc> Description:
+What is the U.S. government's definition of "executive privilege?"
+
+<narr> Narrative:
+Relevant documents will define the term "executive privilege", or
+describe an invocation of executive privilege which helps explain it.
+Application of executive privilege beyond the President to the
+executive branch is relevant.
+
+</top>
+
+<top>
+<num> Number: 724
+
+<title> Iran Contra
+
+<desc> Description:
+What was the Iran-Contra scandal and what were the consequences?
+
+<narr> Narrative:
+Not relevant are documents that mention the Iran-Contra affair only
+peripherally in discussing some other subject.
+
+</top>
+
+<top>
+<num> Number: 725
+
+<title> Low white blood cell count
+
+<desc> Description:
+What would cause a lowered white blood cell count?
+
+<narr> Narrative:
+A relevant document will describe a condition or disease that causes a
+lowered white blood cell count.  Lowered white blood cell counts
+caused by HIV infection, bone marrow failure and chemotherapy are
+relevant.  A low count caused by a treatment or medication would also
+be relevant.
+
+</top>
+
+<top>
+<num> Number: 726
+
+<title> Hubble telescope repairs
+
+<desc> Description:
+What repairs have been made on the Hubble telescope?
+
+<narr> Narrative:
+Not relevant are documents such as lists of resources, inquiries or
+photos of or by Hubble that provide no information on repairs, unless
+the captions discuss or describe repairs.
+
+</top>
+
+<top>
+<num> Number: 727
+
+<title> Church arson
+
+<desc> Description:
+Identify any specific instances of church arson.
+
+<narr> Narrative:
+Relevant documents must identify a specific arson attack and give the
+name of the church and/or its location.  General references such as
+mention of histories or patterns of arsons at churches, or statistics
+from the church arson task force were considered irrelevant.
+Suspected arson and burning of synagogues are considered relevant.
+
+</top>
+
+<top>
+<num> Number: 728
+
+<title> whales save endangered
+
+<desc> Description:
+What's being done to save endangered whales?
+
+<narr> Narrative:
+A relevant document will reveal any noted efforts to save whales.  The
+classification of certain whales as an endangered species is an effort
+to save them, and therefore documents reflecting this are relevant.
+Proposals to limit whale hunting are not relevant if they are
+proposals not actual laws or regulations. Bans and moratoriums on
+whaling are relevant.
+
+</top>
+
+<top>
+<num> Number: 729
+
+<title> Whistle blower department of defense
+
+<desc> Description:
+What have been revelations of whistle blowers concerning the U.S.
+Department of Defense?
+
+<narr> Narrative:
+Relevant documents will describe instances of kickbacks, fraud, or
+other illegal activity revealed by whistle blowers at the Department
+of Defense.  Whistle blower protections and regulations are not
+relevant.
+
+</top>
+
+<top>
+<num> Number: 730
+
+<title> Gastric bypass complications
+
+<desc> Description:
+What are some of the possible complications and potential dangers of
+gastric bypass surgery?
+
+<narr> Narrative:
+Mention of other bypass surgeries (e.g. heart, intestinal bypass,
+vertical banding, etc) are not considered relevant.
+
+</top>
+
+<top>
+<num> Number: 731
+
+<title> Kurds history
+
+<desc> Description:
+What is the history of the Kurds?
+
+<narr> Narrative:
+Relevant are documents on long-time history of the Kurds, as well as
+documents on recent events, such as Saddam Hussein's 1988 poison gas
+attack on Kurdish residents of Halabja. Not relevant are documents on
+unrelated subjects that only briefly mention the Halabja attack.
+
+</top>
+
+<top>
+<num> Number: 732
+
+<title> U.S. cheese production 
+
+<desc> Description:
+What cheese production is carried out in the U.S.?
+
+<narr> Narrative:
+Relevant documents describe cheese production, including cheddar,
+swiss, gouda, and goat cheese.  Products that include cheese are not
+relevant unless it is made clear that the cheese is made in the
+U.S. USDA regulations are not relevant unless they cite U.S.-produced
+cheese.
+
+</top>
+
+<top>
+<num> Number: 733
+
+<title> Airline overbooking
+
+<desc> Description:
+What are the regulations regarding airline overbooking?
+
+<narr> Narrative:
+Relevant documents indicate regulations or industry rules which govern
+the practice of overbooking, selling more seats than are available on
+the plane.  Schedules for reporting over-sales are relevant.
+
+</top>
+
+<top>
+<num> Number: 734
+
+<title> Recycling successes
+
+<desc> Description:
+What recycling projects have been successful?
+
+<narr> Narrative:
+Guidelines by themselves are not relevant. Titles in a table of
+contents are relevant if they identify places or product programs
+which have had success. Must be declared successful or success should
+be clearly assumed from the description.  Name of state identified as
+successful recycler is relevant. Listing of recycled products for sale
+are relevant.
+
+</top>
+
+<top>
+<num> Number: 735
+
+<title> Afghan women condition
+
+<desc> Description:
+Is the condition of Afghan women better under the new government than
+under the Taliban?
+
+<narr> Narrative:
+Relevant documents must give information about Afghan women,
+post-Taliban, including whether they have more rights and freedom. Not
+relevant are documents from U.S. officials supporting women's rights
+or describing U.S. aid to Afghanistan aimed to help women.
+
+</top>
+
+<top>
+<num> Number: 736
+
+<title> location BSE infections
+
+<desc> Description:
+Where have animals infected with bovine spongiform encephalopathy
+(also known as BSE or Mad Cow disease) been found?
+
+<narr> Narrative:
+Relevant documents should be specific, i.e. give a country or state
+instead of Europe or Asia.  BSE should not be confused with TSE
+(Transmissible Spongiform Encephalopathy).  Measures taken to limit or
+curb BSE infections are not relevant.
+
+</top>
+
+<top>
+<num> Number: 737
+
+<title> Enron California energy crisis
+
+<desc> Description:
+What allegations have been made about Enron's culpability in the
+California Energy crisis?
+
+<narr> Narrative:
+Relevant documents will allege than Enron contributed to California's
+energy crisis.  Mention of the failure of Enron to provide documents
+is not relevant.
+
+</top>
+
+<top>
+<num> Number: 738
+
+<title> Anthrax hoaxes
+
+<desc> Description:
+What are some examples of anthrax hoaxes?
+
+<narr> Narrative:
+Only specific examples are relevant. Documents giving statistics such
+as "20 individuals arrested for hoaxes" are not relevant.
+
+</top>
+
+<top>
+<num> Number: 739
+
+<title> Habitat for Humanity
+
+<desc> Description:
+What is the organization "Habitat for Humanity", and what activities
+are they involved in?
+
+<narr> Narrative:
+Documents that explain a specific Habitat for Humanity program are
+relevant. Locations of Habitat for Humanity chapters are
+relevant. Documents that reveal the purpose of Habitat for Humanity
+are relevant.
+
+</top>
+
+<top>
+<num> Number: 740
+
+<title> regulate assisted living Maryland
+
+<desc> Description:
+Who regulates assisted living facilities in Maryland?
+
+<narr> Narrative:
+Relevant documents will indicate agencies which regulate assisted
+living facilities in Maryland.  Documents which mention such an agency
+without indicating their regulatory responsibility are not relevant.
+Documents mentioning the agency and purpose, but not the state are not
+relevant.
+
+</top>
+
+<top>
+<num> Number: 741
+
+<title> Artificial Intelligence
+
+<desc> Description:
+What is artificial intelligence?
+
+<narr> Narrative:
+Any documents pertaining to pattern recognition, problem-solving,
+natural language processing, and game playing, which are branches of
+artificial intelligence, are relevant.
+
+</top>
+
+<top>
+<num> Number: 742
+
+<title> hedge funds fraud protection
+
+<desc> Description:
+What protection do investors have against fraud by hedge funds?
+
+<narr> Narrative:
+Relevant documents will give information on consumer protections
+against fraud by hedge funds.  If different financial structures are
+involved, such as multiple kinds of funds or derivatives, the document
+is not relevant unless it makes clear that the fraud applies to hedge
+funds.
+
+</top>
+
+<top>
+<num> Number: 743
+
+<title> Freighter ship registration
+
+<desc> Description:
+What are the regulations and other considerations concerning
+registering a freighter in a country?
+
+<narr> Narrative:
+Relevant documents will describe rules and regulations for registering
+a freighter under a particular flag or country.  Anything relating to
+registration of freighters is relevant.  Information about other types
+of ships is not relevant.
+
+</top>
+
+<top>
+<num> Number: 744
+
+<title> Counterfeit ID punishments
+
+<desc> Description:
+What punishments or sentences have been given in the U.S. for
+making or selling counterfeit IDs?
+
+<narr> Narrative:
+Relevant documents will describe punishments for manufacturing or
+selling counterfeit identification, such as drivers licenses,
+passports, social security cards, etc.  Fake professional
+certifications and fake credit cards are relevant. Counterfeit goods
+or auto serial numbers not relevant. Counterfeit checks are not
+relevant.  "Counterfeiting" with no indication of type is relevant.
+
+</top>
+
+<top>
+<num> Number: 745
+
+<title> Doomsday cults
+
+<desc> Description:
+Identify any doomsday cult, their name, and location throughout the world.
+
+<narr> Narrative:
+To be relevant a document must reflect that the cult is a doomsday or
+apocalyptic cult.  Any document which indicates the location (by
+country) and name of the doomsday cult is relevant. References to cults
+other than doomsday cults is not relevant.
+
+</top>
+
+<top>
+<num> Number: 746
+
+<title> Outsource job India
+
+<desc> Description:
+What jobs have been outsourced to India?
+
+<narr> Narrative:
+Relevant documents will identify jobs which used to be in the U.S. but
+have been outsourced to India.  When the word "outsourced" is used not
+used but implied it is still relevant.  Outsourcing to other countries
+besides India is not relevant.
+
+</top>
+
+<top>
+<num> Number: 747
+
+<title> Library computer oversight
+
+<desc> Description:
+What control or oversight is there over computer use in public libraries?
+
+<narr> Narrative:
+Relevant documents will describe specific controls or oversight
+mechanisms that currently are in use.  Bills that propose controls but
+have not been passed are not relevant.  Statements regarding a lack of
+control/monitoring are not relevant.  The fact that a Librarian must
+load CDs for patrons is relevant.  Fees for computer print outs are
+not relevant.  Statement of illegal activities that are prohibited is
+not relevant.  Restrictions to legal research is relevant.
+
+</top>
+
+<top>
+<num> Number: 748
+
+<title> Nuclear reactor types
+
+<desc> Description:
+Name the types of nuclear reactor power plants in operation in the United 
+States. 
+
+<narr> Narrative:
+Relevant document will contain information which identifies the type
+of commercial nuclear reactors in use in the United States. Documents
+indicating the difference in how these reactors work is
+relevant. General information on nuclear reactors is not
+relevant. Future changes in nuclear reactors is not relevant. Total
+numbers of each type of reactor is of relevance.
+
+</top>
+
+<top>
+<num> Number: 749
+
+<title> Puerto Rico state
+
+<desc> Description:
+Do people in Puerto Rico want for it to become a U.S. State?
+
+<narr> Narrative:
+Relevant documents will show that the Puerto Rican people want or do
+not want United States statehood. Relevant documents can contain
+information indicating other choices for Puerto Ricans such as to
+remain a commonwealth of the U.S.  or to become an independent
+nation. All other documents containing Puerto Rico commercial,
+geographical, economic, etc. information is not relevant.
+
+</top>
+
+<top>
+<num> Number: 750
+
+<title> John Edwards womens issues
+
+<desc> Description:
+What are Senator John Edwards' positions on women's issues such as pay
+equity, abortion, Title IX and violence against women.
+
+<narr> Narrative:
+Relevant documents will indicate Senator John Edwards' stand on issues
+concerning women, such as pay parity, abortion rights, Title IX, and
+violence against women.  Lists of press releases are relevant when the
+headlines show he is voting for or against bills on women's
+issues. Not relevant are Edwards' positions on issues not exclusively
+concerning women.
+
+</top>
+

@@ -1,0 +1,964 @@
+<?xml version="1.0"?>
+<!DOCTYPE webtrack2012 [
+  <!ELEMENT webtrack2012 (topic)*>
+  <!ELEMENT topic (query, description, subtopic+)>
+    <!ATTLIST topic 
+              number CDATA #REQUIRED
+              type (ambiguous|faceted|other) "ambiguous">
+   <!ELEMENT query (#PCDATA)>
+  <!ELEMENT description (#PCDATA)>
+  <!ELEMENT subtopic (#PCDATA)>
+    <!ATTLIST subtopic 
+              number CDATA #REQUIRED
+              type (nav|inf) "inf">
+]>
+<webtrack2012>
+
+<!-- Please note that topic and subtopic types (faceted/ambiguous,
+     inf/nav are meant as a general indicator and should not be taken
+     as definitive aspects of the query intent. -->
+
+<!-- Note that the first subtopic is always identical to the description
+     sentence.  This is to ensure that adhoc-task results are also relevant
+     to the subtopic task. -->
+
+<topic number="151" type="faceted">
+  <query>403b</query>
+  <description>
+    What is a 403b plan?
+  </description>
+  <subtopic number="1" type="inf">
+     What is a 403b plan?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Who is eligible for a 403b plan?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    What are the rules for a 403b retirement plan?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What is the difference between 401k and 403b retirement plans?
+  </subtopic>
+  <subtopic number="5" type="nav">
+    What are the withdrawal limitations for a 403b retirement plan?
+  </subtopic>
+</topic>
+
+<topic number="152" type="faceted">
+  <query>angular cheilitis</query>
+  <description>
+     What home remedies are there for angular cheilitis?
+  </description>
+  <subtopic number="1" type="inf">
+    What home remedies are there for angular cheilitis?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What causes angular cheilitis?
+  </subtopic>
+  <subtopic number="3" type="nav">
+     What is the common name for angular cheilitis?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How do you treat severe angular cheilitis?
+  </subtopic>
+</topic>
+
+<topic number="153" type="faceted">
+  <query>pocono</query>
+  <description>
+    Find general information on tourist activities in Pennsylvania's Pocono Mountains.
+  </description>
+  <subtopic number="1" type="inf">
+    Find general information on tourist activities in Pennsylvania's Pocono Mountains.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find a map showing lodgings in the Poconos PA region.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about the Pocono Raceway in Pennsylvania.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about the Split Rock Resort in the Poconos.
+  </subtopic>
+</topic>
+
+<topic number="154" type="faceted">
+  <query>figs</query>
+  <description>
+    Find information on nutritional or health benefits of figs.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information on nutritional or health benefits of figs.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find recipes that use figs.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on the different varieties of figs.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on growing figs.
+  </subtopic>
+</topic>
+
+<topic number="155" type="faceted">
+  <query>last supper painting</query>
+  <description>
+    Find a picture of the Last Supper painting by Leonardo da Vinci.
+  </description>
+  <subtopic number="1" type="nav">
+    Find a picture of the Last Supper painting by Leonardo da Vinci.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Are tickets available online to view da Vinci's Last Supper in Milan, Italy?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What is the significance of da Vinci's interpretation of the Last Supper in Catholicism?
+  </subtopic>
+</topic>
+
+<topic number="156" type="faceted">
+  <query>university of phoenix</query>
+  <description>
+    What online programs are offered by the University of Phoenix?
+  </description>
+  <subtopic number="1" type="nav">
+    What online programs are offered by the University of Phoenix?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find reviews of the programs at the University of Phoenix.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Who are the main online competitors of the University of Phoenix?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find homepages of faculty members at the University of Phoenix.
+  </subtopic>
+</topic>
+
+<topic number="157" type="faceted">
+  <query>the beatles rock band</query>
+  <description>
+    Find a listing of Beatles songs.
+  </description>
+  <subtopic number="1" type="nav">
+    Find a listing of Beatles songs.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What is the history of the Beatles rock band?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    What albums did the Beatles release?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    What are the names of the members of the Beatles?
+  </subtopic>
+</topic>
+
+<topic number="158" type="faceted">
+  <query>septic system design</query>
+  <description>
+    How does a septic system work?
+  </description>
+  <subtopic number="1" type="inf">
+    How does a septic system work?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What alternatives are there for the design of a septic system?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What maintenance does a septic system require?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    I need a septic system contractor.
+  </subtopic>
+</topic>
+
+<topic number="159" type="faceted">
+  <query>porterville</query>
+  <description>
+    What K-12 schools are in Porterville, CA?
+  </description>
+  <subtopic number="1" type="inf">
+    What K-12 schools are in Porterville, CA?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What colleges or post-secondary institutions are in Porterville, CA?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What medical care is available in Porterville, CA?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about the Panthers sports teams at Porterville High School in California.
+  </subtopic>
+  <subtopic number="5" type="nav">
+   Find the homepage of the Porterville Recorder newspaper.
+  </subtopic>
+</topic>
+
+<topic number="160" type="ambiguous">
+  <query>grilling</query>
+  <description>
+    Find kabob recipes.
+  </description>
+  <subtopic number="1" type="nav">
+    Find kabob recipes.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find tips on grilling vegetables.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find tips on grilling fish.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find instructions for grilling chicken.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Find the Grilling Magazine website.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find information on gas barbecue grills and cooking on a gas grill.
+  </subtopic>
+</topic>
+
+<topic number="161" type="faceted">
+  <query>furniture for small spaces</query>
+  <description>
+    What are some small space decorating dos and don'ts?
+  </description>
+  <subtopic number="1" type="inf">
+    What are some small space decorating dos and don'ts?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What is the effect of mirrored surfaces in small spaces?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How does furniture arrangement create an illusion of more space?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How important is the scale of furniture in small spaces?
+  </subtopic>
+</topic>
+
+<topic number="162" type="ambiguous">
+  <query>dnr</query>
+  <description>
+    What are "do not resuscitate" orders and how do you get one in place?
+  </description>
+  <subtopic number="1" type="inf">
+    What are "do not resuscitate" orders and how do you get one in place?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    What is required to get a hunting license online from the Michigan Department of Natural Resources?
+  </subtopic>
+  <subtopic number="3" type="inf">
+     What are the Maryland Department of Natural Resources' regulations for deer hunting?
+  </subtopic>
+</topic>
+
+<topic number="163" type="faceted">
+  <query>arkansas</query>
+  <description>
+    Provide Arkansas tourist information.
+  </description>
+  <subtopic number="1" type="inf">
+    Provide Arkansas tourist information.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Show a map of Arkansas.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Provide information on the city of Little Rock, Arkansas.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on colleges and universities in Arkansas.
+  </subtopic>
+</topic>
+
+<topic number="164" type="faceted">
+  <query>hobby stores</query>
+  <description>
+     What hobby stores carry trains?
+  </description>
+  <subtopic number="1" type="inf">
+     What hobby stores carry trains?
+  </subtopic>
+  <subtopic number="2" type="nav">
+     Find a list of hobby stores in Maryland.
+  </subtopic>
+  <subtopic number="3" type="inf">
+     Where can I buy radio-controlled planes?
+  </subtopic>
+  <subtopic number="4" type="nav">
+     What is the website for HobbyTown USA?
+  </subtopic>
+</topic>
+
+<topic number="165" type="faceted">
+  <query>blue throated hummingbird</query>
+  <description>
+     Find a picture of a blue-throated hummingbird.
+  </description>
+  <subtopic number="1" type="nav">
+     Find a picture of a blue-throated hummingbird.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    What is the scientific name of the blue-throated hummingbird?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are the migration patterns of the blue-throated hummingbird?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    The blue-throated hummingbird is native to what areas?
+  </subtopic>
+</topic>
+
+<topic number="166" type="faceted">
+  <query>computer programming</query>
+  <description>
+    What type of careers are there for computer programmers?
+  </description>
+  <subtopic number="1" type="inf">
+    What type of careers are there for computer programmers?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    List online computer programming tutorials.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What's in a computer science degree program?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What is the average salary for a computer programmer?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    What computer programming languages are there?
+  </subtopic>
+</topic>
+
+<topic number="167" type="ambiguous">
+  <query>barbados</query>
+  <description>
+     Find information on Barbados history.
+  </description>
+  <subtopic number="1" type="inf">
+     Find information on Barbados history.
+  </subtopic>
+  <subtopic number="2" type="nav">
+     Find a map of Barbados.
+  </subtopic>
+  <subtopic number="3" type="nav">
+     What does the Barbados flag look like?
+  </subtopic>
+  <subtopic number="4" type="inf">
+     Suggest tourist activities in Barbados.
+  </subtopic>
+  <subtopic number="5" type="nav">
+     Find the Barbados Underground homepage.
+  </subtopic>
+  <subtopic number="6" type="inf">
+     Find information on Barbados Prime Minister David Thompson.
+  </subtopic>
+</topic>
+
+<topic number="168" type="faceted">
+  <query>lipoma</query>
+  <description>
+     What are the causes of lipoma tumors in humans?
+  </description>
+  <subtopic number="1" type="inf">
+     What are the causes of lipoma tumors in humans?
+  </subtopic>
+  <subtopic number="2" type="inf">
+      What age group most often exhibits lipomas?
+  </subtopic>
+  <subtopic number="3" type="inf">
+      Which animals are known to present lipomas?
+  </subtopic>
+  <subtopic number="4" type="nav">
+     Find pictures of lipoma tumors.
+  </subtopic>
+  <subtopic number="5" type="inf">
+     What are the treatments for malignant lipolysis?
+  </subtopic>
+</topic>
+
+<topic number="169" type="faceted">
+  <query>battles in the civil war</query>
+  <description>
+    What were the major battles in the US civil war?
+  </description>
+  <subtopic number="1" type="inf">
+    What were the major battles in the US civil war?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What famous generals fought in the US civil war?
+  </subtopic>
+  <subtopic number="3" type="nav">
+     Find a timeline or map of US civil war battles.
+  </subtopic>
+  <subtopic number="4" type="inf">
+     What movies have been made about US civil war battles?
+  </subtopic>
+</topic>
+
+<topic number="170" type="ambiguous">
+  <query>scooters</query>
+  <description>
+     Find kids' scooters for sale.
+  </description>
+  <subtopic number="1" type="inf">
+     Find kids' scooters for sale.
+  </subtopic>
+  <subtopic number="2" type="nav">
+     Find the homepage of Hoveround scooters.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What brands of mobility scooters are available?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find mopeds for sale.
+  </subtopic>
+</topic>
+
+<topic number="171" type="faceted">
+  <query>ron howard</query>
+  <description>
+    What movies has Ron Howard directed?
+  </description>
+  <subtopic number="1" type="inf">
+    What movies has Ron Howard directed?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find biographical information on director Ron Howard.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What television shows did Ron Howard act in?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Who are Ron Howard's family members: parents, wife, any children?
+  </subtopic>
+</topic>
+
+
+<topic number="172" type="faceted">
+  <query>becoming a paralegal</query>
+  <description>
+    What training is required to become a paralegal? 
+  </description>
+  <subtopic number="1" type="inf">
+    What training is required to become a paralegal? 
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What ABA-approved certificate programs are there?
+  </subtopic>
+  <subtopic number="3" type="nav">
+     Find the homepage of the paralegal association.
+  </subtopic>
+  <subtopic number="4" type="inf">
+     What are the duties of a paralegal?
+  </subtopic>
+</topic>
+
+
+<topic number="173" type="faceted">
+  <query>hip fractures</query>
+  <description>
+    Find information on hip fractures in the elderly.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information on hip fractures in the elderly.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    How do you treat a hip fracture and what is the prognosis for recovery?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    How many hip fractures occur annually in the US?
+  </subtopic>
+</topic>
+
+<topic number="174" type="ambiguous">
+  <query>rock art</query>
+  <description>
+    Where can I learn about rock painting or buy a rock-painting kit?
+  </description>
+  <subtopic number="1" type="inf">
+    Where can I learn about rock painting or buy a rock-painting kit?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Where can I buy tools for stone carving or engraving?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on cave paintings in France.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Where can I buy rock and roll posters?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information on the artwork used on rock music album covers.
+  </subtopic>
+</topic>
+
+<topic number="175" type="faceted">
+  <query>signs of a heartattack</query>
+  <description>
+    What are the symptoms of a heart attack?
+  </description>
+  <subtopic number="1" type="inf">
+    What are the symptoms of a heart attack?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Do the signs of a heart attack differ between men and women?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are the early signs of a heart attack?
+  </subtopic>
+</topic>
+
+<topic number="176" type="ambiguous">
+  <query>weather strip</query>
+  <description>
+    How do you weather strip automobile windows and doors?
+  </description>
+  <subtopic number="1" type="inf">
+    How do you weather strip automobile windows and doors?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What is the best way to seal or weather strip my garage door?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How do I weather strip my sliding glass door?
+  </subtopic>
+</topic>
+
+<topic number="177" type="faceted">
+  <query>best long term care insurance</query>
+  <description>
+    What are the different types of long term care insurance policies?
+  </description>
+  <subtopic number="1" type="inf">
+    What are the different types of long term care insurance policies?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What companies offer long term care insurance policies?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How much does long term insurance cost?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What ratings has AM Best given to long term care insurance polices?
+  </subtopic>
+</topic>
+
+<topic number="178" type="ambiguous">
+  <query>pork tenderloin</query>
+  <description>
+    What time and temperature should be used to roast a pork tenderloin?
+  </description>
+  <subtopic number="1" type="nav">
+    What time and temperature should be used to roast a pork tenderloin?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find recipes for pork tenderloin marinades and dry rubs.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find recipes for pork tenderloin cooked in a crockpot.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How do I grill a pork tenderloin on a gas grill?
+  </subtopic>
+</topic>
+
+<topic number="179" type="faceted">
+  <query>black history</query>
+  <description>
+    Find a timeline for African Americans in the United States.
+  </description>
+  <subtopic number="1" type="nav">
+    Find a timeline for African Americans in the United States.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find activities for children for Black History month.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find names of famous African American inventors.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find Maya Angelou's poetry.
+  </subtopic>
+</topic>
+
+<topic number="180" type="ambiguous">
+  <query>newyork hotels</query>
+  <description>
+    Find inexpensive hotels in New York City.
+  </description>
+  <subtopic number="1" type="inf">
+    Find inexpensive hotels in New York City.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Where are hotels on Long Island, New York?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    I want to book a room in a hotel that's on Times Square in New York City.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What luxury hotels are in New York city?
+  </subtopic>
+</topic>
+
+<topic number="181" type="faceted">
+  <query>old coins</query>
+  <description>
+    What is a good way to begin collecting old coins?
+  </description>
+  <subtopic number="1" type="inf">
+    What is a good way to begin collecting old coins?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What is the value of a rare wheat US penny? 
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I'm looking for information about old US silver dollars.
+  </subtopic>
+</topic>
+
+
+<topic number="182" type="faceted">
+  <query>quit smoking</query>
+  <description>
+    What are the ways you can quit smoking?
+  </description>
+  <subtopic number="1" type="inf">
+    What are the ways you can quit smoking?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are the benefits of quitting smoking?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Can you quit smoking using the cold turkey method?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How can hypnosis help someone quit smoking?
+  </subtopic>
+</topic>
+
+<topic number="183" type="faceted">
+  <query>kansas city mo</query>
+  <description>
+    What are some Kansas City, MO tourist attractions?
+  </description>
+  <subtopic number="1" type="inf">
+    What are some Kansas City, MO tourist attractions?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What hotels are near the Kansas City airport?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find the Kansas City Chiefs homepage.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What casinos are in Kansas City, Missouri?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information on the Hallmark Visitors Center in Kansas City, MO.
+  </subtopic>
+</topic>
+
+<topic number="184" type="faceted">
+  <query>civil right movement</query>
+  <description>
+    What issues were addressed in the Civil Rights Act of 1964?
+  </description>
+  <subtopic number="1" type="inf">
+    What issues were addressed in the Civil Rights Act of 1964?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find a timeline of the Civil Rights Movement in the United States.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What was Martin Luther King Jr's contribution to the US Civil Rights Movement?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What is the history of the Little Rock nine? 
+  </subtopic>
+</topic>
+
+<topic number="185" type="faceted">
+  <query>credit report</query>
+  <description>
+    How do I get my free annual credit report?
+  </description>
+  <subtopic number="1" type="inf">
+    How do I get my free annual credit report?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    I need the customer service contact information for the three major credit reporting agencies.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How do you dispute credit report information?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How is a credit score determined?
+  </subtopic>
+</topic>
+
+<topic number="186" type="faceted">
+  <query>unc</query>
+  <description>
+    What campuses are part of the University of North Carolina?
+  </description>
+  <subtopic number="1" type="inf">
+    What campuses are part of the University of North Carolina?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find reports of University of North Carolina Chapel Hill athletics.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Where is the University of North Carolina hospital located?
+  </subtopic>
+</topic>
+
+<topic number="187" type="ambiguous">
+  <query>vanuatu</query>
+  <description>
+    Find a map of the islands of Vanuatu.
+  </description>
+  <subtopic number="1" type="nav">
+    Find a map of the islands of Vanuatu.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I need travel and tourism information for Vanuatu.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find photos from the "Survivor 9, Vanuatu" TV reality series.
+  </subtopic>
+</topic>
+
+<topic number="188" type="faceted">
+  <query>internet phone service</query>
+  <description>
+    What is the best internet phone service? 
+  </description>
+  <subtopic number="1" type="inf">
+    What is the best internet phone service?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find free internet phone service.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Who provides VOIP phone service?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How much does internet phone service cost?
+  </subtopic>
+</topic>
+
+<topic number="189" type="faceted">
+  <query>gs pay rate</query>
+  <description>
+    Find the General Schedule pay tables.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the General Schedule pay tables.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Does the Federal Wage System affect the General Schedule?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Do all US federal government agencies use the General Schedule pay tables?
+  </subtopic>
+</topic>
+
+<topic number="190" type="faceted">
+  <query>brooks brothers clearance</query>
+  <description>
+    Find Brooks Brothers online promotional coupons.
+  </description>
+  <subtopic number="1" type="nav">
+    Find Brooks Brothers online promotional coupons.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Where are Brooks Brothers outlet stores located?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Is Brooks Brothers catalog merchandise available at their outlet stores?
+  </subtopic>
+</topic>
+
+
+<topic number="191" type="faceted">
+  <query>churchill downs</query>
+  <description>
+     Find information on the racing schedule at Churchill Downs.
+  </description>
+  <subtopic number="1" type="inf">
+     Find information on the racing schedule at Churchill Downs.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on Breeders Cup races.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on the Kentucky Derby Museum.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find the seating chart of Churchill Downs.
+  </subtopic>
+</topic>
+
+<topic number="192" type="ambiguous">
+  <query>condos in florida</query>
+  <description>
+    Find beachfront condos for sale in Florida.
+  </description>
+  <subtopic number="1" type="inf">
+    Find beachfront condos for sale in Florida.
+  </subtopic> 
+  <subtopic number="2" type="inf">
+    I want to find a vacation rental oceanfront condo in Florida.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What condos are for sale in Miami Beach, Florida?
+  </subtopic>
+</topic>
+
+<topic number="193" type="faceted">
+  <query>dog clean up bags</query>
+  <description>
+     Can I order dog clean-up bags online?
+  </description>
+  <subtopic number="1" type="inf">
+     Can I order dog clean-up bags online?
+  </subtopic>
+  <subtopic number="2" type="inf">
+     Are there biodegradable products for the disposal of dog waste?
+  </subtopic>
+  <subtopic number="3" type="inf">
+     What are the best ways of disposing of dog waste?
+  </subtopic>
+</topic>
+
+<topic number="194" type="faceted">
+  <query>designer dog breeds</query>
+  <description>
+    What breeds of small or toy dog hybrids are there?
+  </description>
+  <subtopic number="1" type="inf">
+    What breeds of small or toy dog hybrids are there?
+  </subtopic> 
+  <subtopic number="2" type="inf">
+    Find puppies of designer dog breeds for sale.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find pictures of various designer dog breeds.
+  </subtopic>
+</topic>
+
+<topic number="195" type="faceted">
+  <query>pressure washers</query>
+  <description>
+    Where can I buy replacement parts for pressure washers?
+  </description>
+  <subtopic number="1" type="inf">
+    Where can I buy replacement parts for pressure washers?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Provide pressure washer reviews and/or ratings.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are the different brands of pressure washers?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find "The-Power-Washer-Advisor.com" web site.
+  </subtopic>
+</topic>
+
+<topic number="196" type="faceted">
+  <query>sore throat</query>
+  <description>
+    What causes a sore throat?
+  </description>
+  <subtopic number="1" type="inf">
+    What causes a sore throat?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find home remedies for a sore throat.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on throat cancer.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What does it mean when my throat is sore on only one side?
+  </subtopic>
+</topic>
+
+ <topic number="197" type="faceted">
+  <query>idaho state flower</query>
+  <description>
+    What is the state flower of Idaho?
+  </description>
+  <subtopic number="1" type="nav">
+    What is the state flower of Idaho?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find pictures of the Idaho state flower.
+  </subtopic>
+  <subtopic number="3" type="inf">
+     Find "fun facts" about Idaho: state flower, tree, bird, etc.
+  </subtopic>
+</topic>
+
+<topic number="198" type="faceted">
+  <query>indiana state fairgrounds</query>
+  <description>
+     What events are held at the Indiana State Fairgrounds?
+  </description>
+  <subtopic number="1" type="inf">
+     What events are held at the Indiana State Fairgrounds?
+  </subtopic>
+  <subtopic number="2" type="nav">
+     Find driving directions to the Indiana State Fairgrounds.
+  </subtopic>
+  <subtopic number="3" type="inf">
+     Where can I buy tickets for Indiana State Fairgrounds events?
+  </subtopic>
+  <subtopic number="4" type="nav">
+     Find a map for the Indiana State Fairgrounds.
+  </subtopic>
+</topic>
+
+<topic number="199" type="faceted">
+  <query>fybromyalgia</query>
+  <description>
+     What are the primary symptoms or signs of fybromyalgia?
+  </description>
+  <subtopic number="1" type="inf"> 
+     What are the primary symptoms or signs of fybromyalgia?
+  </subtopic>
+  <subtopic number="2" type="inf">
+     What medicines can be used to treat fybromyalgia?
+  </subtopic>
+  <subtopic number="3" type="inf">
+     What support groups are there for fybromyalgia suffers?
+  </subtopic>
+</topic>
+
+<topic number="200" type="faceted">
+  <query>ontario california airport</query>
+  <description>
+    Find flight information for the Ontario, CA airport.
+  </description> 
+  <subtopic number="1" type="inf">
+    Find flight information for the Ontario, CA airport.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What hotels are near the Ontario, CA airport?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What services/facilities does the Ontario, CA airport offer?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    What is the address of the Ontario, CA airport?
+  </subtopic>
+</topic>
+
+</webtrack2012>

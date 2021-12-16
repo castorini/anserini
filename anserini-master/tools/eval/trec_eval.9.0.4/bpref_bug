@@ -1,0 +1,176 @@
+November 8, 2005
+We found a bug in the calculation of the bpref measure within trec_eval.  
+
+BUG DESCRIPTION: The bpref measure calculates the fraction of
+preferences between pairs of judged relevant and non-relevant
+documents that were correctly ordered in a document ranking.
+When a run does not retrieve R judged non-relevant documents,
+only the retrieved non-relevant documents were considered.  Thus
+a (worst case) run which retrieved only 5 judged documents, the
+first non-relevant and the following 4 relevant, would have a
+score of 0.0 since the fraction of correct preferences among the
+retrieved judged documents was 0.0. However, the retrieved judged
+relevant documents should have been counted as being preferred
+over any judged non-relevant document that wasn't retrieved. If
+the nonretrieved documents included 3 judged non-relevant
+documents and 2 judged relevant documents, then the bpref score
+should be 0.5.  (= ((4 * (3/4)) + 2 * (0/4)) / 6).
+
+BUG IMPACT: Almost no impact for standard TREC-type ad hoc runs
+(retrieve 1000 documents).  Topics with large numbers of relevant
+documents (eg, over 300) had their scores artificially depressed
+for those topics, and thus performance with the corrected bpref
+will be higher on those topics.  Kendall tau of system rankings 
+show very strong (.95 - .98) agreement between the buggy and new
+bpref.
+
+There may be more impact for non-standard environments where the
+number of retrieved judged documents is small.  Eg, I've been
+told the 2005 Terabyte efficiency track (only retrieve 20
+documents) is more strongly affected.
+
+BUG FIX: Version 8.0, available from the usual places at NIST,
+implements the corrected bpref calculations.  It also adds the
+measures "old_bpref" and "old_bpref_top10pRnonrel" that calculate
+the buggy numbers for comparisons with old results (the latter
+measure was used in the SIGIR 2004 bpref paper).  People using
+bpref should switch to Version 8.0 or higher as soon as possible.
+
+BUG APOLOGY: I want to apologize to the community for the error.
+Doing research and using new measures is hard enough without
+having to worry about buggy implementations!
+
+Chris Buckley
+
+#######################################################################
+For those of you working with bpref who want to know more details
+about the bug and its effects, here's a fuller version of above.
+
+BUG DESCRIPTION: Here's code, pseudo_code, and comments comparing
+old_bpref (the buggy version) and bpref on a single topic:
+    long nonrel_so_far; /* Number of non-relevant documents seen while 
+                           going through the ranking */
+    long num_nonrel;    /* Number of judged non-relevant documents */
+    long nonrel_ret;    /* Number of retrieved judged non-relevant documents */
+    long pref_top_Rnonrel_num; /* set to R (eval->num_rel) */
+
+    nonrel_so_far = 0;
+    foreach doc in retrieved documents (sorted in decreasing score) {
+        if (doc is not relevant)
+            nonrel_so_far++;
+        else {
+            /* Add fraction of correct preferences for this doc */
+            if (nonrel_so_far) {
+-->new          eval->bpref += 1.0 - 
+                    (((float) MIN (nonrel_so_far, pref_top_Rnonrel_num)) /
+                     (float) MIN (num_nonrel, pref_top_Rnonrel_num));
+-->buggy        eval->old_bpref += 1.0 - 
+                    (((float) MIN (nonrel_so_far, pref_top_Rnonrel_num)) /
+                     (float) MIN (nonrel_ret, pref_top_Rnonrel_num));
+             }
+             else {
+                eval->bpref += 1.0;
+                eval->old_bpref += 1.0;
+            }
+        }
+    }
+    if (eval->num_rel) {
+        eval->bpref /= eval->num_rel;
+        eval->old_bpref /= eval->num_rel;
+    }
+
+BUG HOW IT HAPPENED:The first versions of bpref I wrote were
+defined only on the retrieved documents.  When I switched to
+variants using the TREC standard of considering all documents
+(which improved the measures greatly), I overlooked making the
+needed change to the denominator in the code above.
+
+BUG HOW DISCOVERED: On November 4, Ian Soboroff (NIST) was
+looking at the bpref code and couldn't understand the "corner"
+conditions in the code.  We talked some, I stared at the code a
+couple of minutes, and then went "OOPS", (or words to that
+effect).
+
+CHANGES CAUSED BY BUG: I made the obvious changes to the bpref
+code, and also revamped the whole structure of the main function,
+to at least break apart the major different kinds of measures
+(eg, compute the cutoff measures, the per document average
+measures, the bpref measures, and the time measures separately.)
+It was impossible to understand the function and now it's merely
+very difficult!  I should probably rewrite it to compute most
+measures separately; execution speed is no longer the critical
+factor it once was.
+
+BUG IMPACT VALIDATION: I reran the complete set of runs that went
+into the Buckley, Voorhees SIGIR 2004 bpref paper.  That included
+comparing all systems in tasks in TREC 8, TREC 10, and TREC 12 at
+various levels of completeness of the document set and relevance
+levels.  In the comparisons of bpref system rankings versus
+original MAP rankings, the Kendall Tau scores of the two versions
+of bpref were basically identical.  They did not vary from each
+other by more than .01, except when only using 1% or 2% of the
+judgements in which case it was less than .03.  (I was actually
+expecting much greater differences when using very small number
+of relevant and non-relevant documents.  But it looks like it was
+the same for all systems.)
+
+Using full information, the actual scores of the old and new bprefs
+were pretty much the same when averaged over all systems, except for 3
+topics in TREC 10. Here's the topics with the top differences in old
+and new bpref scores when averaged over all systems:
+    qid old_bpref  bpref    diff
+    541 0.189271 0.324097 -0.134826
+    544 0.555475 0.633235 -0.07776
+    549 0.278118 0.321332 -0.043214
+    530 0.391955 0.394681 -0.002726
+    519 0.132094 0.132671 -0.000577
+    509 0.266160 0.266544 -0.000384
+    547 0.167335 0.167504 -0.000169
+    511 0.303595 0.303679 -8.4e-05
+    501 0.175508 0.175508 0         ...  all other topics tied at 0
+Here's the number of relevant documents per topic
+    num_rel        	541	372
+    num_rel        	549	367
+    num_rel        	544	324
+    num_rel        	511	165
+    num_rel        	519	149
+    num_rel        	547	144
+    num_rel        	509	140
+    num_rel        	530	124
+    num_rel        	527	93
+Clearly there's a big impact in scores on the 3 topics with over
+300 relevant documents, a small impact on the 5 topics with
+between 100 and 200 relevant documents, and no impact on the
+rest.
+
+For TREC 8, there was 1 topic with a diff greater than .01 (.029)
+and 23 topics that had any differences at all.  For TREC 12,
+there was a small impact on 32/100 topics with the largest being
+.008. 
+
+
+Overall, I conclude that there's a minor impact on the standard
+TREC 1000 document evaluations due to the buggy bpref on topics
+which have hundreds of relevant documents.  The average scores of
+all systems will change because of these topics, but it should
+not have an important effect on system ranking (except possibly
+for systems which consistently retrieve less than 1000
+documents).
+
+I sent trec_eval Version 8.0beta to Ian to run on this year's bpref
+oriented runs. His report was that there was strong agreement in
+Kendall Tau between the buggy and nonbuggy versions, and when you
+compared each against MAP, they were within .016 of each other (closer
+depending on task).  It actually was the buggy version that tracked
+MAP slightly more closely, perhaps indicating that MAP emphasize
+topics with lots of relevant documents a bit less than bpref.
+
+Ian reported the runs on Terabyte efficiency track, where systems only
+retrieved 20 documents per topic (running 50,000 topics but evaluating
+over 50), had much larger bpref differences in score (the new bpref
+average scores being 50% higher than the old), but still had a 90%
+Kendall Tau between the versions; about the same that either had with
+MAP.  That's good enough to reassure me that most conclusions people
+have reached in experiments with bpref will still be valid, though
+the numbers will have to be redone.
+

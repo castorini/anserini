@@ -1,0 +1,350 @@
+<top>
+<num> Number: MB001 </num>
+<title> BBC World Service staff cuts </title>
+<querytime> Tue Feb 08 12:30:27 +0000 2011 </querytime>
+<querytweettime> 34952194402811904 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB002 </num>
+<title> 2022 FIFA soccer  </title>
+<querytime> Tue Feb 08 18:51:44 +0000 2011 </querytime>
+<querytweettime> 35048150574039040 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB003 </num>
+<title> Haiti Aristide return </title>
+<querytime> Tue Feb 08 21:32:13 +0000 2011 </querytime>
+<querytweettime> 35088534306033665 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB004 </num>
+<title> Mexico drug war </title>
+<querytime> Wed Feb 02 17:22:14 +0000 2011 </querytime>
+<querytweettime> 32851298193768448 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB005 </num>
+<title> NIST computer security </title>
+<querytime> Fri Feb 04 17:44:09 +0000 2011 </querytime>
+<querytweettime> 33581589627666432 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB006 </num>
+<title> NSA  </title>
+<querytime> Tue Feb 08 16:00:59 +0000 2011 </querytime>
+<querytweettime> 35005178885181441 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB007 </num>
+<title> Pakistan diplomat arrest murder </title>
+<querytime> Tue Feb 08 22:56:33 +0000 2011 </querytime>
+<querytweettime> 35109758973255680 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB008 </num>
+<title> phone hacking British politicians </title>
+<querytime> Mon Feb 07 17:42:59 +0000 2011 </querytime>
+<querytweettime> 34668458591395840 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB009 </num>
+<title> Toyota Recall </title>
+<querytime> Tue Feb 08 21:41:26 +0000 2011 </querytime>
+<querytweettime> 35090855064764416 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB010 </num>
+<title> Egyptian protesters attack museum </title>
+<querytime> Sat Jan 29 20:06:35 +0000 2011 </querytime>
+<querytweettime> 31443107291598848 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB011 </num>
+<title> Kubica crash </title>
+<querytime> Sun Feb 06 10:38:43 +0000 2011 </querytime>
+<querytweettime> 34199299428581376 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB012 </num>
+<title> Assange Nobel peace nomination </title>
+<querytime> Mon Jan 31 21:02:33 +0000 2011 </querytime>
+<querytweettime> 32181966761631744 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB013 </num>
+<title> Oprah Winfrey half-sister </title>
+<querytime> Mon Jan 24 15:43:41 +0000 2011 </querytime>
+<querytweettime> 29565006546735104 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB014 </num>
+<title> release of "The Rite" </title>
+<querytime> Wed Feb 02 12:31:02 +0000 2011 </querytime>
+<querytweettime> 32778015167479808 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB015 </num>
+<title> Thorpe return in 2012 Olympics </title>
+<querytime> Sun Jan 30 12:20:25 +0000 2011 </querytime>
+<querytweettime> 31688182005235712 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB016 </num>
+<title> release of "Known and Unknown"  </title>
+<querytime> Mon Jan 24 17:03:52 +0000 2011 </querytime>
+<querytweettime> 29585186899365888 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB017 </num>
+<title> White Stripes breakup  </title>
+<querytime> Wed Feb 02 19:13:40 +0000 2011 </querytime>
+<querytweettime> 32879343399084032 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB018 </num>
+<title> William and Kate fax save-the-date </title>
+<querytime> Wed Jan 26 08:59:32 +0000 2011 </querytime>
+<querytweettime> 30188073790742528 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB019 </num>
+<title> Cuomo budget cuts </title>
+<querytime> Mon Feb 07 23:25:02 +0000 2011 </querytime>
+<querytweettime> 34754540519563264 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB020 </num>
+<title> Taco Bell filling lawsuit </title>
+<querytime> Sun Feb 06 07:09:20 +0000 2011 </querytime>
+<querytweettime> 34146608102772736 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB021 </num>
+<title> Emanuel residency court rulings </title>
+<querytime> Sat Jan 29 03:03:30 +0000 2011 </querytime>
+<querytweettime> 31185639047172097 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB022 </num>
+<title> healthcare law unconstitutional  </title>
+<querytime> Tue Feb 01 22:17:34 +0000 2011 </querytime>
+<querytweettime> 32563233118224385 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB023 </num>
+<title> Amtrak train service </title>
+<querytime> Tue Feb 08 20:04:25 +0000 2011 </querytime>
+<querytweettime> 35066441501900800 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB024 </num>
+<title> Super Bowl, seats </title>
+<querytime> Tue Feb 08 17:11:04 +0000 2011 </querytime>
+<querytweettime> 35022813232373760 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB025 </num>
+<title> TSA airport screening </title>
+<querytime> Thu Feb 03 19:52:09 +0000 2011 </querytime>
+<querytweettime> 33251413001764864 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB026 </num>
+<title> US unemployment </title>
+<querytime> Fri Feb 04 14:10:51 +0000 2011 </querytime>
+<querytweettime> 33527910379814912 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB027 </num>
+<title> reduce energy consumption </title>
+<querytime> Fri Feb 04 04:19:58 +0000 2011 </querytime>
+<querytweettime> 33379210437337088 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB028 </num>
+<title> Detroit Auto Show </title>
+<querytime> Wed Jan 26 22:46:12 +0000 2011 </querytime>
+<querytweettime> 30396111764066304 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB029 </num>
+<title> global warming and weather  </title>
+<querytime> Tue Feb 08 01:05:57 +0000 2011 </querytime>
+<querytweettime> 34779934836785152 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB030 </num>
+<title> Keith Olbermann new job </title>
+<querytime> Tue Feb 08 22:51:01 +0000 2011 </querytime>
+<querytweettime> 35108366829232128 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB031 </num>
+<title> Special Olympics athletes </title>
+<querytime> Fri Feb 04 08:44:02 +0000 2011 </querytime>
+<querytweettime> 33445664922800129 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB032 </num>
+<title> State of the Union  and jobs </title>
+<querytime> Fri Feb 04 02:08:22 +0000 2011 </querytime>
+<querytweettime> 33346093525762048 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB033 </num>
+<title> Dog Whisperer Cesar Millan's techniques </title>
+<querytime> Thu Jan 27 19:27:54 +0000 2011 </querytime>
+<querytweettime> 30708594202648576 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB034 </num>
+<title> MSNBC Rachel Maddow </title>
+<querytime> Fri Feb 04 22:42:20 +0000 2011 </querytime>
+<querytweettime> 33656631187210241 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB035 </num>
+<title> Sargent Shriver tributes </title>
+<querytime> Mon Jan 24 07:18:17 +0000 2011 </querytime>
+<querytweettime> 29437816727404544 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB036 </num>
+<title> Moscow airport bombing </title>
+<querytime> Mon Jan 24 23:00:35 +0000 2011  </querytime>
+<querytweettime> 29674954899333120 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB037 </num>
+<title> Giffords' recovery </title>
+<querytime> Thu Feb 03 18:05:03 +0000 2011 </querytime>
+<querytweettime> 33224462191038464 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB038 </num>
+<title> protests in Jordan </title>
+<querytime> Tue Feb 01 12:46:40 +0000 2011  </querytime>
+<querytweettime> 32419560749531136 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB039 </num>
+<title> Egyptian curfew </title>
+<querytime> Fri Jan 28 18:14:09 +0000 2011  </querytime>
+<querytweettime> 31052423128686592 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB040 </num>
+<title> Beck attacks Piven </title>
+<querytime> Mon Jan 31 20:33:37 +0000 2011 </querytime>
+<querytweettime> 32174687102435328 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB041 </num>
+<title> Obama birth certificate </title>
+<querytime> Mon Jan 31 17:55:54 +0000 2011 </querytime>
+<querytweettime> 32134993337647104 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB042 </num>
+<title> Holland Iran envoy recall </title>
+<querytime> Mon Feb 07 20:47:13 +0000 2011 </querytime>
+<querytweettime> 34714824982134784 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB043 </num>
+<title> Kucinich olive pit lawsuit </title>
+<querytime> Sat Jan 29 08:06:05 +0000 2011 </querytime>
+<querytweettime> 31261786745339904 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB044 </num>
+<title> White House spokesman replaced </title>
+<querytime> Fri Jan 28 13:35:45 +0000 2011 </querytime>
+<querytweettime> 30982361281728512 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB045 </num>
+<title> political campaigns and social media </title>
+<querytime> Tue Feb 01 12:52:29 +0000 2011 </querytime>
+<querytweettime> 32421023961841667 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB046 </num>
+<title> Bottega Veneta </title>
+<querytime> Tue Feb 08 22:34:59 +0000 2011 </querytime>
+<querytweettime> 35104330025541632 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB047 </num>
+<title> organic farming requirements </title>
+<querytime> Tue Feb 08 00:12:47 +0000 2011 </querytime>
+<querytweettime> 34766556445540352 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB048 </num>
+<title> Egyptian evacuation </title>
+<querytime> Mon Jan 31 09:36:57 +0000 2011 </querytime>
+<querytweettime> 32009428471386112 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB049 </num>
+<title> carbon monoxide law </title>
+<querytime> Tue Feb 01 22:44:23 +0000 2011 </querytime>
+<querytweettime> 32569981321347074 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB050 </num>
+<title> war prisoners, Hatch Act </title>
+<querytime> Tue Jan 25 02:13:11 +0000 2011 </querytime>
+<querytweettime> 29723425576587264 </querytweettime>
+</top>
+

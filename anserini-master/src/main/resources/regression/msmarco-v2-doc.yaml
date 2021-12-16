@@ -1,0 +1,135 @@
+---
+corpus: msmarco-v2-doc
+corpus_path: collections/msmarco/msmarco_v2_doc
+
+index_path: indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw
+collection: MsMarcoV2DocCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 18
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 11959635
+  documents (non-empty): 11959635
+  total terms: 14165661202
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric: MAP
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric: MRR@100
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric: R@1000
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev
+    path: topics.msmarco-v2-doc.dev.txt
+    qrel: qrels.msmarco-v2-doc.dev.txt
+  - name: "[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev2
+    path: topics.msmarco-v2-doc.dev2.txt
+    qrel: qrels.msmarco-v2-doc.dev2.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params:
+      - -bm25
+    results:
+      MAP:
+        - 0.1552
+        - 0.1639
+      MRR@100:
+        - 0.1572
+        - 0.1659
+      R@100:
+        - 0.5956
+        - 0.5970
+      R@1000:
+        - 0.8054
+        - 0.8029
+  - name: bm25-default+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      MAP:
+        - 0.0966
+        - 0.1011
+      MRR@100:
+        - 0.0974
+        - 0.1028
+      R@100:
+        - 0.5121
+        - 0.5245
+      R@1000:
+        - 0.7694
+        - 0.7736
+  - name: bm25-default+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -axiom
+      - -axiom.deterministic
+      - -rerankCutoff 20
+    results:
+      MAP:
+        - 0.0665
+        - 0.0722
+      MRR@100:
+        - 0.0675
+        - 0.0733
+      R@100:
+        - 0.4075
+        - 0.4192
+      R@1000:
+        - 0.6852
+        - 0.6960
+  - name: bm25-default+prf
+    display: +PRF
+    params:
+      - -bm25
+      - -bm25prf
+    results:
+      MAP:
+        - 0.0834
+        - 0.0876
+      MRR@100:
+        - 0.0845
+        - 0.0892
+      R@100:
+        - 0.4681
+        - 0.4831
+      R@1000:
+        - 0.7385
+        - 0.7482

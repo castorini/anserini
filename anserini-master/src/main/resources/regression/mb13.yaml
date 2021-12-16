@@ -1,0 +1,128 @@
+---
+corpus: mb13
+corpus_path: collections/twitter/Tweets2013-corpus/data/
+
+index_path: indexes/lucene-index.mb13.pos+docvectors+raw
+collection: TweetCollection
+threads: 44
+generator: TweetGenerator
+index_options: -storePositions -storeDocvectors -storeRaw -uniqueDocid -optimize -tweet.keepUrls -tweet.stemming
+index_stats:
+  documents: 203145916
+  documents (non-empty): 203143249
+  total terms: 2099082204
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Microblog
+topics:
+  - name: "[TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)"
+    path: topics.microblog2013.txt
+    qrel: qrels.microblog2013.txt
+  - name: "[TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)"
+    path: topics.microblog2014.txt
+    qrel: qrels.microblog2014.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -searchtweets
+      - -bm25
+    results:
+      map:
+        - 0.2371
+        - 0.3931
+      p30:
+        - 0.4339
+        - 0.6212
+  - name: bm25+rm3
+    display: +RM3
+    params:
+      - -searchtweets
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.2513
+        - 0.4374
+      p30:
+        - 0.4411
+        - 0.6442
+  - name: bm25+ax
+    display: +Ax
+    params:
+      - -searchtweets
+      - -bm25
+      - -axiom
+      - -axiom.beta 1.0
+      - -axiom.deterministic
+      - -rerankCutoff 20
+    results:
+      map:
+        - 0.2855
+        - 0.4796
+      p30:
+        - 0.4728
+        - 0.6648
+  - name: ql
+    display: QL
+    params:
+      - -searchtweets
+      - -qld
+    results:
+      map:
+        - 0.2602
+        - 0.4181
+      p30:
+        - 0.4561
+        - 0.6430
+  - name: ql+rm3
+    display: +RM3
+    params:
+      - -searchtweets
+      - -qld
+      - -rm3
+    results:
+      map:
+        - 0.2911
+        - 0.4676
+      p30:
+        - 0.4906
+        - 0.6533
+  - name: ql+ax
+    display: +Ax
+    params:
+      - -searchtweets
+      - -qld
+      - -axiom
+      - -axiom.beta 1.0
+      - -axiom.deterministic
+      - -rerankCutoff 20
+    results:
+      map:
+        - 0.3152
+        - 0.4965
+      p30:
+        - 0.5078
+        - 0.6727

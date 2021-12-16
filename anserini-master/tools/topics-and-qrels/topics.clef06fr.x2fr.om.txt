@@ -1,0 +1,49 @@
+301-AH	Mallattoowwan Oomishalee Neestilee
+302-AH	Diddaawwan Fayyadamtootaa
+303-AH	Suuraawwan Xaaliyaanii
+304-AH	Bakkeewwan Hambaalee Adunyaa
+305-AH	Gatiiwwan Boba’aa
+306-AH	Faraansaayi Keessatti Gocha ETA
+307-AH	Fiilmiiwwan Iskootilaandirratti Hojjataman
+308-AH	Gaaddiddeeffamuu Aduu
+309-AH	Sootroowwan “Hamaa”
+310-AH	Qulqulleessa Gataa Warshaa
+311-AH	Hojii-dhabiinsa Awurooppaa Keessa
+312-AH	Balaa Sareedhan Qaqqabu
+313-AH	Kabaja Waggaa Dhibbaffaa
+314-AH	Sanyiiwwan Baduutti Jiran
+315-AH	Ispoortii Keessatti Sootroon Fayyadamuu
+316-AH	Diddaawwan
+317-AH	Qorichoota Farra-goflaa
+318-AH	Baruumsa Saalaa
+319-AH	Addunyaarratti Oomisha Oopiyeemii
+320-AH	Shoorarkaa Humna
+321-AH	Taalibaanoota Afigaanistaan Keessaa
+322-AH	Humna Atoomikaa
+323-AH	Ulaagaalee Viizaadhaa Dhiphisuu
+324-AH	Moodeelota Ol’aanoo
+325-AH	Kaffaltii Barattootaa
+326-AH	Sadarkaa Adunyaatti Badhaasa Emmii
+327-AH	Kirkiroota Lafaa Meeksiikoo-Siitii
+328-AH	Turkii fi Kurdoota Iraaqii
+329-AH	Yoo Chaarlasii fi Diyaanaan Bultii Diigan Waantoota itti Aanun Dhufan
+330-AH	Fiilmoota Keenuu Reeveesii Irratti Hirmaate
+331-AH	Imaammattoota Diinagdee Zeediilloo
+333-AH	Marmaaramuu Paawul Toowviyeer
+334-AH	Filannoo Joorji W.Buush
+335-AH	Leebar Joon Ismiiziin Boodatti
+336-AH	Waldhabiinsa Hojjattootaa NBA
+337-AH	Walwaraana Yaman
+338-AH	Dabarsamee Kennamaa fi Marmaaramuu Kaarloosii
+339-AH	Siin Feeyinii fi Labsii Aangiloo-Ayiriishii
+340-AH	Muummicha Kubeeka Haaraa
+341-AH	Hatama “Ze Iskiriimii”
+342-AH	Gaa’iloota Afranii fi Awwaala
+343-AH	Paartii Biyyoolessa Afriikaa Kibbaa
+344-AH	Biraaziilii fi Siwiidiin Jidduutti Geeba Addunyaaf Tapha Walakkaa-Xumuraa Gaggeeffame
+345-AH	Tapha Olompikiitti Qaxxaamura Biyyaa Sululaachoo Cabbii Irraa
+346-AH	Mo’attoota Giraand Islaamii
+347-AH	Caalma Suuraa Oskaara Bara 1994
+348-AH	Ajjeechaa Yaan Piyaat
+349-AH	Du’iinsa Niiksan
+350-AH	Du’iinsa Ayirton Seennaa

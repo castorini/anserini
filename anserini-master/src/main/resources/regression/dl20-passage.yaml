@@ -1,0 +1,203 @@
+---
+corpus: msmarco-passage
+corpus_path: collections/msmarco/passage/
+
+index_path: indexes/lucene-index.msmarco-passage.pos+docvectors+raw
+collection: JsonCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 9
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 352316036
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric: NDCG@10
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recip_rank -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: RR
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: R@1000
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.txt
+    qrel: qrels.dl20-passage.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.2856
+      NDCG@10:
+        - 0.4796
+      RR:
+        - 0.6585
+      R@100:
+        - 0.5599
+      R@1000:
+        - 0.7863
+  - name: bm25-default+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.3019
+      NDCG@10:
+        - 0.4821
+      RR:
+        - 0.6360
+      R@100:
+        - 0.6046
+      R@1000:
+        - 0.8217
+  - name: bm25-default+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -axiom
+      - -axiom.deterministic
+      - -rerankCutoff 20
+    results:
+      map:
+        - 0.3240
+      NDCG@10:
+        - 0.4834
+      RR:
+        - 0.6096
+      R@100:
+        - 0.6428
+      R@1000:
+        - 0.8483
+  - name: bm25-default+prf
+    display: +PRF
+    params:
+      - -bm25
+      - -bm25prf
+    results:
+      map:
+        - 0.3117
+      NDCG@10:
+        - 0.4721
+      RR:
+        - 0.6157
+      R@100:
+        - 0.5783
+      R@1000:
+        - 0.8074
+  - name: bm25-tuned
+    display: BM25 (tuned)
+    params:
+      - -bm25
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
+    results:
+      map:
+        - 0.2876
+      NDCG@10:
+        - 0.4876
+      RR:
+        - 0.6594
+      R@100:
+        - 0.5669
+      R@1000:
+        - 0.8031
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
+      - -rm3
+    results:
+      map:
+        - 0.3056
+      NDCG@10:
+        - 0.4808
+      RR:
+        - 0.6278
+      R@100:
+        - 0.6333
+      R@1000:
+        - 0.8286
+  - name: bm25-tuned+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
+      - -axiom
+      - -axiom.deterministic
+      - -rerankCutoff 20
+    results:
+      map:
+        - 0.3322
+      NDCG@10:
+        - 0.5027
+      RR:
+        - 0.6328
+      R@100:
+        - 0.6468
+      R@1000:
+        - 0.8455
+  - name: bm25-tuned+prf
+    display: +PRF
+    params:
+      - -bm25
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
+      - -bm25prf
+    results:
+      map:
+        - 0.3136
+      NDCG@10:
+        - 0.4788
+      RR:
+        - 0.6252
+      R@100:
+        - 0.5782
+      R@1000:
+        - 0.8121

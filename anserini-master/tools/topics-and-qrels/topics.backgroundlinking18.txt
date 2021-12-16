@@ -1,0 +1,300 @@
+<top>
+<num> Number: 321 </num>
+<docid>9171debc316e5e2782e0d2404ca7d09d</docid>
+<url>https://www.washingtonpost.com/news/worldviews/wp/2016/09/01/women-are-half-of-the-world-but-only-22-percent-of-its-parliaments/<url>
+</top>
+
+<top>
+<num> Number: 336 </num>
+<docid>2a340b8573d498e261d6f2365b37f8eb</docid>
+<url>https://www.washingtonpost.com/news/animalia/wp/2017/07/10/teen-camper-wakes-up-to-crunching-noise-and-discovers-his-head-is-inside-bears-mouth/<url>
+</top>
+
+<top>
+<num> Number: 341 </num>
+<docid>7ef8ce1720bf2f6b2065a97506ee89b4</docid>
+<url>https://www.washingtonpost.com/news/dr-gridlock/wp/2016/03/22/how-major-u-s-cities-and-transit-systems-are-reacting-to-the-brussels-attacks/<url>
+</top>
+
+<top>
+<num> Number: 347 </num>
+<docid>c3cea789141ef2ae856419e86e165e0c</docid>
+<url>https://www.washingtonpost.com/news/animalia/wp/2016/04/11/wild-tiger-numbers-are-up-for-the-first-time-in-100-years/<url>
+</top>
+
+<top>
+<num> Number: 350 </num>
+<docid>985b90cc-7c98-11e3-93c1-0e888170b723</docid>
+<url>https://www.washingtonpost.com/national/health-science/how-bad-for-your-eyes-are-computer-screens/2014/01/17/985b90cc-7c98-11e3-93c1-0e888170b723_story.html<url>
+</top>
+
+<top>
+<num> Number: 362 </num>
+<docid>4989ebfeb752e6b317d1ef3997b21a01</docid>
+<url>https://www.washingtonpost.com/news/post-nation/wp/2017/08/17/officials-trucker-indicted-could-face-death-penalty-after-10-migrants-die-in-smuggling-incident/<url>
+</top>
+
+<top>
+<num> Number: 363 </num>
+<docid>474ae088-ab1e-11e4-9c91-e9d2f9fde644</docid>
+<url>https://www.washingtonpost.com/local/trafficandcommuting/metro-local-responders-would-jointly-test-radios-under-new-plan/2015/02/02/474ae088-ab1e-11e4-9c91-e9d2f9fde644_story.html<url>
+</top>
+
+<top>
+<num> Number: 367 </num>
+<docid>1e03fecf4d33b7896203298ab3858156</docid>
+<url>https://www.washingtonpost.com/news/worldviews/wp/2014/10/10/piracy-is-on-the-rise-in-the-worlds-most-crucial-shipping-lane/<url>
+</top>
+
+<top>
+<num> Number: 375 </num>
+<docid>0e85b0c0-f7ef-11e4-9030-b4732caefe81</docid>
+<url>https://www.washingtonpost.com/business/economy/meet-the-mirai-why-toyota-wants-to-make-your-next-car-run-on-hydrogen/2015/05/12/0e85b0c0-f7ef-11e4-9030-b4732caefe81_story.html<url>
+</top>
+
+<top>
+<num> Number: 378 </num>
+<docid>3c5be31e-24ab-11e5-b621-b55e495e9b78</docid>
+<url>https://www.washingtonpost.com/world/europe/to-greeks-german-offers-of-help-sound-more-like-a-threat/2015/07/07/3c5be31e-24ab-11e5-b621-b55e495e9b78_story.html<url>
+</top>
+
+<top>
+<num> Number: 393 </num>
+<docid>fef0f232a9bd94bdb96bac48c7705503</docid>
+<url>https://www.washingtonpost.com/news/morning-mix/wp/2014/11/03/how-brittany-maynard-may-change-the-right-to-die-debate-after-death/<url>
+</top>
+
+<top>
+<num> Number: 397 </num>
+<docid>563fb77e-024f-11e6-9203-7b8670959b88</docid>
+<url>https://www.washingtonpost.com/local/trafficandcommuting/some-deadly-takata-airbags-may-need-to-be-replaced-twice-to-ensure-safety/2016/04/14/563fb77e-024f-11e6-9203-7b8670959b88_story.html</url>
+</top>
+
+<top>
+<num> Number: 400 </num>
+<docid>72e72b41097d53b627fd375dd2d3309b</docid>
+<url>https://www.washingtonpost.com/news/energy-environment/wp/2016/02/11/the-solution-to-climate-change-that-has-nothing-to-do-with-cars-or-coal/</url>
+</top>
+
+<top>
+<num> Number: 408 </num>
+<docid>988147454a2b8eafd1535cd673dd04ba</docid>
+<url>https://www.washingtonpost.com/news/capital-weather-gang/wp/2014/10/07/super-typhoon-vongfong-explodes-becomes-most-intense-storm-on-earth-in-2014/</url>
+</top>
+
+<top>
+<num> Number: 414 </num>
+<docid>4192b016-8708-11e3-a5bd-844629433ba3</docid>
+<url>https://www.washingtonpost.com/politics/sugar-tycoon-alfonso-fanjul-now-open-to-investing-in-cuba-under-right-circumstances/2014/02/02/4192b016-8708-11e3-a5bd-844629433ba3_story.html</url>
+</top>
+
+<top>
+<num> Number: 422 </num>
+<docid>145b9a6caa16d931c108a89798e65e17</docid>
+<url>https://www.washingtonpost.com/news/post-nation/wp/2015/09/28/how-a-long-lost-polish-painting-likely-stolen-by-nazis-ended-up-in-ohio/</url>
+</top>
+
+<top>
+<num> Number: 426 </num>
+<docid>56f0438ee0fb34c341ccf5af36de5175</docid>
+<url>https://www.washingtonpost.com/news/wonk/wp/2015/11/20/the-surprising-reason-more-police-dogs-are-dying-in-the-line-of-duty/</url>
+</top>
+
+<top>
+<num> Number: 427 </num>
+<docid>2e83ad87eb1bade22e6e96ece616c24f</docid>
+<url>https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/06/30/what-happens-if-you-try-to-watch-the-august-solar-eclipse-without-special-glasses-nothing-good/<url>
+</top>
+
+<top>
+<num> Number: 433 </num>
+<docid>159e6f9e-8e84-11e3-84e1-27626c5ef5fb</docid>
+<url>https://www.washingtonpost.com/entertainment/museums/defining-cool-from-walt-whitman-and-james-dean-to-steve-jobs-and-tony-hawk/2014/02/05/159e6f9e-8e84-11e3-84e1-27626c5ef5fb_story.html<url>
+</top>
+
+<top>
+<num> Number: 439 </num>
+<docid>5c466d4a01492f1b5cc9758e19429a1f</docid>
+<url>https://www.washingtonpost.com/news/speaking-of-science/wp/2016/09/28/ask-a-macarthur-genius-just-how-cheap-can-cancer-diagnosis-get/</url>
+</top>
+
+<top>
+<num> Number: 442 </num>
+<docid>3902c9005a0563742fc4acb2c011b164</docid>
+<url>https://www.washingtonpost.com/news/worldviews/wp/2013/05/09/north-korean-traffic-girl-may-have-won-military-award-for-saving-kim-jong-un-poster/</url>
+</top>
+
+<top>
+<num> Number: 445 </num>
+<docid>c8351276-76de-41f1-b294-4f3e5d373c8c</docid>
+<url>https://www.washingtonpost.com/world/europe/church-of-england-votes-in-favor-of-ordaining-female-bishops/2014/07/14/c8351276-76de-41f1-b294-4f3e5d373c8c_story.html<url>
+</top>
+
+<top>
+<num> Number: 626 </num>
+<docid>a79b1b7d8cc5273d4995fec5e122e44b</docid>
+<url>https://www.washingtonpost.com/news/morning-mix/wp/2015/07/15/why-indias-religious-rituals-too-often-end-in-deadly-mass-stampedes/</url>
+</top>
+
+<top>
+<num> Number: 646 </num>
+<docid>6fdc62d37aaf685b809c501abe13c56c</docid>
+<url>https://www.washingtonpost.com/blogs/govbeat/wp/2015/03/03/food-stamp-reliance-is-up-in-every-single-state-since-2000/<url>
+</top>
+
+<top>
+<num> Number: 690 </num>
+<docid>defd7f4a85496d52a210938d58a7ae76</docid>
+<url>https://www.washingtonpost.com/blogs/she-the-people/wp/2014/08/22/do-the-benefits-of-a-college-education-outweigh-the-cost/</url>
+</top>
+
+<top>
+<num> Number: 801 </num>
+<docid>b0235f56-1cce-11e4-ae54-0cfe1f974f8a</docid>
+<url>https://www.washingtonpost.com/national/health-science/muslim-clerics-in-nigeria-advocate-for-polio-vaccination-and-mobilize-community/2014/08/06/b0235f56-1cce-11e4-ae54-0cfe1f974f8a_story.html<url>
+</top>
+
+<top>
+<num> Number: 802 </num>
+<docid>6668d83480f5c58b54a90770835ac2d4</docid>
+<url>https://www.washingtonpost.com/news/worldviews/wp/2016/06/02/saudi-arabia-bought-a-huge-stake-in-uber-what-does-that-mean-for-female-drivers/</url>
+</top>
+
+<top>
+<num> Number: 803 </num>
+<docid>cad56e871cd0bca6cc77e97ffe246258</docid>
+<url>https://www.washingtonpost.com/news/wonk/wp/2016/05/11/the-middle-class-is-shrinking-just-about-everywhere-in-america/4/</url>
+</top>
+
+<top>
+<num> Number: 804 </num>
+<docid>579e9ae8-6a2f-11e6-8225-fbb8a6fc65bc</docid>
+<url>https://www.washingtonpost.com/local/md-politics/harriet-tubman-is-coming-to-the-20-bill-will-she-also-be-featured-on-the-grounds-of-the-maryland-state-house/2016/08/24/579e9ae8-6a2f-11e6-8225-fbb8a6fc65bc_story.html</url>
+</top>
+
+<top>
+<num> Number: 805 </num>
+<docid>5ec40b6bc6c5f4487132da7be04fc914</docid>
+<url>https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/06/16/apparently-the-once-feared-snakehead-is-just-another-fish-in-the-potomac/</url>
+</top>
+
+<top>
+<num> Number: 806 </num>
+<docid>2bea9433d4e1050c9c85175df466b3e2</docid>
+<url>https://www.washingtonpost.com/news/morning-mix/wp/2014/06/27/motorized-exoskeleton-for-paralyzed-people-approved-by-fda/<url>
+</top>
+
+<top>
+<num> Number: 807 </num>
+<docid>11915bd8-7944-11e2-9c27-fdd594ea6286</docid>
+<url>https://www.washingtonpost.com/world/the_americas/cuba-has-outsized-role-in-venezuela-as-chavez-fights-cancer/2013/02/17/11915bd8-7944-11e2-9c27-fdd594ea6286_story.html</url>
+</top>
+
+<top>
+<num> Number: 808 </num>
+<docid>30a493b8-fb07-11e4-9ef4-1bb7ce3b3fb7</docid>
+<url>https://www.washingtonpost.com/world/national-security/jury-weighs-death-penalty-for-boston-marathon-bomber/2015/05/15/30a493b8-fb07-11e4-9ef4-1bb7ce3b3fb7_story.html</url>
+</top>
+
+<top>
+<num> Number: 809 </num>
+<docid>02e52bdba097c9df4cbae66e04f82542</docid>
+<url>https://www.washingtonpost.com/news/speaking-of-science/wp/2016/12/05/europe-will-send-a-rover-to-mars-but-wont-protect-earth-from-an-asteroid/</url>
+</top>
+
+<top>
+<num> Number: 810 </num>
+<docid>9dd7b85cd1e3da1b5c8e79f32fec7177</docid>
+<url>https://www.washingtonpost.com/news/wonk/wp/2016/04/15/researchers-have-found-an-alarming-new-side-effect-from-eating-fast-food/<url>
+</top>
+
+<top>
+<num> Number: 811 </num>
+<docid>a244d1e0cfd916a2af76b6a6c785b017</docid>
+<url>https://www.washingtonpost.com/news/morning-mix/wp/2015/07/22/car-hacking-just-got-real-hackers-disable-suv-on-busy-highway/</url>
+</top>
+
+<top>
+<num> Number: 812 </num>
+<docid>dcd1560bd13a0b665b95d3ba27cc960c</docid>
+<url>https://www.washingtonpost.com/news/morning-mix/wp/2016/05/23/after-years-of-alleged-bullying-an-ohio-teen-killed-herself-is-her-school-district-responsible/<url>
+</top>
+
+<top>
+<num> Number: 813 </num>
+<docid>b4c6361974466458bb721b9b1628220b</docid>
+<url>https://www.washingtonpost.com/news/wonk/wp/2015/02/17/potent-weed-is-worse-for-you-than-the-mild-stuff-and-its-hard-to-find-anything-else-these-days/<url>
+</top>
+
+<top>
+<num> Number: 814 </num>
+<docid>e1336b8f-b0c2-4610-9a3c-ec85a546c9ad</docid>
+<url>https://www.washingtonpost.com/world/asia_pacific/as-china-drops-one-child-rule-joy-for-some-agonizing-choices-for-others/2015/11/10/e1336b8f-b0c2-4610-9a3c-ec85a546c9ad_story.html</url>
+</top>
+
+<top>
+<num> Number: 815 </num>
+<docid>a36fa8a2-8962-11e6-bff0-d53f592f176e</docid>
+<url>https://www.washingtonpost.com/world/national-security/post-reporter-jason-rezaian-and-his-family-file-federal-lawsuit-against-iranian-government/2016/10/03/a36fa8a2-8962-11e6-bff0-d53f592f176e_story.html</url>
+</top>
+
+<top>
+<num> Number: 816 </num>
+<docid>37a8e2283e4677b703f6464d0191a700</docid>
+<url>https://www.washingtonpost.com/news/wonk/wp/2016/12/31/theres-some-really-good-news-for-low-wage-workers-this-weekend/534731967/<url>
+</top>
+
+<top>
+<num> Number: 817 </num>
+<docid>bd1e6cc8d7525fec36a717be45638bf4</docid>
+<url>https://www.washingtonpost.com/news/post-nation/wp/2014/12/17/alan-gross-returns-to-the-united-states-is-greeted-by-an-image-of-che-guevara/</url>
+</top>
+
+<top>
+<num> Number: 818 </num>
+<docid>a2744bb98e1968307548e4976232cf1c</docid>
+<url>https://www.washingtonpost.com/news/to-your-health/wp/2016/01/07/cholesterol-new-u-s-dietary-guidelines-remove-warnings-making-eggs-okay-again/</url>
+</top>
+
+<top>
+<num> Number: 819 </num>
+<docid>5f37aac53768e749b861028397eb6849</docid>
+<url>https://www.washingtonpost.com/news/wonk/wp/2014/09/02/america-is-rapidly-aging-in-a-country-built-for-the-young/</url>
+</top>
+
+<top>
+<num> Number: 820 </num>
+<docid>fc1ca759c9c433376e71884870d225ab</docid>
+<url>https://www.washingtonpost.com/news/morning-mix/wp/2015/06/29/the-frightening-rise-of-flesh-eating-bacteria-mystery-pain-and-amputations/</url>
+</top>
+
+<top>
+<num> Number: 821 </num>
+<docid>c6bf4a4bf542b7c67987c222d73def4b</docid>
+<url>https://www.washingtonpost.com/news/the-switch/wp/2016/03/22/what-happens-when-a-top-privacy-and-security-regulator-falls-for-an-email-scam/</url>
+</top>
+
+<top>
+<num> Number: 822 </num>
+<docid>43e9f3f12982c0e0bb15ad64b33a89c0</docid>
+<url>https://www.washingtonpost.com/blogs/erik-wemple/wp/2014/12/17/the-sony-hack-why-would-any-outlet-not-report-the-sordid-and-newsy-details/</url>
+</top>
+
+<top>
+<num> Number: 823 </num>
+<docid>c109cc839f2d2414251471c48ae5515c</docid>
+<url>https://www.washingtonpost.com/news/to-your-health/wp/2016/09/21/superbug-mrsa-may-be-spreading-through-tainted-poultry/2695269178/</url>
+</top>
+
+<top>
+<num> Number: 824 </num>
+<docid>30c00b60-13f6-11e3-b182-1b3bb2eb474c</docid>
+<url>https://www.washingtonpost.com/lifestyle/style/jeffrey-bezos-washington-posts-next-owner-aims-for-a-new-golden-era-at-the-newspaper/2013/09/02/30c00b60-13f6-11e3-b182-1b3bb2eb474c_story.html</url>
+</top>
+
+<top>
+<num> Number: 825 </num>
+<docid>a1c41a70-35c7-11e3-8a0e-4e2cf80831fc</docid>
+<url>https://www.washingtonpost.com/business/economy/cellulosic-ethanol-once-the-way-of-the-future-is-off-to-a-delayed-boisterous-start/2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html</url>
+</top>
+

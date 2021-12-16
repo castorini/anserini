@@ -1,0 +1,9 @@
+---
+name: axiom
+fixed_params: "-inmem -skipexists -axiom.deterministic"
+params:
+  axiom.beta:
+    type: float
+    lower: 0
+    upper: 3
+    pace: 0.1

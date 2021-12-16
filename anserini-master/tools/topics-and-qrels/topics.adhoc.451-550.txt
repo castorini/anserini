@@ -1,0 +1,1630 @@
+<top>
+
+<num> Number: 451 
+<title> What is a Bengals cat? 
+
+<desc> Description: 
+Provide information on the Bengal cat breed.
+
+<narr> Narrative: 
+Item should include any information on the 
+Bengal cat breed, including description, origin, 
+characteristics, breeding program, names of 
+breeders and catteries carrying bengals.
+References which discuss bengal clubs only are
+not relevant.  Discussions of bengal tigers are 
+not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 452 
+<title> do beavers live in salt water 
+
+<desc> Description: 
+Describe the normal habitat for beavers; note
+exceptions, if any.
+
+<narr> Narrative: 
+Relevant documents describe the habitat range 
+as well as references to specific areas and 
+bodies of water.
+
+</top>
+
+<top>
+
+<num> Number: 453 
+<title> hunger 
+
+<desc> Description: 
+Find documents that discuss organizations/groups
+that are aiding in the eradication of the worldwide
+hunger problem.
+
+<narr> Narrative: 
+Relevant documents contain the name of any 
+organization or group that is attempting to
+relieve the hunger problem in the world.  
+Documents that address the problem only without
+providing names of organizations/groups that
+are working on hunger are irrelevant.
+
+</top>
+
+<top>
+
+<num> Number: 454 
+<title> parkinson's disease 
+
+<desc> Description: 
+What are the symptoms and treatment of
+Parkinson's Disease, and what segments
+of the population have this disease?
+
+<narr> Narrative: 
+Documents discussing research projects
+and funding for research projects were
+considered relevant only when clinical
+trials were included.  Documents
+regarding legislation which discussed
+funding and programs were considered
+irrelevant. 
+ 
+</top>
+
+<top>
+
+<num> Number: 455 
+<title> whan did Jackie Robinson appear at his first game 
+
+<desc> Description: 
+Find documents that indicate when Jackie Robinson made 
+his major league debut.
+
+<narr> Narrative: 
+A relevant document must contain the year that Jackie
+Robinson broke into major league baseball.
+
+</top>
+
+<top>
+
+<num> Number: 456 
+<title> is the world going to end 2000 
+
+<desc> Description: 
+Identify individuals or groups predicting
+the end of the world in the year 2000.
+
+<narr> Narrative: 
+References to the apocalypse are taken
+as equivalent to "end of the world" and
+are therefore relevant.  Documents that 
+give imprecise references to "those who 
+believe...", for example, are not relevant.  
+
+</top>
+
+<top>
+
+<num> Number: 457 
+<title> CHEVROLET TRUCKS 
+
+<desc> Description: 
+Find documents that address the types of Chevrolet 
+trucks available.
+
+<narr> Narrative: 
+Relevant documents must contain information such as:
+the length, weight, cargo size, wheelbase, horsepower, 
+cost, etc.
+
+</top>
+
+<top>
+
+<num> Number: 458 
+<title> fasting 
+
+<desc> Description: 
+Find documents that discuss fasting for religious reasons.
+
+<narr> Narrative: 
+A relevant document discusses fasting as related to 
+periods of religious significance.  Relevant documents 
+should state the reason for fasting and the benefits to
+be derived.   
+
+</top>
+
+<top>
+
+<num> Number: 459 
+<title> when can a lender foreclose on property 
+
+<desc> Description: 
+Identify documents which state the circumstances
+under which a lender can legally foreclose on a
+property.
+
+<narr> Narrative: 
+A relevant document will include the statutes
+under which a lender can foreclose on a property,
+the appeal process available to the property
+owner, the maximum amount the property can be sold
+for and any mitigating or legal options available
+to the property owner to stall the sale by the 
+lender. 
+
+</top>
+
+<top>
+
+<num> Number: 460 
+<title> Who was Moses? 
+
+<desc> Description: 
+Find documents that discuss the biblical figure
+of Moses.
+
+<narr> Narrative: 
+A relevant document includes any information 
+concerning Moses and his deeds regarding the 
+Israelites.
+
+</top>
+
+<top>
+
+<num> Number: 461 
+<title> lava lamps 
+
+<desc> Description: 
+Find documents that discuss the origin or
+operation of lava lamps.
+
+<narr> Narrative: 
+A relevant document must contain information 
+on the origin or the operation of the lava 
+lamp.
+
+</top>
+
+<top>
+
+<num> Number: 462 
+<title> real estate and new jersey 
+
+<desc> Description: 
+Find documents that contain residential 
+real estate listings within New Jersey.
+
+<narr> Narrative: 
+Documents containing realtor data such
+as point of contact, address, web site
+or email address are considered as a 
+real estate listing are are relevant. 
+Listings of commercial real estate for
+sale or auction are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 463 
+<title> tartin 
+
+<desc> Description: 
+Find information on Scottish tartans:
+their history, current use, how they
+are made, and how to wear them.
+
+<narr> Narrative: 
+Simple listings of clan/tartan names or 
+price lists are not relevant.  Pictures 
+or descriptions of individual plaids are 
+not relevant unless accompanied by history
+of their development.
+
+</top>
+
+<top>
+
+<num> Number: 464 
+<title> nativityscenes 
+
+<desc> Description: 
+Identify U.S. cities or states that have 
+banned displays of the nativity scene.
+
+<narr> Narrative: 
+Relevant documents will identify those
+U.S. cities or states which have banned
+the display of the nativity scene.  
+Documents which reveal the reasoning 
+behind the banning are also relevant
+as well as any effort to do away with
+the ban.
+
+</top>
+
+<top>
+
+<num> Number: 465 
+<title> deer 
+
+<desc> Description: 
+What kinds of diseases can infect humans due to
+contact with deer or consumption of deer meat?
+
+<narr> Narrative: 
+Documents explaining the transference of Lyme
+disease to humans from deer ticks are relevant. 
+
+</top>
+
+<top>
+
+<num> Number: 466 
+<title> information about the Peer Gynt Suite? 
+
+<desc> Description: 
+Identify documents that provide background on the
+Peer Gynt Suite.
+
+<narr> Narrative: 
+Relevant documents will contain information on 
+what inspired Grieg to compose the Peer Gynt Suite, 
+folklore basis of the suite, or details of the
+composition.  Notices of performances of the Peer
+Gynt Suite are not relevant.  Reviews of performances
+are not relevant unless they analyze the work itself
+(as opposed to the performance).
+
+</top>
+
+<top>
+
+<num> Number: 467 
+<title> dachshund dachshunds "wiener dog" 
+
+<desc> Description: 
+Identify documents that contain information on
+buying and owning dachshund dogs.
+
+<narr> Narrative: 
+Documents that discuss general dog information
+which is directly applicable to buying and 
+owning dachshunds (i.e., how to chose a breeder)
+are relevant.  Documents that list names of 
+dachshund breeders and names of clubs for 
+dachshund owners are relevant.  
+
+</top>
+
+<top>
+
+<num> Number: 468 
+<title> incandescent light bulb 
+
+<desc> Description: 
+Find documents that address the history of 
+the incandescent light bulb.
+
+<narr> Narrative: 
+A relevant document must provide information
+on who worked on the development of the 
+incandescent light bulb.  Relevant documents
+should include locations and dates of the
+development efforts.  Documents that discuss
+unsuccessful development attempts and non-
+commercial use of incandescent light bulbs
+are considered relevant. 
+
+</top>
+
+<top>
+
+<num> Number: 469 
+<title> steinbach nutcracker 
+
+<desc> Description: 
+Find documents that discuss Steinbach nutcrackers.
+
+<narr> Narrative: 
+Relevant documents include the name and locations of
+Steinbach nutcracker manufacturers, the variety of 
+nutcracker designs, the origin of this type of 
+ornament, and where they can be purchased. 
+
+</top>
+
+<top>
+
+<num> Number: 470 
+<title> mistletoe 
+
+<desc> Description: 
+Identify documents that discuss beneficial uses
+of mistletoe.
+
+<narr> Narrative: 
+A document is relevant if it mentions any beneficial
+uses of mistletoe for humans or wildlife.  References 
+to the use of mistletoe for decorations, festivals, 
+and superstitious beliefs are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 471 
+<title> mexican food culture 
+
+<desc> Description: 
+Find documents that discuss the popularity or 
+appeal of Mexican food outside of the United 
+States.
+
+<narr> Narrative: 
+Documents that discuss the popularity of 
+Mexican food in the United States, Central 
+and South America are not relevant. 
+Relevant documents discuss the extent to 
+which Mexican food is enjoyed or used in 
+Europe, Asia, Africa, or Australia.
+
+</top>
+
+<top>
+
+<num> Number: 472 
+<title> antique appliance restoration 
+
+<desc> Description: 
+Find documents that identify museums, 
+collectors, or dealers that hold or sell
+restored antique electrical appliances.
+
+<narr> Narrative: 
+Relevant documents will identify museums
+which contain restored antique appliances
+and individuals who have collected or 
+restored such appliances.  References to 
+dealers or businesses for antique appliance 
+restoration are relevant.
+
+</top>
+
+<top>
+
+<num> Number: 473 
+<title> Toronto FIlm Awards 
+
+<desc> Description: 
+Find documents that discuss the Toronto Film
+Festival awards.
+
+<narr> Narrative: 
+Relevant documents must identify the name of
+the film which won the award at the Toronto
+Film Festival.
+
+</top>
+
+<top>
+
+<num> Number: 474
+<title> how e-mail bennefits businesses 
+
+<desc> Description: 
+Find documents that discuss the profitability
+of businesses selling their products via the
+internet versus in-store sales. 
+
+<narr> Narrative: 
+A relevant document must compare the benefits
+of selling products via the internet to sales
+made in the store.
+
+</top>
+
+<top>
+
+<num> Number: 475 
+<title> what is the compostion of zirconium 
+
+<desc> Description: 
+Find documents that describe the physical properties
+of zirconium.
+
+<narr> Narrative: 
+A document is relevant if it describes the element
+itself or its behavior under various physical 
+conditions.  A document is not relevant if it gives 
+only the uses of zirconium or its compounds without 
+stating why it combines with certain elements.  
+
+</top>
+
+<top>
+
+<num> Number: 476 
+<title> Jennifer Aniston 
+
+<desc> Description: 
+Find documents that identify movies and/or 
+television programs that Jennifer Aniston 
+has appeared in.
+
+<narr> Narrative: 
+Relevant documents include movies and/or
+television programs that Jennifer Aniston
+has appeared in. 
+
+</top>
+
+<top>
+
+<num> Number: 477 
+<title> Royal Carribean Cruise Lines 
+
+<desc> Description: 
+Find documents that indicate how many ships
+are operated by Royal Caribbean Cruise Lines 
+(RCCL).
+
+<narr> Narrative: 
+Relevant documents should include only the 
+ships that are presently sailing.  Documents
+that discuss ships that are planned or under
+construction are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 478 
+<title> baltimore 
+
+<desc> Description: 
+Find documents that identify any individual who
+has served as the mayor of Baltimore.
+
+<narr> Narrative: 
+Relevant documents must identify the individual
+by name and must state that he is/was mayor of
+Baltimore.
+
+</top>
+
+<top>
+
+<num> Number: 479 
+<title> where can I find information about kappa alpha psi? 
+
+<desc> Description: 
+Find documents that explain if Kappa Alpha Psi is a 
+fraternity or a sorority and which schools it is 
+affiliated with.
+
+<narr> Narrative: 
+Documents that give background information or objectives
+of Kappa Alpha Psi are relevant.
+
+</top>
+
+<top>
+
+<num> Number: 480 
+<title> car traffic report 
+
+<desc> Description: 
+Find reports on automobile traffic in the
+Washington, DC metropolitan area.
+
+<narr> Narrative: 
+Any reference to automobile traffic conditions
+in the Washington, DC metropolitan area 
+(including Maryland and Virginia suburbs) is
+relevant.  Statements of existing problems
+are relevant.  Transportation planning to 
+improve traffic conditions is not relevant.  
+
+</top>
+
+<top>
+
+<num> Number: 481 
+<title> what did babe ruth do in the 1920's? 
+
+<desc> Description: 
+Find documents that discuss Babe Ruth's baseball
+accomplishments in 1920.
+
+<narr> Narrative: 
+Any document containing information of any baseball
+activities relating to Babe Ruth in 1920 is relevant.
+
+</top>
+
+<top>
+
+<num> Number: 482 
+<title> where can i find growth rates for the pine tree? 
+
+<desc> Description: 
+Find documents that give growth rates of pine trees. 
+
+<narr> Narrative: 
+Document that give heights of trees but not the rate
+of growth are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 483 
+<title> rosebowl parade 
+
+<desc> Description: 
+Find documents that identify the Rose Bowl Parade 
+and what preparations are undertaken for it.
+
+<narr> Narrative: 
+Relative documents would contain any data on the 
+Rose Bowl Parade including date, place, and 
+preparation for the event.  Documents containing
+information on Rose Bowl events not associated 
+with the parade, such as the football game, are 
+irrelevant.
+
+</top>
+
+<top>
+
+<num> Number: 484 
+<title> auto skoda 
+
+<desc> Description: 
+Skoda is a heavy industrial complex in 
+Czechoslovakia.  Does it manufacture vehicles?
+  
+<narr> Narrative: 
+Relevant documents would include references
+to historic and contemporary automobile
+and truck production.  Non-relevant documents
+would pertain to armament production.
+
+</top>
+
+<top>
+
+<num> Number: 485 
+<title> gps clock 
+
+<desc> Description: 
+Clock reliance is a very important consideration in 
+the operation of a global positioning system (GPS).  
+What entity is responsible for clock accuracy and 
+what is the accuracy?
+
+<narr> Narrative: 
+A relevant document cites both the entity responsible 
+for clock operation as well as indicating the achieved
+accuracy or accuracies. 
+
+</top>
+
+<top>
+
+<num> Number: 486 
+<title> where is the Eldorado Casino in Reno ? 
+
+<desc> Description: 
+The Eldorado (El Dorado) Casino is reportedly 
+located in Reno.  Is this so and what is the 
+address?
+
+<narr> Narrative: 
+A relevant document will provide the street 
+address of an Eldorado or El Dorado Casino in 
+Reno, Nevada.
+
+</top>
+
+<top>
+
+<num> Number: 487 
+<title> angioplast7 
+
+<desc> Description: 
+How often do patients who have undergone a 
+successful angioplasty procedure require 
+a repeat/s angioplasty?
+
+<narr> Narrative: 
+Any document which refers to the necessity
+of performing a follow-up angioplasty 
+procedure on a patient who had had an 
+earlier angioplasty would be relevant.
+The item could refer to a specific patient
+or could provide statistics on such 
+occurrences.
+
+</top>
+
+<top>
+
+<num> Number: 488 
+<title> newport beach california 
+
+<desc> Description: 
+What forms of entertainment are available in
+Newport Beach, California?
+
+<narr> Narrative: 
+Any document which refers to entertainment in
+Newport Beach is relevant.  This would include
+spectator and participation sports, shows, 
+theaters, tourist attractions, etc.
+
+</top>
+
+<top>
+
+<num> Number: 489 
+<title> calcium
+
+<desc> Description: 
+How do members of the medical profession view the
+effectiveness of calcium supplements?
+
+<narr> Narrative: 
+Any document which cites the benefits of humans
+using calcium supplements or advises how calcium
+supplements should be used are relevant.  A 
+relevant document must establish that the 
+information comes from a qualified medical source 
+and not from the claims of a manufacturer or vendor 
+of calcium supplements or from the opinion of anyone 
+not recognized by the medical profession. 
+
+</top>
+
+<top>
+
+<num> Number: 490 
+<title> motorcycle safety helmets 
+
+<desc> Description: 
+Are there laws governing the use of 
+motorcycle safety helmets?
+
+<narr> Narrative: 
+A relevant document will note any law
+governing the use of a motorcycle 
+safety helmet.
+
+</top>
+
+<top>
+
+<num> Number: 491 
+<title> Japanese Wave 
+
+<desc> Description: 
+Identify occurrences in which a Japanese wave
+or tsunami caused loss of life or damage.
+
+<narr> Narrative: 
+Any reports that describe the occurrence of a
+Japanese wave or tsunami causing loss of life
+or damage are relevant.  A relevant report 
+must describe an actual event occurring at
+any location.
+
+</top>
+
+<top>
+
+<num> Number: 492 
+<title> "us savings bonds" 
+
+<desc> Description: 
+A document should address the information 
+needed to make decisions on purchases or
+redemptions of U.S. Savings Bonds.
+
+<narr> Narrative: 
+A document must contain information on
+types of U.S. Savings Bonds, prices, 
+interest rates, maturity periods and
+denominations.  It need not contain all
+of the above information.
+
+</top>
+
+<top>
+
+<num> Number: 493 
+<title> retire 
+
+<desc> Description: 
+A document should list retirement communities
+in the U.S. and Canada.
+
+<narr> Narrative: 
+A document must list retirement communities,
+villages, centers and resorts available in
+the U.S. and Canada.  It must provide such
+information as location and name.
+
+</top>
+
+<top>
+
+<num> Number: 494
+<title> nirvana  
+
+<desc> Description: 
+Find information on members of the rock 
+group Nirvana.
+
+<narr> Narrative: 
+Descriptions of members' behavior at 
+various concerts and their performing
+style is relevant.  Information on who
+wrote certain songs or a band member's
+role in producing a song is relevant.
+Biographical information on members is
+also relevant.
+
+</top>
+
+<top>
+
+<num> Number: 495 
+<title> Where can I find information on the decade of the 1920's? 
+
+<desc> Description: 
+Find information on the decade of the 1920's, known also as the
+Roaring Twenties.
+
+<narr> Narrative: 
+Information on life or happenings during the 1920's decade 
+anywhere in the world is relevant.  Simple dates of birth or
+death in the 1920's are not relevant unless they have
+broader significance.
+
+</top>
+
+<top>
+
+<num> Number: 496 
+<title> TMJ 
+
+<desc> Description: 
+Describe TMJ syndrome, its causes, symptoms and treatment.
+
+<narr> Narrative: 
+TMJ is the abbreviation for temporal mandible joint, but 
+is often used to indicate TMJ syndrome.  Documents that
+contain valid information on TMJ, even though in themselves
+are meant to be humorous or pejorative, are relevant.  
+Documents that mention a name of a treatment such as 
+"splint therapy" without making the treatment clear will
+be non-relevant.
+
+</top>
+
+<top>
+
+<num> Number: 497 
+<title> orchids
+
+<desc> Description: 
+How big is the orchid growing industry in the U.S.?  What
+are some of the major growers and how big of an industry
+is it in dollars?
+
+<narr> Narrative: 
+Documents that merely list U.S. orchid growers are relevant.
+Documents that are advertisement for individual growers 
+are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 498 
+<title> hair transplant 
+
+<desc> Description: 
+How many hair transplant procedures take place in
+the U.S. per year?  What is the cost of such a 
+procedure?  How successful are they, and what are
+the inherent risks? 
+
+<narr> Narrative: 
+Documents revealing any risks or discomfort 
+whatsoever are relevant.  Documents that only 
+discuss hair replacement procedures other than 
+transplanting are not relevant.  
+
+</top>
+
+<top>
+
+<num> Number: 499 
+<title> pool cue 
+
+<desc> Description: 
+This search is to find information on the origin, development,
+selection, or use of the pool cue.
+
+<narr> Narrative: 
+Documents that merely mention the pool cue are not relevant.
+Advertisements of pool cues are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 500 
+<title> DNA Testing 
+
+<desc> Description: 
+This search seeks information on the state of the 
+art of DNA testing; what it is and what its goals
+are.
+
+<narr> Narrative: 
+Relevant documents may discuss those things which
+are essentially steps in the DNA testing procedure,
+such as: sequencing, analysis, fingerprinting, and 
+profiling.  Documents that provide descriptions of
+elaborate scientific DNA testing are not relevant.
+
+</top>
+<top>
+
+<num> Number: 501 
+<title>  deduction and induction in English?
+
+<desc> Description: 
+What is the difference between deduction and induction in the
+process of reasoning?
+
+<narr> Narrative: 
+A relevant document will contrast inductive and deductive reasoning.
+A document that discusses only one or the other is not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 502
+<title>  prime factor?
+
+<desc> Description: 
+What is a prime factor?
+
+<narr> Narrative:
+A relevant document will define prime numbers or prime factors of
+mathematical expressions.   Documents that use prime factors
+without defining them are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 503
+<title> Vikings in Scotland? 
+
+<desc> Description:
+What hard evidence proves that the Vikings visited or lived
+in Scotland?
+
+<narr> Narrative:
+A document that merely states that the Vikings visited or lived
+in Scotland is not relevant.  A relevant document must mention
+the source of the information, such as relics, sagas, runes or
+other records from those times. 
+
+</top>   
+
+<top>
+
+<num> Number: 504
+<title> information about what manatees eat
+
+<desc> Description:
+Find documents that describe the diet of the manatee.
+
+<narr> Narrative:
+Relevant documents will identify any foods providing sustenance
+to the manatees. 
+
+</top>
+
+<top>
+
+<num> Number: 505
+<title>  edmund hillary; sir?
+
+<desc> Description:
+Who is/was Edmund Hillary?
+
+<narr> Narrative:
+A relevant document will provide biographical information on Edmund Hillary.
+
+</top>
+
+<top>
+
+<num> Number: 506
+<title>  history of skateboarding? 
+
+<desc> Description:
+What is the history of skateboarding?
+
+<narr> Narrative:
+To be relevant, a document will report on when skateboarding
+first originated and how it came about.  Stories about harm
+done by skateboarding and skateboarding dangers are not relevant.
+Current events about skateboarding are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 507
+<title>  dodge recalls?
+
+<desc> Description:
+Find documents that report on the recall of any Dodge automobile products.
+
+<narr> Narrative:
+A recall notice must be specific to the Dodge brand to be relevant.
+
+</top>
+
+<top>
+
+<num> Number: 508
+<title> hair loss is a symptom of what diseases
+
+<desc> Description:
+Find diseases for which hair loss is a symptom.
+
+<narr> Narrative:
+A document is relevant if it positively connects the loss of
+head hair in humans with a specific disease.  
+In this context, "thinning hair" and "hair loss"
+are synonymous.  Loss of body and/or facial hair is irrelevant,
+as is hair loss caused by drug therapy.
+
+</top>
+
+<top>
+
+<num> Number: 509
+<title> steroids;what does it do to your body
+
+<desc> Description:
+What effect do steroids have on the human body?
+
+<narr> Narrative:
+A relevant document will describe any physiological effect
+of steroids on humans.  Animal studies are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 510
+<title> 
+do you have any information on j. robert oppenheimer?
+
+<desc> Description:
+Find biographical data on J. Robert Oppenheimer.
+
+<narr> Narrative:
+A relevant document will contain biographical information on
+J. Robert Oppenheimer.
+
+</top>
+
+<top>
+
+<num> Number: 511
+<title> 
+diseases caused by smoking?
+
+<desc> Description:
+What diseases does smoking cause?
+
+<narr> Narrative:
+A relevant document must describe smoking tobacco products as a cause
+of a disease.  Diseases caused by second-hand smoke and
+smokeless tobacco are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 512
+<title>  how are tornadoes formed?
+
+<desc> Description:
+How are tornadoes formed?
+
+<narr> Narrative:
+A relevant document will provide the meteorological and atmospheric
+conditions necessary to create a tornado and explain how the
+conditions interact to form the funnel-shaped cloud.
+
+</top>
+
+<top>
+
+<num> Number: 513
+<title> earthquakes? 
+
+<desc> Description:
+What causes earthquakes, and where do they occur most often?
+
+<narr> Narrative:
+A relevant document will discuss scientific causes of earthquakes
+or tremors and/or report geographic areas where earthquake activity
+occurs most frequently.
+
+</top>
+
+<top>
+
+<num> Number: 514
+<title> how much money for retirement?
+
+<desc> Description:
+Find documents that discuss the financial aspects of retirement planning.
+
+<narr> Narrative:
+A relevant document will describe how to calculate the amount
+of money needed during retirement and investment strategies
+to fund one's lifestyle after retiring from regular employment.
+
+</top>  
+
+<top>
+
+<num> Number: 515
+<title> what about alexander graham bell
+
+<desc> Description:
+What did Alexander Graham Bell invent?
+
+<narr> Narrative:
+A relevant document will list an invention by Alexander Graham Bell.
+The document must provide the date or approximate date of the invention
+or patent to be relevant.
+
+</top>
+
+<top>
+
+<num> Number: 516
+<title> halloween?
+
+<desc> Description:
+When, where, and how did Halloween evolve?
+  
+<narr> Narrative:
+A relevant document will discuss the origin of Halloween and the original
+customs of Halloween.  Modern day trick-or-treating stories are not
+relevant.
+
+</top> 
+
+<top>
+
+<num> Number: 517
+<title> titanic what went wrong
+
+<desc> Description:
+Find documents that discuss the reasons for or problems leading
+to the sinking of the Titanic.
+
+<narr> Narrative:
+A relevant document will discuss what caused the Titanic to sink.
+
+</top>
+
+<top>
+
+<num> Number: 518
+<title> how we use statistics to aid our decision making?
+
+<desc> Description:
+Find documents that reference the use of statistical
+data in decision-making.
+
+<narr> Narrative:
+A relevant document will describe a specific statistical method
+that is used to assist decision-making.
+
+</top>
+
+<top>
+
+<num> Number: 519
+<title> info on where frogs live
+
+<desc> Description:
+Find documents that describe the habitat of frogs.
+
+<narr> Narrative:
+A relevant document will identify the natural habitat of
+any type of frog.  A frog's diet is not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 520
+<title> how was the black plague stopped?
+
+<desc> Description:
+What measures were taken to end the black plague?
+
+<narr> Narrative:
+A relevant document will identify measures taken to end the
+black plague (also known as the black death or bubonic plague)
+of the 14th century.
+
+</top> 
+
+<top>
+
+<num> Number: 521
+<title> surveys on the best places to live
+
+<desc> Description:
+Identify the best places to live as judged by various surveys and
+magazines.
+
+<narr> Narrative:
+A document that identifies the best places to live for
+some segment of the population as judged by a third party
+is relevant.  Tourism promotions and areas that proclaim
+themselves to be best are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 522
+<title> how is water supplied to the mojave desert region?
+
+<desc> Description:
+Identify methods being used to provide water to the Mojave
+Desert region
+ 
+<narr> Narrative:
+A relevant document will describe ways in which water
+is supplied to the region.
+
+</top>          
+
+<top>
+
+<num> Number: 523
+<title> facts about the five main clouds?  
+
+<desc> Description:
+How are the five main types of clouds formed?
+
+<narr> Narrative:
+A document that explains the process of cloud formation for any
+of the five main types of clouds is relevant. A document that
+discusses clouds, but does not explain their formation processes
+is not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 524
+<title> how to erase scar?    
+
+<desc> Description:
+What methods are used for removal of scar tissue?
+
+<narr> Narrative:
+A relevant document must disclose the name of a procedure
+or describe it, or identify the instrument used to remove
+scar tissue or skin defects.  Mere references to "surgical removal"
+are insufficient.  
+
+</top>        
+
+<top>
+
+<num> Number: 525
+<title> how does water get into the atmosphere?
+
+<desc> Description:
+How does water enter the earth's atmosphere?
+
+<narr> Narrative:
+A relevant document will explain the meteorological process whereby
+the earth's atmosphere becomes impregnated with water.
+
+</top>
+
+<top>
+
+<num> Number: 526
+<title> bmi
+
+<desc> Description:
+What does BMI stand for?
+
+<narr> Narrative:
+Any document that gives defines or explains BMI is relevant.
+
+</top>        
+
+<top>
+
+<num> Number: 527
+<title> can you info on booker t. washington?
+
+<desc> Description:
+What biographical data is available on Booker T. Washington?
+
+<narr> Narrative:
+A relevant document will provide biographical information
+on Booker T. Washington.
+
+</top>
+
+<top>
+
+<num> Number: 528 
+<title>  How does a hygrometer measure the humidity in the atmosphere?
+
+<desc> Description:
+How does a hygrometer measure the humidity in the atmosphere?
+
+<narr> Narrative:
+A relevant document will describe a hygrometer in enough detail
+to determine the principle of operation.
+
+</top>
+
+<top>
+
+<num> Number: 529
+<title> history on cambodia? 
+
+<desc> Description:
+Find accounts of the history of Cambodia.
+
+<narr> Narrative:
+A relevant document will provide historical information on Cambodia.
+Current events in Cambodia are not relevant.
+
+</top>   
+
+<top>
+
+<num> Number: 530
+<title> do pheromone scents work?   
+
+<desc> Description:
+What is the scientific evidence that suggests pheromones stimulate
+the opposite sex?
+
+<narr> Narrative:
+A relevant document will discuss how pheromones act as an attractor
+or repellent among humans, other animals, or plants.
+
+</top>
+
+<top>
+
+<num> Number: 531
+<title> who and whom
+
+<desc> Description:
+What is the proper grammatical use of "who" versus "whom"?.
+
+<narr> Narrative:
+A relevant document will provide explicit guidance for
+the proper grammatical use of "who" and "whom".
+
+</top>   
+
+<top>
+
+<num> Number: 532
+<title> hypnosis?
+
+<desc> Description:
+Find documents that describe the uses of hypnosis, and report
+on how effective hypnosis is.
+
+<narr> Narrative:
+A relevant document will describe a medical/social use of
+hypnosis and its effectiveness in addressing the problem.
+The use of hypnosis as entertainment is not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 533
+<title> school uniforms in public schools?  
+
+<desc> Description:
+Find documents either pro or con regarding children wearing
+uniforms in public schools.
+
+<narr> Narrative:
+A relevant document will contain an argument for or against
+requiring students to wear uniforms in public schools.
+Advertisements for uniforms and simple statements that
+particular school districts require uniforms are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 534
+<title> artists who died in the 1700's
+
+<desc> Description:
+Find items referencing artists who died in the 1700's.
+
+<narr> Narrative:
+A relevant document must include the date of the artist's death.
+
+</top> 
+
+<top>
+
+<num> Number: 535
+<title> canadian building codes?
+
+<desc> Description:
+Find documents describing Canadian building codes.
+
+<narr> Narrative:
+Regulations pertaining to any type of construction, including
+road building, are relevant.
+
+</top>
+
+<top>
+
+<num> Number: 536
+<title> can babies eat honey?
+
+<desc> Description:
+Would eating honey affect the health of a baby?
+
+<narr> Narrative:
+A relevant document will provide evidence as to whether it is
+safe to feed a human baby honey.
+
+</top>   
+
+<top>
+
+<num> Number: 537
+<title> are sun beds safe
+
+<desc> Description:
+Are sun beds detrimental to the health of an individual?
+
+<narr> Narrative:
+A relevant document will identify negative health effects of 
+sun (tanning) beds. 
+
+</top>
+
+<top>
+
+<num> Number: 538
+<title> fha
+
+<desc> Description:
+Find documents describing the Federal Housing Administration (FHA):
+when and why it was originally established and its current mission.
+
+<narr> Narrative:
+A relevant document will discuss the history and current purpose
+of the Federal Housing Administration (FHA).
+
+</top>   
+
+<top>
+
+<num> Number: 539
+<title> authors who suffered from depression 
+
+<desc> Description:
+Which authors suffered from depression?
+
+<narr> Narrative:
+A relevant document will name authors who were depressed.
+
+</top>
+
+<top>
+
+<num> Number: 540
+<title> does stress cause obesity?
+
+<desc> Description:
+Find descriptions of studies that correlate stress and obesity.
+
+<narr> Narrative:
+A relevant document will discuss the relationship between stress and
+obesity.
+
+</top>      
+
+<top>
+
+<num> Number: 541
+<title> instruments to forecast the weather?
+
+<desc> Description:
+What instruments are used to forecast the weather?
+
+<narr> Narrative:
+A relevant document will state that a particular instrument is used
+to forecast weather.  Weather forecasts themselves are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 542
+<title> good things fire do for environment
+
+<desc> Description:
+What are the positive effects of forest fires?
+
+<narr> Narrative:
+A relevant document should describe specific ways the environment
+is helped as a result of forest fires.
+
+</top>
+
+<top>
+
+<num> Number: 543
+<title> radiography what are the risks
+
+<desc> Description:
+What are the hazards associated with radiography?
+
+<narr> Narrative:   
+A relevant document should describe hazards/risks to either the patient
+or operator during the x-ray procedure.
+
+</top>
+
+<top>
+
+<num> Number: 544
+<title> estrogen why needed
+
+<desc> Description:
+Find documents that describe the roles estrogen plays in the human body.
+
+<narr> Narrative:
+Relevant documents will describe the positive effects of estrogen's
+presence or the negative effects of its absence.  Discussions
+of the benefits of hormones in general are not relevant.
+
+</top>
+
+<top>
+
+<num> Number: 545
+<title> to what extent did peter the great reform russia
+
+<desc> Description:
+What did Peter the Great accomplish for Russia?
+
+<narr> Narrative:
+A relevant document will discuss how Peter the Great improved
+Russia.  Documents that discuss the growth of Russian power and
+influence during his reign without specifying his particular
+contribution to the increase are not relevant.
+            
+</top>
+
+<top>
+
+<num> Number: 546
+<title> recycle cans and why?
+
+<desc> Description:
+What are the benefits of recycling cans?
+
+<narr> Narrative:
+A relevant document will describe an economic or environmental
+benefit of recycling cans.  Documents that describe the
+advantages of recycling in general terms are also relevant provided
+such advantages apply to can recycling.
+
+</top>
+
+<top>
+
+<num> Number: 547
+<title> camels why they were domesticated
+
+<desc> Description:
+Why were camels domesticated?
+
+<narr> Narrative:    
+A relevant document will list a specific use of a camel
+that requires it to be domesticated.
+
+</top>
+
+<top>
+
+<num> Number: 548
+<title> how do you use solar heat to heat a pool?
+
+<desc> Description:
+What are the methods of using solar heat to warm up the water in a
+swimming pool?
+
+<narr> Narrative:
+A relevant document will explain a technique or method for warming
+the water in a swimming pool using heat from the sun. 
+General discussions of solar heating are not relevant; the
+document must describe its application to swimming pools.
+
+</top>
+
+<top>
+
+<num> Number: 549
+<title> how is cancer related to cell reproduction?
+
+<desc> Description:
+Find documents that contrast cancer with normal cell reproduction.
+
+<narr> Narrative:
+A relevant document will discuss what causes cell reproduction to
+become cancerous or describe ways the body defends against run-away
+cell reproduction.
+
+</top>
+
+<top>
+
+<num> Number: 550
+<title> how are the volcanoes made? 
+
+<desc> Description:
+Find documents that describe how volcanoes are formed.
+
+<narr> Narrative:
+A relevant document will explain how volcanoes get started, or will
+describe how plumes or hot spots cause eruptions.  Reports that a
+particular volcano erupted are not relevant.
+
+</top>

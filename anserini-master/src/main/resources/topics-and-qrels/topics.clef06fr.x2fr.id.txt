@@ -1,0 +1,49 @@
+301-AH	Merek Nestl�
+302-AH	Pemboikotan oleh Konsumen
+303-AH	Lukisan-lukisan dari Itali
+304-AH	Tempat-tempat Peninggalan Dunia
+305-AH	Harga-harga Minyak
+306-AH	Kegiatan-kegiatan ETA di Perancis
+307-AH	Film-film yang berlokasi di Skotlandia
+308-AH	Gerhana Matahari
+309-AH	Obat-obat �Keras�
+310-AH	Pengolahan Limbah Industri
+311-AH	Pengangguran di Eropa
+312-AH	Serangan Anjing
+313-AH	Perayaan Seabad
+314-AH	Jenis-jenis yang Terancam
+315-AH	Penggunaan Obat Terlarang di Olahraga
+316-AH	Pemogokan
+317-AH	Obat-obat Anti-kanker
+318-AH	Pendidikan Seks
+319-AH	Produksi Candu Global
+320-AH	Krisis Energi
+321-AH	Orang-orang Taliban di Afganistan
+322-AH	Energi Atom
+323-AH	Pengetatan Persyaratan Visa
+324-AH	Peragawati-peragawati Terkenal
+325-AH	Uang Sekolah Mahasiswa
+326-AH	Penghargaan Internasional Emmy
+327-AH	Gempa Bumi di Kota Meksiko
+328-AH	Orang Kurdi di Irak dan Turki
+329-AH	Konsekwensi jika Charles dan Diana Bercerai
+330-AH	Film-film dengan Keanu Reeves
+331-AH	Kebijaksanaan-kebijaksanaan Ekonomi dari Zedillo
+333-AH	Sidang Pengadilan Paul Touvier
+334-AH	Pemilihan George W. Bush
+335-AH	Partai Buruh sesudah John Smith
+336-AH	Konflik-konflik Buruh NBA
+337-AH	Perang Sipil di Yemen
+338-AH	Penyerahan Carlos dan Sidang Pengadilan
+339-AH	Sinn Fein dan Deklarasi Inggeris-Irlandia
+340-AH	Perdana Menteri Quebec Yang Baru
+341-AH	Pencuri �Jeritan�
+342-AH	Empat Perkawinan dan Satu Pemakaman
+343-AH	Partai Nasional Afrika Selatan
+344-AH	Pertandingan Semifinal Piala Dunia Brasil melawan Swedia
+345-AH	Bermain ski lintas alam pada Pertandingan Olimpiade.
+346-AH	Pemenang Gran Slem
+347-AH	Film Terbaik Oscar 1994
+348-AH	Pembunuhan Yann Piat
+349-AH	Kematian Nixon
+350-AH	Kematian Ayrton Senna.

@@ -1,0 +1,5 @@
+[ "-bm25 -axiom -k1 0.80 -b 0.50 -rerankCutoff 50 -axiom.deterministic -axiom.n 30 -axiom.seed 42 -axiom.r 10 -axiom.n 30 -axiom.beta 0.30 -axiom.top 25",
+  "-bm25 -axiom -k1 0.80 -b 0.50 -rerankCutoff 50 -axiom.deterministic -axiom.n 30 -axiom.seed 42 -axiom.r 10 -axiom.n 30 -axiom.beta 0.30 -axiom.top 25",
+  "-bm25 -axiom -k1 0.80 -b 0.50 -rerankCutoff 50 -axiom.deterministic -axiom.n 30 -axiom.seed 42 -axiom.r 10 -axiom.n 30 -axiom.beta 0.30 -axiom.top 25",
+  "-bm25 -axiom -k1 0.80 -b 0.60 -rerankCutoff 50 -axiom.deterministic -axiom.n 30 -axiom.seed 42 -axiom.r 15 -axiom.n 30 -axiom.beta 0.35 -axiom.top 45",
+  "-bm25 -axiom -k1 0.80 -b 0.55 -rerankCutoff 50 -axiom.deterministic -axiom.n 30 -axiom.seed 42 -axiom.r 10 -axiom.n 30 -axiom.beta 0.30 -axiom.top 50" ]

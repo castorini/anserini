@@ -1,0 +1,385 @@
+<top>
+<num> Number: MB171 </num>
+<query> Ron Weasley birthday </query>
+<querytime> Sat Mar 02 10:43:45 EST 2013 </querytime>
+<querytweettime> 307878904759201794 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB172 </num>
+<query> Merging of US Air and American </query>
+<querytime> Sun Feb 17 16:14:40 EST 2013 </querytime>
+<querytweettime> 303251140382973952 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB173 </num>
+<query> muscle pain from statins </query>
+<querytime> Sat Mar 23 18:21:09 EDT 2013 </querytime>
+<querytweettime> 315589058900418560 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB174 </num>
+<query> Hubble oldest star </query>
+<querytime> Wed Mar 13 17:02:06 EDT 2013 </querytime>
+<querytweettime> 311945286652137473 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB175 </num>
+<query> commentary on naming storm Nemo </query>
+<querytime> Sat Mar 16 14:19:48 EDT 2013 </querytime>
+<querytweettime> 312991606120804352 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB176 </num>
+<query> book club members </query>
+<querytime> Fri Mar 29 21:48:04 EDT 2013 </querytime>
+<querytweettime> 317815458369777664 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB177 </num>
+<query> Boko Haram kidnapped French tourists </query>
+<querytime> Thu Mar 21 20:46:14 EDT 2013 </querytime>
+<querytweettime> 314900794593906688 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB178 </num>
+<query> Tiger Woods regains title </query>
+<querytime> Fri Mar 29 07:05:38 EDT 2013 </querytime>
+<querytweettime> 317593386746007553 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB179 </num>
+<query> care of Iditarod dogs </query>
+<querytime> Sun Mar 31 04:57:48 EDT 2013 </querytime>
+<querytweettime> 318285992178089984 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB180 </num>
+<query> Sherlock Elementary BBC CBS </query>
+<querytime> Sun Mar 31 10:21:28 EDT 2013 </querytime>
+<querytweettime> 318367445586939904 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB181 </num>
+<query> Costa Concordia shipwreck </query>
+<querytime> Wed Mar 06 01:56:53 EST 2013 </querytime>
+<querytweettime> 309195865883570176 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB182 </num>
+<query> Chinua Achebe death </query>
+<querytime> Mon Mar 25 05:07:40 EDT 2013 </querytime>
+<querytweettime> 316114147999899648 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB183 </num>
+<query> Evernote hacked </query>
+<querytime> Wed Mar 06 17:51:38 EST 2013 </querytime>
+<querytweettime> 309436136579821569 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB184 </num>
+<query> Election of Hugo Chavez successor </query>
+<querytime> Sat Mar 30 01:30:34 EDT 2013 </querytime>
+<querytweettime> 317871452349140993 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB185 </num>
+<query> National Zoo Panda, insemination </query>
+<querytime> Sun Mar 31 08:31:27 EDT 2013 </querytime>
+<querytweettime> 318339758956896258 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB186 </num>
+<query> Dorner, truck, compensation </query>
+<querytime> Fri Mar 15 10:00:33 EDT 2013 </querytime>
+<querytweettime> 312563975852281856 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB187 </num>
+<query> Pope washed Muslims feet </query>
+<querytime> Thu Mar 28 13:34:00 EDT 2013 </querytime>
+<querytweettime> 317374054011125762 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB188 </num>
+<query> Bombing police headquarters, Kirkuk </query>
+<querytime> Sun Feb 03 04:37:52 EST 2013 </querytime>
+<querytweettime> 298002354828103680 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB189 </num>
+<query> injuries by pets </query>
+<querytime> Sun Mar 31 08:12:58 EDT 2013 </querytime>
+<querytweettime> 318335107494727682 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB190 </num>
+<query> Organized crime, sports doping, Australia </query>
+<querytime> Thu Feb 07 05:56:29 EST 2013 </querytime>
+<querytweettime> 299471690805690368 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB191 </num>
+<query> Irish laundries apology </query>
+<querytime> Mon Mar 25 08:21:48 EDT 2013 </querytime>
+<querytweettime> 316163003252891648 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB192 </num>
+<query> whooping cough epidemic </query>
+<querytime> Tue Mar 12 18:10:29 EDT 2013 </querytime>
+<querytweettime> 311600108032643073 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB193 </num>
+<query> Bulgarian protesters self immolate </query>
+<querytime> Thu Mar 14 09:18:21 EDT 2013 </querytime>
+<querytweettime> 312190968029904897 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB194 </num>
+<query> cherry blossom Washington </query>
+<querytime> Sun Mar 31 13:13:26 EDT 2013 </querytime>
+<querytweettime> 318410722403028993 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB195 </num>
+<query> Argo wins Oscar </query>
+<querytime> Tue Mar 12 17:11:00 EDT 2013 </querytime>
+<querytweettime> 311585138540679168 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB196 </num>
+<query> US fines Google over Street View </query>
+<querytime> Fri Mar 29 23:50:04 EDT 2013 </querytime>
+<querytweettime> 317846160691822593 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB197 </num>
+<query> Mad Men season 6 </query>
+<querytime> Wed Mar 13 18:49:13 EDT 2013 </querytime>
+<querytweettime> 311972243464921088 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB198 </num>
+<query> Hostess bought by Apollo </query>
+<querytime> Tue Mar 19 12:16:31 EDT 2013 </querytime>
+<querytweettime> 314047744450887680 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB199 </num>
+<query> Ed Koch death </query>
+<querytime> Sun Feb 10 21:59:30 EST 2013 </querytime>
+<querytweettime> 300801205481906176 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB200 </num>
+<query> UK passes marriage bill </query>
+<querytime> Wed Mar 27 11:33:48 EDT 2013 </querytime>
+<querytweettime> 316936097370345472 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB201 </num>
+<query> Higgs Boson discovery </query>
+<querytime> Mon Mar 18 09:45:18 EDT 2013 </querytime>
+<querytweettime> 313647301690265600 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB202 </num>
+<query> Boko Haram, Amnesty opposition </query>
+<querytime> Sat Mar 30 08:03:07 EDT 2013 </querytime>
+<querytweettime> 317970240799641600 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB203 </num>
+<query> Eastern Australia Floods </query>
+<querytime> Fri Mar 01 19:21:51 EST 2013 </querytime>
+<querytweettime> 307646901010964480 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB204 </num>
+<query> Sotomayor, prosecutor, racial comments </query>
+<querytime> Fri Mar 01 09:20:48 EST 2013 </querytime>
+<querytweettime> 307495641846788096 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB205 </num>
+<query> Port Said football riot, death sentences </query>
+<querytime> Sat Mar 16 08:26:00 EDT 2013 </querytime>
+<querytweettime> 312902569452257280 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB206 </num>
+<query> yarn bombing  </query>
+<querytime> Sun Mar 31 15:22:01 EDT 2013 </querytime>
+<querytweettime> 318443081445826561 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB207 </num>
+<query> David Cameron, apology, Amritsar  </query>
+<querytime> Sat Feb 23 00:55:17 EST 2013 </querytime>
+<querytweettime> 305194097205989376 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB208 </num>
+<query> Olympics drops wrestling </query>
+<querytime> Tue Feb 12 15:15:46 EST 2013 </querytime>
+<querytweettime> 301424378380443650 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB209 </num>
+<query> Chelyabinsk meteor damage </query>
+<querytime> Wed Mar 20 17:48:00 EDT 2013 </querytime>
+<querytweettime> 314493552841351169 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB210 </num>
+<query> arrest of Craig Wilson for drive-by shooting in D.C.  </query>
+<querytime> Fri Mar 15 17:48:08 EDT 2013 </querytime>
+<querytweettime> 312681647080349696 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB211 </num>
+<query> Downton Abbey, Lady Mary, beau </query>
+<querytime> Mon Mar 04 15:44:11 EST 2013 </querytime>
+<querytweettime> 308679287005904897 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB212 </num>
+<query> Kate Middleton maternity wear </query>
+<querytime> Sat Mar 30 09:23:54 EDT 2013 </querytime>
+<querytweettime> 317990570574356480 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB213 </num>
+<query> US Embassy in Ankara bombed </query>
+<querytime> Sat Feb 02 12:10:22 EST 2013 </querytime>
+<querytweettime> 297753842307715072 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB214 </num>
+<query> math Common Core </query>
+<querytime> Tue Mar 26 09:46:39 EDT 2013 </querytime>
+<querytweettime> 316546744328544256 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB215 </num>
+<query> snow blower problems </query>
+<querytime> Sat Mar 30 23:56:37 EDT 2013 </querytime>
+<querytweettime> 318210196910505985 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB216 </num>
+<query> Type II diabetes research </query>
+<querytime> Thu Mar 28 06:30:02 EDT 2013 </querytime>
+<querytweettime> 317222039876419584 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB217 </num>
+<query> Pope candidates  </query>
+<querytime> Tue Mar 12 14:04:07 EDT 2013 </querytime>
+<querytweettime> 311538107818336256 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB218 </num>
+<query> Sinkhole rescues </query>
+<querytime> Tue Mar 12 15:36:21 EDT 2013 </querytime>
+<querytweettime> 311561319088283648 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB219 </num>
+<query> Russian meteorite conspiracy </query>
+<querytime> Sat Feb 23 15:22:39 EST 2013 </querytime>
+<querytweettime> 305412377162166273 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB220 </num>
+<query> Shahbag protest </query>
+<querytime> Wed Mar 13 20:25:07 EDT 2013 </querytime>
+<querytweettime> 311996377477545986 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB221 </num>
+<query> HIV baby cured </query>
+<querytime> Thu Mar 07 14:36:06 EST 2013 </querytime>
+<querytweettime> 309749316845715456 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB222 </num>
+<query> "Oz, The Great and Powerful" opens  </query>
+<querytime> Fri Mar 15 02:12:12 EDT 2013 </querytime>
+<querytweettime> 312446111732334592 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB223 </num>
+<query> dog off leash </query>
+<querytime> Fri Mar 29 19:22:49 EDT 2013 </querytime>
+<querytweettime> 317778905006227456 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB224 </num>
+<query> dark pool trading </query>
+<querytime> Sun Mar 31 16:44:12 EDT 2013 </querytime>
+<querytweettime> 318463763571433472 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB225 </num>
+<query> Barbara Walters, chicken pox </query>
+<querytime> Tue Mar 12 13:19:59 EDT 2013 </querytime>
+<querytweettime> 311527001297137664 </querytweettime>
+</top>
+

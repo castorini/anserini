@@ -1,0 +1,49 @@
+301-AH	Les Produits Nestlé
+302-AH	Les Boycotts de Consommateurs
+303-AH	Les Peintures Italiennes
+304-AH	Le Patrimoine Mondial
+305-AH	Les Prix du Pétrole
+306-AH	Les Activités de l'ETA en France
+307-AH	Les Films qui se déroulent en Ecosse
+308-AH	Eclipse Solaire
+309-AH	Les Drogues "Dures"
+310-AH	Le Traitement des Déchets Industriels
+311-AH	Le Chômage en Europe
+312-AH	Les Attaques de Chiens
+313-AH	Les Célébrations de Centenaire
+314-AH	Les Espèces en Danger
+315-AH	Le Dopage dans le Sport
+316-AH	Les Grèves
+317-AH	Les Drogues Anti-cancer
+318-AH	L'Education Sexuelle
+319-AH	La Production Mondiale d'Opium
+320-AH	Les Crises de l'Energie
+321-AH	Les Talibans en Afghanistan
+322-AH	L'Energie Atomique
+323-AH	Le Renforcement des Conditions d'Obtention de Visa
+324-AH	Les Grands Mannequins
+325-AH	Les Bourses d'Etudes
+326-AH	Les International Emmy Awards
+327-AH	Tremblements de Terre à Mexico
+328-AH	Les Kurdes Irakiens et la Turquie
+329-AH	Conséquences d'un Divorce entre Charles et Diana
+330-AH	Films avec Keanu Reeves
+331-AH	Les Politiques Economiques de Zedillo
+333-AH	Le Procès de Paul Touvier
+334-AH	L'Election de George W. Bush
+335-AH	Les Travaillistes après John Smith
+336-AH	Les Conflits de Travail de la NBA
+337-AH	La Guerre Civile au Yémen
+338-AH	L'Extradition et le Procès de Carlos
+339-AH	Sinn Fein et la Déclaration Anglo-Irlandaise
+340-AH	Le Nouveau Premier Ministre du Québec
+341-AH	Le Vol du "Cri"
+342-AH	Quatre Mariages et un Enterrement
+343-AH	Le Parti National d'Afrique du Sud
+344-AH	Le Brésil contre la Suède en Demi-finales de la Coupe du Monde
+345-AH	Le Ski de Fond aux Jeux Olympiques
+346-AH	Les Vainqueurs du Grand Chelem
+347-AH	L'Oscar du Meilleur Film 1994
+348-AH	L'Assassinat de Yann Piat
+349-AH	Le Décès de Nixon
+350-AH	Le Décès d'Ayrton Senna

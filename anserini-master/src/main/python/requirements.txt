@@ -1,0 +1,2 @@
+matplotlib==2.2.2
+pyyaml>=4.2b1

@@ -1,0 +1,1 @@
+{extractors: [ {name: "AvgIDF"}, {name: "SumTermFrequency"} ]}

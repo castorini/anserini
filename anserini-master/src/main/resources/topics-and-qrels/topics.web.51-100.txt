@@ -1,0 +1,1060 @@
+<?xml version="1.0"?>
+<!DOCTYPE webtrack2010 [
+  <!ELEMENT webtrack2010 (topic)*>
+  <!ELEMENT topic (query, description, subtopic+)>
+    <!ATTLIST topic 
+              number CDATA #REQUIRED
+              type (ambiguous|faceted|other) "ambiguous">
+   <!ELEMENT query (#PCDATA)>
+  <!ELEMENT description (#PCDATA)>
+  <!ELEMENT subtopic (#PCDATA)>
+    <!ATTLIST subtopic 
+              number CDATA #REQUIRED
+              type (nav|inf) "inf">
+]>
+<webtrack2010>
+
+<!-- Please note that topic and subtopic types (faceted/ambiguous,
+     inf/nav are meant as a general indicator and should not be taken
+     as definitive aspects of the query intent. -->
+
+<topic number="51" type="faceted">
+  <query>horse hooves</query>
+  <description>
+    Find information about horse hooves, their care, and diseases of hooves.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about horses' hooves and how to care for them.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find pictures of horse hooves.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are some injuries or diseases of hooves in horses, and how
+    are they treated?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Describe the anatomy of horses' feet and hooves.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information on shoeing horses and horseshoe problems.
+  </subtopic>
+</topic>
+
+<topic number="52" type="ambiguous">
+  <query>avp</query>
+  <description>
+    Find information about events sponsored by AVP, the Association of
+    Volleyball Professionals.
+  </description>
+  <subtopic number="1" type="nav">
+    Go to the homepage for the AVP, sponsor of professional beach
+    volleyball events.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about pro beach volleyball tournaments and events
+    sponsored by AVP.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find the homepage for AVP antivirus software.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find reviews of AVP antivirus software and comparisons to other products.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about the Avon Products (AVP) company.
+  </subtopic>
+  <subtopic number="6" type="nav">
+    Find sites devoted to the "Alien vs. Predator" movie franchise.
+  </subtopic>
+  <subtopic number="7" type="inf">
+    Find information about Wilkes-Barre Scranton International Airport
+    in Pennsylvania (airport code AVP).
+  </subtopic>
+</topic>
+
+<topic number="53" type="faceted">
+  <query>discovery channel store</query>
+  <description>
+    Find locations and information about Discovery Channel stores and
+    types of products they sell.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the Discovery Channel store homepage.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find Discovery Channel store locations.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find science toys and products geared towards teaching science to
+    kids sold by Discovery Channel stores.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find Discovery Channel store products based on the Animal Planet
+    program.
+  </subtopic>
+</topic>
+
+<topic number="54" type="faceted">
+  <query>president of the united states</query>
+  <description>
+    Find information about the office of President of the United States.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage of the President of the United States.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about the current President of the United States,
+    Barack Obama.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find a list of past Presidents of the United States.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find historical information about the office of the President of
+    the United States.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Find pictures of past Presidents of the United States.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    What is the mailing address for the President of the United States?
+  </subtopic>
+</topic>
+
+<topic number="55" type="ambiguous">
+  <query>iron</query>
+  <description>
+    Find information about iron as an essential nutrient.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about iron as an essential nutrient.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What foods contain iron?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find sites where I can buy iron supplements.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about the element iron (Fe).
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about iron deficiencies.
+  </subtopic>
+  <subtopic number="6" type="nav">
+    Find dealers in irons for clothing.
+  </subtopic>
+</topic>
+
+<topic number="56" type="faceted">
+  <query>uss yorktown charleston sc</query>
+  <description>
+    Find information on the USS Yorktown, an aircraft carrier that is
+    part of the museum exhibit at the Patriots Point museum in
+    Charleston Harbor, SC.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage of the Patriots Point Naval and Maritime Museum.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find historical information about the USS Yorktown aircraft
+    carriers used during World War 2.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about the USS Yorktown exhibit at the Patriots
+    Point museum.
+  </subtopic>
+</topic>
+
+<topic number="57" type="ambiguous">
+  <query>ct jobs</query>
+  <description>
+    Find information about jobs in Connecticut.
+  </description>
+  <subtopic number="1" type="nav">
+    Find sites for finding a job in Connecticut.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Take me to the homepage for the Connecticut Department of Labor.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What kinds of jobs are most common in the state of Connecticut?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about filing an claim for unemployment in Connecticut.
+  </subtopic>
+</topic>
+
+<topic number="58" type="ambiguous">
+  <query>penguins</query>
+  <description>
+    Find information about penguins.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage of the Pittsburgh Penguins
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find Pittsburgh Penguins merchandise such as hockey jerseys.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find information about penguins.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find penguin photos.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Find pictures of the penguins from the animated movie, "Madagascar".
+  </subtopic>
+</topic>
+
+<topic number="59" type="faceted">
+  <query>how to build a fence</query>
+  <description>
+    How do I go about building a fence myself?
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about building a wooden fence.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about building chain-link fences.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What materials are best for building fences?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Where can I buy materials for building a fence?
+  </subtopic>
+</topic>
+
+<topic number="60" type="ambiguous">
+  <query>bellevue</query>
+  <description>
+    Find information about Bellevue, Washington.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about Bellevue, Washington.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about Bellevue, Nebraska.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about Bellevue Hospital Center in New York, NY.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find the homepage of Bellevue University.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Find the homepage of Bellevue College, Washington.
+  </subtopic>
+  <subtopic number="6" type="nav">
+    Find the homepage of Bellevue Hospital Center in New York, NY.
+  </subtopic>
+</topic>
+
+<topic number="61" type="ambiguous">
+  <query>worm</query>
+  <description>
+    Find information about computer worms, viruses, and spyware.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about computer worms, viruses, and spyware.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about worms in nature.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about the Conficker worm.
+  </subtopic>
+</topic>
+
+<topic number="62" type="faceted">
+  <query>texas border patrol</query>
+  <description>
+    Find information about the U.S. Customs and Border Patrol along the
+    Texas border with Mexico.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage for the Border Patrol in Texas.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the homepage for supporters of the U.S. Border Patrol in Texas.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on the mission of the U.S. Border Patrol in Texas.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How do I get a job with the U.S. Border Patrol in Texas?
+  </subtopic>
+</topic>
+
+<topic number="63" type="ambiguous">
+  <query>flushing</query>
+  <description>
+    Find information about Flushing, a neighborhood in New York City.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about Flushing, a neighborhood in New York City.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about causes of excessive facial flushing.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Why do people blush?  What is blushing?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find a street map of Flushing, NY.
+  </subtopic>
+</topic>
+
+<topic number="64" type="faceted">
+  <query>moths</query>
+  <description>
+    Find information about and pictures of moths and butterflies.
+  </description>
+  <subtopic number="1" type="inf">
+    What do moths and butterflies eat?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find pictures of moths.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How can I identify different types of moths?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What do moth eggs look like?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    How do I control clothes moths in my home?
+  </subtopic>
+</topic>
+
+<topic number="65" type="faceted">
+  <query>korean language</query>
+  <description>
+    Find information and resources on the Korean language.
+  </description>
+  <subtopic number="1" type="inf">
+    Find background information about the Korean language.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find resources on translating Korean to other languages.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find resources on learning and teaching Korean.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find a history of Hangul, the Korean writing system.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Find a Korean/English bilingual dictionary.
+  </subtopic>
+  <subtopic number="6" type="nav">
+    What are some common Korean phrases?
+  </subtopic>
+</topic>
+
+<topic number="66" type="ambiguous">
+  <query>income tax return online</query>
+  <description>
+    How can I file my Federal income tax return online?
+  </description>
+  <subtopic number="1" type="inf">
+    Find a site where I can fill out my Federal income tax return online.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about electronically filing (e-filing) my Federal
+    income tax return.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Where can I find information online about filing my income taxes?
+  </subtopic>
+</topic>
+
+<topic number="67" type="faceted">
+  <query>vldl levels</query>
+  <description>
+    Find information about VLDL or very-low-density lipoprotein, a
+    type of cholesterol.
+  </description>
+  <subtopic number="1" type="inf">
+    How are VLDL levels determined?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are good and bad levels of VLDL in a cholesterol test?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What is the difference between LDL, HDL, and VLDL?
+  </subtopic>
+</topic>
+
+<topic number="68" type="ambiguous">
+  <query>pvc</query>
+  <description>
+    Find information about PVC pipes and fittings.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about PVC pipes and fittings.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What is the material PVC?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about premature ventricular contractions.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How are premature ventricular contractions treated?
+  </subtopic>
+</topic>
+
+<topic number="69" type="faceted">
+  <query>sewing instructions</query>
+  <description>
+    Find beginners instructions to sewing, both by hand and by machine.
+  </description>
+  <subtopic number="1" type="nav">
+    Find sewing sites for beginners.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find instructions for using a sewing machine.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find downloadable sewing patterns.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find helpful sewing tips for beginners.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find materials for teaching sewing to children.
+  </subtopic>
+</topic>
+
+<topic number="70" type="faceted">
+  <query>to be or not to be that is the question</query>
+  <description>
+    Find information related to Hamlet's famous "To be or not to be" soliloquy.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the text of Hamlet's famous "To be or not to be" soliloquy.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the full text of Shakespeare's play, "Hamlet".
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find famous quotes from Shakespeare's plays.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find a critical analysis of Hamlet's "To be or not to be" soliloquy.
+  </subtopic>
+</topic>
+
+<topic number="71" type="faceted">
+  <query>living in india</query>
+  <description>
+    Find information about living in India.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about buying real estate in India.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about how people live in India.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information for visitors and immigrants about living in India.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find history about life and culture in India.
+  </subtopic>
+</topic>
+
+<topic number="72" type="ambiguous">
+  <query>the sun</query>
+  <description>
+    Find information about the Sun, the star in our Solar System.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about the Sun, the star in our Solar System.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the homepage for the U.K. newspaper, The Sun.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find the homepage for the Baltimore Sun newspaper.
+  </subtopic>
+</topic>
+
+<topic number="73" type="faceted">
+  <query>neil young</query>
+  <description>
+    Find music, tour dates, and information about the musician Neil Young.
+  </description>
+  <subtopic number="1" type="nav">
+    Find albums by Neil Young to buy.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find biographical information about Neil Young.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find lyrics or sheet music for Neil Young's songs.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find a list of Neil Young tour dates.
+  </subtopic>
+</topic>
+
+<topic number="74" type="ambiguous">
+  <query>kiwi</query>
+  <description>
+    Find information on kiwi fruit.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information on kiwi fruit.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on kiwi birds.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Can I grow a kiwi fruit tree?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find the homepage for Kiwi Shoe Care Products.
+  </subtopic>
+</topic>
+
+<topic number="75" type="faceted">
+  <query>tornadoes</query>
+  <description>
+    Find information about tornadoes, what causes them, and where they occur.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about tornadoes, what causes them, and where they occur.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find videos and pictures of tornadoes.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What were the deadliest tornadoes in history?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about forecasting tornadoes.
+  </subtopic>
+</topic>
+
+<topic number="76" type="faceted">
+  <query>raised gardens</query>
+  <description>
+    Find information on raised garden beds and boxes.
+  </description>
+  <subtopic number="1" type="inf">
+    Find plans for building a raised garden bed.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find a raised garden bed kit.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What kind of wood should be used to build a raised garden bed?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find photos of raised garden beds.
+  </subtopic>
+</topic>
+
+<topic number="77" type="ambiguous">
+  <query>bobcat</query>
+  <description>
+    Find dealers that sell or rent Bobcat tractors and construction equipment.
+  </description>
+  <subtopic number="1" type="nav">
+    Find dealers that sell or rent Bobcat tractors and construction equipment.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about wild bobcats.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find attachments for bobcat tractors.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find the homepage of the Bobcat company.
+  </subtopic>
+</topic>
+
+<topic number="78" type="ambiguous">
+  <query>dieting</query>
+  <description>
+    Find "reasonable" dieting advice, that is not fads or medications
+    but reasonable methods for weight loss.
+  </description>
+  <subtopic number="1" type="inf">
+    Find "reasonable" dieting advice, that is not fads or medications
+    but reasonable methods for weight loss.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find tips and charts for counting calories while dieting.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find crash diet plans that promise quick weight loss in a
+    short period of time.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find herbal diet supplements and appetite suppressants.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find recommendations for dieting and exercising.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find information on low-carbohydrate diets.
+  </subtopic>
+</topic>
+
+<topic number="79" type="ambiguous">
+  <query>voyager</query>
+  <description>
+    Find information about the NASA Voyager spacecraft and missions.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage for the NASA Voyager mission.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about the NASA Voyager spacecraft and missions.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about the television series, "Star Trek: Voyager"
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find the homepage of the Voyager Learning Programs.
+  </subtopic>
+  <subtopic number="5" type="inf">
+  </subtopic>
+</topic>
+
+<topic number="80" type="ambiguous">
+  <query>keyboard reviews</query>
+  <description>
+    Find reviews of computer keyboards.
+  </description>
+  <subtopic number="1" type="nav">
+    Find reviews of computer keyboards.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find reviews of electronic keyboards and digital pianos.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What computer keyboards are best for gaming?
+  </subtopic>
+</topic>
+
+<topic number="81" type="ambiguous">
+  <query>afghanistan</query>
+  <description>
+    Find information about Afghanistan's history, government,
+    religion, and culture.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about Afghanistan's history, government,
+    religion, and culture.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about the war in Afghanistan.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find maps of Afghanistan.
+  </subtopic>
+</topic>
+
+<topic number="82" type="ambiguous">
+  <query>joints</query>
+  <description>
+    Find information about joints in the human body.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about joints in the human body.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find an explanation of the different types of joints used in
+    woodworking.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about joint pain and how to treat it.
+  </subtopic>
+</topic>
+
+<topic number="83" type="ambiguous">
+  <query>memory</query>
+  <description>
+    Find information about human memory.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about human memory.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on various types of computer memory, and how they
+    are different.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find vendors that sell computer memory upgrades.
+  </subtopic>
+</topic>
+
+<topic number="84" type="faceted">
+  <query>continental plates</query>
+  <description>
+    Find information on plate tectonics and the major continental plates.
+  </description>
+  <subtopic number="1" type="nav">
+    Find maps of the continental plates.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find pages that give information on and evidence for continental drift.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find background information on plate tectonics and the lithosphere.
+  </subtopic>
+</topic>
+
+<topic number="85" type="faceted">
+  <query>milwaukee journal sentinel</query>
+  <description>
+    Find information from the Milwaukee Journal Sentinel.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the Milwaukee Journal Sentinel web site.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the sports section of the Milwaukee Journal Sentinel.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find archives of articles from the Milwaukee Journal Sentinel.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find obituaries and archived obituaries from the Milwaukee Journal Sentinel.
+  </subtopic>
+</topic>
+
+<topic number="86" type="ambiguous">
+  <query>bart sf</query>
+  <description>
+    Find information about the BART (Bay Area Rapid
+    Transit) system in San Francisco.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the BART homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find BART train schedules and fares.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find maps of the BART system.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find a site that automatically plans trips on the BART system.
+  </subtopic>
+</topic>
+
+<topic number="87" type="faceted">
+  <query>who invented music</query>
+  <description>
+    Find information on the history of music.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information on the history and development of music.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find a history of classical music.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on the history of rock and roll music.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Who invented the radio?
+  </subtopic>
+</topic>
+
+<topic number="88" type="faceted">
+  <query>forearm pain</query>
+  <description>
+    Where can I find information about forearm pain?
+  </description>
+  <subtopic number="1" type="inf">
+    What kinds of injuries or conditions can cause forearm pain?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find pages or sites that describe the anatomy of the forearm.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are some exercises recommended for forearm pain?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Are there good home remedies for elbow pain?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about tendinitis in the forearms.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find information about supports and braces for the forearm to
+    prevent injury or lessen pain.
+  </subtopic>
+</topic>
+
+<topic number="89" type="faceted">
+  <query>ocd</query>
+  <description>
+    Find information on obsessive-compulsive disorder.
+  </description>
+  <subtopic number="1" type="inf">
+    Find basic background information on obsessive-compulsive disorder
+    (OCD).
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are the symptoms of obsessive-compulsive disorder?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What medications are used for treating OCD?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find personal stories about living with OCD.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about OCD in children and how to identify it.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find strategies for parents of children with OCD.
+  </subtopic>
+</topic>
+
+<topic number="90" type="ambiguous">
+  <query>mgb</query>
+  <description>
+    Find information on the MGB sports car.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about the MGB sports car.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find sites for MGB car owners and enthusiasts.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on mini gastric bypass surgery.
+  </subtopic>
+</topic>
+
+<topic number="91" type="faceted">
+  <query>er tv show</query>
+  <description>
+    Find information about the television show "ER".
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage for ER.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find summaries of episodes from the show ER.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find episodes of ER I can download or watch online.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find music that featured on the show ER.
+  </subtopic>
+</topic>
+
+<topic number="92" type="ambiguous">
+  <query>the wall</query>
+  <description>
+    Find information about the Pink Floyd album, "The Wall"
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about the Pink Floyd album, "The Wall"
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Where can I buy Pink Floyd's album, "The Wall"?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about the Vietnam Veterans Memorial in
+    Washington, DC.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find sites devoted to the Vietnam Veterans Memorial, such as
+    virtual tours and databases of names inscribed on the wall.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about the movie "Pink Floyd The Wall".
+  </subtopic>
+</topic>
+
+<topic number="93" type="ambiguous">
+  <query>raffles</query>
+  <description>
+    Find the homepage of Raffles Hotel in Singapore.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage of Raffles Hotel in Singapore.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find biographical information about Sir Stamford Raffles.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on organizing a raffle, for example for a charity
+    or school.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find the homepage of the Raffles hotel in Dubai.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about car raffles.
+  </subtopic>
+</topic>
+
+<topic number="94" type="ambiguous">
+  <query>titan</query>
+  <description>
+    Find information on the Nissan Titan truck.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information on the Nissan Titan truck.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the homepage for Titan watches.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find the homepage for Titan motorcycles.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about Saturn's moon, Titan.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Find the homepage of the Tennessee Titans.
+  </subtopic>
+</topic>
+
+<topic number="95" type="ambiguous">
+  <query>earn money at home</query>
+  <description>
+    What is behind various "earn money at home" scams?
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about "earn money at home" scams.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Are there legitimate opportunities to earn money working online
+    from home?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on starting a home business.
+  </subtopic>
+</topic>
+
+<topic number="96" type="ambiguous">
+  <query>rice</query>
+  <description>
+    Find recipes for rice.
+  </description>
+  <subtopic number="1" type="inf">
+    Find recipes for rice, for example fried rice or rice pudding.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the homepage of Rice University.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find biographical information about former Secretary of State
+    Condoleeza Rice.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What is the nutritional value of white rice?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    RICE is an acronym for Rest, Ice, Compression and Elevation, used
+    in treating soft tissue injuries.  Find information on doing it
+    effectively.
+  </subtopic>
+</topic>
+
+<topic number="97" type="ambiguous">
+  <query>south africa</query>
+  <description>
+    Find information about the history, culture, and geography of South Africa
+  </description>
+  <subtopic number="1" type="inf">
+    Find pages that give the history of South Africa.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find maps of South Africa.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find interesting and/or fun facts about South Africa for kids.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find pictures of South Africa.
+  </subtopic>
+</topic>
+
+<topic number="98" type="faceted">
+  <query>sat</query>
+  <description>
+    Find information on taking the SAT college entrance exam.
+  </description>
+  <subtopic number="1" type="inf">
+    How do I register to take the SAT exam?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find general information about the SATs.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are typical and good ranges for SAT scores?  What is the
+    average score?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on test preparation materials and courses for the SAT.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Take me to the homepage of the College Board, authors of the SAT.
+  </subtopic>
+</topic>
+
+<topic number="99" type="ambiguous">
+  <query>satellite</query>
+  <description>
+    Find background information about man-made satellites.
+  </description>
+  <subtopic number="1" type="inf">
+    Find background information about man-made satellites.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find satellite maps and geographic images.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find providers of satellite television.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about satellite telephones.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Find providers of satellite internet service.    
+  </subtopic>
+  <subtopic number="6" type="nav">
+    Find providers of satellite radio systems.    
+  </subtopic>
+</topic>
+
+<topic number="100" type="faceted">
+  <query>rincon puerto rico</query>
+  <description>
+    Find information about Rincon, Puerto Rico.
+  </description>
+  <subtopic number="1" type="inf">
+    Find hotels and beach resorts in Rincon, Puerto Rico.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on the history of Rincon, Puerto Rico.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find surf forecasts for Rincon, Puerto Rico.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find pictures of Rincon, Puerto Rico.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about real estate and rental properties in
+    Rincon, Puerto Rico.
+  </subtopic>
+</topic>
+
+</webtrack2010>

@@ -1,0 +1,1123 @@
+<?xml version="1.0"?>
+<!DOCTYPE webtrack2009 [
+  <!ELEMENT webtrack2009 (topic)*>
+  <!ELEMENT topic (query, description, subtopic+)>
+    <!ATTLIST topic 
+              number CDATA #REQUIRED
+              type (ambiguous|faceted|other) "ambiguous">
+   <!ELEMENT query (#PCDATA)>
+  <!ELEMENT description (#PCDATA)>
+  <!ELEMENT subtopic (#PCDATA)>
+    <!ATTLIST subtopic 
+              number CDATA #REQUIRED
+              type (nav|inf) "inf">
+]>
+<webtrack2009>
+
+<topic number="1" type="faceted">
+  <query>obama family tree</query>
+  <description>Find information on President Barack Obama's family
+  history, including genealogy, national origins, places and dates of
+  birth, etc.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the TIME magazine photo essay "Barack Obama's Family Tree".
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Where did Barack Obama's parents and grandparents come from?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find biographical information on Barack Obama's mother.
+  </subtopic>
+</topic>
+
+<topic number="2" type="faceted">
+  <query>french lick resort and casino</query>
+  <description>Find information on French Lick Resort and Casino in
+  Indiana.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage for French Lick Resort and Casino.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What casinos are located within a day's drive of French Lick
+    Resort and Casino?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What jobs are available at French Lick Casino and Resort?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Are there discounted packages for staying at French Lick Resort
+    and Casino?
+  </subtopic>
+</topic>
+
+<topic number="3" type="faceted">
+  <query>getting organized</query>
+  <description>Find tips, resources, supplies for getting organized
+  and reducing clutter.
+  </description>
+  <subtopic number="1" type="inf">
+    Find tips on getting organized, both reducing clutter and managing time.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Take me to the Container Store homepage.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find catalogs of office supplies for organization and decluttering.
+  </subtopic>
+</topic>
+
+<topic number="4" type="faceted">
+  <query>toilet</query>
+  <description> Find information on buying, installing, and repairing
+  toilets.
+  </description>
+  <subtopic number="1" type="inf">
+    What different kinds of toilets exist, and how do they differ?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I'm looking for companies that manufacture residential toilets.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Where can I buy parts for American Standard toilets?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How do I fix a toilet that isn't working properly?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    What companies manufacture bidets?
+  </subtopic>
+  <subtopic number="6" type="inf">
+    I'm looking for a Kohler wall-hung toilet.  Where can I buy one?
+  </subtopic>
+</topic>
+
+<topic number="5" type="faceted">
+  <query>mitchell college</query>
+  <description> Find information about Mitchell College in New London,
+  CT, such as a prospective student might find useful.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage for Mitchell College.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the homepage for the athletics department at Mitchell College.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find web pages that compare Mitchell College to other colleges in
+    Connecticut.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on admissions to Mitchell College.  How do I
+    become a student there?
+  </subtopic>
+</topic>
+
+<topic number="6" type="ambiguous">
+  <query>kcs</query>
+  <description>Find information on the Kansas City Southern railroad.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the homepage for the Kansas City Southern railroad.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I'm looking for a job with the Kansas City Southern railroad.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find the homepage for Kanawha County Schools in West Virginia.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find the homepage for the Knox County School system in Tennessee.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information on KCS Energy, Inc., and their merger with
+    Petrohawk Energy Corporation.
+  </subtopic>
+</topic>
+
+<topic number="7" type="faceted">
+  <query>air travel information</query>
+  <description>Find information on air travel, airports, and airline
+  companies.
+  </description>
+  <subtopic number="1" type="inf">
+    What restrictions are there for checked baggage during air travel?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are the rules for liquids in carry-on luggage?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find sites that collect statistics and reports about airports,
+    such as flight delays, weather conditions, etc.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find the AAA's website with air travel tips.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Find the website at the Transportation Security Administration
+    (TSA) that offers air travel tips.
+  </subtopic>
+</topic>
+
+<topic number="8" type="ambiguous">
+  <query>appraisals</query>
+  <description>How are home values appraised?  I want to know how home
+  appraisals are done.
+  </description>
+  <subtopic number="1" type="inf">
+    What companies can give an appraisal of my home's value?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I'm looking for companies that appraise jewelry.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find examples of employee performance appraisals.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    I'm looking for web sites that do antique appraisals.
+  </subtopic>
+</topic>
+
+<topic number="9" type="faceted">
+  <query>used car parts</query>
+  <description>I am looking for sources for parts for cars, preferably
+  used.
+  </description>
+  <subtopic number="1" type="inf">
+    I'm looking for online sites that sell car parts.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    I'm looking for the car-part.com web site.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I want to find a salvage or junk yard.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for parts for commercial vehicles such as heavy trucks
+    and semis.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    I'm looking for the autozone.com web site.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    I want to find online sources for NAPA parts.
+  </subtopic>
+</topic>
+
+<topic number="10" type="faceted">
+  <query>cheap internet</query>
+  <description>I'm looking for cheap (i.e. low-cost) internet service.
+  </description>
+  <subtopic number="1" type="inf">
+    What are some low-cost broadband internet providers?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Do any internet providers still sell dial-up?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Who can provide inexpensive digital cable television bundled with
+    internet service?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    I'm looking for the Vonage homepage.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find me some providers of free wireless internet access.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    I want to find cheap DSL providers.
+  </subtopic>
+  <subtopic number="7" type="inf">
+    Is there a way to get internet access without phone service?
+  </subtopic>
+  <subtopic number="8" type="nav">
+    Take me to Comcast's homepage.
+  </subtopic>
+</topic>
+
+<topic number="11" type="faceted">
+  <query>gmat prep classes</query>
+  <description>I'm looking for information to help me prepare for the
+  GMAT exam.
+  </description>
+  <subtopic number="1" type="inf">
+    Who are some companies that offer GMAT prep classes?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I'm looking for some free sample GMAT exams to practice on.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I'd like to find some tips to help me do well on the GMAT.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    I'm looking for the BeatTheGMAT blog and forums.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Take me to the VeritasPrep home page.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    What's the difference between the GRE and the GMAT?
+  </subtopic>
+</topic>
+
+<topic number="12" type="faceted">
+  <query>djs</query>
+  <description>I'm looking to hire a disc jockey.
+  </description>
+  <subtopic number="1" type="inf">
+    I'm looking for DJs that specialize in hip-hop music.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I want to hire a DJ for a wedding.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How do I become a radio disc jockey?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What jobs are available for disc jockeys?
+  </subtopic>
+</topic>
+
+<topic number="13" type="ambiguous">
+  <query>map</query>
+  <description>I'm looking for online mapping sites.
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the Google Maps homepage.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Take me to the MSN Maps homepage.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    I want to go to the Yahoo Maps homepage.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    I'm looking for MapQuest's homepage.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    I want to find free printable maps.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    I want to find sources for satellite maps and live satellite photos.
+  </subtopic>
+  <subtopic number="7" type="inf">
+    I'm looking for an online world atlas.
+  </subtopic>
+</topic>
+
+<topic number="14" type="faceted">
+  <query>dinosaurs</query>
+  <description>I want to find information about and pictures of dinosaurs.
+  </description>
+  <subtopic number="1" type="nav">
+    Go to the Discovery Channel's dinosaur site, which has pictures of
+    dinosaurs and games.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I'm looking for free pictures of dinosaurs.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I want to find pictures of dinosaurs that I can color in, as in a
+    coloring book.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for a list of all (or many of) the different kinds of
+    dinosaurs, with pictures.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Take me to the homepage for the BBC series, "Walking with Dinosaurs".
+  </subtopic>
+</topic>
+
+<topic number="15" type="ambiguous">
+  <query>espn sports</query>
+  <description>I'm looking for various sports scores and information
+  from the ESPN Sports site.
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the ESPN Sports home page.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I'm looking for college football and basketball scores.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I want to find NBA basketball standings.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for baseball scores and information on upcoming live
+    broadcast games.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    I'm looking for information on NASCAR races.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    I'm looking for information on fantasy football leagues.
+  </subtopic>
+</topic>
+
+<topic number="16" type="faceted">
+  <query>arizona game and fish</query>
+  <description>I'm looking for information about fishing and hunting
+  in Arizona.
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the Arizona Game and Fish Department homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are the regulations for hunting and fishing in Arizona?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    I'm looking for the Arizona Fishing Report site.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'd like to find guides and outfitters for hunting trips in Arizona.
+  </subtopic>
+</topic>
+
+<topic number="17" type="faceted">
+  <query>poker tournaments</query>
+  <description>I want to find information about live and online poker
+  tournaments.
+  </description>
+  <subtopic number="1" type="inf">
+    I want to find information on the World Series of Poker.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I'm looking for a schedule of poker tournaments in Las Vegas.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Take me to the Full Tilt Poker website.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for a schedule of poker tournaments in Atlantic City.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    I want to find Texas Hold-Em tournaments.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find books on tournament poker playing.
+  </subtopic>
+</topic>
+
+<topic number="18" type="faceted">
+  <query>wedding budget calculator</query>
+  <description>I'm looking for information on planning and budgeting
+  for a wedding.
+  </description>
+  <subtopic number="1" type="inf">
+    I want to find online guides, tips, and checklists for planning a
+    wedding.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I am looking for spreadsheets or templates to help me tabulate a
+    budget for a wedding.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I want to find some example wedding budgets.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for information on planning a wedding shower, like
+    theme ideas and budget guidelines.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    How can I plan an inexpensive wedding?
+  </subtopic>
+</topic>
+
+<topic number="19" type="ambiguous">
+  <query>the current</query>
+  <description>I'm looking for the homepage of The Current, a program
+  on Minnesota Public Radio.
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the homepage of The Current, a program on Minnesota
+    Public Radio.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    I'm looking for the homepage of The Current newspaper in New Jersey.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    I want to find the homepage of The Current newspaper in Hartford.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    I want to find the homepage of The Current magazine in San Antonio.
+  </subtopic>
+</topic>
+
+<topic number="20" type="ambiguous">
+  <query>defender</query>
+  <description>I'm looking for the homepage of Windows Defender, an
+  anti-spyware program.
+  </description>
+  <subtopic number="1" type="nav">
+    I'm looking for the homepage of Windows Defender, an anti-spyware
+    program.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on the Land Rover Defender sport-utility vehicle.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    I want to go to the homepage for Defender Marine Supplies.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for information on Defender, an arcade game by
+    Williams.  Is it possible to play it online?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    I'd like to find user reports about Windows Defender, particularly
+    problems with the software.
+  </subtopic>
+  <subtopic number="6" type="nav">
+    Take me to the homepage for the Chicago Defender newspaper.
+  </subtopic>
+</topic>
+
+<topic number="21" type="faceted">
+  <query>volvo</query>
+  <description>I'm looking for information on Volvo cars and trucks.
+  </description>
+  <subtopic number="1" type="nav">
+    I'm looking for Volvo's homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find reviews of the Volvo XC90 SUV.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Where can I find Volvo semi trucks for sale (new or used)?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find a Volvo dealer.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find an online source for Volvo parts.
+  </subtopic>
+</topic>
+
+<topic number="22" type="faceted">
+  <query>rick warren</query>
+  <description>I'm looking for information on Rick Warren, the
+  evangelical minister.
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to Rick Warren's homepage.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    I'm looking for the homepage for Rick Warren's book, "The Purpose
+    Driven Life".
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I'm looking for background and biographical information on Rick
+    Warren.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I want to see articles and web pages about the controversy over
+    Rick Warren's invocation at the Obama inauguration.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    I want to read about the debate between John McCain and Barack
+    Obama hosted by Rick Warren.
+  </subtopic>
+</topic>
+
+<topic number="23" type="ambiguous">
+  <query>yahoo</query>
+  <description>I'm looking for different sites hosted by Yahoo!
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the Yahoo! homepage.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Take me to Yahoo! Mail.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    I'm looking for the Yahoo! Messenger homepage.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Take me to Yahoo! Finance.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    I'm looking for the Yahoo! Music homepage.
+  </subtopic>
+  <subtopic number="6" type="nav">
+    I want to log in to my Yahoo! account.
+  </subtopic>
+  <subtopic number="7" type="inf">
+    Find information about Yahoo!, the company.
+  </subtopic>
+</topic>
+
+<topic number="24" type="faceted">
+  <query>diversity</query>
+  <description>Find information on diversity, both culturally and in
+  the workplace.
+  </description>
+  <subtopic number="1" type="inf">
+    How is workplace diversity achieved and managed?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find free activities and materials for running a diversity
+    training program in my office.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What is cultural diversity?  What is prejudice?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find quotes, poems, and/or artwork illustrating and promoting diversity.
+  </subtopic>
+</topic>
+
+<topic number="25" type="ambiguous">
+  <query>euclid</query>
+  <description>Find information on the Greek mathematician Euclid.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information on the Greek mathematician Euclid.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I'm looking for a source for Euclid truck parts.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Take me to the homepage for Euclid Industries.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Take me to the homepage for the Euclid Chemical company.
+  </subtopic>
+</topic>
+
+<topic number="26" type="faceted">
+  <query>lower heart rate</query>
+  <description>How can I lower my heart rate?
+  </description>
+  <subtopic number="1" type="inf">
+    What causes the heart to beat faster or slower?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What is a normal heart rate when a person is resting?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How can I lower my heart rate?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Is a higher heart rate related to high blood pressure or
+    cholesterol?
+  </subtopic>
+</topic>
+
+<topic number="27" type="faceted">
+  <query>starbucks</query>
+  <description>Find information about the coffee company Starbucks.
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the Starbucks homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What is the balance on my Starbucks gift card?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find the menu from Starbucks, with prices.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find calorie counts and other nutritional information about
+    Starbucks products.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find recipes from Starbucks, either for making or using Starbucks
+    products.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    I'm looking for locations of Starbucks stores worldwide.
+  </subtopic>
+</topic>
+
+<topic number="28" type="ambiguous">
+  <query>inuyasha</query>
+  <description>Find information about InuYasha, the Japanese comic
+  book and animated cartoon franchise.
+  </description>
+  <subtopic number="1" type="inf">
+    I'm looking for pictures and wallpaper images from InuYasha.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find InuYasha anime episodes for download.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find games based on the InuYasha series, either online or for game
+    systems.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    I'm looking for InuYasha fan forums and websites.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find music from the InuYasha television series.
+  </subtopic>
+</topic>
+
+<topic number="29" type="faceted">
+  <query>ps 2 games</query>
+  <description>Find information, reviews, and cheat codes for
+  Playstation 2 games.
+  </description>
+  <subtopic number="1" type="inf">
+    Find reviews of PlayStation 2 games.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Where can I find cheat codes for PlayStation 2 games?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I'm looking for sites that announce new PlayStation 2 games.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Where can I buy used PlayStation 2 games?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    What are the specifications of the PlayStation 2 console?
+  </subtopic>
+</topic>
+
+<topic number="30" type="faceted">
+  <query>diabetes education</query>
+  <description>I'm looking for online resources to learn and teach
+  others about diabetes.
+  </description>
+  <subtopic number="1" type="inf">
+    Find free diabetes education materials such as videos, pamphlets,
+    and books.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Take me to the NIH National Diabetes Education Program homepage.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Take me to the American Association of Diabetes Educators homepage.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for nutrition and diet information for diabetics.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Where can I get free diabetes education posters?
+  </subtopic>
+  <subtopic number="6" type="inf">
+    How can I become a diabetes educator?
+  </subtopic>
+</topic>
+
+<topic number="31" type="faceted">
+  <query>atari</query>
+  <description>Find information about Atari, its game consoles and games.
+  </description>
+  <subtopic number="1" type="inf">
+    I want to read about the history of the Atari 2600 and other Atari
+    game consoles.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    I am looking for a site where I can play old Atari games online.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about classic Atari games.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about Atari arcade games.
+  </subtopic>
+</topic>
+
+<topic number="32" type="faceted">
+  <query>website design hosting</query>
+  <description>I'm looking for information on designing a business
+  website and finding hosting for it.
+  </description>
+  <subtopic number="1" type="inf">
+    What are the cheapest web hosting companies?  Who offers free web
+    hosting?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Where can I register a domain name?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find sites that offer free DNS hosting.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find reviews of web hosting services, geared towards small
+    business needs.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    I'm looking for information and courses on designing web sites.
+  </subtopic>
+</topic>
+
+<topic number="33" type="faceted">
+  <query>elliptical trainer</query>
+  <description>Find information about elliptical trainer machines.
+  </description>
+  <subtopic number="1" type="inf">
+    I'm looking for reviews of elliptical machines.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Where can I buy a used or discounted elliptical trainer?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are the benefits of an elliptical trainer compared to other
+    fitness machines?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What are the best elliptical trainers for home use?
+  </subtopic>
+</topic>
+
+<topic number="34" type="faceted">
+  <query>cell phones</query>
+  <description>Find information about cell phones and cellular
+  service providers.
+  </description>
+  <subtopic number="1" type="inf">
+    What free phones are available from different vendors?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Go to AT&amp;T's cell phones page.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Go to Verizon's page that lists phones for sale.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on prepaid cell phones.  What companies offer
+    them?  What kind of phones are available?
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Go to Nokia's home page.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    What cell phone companies offer Motorola phones?
+  </subtopic>
+  <subtopic number="7" type="nav">
+    Go to Sprint's page that lists phones for sale.
+  </subtopic>
+  <subtopic number="8" type="inf">
+    Where can I find information on buying unlocked phones?
+  </subtopic>
+</topic>
+
+<topic number="35" type="faceted">
+  <query>hoboken</query>
+  <description>Find information on the city of Hoboken, New Jersey.
+  </description>
+  <subtopic number="1" type="inf">
+    Find restaurants in Hoboken.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the homepage for the city of Hoboken, NJ.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I'm looking for the history of Hoboken, NJ.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for information on bars and nightclubs in Hoboken, NJ.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find real estate listings for Hoboken, NJ.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find a street-level map of Hoboken, NJ.
+  </subtopic>
+</topic>
+
+<topic number="36" type="faceted">
+  <query>gps</query>
+  <description>I'm looking for information about and comparisons of
+  GPS receivers.
+  </description>
+  <subtopic number="1" type="inf">
+    Find reviews of GPS units and car navigation systems.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Take me to the Garmin homepage.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Take me to GPS Magazine.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find reviews of digital cameras with built-in GPS.
+  </subtopic>
+</topic>
+
+<topic number="37" type="faceted">
+  <query>pampered chef</query>
+  <description>Find out about hosting a cooking show from The Pampered Chef
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the Pampered Chef homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    How do I host a Pampered Chef cooking show?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How do I become a Pampered Chef consultant?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find some recipes from The Pampered Chef.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    I would like to find reviews of The Pampered Chef programs,
+    products, and recipes.
+  </subtopic>
+</topic>
+
+<topic number="38" type="faceted">
+  <query>dogs for adoption</query>
+  <description>I want to adopt a dog.  Where can I do that and what
+  should I know?
+  </description>
+  <subtopic number="1" type="inf">
+    Find organizations that offer dogs for adoption.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Take me to the homepage of the Humane Society.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What should I know about adopting a dog?
+  </subtopic>
+</topic>
+
+<topic number="39" type="faceted">
+  <query>disneyland hotel</query>
+  <description>Find information about hotels near Disneyland in
+  Anaheim, California.
+  </description>
+  <subtopic number="1" type="inf">
+    What hotels are near Disneyland?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on package deals from hotels near Disneyland.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find reviews of Disneyland hotels.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find special offers such as reduced ticket rates at Disneyland.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Take me to the hotel listing at the Disneyland web site.
+  </subtopic>
+</topic>
+
+<topic number="40" type="faceted">
+  <query>michworks</query>
+  <description>Find information on getting a job in Michigan.
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the michworks Michigan Talent Bank homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What jobs are available in Michigan?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find career resources and information on job seeking in Michigan.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about services available to the unemployed in
+    Michigan.
+  </subtopic>
+</topic>
+
+<topic number="41" type="faceted">
+  <query>orange county convention center</query>
+  <description>Looking for information about the Orange County
+  Convention Center in Orlando, Florida.
+  </description>
+  <subtopic number="1" type="nav">
+    Take me to the Orange County Convention Center homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find a schedule of events taking place at the Orange County
+    Convention Center.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How do I reserve the Orange County Convention Center for an event?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What hotels are near the Orange County Convention Center?
+  </subtopic>
+</topic>
+
+<topic number="42" type="faceted">
+  <query>the music man</query>
+  <description>Find songs, lyrics, music, and information about the
+  musical The Music Man
+  </description>
+  <subtopic number="1" type="inf">
+    Find lyrics for songs from The Music Man.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find current performances of The Music Man.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find recordings of songs from The Music Man.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    I'm looking for the script for The Music Man.
+  </subtopic>
+</topic>
+
+<topic number="43" type="faceted">
+  <query>the secret garden</query>
+  <description>Find information and reviews about The Secret Garden
+  book by Frances Hodgson Burnett, as well as movies and the musical
+  based on it.
+  </description>
+  <subtopic number="1" type="inf">
+    Find reviews of the book The Secret Garden.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find reviews of the various TV and movie adaptations of The Secret
+    Garden.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I'm looking for biographical notes about Frances Hodgson Burnett.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about the Broadway musical The Secret Garden.
+  </subtopic>
+</topic>
+
+<topic number="44" type="ambiguous">
+  <query>map of the united states</query>
+  <description>Find maps of the United States.
+  </description>
+  <subtopic number="1" type="inf">
+    Find US road maps.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find detailed geographic maps of the United States.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find political maps of the United States showing the states and
+    their capitals.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find printable maps of the United States.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find a black-and-white outline map of the United States such that
+    a child could color.
+  </subtopic>
+</topic>
+
+<topic number="45" type="faceted">
+  <query>solar panels</query>
+  <description>Find information about solar panels and companies that
+  manufacture them.
+  </description>
+  <subtopic number="1" type="inf">
+    What kinds of solar panels and photovoltaic cells are there?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Go to the JA Solar homepage.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Go to the Solarfun homepage.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about solar panels that I can install on my home.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Go to the homepage for Evergreen Solar.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find information about nano-technological solar power.
+  </subtopic>
+</topic>
+
+<topic number="46" type="faceted">
+  <query>alexian brothers hospital</query>
+  <description>Find information about the Alexian Brothers and
+  hospitals they run.
+  </description>
+  <subtopic number="1" type="nav">
+    Go to the Alexian Brothers Health System homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about the Alexian Brothers lay Catholic order.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find Alexian Brothers hospitals.
+  </subtopic>
+</topic>
+
+<topic number="47" type="faceted">
+  <query>indexed annuity</query>
+  <description>I'm looking for information about indexed annuities.
+  </description>
+  <subtopic number="1" type="inf">
+    What is an indexed annuity?  What are their advantages and
+    disadvantages?  What kinds of indexed annuities are there?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Where can I buy an indexed annuity?  What investment companies
+    offer them?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find ratings of indexed annuities.
+  </subtopic>
+</topic>
+
+<topic number="48" type="faceted">
+  <query>wilson antenna</query>
+  <description>Find information about Wilson CB antennas.
+  </description>
+  <subtopic number="1" type="nav">
+    Go to the Wilson Antenna homepage.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What kinds of CB antennas does Wilson Antenna sell?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Where can I buy used Wilson Antennas?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What is the best antenna from Wilson for a big truck?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find reviews of Wilson antennas.
+  </subtopic>
+</topic>
+
+<topic number="49" type="ambiguous">
+  <query>flame designs</query>
+  <description>I am looking for flame graphics to use on a website.
+  </description>
+  <subtopic number="1" type="inf">
+    Find free flame design clipart I can use on a website.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    How do I make realistic flame images using Photoshop?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I'm looking for good flame tattoo designs.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find pictures of flames and fire.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    I want to find flame design decals I can put on my car or motorcycle.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    I'm looking for flame design stencils.
+  </subtopic>
+</topic>
+
+<topic number="50" type="ambiguous">
+  <query>dog heat</query>
+  <description>What is the effect of excessive heat on dogs?
+  </description>
+  <subtopic number="1" type="inf">
+    What is the effect of excessive heat on dogs?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are symptoms of heat stroke and other heat-related illnesses
+    in dogs?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on dogs' reproductive cycle.  What does it mean
+    when a dog is "in heat"?
+  </subtopic>
+</topic>
+
+</webtrack2009>

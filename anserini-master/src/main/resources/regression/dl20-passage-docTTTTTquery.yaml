@@ -1,0 +1,166 @@
+---
+corpus: msmarco-passage-docTTTTTquery
+corpus_path: collections/msmarco/passage-docTTTTTquery
+
+index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw
+collection: JsonCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 9
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 1986612263
+
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric: NDCG@10
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recip_rank -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: RR
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: R@100
+    metric_precision: 4
+    can_combine: false
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric: R@1000
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.txt
+    qrel: qrels.dl20-passage.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.4074
+      NDCG@10:
+        - 0.6187
+      RR:
+        - 0.7326
+      R@100:
+        - 0.7044
+      R@1000:
+        - 0.8452
+  - name: bm25-default+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.4295
+      NDCG@10:
+        - 0.6172
+      RR:
+        - 0.7424
+      R@100:
+        - 0.7153
+      R@1000:
+        - 0.8699
+  - name: bm25-tuned
+    display: BM25 (tuned)
+    params:
+      - -bm25
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
+    results:
+      map:
+        - 0.4082
+      NDCG@10:
+        - 0.6192
+      RR:
+        - 0.7425
+      R@100:
+        - 0.7046
+      R@1000:
+        - 0.8443
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
+      - -rm3
+    results:
+      map:
+        - 0.4296
+      NDCG@10:
+        - 0.6177
+      RR:
+        - 0.7422
+      R@100:
+        - 0.7143
+      R@1000:
+        - 0.8692
+  - name: bm25-tuned2
+    display: BM25 (tuned2)
+    params:
+      - -bm25
+      - -bm25.k1 2.18
+      - -bm25.b 0.86
+    results:
+      map:
+        - 0.4171
+      NDCG@10:
+        - 0.6265
+      RR:
+        - 0.7467
+      R@100:
+        - 0.7044
+      R@1000:
+        - 0.8393
+  - name: bm25-tuned2+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -bm25.k1 2.18
+      - -bm25.b 0.86
+      - -rm3
+    results:
+      map:
+        - 0.4347
+      NDCG@10:
+        - 0.6232
+      RR:
+        - 0.7327
+      R@100:
+        - 0.7109
+      R@1000:
+        - 0.8609

@@ -1,0 +1,254 @@
+[
+  {
+    "question_id": "CQ001",
+    "question": "what is the origin of COVID-19",
+    "query": "coronavirus origin",
+    "background": "seeking information about whether the virus was designed in a lab or occured naturally in animals and how it got to humans"
+  },
+  {
+    "question_id": "CQ002",
+    "question": "how does the coronavirus respond to changes in the weather",
+    "query": "coronavirus response to weather changes",
+    "background": "Seeking information about whether the COVID-19 pandemic will be impacted by the seasons and hot or cold temperatures"
+  },
+  {
+    "question_id": "CQ003",
+    "question": "will SARS-CoV2 infected people develop immunity?",
+    "query": "coronavirus immunity",
+    "background": "seeking information on whether people who have recovered from COVID-19 can have it again, and whether having SARS, or other diseases caused by coronavirus, will improve chances to fight COVID-19"
+  },
+  {
+    "question_id": "CQ004",
+    "question": "how do people die from the coronavirus?",
+    "query": "how do people die from the coronavirus",
+    "background": "seeking information on the known causes of death in people who have COVID-19"
+  },
+  {
+    "question_id": "CQ005",
+    "question": "are there any drugs that work for SARS-CoV or SARS-CoV-2 in animals?",
+    "query": "animal models of COVID-19",
+    "background": "seeking information on what we can learn about the impact of drugs on covid-19 from animal studies and what drugs can treat COVID-19"
+  },
+  {
+    "question_id": "CQ006",
+    "question": "what types of rapid testing for COVID-19 have been developed?",
+    "query": "coronavirus test rapid testing",
+    "background": "seeking information on what tests are used to diagnose COVID-19, how reliable are these tests, Who should be tested and when"
+  },
+  {
+    "question_id": "CQ007",
+    "question": "are there blood tests that detect antibodies to coronavirus?",
+    "query": "blood tests for coronavirus",
+    "background": "seeking information to determine if and what kinds of blood tests will show if a person had COVID, and if the blood tests show if a person is protected from COVID-19"
+  },
+  {
+    "question_id": "CQ008",
+    "question": "has testing availability lead to underreporting of COVID-19?",
+    "query": "coronavirus under reporting",
+    "background": "seeking information on the dangers of underreporting SARS-CoV-2 exposure and whether information about COVID-19 and its impact is skewed because of inadequate testing capacity or underreporting"
+  },
+  {
+    "question_id": "CQ009",
+    "question": "how has COVID-19 affected Canada",
+    "query": "coronavirus in Canada",
+    "background": "seeking information on whether COVID-19 has affected Canada and, if so, to what extent"
+  },
+  {
+    "question_id": "CQ010",
+    "question": "has social distancing had an impact on slowing the spread of COVID-19?",
+    "query": "coronavirus social distancing impact",
+    "background": "seeking information on social distancing, and whether it slows down the pandemic"
+  },
+  {
+    "question_id": "CQ011",
+    "question": "what are the guidelines for triaging patients infected with coronavirus?",
+    "query": "coronavirus hospital rationing",
+    "background": "seeking information on how health personnel decide which COVID-19 patients are prioritized for treatment"
+  },
+  {
+    "question_id": "CQ012",
+    "question": "what are best practices in hospitals and at home in maintaining quarantine?",
+    "query": "coronavirus quarantine",
+    "background": "seeking information on how people who are infected or who were in physical contact with COVID-infected people can protect family members and other people beyond social distancing"
+  },
+  {
+    "question_id": "CQ013",
+    "question": "how does coronavirus spread?",
+    "query": "how does coronavirus spread",
+    "background": "looking for information on all possible ways to contract COVID-19 from people, animals and objects"
+  },
+  {
+    "question_id": "CQ014",
+    "question": "what evidence is there related to COVID-19 super spreaders",
+    "query": "coronavirus super spreaders",
+    "background": "seeking information on what it means to be a super spreader, why or how people become super spreaders, how common they are, and if there any special precautions against them"
+  },
+  {
+    "question_id": "CQ015",
+    "question": "how long can the coronavirus live outside the body",
+    "query": "coronavirus outside body",
+    "background": "seeking information on how long the coronavirus can stay active on solid and liquid food, water, air, food containers and common use surfaces"
+  },
+  {
+    "question_id": "CQ016",
+    "question": "how long does coronavirus survive on surfaces?",
+    "query": "how long does coronavirus survive on surfaces",
+    "background": "seeking information on how long can coronavirus stay active on common use surfaces"
+  },
+  {
+    "question_id": "CQ017",
+    "question": "are there any clinical trials available for the coronavirus",
+    "query": "coronavirus clinical trials",
+    "background": "seeking information on what COVID-19 clinicial trials are available and who can enroll"
+  },
+  {
+    "question_id": "CQ018",
+    "question": "what are the best masks for preventing infection by COVID-19?",
+    "query": "masks prevent coronavirus",
+    "background": "seeking information on what types of masks should or should not be used to prevent infection by Covid-19"
+  },
+  {
+    "question_id": "CQ019",
+    "question": "what hand sanitizers kill COVID-19?",
+    "query": "what alcohol sanitizer kills coronavirus",
+    "background": "seeking information on which hand sanitizers and household cleaning items kill SARS-CoV-2 virus"
+  },
+  {
+    "question_id": "CQ020",
+    "question": "are patients taking Angiotensin-converting enzyme inhibitors (ACE) inhibitors at increased risk for COVID-19?",
+    "query": "coronavirus and ACE inhibitors",
+    "background": "seeking information on how COVID affects people taking Angiotensin-converting enzyme (ACE) inhibitors, and what people need to know if they are taking ACE inhibitors"
+  },
+  {
+    "question_id": "CQ021",
+    "question": "what are the mortality rates overall and in specific populations",
+    "query": "coronavirus mortality",
+    "background": "seeking  information on COVID-19 fatality rates in different countries and in different population groups based on gender, blood types, or other factors"
+  },
+  {
+    "question_id": "CQ022",
+    "question": "are heart complications likely in patients with COVID-19?",
+    "query": "coronavirus heart impacts",
+    "background": "seeking information on whether COVID-19 can cause heart complications, or if the condition will worsen in people who already have heart disease"
+  },
+  {
+    "question_id": "CQ023",
+    "question": "what kinds of complications related to COVID-19 are associated with hypertension?",
+    "query": "coronavirus hypertension",
+    "background": "seeking information on what people with high blood pressure need to know about COVID-19"
+  },
+  {
+    "question_id": "CQ024",
+    "question": "what kinds of complications related to COVID-19 are associated with diabetes",
+    "query": "coronavirus diabetes",
+    "background": "seeking information on what people with diabetes need to know about COVID-19"
+  },
+  {
+    "question_id": "CQ025",
+    "question": "which tests indicate severe covid infection?",
+    "query": "coronavirus biomarkers",
+    "background": "seeking information on tests that predict which patients will develop severe COVID-19 symptoms and complications"
+  },
+  {
+    "question_id": "CQ026",
+    "question": "what are the early symptoms of COVID-19?",
+    "query": "coronavirus early symptoms",
+    "background": "seeking information on symptoms that show a patient is developing COVID-19"
+  },
+  {
+    "question_id": "CQ027",
+    "question": "what is known about people that have COVID-19 without any symptoms?",
+    "query": "coronavirus asymptomatic",
+    "background": "Seeking information on people that have COVID-19 without any symptoms"
+  },
+  {
+    "question_id": "CQ028",
+    "question": "does hydroxychloroquine treat COVID-19?",
+    "query": "coronavirus hydroxychloroquine",
+    "background": "Seeking information on evidence that hydroxychloroquine treats COVID-19"
+  },
+  {
+    "question_id": "CQ029",
+    "question": "are there any existing drugs that could repurposed to treat COVID-19?",
+    "query": "coronavirus drug repurposing",
+    "background": "Seeking information on which SARS-CoV-2 protein-protein interactions indicate potential for drug targets, whether there are approved drugs that can be repurposed based on this information, and if there any known drugs that could be used to treat COVID-19"
+  },
+  {
+    "question_id": "CQ030",
+    "question": "is remdesivir an effective treatment for COVID-19?",
+    "query": "coronavirus remdesivir",
+    "background": "Seeking information on remdesivir treatments for COVID-19"
+  },
+  {
+    "question_id": "CQ031",
+    "question": "how does the coronavirus differ from seasonal flu?",
+    "query": "difference between coronavirus and flu",
+    "background": "Seeking information on the differences in symptoms between COVID-19 and flu, what tests will distinguish between coronavirus and the flu, and the differences in outcomes and complications"
+  },
+  {
+    "question_id": "CQ032",
+    "question": "does SARS-CoV-2 have multiple strains, and if so what are they and how are they different?",
+    "query": "coronavirus subtypes",
+    "background": "seeking information on the different strains of SARS-Cov-2 and if different strains cause different symptoms"
+  },
+  {
+    "question_id": "CQ033",
+    "question": "what vaccine candidates are being tested for COVID-19?",
+    "query": "coronavirus vaccine candidates",
+    "background": "seeking information on how far we are from getting a vaccine, which if any countries have vaccines, and if these vaccines be effective against all types of SARS-CoV-2"
+  },
+  {
+    "question_id": "CQ034",
+    "question": "what are the long-term complications for people who recover from COVID-19?",
+    "query": "coronavirus recovery",
+    "background": "seeking information on any long-lasting complications of COVID-19, whether people can develop chronic lung disease and if there is any permanent organ damage"
+  },
+  {
+    "question_id": "CQ038",
+    "question": "how does COVID-19 cause or contribute to inflammation?",
+    "query": "COVID inflammatory response",
+    "background": "looking for information on how coronavirus causes damage to our body, how the body fights the disease and how the drugs help the body fighting COVID"
+  },
+  {
+    "question_id": "CQ039",
+    "question": "what is a cytokine storm and how is it related to COVID-19?",
+    "query": "COVID-19 cytokine storm",
+    "background": "looking for definitions of cytokine storm, the role of COVID-19 in cytokine storms, what causes it, what happens to the body when it occurs, and if and how it needs to be treated"
+  },
+  {
+    "question_id": "CQ040",
+    "question": "how often are new versions of coronavirus emerging and if they cause more COVID-19 infections or make people sicker?",
+    "query": "coronavirus mutations",
+    "background": "looking for information on new mutations of the virus that are more likely to infect people or make them sicker"
+  },
+  {
+    "question_id": "CQ041",
+    "question": "what are the impacts of COVID-19 among African-Americans that differ from the rest of the U.S. population?",
+    "query": "COVID-19 in African-Americans",
+    "background": "looking for information on and reasons for differences in spread and severity of COVID-19 among African Americans"
+  },
+  {
+    "question_id": "CQ042",
+    "question": "does Vitamin D impact COVID-19 prevention and treatment?",
+    "query": "Vitamin D and COVID-19",
+    "background": "looking for any benefits of taking Vitamin D to avoid or treat COVID-19"
+  },
+  {
+    "question_id": "CQ043",
+    "question": "how has the COVID-19 pandemic impacted violence in society, including violent crimes?",
+    "query": "violence during pandemic",
+    "background": "looking for analyses and data on how the pandemic is impacting rates of violence, including domestic/family violence related to quarantine"
+  },
+  {
+    "question_id": "CQ044",
+    "question": "how much impact do masks have on preventing the spread of the COVID-19?",
+    "query": "impact of masks on coronavirus transmission",
+    "background": "looking for information confirming that wearing masks affects the spead of SARS-CoV-2 virus"
+  },
+  {
+    "question_id": "CQ045",
+    "question": "how has the COVID-19 pandemic impacted mental health?",
+    "query": "coronavirus mental health impact",
+    "background": "seeking information about psychological effects of COVID-19 and COVID-19 effect on mental health and pre-existing conditions"
+  }
+]

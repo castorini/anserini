@@ -1,0 +1,79 @@
+{
+  "topics": [
+    "307",
+    "310",
+    "397",
+    "330",
+    "341",
+    "419",
+    "375",
+    "363",
+    "393",
+    "427",
+    "344",
+    "394",
+    "353",
+    "336",
+    "372",
+    "399",
+    "408",
+    "433",
+    "426",
+    "443",
+    "436",
+    "362",
+    "378",
+    "354",
+    "404",
+    "345",
+    "347",
+    "439",
+    "367",
+    "389",
+    "416",
+    "325",
+    "435"
+  ],
+  "sources": [
+    {
+      "name": "robust05",
+      "qrels": "src/main/resources/topics-and-qrels/qrels.robust2005.txt",
+      "index": "lucene-index.robust05.pos+docvectors+rawdocs"
+    }
+  ],
+  "target": {
+    "name": "core17",
+    "run": "run.core17.bm25+ax.topics.core17.txt",
+    "index": "lucene-index.core17.pos+docvectors+rawdocs"
+  },
+  "classifiers": [
+    "lr"
+  ],
+  "runs": [
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.6",
+      "runtag": "core17_lr_0.6",
+      "output": "core17.ax_lr_0.6.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.7",
+      "runtag": "core17_lr_0.7",
+      "output": "core17.ax_lr_0.7.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "1.0",
+      "runtag": "core17_lr",
+      "output": "core17.ax_lr.txt"
+    }
+  ],
+  "working_directory": "ccrf.05_core17.ax"
+}

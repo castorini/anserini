@@ -1,0 +1,889 @@
+<?xml version="1.0"?>
+<!DOCTYPE webtrack2011 [
+  <!ELEMENT webtrack2011 (topic)*>
+  <!ELEMENT topic (query, description, subtopic+)>
+    <!ATTLIST topic 
+              number CDATA #REQUIRED
+              type (ambiguous|faceted|other) "ambiguous">
+   <!ELEMENT query (#PCDATA)>
+  <!ELEMENT description (#PCDATA)>
+  <!ELEMENT subtopic (#PCDATA)>
+    <!ATTLIST subtopic 
+              number CDATA #REQUIRED
+              type (nav|inf) "inf">
+]>
+<webtrack2011>
+
+<!-- Please note that topic and subtopic types (faceted/ambiguous,
+     inf/nav are meant as a general indicator and should not be taken
+     as definitive aspects of the query intent. -->
+
+<!-- Note that the first subtopic is always identical to the description
+     sentence.  This is to ensure that adhoc-task results are also relevant
+     to the subtopic task. -->
+
+<topic number="101" type="faceted">
+  <query>ritz carlton lake las vegas</query>
+  <description>
+    Find information about the Ritz Carlton resort at Lake Las Vegas.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about the Ritz Carlton resort at Lake Las Vegas.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find a site where I can determine room price and availability.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find directions to the Ritz Carlton Lake Las Vegas.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find reviews of the Ritz Carlton Lake Las Vegas.
+  </subtopic>
+</topic>
+
+<topic number="102" type="faceted">
+  <query>fickle creek farm</query>
+  <description>
+    Find general information about Fickle Creek Farm in North Carolina
+  </description>
+  <subtopic number="1" type="inf">
+    Find general information about Fickle Creek Farm in North Carolina
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Where is Fickle Creek Farm, and how can I go there?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What products do they grow and/or raise there?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Where can I buy products that come from Fickle Creek Farm?
+  </subtopic>
+  <subtopic number="5" type="inv">
+    Find information about staying at the bed and breakfast at Fickle Creek Farm.
+  </subtopic>
+</topic>
+
+<topic number="103" type="faceted">
+  <query>madam cj walker</query>
+  <description>
+    Find historical information about Madam C. J. Walker.
+  </description>
+  <subtopic number="1" type="inf">
+    Find historical information about Madam C. J. Walker.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about the business that C. J. Walker started.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about C. J. Walker's involvement in the political and social issues of her day.
+  </subtopic>
+</topic>
+
+<topic number="104" type="ambiguous">
+  <query>indiana child support</query>
+  <description>
+    Find the official legal rules and procedures pertaining to child support in Indiana.
+  </description>
+  <subtopic number="1" type="inf">
+    Find the official legal rules and procedures pertaining to child support in Indiana.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Help me calculate my child support obligation in Indiana.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find law firms that offer services relevant to child support in Indiana.
+  </subtopic>
+</topic>
+
+
+<topic number="105" type="faceted">
+  <query>sonoma county medical services</query>
+  <description>
+    What medical services are available in Sonoma County, California?
+  </description>
+  <subtopic number="1" type="inf">
+    What medical services are available in Sonoma County, California?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    I'm looking for the home page of the County Medical Services Program (CMSP) of Sonoma County, California.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I am looking for more information about health care coverage for low-income residents ofSonoma County, CA.
+  </subtopic>
+</topic>
+
+<topic number="106" type="faceted">
+  <query>universal animal cuts reviews</query>
+  <description>
+    Find testimonials of Universal Animal Cuts nutritional supplement.
+  </description>
+  <subtopic number="1" type="inf">
+    Find testimonials of Universal Animal Cuts nutritional supplement.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Are Animal Cuts safe to use, and are they effective?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Sites that sell Universal Animal Cuts that include product reviews.
+  </subtopic>
+</topic>
+
+<topic number="107" type="faceted">
+  <query>cass county missouri</query>
+  <description>
+    Find demographic information about Cass County, MO.
+  </description>
+  <subtopic number="1" type="inf">
+    Find demographic information about Cass County, MO.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    What was the 2008 budget for Cass County, MO?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    I am looking for newcomer information for Cass County, Missouri.
+  </subtopic>
+  <subtopic number="4" type="inf">
+   Information about zoning regulations in Cass County, Missouri. 
+  </subtopic>
+  <subtopic number="5" type="inf">
+   What tourist attractions are in Cass County, MO?
+  </subtopic>
+  <subtopic number="6" type="inf">
+   Historical facts about Cass County, Missouri.
+  </subtopic>
+</topic>
+
+
+<topic number="108" type="faceted">
+  <query>ralph owen brewster</query>
+  <description>
+    Find biographical information about Ralph Owen Brester.
+  </description>
+  <subtopic number="1" type="inf">
+    Find biographical information about Ralph Owen Brewster.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What elected offices did Ralph Owen Brewster hold?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What was the relationship between Howard Hughes and Ralph Owen Brewster?
+  </subtopic>
+</topic>
+
+
+<topic number="109" type="faceted">
+  <query>mayo clinic jacksonville fl</query>
+  <description>
+    What medical services are available at the Mayo Clinic in Jacksonville, FL?
+  </description>
+  <subtopic number="1" type="inf">
+    What medical services are available at the Mayo Clinic in Jacksonville, FL?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    How does one request an appointment at the Mayo Clinic in Jacksonville, Florida?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find the contact information for the Mayo Clinic in Jacksonville, FL.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Housing information for outpatients of the Mayo Clinic in Jacksonville, FL.
+  </subtopic>
+</topic>
+
+
+<topic number="110" type="ambiguous">
+  <query>map of brazil</query>
+  <description>
+    What are the boundaries of the political jurisdictions in Brazil?
+  </description>
+  <subtopic number="1" type="inf">
+    What are the boundaries of the political jurisdictions in Brazil?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    I am looking for information about taking a vacation trip to Brazil.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    I want to buy a road map of Brazil.
+  </subtopic>
+</topic>
+
+<topic number="111" type="faceted">
+  <query>lymphoma in dogs</query>
+  <description>
+    What treatments are available for dogs diagnosed with lymphoma?
+  </description>
+  <subtopic number="1" type="inf">
+    What treatments are available for dogs diagnosed with lymphoma?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are the symptoms of lymphoma in dogs?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are the risk factors or causes of lymphoma in dogs?
+  </subtopic>
+</topic>
+
+<topic number="112" type="faceted">
+  <query>kenmore gas water heater</query>
+  <description>
+    reviews of Kenmore gas water heaters
+  </description>
+  <subtopic number="1" type="inf">
+    reviews of Kenmore gas water heaters
+  </subtopic>
+  <subtopic number="2" type="nav">
+    owner manuals for Kenmore (Sears) gas water heaters
+  </subtopic>
+  <subtopic number="3" type="inf">
+    information about Kenmore gas water heaters: specifically, features, energy consumption and safety thereof
+  </subtopic>
+  <subtopic number="4" type="inf">
+    retailers of and price information for Kenmore gas water heaters
+  </subtopic>
+</topic>
+
+<topic number="113" type="faceted">
+  <query>hp mini 2140</query>
+  <description>
+    retailers, including price information, of the HP Mini 2140 notebook computer
+  </description>
+  <subtopic number="1" type="inf">
+    retailers, including price information, of the HP Mini 2140 notebook computer
+  </subtopic>
+  <subtopic number="2" type="inf">
+    product reviews for the HP Mini 2140 notebook computer
+  </subtopic>
+  <subtopic number="3" type="inf">
+    technical specifications of the HP Mini 2140 notebook computer
+  </subtopic>
+</topic>
+
+
+<topic number="114" type="faceted">
+  <query>adobe indian houses</query>
+  <description>
+    How does one build an adobe house?
+  </description>
+  <subtopic number="1" type="inf">
+    How does one build an adobe house?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    information about Indian tribes that used adobe houses 
+  </subtopic>
+  <subtopic number="3" type="nav">
+    I'd like to order books or videos/CDs about how to construct adobe buildings.
+  </subtopic>
+</topic>
+
+
+<topic number="115" type="faceted">
+  <query>pacific northwest laboratory</query>
+  <description>
+    career opportunities at PNL: what openings are currently available, what educational background is required, what prior experience is needed
+  </description>
+  <subtopic number="1" type="inf">
+    career opportunities at PNL: what openings are currently available, what educational background is required, what prior experience is needed
+  </subtopic>
+  <subtopic number="2" type="inf">
+    types of research projects performed at PNL
+  </subtopic>
+  <subtopic number="3" type="nav">
+    home page of the Pacific Northwest National Laboratory
+  </subtopic>
+  <subtopic number="4" type="inf">
+    information about the scientific user facilities of the laboratory
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Who operates (manages) PNL?
+  </subtopic>
+</topic>
+
+<topic number="116" type="faceted">
+  <query>california franchise tax board</query>
+  <description>
+    Find information about the California Franchise Tax Board.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about the California Franchise Tax Board.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    How do I register as a tax preparer?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find contact information for the California FTB.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find tax forms and other information on filing individual taxes.
+  </subtopic>
+</topic>
+
+<topic number="117" type="faceted">
+  <query>dangers of asbestos</query>
+  <description>
+    What specific health problems arise from exposure to asbestos?
+  </description>
+  <subtopic number="1" type="inf">
+    What specific health problems arise from exposure to asbestos?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find basic information about the dangers of asbestos.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find mortality rates due to asbestos exposure.
+  </subtopic>
+</topic>
+
+<topic number="118" type="faceted">
+  <query>poem in your pocket day</query>
+  <description>
+    What is "Poem in Your Pocket Day"?
+  </description>
+  <subtopic number="1" type="inf">
+    What is "Poem in Your Pocket Day"?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find poems written for Poem In Your Pocket Day.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find ideas for how to celebrate Poem in Your Pocket Day and National Poetry Month.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find specific events in New York City connected to Poem In Your Pocket Day.
+  </subtopic>
+</topic>
+
+<topic number="119" type="faceted">
+  <query>interview thank you</query>
+  <description>
+    Get help on writing a thank-you letter after a job interview.
+  </description>
+  <subtopic number="1" type="inf">
+    Get help on writing a thank-you letter after a job interview.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find examples of thank-you letters for sending after an interview.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How can I best end a job interview positively?
+  </subtopic>
+</topic>
+
+<topic number="120" type="faceted">
+  <query>tv on computer</query>
+  <description>
+     Looking for information on how to watch television programming on your computer.
+  </description>
+  <subtopic number="1" type="inf">
+    Looking for information on how to watch television programming on your computer.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    How much does it cost to get TV programs online?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Get technical help for watching TV programs on the computer.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find television channels and shows that I can watch online on my computer.
+  </subtopic>
+</topic>
+
+<topic number="121" type="faceted">
+  <query>sit and reach test</query>
+  <description>
+    Find out what the "sit and reach test" is.
+  </description>
+  <subtopic number="1" type="inf">
+    Find out what the "sit and reach test" is.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    How is this test used in physical rehabilitation treatment?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How is the sit and reach test properly done?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What does the sit and reach test measure?
+  </subtopic>
+</topic>
+
+<topic number="122" type="faceted">
+  <query>culpeper national cemetery</query>
+  <description>
+    What is the history of the Culpeper National Cemetery?
+  </description>
+  <subtopic number="1" type="inf">
+    What is the history of the Culpeper National Cemetery?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Where is the Culpeper National Cemetery located?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    information regarding who can be buried at Culpeper National Cemetery
+  </subtopic>
+</topic>
+
+
+<topic number="123" type="faceted">
+  <query>von willebrand disease</query>
+  <description>
+    What is von Willebrand Disease?
+  </description>
+  <subtopic number="1" type="inf">
+    What is von Willebrand Disease?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are the symptoms of von Willebrand Disease?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What treatments exist for von Willebrand Disease?
+  </subtopic>
+</topic>
+
+<topic number="124" type="faceted">
+  <query>bowflex power pro</query>
+  <description>
+    Find information about the Bowflex Power Pro.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about the Bowflex Power Pro.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find reviews of the Bowflex Power Pro.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find recall notices for the Bowflex Power Pro.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find a retailer from whom I can buy a Bowflex Power Pro.  
+  </subtopic>
+</topic>
+
+<topic number="125" type="faceted">
+  <query>butter and margarine</query>
+  <description>
+    What is the difference between butter and margarine?
+  </description>
+  <subtopic number="1" type="inf">
+    What is the difference between butter and margarine?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What is the difference in regards to cholesterol, calorie count, and other nutritional qualities.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How are butter and margarine made?
+  </subtopic>
+</topic>
+
+<topic number="126" type="ambiguous">
+  <query>us capitol map</query>
+  <description>
+    Find a map of the inside of the US Capitol.
+  </description>
+  <subtopic number="1" type="nav">
+    Find a map of the inside of the US Capitol.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find a map of the area around the US Capitol, including nearby sites to visit.
+  </subtopic>
+</topic>
+
+<topic number="127" type="faceted">
+  <query>dutchess county tourism</query>
+  <description>
+    Find information for tourists about Dutchess County, NY.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information for tourists about Dutchess County, NY.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the homepage of Dutchess County (NY) Tourism.
+  </subtopic>
+</topic>
+
+<topic number="128" type="faceted">
+  <query>atypical squamous cells</query>
+  <description>
+    What do atypical squamous cells mean on a pap smear test?
+  </description>
+  <subtopic number="1" type="inf">
+    What do atypical squamous cells mean on a pap smear test?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on cervical cancer, atypical squamous cells, and human papillomavirus (HPV).
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How often may atypical squamous cells predict cervical cancer?
+  </subtopic>
+</topic>
+
+<topic number="129" type="faceted">
+  <query>iowa food stamp program</query>
+  <description>
+    Find general information about Iowa's food stamps program.
+  </description>
+  <subtopic number="1" type="inf">
+    Find general information about Iowa's food stamps program.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    How do I apply for Iowa's Food Assistance (food stamps) Program?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find the homepage for Iowa's Food Assistance Program?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find statistics for the food stamp program in Iowa.
+  </subtopic>
+</topic>
+
+<topic number="130" type="faceted">
+  <query>fact on uranus</query>
+  <description>
+    Find information about the planet Uranus.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information about the planet Uranus.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the Wikipedia page on Uranus.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on Uranus suitable for elementary-to-middle school students, such as lesson content or interactive sites.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What do we know about Uranus, versus what open questions are there about the planet?
+  </subtopic>
+</topic>
+
+<topic number="131" type="faceted">
+  <query>equal opportunity employer</query>
+  <description>
+    What does the phrase, "equal opportunity employer" mean?
+  </description>
+  <subtopic number="1" type="inf">
+    What does the phrase, "equal opportunity employer" mean?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Whom can I contact if I think I am being discriminated against by an equal opportunity employer?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find the homepage of the Equal Employment Opportunity Commission.
+  </subtopic>
+</topic>
+
+
+<topic number="132" type="faceted">
+  <query>mothers day songs</query>
+  <description>
+    lyrics of songs written for Mothers' Day
+  </description>
+  <subtopic number="1" type="inf">
+    lyrics of songs written for Mothers' Day
+  </subtopic>
+  <subtopic number="2" type="inf">
+    names of artists who have recorded songs about Mother's Day
+  </subtopic>
+</topic>
+
+<topic number="133" type="faceted">
+  <query>all men are created equal</query>
+  <description>
+    Who said "all men are created equal"?
+  </description>
+  <subtopic number="1" type="inf">
+    Who said "all men are created equal"?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    information about the drafting of the Declaration of Independence
+  </subtopic>
+  <subtopic number="3" type="nav">
+    image of the Declaration of Independence at the National Archives
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How has the phrase "all men are created equal" been interpreted over time by the US surpreme Court?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    quotes about independence
+  </subtopic>
+</topic>
+
+<topic number="134" type="faceted">
+  <query>electronic skeet shoot</query>
+  <description>
+    What different types of electronic skeet shooting games are available?
+  </description>
+  <subtopic number="1" type="inf">
+    What different types of electronic skeet shooting games are available?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    product reviews for electronic skeet shooting games
+  </subtopic>
+  <subtopic number="3" type="inf">
+    retailers selling electronic skeet shooting games with price information
+  </subtopic>
+  <subtopic number="4" type="inf">
+    information about product recalls for electronic skeet shooting games
+  </subtopic>
+</topic>
+
+<topic number="135" type="ambiguous">
+  <query>source of the nile</query>
+  <description>
+    how to play the board game "Source of the Nile"
+  </description>
+  <subtopic number="1" type="inf">
+    how to play the board game "Source of the Nile"
+  </subtopic>
+  <subtopic number="2" type="inf">
+    information on the feud between Speke and Burton over the discovery of the source of the Nile river
+  </subtopic>
+  <subtopic number="3" type="inf">
+    map of the Nile River basin
+  </subtopic>
+</topic>
+
+<topic number="136" type="faceted">
+  <query>american military university</query>
+  <description>
+    What are the registration requirements for enrolling at American Military University?
+  </description>
+  <subtopic number="1" type="inf">
+    What are the registration requirements for enrolling at American Military University?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    reviews and commentary on the quality of education received by students at American Military University
+  </subtopic>
+  <subtopic number="3" type="nav">
+    find the home page of the American Military University
+  </subtopic>
+</topic>
+
+<topic number="137" type="faceted">
+  <query>rock and gem shows</query>
+  <description>
+    Looking for locations and dates of rock and gem shows.
+  </description>
+  <subtopic number="1" type="inf">
+    Looking for locations and dates of rock and gem shows.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    rock and gem shows that offer lapidary classes
+  </subtopic>
+  <subtopic number="3" type="inf">
+    information on clubs that host rock and gem shows
+  </subtopic>
+</topic>
+
+<topic number="138" type="faceted">
+  <query>jax chemical company</query>
+  <description>
+    contact information for Jax Chemical Company
+  </description>
+  <subtopic number="1" type="inf">
+    contact information for Jax Chemical Company
+  </subtopic>
+  <subtopic number="2" type="inav">
+    find the home page of the Jax Chemical Company
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What type of surface treatment products does Jax Chemical Company manufacture?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Who are retailers that sell Jax Chemical Company's Green Patina solution?
+  </subtopic>
+</topic>
+
+<topic number="139" type="faceted">
+  <query>rocky mountain news</query>
+  <description>
+    discussion of the impending sale of the Rocky Mountain News
+  </description>
+  <subtopic number="1" type="inf">
+    discussion of the impending sale of the Rocky Mountain News
+  </subtopic>
+  <subtopic number="2" type="nav">
+    home page of the Rocky Mountain News
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Who are the sports reporters for the Rocky Mountain News?
+  </subtopic>
+</topic>
+
+<topic number="140" type="ambiguous">
+  <query>east ridge high school</query>
+  <description>
+    demographics of East Ridge High School in Lick Creek, Kentucky
+  </description>
+  <subtopic number="1" type="inf">
+    demographics of East Ridge High School in Lick Creek, Kentucky
+  </subtopic>
+  <subtopic number="2" type="nav">
+    home page for East Ridge High School in Chattanooga, Tennessee
+  </subtopic>
+  <subtopic number="3" type="inf">
+    information about the sports program at East Ridge High School in Clermont, Florida
+  </subtopic>
+  <subtopic number="4" type="inf">
+    description of the sports facilities at East Ridge High School in Woodbury, MN
+  </subtopic>
+</topic>
+
+
+<topic number="141" type="faceted">
+  <query>va dmv registration</query>
+  <description>
+    information and procedures for registering vehicles in Virginia
+  </description>
+  <subtopic number="1" type="inf">
+    information and procedures for registering vehicles in Virginia
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Where are offices of the Virginia Department of Motor Vehicles located and what are their hours of operation?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    home page of the Virginia Department of Motor Vehicles
+  </subtopic>
+</topic>
+
+<topic number="142" type="ambiguous">
+  <query>illinois state tax</query>
+  <description>
+    information about the sales tax in Illinois: what is the rate and what is it levied on
+  </description>
+  <subtopic number="1" type="inf">
+    information about the sales tax in Illinois: what is the rate and what is it levied on
+  </subtopic> 
+  <subtopic number="2" type="inf">
+    information on the state income tax in Illinois
+  </subtopic>
+  <subtopic number="3" type="nav">
+    find a site where I can download Illinois state tax forms
+  </subtopic>
+</topic>
+
+<topic number="143" type="ambiguous">
+  <query>arkadelphia health club</query>
+  <description>
+    locations and reviews of health clubs in Arkadelphia, Arkansas
+  </description>
+  <subtopic number="1" type="inf">
+    locations and reviews of health clubs in Arkadelphia, Arkansas
+  </subtopic>
+  <subtopic number="2" type="inf">
+    information regarding the locations of and services/facilities provided by the Arkadelphia Health Club
+  </subtopic>
+</topic>
+
+<topic number="144" type="ambiguous">
+  <query>trombone for sale</query>
+  <description>
+    information on where I could buy a new or used trombone
+  </description>
+  <subtopic number="1" type="inf">
+    information on where I could buy a new or used trombone
+  </subtopic> 
+  <subtopic number="2" type="inf">
+    good places to sell a used trombone
+  </subtopic>
+</topic>
+
+<topic number="145" type="ambiguous">
+  <query>vines for shade</query>
+  <description>
+    information on vines that can be grown in shady areas
+  </description>
+  <subtopic number="1" type="inf">
+    information on vines that can be grown in shady areas
+  </subtopic>
+  <subtopic number="2" type="inf">
+    ideas on using plant vines to shade an area on or around my house from the sun, like training them on an inexpensive trellis or up a wall or fence
+  </subtopic>
+</topic>
+
+<topic number="146" type="faceted">
+  <query>sherwood regional library</query>
+  <description>
+    What services are provided by the Sherwood Regional Library?
+  </description>
+  <subtopic number="1" type="inf">
+    What services are provided by the Sherwood Regional Library?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    driving directions to the Sherwood Regional library
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are the hours of operation of the Sherwood Regional Library?
+  </subtopic>
+</topic>
+
+ <topic number="147" type="faceted">
+  <query>tangible personal property tax</query>
+  <description>
+    What is the definition of tangible personal property for tax purposes?
+  </description>
+  <subtopic number="1" type="inf">
+    What is the definition of tangible personal property for tax purposes?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What states levy a tax against tangible personal property?
+  </subtopic>
+  <subtopic number="3" type="inf">
+     When is the tangible personal property tax due?
+  </subtopic>
+</topic>
+
+<topic number="148" type="faceted">
+  <query>martha stewart and imclone</query>
+  <description>
+    find information/timeline about Martha Stewart's insider trading case
+  </description>
+  <subtopic number="1" type="inf">
+    find information/timeline about Martha Stewart's insider trading case
+  </subtopic>
+  <subtopic number="2" type="nav">
+    find sites that support Martha Stewart with respect to the insider trading case
+  </subtopic>
+  <subtopic number="3" type="inf">
+    opinions regarding the insider trading case brought against Martha Stewart
+  </subtopic>
+  <subtopic number="4" type="inf">
+    looking for information on Martha Stewart's involvement with ImClone
+  </subtopic>
+</topic>
+
+<topic number="149" type="faceted">
+  <query>uplift at yellowstone national park</query>
+  <description>
+      How likely is a volcanic eruption at Yellowstone National Park, and what would be the effects of such an eruption?
+  </description>
+  <subtopic number="1" type="inf">
+      How likely is a volcanic eruption at Yellowstone National Park, and what would be the effects of such an eruption?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    information on ground elevation changes and movement resulting from ongoing low-level geothermal activity at Yellowstone National Park
+  </subtopic>
+  <subtopic number="3" type="nav">
+    home page for the Yellowstone Volcano Observatory
+  </subtopic>
+</topic>
+
+<topic number="150" type="faceted">
+  <query>tn highway patrol</query>
+  <description>
+    What are the requirements to become a Tennessee Highway Patrol State Trooper?
+  </description> 
+  <subtopic number="1" type="inf">
+    What are the requirements to become a Tennessee Highway Patrol State Trooper?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    information about the responsibilities of the Tennessee Highway Patrol
+  </subtopic>
+  <subtopic number="3" type="nav">
+    home page of the Tennessee Highway Patrol
+  </subtopic>
+  <subtopic number="4" type="nav">
+    I want to fill in the customer satisfaction survey about my interaction with a Tennessee Highway Patrol State Trooper.
+  </subtopic>
+</topic>
+
+
+</webtrack2011>

@@ -1,0 +1,2819 @@
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  051 
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  Airbus Subsidies
+
+
+<desc> Description:
+
+Document will discuss government assistance to Airbus Industrie, or mention a
+trade dispute between Airbus and a U.S. aircraft producer over the issue of
+subsidies.
+
+
+<smry> Summary:
+
+Document will discuss government assistance to Airbus Industrie, or mention a
+trade dispute between Airbus and a U.S. aircraft producer over the issue of
+subsidies.
+
+
+<narr> Narrative:
+
+A relevant document will cite or discuss assistance to Airbus Industrie by the
+French, German, British or Spanish government(s), or will discuss a trade
+dispute between Airbus or the European governments and a U.S. aircraft
+producer, most likely Boeing Co. or McDonnell Douglas Corp., or the U.S.
+government, over federal subsidies to Airbus.
+
+
+<con> Concept(s):
+
+1. Airbus Industrie
+
+2. European aircraft consortium, Messerschmitt-Boelkow-Blohm GmbH, British
+   Aerospace PLC, Aerospatiale, Construcciones Aeronauticas S.A.
+  
+3. federal subsidies, government assistance, aid, loan, financing
+
+4. trade dispute, trade controversy, trade tension
+
+5. General Agreement on Tariffs and Trade (GATT) aircraft code
+
+6. Trade Policy Review Group (TPRG)
+
+7. complaint, objection
+
+8. retaliation, anti-dumping duty petition, countervailing duty petition,
+   sanctions
+
+
+<fac> Factor(s):
+
+
+
+<def> Definition(s):
+
+</top>
+
+<top>
+
+
+<head> Tipster Topic Description
+
+
+<num> Number:  052 
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  South African Sanctions
+
+
+<desc> Description:
+
+Document discusses sanctions against South Africa.
+
+
+<smry> Summary:
+
+Document discusses international sanctions against South Africa.
+
+
+<narr> Narrative:
+
+A relevant document will discuss any aspect of South African sanctions, such
+as: sanctions declared/proposed by a country against the South African
+government in response to its apartheid policy, or in response to pressure by
+an individual, organization or another country; international sanctions
+against Pretoria imposed by the United Nations; the effects of sanctions
+against S. Africa; opposition to sanctions; or, compliance with sanctions by a
+company.  The document will identify the sanctions instituted or being
+considered, e.g., corporate disinvestment, trade ban, academic boycott, arms
+embargo.
+
+
+<con> Concept(s):
+
+1. sanctions, international sanctions, economic sanctions
+
+2. corporate exodus, corporate disinvestment, stock divestiture, ban on new
+   investment, trade ban, import ban on South African diamonds, U.N. arms
+   embargo, curtailment of defense contracts, cutoff of nonmilitary goods,
+   academic boycott, reduction of cultural ties
+
+3. apartheid, white domination, racism
+
+4. antiapartheid, black majority rule   
+
+5. Pretoria
+
+
+<fac> Factor(s):
+
+<nat> Nationality:  South Africa
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  053 
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  Leveraged Buyouts  
+
+
+<desc> Description:
+
+Document mentions a leveraged buyout valued at or above 200 million dollars.
+
+
+<smry> Summary:
+
+Document mentions a leveraged buyout valued at or above 200 million dollars.
+
+
+<narr> Narrative:
+
+A relevant document will cite a leveraged buyout (LBO) valued at or above 200
+million dollars.  The LBO may be at any stage, e.g., considered, proposed,
+pending, a fact.  The company (being) taken private must be identified.  The
+offer may be expressed in dollars a share.
+
+
+<con> Concept(s):
+
+1. leveraged buyout, LBO
+
+2. take private, go private
+
+3. management-led leveraged buyout
+
+
+<fac> Factor(s):
+<price> Price:  >= 200 million dollars
+</fac>
+
+
+<def> Definition(s):
+
+Leveraged Buyout (LBO) - Takeover of a company using borrowed funds, with the
+target company's assets serving as security for the loans taken out by the
+acquiring firm, which repays the loans out of the cash flow of the acquired
+company or from the sale of the assets of the acquired firm.
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+<num> Number:  054 
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  Satellite Launch Contracts
+
+
+<desc> Description:
+
+Document will cite the signing of a contract or preliminary agreement, or the
+making of a tentative reservation, to launch a commercial satellite.
+
+
+<smry> Summary:
+
+Document will cite the signing of a contract or preliminary agreement, or the
+making of a tentative reservation, to launch a commercial satellite.
+
+
+<narr> Narrative:
+
+A relevant document will mention the signing of a contract or preliminary
+agreement , or the making of a tentative reservation, to launch a commercial
+satellite.
+
+
+<con> Concept(s):
+
+1. contract, agreement
+
+2. launch vehicle, rocket, payload, satellite
+ 
+3. launch services, commercial space industry, commercial launch industry
+
+4. Arianespace, Martin Marietta, General Dynamics, McDonnell Douglas
+
+5. Titan, Delta II, Atlas, Ariane, Proton
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  055 
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  Insider Trading
+
+
+<desc> Description:  
+
+Document discusses an insider-trading case.
+
+
+<smry> Summary:
+
+Document discusses an insider-trading case.
+
+
+<narr> Narrative:  
+
+A relevant document will discuss an insider-trading case, identifying the
+accused/the defendant(s), as well as the government doing the investigation.
+It will also mention at least one of the following specifics of the case: the
+alleged illegal activity, whether charged with providing or using insider
+information, possible conspirator's role in the scheme, the monetary amount of
+illegal profit and of damage; if pronounced guilty, then the sentence terms,
+e.g., monetary penalty (cash payment), time in prison, cooperation with the
+government, probation, community service, being barred from the industry for a
+certain time period.
+
+
+<con> Concept(s):
+
+1. insider-trading case
+
+2. insider-trading scheme, illegal insider-trading activity, illegal
+   securities transactions, white-collar crime, securities-law violations
+
+3. insider-trading investigation, insider-trading probe
+
+4. Securities and Exchange Commission, SEC
+
+5. investment banking, investment banker, arbitrage, arbitrager, securities
+   analyst
+
+6. inside information, advance knowledge of corporate takeovers 
+
+7. leaking information, misappropriating information, leaking word, leaking
+   news, passing a tip
+
+8. pre-bid market activity, takeover speculation, matched-book
+   transaction
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+Insider Trading - Dealing in shares with the advantage of inside information.
+The owners of shares in a public company are all supposed to be equal - so if
+one of them knows that the company is about to go broke before the others and
+sells his shares while their price is still good, that is unfair.  In many
+countries, including the U.S. and the U.K., it is also illegal.  However, it
+is very difficult to prove that an investor is buying or selling shares on the
+basis of inside information.
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  056 
+
+
+<dom> Domain:  International Finance
+
+
+<title> Topic:  Prime (Lending) Rate Moves, Predictions
+
+
+<desc> Description:
+
+Document will include a prediction about the prime lending rate, or will
+report an actual prime rate move.
+
+
+<smry> Summary:
+
+Document will include a prediction about the prime lending rate, or will
+report an actual prime rate move.
+
+
+<narr> Narrative:
+
+A relevant document will include a prediction about the prime lending rate
+(national-level or major banks'), or will report a prime rate move by major
+banks, in response to or in anticipation of a federal/national-level action,
+such as a cut in the discount rate.
+
+
+<con> Concept(s):
+
+1. prime lending rate, prime rate, base rate, reference rate, minimum lending
+   rate, bank rate, weekly bank rate
+
+2. Federal Reserve Board, Bank of Canada, major commercial banks
+
+3. foresee, expect, predict, speculate
+
+4. move, increase, decrease, rise, decline, boost, cut 
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  057 
+
+
+<dom> Domain:  U.S. Economics
+
+
+<title> Topic:  MCI
+
+
+<desc> Description:
+
+Document will discuss how MCI has been doing since the Bell System breakup.
+
+
+<smry> Summary:
+
+Document will discuss how MCI (Multiport Communications Interface) has
+been doing since the Bell System breakup.
+
+
+<narr> Narrative:
+ 
+A relevant document will discuss the financial health of MCI Communications
+Corp. since the breakup of the Bell System (AT&T and the seven regional Baby
+Bells) in January 1984.  The status indicated may not necessarily be a direct
+or indirect result of the breakup of the system and ensuing regulation and
+deregulation of Ma Bell or of the restrictions placed upon the seven Bells; it
+may result from any number of factors, such as advances in telecommunications
+technology, MCI initiative, etc.  MCI's financial health may be reported
+directly: a broad statement about its earnings or cash flow, or a report
+containing financial data such as a quarterly report; or it may be reflected
+by one or more of the following: credit ratings, share of customers, volume
+growth, cuts in capital spending, $$ figure net loss, pre-tax charge,
+analysts' or MCI's own forecast about how well they will be doing, or MCI's
+response to price cuts that AT&T makes at its own initiative or under orders
+from the Federal Communications Commission (FCC), such as price reductions,
+layoffs of employees out of a perceived need to cut costs, etc.  Daily OTC
+trading stock market and monthly short interest reports are NOT relevant; the
+inventory must be longer term, at least quarterly.
+
+
+<con> Concept(s):
+
+1.  MCI Communications Corp.
+
+2.  Bell System breakup
+
+3.  Federal Communications Commission, FCC
+
+4.  regulation, deregulation
+
+5.  profits, revenue, net income, net loss, write-downs
+
+6.  NOT daily OTC trading, NOT monthly short interest
+
+
+<fac> Factor(s):
+
+Time:  after January 1984
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  058
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  Rail Strikes
+
+
+<desc> Description:
+
+Document will predict or anticipate a rail strike or report an ongoing rail 
+strike.  
+
+
+<smry> Summary:
+
+Document will predict or anticipate a rail strike or report an ongoing rail 
+strike.  
+
+
+<narr> Narrative:
+
+A relevant document will either report an impending rail strike, describing
+the conditions which may lead to a strike, or will provide an update on an
+ongoing strike.  To be relevant, the document will identify the location of
+the strike or potential strike.  For an impending strike, the document will
+report the status of negotiations, contract talks, etc. to enable an
+assessment of the probability of a strike.  For an ongoing strike, the
+document will report the length of the strike to the current date and the
+status of negotiations or mediation.
+
+
+<con> Concept(s):
+
+1.  rail strike, picket, stoppage, lockout, walkout, wildcat
+
+2.  rail union, negotiator, railroad, federal conciliator, brotherhood
+
+3.  union proposal, talks, settlement, featherbedding, cost cutting
+
+4.  working without a contract, expired contract, cooling off period
+
+
+<fac> Factor(s):
+
+<time> Time:  Current
+
+</fac>
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  059 
+
+
+<dom> Domain:  Environment
+
+
+<title> Topic:  Weather Related Fatalities
+
+
+<desc> Description:
+
+Document will report a type of weather event which has directly caused at
+least one fatality in some location.
+
+
+<smry> Summary:
+
+Document will report a type of weather event which has directly caused at
+least one fatality in some location.
+
+
+<narr> Narrative:
+
+A relevant document will include the number of people killed and injured by
+the weather event, as well as reporting the type of weather event and the
+location of the event.
+
+
+<con> Concept(s):
+
+1.  lightning, avalanche, tornado, typhoon, hurricane, heat, heat wave, flood,
+    snow, rain, downpour, blizzard, storm, freezing temperatures
+
+2.  dead, killed, fatal, death, fatality, victim
+
+3.  NOT man-made disasters, NOT war-induced famine
+
+4.  NOT earthquakes, NOT volcanic eruptions
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  060 
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  Merit-Pay vs. Seniority
+
+
+<desc> Description:
+
+Document will describe either one or both sides of the controversy over the
+use of standards of performance to determine salary levels and incentive pay
+as contrasted with determining pay solely on the basis of seniority or
+longevity on the job.
+
+
+<smry> Summary:
+
+Document will describe either one or both sides of the controversy
+over a change in the use of standards of performance to determine
+salary levels and incentive pay as contrasted with determining pay
+solely on the basis of seniority or longevity on the job.
+
+
+<narr> Narrative:
+
+A relevant document will name an employer (company, institution, or
+governmental entity) which has announced a change in its policy regarding
+merit vs. seniority in paying employees, or name an employee group (union or
+lobbying group) which is protesting a change in merit vs. seniority status for
+a particular employee group.  The change announced should be a move away from
+one policy toward another, not an announcement of across-the-board cuts as a
+cost-cutting measure.
+
+
+<con> Concept(s):
+
+1.  merit-pay, merit pay, performance, award program, bonus
+
+2.  seniority, longevity, cost-of-living
+
+3.  salary, pay, compensation, raise
+
+4.  appraisal, evaluation, assessment, testing, career ladder, peer review,
+    certifying
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  061 
+
+
+<dom> Domain:  International Politics
+
+
+<title> Topic:  Israeli Role in Iran-Contra Affair
+
+
+<desc> Description:
+
+Document will discuss the role of Israel in the Iran-Contra Affair.
+
+
+<smry> Summary:
+
+Document will discuss the role of Israel in the Iran-Contra Affair.
+
+
+<narr> Narrative:
+
+A relevant document will discuss Israel's role in the Iran-Contra Affair.  Any
+mention or hint of Israeli involvement in the scandal, e.g., selling arms to
+Iran, suggesting diverting profits from sales of arms to Iran to Nicaraguan
+insurgents, participating in diversion of funds to the Contras, kicking back
+money to Iranian officials, kidnapping relatives of top Iranian officials by
+the Mossad (Israeli intelligence service) to be exchanged for U.S. hostages in
+Lebanon, is relevant.
+
+
+<con> Concept(s):
+
+1.  Iran-Contra affair, initiative, controversy, scandal
+
+2.  role of Israel, Israeli involvement
+
+3.  Israeli intermediaries, middlemen, arms dealers, government officials
+
+4.  David Kimche, Michael Ledeen, Jaacov Nimrodi
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 062
+
+
+<dom> Domain:  Military
+
+
+<title> Topic:  Military Coups D'etat
+
+
+<desc> Description:
+
+Document will report a military coup d'etat, either attempted or successful,
+in any country.
+
+
+<smry> Summary:
+
+Document will report a military coup d'etat, either attempted or successful,
+in any country.
+
+
+<narr> Narrative:
+
+A relevant document will identify the country involved, the group responsible
+for the coup or coup attempt, the target of the coup, and the motivation of
+the coup plotters. It should NOT be about civilian government shake ups.
+
+
+<con> Concept(s):
+
+1.  coup d'etat, coup attempt, skirmish, revolt, mutiny
+
+2.  oust, take charge, rebel, storm, surrender
+
+3.  regime
+
+4.  amnesty
+
+
+<fac> Factor(s):
+
+<Time>  Time:  Current
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  063 
+
+
+<dom> Domain:  Science and Technology
+
+
+<title> Topic:  Machine Translation
+
+
+<desc> Description:
+
+Document will identify a machine translation system.
+
+
+<smry> Summary:
+
+Document will identify a machine translation system.
+
+
+<narr> Narrative:
+
+A relevant document will identify a machine translation system which is being
+developed or marketed in any country.  It will identify the developer or
+vendor, name the system, and identify one or more features of the system.
+
+
+<con> Concept(s):
+
+1.  machine translation system
+
+2.  language, dictionary, font
+
+3.  batch, interactive, process, user interface
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  064 
+
+
+<dom> Domain:  International Relations
+
+
+<title> Topic:  Hostage-Taking
+
+
+<desc> Description:
+
+Document will report an event or result of politically motivated
+hostage-taking.
+
+<smry> Summary:
+
+Document will report an event or result of politically motivated
+hostage-taking.
+
+<narr> Narrative:
+
+A relevant document will report an attempt (successful or unsuccessful) to
+seize a hostage for some political purpose, report on hostages currently held,
+or report a current hostage release event.  The document will identify the
+nationality of the victim, some identification of the perpetrators
+(nationality or religion), and location where the hostage-taking occurred.
+
+
+<con> Concept(s):
+
+1.  kidnap, seize, hijack
+
+2.  negotiate, trade, exchange, swap
+
+3.  free, release
+
+4.  retaliate
+
+5.  captivity, terrorism
+
+6.  captors, hostages, negotiator, victims
+
+
+<fac> Factor(s):
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  065
+
+
+<dom> Domain:  Science and Technology
+
+
+<title> Topic:  Information Retrieval Systems
+
+
+<desc> Description:
+
+Document will identify a type of information retrieval system.
+
+
+<smry> Summary:
+
+A relevant document will identify a new information retrieval system, identify
+the company or person marketing the system, and identify some of the
+characteristics of the system.
+
+
+<narr> Narrative:
+
+A relevant document will identify an information retrieval system, identify
+the company or person marketing the system, and identify some of the
+characteristics of the system.
+
+
+<con> Concept(s):
+
+1.  information retrieval system
+
+2.  storage, database, data, query
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  066 
+
+
+<dom> Domain:  Science and Technology
+
+
+<title> Topic:  Natural Language Processing
+
+
+<desc> Description:
+
+Document will identify a type of natural language processing technology which
+is being developed or marketed in the U.S.
+
+<smry> Summary:
+
+Document will identify a type of natural language processing technology which
+is being developed or marketed in the U.S.
+
+<narr> Narrative:
+
+A relevant document will identify a company or institution developing or
+marketing a natural language processing technology, identify the technology,
+and identify one or more features of the company's product.
+
+
+<con> Concept(s):
+
+1.  natural language processing
+
+2.  translation, language, dictionary, font
+
+3.  software applications
+
+
+<fac> Factor(s):
+
+<nat>  Nationality:  U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  067 
+
+
+<dom> Domain:  International Relations
+
+
+<title> Topic:  Politically Motivated Civil Disturbances
+
+
+<desc> Description:
+
+Document will report a current civil disturbance in any country, involving
+citizens of that country protesting a political position of their own
+country's government.
+
+
+<smry> Summary:
+
+Document will report a current civil disturbance in any country, involving
+citizens of that country protesting a political position of their own
+country's government.
+
+
+<narr> Narrative:
+
+A relevant document will report the location of the disturbance, the identity
+of the group causing the disturbance, the nature of the disturbance, the
+identity of the group suppressing the disturbance and the political goals of
+the protesters. It should NOT be about economically-motivated civil
+disturbances and NOT be about a civil disturbance directed against a second
+country.
+
+
+<con> Concept(s):
+
+1.  protest, unrest, demonstration, march, riot, clash, uprising, rally,
+    boycott, sit-in
+
+2.  students, agitators, dissidents
+
+3.  police, riot police, troops, army, National Guard, government forces
+
+4.  NOT economically-motivated
+
+
+<fac> Factor(s):
+
+<time>  Time:  Current
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  068
+
+
+<dom> Domain:  Science and Technology
+
+
+<title> Topic:  Health Hazards from Fine-Diameter Fibers
+
+
+<desc> Description:
+
+Document will report actual studies, or even unsubstantiated concerns about
+the safety to manufacturing employees and installation workers of
+fine-diameter fibers used in insulation and other products.
+
+
+<smry> Summary:
+
+Document will report actual studies, or even unsubstantiated concerns about
+the safety to manufacturing employees and installation workers of
+fine-diameter fibers used in insulation and other products.
+
+
+<narr> Narrative:
+
+A relevant document will report the type of fiber in question, and whether the
+fiber has been determined to be harmful or is merely suspected of being
+harmful.
+
+<con> Concept(s):
+
+1.  fine-diameter fibers, glass, ceramic, mineral-wool, asbestos, cellulose
+
+2.  diminished lung capacity, cancer
+
+3.  workplace safety, OSHA
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  069
+
+
+<dom> Domain:  International Relations
+
+
+<title> Topic:  Attempts to Revive the SALT II Treaty
+
+
+<desc> Description:
+
+Document will report an attempt by the U.S. House of Representatives or a
+European country to revive the SALT II Treaty ceilings on weapons in order to
+limit President Reagan's military build up.
+
+
+<smry> Summary:
+
+Document will report an attempt by the U.S. House of Representatives or a
+European country to revive the SALT II Treaty ceilings on weapons in order to
+limit President Reagan's military build up.
+
+
+<narr> Narrative:
+
+A relevant document will describe an attempt to push the U.S. Administration
+to adhere to the limits on weapons proposed in SALT II.  To be relevant the
+document must identify what group is pushing the policy and what methods they
+are using to influence the U.S. Administration.
+ 
+
+<con> Concept(s):
+
+1.  SALT II, treaty, ceiling, missiles
+
+2.  House, Senate, President, Europe
+
+3.  war, enemy, fight
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+SALT II - Treaty signed by Carter and Brezhnev in 1979 limiting the number of
+several categories of strategic weapons which the Soviet Union and the U.S.
+would build and deploy.  The treaty was never ratified by the U.S. Senate, and
+expired in 1985.
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  070 
+
+
+<dom> Domain:  Law and Government
+
+
+<title> Topic:  Surrogate Motherhood
+
+
+<desc> Description:
+
+Document will report judicial proceedings and opinions on contracts for
+surrogate motherhood.
+
+
+<smry> Summary:
+
+Document will report judicial proceedings and opinions on contracts for
+surrogate motherhood.
+
+
+<narr> Narrative:
+
+A relevant document will report legal opinions, judgments, and decisions
+regarding surrogate motherhood and the custody of any children which result
+from surrogate motherhood.  To be relevant, a document must identify the case,
+state the issues which are or were being decided and report at least one
+ethical or legal question which arises from the case.
+ 
+
+<con> Concept(s):
+
+1.  surrogate, mothers, motherhood
+
+2.  judge, lawyer, court, lawsuit, custody, hearing, opinion, finding
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+
+</top>
+ 
+<top>
+
+
+<head>  Tipster Topic Description
+
+
+<num>  Number:  071
+
+
+<dom>  Domain:  Military
+
+
+<title>  Topic:  Border Incursions
+
+
+<desc>  Description:
+
+Document will report incursions by land, air, or water into the border area of
+one country by military forces of a second country or a guerrilla group based
+in a second country.
+
+
+<smry> Summary:
+
+Document will report brief incursions by land, air, or water into the
+border area of one country by military forces of a second country or a
+guerrilla group based in a second country.
+
+
+<narr>  Narrative:
+
+A relevant document will name the invading country or group, name the invaded
+country, and identify the target or goal of the attacking force.  The target
+or goal must be a military objective. It should NOT be about a war or invasion
+in which troops remain on foreign soil for a sustained engagement. 
+It should NOT be about a territorial dispute or economic dispute (such as
+fishing rights) which is being negotiated or argued by civilian groups.
+
+
+
+<con>  Concept(s):
+
+1.  rebels, refugees, soldiers, guerrillas
+
+2.  raid, assault, skirmish, dispute, fighting, clash, retaliation
+
+3.  border, frontier, ford, thalweg, air space, territorial limit
+
+4.  NOT sustained engagement
+
+5.  NOT fishing rights
+
+<fac>  Factor(s):
+
+
+<def>  Definition(s):
+
+</top>
+ 
+<top>
+
+<head>  Tipster Topic Description
+
+
+<num>  Number:  072
+
+
+<dom>  Domain:  U.S. Economics
+
+
+<title>  Topic:  Demographic Shifts in the U.S.
+
+
+<desc>  Description:
+
+Document will report a movement of people from one area of the U.S. to another
+for a variety of reasons. The movement of population described should be large
+enough to have some economic impact.
+
+<smry> Summary:
+
+Document will report a movement of people from one area of the U.S. to another
+for a variety of reasons. The movement of population described should be large
+enough to have some economic impact.
+
+<narr>  Narrative:
+
+A relevant document will name the location (state, county, city, town, or
+geographical area) which is undergoing a demographic shift, report whether the
+shift is a gain or loss of population, and give some indication of the
+magnitude of the shift such as a number, percentage, ratio, or ranking.
+The movement of population described should be large
+enough to have some impact on the economy of either the losing area, the
+receiving area, or both.
+
+
+<con>  Concept(s):
+
+1.  population
+
+2.  shift, gain, loss
+
+3.  census
+
+
+<fac>  Factor(s):
+
+<nat>  Nationality:  U.S.
+
+</fac>
+
+
+<def>  Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  073
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  Demographic Shifts across National Boundaries
+
+
+<desc> Description:
+
+Document will report a movement of people from one country to another for a
+variety of reasons. The movement of population described should be large enough
+to have some economic impact.
+
+<smry> Summary:
+
+Document will report a movement of people from one country to another for a
+variety of reasons. The movement of population described should be large enough
+to have some economic impact.
+
+<narr> Narrative:
+
+A relevant document will name the location (country or geographical area of a
+country) which is undergoing a demographic shift, report whether the shift is
+a gain or loss of population, and give some indication of the magnitude of the
+shift such as a number, percentage, ratio, or ranking.
+The movement of population described should be large enough to
+have some impact on the economy of either the losing country, the receiving
+country, or both.
+
+
+<con> Concept(s):
+
+1.  population
+
+2.  shift, gain, loss
+
+3.  immigration, emigration, deportation, diaspora, exile
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  074 
+
+
+<dom> Domain:  Political
+
+
+<title> Topic:  Conflicting Policy 
+
+
+<desc> Description:
+
+Document will cite an instance in which the U.S. government propounds two 
+conflicting or opposing policies. 
+
+
+<smry> Summary:
+
+Document will cite an instance in which the U.S. government propounds two 
+conflicting or opposing policies. 
+
+
+<narr> Narrative:
+
+A relevant document will cite an instance in which the U.S. federal government
+propounds two policies which are in conflict with or opposition to each other,
+or seem at least hypocritical.  These policies may be cited in the same
+document, or in two separate documents within one month's time.  The target is
+conflicting policies, NOT a reversal of policy.  Examples of two-faced policy
+of interest include: expending funds in the campaign against tobacco use while
+subsidizing the U.S. tobacco industry and the marketing of U.S. tobacco
+products abroad, allowing imports of produce treated with pesticide which is
+banned in the U.S., disapproving the sale of deficient infant formula in the
+U.S. while allowing it to be exported to the third world.
+
+
+<con> Concept(s):
+
+1. condemn, prohibit, ban
+
+2. subsidize
+
+
+<fac> Factor(s):
+
+<nat>  Nationality:  U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  075
+
+
+<dom> Domain:  Science and Technology 
+
+
+<title> Topic:  Automation
+
+
+<desc> Description:
+
+Document will identify an instance in which automation has clearly paid off,
+or conversely, has failed.
+
+
+<smry> Summary:
+
+Document will identify an instance in which automation has clearly paid off,
+or conversely, has failed.
+
+
+<narr> Narrative:
+
+A relevant document will cite a case in which automation has been at least a
+factor in cutting costs, by either increased efficiency or a smaller payroll
+or both, or a case in which automation has failed for some reason in reducing
+costs, or had disappointing results.  The case may involve an industry or a
+particular firm.
+ 
+
+<con> Concept(s):
+
+1.  automation
+
+2.  increased efficiency, smaller payroll, work force reduction
+
+3.  pay off, cut costs
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  076
+
+
+<dom> Domain:  Law and Government 
+
+
+<title> Topic:  U.S. Constitution - Original Intent
+
+
+<desc> Description:
+
+Document will include a discussion of, or debate over, the issue of the
+original intent of the U.S. Constitution, or the meaning of a particular
+amendment to the Constitution, or will present an individual's interpretation
+of an amendment.
+
+
+<smry> Summary:
+
+Document will include a discussion of, or debate over, the issue of the
+original intent of the U.S. Constitution, or the meaning of a particular
+amendment to the Constitution, or will present an individual's interpretation
+of an amendment.
+
+
+<narr> Narrative:
+
+A relevant document will include a discussion of, or debate over, the issue of
+the original intent of the U.S. Constitution, or the meaning of a particular
+amendment to the Constitution, or will present an individual's interpretation
+of an amendment.  (A mere reference to the problem is not relevant.)
+
+
+<con> Concept(s):
+
+1.  U.S. Constitution, separation of powers, body of the Constitution, Bill of
+    Rights, First Amendment, Fifth Amendment
+
+2.  original intent
+  
+
+<fac> Factor(s):
+
+<nat>  Nationality:  U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  077
+
+
+<dom> Domain:  Environment
+
+
+<title> Topic:  Poaching
+
+
+<desc> Description:
+
+Document will report a poaching method used against a certain type of
+wildlife.
+
+<smry> Summary:
+
+Document will report specific poaching activities including
+identification of the type of wildlife being poached, the poaching
+technique or method of killing the wildlife which is used by the
+poacher, and the reason for the poaching.
+
+<narr> Narrative:
+
+A relevant document will identify the type of wildlife being poached, the
+poaching technique or method of killing the wildlife which is used by the
+poacher, and the reason for the poaching (e.g. for a trophy, meat, or money).
+A report of poaching or someone caught for poaching without mention of the
+technique used and the reason is not relevant.
+ 
+
+<con> Concept(s):
+
+1.  poaching, illegal hunting, fishing, trapping, equipment
+
+2.  territorial waters, economic zone, game preserve, refuge, park
+
+3.  arrest, impound, fine
+
+4.  issue, agreement, license, treaty, legal limit
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  078
+
+
+<dom> Domain:  Environment
+
+
+<title> Topic:  Greenpeace
+
+
+<desc> Description:
+
+Document will report activity by Greenpeace to carry out their environmental
+protection goals.
+
+
+<smry> Summary:
+
+Document will report activity by Greenpeace to carry out their environmental
+protection goals.
+
+
+<narr> Narrative:
+
+A relevant document will report a protest action by Greenpeace, citing the
+company or country targeted by the organization, the specific target (such as
+a ship, train, etc.), the action carried out by Greenpeace, and the objective
+which Greenpeace sought to attain.
+ 
+
+<con> Concept(s):
+
+1.  Greenpeace, environment, group, activist
+
+2.  protest, disrupt, block, harass, scuttle, trespass, confront
+
+3.  anti-nuclear, uranium, radioactive, missile
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  079
+
+
+<dom> Domain:  International Relations
+
+
+<title> Topic:  FRG Political Party Positions
+
+
+<desc> Description:
+
+Document will identify at least one German political party and report some
+position which the party has taken in regard to a political, social, economic,
+military, environmental, or international objective.
+
+
+<smry> Summary:
+
+Document will identify at least one German political party or faction
+and report some position which the party has taken in regard to a
+political, social, economic, military, environmental, or international
+objective.
+
+
+<narr> Narrative:
+
+A relevant document will report at least one goal or objective of one of the
+German political parties.  The position will be stated clearly enough that the
+reader will be able to understand where the party stands on a specific issue.
+ 
+
+<con> Concept(s):
+
+1.  Social Democrats, SPD, Green Party, Christian Democratic Union, CDU, Reds,
+    Green, Blacks, Christian Social Union
+
+2.  oppose, support, demand
+
+3.  proponents, advocates, allies
+
+4.  swing, shift, aim, goal
+
+
+<fac> Factor(s):
+
+<nat>  Nationality:  Germany
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  080
+
+
+<dom> Domain:  Political                          
+
+
+<title> Topic:  1988 Presidential Candidates Platforms
+
+
+<desc> Description:
+
+Document will identify something about the platform of a 1988 presidential 
+candidate.
+
+
+<smry> Summary:
+
+Document will identify something about the platform of a 1988 presidential 
+candidate.
+
+
+<narr> Narrative:
+
+A relevant document will identify something about the platform of a 1988
+presidential candidate: his campaign, plans, promises, philosophy, position on
+an issue, issue(s) important to him, or how he would address an issue if
+elected.  The platform of an individual candidate is of interest; the party
+platform is not relevant.
+ 
+
+<con> Concept(s):
+
+1.  Bush, Dukakis, Gephardt, Dole, Haig, Simon, Robertson, Jackson, Kemp, 
+Babbitt, DuPont, Gore, Hart, Biden
+
+2.  platform, plans, idea, promise, position, stance, philosophy, posturing,
+    campaign, issue
+
+3.  presidential candidate, aspirant, contender, hopeful
+
+4.  NOT Democratic party platform, NOT Republican party platform
+
+
+<fac> Factor(s):
+
+<nat>  Nationality:  U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  081
+
+
+<dom> Domain:  Finance
+
+
+<title> Topic: Financial crunch for televangelists in the wake of the PTL
+scandal
+
+
+<desc> Description:
+
+Document will report a loss of revenue of a televangelist in the aftermath of
+the PTL scandal, or a financial crisis triggered by the scandal.
+
+
+<smry> Summary:
+
+Document will report a loss of revenue of a televangelist in the aftermath of
+the PTL scandal, or a financial crisis triggered by the scandal.
+
+
+<narr> Narrative:
+
+A relevant document will identify a religious broadcaster, and report a
+specific dollar amount or a percentage loss, indicating a decline in revenue
+suffered by that broadcaster as a result of consumer reaction to the Jim
+Bakker scandal.
+ 
+
+<con> Concept(s):
+
+1.  donations, confidence, checks, money, dollars
+
+2.  plead, beg, cry
+
+3.  down, fall, slip
+
+4.  religious broadcasters, televangelists
+
+5.  Bakker, Falwell, Robertson, Swaggart, Schuller, Roberts
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  082 
+
+
+<dom> Domain:  Science and Technology
+
+
+<title> Topic:  Genetic Engineering
+
+
+<desc> Description:  
+
+Document discusses a genetic engineering application, a product that has been,
+is being, or will be developed by genetic manipulation, or attitudes toward
+genetic engineering.
+
+
+<smry> Summary:
+
+Document discusses a genetic engineering application, a product that has been,
+is being, or will be developed by genetic manipulation, or attitudes toward
+genetic engineering.
+
+
+<narr> Narrative:
+
+A relevant document will discuss a product, e.g., drug, microorganism,
+vaccine, animal, plant, agricultural product, developed by genetic engineering
+techniques; identify an application, such as to clean up the environment or
+human gene therapy for a specific problem; or, present human attitudes toward
+genetic engineering.
+
+
+<con> Concept(s):
+
+1. genetic engineering, molecular manipulation
+
+2. biotechnology
+ 
+3. genetically engineered product: plant, animal, drug, microorganism,
+   vaccine, agricultural product
+
+4. cure a disease, clean up the environment, increase agricultural
+   productivity
+ 
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 083
+
+
+<dom> Domain: Environment 
+
+
+<title> Topic: Measures to Protect the Atmosphere
+
+
+<desc> Description:
+
+Document will discuss plans, projects, agreements, treaties, or laws concluded
+or under consideration aimed at protecting the atmosphere.
+
+
+<smry> Summary:
+
+Document will discuss plans, projects, agreements, treaties, or laws concluded
+or under consideration aimed at protecting the atmosphere.
+
+
+<narr> Narrative:
+
+A relevant document will discuss specific steps taken or under consideration
+at the multilateral, bilateral, or national level to protect the atmosphere.
+The plan, project, agreement, treaty, or law discussed in the document will
+identify steps taken or to be taken under the measure and its purpose
+(limiting chlorofluorocarbon emissions, reducing acid rain, containing carbon
+dioxide buildup, or blocking deforestation) and not focus on scientific debate
+or research into such atmospheric phenomena as ozone depletion and global
+warming.
+
+
+<con> Concept(s):
+
+1.  Greenhouse effect, global warming, carbon dioxide buildup
+
+2.  Acid rain, smokestack emissions
+
+3.  Deforestation
+
+4.  Chlorofluorocarbons   
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 084
+
+
+<dom> Domain: U.S. Economics 
+
+
+<title> Topic: Alternative/renewable Energy Plant & Equipment Installation
+
+
+<desc> Description:
+
+Document will identify planned or under-construction alternative/renewable
+energy plant or equipment installations.
+
+
+<smry> Summary:
+
+Document will identify planned or under-construction alternative/renewable
+energy plant or equipment installations.
+
+
+<narr> Narrative:
+
+A relevant document will identify a specific alternative/renewable energy
+plant or equipment installation planned or under-construction, to include the
+technology employed, projected capacity or output, location, and specific
+financial information, e.g. total cost, source of funding, estimated unit
+production costs, etc.  Document will not focus on political discussions of
+developing sources of alternate energy, nor will it focus on macroeconomic
+discussions of national energy needs.
+
+
+<con> Concept(s):
+
+1.  Alternative energy, renewable energy
+
+2.  Cogeneration, hydro power, solar energy, windmills, geothermal, biomass
+
+
+<fac> Factor(s):
+
+<nat> Nationality:  U.S.
+
+<time> Time:  future
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 085
+
+
+<dom> Domain:  Law and Government 
+
+
+<title> Topic:  Official Corruption
+
+
+<desc> Description:
+
+Document will discuss allegations, or measures being taken against, corrupt
+public officials of any governmental jurisdiction worldwide.
+
+
+<smry> Summary:
+
+Document will discuss allegations, or measures being taken against, corrupt
+public officials of any governmental jurisdiction worldwide.
+
+
+<narr> Narrative:
+
+A relevant document will discuss charges or actions being taken against
+corrupt public officials (be they elected, appointed, or career civil servant)
+anywhere in the world.  The allegations or charges must be specific, e.g.
+bribes taken >from a named group or individual with a given objective, rather
+than generalized allegations of endemic political corruption, or moves against
+corporate or private malfeasance (unless linked to an official corruption
+case).
+
+
+<con> Concept(s):
+
+1.  Official corruption, public corruption
+
+2.  Bribery, prostitution, cover-up, undercover investigation,
+    influence-peddling, illegal payment, collusion
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  086
+
+
+<dom> Domain:  Finance
+
+
+<title> Topic:  Bank Failures
+
+
+<desc> Description:
+
+Document will identify recent bank failures within the United States,
+specifying name, location, assets, and federal or state authorities taking
+action.
+
+
+<smry> Summary:
+
+Document will identify recent closings by the Federal Deposit Insurance
+Corporation of a failed commercial bank chartered within the U.S.
+
+
+<narr> Narrative:
+
+A relevant document, in addition to giving specific identifying information on
+a failed bank (or banks), must be clear that the bank was chartered within the
+United State and that it is a bank, as opposed to another financial
+institution such as a savings and loan or credit union, and must specify the
+actions taken or being taken by the public authorities.
+
+
+<con> Concept(s):
+
+1.  Bank failure
+
+2.  Federal Deposit Insurance Corporation, FDIC, Comptroller of the Currency,
+    state banking authorities, state bank regulators
+
+
+<fac> Factor(s):
+
+<nat> Nationality:  U.S.
+
+<time>  Time:  current
+
+</fac>  
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 087
+
+
+<dom> Domain: Law & Government 
+
+
+<title> Topic: Criminal Actions Against Officers of Failed
+               Financial Institutions
+
+
+<desc> Description:
+
+Document will report on current criminal actions against officers of a failed
+U.S. financial institution.
+
+
+<smry> Summary:
+
+Document will report on current criminal actions against officers of a failed
+U.S. banking institution (including all categories of banking).
+
+
+<narr> Narrative:
+
+To be relevant, a document will discuss a recently concluded or pending
+criminal case being pursued by U.S. federal or state authorities against
+officers of a failed financial institution.  Civil actions, such as creditor
+claims filed for recovery of losses, are not relevant.  The failed institution
+may have been insured by either federal or state funds and may belong to any
+category of financial institution, e.g. bank, savings and loan, credit union,
+etc.  Although not essential, it would be preferable if the document provided
+such details on the case as specific crime, losses to insurance funds,
+penalties imposed, etc.
+
+
+<con> Concept(s):
+
+1.  FDIC, bank, thrift, savings & loan, bank
+
+2.  suit, trial, restitution, default, conspiracy, audit, fraud, felony
+
+
+<fac> Factor(s):
+
+<nat> Nationality:  U.S.
+
+<time> Time:  current
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 088
+
+
+<dom> Domain: International Economics 
+
+
+<title> Topic: Crude Oil Price Trends
+
+
+<desc> Description:
+
+Document will provide quantitative data usable in charting international
+crude oil price trends.
+
+
+<smry> Summary:
+
+Document will provide quantitative data usable in charting international
+crude oil price trends.
+
+
+<narr> Narrative:
+
+To be relevant, document must contain international crude oil production and
+price data in at least two out of the three following categories: reported
+daily output by any member of the Organization of Petroleum Exporting
+Countries (OPEC) or the larger non-OPEC producers (e.g. U.S., USSR, Mexico,
+Norway, and Great Britain); the official production quota set by OPEC for any
+of its members; and, prices in at least one of the so-called "benchmark" crude
+oil markets (specifically, West Texas Intermediate, North Sea Brent, Rotterdam
+crude oil spot market, and crude oil futures on the New York Mercantile
+Exchange).  Documents referencing OPEC and its members likely will report or
+speculate about political and diplomatic moves related to the "official" OPEC
+price, but such information by itself is not directly relevant.  The best
+documents would be those which summarize and statistically analyze crude oil
+production and price data over a period of time, rather than those which
+simply report daily market numbers.
+
+
+<con> Concept(s):
+
+1.  Organization of Petroleum Exporting Countries, OPEC
+
+2.  Algeria, Ecuador, Gabon, Indonesia, Iran, Iraq, Kuwait,
+    Libya, Nigeria, Qatar, Saudi Arabia, United Arab Emirates (UAE), 
+    Venezuela.
+
+3.  U.S., USSR, Mexico, Norway, Great Britain
+
+3.  West Texas Intermediate, North Sea Brent, Rotterdam spot, New York
+    Mercantile Exchange.
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 089
+
+
+<dom> Domain: International Economics 
+
+
+<title> Topic: "Downstream" Investments by OPEC Member States
+
+
+<desc> Description: 
+
+Document must identify an existing or pending investment by an OPEC member
+state in any "downstream" operation.
+
+
+<smry> Summary:
+
+Document must identify an existing or pending investment by an OPEC member
+state in any "downstream" operation.
+
+
+<narr> Narrative:
+
+To be relevant, a document must identify an existing or pending investment by
+an OPEC member state (or its national oil company) in any "downstream"
+installation or enterprise.  The investment may be through a joint venture,
+acquisition, construction, or stock purchase of any operation in the refining,
+petrochemical, oil industry equipment manufacture, drilling and exploration,
+shipping, marketing and retail sales, or other ancillary "downstream"
+activity.
+
+
+<con> Concept(s):
+
+1.  OPEC, Organization of Petroleum Exporting Countries
+
+2.  Algeria, Ecuador, Gabon, Indonesia, Iran, Iraq, Kuwait,
+    Libya, Nigeria, Qatar, Saudi Arabia, United Arab Emirates (UAE), 
+    Venezuela.
+
+3.  Kuwait Petroleum Co., Kuwait Investment Co.
+
+4.  Petroleos de Venezuela  
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+1.  "Downstream:" any petroleum industry activity which occurs after initial
+    production of crude oil, or which supports such production.
+
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 090
+
+
+<dom> Domain: International Economics 
+
+
+<title> Topic: Data on Proven Reserves of Oil & Natural Gas
+               Producers
+
+
+<desc> Description:
+
+Document will provide totals or specific data on changes to the proven reserve
+figures for any oil or natural gas producer.
+
+
+<smry> Summary:
+
+Document will provide totals or specific data on changes to the proven reserve
+figures for any oil or natural gas producer.
+
+
+<narr> Narrative:
+
+To be relevant, a document must give specific data on totals, additions,
+subtractions, recalculations, or adjustments to the official proven reserve
+figures used by any national or corporate entity which produces oil or natural
+gas.  The document should specify whether a change is due to such factors as
+new investment in drilling activity or oil field installations, depletions or
+losses, recalculations of existing figures, acquisition of other producers,
+etc.
+
+
+<con> Concept(s):
+
+1. Proven reserve
+
+2. Oil, natural gas
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+1.  Proven Reserve: although not always used with precision or industry-wide
+    agreement on precise parameters, and thus subject to change or
+    redefinition, a "proven reserve" can be distinguished from a probable or
+    potential reserve as one which is ready for production near-term.  Oil or
+    natural gas which can be economically extracted using installed equipment
+    employing current technology is considered to be a proven reserve.
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 091
+
+
+<dom> Domain: Military 
+
+
+<title> Topic: U.S. Army Acquisition of Advanced Weapons Systems
+
+
+<desc> Description:
+
+Document will identify acquisition by the U.S. Army of specified advanced
+weapons systems.
+
+
+<smry> Summary:
+
+Document will identify acquisition by the U.S. Army of specified advanced
+weapons systems.
+
+
+<narr> Narrative:
+
+To be relevant, document will provide such specific information as contracts
+concluded, payments made to contractors, or actual deliveries to the U.S. Army
+of the following advanced weapons systems: Abrams Tank (M-1), Apache
+Helicopter (AH-64), Patriot Missile, Blackhawk Helicopter, or Bradley Fighting
+Vehicle.  Congressional discussions of such systems, DoD budget proposals,
+RDT&E activities, overseas sales, component/spare parts/ancilliary
+equipment/services acquisitions, and system modifications are not relevant.  In
+other words, document must report actual or agreed-to deliveries to the U.S.
+Army of core elements of their most modern weapons systems.
+
+
+<con> Concept(s)
+
+1. U.S. Army
+
+2. Abrams Tank, M-1
+
+3. Apache Helicopter, AH-64
+
+4. Patriot Missile
+
+5. Blackhawk Helicopter
+
+6. Bradley Fighting Vehicle
+
+
+<fac> Factor(s):
+
+<time> Time: current and future
+
+<nat> Nationality:  U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 092
+
+
+<dom> Domain: Military 
+
+
+<title> Topic: International Military Equipment Sales
+
+
+<desc> Description:
+
+Document will identify a proposed or recently concluded sale of military
+equipment in the international arms market.
+
+
+<smry> Summary:
+
+Document will identify a proposed or recently concluded official sale
+of military equipment between countries in the international arms
+market.
+
+
+<narr> Narrative:
+
+To be relevant, document will identify a proposed or recently concluded sale
+of military equipment, to include weapons platforms, munitions, spares,
+ancilliary equipment, technology, and services.  The equipment and quantities
+must be identified, and recent should be defined as within the previous 12
+months, but the price and conditions of sale are optional information.  Any
+international sale, including transfers between NATO members or equipment
+being provided under military aid programs, is relevant.  However, political
+discussions of international military equipment sales, such as debate of the
+Iran-Contra Affair, discussion of the UN embargo against South Africa, or
+Congressional expressions of hostility against equipment sales to Arab states,
+unless linked to a specific transaction, are not relevant.
+
+
+<con> Concept(s):
+
+1.  FMS, foreign military sales
+
+
+<fac> Factor(s):
+
+<time> Time: current
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 093
+
+
+<dom> Domain: Politics
+
+
+<title> Topic: What Backing Does the National Rifle Association
+               Have?
+
+
+<desc> Description:
+
+Document must describe or identify supporters of the National Rifle
+Association (NRA), or its assets.
+
+<smry> Summary:
+
+Document must describe or identify members or supporters of the
+National Rifle Association (NRA), or discuss its finances.
+
+<narr> Narrative:
+
+To be relevant, a document must describe or name individuals or organizations
+who are members of the NRA, or who contribute money to it.  A document is also
+relevant if it quantifies the NRA's financial assets or identifies any other
+NRA holdings.
+
+<con> Concept(s):
+
+1. National Rifle Association, NRA
+
+2. contributor, member, supporter
+
+3. holdings, assets, finances
+
+
+<fac> Factor(s): 
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 094
+
+
+<dom> Domain: Science and Technology
+
+
+<title> Topic: Computer-aided Crime
+
+
+<desc> Description:
+
+Document must identify a crime perpetrated with the aid of a computer.
+
+
+<smry> Summary:
+
+Document must identify a criminal activity involving computers.
+
+
+<narr> Narrative: 
+
+To be relevant, a document must describe an illegal activity which was carried
+out with the aid of a computer, either used as a planning tool, such as in
+target research; or used in the conduct of the crime, such as by illegally
+gaining access to someone else's computer files.  A document is NOT relevant
+if it merely mentions the illegal spread of a computer virus or worm.
+However, a document WOULD be relevant if the computer virus/worm were used in
+conjunction with another crime, such as extortion.
+  
+
+<con> Concept(s):
+
+1. crime, fraud
+
+2. illegal access, corporate spying, extortion
+
+
+<fac> Factor(s):
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 095
+
+
+<dom> Domain: Science and Technology
+
+
+<title> Topic: Computer-aided Crime Detection
+
+
+<desc> Description:
+
+Document must describe a computer application to crime solving.
+
+
+<smry> Summary:
+
+Document must describe an actual or theoretical computer application
+used in crime solving.
+
+
+<narr> Narrative:
+
+To be relevant, a document must describe either an actual or a theoretical
+computer application to detective work, by the police or by another law
+enforcement organization.  A relevant document could include techniques such
+as profiling criminals and their methods of operation, identifying finger
+prints, spotting anomalies, etc.
+ 
+
+<con> Concept(s):
+
+1. police, detective, sleuth, enforcement agency
+
+2. clue, records, fingerprints, methods
+
+
+<fac> Factor(s):
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+
+<head> Tipster Topic Description
+
+
+<num> Number: 096
+
+
+<dom> Domain: Science and Technology
+
+
+<title> Topic: Computer-Aided Medical Diagnosis
+
+
+<desc> Description:
+
+Document must describe computer programs, or computerized equipment, which aid
+in medical diagnosis.
+
+
+<smry> Summary:
+
+Document must identify computer programs, or computerized equipment, which are
+in operational use in medical diagnosis.
+
+
+<narr> Narrative:
+
+To be relevant, a document must describe actual computer software or hardware
+which is in operational use for the purpose of diagnosing, or assisting in
+diagnosing, patients' medical conditions.
+
+
+<con> Concept(s):
+
+1. diagnosis, scanning, testing
+
+2. tomagraph, digital subtraction angiography, magnetic resonance scanners
+
+
+<fac> Factor(s):
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+
+<head> Tipster Topic Description
+
+
+<num> Number: 097
+
+
+<dom> Domain: Science and Technology
+
+
+<title> Topic: Fiber Optics Applications
+ 
+
+<desc> Description:
+
+Document must identify instances of fiber optics technology actually in use.
+ 
+
+<smry> Summary:
+
+Document must identify instances of fiber optics technology actually in use
+or contracted for.
+ 
+
+<narr> Narrative:
+
+To be relevant, a document must describe actual operational situations in
+which fiber optics are being employed, or will be employed.  A document
+describing future fiber optics use will be relevant only if contracts have
+been signed concerning the future application.
+
+
+<con> Concept(s):
+
+1. fiber optic, light
+
+2. telephone, LAN, television 
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+1. Fiber optics refers to technology in which information is passed via laser
+   light transmitted through glass or plastic fibers.
+
+</top>
+ 
+<top>
+
+
+<head> Tipster Topic Description
+
+
+<num> Number: 098
+
+
+<dom> Domain: Science and Technology
+
+
+<title> Topic: Fiber Optics Equipment Manufacturers
+
+
+<desc> Description:
+
+Document must identify individuals or organizations which produce fiber optics
+equipment.
+
+
+<smry> Summary:
+
+Document must identify individuals or organizations which produce fiber optics
+equipment or systems.
+
+
+<narr> Narrative:
+
+To be relevant, a document must identify by name either individuals or
+companies which manufacture equipment or materials used in fiber optics
+technology.
+
+
+<con> Concept(s):
+
+1. Fiber optics, lasers
+
+2. cables, connectors, fibers
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+1. Fiber optics refers to the technology by which information is passed via
+   laser light transmitted through glass or plastic fibers.
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  099 
+
+
+<dom> Domain:  International Politics
+
+
+<title> Topic:  Iran-Contra Affair
+
+
+<desc> Description:
+
+Document will identify a development in the Iran-Contra Affair.
+
+
+<smry> Summary:
+
+Document will identify a development in the Iran-Contra Affair.
+
+
+<narr> Narrative:
+
+A relevant document will identify a development in the unfolding saga termed
+the Iran-Contra Affair.  A development consists of an agent and an action. Of
+interest are at least piecemeal disclosures of who did what in order to be
+able to come up with a description and chronology of events so that a
+determination can be made of who was behind the scheme.
+
+
+<con> Concept(s):
+
+1.  Iran-Contra affair, controversy, scandal
+
+2.  President Reagan, George Bush, Oliver North, John Poindexter, Richard
+    Secord, Robert McFarlane, Albert Hakim, Manucher Ghorbanifar, Hashemi
+    Rafsanjani, Alexander Haig, George Shultz, Caspar Weinberger, Don Regan,
+    William Casey, Michael Ledeen, David Kimche, Fawn Hall, Edward de Garay,
+    Robert Dutton, Adnan Khashoggi, Benjamin Weir, William Buckley, White
+    House
+
+3.  Iran, Nicaragua, Lebanon
+
+4.  Tower Commission, John Tower, Tower report, Brent Scowcroft, Edmund Muskie
+
+5.  independent counsel, Lawrence Walsh
+
+6.  management style, hands-off management
+
+7.  arms sales to Iran
+
+8.  diversion of profits to Nicaraguan rebels, insurgents, Contras,   
+arms-for-hostages, kickbacks, kickback scheme
+
+9.  Swiss bank accounts, records
+
+10. sharing U.S. intelligence secrets with Tehran
+
+11. Israeli intermediaries, front companies
+ 
+12. contributions to the Contras from Brunei, Saudi Arabia, Taiwan 
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+ 
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 100
+
+
+<dom> Domain: International Relations 
+
+
+<title> Topic: Controlling the Transfer of High Technology
+
+
+<desc> Description:
+
+Document will identify efforts by the non-communist, industrialized states to
+regulate the transfer of high-tech goods or "dual-use" technologies to
+undesirable nations.
+
+
+<smry> Summary:
+
+Document will identify efforts by the non-communist, industrialized states to
+regulate the transfer of high-tech goods or "dual-use" technologies to
+undesirable nations.
+
+
+<narr> Narrative:
+
+A relevant document will identify activities of the U.S. Departments of
+Commerce, Defense, and State to set policy or regulate exports of strategic
+goods and technologies, or it will report on similar activities by allied
+nations, or it will discuss technology transfer policy issues and
+determinations under consideration by the Paris-based COCOM.  Unless
+explicitly related to policy issues or establishment of regulations aimed at
+controlling transfers of high technology goods and technologies, such events
+as investigations of alleged violations of COCOM rules or arms shipments in
+violation of embargoes are not relevant.
+
+
+<con> Concept(s):
+
+1.  technology transfer, export license, export controls, strategic goods, 
+international trade security policy, high technology
+
+2.  COCOM, Coordinating Committee on Multilateral Export Controls, 
+    Japan, U.S., NATO
+
+3.  Toshiba Machine, Kongsberg Vaapenfabrik, C. Itoh
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+1.  "dual-use" technology: a technology usable in both non-military and
+    military products
+
+</top>
+

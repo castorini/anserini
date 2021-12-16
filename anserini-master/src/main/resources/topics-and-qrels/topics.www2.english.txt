@@ -1,0 +1,402 @@
+<queries>
+    <query>
+        <qid>0001</qid>
+        <content>Halloween picture</content>
+        <description>Halloween is coming. You want to find some pictures about Halloween to introduce it to your children.</description>
+    </query>
+    <query>
+        <qid>0002</qid>
+        <content>calendar</content>
+        <description>You need to find a convenient online calendar.</description>
+    </query>
+    <query>
+        <qid>0003</qid>
+        <content>women's clothing winter</content>
+        <description>Winter is coming. You want to look for information on women's clothes for yourself.</description>
+    </query>
+    <query>
+        <qid>0004</qid>
+        <content>Gastrointestinal fistula</content>
+        <description>You now have a stomachache. You once heard that gastrointestinal fistula can cause a stomachache and are worried. You want to find out the symptoms, causes, and treatment of gastrointestinal fistula.</description>
+    </query>
+    <query>
+        <qid>0005</qid>
+        <content>Wall decoration</content>
+        <description>Your home needs to be decorated and you want to know more about wall decoration.</description>
+    </query>
+    <query>
+        <qid>0006</qid>
+        <content>Pet pig</content>
+        <description>Your friend has a pet pig. You want to search some information about pet pigs.</description>
+    </query>
+    <query>
+        <qid>0007</qid>
+        <content>Homemade recipes</content>
+        <description>You plan to learn to cook, so you want to find some homemade recipes.</description>
+    </query>
+    <query>
+        <qid>0008</qid>
+        <content>Which day is Halloween</content>
+        <description>You heard that Halloween is coming soon, and you want to find out which day Halloween is.</description>
+    </query>
+    <query>
+        <qid>0009</qid>
+        <content>what does Civil defense siren mean?</content>
+        <description>You suddenly heard the Civil defense siren. You want to know under what circumstances the Civil defense siren is sounded. What does it mean?</description>
+    </query>
+    <query>
+        <qid>0010</qid>
+        <content>career plan</content>
+        <description>You are an undergraduate student who is about to graduate. You want to search some information about how to plan your career.</description>
+    </query>
+    <query>
+        <qid>0011</qid>
+        <content>Branched chain amino acid</content>
+        <description>You heard the term branched chain amino acid. You want to know more about it.</description>
+    </query>
+    <query>
+        <qid>0012</qid>
+        <content>Canon</content>
+        <description>You want to know the background and stories about Canon.</description>
+    </query>
+    <query>
+        <qid>0013</qid>
+        <content>deadlift proper form</content>
+        <description>You have a fitness plan and would like to know about the proper form of deadlift.</description>
+    </query>
+    <query>
+        <qid>0014</qid>
+        <content>Derivatives of Composite Functions</content>
+        <description>You are learning about Derivatives of Composite Functions and want to search more information about it.</description>
+    </query>
+    <query>
+        <qid>0015</qid>
+        <content>Vitamin A</content>
+        <description>You want to learn some knowledge about Vitamin A.</description>
+    </query>
+    <query>
+        <qid>0016</qid>
+        <content>BMW z4 offer</content>
+        <description>You want to know the price of BMW Z4.</description>
+    </query>
+    <query>
+        <qid>0017</qid>
+        <content>Cristiano Ronaldo</content>
+        <description>Cristiano Ronaldo's performance in the World Cup is very eye-catching, so you want to know his background and stories.</description>
+    </query>
+    <query>
+        <qid>0018</qid>
+        <content>the calories of an egg</content>
+        <description>You are trying a balanced diet plan recently and want to know how many calories an egg has.</description>
+    </query>
+    <query>
+        <qid>0019</qid>
+        <content>palpitation symptoms</content>
+        <description>You have been a little uncomfortable recently. Your family said that you may have palpitation. You want to know the symptoms of palpitation.</description>
+    </query>
+    <query>
+        <qid>0020</qid>
+        <content>Birthday cake design picture</content>
+        <description>Your friend is going to have a birthday. You want to search some pictures of a creative design of birthday cake.</description>
+    </query>
+    <query>
+        <qid>0021</qid>
+        <content>International gold price</content>
+        <description>You want to find out about the international market prices of gold.</description>
+    </query>
+    <query>
+        <qid>0022</qid>
+        <content>difference between series and parallel circuits</content>
+        <description>Recently in the circuits course, you didn't understand the difference between series and parallel circuits. You want to search some information on the Internet.</description>
+    </query>
+    <query>
+        <qid>0023</qid>
+        <content>Medvedev</content>
+        <description>You want to know about the background of Medvedev.</description>
+    </query>
+    <query>
+        <qid>0024</qid>
+        <content>what does ridiculous mean</content>
+        <description>You want to find the exact interpretation of the word ridiculous.</description>
+    </query>
+    <query>
+        <qid>0025</qid>
+        <content>What is the biggest waterfall in the world?</content>
+        <description>You want to know the name of the biggest waterfall in the world.</description>
+    </query>
+    <query>
+        <qid>0026</qid>
+        <content>Canon IP1188 driver</content>
+        <description>You want to search for drivers for the Canon IP1188 printer.</description>
+    </query>
+    <query>
+        <qid>0027</qid>
+        <content>Is it okay to drink yogurt after eating persimmon?</content>
+        <description>Some people say that it is not healthy to drink yogurt after eating persimmons. You want to know whether it is true.</description>
+    </query>
+    <query>
+        <qid>0028</qid>
+        <content>nail scratches on car paint</content>
+        <description>You want to find out how to remove nail scratches on car paint.</description>
+    </query>
+    <query>
+        <qid>0029</qid>
+        <content>How to select computer monitors</content>
+        <description>You plan to buy a new computer monitor, so you want to know what criteria should be considered for selecting computer monitors.</description>
+    </query>
+    <query>
+        <qid>0030</qid>
+        <content>Red coral picture</content>
+        <description>You need to make a slide about red coral. You want to search for some pictures of red coral.</description>
+    </query>
+    <query>
+        <qid>0031</qid>
+        <content>disney</content>
+        <description>You want to find the official website of Disney.</description>
+    </query>
+    <query>
+        <qid>0032</qid>
+        <content>translation software</content>
+        <description>You are learning Chinese and you want to search for a software which can help you translate some documents.</description>
+    </query>
+    <query>
+        <qid>0033</qid>
+        <content>dictionary</content>
+        <description>You want to find a convenient online dictionary.</description>
+    </query>
+    <query>
+        <qid>0034</qid>
+        <content>southwest airline</content>
+        <description>You want to find the official website of southwest airline.</description>
+    </query>
+    <query>
+        <qid>0035</qid>
+        <content>yahoo chat</content>
+        <description>You want to find the official website of yahoo chat.</description>
+    </query>
+    <query>
+        <qid>0036</qid>
+        <content>www.chase.com</content>
+        <description>You want to find the website &quot;www.chase.com&quot;</description>
+    </query>
+    <query>
+        <qid>0037</qid>
+        <content>cheap flights</content>
+        <description>You want to book cheap flight tickets online.</description>
+    </query>
+    <query>
+        <qid>0038</qid>
+        <content>priceline.com</content>
+        <description>You want to find the website &quot;priceline.com&quot;</description>
+    </query>
+    <query>
+        <qid>0039</qid>
+        <content>song lyrics</content>
+        <description>you want to find a good lyrics website.</description>
+    </query>
+    <query>
+        <qid>0040</qid>
+        <content>Shinjuku</content>
+        <description>You are going to travel in Tokyo and you want to search for some information about Shinjuku.</description>
+    </query>
+    <query>
+        <qid>0041</qid>
+        <content>grips for M1911 pistol</content>
+        <description>You are interested in the M1911 pistol. You want to search for information about the grips of the M1911 pistol.</description>
+    </query>
+    <query>
+        <qid>0042</qid>
+        <content>angelina jolie</content>
+        <description>Angelina Jolie is your favorite star. You want to read news about her.</description>
+    </query>
+    <query>
+        <qid>0043</qid>
+        <content>jobs with a finance degree</content>
+        <description>You are a graduate with a finance degree. You want to know what jobs you are qualified for.</description>
+    </query>
+    <query>
+        <qid>0044</qid>
+        <content>louisvilleslugger.com</content>
+        <description>You want to find the website &quot;louisvilleslugger.com&quot;</description>
+    </query>
+    <query>
+        <qid>0045</qid>
+        <content>free e-mails greetting cards</content>
+        <description>You want to send an email greeting card to your friend, so you would like to find some free ones on the Internet.</description>
+    </query>
+    <query>
+        <qid>0046</qid>
+        <content>peanut</content>
+        <description>You want to find out about the nutrition of the peanut.</description>
+    </query>
+    <query>
+        <qid>0047</qid>
+        <content>deaths 1927 cleveland ohio</content>
+        <description>You are doing some statistical investigations. You need to know the deaths of Cleveland, Ohio in 1927.</description>
+    </query>
+    <query>
+        <qid>0048</qid>
+        <content>dining room chairs</content>
+        <description>You are renovating your dining room, so you want to search for some dining room chairs.</description>
+    </query>
+    <query>
+        <qid>0049</qid>
+        <content>flemish painter</content>
+        <description>You are interested in art. You want to find some Flemish painters.</description>
+    </query>
+    <query>
+        <qid>0050</qid>
+        <content>white chocolate macadamia nut cookies</content>
+        <description>You have a sweet tooth and want to find information about white chocolate macadamia nut cookies.</description>
+    </query>
+    <query>
+        <qid>0051</qid>
+        <content>prednisone</content>
+        <description>You heard a drug named prednisone. You want to know some information about it.</description>
+    </query>
+    <query>
+        <qid>0052</qid>
+        <content>movie trailer</content>
+        <description>You want to watch some movie trailers to kill time.</description>
+    </query>
+    <query>
+        <qid>0053</qid>
+        <content>wakeboard towers</content>
+        <description>Recently you are interested in wakeboarding. You want to know some information about wakeboard towers.</description>
+    </query>
+    <query>
+        <qid>0054</qid>
+        <content>the friedman test</content>
+        <description>You are learning statistics. You want to know what the Friedman Test is.</description>
+    </query>
+    <query>
+        <qid>0055</qid>
+        <content>blue note</content>
+        <description>You like Jazz. You want to find information about Blue Note Records.</description>
+    </query>
+    <query>
+        <qid>0056</qid>
+        <content>yosemite national park</content>
+        <description>You want to search for some information about yosemite national park for your trip.</description>
+    </query>
+    <query>
+        <qid>0057</qid>
+        <content>walker baskets</content>
+        <description>You want to find some information about walker baskets.</description>
+    </query>
+    <query>
+        <qid>0058</qid>
+        <content>pictures of smiles and teeth</content>
+        <description>You are looking for some pictures of smiles with teeth shown.</description>
+    </query>
+    <query>
+        <qid>0059</qid>
+        <content>boat repair</content>
+        <description>You need to repair your boat, so you want to find some boat repair shops.</description>
+    </query>
+    <query>
+        <qid>0060</qid>
+        <content>car-parts.com</content>
+        <description>You want to find the website &quot;car-parts.com&quot;</description>
+    </query>
+    <query>
+        <qid>0061</qid>
+        <content>old english fonts</content>
+        <description>You need to use old English fonts, so you want to find some ones.</description>
+    </query>
+    <query>
+        <qid>0062</qid>
+        <content>density</content>
+        <description>You want to learn the concept of density.</description>
+    </query>
+    <query>
+        <qid>0063</qid>
+        <content>www.dps.com</content>
+        <description>You want to find the website &quot;www.dps.com&quot;</description>
+    </query>
+    <query>
+        <qid>0064</qid>
+        <content>liver disease</content>
+        <description>Your friend has a liver disease. You would like to know about the symptoms, causes and treatment of liver diseases.</description>
+    </query>
+    <query>
+        <qid>0065</qid>
+        <content>avril lavigne lyrics</content>
+        <description>You love Avril Lavigne. You want to find some lyrics of her songs.</description>
+    </query>
+    <query>
+        <qid>0066</qid>
+        <content>carribean cruises</content>
+        <description>Your friend invites you to take a Caribbean cruise. You want to search for some information about it.</description>
+    </query>
+    <query>
+        <qid>0067</qid>
+        <content>tiki artist</content>
+        <description>You saw a tiki art painting in an exhibition. You want to find some tiki artists.</description>
+    </query>
+    <query>
+        <qid>0068</qid>
+        <content>hp service</content>
+        <description>There is something wrong with your HP products, so you want to find HP customer services.</description>
+    </query>
+    <query>
+        <qid>0069</qid>
+        <content>snow crab legs</content>
+        <description>You heard that the snow crab legs are delicious. You want to find some information about them.</description>
+    </query>
+    <query>
+        <qid>0070</qid>
+        <content>maps of costa rica</content>
+        <description>You are going to travel to Costa Rica, so you need to search for maps of Costa Rica.</description>
+    </query>
+    <query>
+        <qid>0071</qid>
+        <content>floor tile</content>
+        <description>Your home needs to be decorated and you want to know more about the floor tile.</description>
+    </query>
+    <query>
+        <qid>0072</qid>
+        <content>american tourister luggage</content>
+        <description>You plan to go out on holiday, so you want to buy an American Tourister suitcase.</description>
+    </query>
+    <query>
+        <qid>0073</qid>
+        <content>lululemon</content>
+        <description>You like yoga and want to buy some Lululemon clothes.</description>
+    </query>
+    <query>
+        <qid>0074</qid>
+        <content>www.mbusa.com</content>
+        <description>You want to find the website &quot;www.mbusa.com&quot;</description>
+    </query>
+    <query>
+        <qid>0075</qid>
+        <content>things to do &amp; see in croatia</content>
+        <description>You are going to travel to Croatia, so you want to know what things to do and see in Croatia.</description>
+    </query>
+    <query>
+        <qid>0076</qid>
+        <content>pogo mah jong</content>
+        <description>You heard Pogo is a great place to play free online games. You want to find mahjong games on it.</description>
+    </query>
+    <query>
+        <qid>0077</qid>
+        <content>snow white costume</content>
+        <description>Your daughter loves Snow White. You want to search for some Snow White costumes.</description>
+    </query>
+    <query>
+        <qid>0078</qid>
+        <content>movies for kids</content>
+        <description>You plan to watch movies with your children, and you want a few suggestions.</description>
+    </query>
+    <query>
+        <qid>0079</qid>
+        <content>alcohol and its negative effects on society</content>
+        <description>Some people say that alcohol has negative effects on society. You want to know something about it.</description>
+    </query>
+    <query>
+        <qid>0080</qid>
+        <content>www.gardenburger.com</content>
+        <description>You want to find the website &quot;www.gardenburger.com&quot;</description>
+    </query>
+</queries>

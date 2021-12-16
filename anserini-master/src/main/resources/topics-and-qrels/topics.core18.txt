@@ -1,0 +1,650 @@
+<top>
+<num> Number: 321 </num>
+<title>
+Women in Parliaments 
+</title>
+<desc> Description:
+Pertinent documents will reflect the fact that women continue to be poorly represented in parliaments across the world, and the gap in political power between the sexes is very wide, particularly in the Third World.  
+</desc>
+<narr> Narrative
+Pertinent documents relating to this issue will discuss the lack of representation by women, the countries that mandate the inclusion of a certain percentage of women in their legislatures, decreases if any in female representation in legislatures, and those countries in which there is no representation of women.  
+</narr>
+</top>
+
+<top>
+<num> Number: 336 </num>
+<title>
+Black Bear Attacks 
+</title>
+<desc> Description:
+A relevant document would discuss the frequency of vicious black bear attacks worldwide and the possible causes for this savage behavior.  
+</desc>
+<narr> Narrative
+It has been reported that food or cosmetics sometimes attract hungry black bears, causing them to viciously attack humans. Relevant documents would include the aforementioned causes as well as speculation preferably from the scientific community as to other possible causes of vicious attacks by black bears. A relevant document would also detail steps taken or new methods devised by wildlife officials to control and/or modify the savageness of the black bear.  
+</narr>
+</top>
+
+<top>
+<num> Number: 341 </num>
+<title>
+Airport Security 
+</title>
+<desc> Description:
+A relevant document would discuss the effectiveness of efforts to better scrutinize passengers and luggage on all flights, but particularly international flights.  
+</desc>
+<narr> Narrative
+A relevant document would contain reports on what steps airports worldwide have taken to better scrutinize passengers and their luggage on domestic and international flights and to step up screening of all carry-on baggage. With increased concerns about terrorism, articles on airport security relating in particular to additional steps taken by airports to increase flight safety would be relevant. The mere mention of enhanced security does not constitute relevance. Additional steps refer to something beyond just passenger and carry-on screening using the normal methods. Examples of new steps would be additional personnel, automated screening processes, sophisticated monitoring and screening devices, whole body imaging techniques, and extraordinary measures to screen luggage in the baggage compartment.  
+</narr>
+</top>
+
+<top>
+<num> Number: 347 </num>
+<title>
+Wildlife Extinction 
+</title>
+<desc> Description:
+The spotted owl episode in America highlighted U.S. efforts to prevent the extinction of wildlife species. What is not well known is the effort of other countries to prevent the demise of species native to their countries. What other countries have begun efforts to prevent such declines?  
+</desc>
+<narr> Narrative
+A relevant item will specify the country, the involved species, and steps taken to save the species.  
+</narr>
+</top>
+
+<top>
+<num> Number: 350 </num>
+<title>
+Health and Computer Terminals 
+</title>
+<desc> Description:
+Is it hazardous to the health of individuals to work with computer terminals on a daily basis?  
+</desc>
+<narr> Narrative
+Relevant documents would contain any information that expands on any physical disorder/problems that may be associated with the daily working with computer terminals. Such things as carpel tunnel, cataracts, and fatigue have been said to be associated, but how widespread are these or other problems and what is being done to alleviate any health problems.  
+</narr>
+</top>
+
+<top>
+<num> Number: 362 </num>
+<title>
+human smuggling 
+</title>
+<desc> Description:
+Identify incidents of human smuggling.  
+</desc>
+<narr> Narrative
+A relevant document shows an incident of humans (at least ten) being smuggled. The smugglers would have to realize a monetary gain for their actions, while the people being smuggled may or may not be willing participants.  
+</narr>
+</top>
+
+<top>
+<num> Number: 363 </num>
+<title>
+transportation tunnel disasters 
+</title>
+<desc> Description:
+What disasters have occurred in tunnels used for transportation?  
+</desc>
+<narr> Narrative
+A relevant document identifies a disaster in a tunnel used for trains, motor vehicles, or people. Wind tunnels and tunnels used for wiring, sewage, water, oil, etc. are not relevant. The cause of the problem may be fire, earthquake, flood, or explosion and can be accidental or planned. Documents that discuss tunnel disasters occurring during construction of a tunnel are relevant if lives were threatened.  
+</narr>
+</top>
+
+<top>
+<num> Number: 367 </num>
+<title>
+piracy 
+</title>
+<desc> Description:
+What modern instances have there been of old fashioned piracy, the boarding or taking control of boats?  
+</desc>
+<narr> Narrative
+Documents discussing piracy on any body of water are relevant. Documents discussing the legal taking of ships or their contents by a national authority are non-relevant. Clashes between fishing vessels over fishing are not relevant, unless one vessel is boarded.  
+</narr>
+</top>
+
+<top>
+<num> Number: 375 </num>
+<title>
+hydrogen energy 
+</title>
+<desc> Description:
+What is the status of research on hydrogen as a feasible energy source?  
+</desc>
+<narr> Narrative
+A relevant document will describe progress in research on controlled hydrogen fusion or the use of hydrogen as fuel to power engines.  
+</narr>
+</top>
+
+<top>
+<num> Number: 378 </num>
+<title>
+euro opposition 
+</title>
+<desc> Description:
+Identify documents that discuss opposition to the use of the euro, the European currency.  
+</desc>
+<narr> Narrative
+A relevant document should include the countries or individuals who oppose the use of the euro and the reason(s) for their opposition to its use.  
+</narr>
+</top>
+
+<top>
+<num> Number: 393 </num>
+<title>
+mercy killing 
+</title>
+<desc> Description:
+Identify documents that discuss mercy killings.  
+</desc>
+<narr> Narrative
+All individual cases of mercy killing are relevant, except that "letters to the editor" mentioning cases are not relevant. The removal of life support systems is relevant. A general mention or description of a case without specifics, such as victim's name are not relevant. Cases determined to be a murder-suicide are not relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 397 </num>
+<title>
+automobile recalls 
+</title>
+<desc> Description:
+Identify documents that discuss the reasons for automobile recalls.  
+</desc>
+<narr> Narrative
+A relevant document will specify major or minor reasons for automobile recalls by car manufacturers. Documents that discuss truck recalls are not relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 400 </num>
+<title>
+Amazon rain forest 
+</title>
+<desc> Description:
+What measures are being taken by local South American authorities to preserve the Amazon tropical rain forest?  
+</desc>
+<narr> Narrative
+Relevant documents may identify: the official organizations, institutions, and individuals of the countries included in the Amazon rain forest; the measures being taken by them to preserve the rain forest; and indications of degrees of success in these endeavors.  
+</narr>
+</top>
+
+<top>
+<num> Number: 408 </num>
+<title>
+tropical storms 
+</title>
+<desc> Description:
+What tropical storms (hurricanes and typhoons) have caused significant property damage and loss of life?  
+</desc>
+<narr> Narrative
+The date of the storm, the area affected, and the extent of damage/casualties are all of interest. Documents that describe the damage caused by a tropical storm as "slight", "limited", or "small" are not relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 414 </num>
+<title>
+Cuba, sugar, exports 
+</title>
+<desc> Description:
+How much sugar does Cuba export and which countries import it?  
+</desc>
+<narr> Narrative
+A relevant document will provide information regarding Cuba's sugar trade. Sugar production statistics are not relevant unless exports are mentioned explicitly.  
+</narr>
+</top>
+
+<top>
+<num> Number: 422 </num>
+<title>
+art, stolen, forged 
+</title>
+<desc> Description:
+What incidents have there been of stolen or forged art?  
+</desc>
+<narr> Narrative
+Instances of stolen or forged art in any media are relevant. Stolen mass-produced things, even though they might be decorative, are not relevant (unless they are mass-produced art reproductions). Pirated software, music, movies, etc. are not relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 426 </num>
+<title>
+law enforcement, dogs 
+</title>
+<desc> Description:
+Provide information on the use of dogs worldwide for law enforcement purposes.  
+</desc>
+<narr> Narrative
+Relevant items include specific information on the use of dogs during an operation. Training of dogs and their handlers are also relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 427 </num>
+<title>
+UV damage, eyes 
+</title>
+<desc> Description:
+Find documents that discuss the damage ultraviolet (UV) light from the sun can do to eyes.  
+</desc>
+<narr> Narrative
+A relevant document will discuss diseases that result from exposure of the eyes to UV light, treatments for the damage, and/or education programs that help prevent damage. Documents discussing treatment methods for cataracts and ocular melanoma are relevant even when a specific cause is not mentioned. However, documents that discuss radiation damage from nuclear sources or lasers are not relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 433 </num>
+<title>
+Greek, philosophy, stoicism 
+</title>
+<desc> Description:
+Is there contemporary interest in the Greek philosophy of stoicism?  
+</desc>
+<narr> Narrative
+Actual references to the philosophy or philosophers, productions of Greek stoic plays, and new "stoic" artistic productions are all relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 439 </num>
+<title>
+inventions, scientific discoveries 
+</title>
+<desc> Description:
+What new inventions or scientific discoveries have been made?  
+</desc>
+<narr> Narrative
+The word "new" in the description is defined as occurring in the 1990s. Documents that indicate a "recent" invention or scientific discovery are considered relevant. Discoveries made in astronomy or any scientific discoveries that are not patentable are not relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 442 </num>
+<title>
+heroic acts 
+</title>
+<desc> Description:
+Find accounts of selfless heroic acts by individuals or small groups for the benefit of others or a cause.  
+</desc>
+<narr> Narrative
+Relevant documents will contain a description of specific acts. General statements concerning heroic acts are not relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 445 </num>
+<title>
+women clergy 
+</title>
+<desc> Description:
+What other countries besides the United States are considering or have approved women as clergy persons?  
+</desc>
+<narr> Narrative
+To be relevant, a document must indicate either a country where a woman has been installed as clergy or a country that is considering such an installation. The clergy position must be as church pastor rather than some other church capacity (e.g., nun or choir member).  
+</narr>
+</top>
+
+<top>
+<num> Number: 626 </num>
+<title>
+human stampede 
+</title>
+<desc> Description:
+Find reports of human stampedes that have resulted in 20 or more deaths.  
+</desc>
+<narr> Narrative
+Documents that mention people being killed by animal stampedes are not relevant. Relevant documents could mention human stampedes in any public place such as a sporting event, bar, restaurant or entertainment event.  
+</narr>
+</top>
+
+<top>
+<num> Number: 646 </num>
+<title>
+food stamps increase 
+</title>
+<desc> Description:
+Find documents that discuss an increase in the number of people receiving food stamp benefits.  
+</desc>
+<narr> Narrative
+Documents that discuss changes in the law allowing more eligible food stamp recipients are relevant. Documents that imply that a certain group of people, such as immigrants, will be eligible for food stamps are also relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 690 </num>
+<title>
+college education advantage 
+</title>
+<desc> Description:
+Find documents which describe an advantage in hiring potential or increased income for graduates of U.S. colleges.  
+</desc>
+<narr> Narrative
+Relevant documents cite some advantage of a college education for job opportunities. Documents citing better opportunities for non-college vocational-training is not relevant.  
+</narr>
+</top>
+
+<top>
+<num> Number: 801 </num>
+<title>
+Africa polio vaccination
+</title>
+<desc> Description:
+Find documents that describe religious objections to polio vaccination programs in Africa.
+</desc>
+<narr> Narrative
+Religious beliefs have caused some groups in Africa to hinder or stop polio vaccination programs there.  Relevant documents discuss the religious principles that cause objections to polio vaccination programs in the area or describe the impact the objections have had on polio vaccinations.
+</narr>
+</top>
+
+<top>
+<num> Number: 802 </num>
+<title>
+women driving in Saudi Arabia
+</title>
+<desc> Description:
+Find documents that include expressions of support for changing the law to allow women in Saudi Arabia to drive.
+</desc>
+<narr> Narrative
+Relevant documents describe protests against the current ban on women driving in Saudi Arabia or include statements in support of lifting the ban from women, leaders and spokespeople, either domestically or internationally. Articles that note the existence of the ban while giving only historical, political or religious reasons for keeping it are not relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 803 </num>
+<title>
+declining middle class in U.S.
+</title>
+<desc> Description:
+Identify the reasons for the decline of the middle class in the U.S.
+</desc>
+<narr> Narrative
+Relevant documents must identify one or more specific reasons for the decline of the middle class in the U.S., which include any economic or political decisions that have a direct negative effect on middle class employment.
+</narr>
+</top>
+
+<top>
+<num> Number: 804 </num>
+<title>
+"Women on 20s"
+</title>
+<desc> Description:
+Find descriptions of the "Women on 20s" campaign to select a female to replace Andrew Jackson on the U.S. $20 bill.
+</desc>
+<narr> Narrative
+Relevant documents describe the "Women on 20s" campaign and reactions pro and con to the idea of Harriet Tubman appearing on the U.S. $20 bill. Discussion of the irony of Harriet Tubman replacing Andrew Jackson are also relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 805 </num>
+<title>
+eating invasive species
+</title>
+<desc> Description:
+Would eating invasive species be a viable method of controlling/eradicating them?
+</desc>
+<narr> Narrative
+Relevant documents identify invasive species in the U.S. that can be eaten by human beings and discuss the likelihood of controlling the species through consumption.  Comments on the color, taste, texture, or other culinary qualities of particular invasive species are also relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 806 </num>
+<title>
+computers and paralyzed people
+</title>
+<desc> Description:
+How can computer technology improve the life of paralyzed people?
+</desc>
+<narr> Narrative
+Relevant documents describe ways in which computer technology can improve the lives of people who are paralyzed, where the technology is either currently in use or is under development. Use of exoskeletons to help paralyzed people move is relevant, though other uses of exoskeletons are not relevant. Tests and studies on animals are not relevant if they don't show a direct link to human use.  Use of technology for persons with disabilities in general is also not relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 807 </num>
+<title>
+Chavez medical treatment in Cuba
+</title>
+<desc> Description:
+Find documents that describe the medical treatment that Venezuelan President Chavez received in Cuba.
+</desc>
+<narr> Narrative
+Relevant documents contain information about what malady prompted Venezuelan President Chavez to seek medical treatment in Cuba or descriptions of the treatment itself.  Documents published after his death that describe the treatment he received are also relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 808 </num>
+<title>
+Boston marathon bombing verdict
+</title>
+<desc> Description:
+Find documents that contain the verdict reached in the trial of the Boston marathon bombing suspects.
+</desc>
+<narr> Narrative
+To be relevant, a document must explicitly mention the verdict reached in the trial of the Boston marathon bombing suspects or describe the sentences the suspects received.
+</narr>
+</top>
+
+<top>
+<num> Number: 809 </num>
+<title>
+protect Earth from asteroids
+</title>
+<desc> Description:
+What efforts are underway to protect Earth from asteroid strikes?
+</desc>
+<narr> Narrative
+Relevant documents will describe real-life efforts to protect earth from an asteroid strike. Information on detecting and tracking asteroids is not relevant unless there is some mention of plans for defense.
+</narr>
+</top>
+
+<top>
+<num> Number: 810 </num>
+<title>
+diabetes and toxic chemicals
+</title>
+<desc> Description:
+Is there a link between toxic chemical exposure and diabetes?
+</desc>
+<narr> Narrative
+Identify documents that discuss a link between exposure to toxic chemical and diabetes, or that explicitly deny any such a link. 
+</narr>
+</top>
+
+<top>
+<num> Number: 811 </num>
+<title>
+car hacking
+</title>
+<desc> Description:
+Find documents that discuss how vulnerable cars are to being hacked, or describe tools, standards and/or policies to deter such hacking.
+</desc>
+<narr> Narrative
+Relevant documents discuss ways in which cars with digital systems can be hacked.  Documents that report on efforts by automakers, technology developers, legislative bodies and others to proactively prevent and detect car hacking are also relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 812 </num>
+<title>
+social media and teen suicide 
+</title>
+<desc> Description:
+Find documents detailing the use of social media to bully a teenager that ultimately led to the teen's suicide.
+</desc>
+<narr> Narrative
+A relevant document must give a full account of a case in which a teen committed suicide as a result of being the target of bullying on any form of social media.  A full account includes the source of the bullying and any consequences to be faced by the bully.
+</narr>
+</top>
+
+<top>
+<num> Number: 813 </num>
+<title>
+marijuana potency
+</title>
+<desc> Description:
+Find documents that describe differences in marijuana potency now compared to a generation ago.
+</desc>
+<narr> Narrative
+A relevant document compares or highlights the difference in THC, the psychoactive chemical ingredient in marijuana that is responsible for its potency, in marijuana generally available now as compared to 20 or 30 years ago.
+</narr>
+</top>
+
+<top>
+<num> Number: 814 </num>
+<title>
+China one-child impact
+</title>
+<desc> Description:
+What has been the long-term impact of China's one-child policy?
+</desc>
+<narr> Narrative
+Relevant documents will contain discussion of the impact China's one-child policy has had on its economy and/or social structure.
+</narr>
+</top>
+
+<top>
+<num> Number: 815 </num>
+<title>
+Jason Rezaian released from Iran
+</title>
+<desc> Description:
+Find documents that discuss Washington Post journalist Jason Rezaian release from Iranian prison. 
+</desc>
+<narr> Narrative
+Relevant documents include those that mention that Washington Post journalist Jason Rezaian had served in an Iranian prison and was released, as well as those that describe efforts from the Washington Post and others to have him released.
+</narr>
+</top>
+
+<top>
+<num> Number: 816 </num>
+<title>
+federal minimum wage increase
+</title>
+<desc> Description:
+Find descriptions of the actions and reactions of either the President or Congress to increase the U.S. federal minimum wage.
+</desc>
+<narr> Narrative
+Relevant documents include descriptions of advocacy or actions (or lack thereof) taken by the President or Congress to increase the U.S. federal minimum wage, including increases for government contract workers. Analyses and discussions of pros and cons of an increase by talking heads is not relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 817 </num>
+<title>
+Alan Gross released by Cuba
+</title>
+<desc> Description:
+Find details of the prisoner exchange between Cuba and the U.S. that released USAID contractor Alan Gross from Cuban prison.
+</desc>
+<narr> Narrative
+Alan Gross, a USAID contractor imprisoned in Cuba for five years, was released in a prisoner exchange between the U.S. and Cuba.  Relevant documents must contain discussion of his actual release, not simply discussion of efforts to have him released or observations about his imprisonment.
+</narr>
+</top>
+
+<top>
+<num> Number: 818 </num>
+<title>
+eggs in a healthy diet
+</title>
+<desc> Description:
+Find documents that support using eggs in a healthy diet.
+</desc>
+<narr> Narrative
+A relevant document contains statements that eggs are healthy and are okay to include in one's diet, or that recommends eating eggs for their nutritional value.
+</narr>
+</top>
+
+<top>
+<num> Number: 819 </num>
+<title>
+U.S. age demographics
+</title>
+<desc> Description:
+Find reports of age demographics in the U.S.: the percentage of population per age group for either total population or workforce.
+</desc>
+<narr> Narrative
+A relevant document contains specific age demographic data for the U.S., giving what percentage each age group comprises of either the overall population or the workforce.
+</narr>
+</top>
+
+<top>
+<num> Number: 820 </num>
+<title>
+bacterial infection mortality rate
+</title>
+<desc> Description:
+Identify documents that specify the mortality rate of some specific bacterial infection.
+</desc>
+<narr> Narrative
+A relevant document will identify the mortality rates for specific bacteria that cause serious infections in humans.  All bacterial infections that cause human health problems are relevant, but viral infections are not relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 821 </num>
+<title>
+email scams
+</title>
+<desc> Description:
+Find reports of email scams that have defrauded people of money or other assets.
+</desc>
+<narr> Narrative
+A relevant document will describe an instance where someone has suffered an actual loss as the result of an email scam, where sufficient details are provided to identify the particular scam used. 
+</narr>
+</top>
+
+<top>
+<num> Number: 822 </num>
+<title>
+Sony cyberattack
+</title>
+<desc> Description:
+Find documents that identify the specific group responsible for the cyberattack on Sony Pictures.
+</desc>
+<narr> Narrative
+Relevant documents must identify the specific group responsible for the cyberattack on Sony Pictures. Generic references to countries assumed to be behind the hack are not relevant. 
+</narr>
+</top>
+
+<top>
+<num> Number: 823 </num>
+<title>
+control of MRSA
+</title>
+<desc> Description:
+Identify documents that describe means of controlling the spread of methicillin-resistant Staph Aureus (MRSA) bacteria.
+</desc>
+<narr> Narrative
+A relevant document will specify a physical or chemical means of controlling the spread of methicillin-resistant Staph Aureus (MRSA) bacteria in humans. Documents describing either precautionary measures or treatment of existing infections are both relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 824 </num>
+<title>
+Bezos purchases Washington Post
+</title>
+<desc> Description:
+Find documents describing reactions to the purchase of the Washington Post by Jeff Bezos or news about Bezos' plans for the paper.
+</desc>
+<narr> Narrative
+Relevant documents will include news about and reactions to the purchase of the Washington Post by Jeff Bezos. Statements from Bezos about his plans or from the Graham family about the sale are both relevant.
+</narr>
+</top>
+
+<top>
+<num> Number: 825 </num>
+<title>
+ethanol and food prices
+</title>
+<desc> Description:
+Does diversion of U.S. corn crops into ethanol for fuel increase food prices?
+</desc>
+<narr> Narrative
+Identify documents that discuss the impact of growing corn with the intention of using it for ethanol fuel on food prices in the U.S.
+</narr>
+</top>
+

@@ -1,0 +1,1972 @@
+{
+    "paper_id": "PMC140314",
+    "metadata": {
+        "title": "Airborne rhinovirus detection and effect of ultraviolet irradiation on detection by a semi-nested RT-PCR assay",
+        "authors": [
+            {
+                "first": "Theodore",
+                "middle": [
+                    "A"
+                ],
+                "last": "Myatt",
+                "suffix": "",
+                "email": "tmyatt@hsph.harvard.edu",
+                "affiliation": {}
+            },
+            {
+                "first": "Sebastian",
+                "middle": [
+                    "L"
+                ],
+                "last": "Johnston",
+                "suffix": "",
+                "email": "s.johnston@ic.ac.uk",
+                "affiliation": {}
+            },
+            {
+                "first": "Stephen",
+                "middle": [],
+                "last": "Rudnick",
+                "suffix": "",
+                "email": "srudnick@hsph.harvard.edu",
+                "affiliation": {}
+            },
+            {
+                "first": "Donald",
+                "middle": [
+                    "K"
+                ],
+                "last": "Milton",
+                "suffix": "",
+                "email": "dmilton@hsph.harvard.edu",
+                "affiliation": {}
+            }
+        ]
+    },
+    "body_text": [
+        {
+            "text": "Rhinoviruses have been associated with 40% to 65% of \"common colds\" studied by methods of virus culture [1,2]. With the use of reverse transcriptase \u2013 polymerase chain reaction (RT-PCR), rhinovirus has been shown to be associated with 53% of all colds throughout the year and up to 92% of colds during the autumn outbreak period [3]. Rhinviruses have been implicated in the exacerbation of asthma symptoms [4] and may even play a role in asthma related deaths [5]. Due to their role in the exacerbation of asthma symptoms, rhinoviruses are a major cause of pediatric hospitalizations [6].",
+            "cite_spans": [
+                {
+                    "start": 105,
+                    "end": 106,
+                    "mention": "1",
+                    "ref_id": "BIBREF0"
+                },
+                {
+                    "start": 107,
+                    "end": 108,
+                    "mention": "2",
+                    "ref_id": "BIBREF11"
+                },
+                {
+                    "start": 330,
+                    "end": 331,
+                    "mention": "3",
+                    "ref_id": "BIBREF22"
+                },
+                {
+                    "start": 407,
+                    "end": 408,
+                    "mention": "4",
+                    "ref_id": "BIBREF31"
+                },
+                {
+                    "start": 461,
+                    "end": 462,
+                    "mention": "5",
+                    "ref_id": "BIBREF32"
+                },
+                {
+                    "start": 585,
+                    "end": 586,
+                    "mention": "6",
+                    "ref_id": "BIBREF33"
+                }
+            ],
+            "section": "Background",
+            "ref_spans": []
+        },
+        {
+            "text": "Although rhinoviruses have been thought to be transmitted via large droplets or contact [7], studies in the 1980's demonstrated that fomites are not an effective means of transmitting rhinovirus infections [8-10]. While direct inoculation of respiratory secretions has been shown to transmit infection, this is not a likely route of transmission in older children and adults as survival on hands is brief [9]. Airborne transmission of infection was clearly demonstrated in one experimental study on adults [8]. However, in the absence of epidemiological studies designed to conclusively identify modes of transmission, the role of airborne transmission in viral respiratory infection remains controversial.",
+            "cite_spans": [
+                {
+                    "start": 89,
+                    "end": 90,
+                    "mention": "7",
+                    "ref_id": "BIBREF34"
+                },
+                {
+                    "start": 207,
+                    "end": 208,
+                    "mention": "8",
+                    "ref_id": "BIBREF35"
+                },
+                {
+                    "start": 209,
+                    "end": 211,
+                    "mention": "10",
+                    "ref_id": "BIBREF1"
+                },
+                {
+                    "start": 406,
+                    "end": 407,
+                    "mention": "9",
+                    "ref_id": "BIBREF36"
+                },
+                {
+                    "start": 507,
+                    "end": 508,
+                    "mention": "8",
+                    "ref_id": "BIBREF35"
+                }
+            ],
+            "section": "Background",
+            "ref_spans": []
+        },
+        {
+            "text": "An impediment to future studies of airborne transmission of respiratory infections is the lack of established methods for the detection of airborne respiratory microorganisms appropriate for epidemiological studies. Several laboratory studies have been conducted in which aerosolized respiratory viruses have been collected and quantified with culture based methods [11-13]. These studies were conducted to determine the effects of temperature and relative humidity on the infectivity of respiratory viruses, but their methods are not suitable for the extremely low concentrations of virus in field experiments. PCR based assays have been employed to detect airborne respiratory viruses in a number of small studies conducted in hospital rooms of infected patients [14-17] and in pig houses [18].",
+            "cite_spans": [
+                {
+                    "start": 367,
+                    "end": 369,
+                    "mention": "11",
+                    "ref_id": "BIBREF2"
+                },
+                {
+                    "start": 370,
+                    "end": 372,
+                    "mention": "13",
+                    "ref_id": "BIBREF4"
+                },
+                {
+                    "start": 766,
+                    "end": 768,
+                    "mention": "14",
+                    "ref_id": "BIBREF5"
+                },
+                {
+                    "start": 769,
+                    "end": 771,
+                    "mention": "17",
+                    "ref_id": "BIBREF8"
+                },
+                {
+                    "start": 792,
+                    "end": 794,
+                    "mention": "18",
+                    "ref_id": "BIBREF9"
+                }
+            ],
+            "section": "Background",
+            "ref_spans": []
+        },
+        {
+            "text": "To determine if airborne microorganisms can be inactivated, and therefore, prevent infection transmission, studies during the 1940's\u20131970's used ultraviolet germicidal irradation (UVGI) to inactivated airborne microorganisms under experimental conditions [19-22] and reduced airborne infections in a number of settings, such as hospitals [23], military housing [24], and classrooms [25]. However, UVGI was not effective against the highly contagious measles virus when children had extensive contact in buses and crowded tenements [26,27]. Thus, it fell into disfavor and has not been extensively employed nor has it been studied using molecular methods of detecting its efficacy.",
+            "cite_spans": [
+                {
+                    "start": 256,
+                    "end": 258,
+                    "mention": "19",
+                    "ref_id": "BIBREF10"
+                },
+                {
+                    "start": 259,
+                    "end": 261,
+                    "mention": "22",
+                    "ref_id": "BIBREF14"
+                },
+                {
+                    "start": 339,
+                    "end": 341,
+                    "mention": "23",
+                    "ref_id": "BIBREF15"
+                },
+                {
+                    "start": 362,
+                    "end": 364,
+                    "mention": "24",
+                    "ref_id": "BIBREF16"
+                },
+                {
+                    "start": 383,
+                    "end": 385,
+                    "mention": "25",
+                    "ref_id": "BIBREF17"
+                },
+                {
+                    "start": 532,
+                    "end": 534,
+                    "mention": "26",
+                    "ref_id": "BIBREF18"
+                },
+                {
+                    "start": 535,
+                    "end": 537,
+                    "mention": "27",
+                    "ref_id": "BIBREF19"
+                }
+            ],
+            "section": "Background",
+            "ref_spans": []
+        },
+        {
+            "text": "Because we anticipate future studies of UVGI will use PCR based detection methods, it is important to determine how PCR assays react to UVGI damaged genetic material. In DNA, UVGI predominately produces damage in the form of cyclobutylpyrimidine dimers and (6\u20134) photoproducts. These photoproducts disrupt the replication of the genetic material and, therefore, inhibit the replication. There is limited information regarding the effect of UVGI on RNA. There are conflicting studies on viruses with RNA genomes that have attempted to determine if PCR assays are inhibited by UVGI. Two studies involving hepatitis A virus (single-stranded positive sense RNA genome) and rotavirus (double-stranded RNA genome), showed their PCR assays to be inhibited by UV inactivation of the viruses [28,29]. Conversely, Ma et al showed no effect of UV on a PCR assay when they irradiated poliovirus (single-stranded positive sense RNA genome) [30]. In this study, we present an extremely sensitive PCR based assay to detect airborne rhinovirus and demonstrate the effect of ultraviolet irradiation on the assay.",
+            "cite_spans": [
+                {
+                    "start": 784,
+                    "end": 786,
+                    "mention": "28",
+                    "ref_id": "BIBREF20"
+                },
+                {
+                    "start": 787,
+                    "end": 789,
+                    "mention": "29",
+                    "ref_id": "BIBREF21"
+                },
+                {
+                    "start": 928,
+                    "end": 930,
+                    "mention": "30",
+                    "ref_id": "BIBREF23"
+                }
+            ],
+            "section": "Background",
+            "ref_spans": []
+        },
+        {
+            "text": "We obtained rhinovirus 16 strain 11757 from ATCC (Manassas, Virginia) with a titer of 107.25 particles per 0.2 ml. The suspension was diluted with phosphate buffered saline (PBS) to create four different concentrations to be used in the experiment.",
+            "cite_spans": [],
+            "section": "Organism ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "We generated a rhinoviral aerosol with a 6-jet Collison nebulizer (model CN-38, BGI, Waltham, MA), which generates 2-\u03bcm mass-median diameter (MMD) droplets when run at 20 psig of air pressure [31]. The nebulizing solution consists of PBS, diluted virus, and 0.05 g/l uranine. We used the uranine as a fluorescent tracer, so that some filters could be used to determine the percentage of actual collection versus theoretical collection. The aerosol was generated in a specially designed aerosolization chamber that had been used in studies of UV sensitivity of Serratia marcescens and bacilli Calmette-Gu\u00e9rin (Figure 1) [32].",
+            "cite_spans": [
+                {
+                    "start": 193,
+                    "end": 195,
+                    "mention": "31",
+                    "ref_id": "BIBREF24"
+                },
+                {
+                    "start": 620,
+                    "end": 622,
+                    "mention": "32",
+                    "ref_id": "BIBREF25"
+                }
+            ],
+            "section": "Aerosolization and chamber description ::: Methods",
+            "ref_spans": [
+                {
+                    "start": 616,
+                    "end": 617,
+                    "mention": "1",
+                    "ref_id": "FIGREF0"
+                }
+            ]
+        },
+        {
+            "text": "The chamber consists of four parts: a drying jar, a 165 mm square duct where the aerosol first enters the chamber, a UV exposure chamber, and sampling ports. We attached a Collison nebulizer to the drying jar, where the aerosol is given time to dry, before entering the square duct through a 9-port manifold, which creates a uniformly distributed aerosol. The aerosol next enters the UV exposure chamber. The UV exposure chamber is comprised of a fused quartz UV exposure window (279 \u00d7 254 mm), on which a UV fixture containing six 36-watt UV lamps (Lumalier, Memphis, Tennessee) sits. We inserted two types of screens beneath the UV fixture to adjust the level of irradiance. Downstream of the exposure chamber a slide contains three ports. One port is used to collect the aerosol sample with our sampling filters (Teflo 2.0 \u03bcm pore, Pall Gelman, Ann Arbor, Michigan) mounted in filter cassettes (Millipore Corp., Bedford, Massachusetts) while the other ports can be loaded with two Teflo filters in series, to allow a bypass while changing sampling filters. Two filters were used in the bypass to ensure that no aerosol escaped the chamber. The multiple ports allow changing of filters without interrupting the aerosol flow. Makeup air passes through a Teflon filter prior to entering the chamber to prevent environmental microorganisms from entering the chamber.",
+            "cite_spans": [],
+            "section": "Aerosolization and chamber description ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "Filtered air was pumped through the chamber at a rate of 8.5 l/min monitored by a rotameter. To provide additional protection, the experimental chamber was housed within a Class II, Type A biosafety cabinet. Although temperature and %RH were not controlled, they were measured with continuous monitors (HOBO H08-004-02 four channel data loggers, Onset Computer Corp., Bourne, Massachusetts) downstream of the sampling filters.",
+            "cite_spans": [],
+            "section": "Aerosolization and chamber description ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "Airflow through the chamber was maintained at 8.5 l/min for 10 minutes. We then began the aerosolization of the rhinoviral solution and allowed the aerosol to flow through the bypass filter for 20 minutes. Air samples were then collected for 10 minutes. For sampling runs that included testing for effects of UV exposure, the UV radiation was turned on and allowed to warm up for 10 minutes while airflow was directed through the bypass filter. An air sample was then collected for 10 minutes. Three replicates of UV exposed and nonexposed particle samples were collected during each sampling run. Aerosols were exposed to an irradiance level of 30 mW/m2 for 22.8 s for a UV dose of 684 mJ/m2.",
+            "cite_spans": [],
+            "section": "Aerosol procedures ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "Prior to the aerosol experiments, we spiked filters with progressively more dilute viral suspensions to determine the limit of detection of our extraction and semi-nested RT-PCR assay. For spiking, 1 \u03bcl methanol was placed on the filter as a wetting agent followed by 1 \u03bcl of diluted virus. Filters were and allowed to dry prior to extraction. We also spiked one filter prior to each aerosol chamber run as a positive control. To test the stability of virus on the filters, a test was conducted in which spiked filters were used to collect air samples for one week in our laboratory, which has single pass air and is therefore an unlikely source of rhinovirus.",
+            "cite_spans": [],
+            "section": "Spiking experiments ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "We placed the filters face down in a 60 mm petri dish using sterile forceps. We then added 560 \u03bcl of prepared AVL buffer containing carrier RNA (Qiagen QIAamp Viral RNA Mini Kit) and 140 \u03bcl phosphate buffered saline (PBS). After placing the lids on the dishes, the dishes were secured to an orbital tabletop shaker (VWR Scientific Products, Thorofare, New Jersey) and rotated for 20 minutes at 360 RPM. After shaking, we pipeted the eluted material from the petri dish into a sterile microfuge tube.",
+            "cite_spans": [],
+            "section": "Filter extraction ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "We extracted the RNA from the filter samples with the Qiagen QIAamp Viral RNA Mini Kit following manufacturer's protocol. The use of the Qiagen QIAamp Viral RNA Mini Kit resulted in 80 \u03bcl of purified viral RNA.",
+            "cite_spans": [],
+            "section": "RNA extraction ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "Following extraction, we first amplified the picornavirus RNA using primers OL26 (5'-GCA CTT CTG TTT CCC C-3') [33] and OL27 (5'-CGG ACA CCC AAA GTA G-3') [33] using the Invitrogen SuperScript One-Step RT-PCR with PLATINUM Taq Kit (Invitrogen Corp., Carlsbad, California). The PCR mixture contained 2 \u00d7 reaction buffer (0.4 mM of each dNTP, 2.4 mM MgSO4), 1 \u03bcl of each primer (0.2 \u03bcM), 1 \u03bcl RT/PLATINUM Taq Mix and 10 \u03bcl of the RNA template in a final volume of 50 \u03bcl. We conducted the PCR reaction in a MJ Research (Watertown, Massachusetts) PTC-200 Peltier Thermal Cycler programmed with an initial cDNA synthesis and pre-denaturation step of 50\u00b0C for 30 minutes and 94\u00b0C for 2 minutes followed by then 36 cycles of denature, annealing and extension (15 s at 94\u00b0C, 30 s at 55\u00b0C, 30 s at 68\u00b0C).",
+            "cite_spans": [
+                {
+                    "start": 112,
+                    "end": 114,
+                    "mention": "33",
+                    "ref_id": "BIBREF26"
+                },
+                {
+                    "start": 156,
+                    "end": 158,
+                    "mention": "33",
+                    "ref_id": "BIBREF26"
+                }
+            ],
+            "section": "Semi-nested RT-PCR amplification ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "We then amplified the PCR products from the RT-PCR step using primers OL26 (5'-GCA CTT CTG TTT CCC C-3') and JWA-1b (5'-CAT TCA GGG GCC GGA GGA-3') [34]. The PCR mixture contained 2 \u00d7 reaction buffer (0.4 mM of each dNTP, 2.4 mM MgSO4), 1 \u03bcl of each primer (0.2 \u03bcM), 0.25 \u03bcl AmpliTaq (Applied Biosystems, Foster City, California) and 10 \u03bcl of RT-PCR product in a final volume of 50 \u03bcl. We conducted the PCR reaction for 36 cycles of denature, annealing and extension (15 s at 94\u00b0C, 30 s at 55\u00b0C, 30 s at 68\u00b0C), followed by a final extension of 4 min at 72\u00b0C.",
+            "cite_spans": [
+                {
+                    "start": 149,
+                    "end": 151,
+                    "mention": "34",
+                    "ref_id": "BIBREF27"
+                }
+            ],
+            "section": "Semi-nested RT-PCR amplification ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "Amplified products were detected by electrophoresis analysis on 2% agarose gel containing 8 \u03bcl of ethidium bromide per 200 ml of gel followed by examination under UV light.",
+            "cite_spans": [],
+            "section": "Gel electrophoresis ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "The OL26 and OL27 primer pair generates a 388 base pair amplicon from a region of the 5' noncoding region of the picornavirus genome. The semi-nested primer pair of OL26 and JWA-1b generates an amplicon of ~292 base pairs from within the original amplicon. The 292 bp amplicon does not differentiate between rhinovirus and enterovirus [34].",
+            "cite_spans": [
+                {
+                    "start": 336,
+                    "end": 338,
+                    "mention": "34",
+                    "ref_id": "BIBREF27"
+                }
+            ],
+            "section": "PCR products ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "Uranine was used as a fluorescent tracer, which allowed us to determine a percent yield for each sampling run. To determine the amount of aerosol collected on each filter, uranine analysis was conducted on three filters per sampling run, one each from the beginning, middle and end of each run. The filters used for uranine analysis were removed from cassette holders and placed into a 100 mm test tube with sterile forceps. We added 5 ml of PBS to each tube and sonicated for an hour with vortexing every 15 minutes. We also collected samples of the nebulizing fluid before and after nebulization. Filter samples and nebulizing fluid samples were diluted with 0.01 N NaOH and analyzed with a spectrofluorometer (excitation 485 nm and emission 535 nm) (Tecan Corp. Spectrafluor Plus, Mannedorf, Switzerland). We averaged the results of the three filters to calculate an estimated percent yield for the sampling run.",
+            "cite_spans": [],
+            "section": "Uranine analysis ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "The amount of uranine nebulized during each sampling run was determined by measuring the amount of fluid consumed and by measuring the fluorescence of nebulizing fluid before and after each sampling run. Using the total aerosolization time during the sampling run, we determined the amount of uranine that theoretically would be on each filter if we collected 100% of the aerosol generated during the 10-minute exposure of each filter. Using the filter samples that were analyzed for uranine, we determined the actual amount of uranine collected per sample. We averaged the three filter samples per run and divided by the total amount of uranine consumed to determine a percent yield (observed/expected) for the sampling run.",
+            "cite_spans": [],
+            "section": "Data analysis ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "We computed the expected number of TCID50 on each filter sample from the known TCID50 and fluid volume added to the nebulizer, the amount of nebulizing fluid consumed per minute, and the sampling time. The expected TCID50 was adjusted for the yield for the uranine samples.",
+            "cite_spans": [],
+            "section": "Data analysis ::: Methods",
+            "ref_spans": []
+        },
+        {
+            "text": "We were able to obtain from the dilution gradient filter spiking experiments a positive band from a 1:500,000 dilution of virus, which translates into a detected amount of approximately 0.77 TCID50 or 0.39 PFU's per filter. The stability tests, in which, filters spiked with 25 TCID50/filter were used to collect air samples for 40 hours did not display any difference in band strength compared to control filters. Figure 2 displays the results from the aerosol experiments with the lowest concentration of virus detected.",
+            "cite_spans": [],
+            "section": "Results",
+            "ref_spans": [
+                {
+                    "start": 422,
+                    "end": 423,
+                    "mention": "2",
+                    "ref_id": "FIGREF1"
+                }
+            ]
+        },
+        {
+            "text": "Table 1 summarizes results of the aerosol experiments, including the expected TCID50 captured on each filter during each sampling run and the number of filters that produced positive RT-PCR results. The limit of detection of our semi-nested RT-PCR assay with primers OL26, OL27 and JWA-1b is in the range of 1.3 TCID50/filter, yielding a clearly visible 292 bp band. No signal was detected from samples with 0.5 TCID50/filter. The percent yields for each sampling run, were low, ranging from 4% to 10%. Temperature and relative humidity were recorded in the air downstream of the chamber. The average temperature inside the chamber was very consistent, ranging from 26.4\u00b0C to 27\u00b0C and the %RH ranged from 24.9 to 50.7.",
+            "cite_spans": [],
+            "section": "Results",
+            "ref_spans": [
+                {
+                    "start": 6,
+                    "end": 7,
+                    "mention": "1",
+                    "ref_id": "TABREF0"
+                }
+            ]
+        },
+        {
+            "text": "Figure 3 shows the results from test of the effect of UV exposure on aerosolized rhinovirus. Lanes 5 and 6 contain PCR products from filters containing UV exposed aerosol. No difference was detected between the UV exposed and nonexposed filter samples.",
+            "cite_spans": [],
+            "section": "Results",
+            "ref_spans": [
+                {
+                    "start": 7,
+                    "end": 8,
+                    "mention": "3",
+                    "ref_id": "FIGREF2"
+                }
+            ]
+        },
+        {
+            "text": "In order to determine if the uranine in the viral suspension was inhibiting the extraction and detection assay, two otherwise identical runs were conducted \u2013 one with and one without uranine. Each sampling run was conducted with nebulizing solution containing 10.1 TCID50 per ml. Results of the two runs were identical, demonstrating that the uranine was not inhibitory to the extraction or RT-PCR assay.",
+            "cite_spans": [],
+            "section": "Results",
+            "ref_spans": []
+        },
+        {
+            "text": "The majority of rhinoviral transmission among adults is thought to occur via airborne infectious droplet nuclei [8-10]. This study was conducted to assess the ability to detect airborne rhinovirus on air sampling filters and documents the first successful attempt to detect airborne rhinovirus using RT-PCR amplification-based techniques. These techniques allow for a highly sensitive method to conduct air sampling for rhinovirus. This assay also is capable of detecting aerosolized enterovirus, although future studies are necessary to confirm the limit of detection for enteroviral aerosols",
+            "cite_spans": [
+                {
+                    "start": 113,
+                    "end": 114,
+                    "mention": "8",
+                    "ref_id": "BIBREF35"
+                },
+                {
+                    "start": 115,
+                    "end": 117,
+                    "mention": "10",
+                    "ref_id": "BIBREF1"
+                }
+            ],
+            "section": "Discussion",
+            "ref_spans": []
+        },
+        {
+            "text": "Our limit of detection for the collection, extraction and amplification of aerosolized rhinovirus was 1.3 TCID50. The spiking experiments we conducted had a limit of detection of approximately 0.8 TCID50 or 60% of what was detected when the virus was aerosolized. These results can be interpreted in several ways. One possibility is that the virus may be damaged during the process of aerosolization in the Collison nebulizer, and that the RNA from the damaged virus cannot be amplified. This explanation would account for the results shown in Figure 2 where the nebulization solution prior to aerosolization yielded a positive result while after aerosolization we obtained a negative result. Another possible explanation is that it is easier to extract the virus from a dried liquid droplet, as was done in the spiking experiments, than from an aerosol spread uniformly over the filter surface.",
+            "cite_spans": [],
+            "section": "Discussion",
+            "ref_spans": [
+                {
+                    "start": 551,
+                    "end": 552,
+                    "mention": "2",
+                    "ref_id": "FIGREF1"
+                }
+            ]
+        },
+        {
+            "text": "We were unable to recover the majority of aerosol that was expelled into the chamber. The main reason for the low yields appears to be the result of large droplets falling out in the drying jar prior to entry into the exposure chamber. Because the yields were the same regardless of the UV status, the low yields should not affect our results.",
+            "cite_spans": [],
+            "section": "Discussion",
+            "ref_spans": []
+        },
+        {
+            "text": "Previous studies have shown that UV inhibits PCR assays in single and double stranded RNA viruses,[28,29] while our RT-PCR method did not detect a difference between UV exposed and nonexposed rhinoviral aerosols. The most likely reason for this is a matter of dose, although it is possible that characteristics of the particular viruses and PCR methods could also explain the results. Neither of the previous studies were conducted on aerosolized virus and the dose of UV was several orders of magnitude greater. This study, did not determine whether the rhinovirus aerosol was capable of infection after exposure to the high UV dose used in these experiments. It is possible that the UV irradiation damaged other regions of the viral RNA and not the region that our primers amplified, or that the amount of damage required to prevent RT-PCR amplification is greater than the amount of damage sufficient to prevent infection. This suggests possible future studies to investigate the relationship between UV damage, infectiousness, and detection by RT-PCR of various regions of the rhinovirus genome.",
+            "cite_spans": [
+                {
+                    "start": 99,
+                    "end": 101,
+                    "mention": "28",
+                    "ref_id": "BIBREF20"
+                },
+                {
+                    "start": 102,
+                    "end": 104,
+                    "mention": "29",
+                    "ref_id": "BIBREF21"
+                }
+            ],
+            "section": "Discussion",
+            "ref_spans": []
+        },
+        {
+            "text": "The limit of detection of our assay must be put into context with the amount of virus shed by an infectious individual. A study of rhinoviral shedding detected a titer of at least 1,600 TCID50 per ml of nasopharngeal wash in 17 out of 26 infected volunteers [35]. So it is clear that infected people can produce a large amount of virus, but it is unknown how much of that virus becomes airborne through coughs, sneezes, respiration and talking.",
+            "cite_spans": [
+                {
+                    "start": 259,
+                    "end": 261,
+                    "mention": "35",
+                    "ref_id": "BIBREF28"
+                }
+            ],
+            "section": "Discussion",
+            "ref_spans": []
+        },
+        {
+            "text": "Two studies have attempted to determine the infectious dose 50% (ID50) of rhinovirus for humans [36,37]. The ID50 for microorganisms depend on at least four criteria: (1) the strain of the organism, (2) the route of transmission, (3) the method of inoculation, and (4) host immunity. In a study published in 1966, investigators from the U.S. Army Biological Laboratories and the National Institute of Allergy and Infectious Disease, conducted a series of tests designed to determine if respiratory viral agents were transmitted via the aerosol route. Using rhinovirus type 15, they inoculated volunteers in the nose with both nasal drops and an aerosol (particle size 0.3 to 2.5 \u03bcm). The authors estimated a human ID50 of 0.032 TCID50 for nasal drops and 0.68 TCID50 for aerosols [36]. In a study conducted in 1984, researchers inoculated volunteers with rhinovirus type 16 with droplets of viral suspension in several locations. The authors determined the ID50 for nasal drops was 0.28 TCID50 [37]. If we assume that the infectious dose is acquired through an aerosol, the aerosol data from 1966 suggests that our assay can detect an amount approximately equal to twice the ID50 in humans. But, if the spiking experiment is a better estimate of actual detection limit due to the inactivation by the nebulizer, then our detection limit is approximately equal to the ID50.",
+            "cite_spans": [
+                {
+                    "start": 97,
+                    "end": 99,
+                    "mention": "36",
+                    "ref_id": "BIBREF29"
+                },
+                {
+                    "start": 100,
+                    "end": 102,
+                    "mention": "37",
+                    "ref_id": "BIBREF30"
+                },
+                {
+                    "start": 781,
+                    "end": 783,
+                    "mention": "36",
+                    "ref_id": "BIBREF29"
+                },
+                {
+                    "start": 995,
+                    "end": 997,
+                    "mention": "37",
+                    "ref_id": "BIBREF30"
+                }
+            ],
+            "section": "Discussion",
+            "ref_spans": []
+        },
+        {
+            "text": "Caution must be taken when interpreting results from PCR-based air samples. Nucleic acid detection methods, such as the one presented here, are capable of detecting very small quantities of microorganisms, but these techniques cannot determine if the microorganism is infectious at the time of detection.",
+            "cite_spans": [],
+            "section": "Discussion",
+            "ref_spans": []
+        },
+        {
+            "text": "The filter collection and PCR-based detection methods developed here offers some clear advantages over the use of more traditional methods such as impinger collection and cell culture based detection. The use of filter collection allows for a much longer sample time, while impingers cannot be used for longer than 15\u201320 minutes. As was demonstrated here, filters can be used to collect at least 40-hour samples without reduced ability to detect virus on the filter. Cell culture methods, while useful in determining the amount of infectious virus, could not be used to detect the very low levels of infectious virus present in room air because collection of viable virus over long sampling times is not currently feasible. Therefore, the use of filter collection and PCR based detection is the only method presently available to detect low concentrations of respiratory virus in air. However, at UV doses much higher than typically used in upper room UV applications, this method was unable to distinguish between UV irradiated aerosols and nonexposed aerosols.",
+            "cite_spans": [],
+            "section": "Conclusions",
+            "ref_spans": []
+        },
+        {
+            "text": "PBS \u2013 Phosphate buffered saline",
+            "cite_spans": [],
+            "section": "Abbreviations",
+            "ref_spans": []
+        },
+        {
+            "text": "MMD \u2013 Mass-median diameter",
+            "cite_spans": [],
+            "section": "Abbreviations",
+            "ref_spans": []
+        },
+        {
+            "text": "RT-PCR \u2013 Reverse-transcriptase polymerase chain reaction",
+            "cite_spans": [],
+            "section": "Abbreviations",
+            "ref_spans": []
+        },
+        {
+            "text": "TCID50 \u2013 Tissue culture infectious dose 50%",
+            "cite_spans": [],
+            "section": "Abbreviations",
+            "ref_spans": []
+        },
+        {
+            "text": "UVGI \u2013 Ultraviolet germicidal irradiation",
+            "cite_spans": [],
+            "section": "Abbreviations",
+            "ref_spans": []
+        },
+        {
+            "text": "None declared",
+            "cite_spans": [],
+            "section": "Competing interests",
+            "ref_spans": []
+        },
+        {
+            "text": "TM participated in the study design, the modification of the chamber, and performed the aerosol experiments and molecular assays. SJ participated in development of the molecular assays and study design. SR participated in the design of the study and modification of the chamber. DM participated in study design and coordination of the study.",
+            "cite_spans": [],
+            "section": "Authors' contributions",
+            "ref_spans": []
+        },
+        {
+            "text": "The pre-publication history for this paper can be accessed here:",
+            "cite_spans": [],
+            "section": "Pre-publication history",
+            "ref_spans": []
+        },
+        {
+            "text": "",
+            "cite_spans": [],
+            "section": "Pre-publication history",
+            "ref_spans": []
+        }
+    ],
+    "ref_entries": {
+        "TABREF0": {
+            "text": "Table 1: Detection of Experimental Rhinovirus 16 Aerosols by Semi-nested RT-PCR of Filter Samples\naSampling time of each filter (10 minutes) divided by total run time. bFluorescence yield (observed/expected) for sampling run. cPredicted = TCID50 per ml * Total ml nebulized * Fractional sampling time per filter * Yield.",
+            "type": "table"
+        },
+        "FIGREF0": {
+            "text": "Figure 1: Schematic diagram of the experimental chamber. a: Teflon filter; b: manifold; c: baffles; d: UV fixture; e: UV exposure chamber; f: sampling slide; g: air valve; h: port with the same features as the port below; i: drying jar; j: Collison nebulizer; k: pressure regulator; l: air valve; m: vacuum pump; n: rotameter; o: temperature and RH sensor",
+            "type": "figure"
+        },
+        "FIGREF1": {
+            "text": "Figure 2: PCR analysis of experimental contaminated air samples from VA Run 13 Lane 1: Marker; Lane 2:Nebulizer solution before run; Lane 3: Nebulizer solution after run; Lane 4: Filter sample; Lane 5: Filter sample; Lane 6: Spiked filter; Lane 7: Filter sample; Lane 8: Blank filter; Lane 9: Positive control; Lane 10: Negative control.",
+            "type": "figure"
+        },
+        "FIGREF2": {
+            "text": "Figure 3: PCR analysis of experimental contaminated air samples from VA Run 17 Lane 1: Marker; Lane 2:Nebulizer solution before run; Lane 3: Nebulizer solution after run; Lane 4: Filter without UV exposure; Lane 5: UV exposed filter; Lane 6: UV exposed filter; Lane 7: Filter without UV exposure; Lane 8: Spiked filter Lane 9: Filter without UV exposure; Lane 10: Blank filter; Lane 11: Positive control; Lane 12: Negative control.",
+            "type": "figure"
+        }
+    },
+    "back_matter": [],
+    "bib_entries": {
+        "BIBREF0": {
+            "title": "The Jeremiah Metzger Lecture: climatology and the common cold.",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Gwaltney",
+                    "suffix": ""
+                }
+            ],
+            "year": 1984,
+            "venue": "Trans Am Clin Climatol Assoc",
+            "volume": "96",
+            "issn": "",
+            "pages": "159-175",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF1": {
+            "title": "A model for obtaining predictable natural transmission of rhinoviruses in human volunteers.",
+            "authors": [
+                {
+                    "first": "CK",
+                    "middle": [],
+                    "last": "Meschievitz",
+                    "suffix": ""
+                },
+                {
+                    "first": "SB",
+                    "middle": [],
+                    "last": "Schultz",
+                    "suffix": ""
+                },
+                {
+                    "first": "EC",
+                    "middle": [],
+                    "last": "Dick",
+                    "suffix": ""
+                }
+            ],
+            "year": 1984,
+            "venue": "J Infect Dis",
+            "volume": "150",
+            "issn": "",
+            "pages": "195-201",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF2": {
+            "title": "Effect of relative humidity on the airborne survival of rhinovirus-14.",
+            "authors": [
+                {
+                    "first": "YG",
+                    "middle": [],
+                    "last": "Karim",
+                    "suffix": ""
+                },
+                {
+                    "first": "MK",
+                    "middle": [],
+                    "last": "Ijaz",
+                    "suffix": ""
+                },
+                {
+                    "first": "SA",
+                    "middle": [],
+                    "last": "Sattar",
+                    "suffix": ""
+                },
+                {
+                    "first": "CM",
+                    "middle": [],
+                    "last": "Johnson-Lussenburg",
+                    "suffix": ""
+                }
+            ],
+            "year": 1985,
+            "venue": "Can J Microbiol",
+            "volume": "31",
+            "issn": "",
+            "pages": "1058-61",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF3": {
+            "title": "Survival characteristics of airborne human coronavirus 229E.",
+            "authors": [
+                {
+                    "first": "MK",
+                    "middle": [],
+                    "last": "Ijaz",
+                    "suffix": ""
+                },
+                {
+                    "first": "AH",
+                    "middle": [],
+                    "last": "Brunner",
+                    "suffix": ""
+                },
+                {
+                    "first": "SA",
+                    "middle": [],
+                    "last": "Sattar",
+                    "suffix": ""
+                },
+                {
+                    "first": "RC",
+                    "middle": [],
+                    "last": "Nair",
+                    "suffix": ""
+                },
+                {
+                    "first": "CM",
+                    "middle": [],
+                    "last": "Johnson-Lussenburg",
+                    "suffix": ""
+                }
+            ],
+            "year": 1985,
+            "venue": "J Gen Virol",
+            "volume": "66",
+            "issn": "",
+            "pages": "2743-8",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF4": {
+            "title": "Development of methods to study the survival of airborne viruses.",
+            "authors": [
+                {
+                    "first": "MK",
+                    "middle": [],
+                    "last": "Ijaz",
+                    "suffix": ""
+                },
+                {
+                    "first": "YG",
+                    "middle": [],
+                    "last": "Karim",
+                    "suffix": ""
+                },
+                {
+                    "first": "SA",
+                    "middle": [],
+                    "last": "Sattar",
+                    "suffix": ""
+                },
+                {
+                    "first": "CM",
+                    "middle": [],
+                    "last": "Johnson-Lussenburg",
+                    "suffix": ""
+                }
+            ],
+            "year": 1987,
+            "venue": "J Virol Methods",
+            "volume": "18",
+            "issn": "",
+            "pages": "2-3",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF5": {
+            "title": "Detection of Bordetella pertussis and respiratory synctial virus in air samples from hospital rooms.",
+            "authors": [
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Aintablian",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Walpita",
+                    "suffix": ""
+                },
+                {
+                    "first": "MH",
+                    "middle": [],
+                    "last": "Sawyer",
+                    "suffix": ""
+                }
+            ],
+            "year": 1998,
+            "venue": "Infect Control Hosp Epidemiol",
+            "volume": "19",
+            "issn": "",
+            "pages": "918-23",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF6": {
+            "title": "The detection of airborne Mycobacterium tuberculosis using Micropore membrane air sampling and polymerase chain reaction.",
+            "authors": [
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Mastorides",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Oehler",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Greene",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Sinnott",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Kranik",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Sandin",
+                    "suffix": ""
+                }
+            ],
+            "year": 1999,
+            "venue": "Chest",
+            "volume": "115",
+            "issn": "",
+            "pages": "19-25",
+            "other_ids": {
+                "DOI": [
+                    "10.1378/chest.115.1.19"
+                ]
+            }
+        },
+        "BIBREF7": {
+            "title": "Detection of airborne cytomegalovirus in hospital rooms of immunocompromised patients.",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "McCluskey",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Sandin",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Greene",
+                    "suffix": ""
+                }
+            ],
+            "year": 1996,
+            "venue": "Journal of Virological Methods",
+            "volume": "56",
+            "issn": "",
+            "pages": "115-118",
+            "other_ids": {
+                "DOI": [
+                    "10.1016/0166-0934(95)01955-3"
+                ]
+            }
+        },
+        "BIBREF8": {
+            "title": "Detection of Varicella-Zoster Virus DNA in air samples from hospital rooms.",
+            "authors": [
+                {
+                    "first": "MH",
+                    "middle": [],
+                    "last": "Sawyer",
+                    "suffix": ""
+                },
+                {
+                    "first": "CJ",
+                    "middle": [],
+                    "last": "Chamberlin",
+                    "suffix": ""
+                },
+                {
+                    "first": "YN",
+                    "middle": [],
+                    "last": "Wu",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Aintablian",
+                    "suffix": ""
+                },
+                {
+                    "first": "MR",
+                    "middle": [],
+                    "last": "Wallace",
+                    "suffix": ""
+                }
+            ],
+            "year": 1994,
+            "venue": "The Journal of Infectious Diseases",
+            "volume": "169",
+            "issn": "",
+            "pages": "91-94",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF9": {
+            "title": "Detection of Mycoplasma hyopneumoniae by air sampling with a nested PCR assay.",
+            "authors": [
+                {
+                    "first": "KD",
+                    "middle": [],
+                    "last": "Stark",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Nicolet",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Frey",
+                    "suffix": ""
+                }
+            ],
+            "year": 1998,
+            "venue": "Appl Environ Microbiol",
+            "volume": "64",
+            "issn": "",
+            "pages": "543-8",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF10": {
+            "title": "Ultraviolet light inactivation and photoreactivation in the Mycobacteria.",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "David",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Jones",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Newman",
+                    "suffix": ""
+                }
+            ],
+            "year": 1971,
+            "venue": "Infect Immun",
+            "volume": "4",
+            "issn": "",
+            "pages": "318-319",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF11": {
+            "title": "Intranasal recombinant alfa-2b interferon treatment of naturally occurring common colds.",
+            "authors": [
+                {
+                    "first": "F",
+                    "middle": [],
+                    "last": "Hayden",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Kaiser",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Albrecht",
+                    "suffix": ""
+                }
+            ],
+            "year": 1988,
+            "venue": "Anitmicrob Agents Chemother",
+            "volume": "32",
+            "issn": "",
+            "pages": "224-230",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF12": {
+            "title": "Ultraviolet susceptibility of BCG and virulent tubercule bacilli.",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Riley",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Knight",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Middlebrook",
+                    "suffix": ""
+                }
+            ],
+            "year": 1976,
+            "venue": "Am Rev Res Dis",
+            "volume": "113",
+            "issn": "",
+            "pages": "413-418",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF13": {
+            "title": "Studies of air-borne virus infections.",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Edward",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Elford",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Laidlaw",
+                    "suffix": ""
+                }
+            ],
+            "year": 1943,
+            "venue": "J Hyg (Lond)",
+            "volume": "43",
+            "issn": "",
+            "pages": "1-15",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF14": {
+            "title": "Inactivation of airborne viruses by ultraviolet irradiation.",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Jensen",
+                    "suffix": ""
+                }
+            ],
+            "year": 1964,
+            "venue": "Appl Microbiol",
+            "volume": "12",
+            "issn": "",
+            "pages": "418-420",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF15": {
+            "title": "General discussion: the mechanism of spread of asian influenza. Presented at the International Conference of Asian Influenza, Bethesda, MD.",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "McLean",
+                    "suffix": ""
+                }
+            ],
+            "year": 1961,
+            "venue": "American Review of Respiratory Disease",
+            "volume": "83",
+            "issn": "",
+            "pages": "36-38",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF16": {
+            "title": "Studies of the control of acute respiratory diseases among naval recruits I. A review of a four-year experience with ultraviolet irradiation and dust supressive measures, 1943\u20131947.",
+            "authors": [
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Willmon",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [],
+                    "last": "Hollaender",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Langmuir",
+                    "suffix": ""
+                }
+            ],
+            "year": 1948,
+            "venue": "Am J Hyg",
+            "volume": "48",
+            "issn": "",
+            "pages": "227-232",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF17": {
+            "title": "Ventilation in the flow of measles and chickenpox through a community: progress report, January 1, 1946 to June 14, 1949 \u2013 Airborne Infection Study, Westchester County Department of Health.",
+            "authors": [
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Wells",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Holla",
+                    "suffix": ""
+                }
+            ],
+            "year": 1950,
+            "venue": "Journal of the American Medical Association",
+            "volume": "142",
+            "issn": "",
+            "pages": "1337-1344",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF18": {
+            "title": "Effect of ultra-violet irradiation on classrooms on spread of measles in large rural central schools.",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Perkins",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Bahlke",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Silverman",
+                    "suffix": ""
+                }
+            ],
+            "year": 1947,
+            "venue": "Am J Public Health",
+            "volume": "37",
+            "issn": "",
+            "pages": "529-537",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF19": {
+            "title": "Air disinfection with ultraviolet irradiation: Its effect on illness in school-age children.",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Council",
+                    "suffix": ""
+                }
+            ],
+            "year": 1954,
+            "venue": "London, Her Majesty's Stationary Office",
+            "volume": "",
+            "issn": "",
+            "pages": null,
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF20": {
+            "title": "Antigenicity of hepatitis A virus after ultra-violet inactivation.",
+            "authors": [
+                {
+                    "first": "C-H",
+                    "middle": [],
+                    "last": "Wang",
+                    "suffix": ""
+                },
+                {
+                    "first": "S-Y",
+                    "middle": [],
+                    "last": "Tschen",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [],
+                    "last": "Flehmig",
+                    "suffix": ""
+                }
+            ],
+            "year": 1995,
+            "venue": "Vaccine",
+            "volume": "13",
+            "issn": "",
+            "pages": "835-840",
+            "other_ids": {
+                "DOI": [
+                    "10.1016/0264-410X(94)00054-Q"
+                ]
+            }
+        },
+        "BIBREF21": {
+            "title": "Evaulation of the effects of disinfectants on rotovirus RNA and infectivity by the polymerase chain reaction and cell-culture methods.",
+            "authors": [
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Ojeh",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Cusack",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Yolken",
+                    "suffix": ""
+                }
+            ],
+            "year": 1995,
+            "venue": "Molecular and Celluar Probes",
+            "volume": "9",
+            "issn": "",
+            "pages": "341-346",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF22": {
+            "title": "Viruses and bacteria in the etiology of the common cold.",
+            "authors": [
+                {
+                    "first": "MJ",
+                    "middle": [],
+                    "last": "Makela",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Puhakka",
+                    "suffix": ""
+                },
+                {
+                    "first": "O",
+                    "middle": [],
+                    "last": "Ruuskanen",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Leinonen",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Saikku",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Kimpimaki",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Blomqvist",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Hyypia",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Arstila",
+                    "suffix": ""
+                }
+            ],
+            "year": 1998,
+            "venue": "J Clin Microbiol",
+            "volume": "36",
+            "issn": "",
+            "pages": "539-42",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF23": {
+            "title": "Cell culture and PCR Determination of poliovirus inactivation by disinfectants.",
+            "authors": [
+                {
+                    "first": "J-F",
+                    "middle": [],
+                    "last": "Ma",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Straub",
+                    "suffix": ""
+                },
+                {
+                    "first": "I",
+                    "middle": [],
+                    "last": "Pepper",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Gerba",
+                    "suffix": ""
+                }
+            ],
+            "year": 1994,
+            "venue": "Appl Environ Microbiol",
+            "volume": "60",
+            "issn": "",
+            "pages": "4203-4206",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF24": {
+            "title": "The Collison nebulizer: description, performance, and application.",
+            "authors": [
+                {
+                    "first": "K",
+                    "middle": [],
+                    "last": "May",
+                    "suffix": ""
+                }
+            ],
+            "year": 1973,
+            "venue": "J Aerosol Sci",
+            "volume": "4",
+            "issn": "",
+            "pages": null,
+            "other_ids": {
+                "DOI": [
+                    "10.1016/0021-8502(73)90006-2"
+                ]
+            }
+        },
+        "BIBREF25": {
+            "title": "Influence of relative humidity on particle size and UV sensitivity of Serratia marcescens and BCG aerosols.",
+            "authors": [
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Ko",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "First",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Burge",
+                    "suffix": ""
+                }
+            ],
+            "year": 2000,
+            "venue": "Tuber Lung Dis",
+            "volume": "80",
+            "issn": "",
+            "pages": "217-228",
+            "other_ids": {
+                "DOI": [
+                    "10.1054/tuld.2000.0249"
+                ]
+            }
+        },
+        "BIBREF26": {
+            "title": "Amplification of rhinovirus specific nucleic acids from clinical samples using polymerase chain reaction.",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Gama",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Horsnell",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Hughes",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "North",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Bruce",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Al-Nakib",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Stanway",
+                    "suffix": ""
+                }
+            ],
+            "year": 1989,
+            "venue": "J Med Virol",
+            "volume": "28",
+            "issn": "",
+            "pages": "73-77",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF27": {
+            "title": "Use of polymerase chain reaction for diagnosis of picornavirus infection in subjects with and without respiratory symptoms.",
+            "authors": [
+                {
+                    "first": "SL",
+                    "middle": [],
+                    "last": "Johnston",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Sanderson",
+                    "suffix": ""
+                },
+                {
+                    "first": "PK",
+                    "middle": [],
+                    "last": "Pattemore",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Smith",
+                    "suffix": ""
+                },
+                {
+                    "first": "PG",
+                    "middle": [],
+                    "last": "Bardin",
+                    "suffix": ""
+                },
+                {
+                    "first": "CB",
+                    "middle": [],
+                    "last": "Bruce",
+                    "suffix": ""
+                },
+                {
+                    "first": "PR",
+                    "middle": [],
+                    "last": "Lambden",
+                    "suffix": ""
+                },
+                {
+                    "first": "DA",
+                    "middle": [],
+                    "last": "Tyrrell",
+                    "suffix": ""
+                },
+                {
+                    "first": "ST",
+                    "middle": [],
+                    "last": "Holgate",
+                    "suffix": ""
+                }
+            ],
+            "year": 1993,
+            "venue": "J Clin Microbiol",
+            "volume": "31",
+            "issn": "",
+            "pages": "111-7",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF28": {
+            "title": "Quantitative rhinovirus shedding patterns in volunteers.",
+            "authors": [
+                {
+                    "first": "RG",
+                    "middle": [],
+                    "last": "Douglas",
+                    "suffix": "Jr"
+                },
+                {
+                    "first": "TR",
+                    "middle": [],
+                    "last": "Cate",
+                    "suffix": ""
+                },
+                {
+                    "first": "PJ",
+                    "middle": [],
+                    "last": "Gerone",
+                    "suffix": ""
+                },
+                {
+                    "first": "RB",
+                    "middle": [],
+                    "last": "Couch",
+                    "suffix": ""
+                }
+            ],
+            "year": 1966,
+            "venue": "Am Rev Respir Dis",
+            "volume": "94",
+            "issn": "",
+            "pages": "159-67",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF29": {
+            "title": "Effect of route of inoculation on experimental respiratory viral disease in volunteers and evidence for airborne transmission.",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Couch",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Cate",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Douglas",
+                    "suffix": ""
+                },
+                {
+                    "first": "PJ",
+                    "middle": [],
+                    "last": "Gerone",
+                    "suffix": ""
+                },
+                {
+                    "first": "V",
+                    "middle": [],
+                    "last": "Knight",
+                    "suffix": ""
+                }
+            ],
+            "year": 1966,
+            "venue": "Bacteriol Rev",
+            "volume": "30",
+            "issn": "",
+            "pages": "517-531",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF30": {
+            "title": "Short-duration exposure and the transmission of rhinoviral colds.",
+            "authors": [
+                {
+                    "first": "DJ",
+                    "middle": [],
+                    "last": "D'Alessio",
+                    "suffix": ""
+                },
+                {
+                    "first": "CK",
+                    "middle": [],
+                    "last": "Meschievitz",
+                    "suffix": ""
+                },
+                {
+                    "first": "JA",
+                    "middle": [],
+                    "last": "Peterson",
+                    "suffix": ""
+                },
+                {
+                    "first": "CR",
+                    "middle": [],
+                    "last": "Dick",
+                    "suffix": ""
+                },
+                {
+                    "first": "EC",
+                    "middle": [],
+                    "last": "Dick",
+                    "suffix": ""
+                }
+            ],
+            "year": 1984,
+            "venue": "J Infect Dis",
+            "volume": "150",
+            "issn": "",
+            "pages": "189-94",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF31": {
+            "title": "The rhinovirus \u2013 not such an innocent?",
+            "authors": [
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Papadopoulos",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Johnston",
+                    "suffix": ""
+                }
+            ],
+            "year": 2001,
+            "venue": "QJM",
+            "volume": "94",
+            "issn": "",
+            "pages": "1-3",
+            "other_ids": {
+                "DOI": [
+                    "10.1093/qjmed/94.1.1"
+                ]
+            }
+        },
+        "BIBREF32": {
+            "title": "Activated, cytotoxic CD8(+) T lymphocytes contribute to the pathology of asthma death.",
+            "authors": [
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "O'Sullivan",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [],
+                    "last": "Cormican",
+                    "suffix": ""
+                },
+                {
+                    "first": "JL",
+                    "middle": [],
+                    "last": "Faul",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Ichinohe",
+                    "suffix": ""
+                },
+                {
+                    "first": "SL",
+                    "middle": [],
+                    "last": "Johnston",
+                    "suffix": ""
+                },
+                {
+                    "first": "CM",
+                    "middle": [],
+                    "last": "Burke",
+                    "suffix": ""
+                },
+                {
+                    "first": "LW",
+                    "middle": [],
+                    "last": "Poulter",
+                    "suffix": ""
+                }
+            ],
+            "year": 2001,
+            "venue": "Am J Respir Crit Care Med",
+            "volume": "164",
+            "issn": "",
+            "pages": "560-4",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF33": {
+            "title": "Community study of role of viral infections in exacerbations of asthma in 9\u201311 year old children.",
+            "authors": [
+                {
+                    "first": "SL",
+                    "middle": [],
+                    "last": "Johnston",
+                    "suffix": ""
+                },
+                {
+                    "first": "PK",
+                    "middle": [],
+                    "last": "Pattemore",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Sanderson",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Smith",
+                    "suffix": ""
+                },
+                {
+                    "first": "F",
+                    "middle": [],
+                    "last": "Lampe",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [],
+                    "last": "Josephs",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Symington",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "O'Toole",
+                    "suffix": ""
+                },
+                {
+                    "first": "SH",
+                    "middle": [],
+                    "last": "Myint",
+                    "suffix": ""
+                },
+                {
+                    "first": "DA",
+                    "middle": [],
+                    "last": "Tyrrell",
+                    "suffix": ""
+                }
+            ],
+            "year": 1995,
+            "venue": "BMJ",
+            "volume": "310",
+            "issn": "",
+            "pages": "1225-9",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF34": {
+            "title": "Hand-to-hand transmission of rhinovirus colds.",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Gwaltney JM",
+                    "suffix": ""
+                },
+                {
+                    "first": "PB",
+                    "middle": [],
+                    "last": "Moskalski",
+                    "suffix": ""
+                },
+                {
+                    "first": "JO",
+                    "middle": [],
+                    "last": "Hendley",
+                    "suffix": ""
+                }
+            ],
+            "year": 1978,
+            "venue": "Ann Intern Med",
+            "volume": "88",
+            "issn": "",
+            "pages": "463-7",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF35": {
+            "title": "Aerosol transmission of rhinovirus colds.",
+            "authors": [
+                {
+                    "first": "EC",
+                    "middle": [],
+                    "last": "Dick",
+                    "suffix": ""
+                },
+                {
+                    "first": "LC",
+                    "middle": [],
+                    "last": "Jennings",
+                    "suffix": ""
+                },
+                {
+                    "first": "KA",
+                    "middle": [],
+                    "last": "Mink",
+                    "suffix": ""
+                },
+                {
+                    "first": "CD",
+                    "middle": [],
+                    "last": "Wartgow",
+                    "suffix": ""
+                },
+                {
+                    "first": "SL",
+                    "middle": [],
+                    "last": "Inhorn",
+                    "suffix": ""
+                }
+            ],
+            "year": 1987,
+            "venue": "J Infect Dis",
+            "volume": "156",
+            "issn": "",
+            "pages": "442-8",
+            "other_ids": {
+                "DOI": []
+            }
+        },
+        "BIBREF36": {
+            "title": "Near disappearance of rhinovirus along a fomite transmission chain.",
+            "authors": [
+                {
+                    "first": "LC",
+                    "middle": [],
+                    "last": "Jennings",
+                    "suffix": ""
+                },
+                {
+                    "first": "EC",
+                    "middle": [],
+                    "last": "Dick",
+                    "suffix": ""
+                },
+                {
+                    "first": "KA",
+                    "middle": [],
+                    "last": "Mink",
+                    "suffix": ""
+                },
+                {
+                    "first": "CD",
+                    "middle": [],
+                    "last": "Wartgow",
+                    "suffix": ""
+                },
+                {
+                    "first": "SL",
+                    "middle": [],
+                    "last": "Inhorn",
+                    "suffix": ""
+                }
+            ],
+            "year": 1988,
+            "venue": "J Infect Dis",
+            "volume": "158",
+            "issn": "",
+            "pages": "888-92",
+            "other_ids": {
+                "DOI": []
+            }
+        }
+    }
+}

@@ -1,0 +1,1334 @@
+<top>
+
+<num> Number:  151
+
+
+<title> Topic:  Coping with overcrowded prisons
+
+<desc> Description:
+
+The document will provide information on jail and prison overcrowding and 
+how inmates are forced to cope with those conditions; or it will reveal 
+plans to relieve the overcrowded condition.
+
+<narr>  Narrative:
+
+A relevant document will describe scenes of overcrowding that have 
+become all too common in jails and prisons around the country.  The 
+document will identify how inmates are forced to cope with those 
+overcrowded conditions, and/or what the Correctional System is doing, 
+or planning to do, to alleviate the crowded condition.
+
+</top>
+
+<top>
+
+<num> Number: 152
+
+
+<title> Topic:  Accusations of Cheating by Contractors on U.S. Defense Projects
+
+<desc> Description:
+
+Document will refer to an alleged illegality committed by any entity 
+seeking a contract on behalf of the U.S. Military Forces.
+
+<narr> Narrative:
+
+A relevant document will mention an alleged impropriety or improprieties 
+by individuals or entities (companies, corporations), either domestic or 
+foreign, attempting to provide services or products related to the U.S. 
+military effort.  To be relevant, document will specifically:
+
+(1) identify the wrongdoer, and
+(2) describe in at least general terms (e.g., overcharging, bribing, 
+swindling, illegal gifts, bid-riggings found, insider information) the 
+nature of the wrongdoing.
+
+
+</top>
+<top>
+
+<num> Number:  153
+
+
+<title> Topic:  Insurance Coverage which pays for Long Term Care
+
+<desc> Description:
+
+Document will discuss insurance coverage for long term care confinements.
+
+<narr> Narrative:
+
+A relevant document will discuss an existing or proposed insurance 
+plan (governmental, commercial or individual) and the coverage it 
+provides for long term care confinements in an institution or home care.
+
+</top>
+
+<top>
+
+<num> Number:  154
+
+
+<title> Topic:  Oil Spills
+
+<desc> Description:
+
+Document will identify major oil spills throughout the world.
+
+<narr>  Narrative:
+
+A relevant document will note the location of the spill, 
+amount of oil spilled, and the responsible corporation,
+if known. This will include shipborne accidents, offshore
+drilling and holding tank spills, but should not include
+intentional spills such as Iraq/Kuwait or leakage from
+broken pipes.  References to legislation brought about 
+by a spill, litigation and clean up efforts associated
+with a spill are not relevant unless specifics of the
+spill are included.
+
+</top>
+ 
+<top>
+
+<num> Number:  155 
+
+
+<title> Topic: Right Wing Christian Fundamentalism in U.S. 
+
+<desc> Description:
+
+Document will discuss implications of the decision of Right Wing 
+Christian Fundamentalist Groups to use the political process to
+further their goals.
+ 
+<narr>  Narrative:
+
+Leaders of Right Wing Christian Fundamentalist Groups, such as, 
+Christian Coalition, have begun a Grass Roots Campaign to enter
+the political process at local, state and national levels to
+further their "Religious Agenda."  Relevant documents may be
+feature articles, editorial comments, news items, letters to
+editor, etc.  Particularly relevant are perceptions of threats
+of this movement to civil liberties, government stability and to
+the U.S. Constitution.  This search will be confined to the U.S.
+
+</top>
+ 
+<top>
+
+<num> Number:  156 
+
+
+<title> Topic: Efforts to enact Gun Control Legislation 
+
+<desc> Description:
+
+Documents will relate to efforts to enact Gun Control Legislation.
+They may also discuss implication upon and interpretation of the
+Second Amendment to the U.S. Constitution as it relates to these
+efforts.
+
+<narr>  Narrative:
+
+Any discussion of Gun Control -- Pro or Con -- in editorials, 
+letters to editor, news items, etc.  This will include efforts
+at gun control at all political levels -- city, county, state,
+and federal.  Of particular interest are discussions which relate
+these efforts to the broader issue of just what relevance does the
+Second Amendment have to the question.  This search will be limited
+to U.S. efforts.
+
+</top>
+ 
+<top>
+
+<num> Number: 157 
+
+
+<title> Topic: Causes and treatments of multiple sclerosis (MS) 
+
+<desc> Description:
+
+Documents will focus on studies as to causes of multiple sclerosis
+and on research efforts to develop treatments and/or cures for it.
+
+<narr>  Narrative:
+
+This search will be somewhat limiting in that it focuses on one 
+particular medical condition among a broader group which are 
+thought to be caused by the auto-immune system.  Efforts will 
+be directed toward finding any reports of new ideas of cause 
+as well as elaboration on the auto-immune theories.  The search
+will focus also on research efforts to find treatments to alleviate
+the symptoms of MS and/or to discover possible cures for it.  The
+names of companies involved and the particular drug or therapy 
+should be a part of the relevant item.  Also relevant would be
+non-medical or alternative healing procedures which find acceptance
+among MS sufferers, e.g., bee venom, acupuncture, etc.
+ 
+</top>
+ 
+<top>
+
+<num> Number:  158 
+
+
+<title> Topic: Term limitations for members of the U.S. Congress 
+
+<desc> Description:
+
+Documents will relate the issues involved in these controversial
+proposals to try to place limits on the number of terms members
+of Congress can serve consecutively.
+
+<narr>  Narrative:
+
+Any discussion of the subject of limiting the number of consecutive
+terms a member of the U.S. House of Representative or a member of the
+U.S. Senate may serve whether in editorials, letters to the editor,
+news items, etc. is to be considered.  The search should consider
+efforts which originate at Grass Root Level as Referenda, at the 
+state level as discussions or even enactment of laws and at the
+national level.  Integral to this search are the underlying U.S.
+Constitutional Qualifications for a member of Congress.  Discussions
+and arguments pro and con on just what effect interpretations of
+the Constitution might have on term limitation efforts.
+
+</top>
+ 
+<top>
+
+<num> Number:  159 
+
+
+<title> Topic: Electric Car Development 
+
+<desc> Description:
+
+A relevant document will provide information on work already
+done, or being done, to develop an electric car.
+
+<narr>  Narrative:
+
+A relevant document will identify a specified Government,
+or a commercial company that has developed or is in the
+process of developing an electric car which is feasible 
+for public use on public highways and city streets (e.g.,
+Los Angeles, California).  Documents which only provide
+information about future plans for the development of an
+electric car, or a battery are not relevant.
+
+</top>
+ 
+<top>
+
+<num> Number: 160
+
+
+<title> Topic: Vitamins - The Cure for or Cause of
+Human Ailments 
+
+<desc> Description:
+
+Document will identify vitamins that have contributed to the
+cure for human diseases or ailments or documents will identify
+vitamins that have caused health problems in humans.
+
+<narr>  Narrative:
+
+A relevant document will provide information indicating 
+that vitamins may help to prevent or cure human ailments.  
+Information indicating that vitamins may cause health 
+problems in humans is also relevant.  A document that makes
+a general reference to vitamins such as "good for your health"
+or "having nutritional value" is not relevant.  Information
+about research being conducted without results would not be
+relevant.  References to derivatives of vitamins are to be 
+treated as the vitamin.
+ 
+</top>
+ 
+<top>
+
+<num> Number:  161
+
+
+<title> Topic: Acid Rain  
+
+<desc> Description:
+
+Document will provide information on the problems and actions 
+associated with what is known as acid rain.
+
+<narr>  Narrative:
+
+A relevant document should include any of the problem areas associated
+with what is known as acid rain.  Relevant data would include such 
+areas as the source, possible cause, actions taken to correct or
+eliminate, and the areas of the country/world affected.  Other items
+of interest would be any joint nation agreements/actions, legislative
+actions, and data or comments on the cost of clean up versus the 
+benefits to be gained.  Not relevant documents would be those that
+contain only general comments on the subject with no real facts or
+recommendations or those deemed to be politically motivated.  Also
+documents containing only generalized or brief statements on upcoming
+visits, meetings, legislation related to the acid rain problem would
+be non-relevant unless they contain specific facts relating to the 
+acid rain problem.
+
+</top>
+ 
+<top>
+
+<num> Number:  162 
+
+
+<title> Topic: Automobile Recalls 
+
+<desc> Description:
+
+Document will provide data that expands on the type and purpose of
+recalls on vehicles manufactured by American or Foreign automobile
+companies.
+
+<narr>  Narrative:
+
+A relevant document will provide data on the recall of vehicles to 
+fix, modify, or replace defective components.  Relevant data would
+include recall data on vehicles produced by American or Foreign
+manufacturers and would include the name of the company, make/model
+of the vehicle, and the purpose of the recall.  The numbers of 
+vehicles involved is desired, but not essential.  Legal actions or
+court decisions would also be desired, but are not necessary to be
+relevant.  Trucks and buses should be considered the same as an
+auto for the purpose of relevancy.  Not relevant would be suggested
+recalls that have not been substantiated or ordered by the company
+or Government.
+
+</top>
+ 
+<top>
+
+<num> Number:  163 
+
+
+<title> Topic:  Vietnam Veterans and Agent Orange 
+
+<desc> Description:
+
+While serving in South Vietnam, a number of U.S. Soldiers were
+reported as having been exposed to the defoliant Agent Orange.
+The issue is veterans entitlement, or the awarding of monetary
+compensation and/or medical assistance for physical damages
+caused by Agent Orange.
+
+<narr>  Narrative:
+
+Relevant documents will discuss veterans suffering from cancer 
+and other ailments allegedly caused by Agent Orange; the 
+document will also relate the awarding of compensation to the
+veteran, or the veterans attempt to obtain compensation.
+Documents which discuss medically ailing children born to a
+veteran who had been exposed to Agent Orange are also relevant.
+Official studies are relevant, but articles which simply 
+reference the Agent Orange problem are not relevant.
+
+</top>
+ 
+<top>
+
+<num> Number:  164 
+
+
+<title> Topic:  Generic Drugs - Illegal Activities by Manufacturers 
+
+<desc> Description:
+
+Document will report FDA or Congressional investigations concerning
+illegal activities by generic drug manufacturers.
+
+<narr>  Narrative:
+
+To be relevant a document must identify a specific generic drug
+company being investigated by the FDA or Congress.  It also must
+identify the drug, i.e., the generic drug for Zantac.  A vague
+reference to a type of drug, such as pain killer or muscle
+relaxer is not relevant.  A general reference to generic drugs
+and related problems (quality-control or drug scandals) without
+specifics is not relevant.  Recalls of specific generic drugs 
+that did not live up to FDA standards are relevant.  Disputes 
+between drug manufacturers concerning the quality or sales of
+generic versus name brand drugs including lawsuits are not
+relevant.
+ 
+</top>
+ 
+<top>
+
+<num> Number:  165 
+
+
+<title> Topic: Tobacco company advertising and the young 
+
+<desc> Description:
+
+A document will provide information on what is a widely held
+opinion that the tobacco industry aims its advertising at the
+young.
+
+<narr>  Narrative:
+
+A relevant document must report on tobacco company advertising
+and its relation to young people.  A relevant document can
+address either side of the question:  (1) Do tobacco companies
+consciously target the young, or (2) As the tobacco industry 
+argues, is this an erroneous public perception.  The "young"
+may be identified as youth, children, adolescents, teenagers,
+high school students, and college students.
+
+</top>
+ 
+<top>
+
+<num> Number:  166 
+
+
+<title> Topic: Standardized testing and cultural bias 
+
+<desc> Description:
+
+A document must provide information on charges that standardized
+testing of applicants to the college level is biased against
+racial minorities, women, and the poor.
+
+<narr>  Narrative:
+
+In addition to a direct charge that standardized testing is
+biased, a relevant document could report on the fact that the
+average test scores for middle and upper class males are higher
+than the average scores of blacks, Hispanics, women and the poor,
+a fact that members of those groups interpret as evidence of 
+bias.  Standardized tests include the PSAT, the SAT, the ACT, 
+and any state-administered test.  Testing for the grant of
+scholarships or for advanced placement would be relevant.  
+Criticism of the make-up of the tests, efforts to change the
+make-up of the tests, or the abandonment of the tests by
+certain colleges would be relevant.
+
+</top>
+ 
+<top>
+
+<num> Number:  167 
+
+
+<title> Topic: Regulation of the showing of violence and explicit
+sex in motion picture theaters, on television, and on video 
+cassettes. 
+
+<desc> Description:
+
+A relevant document must report on efforts taken in the USA or
+abroad to regulate in any way the portrayal of violence and sex
+scenes in the movies, on television or videos.
+
+<narr>  Narrative:
+
+A relevant document could report on governmental or self-regulation.
+Documents reporting on the efficacy of the movie rating system, or
+proposed changes to that system would be relevant.  Items on the
+refusal of newspapers and magazines to carry advertisements for
+certain movies would be relevant.
+
+</top>
+ 
+<top>
+
+<num> Number:  168 
+
+
+<title> Topic: Financing AMTRAK 
+
+<desc> Description:
+
+A document will address the role of the Federal Government in
+financing the operation of the National Railroad Transportation
+Corporation (AMTRAK).
+
+<narr>  Narrative:
+
+A relevant document must provide information on the government's
+responsibility to make AMTRAK an economically viable entity.  It
+could also discuss the privatization of AMTRAK as an alternative
+to continuing government subsidies.  Documents comparing government  
+subsidies given to air and bus transportation with those provided
+to AMTRAK would also be relevant.
+
+</top>
+ 
+<top>
+
+<num> Number:  169 
+
+
+<title> Topic:  Cost of Garbage/Trash Removal 
+
+<desc> Description:
+
+Document will report problems with garbage or trash removal and 
+identify a related cost figure for a household or government     
+entity (local, state, or federal).
+ 
+<narr>  Narrative:
+
+To be relevant a document will identify a problem concerning 
+garbage/trash removal and include a cost figure for a household,
+city, state, or federal government.  A document that reports 
+garbage problems without referring to costs is not relevant.  
+A document that reports penalties for not adhering to 
+regulations is not relevant.  References to garbage/trash
+removal as being "costly" or "expensive" without actual figures
+are not relevant.  A document that identifies costs for 
+recycling is relevant.  Documents that identify how much a
+landfill site survey, furnace, etc. may cost without a 
+specific purchase are not relevant.
+
+</top>
+ 
+<top>
+
+<num> Number:  170 
+
+
+<title> Topic: The Consequences of Implantation of Silicone Gel 
+Breast Devices 
+
+<desc> Description:
+
+Document will discuss the use of silicone gel breast implants
+manufactured by Dow-Corning Corporation and recipient`s concerns 
+regarding future medical problems that may occur as a result of
+manufacturing defects or lack of proper testing before approval
+for general public use.
+
+<narr>  Narrative:
+
+To be relevant a document must provide pertinent data on the
+risks associated with silicone gel breast implants, including
+identified residual effects.  Documents that identify Dow-Corning
+Corporation as the manufacturer of the device are particularly
+significant.  Statements issued by the FDA regarding implant`s
+safety and reliability, and technological advances in testing
+procedures to assist in the identification of future problem
+areas are considered relevant.  
+
+Pending or concluded litigation against the Dow-Corning 
+Corporation which has been initiated by implant recipients is 
+not relevant unless it provides a specific strategy of the 
+Corporation to alert the public to the risks involved.  
+
+Foreign government's actions regarding the use of
+silicone gel implants are not relevant.
+
+</top>
+ 
+<top>
+
+<num> Number:  171 
+
+
+<title> Topic:  Use of Mutual Funds in an Individual's    
+Retirement Strategy 
+
+<desc> Description:
+
+Document will discuss the role of mutual funds as an
+investment alternative in formulating an individual's
+retirement program.
+
+<narr>  Narrative:
+
+To be relevant a document will address the role/use of
+mutual funds as an integral part of an individuals     
+investment retirement program, including Individual
+Retirement Accounts (IRA) which are assigned/designated.
+The document must identify the specific type of fund; i.e., 
+income, stock, bond, etc., the reason for its selection 
+when compared to other types of funds available, and in 
+concert with the needs and capabilities of the individual 
+investor.  The names of individual funds, companies 
+administering the funds or funds portfolio managers are 
+not relevant unless they identify a unique option or 
+feature not commonly available to the investor in other
+financial programs utilized in retirement planning. 
+
+</top>
+ 
+<top>
+
+<num> Number:  172 
+
+
+<title> Topic: The Effectiveness of Medical Products and
+Related Programs Utilized in the Cessation of Smoking. 
+
+<desc> Description:
+
+Document will identify the effectiveness of the use of 
+medical products and related psychological/psychiatric
+services in the cessation of smoking.
+
+<narr>  Narrative:
+
+A relevant document must provide substantive information
+on the effectiveness of U.S. Government approved medical
+products and psychological or psychiatric programs,
+including group therapy, used to reduce or stop the
+use of tobacco products.  The document must identify the
+producer of the medical product, the name under which the
+product is marketed and specific information regarding
+its effectiveness when known or derived through clinical 
+studies.  Related services utilized in treatment must 
+identify the specific type of program and include  
+statements regarding their effectiveness.  Generalized
+statements regarding overall health issues associated
+with tobacco products are not relevant.  The use of 
+foreign government's products presently under review by
+the U.S. Food and Drug Administration is relevant,
+provided the product is available to the consumer on a
+medically approved temporary license.  Smoking bans are
+not relevant unless the document addresses a long term
+reduction in consumption of the products.
+
+</top>
+ 
+<top>
+
+<num> Number:  173 
+
+
+<title> Topic:  Smoking Bans 
+
+<desc> Description:
+
+Document will provide data on smoking bans initiated worldwide
+in the public and private sector workplace, on various modes of
+public transportation, and in commercial advertising.
+
+<narr>  Narrative:
+
+A relevant document would include data on smoking bans that have
+been initiated worldwide in the workplace, on various modes of
+transportation, and in commercial advertising.  Relevant 
+information would include such data as who initiated the ban,
+affected areas, enforcement policy/procedures if any, and any
+penalties that may be imposed.  Also relevant would be tobacco
+company reactions, legislation imposing a smoking ban, and
+legal actions or court decisions pertaining to a smoking ban.
+Not relevant would be documents containing public or private
+sector comments on smoking in general but not related to a 
+specific ban.  Also not relevant would be documents related
+to health hazards associated with smoking and not referring
+to a smoking ban.
+ 
+</top>
+ 
+<top>
+
+<num> Number:  174 
+
+
+<title> Topic:  Hazardous Waste Cleanup 
+
+<desc> Description:
+
+Document will provide data on the Comprehensive Environmental
+Response, Compensation, and Liability Act known as the 
+Superfund Hazardous Waste Cleanup Program.
+
+<narr>  Narrative:
+
+A relevant document would provide data on what is referred
+to as the Superfund Hazardous Waste Cleanup Program.  Relevant
+data would be in such areas as information on how much money
+is in the approved EPA budget to support the Superfund; goals
+and policies of the program; cleanup problems created by the
+Superfund Law and associated costs, if known; numbers of sites
+on the cleanup list; effectiveness of the program; as well
+as actions taken in response to the Superfund Law.  Also 
+relevant would be data on actions taken by the EPA to recover
+costs as well as any court decisions made in response to 
+Superfund actions.  Documents that discuss hazardous waste
+operations in general with only reference to Superfund would  
+be considered as not relevant.  Data on proposed budget dollar
+figures as well as politically motivated statements on the
+Superfund Program would not be relevant.
+
+</top>
+ 
+<top>
+
+<num> Number:  175 
+
+
+<title> Topic:  NRA Prevention of Gun Control Legislation 
+
+<desc> Description:
+
+Document will report occasions on which the NRA engaged in
+actions which prevented the passage of legislation designed
+to reduce the proliferation of guns.
+
+<narr>  Narrative:
+
+A relevant document will contain specific instances in which
+gun control legislation was defeated through the efforts of
+the National Rifle Association.  Such instances will include
+NRA influence to affect a popular vote on proposed legislation
+as well as the use of gun lobbyists to influence legislators
+engaged in such voting.
+
+</top>
+ 
+<top>
+
+<num> Number: 176 
+
+
+<title> Topic: Real-life private investigators
+
+<desc> Description:
+
+Document must refer to the hiring of a private
+investigator in real-life or describe the work
+of a private investigator.
+
+<narr>  Narrative:
+
+Private detectives can be self-employed or work 
+for a private agency.  Document can describe the 
+work of private detectives in general without 
+citing a specific person.
+
+</top>
+ 
+<top>
+
+<num> Number:  177 
+
+
+<title> Topic: English as the Official Language in U.S. 
+
+<desc> Description:
+
+Document will provide arguments supporting the making of English 
+the standard language of the U.S.
+
+<narr>  Narrative:
+
+A relevant document will note instances in which English is
+favored as a standard language.  Examples are the positive 
+results achieved by immigrants in the areas of acceptance,
+greater economic opportunity, and increased academic
+achievement.  Reports are also desired which describe some
+of the language difficulties encountered by other nations
+and groups of nations, e.g., Canada, Belgium, European
+Community, when they have opted for the use of two or more
+languages as their official means of communication.  Not 
+relevant are reports which promote bilingualism or 
+multilingualism.
+
+</top>
+ 
+<top>
+
+<num> Number:  178 
+
+
+<title> Topic: Dog Maulings 
+
+<desc> Description:
+
+Document will report on attacks by dogs on humans in the U.S.
+
+<narr>  Narrative:
+
+A relevant document will note an attack that resulted in death
+or injury on any human, regardless of age, anywhere in the 
+United States.  It should identify actual cases and include
+the location of the attack, the individuals being attacked,
+the breed and number of dog(s) if known, and the resultant
+injuries or death.  Reports only of numbers of injuries or
+deaths attributable to dogs are not relevant unless specifics
+are included.
+
+</top>
+ 
+<top>
+
+<num> Number:  179 
+
+
+<title> Topic: U. S. Restaurants in Foreign Lands 
+
+<desc> Description:
+
+Document will identify those countries where U.S. fast food 
+restaurant chains are now or will be located.
+
+<narr>  Narrative:
+
+A relevant document will identify the restaurant chain and
+the specific country where the restaurant is now or will be
+located.  Town locations are of interest but are not required
+for relevancy.  Planned expansions are relative providing
+specific negotiations with the country of interest are now
+or have already taken place.  Relevancy requires the name of
+a food associated restaurant chain, not just sales and
+distribution of 'soft drinks' and 'snacks'.
+
+</top>
+ 
+<top>
+
+<num> Number:  180 
+
+
+<title> Topic: Ineffectiveness of U.S. Embargoes/Sanctions 
+
+<desc> Description:
+
+Document will report ineffective results of embargo/sanction
+activities against a foreign nation by the U.S.  Embargo may
+be established in conjunction with friendly nation(s) after
+notification to the U.N.
+
+<narr>  Narrative:
+
+A relevant document will provide statement or implication on
+the ineffectiveness of an embargo or sanction taken against a
+foreign nation by the U.S.  Document must also contain the 
+type and reason for the embargo or sanction, name of foreign
+nation, and, where noted, information regarding the method(s)
+employed by that foreign nation to circumvent the embargo or
+sanction.
+
+</top>
+ 
+<top> 
+
+<num> Number:  181
+
+
+<title> Topic: Abuse of the Elderly by Family Members, and Medical and
+Nonmedical Personnel, and Initiatives Being Taken to Minimize This 
+Mistreatment 
+
+<desc> Description:
+
+Document will identify reports of elderly patients being abused in 
+nursing homes and other facilities by skilled medical and nonmedical
+personnel and family members.
+
+<narr>  Narrative:
+
+To be relevant a document must provide pertinent data on abuse of
+the elderly in nursing homes or related facilities by health care 
+professionals, nonmedical personnel and family members involved in
+patient care.  The document must cite the type of abuse inflicted and
+the category of personnel involved in the abuse.  Laws and 
+regulations affecting patient care are relevant when specific 
+changes in policy or procedures to reduce abuse are indicated.
+Generalized statements on the environmental conditions prevalent in
+the facilities are not relevant unless specific data is presented
+to indicate positive action is being taken to alleviate
+the conditions.
+
+</top>
+ 
+<top>
+
+<num> Number:  182 
+
+
+<title> Topic:  Commercial Overfishing Creates Food Fish Deficit  
+
+<desc> Description:
+
+Document will provide information that the world's food fish 
+population is decreasing due to commercial overfishing, and 
+should present information for the need for counteractive
+measures.
+
+<narr>  Narrative:
+
+Relevant document will present data that reflects that 
+commercial overfishing has created a shortage in the world
+food fish population.  Document will identify any law or 
+regulation or area restrictions and limits resulting from
+the shortage, and alternate actions being taken to supplement
+the current demand for food fish; e.g., aquaculture, different
+fishing areas, alternative species of fish.
+ 
+</top>
+ 
+<top>
+
+<num> Number:  183 
+
+
+<title> Topic:  Asbestos Related Lawsuits 
+
+<desc> Description:
+
+Document will report on asbestos related lawsuits concerning
+asbestosis, a chronic disease of the lungs or mesothelioma,
+an incurable cancer of the chest and abdominal membranes.
+
+<narr>  Narrative:
+
+A relevant document will report on lawsuits stemming from
+diseases attributed to asbestos use in buildings, 
+manufacturing plants or shipyards.  Although they may be
+scientifically pertinent, reports on cancers/diseases
+caused by asbestos use are not relevant to this topic
+unless they are explicitly linked to a lawsuit.
+
+</top>
+ 
+<top>
+
+<num> Number:  184 
+
+
+<title> Topic:  Corporate Pension Plans/Funds 
+
+<desc> Description:
+
+Document will report on problems associated with pension
+plans/funds such as fraud, skimming, tapping or raiding.
+
+<narr>  Narrative:
+
+A relevant document will report on problems associated 
+with pension plans/funds and also U.S. Government 
+regulatory controls on pension plans.  Examples of 
+problems that are considered relevant are fraud, skimming,
+tapping or raiding.
+
+</top>
+ 
+<top>
+
+<num> Number:  185 
+
+
+<title> Topic:   Reform of the U.S. Welfare System 
+
+<desc> Description:
+
+Document will report on reform of welfare system in the
+U.S. at the federal, state or local levels of government.
+
+<narr>  Narrative:
+
+A relevant document will report on the actual or proposed
+overhaul of the welfare system at all levels of government.
+Some examples of reforms to the welfare system are work,
+education and training programs aimed primarily at
+welfare recipients.
+
+</top>
+ 
+<top>
+
+<num> Number:  186 
+
+
+<title> Topic:  Difference of Learning Levels Among Inner
+City and More Suburban School Students 
+
+<desc> Description:
+
+Document should report the actual or alleged difference in
+educational learning levels among inner city and other public
+school students.
+
+<narr>  Narrative:
+
+Relevant document must indicate that a different level of    
+educational skills does exist between inner city school
+students and other school's students citing measures such as
+grade point averages.  A relevant document should point to
+at least one causative.  Such factors might be:  better
+qualified teachers and administrators, more financial 
+assistance to other schools, more parent interest or 
+involvement, student motivation, peer pressure, and economic
+or environment backgrounds.
+
+</top>
+ 
+<top>
+
+<num> Number:  187 
+
+
+<title> Topic:  Signs of the Demise of Independent Publishing 
+
+<desc> Description:
+
+Document must identify instances of the loss of independence   
+by publishers, from the sale or merger of their business or 
+publication, or the sale of a significant interest in it to
+another person or company.
+
+<narr>  Narrative:
+
+A relevant document might describe the purchase of a publishing
+house by a more diversified industry, the takeover of a small
+publisher by a larger one, or the merger of two or more publishers
+or publications.  The closing of a publishing house, subsidiary,
+imprint, magazine, or newspaper would also be relevant.  In   
+general, a relevant document will indicate the narrowing of the
+publishing industry.
+
+</top>
+ 
+<top>
+
+<num> Number:  188 
+
+
+<title> Topic:  Beachfront Erosion 
+
+<desc> Description:
+
+Document will identify instances of beach erosion anywhere in
+the U.S. and what, if anything, is being done to prevent its
+repetition.
+
+<narr>  Narrative:
+
+To be relevant, a document will identify a specific location
+and whether the erosion was natural or storm related.  Procedures
+implemented to replenish current beaches and to preclude or
+minimize future instances of erosion would also be relevant.
+Identification of funds, regardless of source, for use on 
+specific beaches or areas would be relevant as well as  
+identification of any local, state or federal legislative 
+action(s) restricting use of affected areas, erosion of
+farmland and along rivers and related stream banks is
+not relevant.
+
+</top>
+ 
+<top>
+
+<num> Number: 189 
+
+
+<title> Topic: Real Motives for Murder 
+
+<desc> Description: 
+
+Document must identify a murderer's motive for killing a
+person or persons in a true case.
+
+<narr>  Narrative:
+
+Most relevant would be a description of an intentional 
+murder with a statement of the murderer's motive.  An 
+unintentional murder, such as in a charge of second-degree
+homicide, would be relevant if a motive is stated for an 
+action which clearly led to the victim's death.
+
+</top>
+ 
+<top>
+
+<num> Number:  190 
+
+
+<title> Topic:  Instances of Fraud Involving the Use of a Computer
+
+<desc> Description:
+
+Document will report instances of fraud accomplished anywhere in
+the world through the use of an electronic computer.
+
+<narr>  Narrative:
+
+To be relevant, document will describe an example or examples of
+the use of an electronic computer to gain an unfair or dishonest
+advantage against any entity (government, business, individual)
+anywhere in the world.
+ 
+</top>
+ 
+<top>
+
+<num> Number:  191 
+
+
+<title> Topic: Efforts to Improve U.S. Schooling 
+
+<desc> Description:
+
+Documents will report an attempt or idea within the U.S. 
+to improve student performance at any level (K through
+post-graduate) by any means (teacher pay, new equipment,
+new methods, new incentives, etc.).
+
+<narr>  Narrative:
+
+To be relevant, document will:
+
+(a) specify the suggestion or course of action being 
+undertaken which had as its goal an improvement of
+scholastic achievement at any level within the U.S.
+educational establishment, and
+
+(b) identify the proponent or proponents of such an
+improvement.
+
+</top>
+ 
+<top>
+
+<num> Number:  192
+
+
+<title> Topic: Oil Spill Cleanup 
+
+<desc> Description: Document will identify a method, procedure, or
+chemical used in cleaning up oil spills such as the Exxon Valdez.  Only
+oil spills on water (ocean, bay, lake, etc.) will be used.
+
+
+<narr>  Narrative:
+
+To be relevant a document will identify a method, procedure, or
+chemical process used in cleaning up the water and beaches after a 
+major oil spill, such as the Exxon Valdez incident.  The mere mention
+of cleanup efforts without identifying the method or chemical used
+is not relevant.  A document that refers to a procedure such as scrubbing,
+spraying, etc. is relevant.  References to the cost of cleanup and number
+of people and equipment involved without mentioning the method are
+not relevant.
+
+</top>
+ 
+<top>
+
+<num> Number:  193
+
+
+<title> Topic: Toys R Dangerous 
+
+<desc> Description:  Document will report the dangers of certain toys 
+to children and the activities by consumer safety groups and parents 
+against production and retail of these dangerous toys.
+
+
+<narr>  Narrative:  A relevant document will feature information compiled
+by consumer safety groups and concerned parents on manufactured toys they
+consider dangerous to the health of children and the harm that toy could
+cause a child.  A relevant document may present information on the number
+of injuries or deaths caused by dangerous toys, which may cause follow-
+on actions by the manufacturer to include recalls or discontinuance of the
+production of the toy.  A non-relevant document would contain information
+regarding the general production, advertisment and sale of toys.
+
+
+</top>
+ 
+<top>
+
+<num> Number:  194 
+
+
+<title> Topic:  The Amount of Money Earned by Writers 
+
+<desc> Description:  
+
+Document must quote amount of money earned by writers as a
+result of their writing efforts.
+
+<narr>  Narrative:
+
+Amount of money quoted may refer to money paid to a writer
+for a single item, such as a book advance or a movie deal;
+or may be cumulative over a period of time.  It may also
+result from ancillary activities such as speaking 
+engagements resulting from what they have written.
+Writing in any medium is relevant.  A figure may also refer
+to a range, such as an industry standard, instead of a 
+particular payment.
+
+</top>
+ 
+<top>
+
+<num> Number: 195
+
+
+<title> Topic: Stock Market Perturbations Attributable to
+Computer Initiated Trading
+
+<desc> Description:  Document will discuss positive or
+negative instances of stock market shifts primarily
+owing to computer assisted trading initiatives.
+
+
+<narr>  Narrative:  To be relevant, a document will report
+on what stock market analysts or financial reporters
+consider reportable upward or downward shifts in
+any world-wide market caused at least partially if not
+entirely by computer programs which upon recognition of
+certain conditions triggered a buy or sell action by
+any category of stock market investor (individual,
+company, fund, etc).
+
+
+</top>
+ 
+<top>
+
+<num> Number:  196
+
+
+<title> Topic:  School Choice Voucher System and its effects
+upon the entire U.S. educational program 
+
+<desc> Description:  Document will discuss the effects,
+positive or negative, of a proposed or actual government
+financed voucher system for elementary and secondary
+students enabling them to attend the school of their
+choice.
+
+
+<narr>  Narrative:  A relevant document will report on
+the advantages or disadvantages of a voucher system for
+public school students who wish to enroll in a private
+school and be subsidized by government funds.  The
+document will identify reasons for the voucher choice
+and could discuss the possible rise in enrollment of
+private and church related schools and the effect the
+voucher system could/would have upon the U.S. public
+school system.
+
+
+</top>
+ 
+<top>
+
+<num> Number:  197
+
+
+<title> Topic: Reform of the jurisprudence system
+to stop juries from granting unreasonable monetary
+awards 
+
+<desc> Description: Document will discuss legal tort
+reform (a civil wrong for which the injured party
+seeks a judgement) with regard to placing limitations
+on monetary compensation to plaintiffs.
+
+
+<narr>  Narrative:  A relevant document will report on
+tort reform as it relates to exorbitant financial
+remuneration awarded by juries to a plaintiff as a
+result of bias, injury, malpractice, or loss of civil
+liberties.  It could also discuss what constitutes a
+reasonable award or settlement.  Also, a relevant
+document could report on or discuss a fee for the 
+attorney(s) involved, vice a percentage of the award,
+the upper limits of a judgement a jury can award, 
+and judges overturning awards.
+
+
+</top>
+ 
+<top>
+
+<num> Number: 198
+
+
+<title> Topic: Gene Therapy and Its Benefits to 
+Humankind 
+
+<desc> Description: A document will discuss the advances
+in medical science which enable researchers to alter
+genes thereby effecting a cure or stabilizing a person`s
+medical condition or illness.
+
+
+<narr>  Narrative:  A relevant document will report on 
+scientific and medical research currently being undertaken
+or planned, to identify those genes which are responsible
+for specific illnesses, acquired or hereditary; e.g., cystic
+fibrosis, sickle cell anemia, hemophilia, mild retardation,
+muscular dystrophy.  Also relevant is any discussion/
+reporting on gene splicing and gene implantation techniques
+as well as tests for adults which could identify future 
+parents whose children will inherit an illness.
+
+
+</top>
+ 
+<top>
+
+<num> Number: 199
+
+
+<title> Topic:  Legality of Medically Assisted Suicides 
+
+<desc> Description:  Document will discuss a suicide that
+is effected through the assistance of a medically competent
+person -- doctor, nurse, medical technician etc.  -- and
+the legality of such an assisted action.
+
+
+<narr>  Narrative:  A relevant document will discuss a
+suicide that is effected through the assistance of a medically
+competent person and the legal ramifications of such an
+assisted action.  It should also include any undue influence,
+such as counseling, suggestions, recommendations, and
+preparation of medications by the medical person which would
+incline the ill person to choose to commit suicide rather
+than it being an independent and free personal action.
+A suicide committed for health reasons, but as a totally
+independent action free from any medical assistance, is not
+relevant.
+
+
+</top>
+ 
+<top>
+
+<num> Number:  200
+
+
+<title> Topic: Impact of foreign textile imports on U.S.
+textile industry
+
+<desc> Description:  Document must report on how the importation
+of foreign textiles or textile products has influenced or 
+impacted on the U.S. textile industry.
+
+
+<narr>  Narrative:  The impact can be positive or negative or
+qualitative.  It may include the expansion or shrinkage of 
+markets or manufacturing volume or an influence on the methods or
+strategies of the U.S. textile industry.  "Textile industry"
+includes the production or purchase of raw materials; basic
+processing techniques such as dyeing, spinning, knitting,
+or weaving; the manufacture and marketing of finished goods;
+and also research in the textile field.
+
+
+</top>
+ 

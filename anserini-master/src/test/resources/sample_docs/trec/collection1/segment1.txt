@@ -1,0 +1,20 @@
+<DOC>
+<DOCNO> AP-0001 </DOCNO>
+<FILEID>field id test and should NOT be included</FILEID>
+<FIRST>first test and should NOT be included</FIRST>
+<SECOND>second test and should NOT be included</SECOND>
+<HEAD>This is head and should be included</HEAD>
+<HEADLINE>This is headline and should be included</HEADLINE>
+<DATELINE>AP</DATELINE>
+<TEXT>
+   Hopefully we 
+get this
+ right
+</TEXT>
+</DOC>
+<!-- This doc below is the NTCIR-8 variant -->
+<DOC id="doc2">
+<TEXT>
+here is some text.
+</TEXT>
+</DOC>

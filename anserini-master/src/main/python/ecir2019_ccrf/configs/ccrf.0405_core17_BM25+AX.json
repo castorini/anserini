@@ -1,0 +1,461 @@
+{
+  "topics": [
+    "307",
+    "310",
+    "321",
+    "325",
+    "330",
+    "336",
+    "341",
+    "344",
+    "345",
+    "347",
+    "350",
+    "353",
+    "354",
+    "355",
+    "356",
+    "362",
+    "363",
+    "367",
+    "372",
+    "375",
+    "378",
+    "379",
+    "389",
+    "393",
+    "394",
+    "397",
+    "399",
+    "400",
+    "404",
+    "408",
+    "414",
+    "416",
+    "419",
+    "422",
+    "423",
+    "426",
+    "427",
+    "433",
+    "435",
+    "436",
+    "439",
+    "442",
+    "443",
+    "445",
+    "614",
+    "620",
+    "626",
+    "646",
+    "677",
+    "690"
+  ],
+  "sources": [
+    {
+      "name": "robust04",
+      "qrels": "src/main/resources/topics-and-qrels/qrels.robust2004.txt",
+      "index": "lucene-index.robust04.pos+docvectors+rawdocs"
+    },
+    {
+      "name": "robust05",
+      "qrels": "src/main/resources/topics-and-qrels/qrels.robust2005.txt",
+      "index": "lucene-index.robust05.pos+docvectors+rawdocs"
+    }
+  ],
+  "target": {
+    "name": "core17",
+    "run": "run.core17.bm25+ax.topics.core17.txt",
+    "index": "lucene-index.core17.pos+docvectors+rawdocs"
+  },
+  "classifiers": [
+    "lr",
+    "svm",
+    "lgb"
+  ],
+  "runs": [
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.0",
+      "runtag": "core17_bm25+ax",
+      "output": "core17_bm25+ax.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.0",
+      "runtag": "core17_lr_0.0",
+      "output": "core17.ax_lr_0.0.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.1",
+      "runtag": "core17_lr_0.1",
+      "output": "core17.ax_lr_0.1.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.2",
+      "runtag": "core17_lr_0.2",
+      "output": "core17.ax_lr_0.2.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.3",
+      "runtag": "core17_lr_0.3",
+      "output": "core17.ax_lr_0.3.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.4",
+      "runtag": "core17_lr_0.4",
+      "output": "core17.ax_lr_0.4.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.5",
+      "runtag": "core17_lr_0.5",
+      "output": "core17.ax_lr_0.5.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.6",
+      "runtag": "core17_lr_0.6",
+      "output": "core17.ax_lr_0.6.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.7",
+      "runtag": "core17_lr_0.7",
+      "output": "core17.ax_lr_0.7.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.8",
+      "runtag": "core17_lr_0.8",
+      "output": "core17.ax_lr_0.8.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.9",
+      "runtag": "core17_lr_0.9",
+      "output": "core17.ax_lr_0.9.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "1.0",
+      "runtag": "core17_lr_1.0",
+      "output": "core17.ax_lr_1.0.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.0",
+      "runtag": "core17_svm_0.0",
+      "output": "core17.ax_svm_0.0.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.1",
+      "runtag": "core17_svm_0.1",
+      "output": "core17.ax_svm_0.1.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.2",
+      "runtag": "core17_svm_0.2",
+      "output": "core17.ax_svm_0.2.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.3",
+      "runtag": "core17_svm_0.3",
+      "output": "core17.ax_svm_0.3.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.4",
+      "runtag": "core17_svm_0.4",
+      "output": "core17.ax_svm_0.4.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.5",
+      "runtag": "core17_svm_0.5",
+      "output": "core17.ax_svm_0.5.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.6",
+      "runtag": "core17_svm_0.6",
+      "output": "core17.ax_svm_0.6.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.7",
+      "runtag": "core17_svm_0.7",
+      "output": "core17.ax_svm_0.7.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.8",
+      "runtag": "core17_svm_0.8",
+      "output": "core17.ax_svm_0.8.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "0.9",
+      "runtag": "core17_svm_0.9",
+      "output": "core17.ax_svm_0.9.txt"
+    },
+    {
+      "classifiers": [
+        "svm"
+      ],
+      "weight": "1.0",
+      "runtag": "core17_svm_1.0",
+      "output": "core17.ax_svm_1.0.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.0",
+      "runtag": "core17_lgb_0.0",
+      "output": "core17.ax_lgb_0.0.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.1",
+      "runtag": "core17_lgb_0.1",
+      "output": "core17.ax_lgb_0.1.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.2",
+      "runtag": "core17_lgb_0.2",
+      "output": "core17.ax_lgb_0.2.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.3",
+      "runtag": "core17_lgb_0.3",
+      "output": "core17.ax_lgb_0.3.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.4",
+      "runtag": "core17_lgb_0.4",
+      "output": "core17.ax_lgb_0.4.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.5",
+      "runtag": "core17_lgb_0.5",
+      "output": "core17.ax_lgb_0.5.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.6",
+      "runtag": "core17_lgb_0.6",
+      "output": "core17.ax_lgb_0.6.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.7",
+      "runtag": "core17_lgb_0.7",
+      "output": "core17.ax_lgb_0.7.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.8",
+      "runtag": "core17_lgb_0.8",
+      "output": "core17.ax_lgb_0.8.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "0.9",
+      "runtag": "core17_lgb_0.9",
+      "output": "core17.ax_lgb_0.9.txt"
+    },
+    {
+      "classifiers": [
+        "lgb"
+      ],
+      "weight": "1.0",
+      "runtag": "core17_lgb_1.0",
+      "output": "core17.ax_lgb_1.0.txt"
+    },
+    {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "0.0",
+      "runtag": "core17.ax_e3_0.0",
+      "output": "core17.ax_e3_0.0.txt"
+    },
+    {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "0.1",
+      "runtag": "core17.ax_e3_0.1",
+      "output": "core17.ax_e3_0.1.txt"
+    },
+    {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "0.2",
+      "runtag": "core17.ax_e3_0.2",
+      "output": "core17.ax_e3_0.2.txt"
+    },
+    {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "0.3",
+      "runtag": "core17.ax_e3_0.3",
+      "output": "core17.ax_e3_0.3.txt"
+    },
+    {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "0.4",
+      "runtag": "core17.ax_e3_0.4",
+      "output": "core17.ax_e3_0.4.txt"
+    },
+    {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "0.5",
+      "runtag": "core17.ax_e3_0.5",
+      "output": "core17.ax_e3_0.5.txt"
+    },
+    {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "0.6",
+      "runtag": "core17.ax_e3_0.6",
+      "output": "core17.ax_e3_0.6.txt"
+    },
+    {
+       "classifiers": [
+         "lr",
+         "svm",
+         "lgb"
+       ],
+       "weight": "0.7",
+       "runtag": "core17.ax_e3_0.7",
+       "output": "core17.ax_e3_0.7.txt"
+     },
+     {
+       "classifiers": [
+         "lr",
+         "svm",
+         "lgb"
+       ],
+       "weight": "0.8",
+       "runtag": "core17.ax_e3_0.8",
+       "output": "core17.ax_e3_0.8.txt"
+     },
+     {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "0.9",
+      "runtag": "core17.ax_e3_0.9",
+      "output": "core17.ax_e3_0.9.txt"
+    },
+    {
+      "classifiers": [
+        "lr",
+        "svm",
+        "lgb"
+      ],
+      "weight": "1.0",
+      "runtag": "core17.ax_e3_1.0",
+      "output": "core17.ax_e3_1.0.txt"
+    }
+  ],
+  "working_directory": "ccrf.0405_core17.ax"
+}

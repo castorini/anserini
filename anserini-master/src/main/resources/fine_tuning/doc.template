@@ -1,0 +1,17 @@
+## Fine Tuning Effectiveness Scripts
+
+### Run
+On tuna:
+```
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection disk12 >& disk12.fine_tuning.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust04 >& robust04.fine_tuning.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust05 >& robust05.fine_tuning.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection wt10g >& wt10g.fine_tuning.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection gov2 >& gov2.fine_tuning.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw09b --metrics map ndcg20 err20 >& cw09b.fine_tuning.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw12b13 --metrics map ndcg20 err20 >& cw12b13.fine_tuning.log &
+```
+
+### Results
+
+${results}
