@@ -12,26 +12,26 @@ index_stats:
   documents (non-empty): 8841823
   total terms: 352316036
 
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m map -c -l 2
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
-    metric: R@1000
     metric_precision: 4
     can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m ndcg_cut.10 -c
     separator: "\t"
     parse_index: 2
-    metric: NDCG@10
     metric_precision: 4
     can_combine: false
 
@@ -47,93 +47,71 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
+      MAP:
         - 0.3013
-      NDCG@10:
+      nDCG@10:
         - 0.5058
       R@1000:
         - 0.7501
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
+      MAP:
         - 0.3390
-      NDCG@10:
+      nDCG@10:
         - 0.5180
       R@1000:
         - 0.7998
   - name: bm25-default+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.3745
-      NDCG@10:
+      nDCG@10:
         - 0.5511
       R@1000:
         - 0.8241
   - name: bm25-default+prf
     display: +PRF
-    params:
-      - -bm25
-      - -bm25prf
+    params: -bm25 -bm25prf
     results:
-      map:
+      MAP:
         - 0.3561
-      NDCG@10:
+      nDCG@10:
         - 0.5372
       R@1000:
         - 0.7929
   - name: bm25-tuned
     display: BM25 (tuned)
-    params:
-      - -bm25
-      - -bm25.k1 0.82
-      - -bm25.b 0.68
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68
     results:
-      map:
+      MAP:
         - 0.2903
-      NDCG@10:
+      nDCG@10:
         - 0.4973
       R@1000:
         - 0.7450
   - name: bm25-tuned+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 0.82
-      - -bm25.b 0.68
-      - -rm3
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3
     results:
-      map:
+      MAP:
         - 0.3377
-      NDCG@10:
+      nDCG@10:
         - 0.5231
       R@1000:
         - 0.7792
   - name: bm25-tuned+ax
     display: +Ax
-    params:
-      - -bm25
-      - -bm25.k1 0.82
-      - -bm25.b 0.68
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.3632
-      NDCG@10:
+      nDCG@10:
         - 0.5461
       R@1000:
         - 0.8138
@@ -145,9 +123,9 @@ models:
       - -bm25.b 0.68
       - -bm25prf
     results:
-      map:
+      MAP:
         - 0.3684
-      NDCG@10:
+      nDCG@10:
         - 0.5536
       R@1000:
         - 0.7988

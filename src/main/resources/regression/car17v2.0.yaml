@@ -12,19 +12,19 @@ index_stats:
   documents (non-empty): 29791059
   total terms: 1249754054
 
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: MRR
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recip_rank
     separator: "\t"
     parse_index: 2
-    metric: recip_rank
     metric_precision: 4
     can_combine: true
 
@@ -40,63 +40,49 @@ topics:
 models:
   - name: bm25
     display: BM25
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
+      MAP:
         - 0.1545
-      recip_rank:
+      MRR:
         - 0.2321
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
+      MAP:
         - 0.1286
-      recip_rank:
+      MRR:
         - 0.1927
   - name: bm25+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.1364 
-      recip_rank:
+      MRR:
         - 0.1978
   - name: ql
     display: QL
-    params:
-      - -qld
+    params: -qld
     results:
-      map:
+      MAP:
         - 0.1371
-      recip_rank:
+      MRR:
         - 0.2013
   - name: ql+rm3
     display: +RM3
-    params:
-      - -qld
-      - -rm3
+    params: -qld -rm3
     results:
-      map:
+      MAP:
         - 0.1080
-      recip_rank:
+      MRR:
         - 0.1598
   - name: ql+ax
     display: +Ax
-    params:
-      - -qld
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -qld -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.1077
-      recip_rank:
+      MRR:
         - 0.1588
