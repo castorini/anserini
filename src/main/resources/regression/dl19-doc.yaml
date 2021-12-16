@@ -12,26 +12,26 @@ index_stats:
   documents (non-empty): 3213835
   total terms: 2748636047
 
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
-    metric: R@100
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
-    metric: NDCG@10
     metric_precision: 4
     can_combine: true
 
@@ -49,9 +49,9 @@ models:
     display: BM25 (default)
     params: -bm25 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
-      map:
+      MAP:
         - 0.2443
-      NDCG@10:
+      nDCG@10:
         - 0.5190
       R@100:
         - 0.3948
@@ -59,9 +59,9 @@ models:
     display: +RM3
     params: -bm25 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
-      map:
+      MAP:
         - 0.2772
-      NDCG@10:
+      nDCG@10:
         - 0.5169
       R@100:
         - 0.4189
@@ -69,9 +69,9 @@ models:
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
-      map:
+      MAP:
         - 0.2452
-      NDCG@10:
+      nDCG@10:
         - 0.4730
       R@100:
         - 0.3945
@@ -79,9 +79,9 @@ models:
     display: +PRF
     params: -bm25 -bm25prf -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
-      map:
+      MAP:
         - 0.2541
-      NDCG@10:
+      nDCG@10:
         - 0.5105
       R@100:
         - 0.4004
@@ -89,9 +89,9 @@ models:
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
-      map:
+      MAP:
         - 0.2318
-      NDCG@10:
+      nDCG@10:
         - 0.5140
       R@100:
         - 0.3862
@@ -99,9 +99,9 @@ models:
     display: +RM3
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
-      map:
+      MAP:
         - 0.2700
-      NDCG@10:
+      nDCG@10:
         - 0.5485
       R@100:
         - 0.4193
@@ -109,7 +109,7 @@ models:
     display: +Ax
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
-      map:
+      MAP:
         - 0.2816
       NDCG@10:
         - 0.5245
@@ -119,9 +119,9 @@ models:
     display: +PRF
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
-      map:
+      MAP:
         - 0.2758
-      NDCG@10:
+      nDCG@10:
         - 0.5280
       R@100:
         - 0.4287
