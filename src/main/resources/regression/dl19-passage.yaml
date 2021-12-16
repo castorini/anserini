@@ -117,11 +117,7 @@ models:
         - 0.8138
   - name: bm25-tuned+prf
     display: +PRF
-    params:
-      - -bm25
-      - -bm25.k1 0.82
-      - -bm25.b 0.68
-      - -bm25prf
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf
     results:
       MAP:
         - 0.3684
