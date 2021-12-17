@@ -9,11 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
- -input /path/to/wapo.v3 \
- -index indexes/lucene-index.wapo.v3.pos+docvectors+raw \
- -generator WashingtonPostGenerator \
- -threads 1 -storePositions -storeDocvectors -storeRaw \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection WashingtonPostCollection \
+  -input /path/to/wapo.v3 \
+  -index indexes/lucene-index.wapo.v3 \
+  -generator WashingtonPostGenerator \
+  -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.wapo.v3 &
 ```
 
@@ -32,42 +33,45 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v3.pos+docvectors+raw \
- -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
- -output runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.wapo.v3 \
+  -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
+  -output runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt \
  -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v3.pos+docvectors+raw \
- -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
- -output runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.wapo.v3 \
+  -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
+  -output runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt \
  -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.wapo.v3.pos+docvectors+raw \
- -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
- -output runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.wapo.v3 \
+  -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
+  -output runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt \
  -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-NCDG@5                                  | BM25      | +RM3      | +RM3+DF   |
-:---------------------------------------|-----------|-----------|-----------|
-[TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)| 0.5231    | 0.5673    | 0.5316    |
-
-
-AP                                      | BM25      | +RM3      | +RM3+DF   |
+MAP                                     | BM25      | +RM3      | +RM3+DF   |
 :---------------------------------------|-----------|-----------|-----------|
 [TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)| 0.3286    | 0.4519    | 0.3438    |
+
+
+NDCG@5                                  | BM25      | +RM3      | +RM3+DF   |
+:---------------------------------------|-----------|-----------|-----------|
+[TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)| 0.5231    | 0.5673    | 0.5316    |
 

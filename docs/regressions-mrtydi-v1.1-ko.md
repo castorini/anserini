@@ -10,11 +10,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection MrTyDiCollection \
- -input /path/to/mrtydi-v1.1-ko \
- -index indexes/lucene-index.mrtydi-v1.1-korean.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 1 -storePositions -storeDocvectors -storeRaw -language ko \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection MrTyDiCollection \
+  -input /path/to/mrtydi-v1.1-ko \
+  -index indexes/lucene-index.mrtydi-v1.1-korean \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 1 -storePositions -storeDocvectors -storeRaw -language ko \
   >& logs/log.mrtydi-v1.1-ko &
 ```
 
@@ -26,18 +27,21 @@ For additional details, see explanation of [common indexing options](common-inde
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-korean.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.train.txt.gz \
- -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.train.txt.gz \
- -language ko -bm25 -hits 100 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-korean.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.dev.txt.gz \
- -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.dev.txt.gz \
- -language ko -bm25 -hits 100 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-korean.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.test.txt.gz \
- -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.test.txt.gz \
- -language ko -bm25 -hits 100 &
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.mrtydi-v1.1-korean \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.train.txt.gz \
+  -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.train.txt.gz \
+ -bm25 -hits 100 -language ko &
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.mrtydi-v1.1-korean \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.dev.txt.gz \
+  -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.dev.txt.gz \
+ -bm25 -hits 100 -language ko &
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.mrtydi-v1.1-korean \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.test.txt.gz \
+  -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.test.txt.gz \
+ -bm25 -hits 100 -language ko &
 ```
 
 Evaluation can be performed using `trec_eval`:

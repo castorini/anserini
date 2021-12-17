@@ -22,11 +22,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
- -input /path/to/msmarco-v2-doc-segmented \
- -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 18 -storePositions -storeDocvectors -storeRaw \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection MsMarcoV2DocCollection \
+  -input /path/to/msmarco-v2-doc-segmented \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 18 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-v2-doc-segmented &
 ```
 
@@ -44,24 +45,28 @@ The regression experiments here evaluate on the 57 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl21.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl21.txt \
  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl21.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl21.txt \
  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.dl21.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.dl21.txt \
  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.dl21.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.dl21.txt \
  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -bm25prf &
 ```
 

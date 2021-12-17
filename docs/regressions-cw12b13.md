@@ -9,11 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
- -input /path/to/cw12b13 \
- -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 44 -storePositions -storeDocvectors -storeRaw \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection ClueWeb12Collection \
+  -input /path/to/cw12b13 \
+  -index indexes/lucene-index.cw12b13 \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 44 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.cw12b13 &
 ```
 
@@ -33,58 +34,70 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
- -output runs/run.cw12b13.bm25.topics.web.201-250.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -output runs/run.cw12b13.bm25.topics.web.201-250.txt \
  -bm25 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
- -output runs/run.cw12b13.bm25.topics.web.251-300.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -output runs/run.cw12b13.bm25.topics.web.251-300.txt \
  -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
- -output runs/run.cw12b13.bm25+rm3.topics.web.201-250.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -output runs/run.cw12b13.bm25+rm3.topics.web.201-250.txt \
  -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
- -output runs/run.cw12b13.bm25+rm3.topics.web.251-300.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -output runs/run.cw12b13.bm25+rm3.topics.web.251-300.txt \
  -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
- -output runs/run.cw12b13.bm25+ax.topics.web.201-250.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -output runs/run.cw12b13.bm25+ax.topics.web.201-250.txt \
  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
- -output runs/run.cw12b13.bm25+ax.topics.web.251-300.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -output runs/run.cw12b13.bm25+ax.topics.web.251-300.txt \
  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
- -output runs/run.cw12b13.ql.topics.web.201-250.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -output runs/run.cw12b13.ql.topics.web.201-250.txt \
  -qld &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
- -output runs/run.cw12b13.ql.topics.web.251-300.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -output runs/run.cw12b13.ql.topics.web.251-300.txt \
  -qld &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
- -output runs/run.cw12b13.ql+rm3.topics.web.201-250.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -output runs/run.cw12b13.ql+rm3.topics.web.201-250.txt \
  -qld -rm3 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
- -output runs/run.cw12b13.ql+rm3.topics.web.251-300.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -output runs/run.cw12b13.ql+rm3.topics.web.251-300.txt \
  -qld -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
- -output runs/run.cw12b13.ql+ax.topics.web.201-250.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -output runs/run.cw12b13.ql+ax.topics.web.201-250.txt \
  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
- -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
- -output runs/run.cw12b13.ql+ax.topics.web.251-300.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.cw12b13 \
+  -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -output runs/run.cw12b13.ql+ax.topics.web.251-300.txt \
  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
 ```
 
@@ -138,13 +151,13 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.1273    | 0.1207    | 0.1107    | 0.1373    | 0.1173    | 0.1147    |
 
 
-NDCG20                                  | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+NDCG@20                                 | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.1289    | 0.1114    | 0.1311    | 0.1104    | 0.0921    | 0.1113    |
 [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.1183    | 0.1075    | 0.0974    | 0.1176    | 0.1004    | 0.0984    |
 
 
-ERR20                                   | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+ERR@20                                  | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.0838    | 0.0752    | 0.0949    | 0.0767    | 0.0552    | 0.0720    |
 [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.1198    | 0.1055    | 0.0925    | 0.1091    | 0.0928    | 0.0879    |

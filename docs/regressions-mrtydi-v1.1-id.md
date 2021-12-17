@@ -10,11 +10,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection MrTyDiCollection \
- -input /path/to/mrtydi-v1.1-id \
- -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 1 -storePositions -storeDocvectors -storeRaw -language id \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection MrTyDiCollection \
+  -input /path/to/mrtydi-v1.1-id \
+  -index indexes/lucene-index.mrtydi-v1.1-indonesian \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 1 -storePositions -storeDocvectors -storeRaw -language id \
   >& logs/log.mrtydi-v1.1-id &
 ```
 
@@ -26,18 +27,21 @@ For additional details, see explanation of [common indexing options](common-inde
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.train.txt.gz \
- -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.train.txt.gz \
- -language id -bm25 -hits 100 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.dev.txt.gz \
- -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.dev.txt.gz \
- -language id -bm25 -hits 100 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mrtydi-v1.1-indonesian.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.test.txt.gz \
- -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.test.txt.gz \
- -language id -bm25 -hits 100 &
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.mrtydi-v1.1-indonesian \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.train.txt.gz \
+  -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.train.txt.gz \
+ -bm25 -hits 100 -language id &
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.mrtydi-v1.1-indonesian \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.dev.txt.gz \
+  -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.dev.txt.gz \
+ -bm25 -hits 100 -language id &
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.mrtydi-v1.1-indonesian \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.test.txt.gz \
+  -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.test.txt.gz \
+ -bm25 -hits 100 -language id &
 ```
 
 Evaluation can be performed using `trec_eval`:

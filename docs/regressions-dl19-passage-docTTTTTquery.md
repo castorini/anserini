@@ -14,11 +14,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -input /path/to/msmarco-passage-docTTTTTquery \
- -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 9 -storePositions -storeDocvectors -storeRaw \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection JsonCollection \
+  -input /path/to/msmarco-passage-docTTTTTquery \
+  -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 9 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage-docTTTTTquery &
 ```
 
@@ -36,34 +37,40 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl19-passage.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl19-passage.txt \
  -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl19-passage.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl19-passage.txt \
  -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl19-passage.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl19-passage.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl19-passage.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl19-passage.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl19-passage.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl19-passage.txt \
  -bm25 -bm25.k1 2.18 -bm25.b 0.86 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl19-passage.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl19-passage.txt \
  -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rm3 &
 ```
 

@@ -15,11 +15,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
- -input /path/to/msmarco-passage-unicoil-tilde-expansion \
- -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion \
- -generator DefaultLuceneDocumentGenerator \
- -threads 16 -impact -pretokenized \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection JsonVectorCollection \
+  -input /path/to/msmarco-passage-unicoil-tilde-expansion \
+  -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 16 -impact -pretokenized \
   >& logs/log.msmarco-passage-unicoil-tilde-expansion &
 ```
 
@@ -36,9 +37,10 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
- -output runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
+  -output runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
  -impact -pretokenized &
 ```
 

@@ -17,11 +17,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCollection \
- -input /path/to/msmarco-v2-passage \
- -index indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 18 -storePositions -storeDocvectors -storeRaw \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection MsMarcoV2PassageCollection \
+  -input /path/to/msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 18 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-v2-passage &
 ```
 
@@ -39,24 +40,28 @@ The regression experiments here evaluate on the 53 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-passage.bm25-default.topics.dl21.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -output runs/run.msmarco-v2-passage.bm25-default.topics.dl21.txt \
  -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-passage.bm25-default+rm3.topics.dl21.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -output runs/run.msmarco-v2-passage.bm25-default+rm3.topics.dl21.txt \
  -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-passage.bm25-default+ax.topics.dl21.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -output runs/run.msmarco-v2-passage.bm25-default+ax.topics.dl21.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-passage.bm25-default+prf.topics.dl21.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -output runs/run.msmarco-v2-passage.bm25-default+prf.topics.dl21.txt \
  -bm25 -bm25prf &
 ```
 

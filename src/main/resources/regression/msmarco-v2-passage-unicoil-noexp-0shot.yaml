@@ -12,43 +12,39 @@ index_stats:
   documents (non-empty): 138364198
   total terms: 411330032512
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m map
     separator: "\t"
     parse_index: 2
-    metric: MAP
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m recip_rank
     separator: "\t"
     parse_index: 2
-    metric: MRR@100
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
-    metric: R@100
     metric_precision: 4
     can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
-    metric: R@1000
     metric_precision: 4
     can_combine: false
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev
@@ -62,11 +58,9 @@ topics:
 models:
   - name: unicoil-noexp-0shot
     display: uniCOIL (no expansion, zero-shot)
-    params:
-      - -impact
-      - -pretokenized
+    params: -impact -pretokenized
     results:
-      MAP:
+      MAP@100:
         - 0.1333
         - 0.1374
       MRR@100:

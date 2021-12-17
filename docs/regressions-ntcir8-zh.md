@@ -11,11 +11,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
- -input /path/to/ntcir8-zh \
- -index indexes/lucene-index.ntcir8-zh.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 16 -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection CleanTrecCollection \
+  -input /path/to/ntcir8-zh \
+  -index indexes/lucene-index.ntcir8-zh \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 16 -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize \
   >& logs/log.ntcir8-zh &
 ```
 
@@ -36,10 +37,11 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.ntcir8-zh.pos+docvectors+raw \
- -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
- -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
- -language zh -bm25 &
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.ntcir8-zh \
+  -topicreader TsvString  -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
+  -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
+ -bm25 -language zh &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -62,6 +64,6 @@ P20                                     | BM25      |
 [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
 
 
-NDCG20                                  | BM25      |
+NDCG@20                                 | BM25      |
 :---------------------------------------|-----------|
 [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |

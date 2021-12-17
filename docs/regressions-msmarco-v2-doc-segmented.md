@@ -12,11 +12,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
- -input /path/to/msmarco-v2-doc-segmented \
- -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 18 -storePositions -storeDocvectors -storeRaw \
+nohup sh target/appassembler/bin/IndexCollection \
+  -collection MsMarcoV2DocCollection \
+  -input /path/to/msmarco-v2-doc-segmented \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 18 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-v2-doc-segmented &
 ```
 
@@ -33,40 +34,48 @@ These regression experiments use the [dev queries](../src/main/resources/topics-
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt \
  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt \
  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.msmarco-v2-doc.dev.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.msmarco-v2-doc.dev.txt \
  -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt \
  -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.msmarco-v2-doc.dev.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.msmarco-v2-doc.dev.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.msmarco-v2-doc.dev2.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.msmarco-v2-doc.dev2.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.msmarco-v2-doc.dev.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.msmarco-v2-doc.dev.txt \
  -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
- -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.msmarco-v2-doc.dev2.txt \
+nohup target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented \
+  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+  -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.msmarco-v2-doc.dev2.txt \
  -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
@@ -106,7 +115,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank sr
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      |
+MAP@100                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.1875    | 0.1648    | 0.1344    | 0.1528    |
 [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.1903    | 0.1679    | 0.1345    | 0.1565    |

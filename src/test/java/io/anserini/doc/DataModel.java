@@ -26,6 +26,7 @@ import java.util.Map;
 
 public class DataModel {
   private static final String INDEX_COMMAND = "target/appassembler/bin/IndexCollection";
+  private static final String SEARCH_COMMAND = "target/appassembler/bin/SearchCollection";
 
   private String corpus;
   private String corpus_path;
@@ -45,7 +46,7 @@ public class DataModel {
   private Map<String, Long> index_stats;
   private List<Model> models;
   private List<Topic> topics;
-  private List<Eval> evals;
+  private List<Metric> metrics;
 
   public String getCorpus() {
     return corpus;
@@ -71,12 +72,12 @@ public class DataModel {
     this.index_stats = index_stats;
   }
 
-  public List<Eval> getEvals() {
-    return evals;
+  public List<Metric> getMetrics() {
+    return metrics;
   }
 
-  public void setEvals(List<Eval> evals) {
-    this.evals = evals;
+  public void setMetrics(List<Metric> evals) {
+    this.metrics = evals;
   }
 
   public List<Topic> getTopics() {
@@ -194,19 +195,20 @@ public class DataModel {
   static class Model {
     private String name;
     private String display;
-    private List<String> params;
+    private String params;
     private Map<String, List<Float>> results;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public Map<String, List<Float>> getResults() { return results; }
+    public void setDisplay(String display) { this.display = display; }
     public String getDisplay() { return display; }
     public void setResults(Map<String, List<Float>> results) { this.results = results; }
-    public List<String> getParams() { return params; }
-    public void setParams(List<String> params) { this.params = params; }
+    public String getParams() { return params; }
+    public void setParams(String params) { this.params = params; }
   }
 
-  static class Eval {
+  static class Metric {
     private String command;
     private String params;
     private String separator;
@@ -250,48 +252,36 @@ public class DataModel {
   }
 
   public String generateIndexingCommand(String collection) {
-    boolean containRawDocs = false;
-    if (getIndex_options().contains("-storeRaw")) {
-      containRawDocs = true;
-    }
-
     StringBuilder builder = new StringBuilder();
     builder.append("nohup sh ");
-    builder.append(INDEX_COMMAND);
-    builder.append(" -collection ").append(getCollection()).append(" \\\n");
-    builder.append(" -input ").append("/path/to/"+collection).append(" \\\n");
-    builder.append(" -index ").append(getIndex_path()).append(" \\\n");
-    builder.append(" -generator ").append(getGenerator()).append(" \\\n");
-    builder.append(" -threads ").append(getThreads());
-    builder.append(" ").append(getIndex_options());
-    builder.append(" \\\n").append(String.format("  >& logs/log.%s &", collection));
+    builder.append(INDEX_COMMAND).append(" \\\n");
+    builder.append("  -collection ").append(getCollection()).append(" \\\n");
+    builder.append("  -input ").append("/path/to/"+collection).append(" \\\n");
+    builder.append("  -index ").append(getIndex_path()).append(" \\\n");
+    builder.append("  -generator ").append(getGenerator()).append(" \\\n");
+    builder.append("  -threads ").append(getThreads());
+    builder.append(" ").append(getIndex_options()).append(" \\\n");
+    builder.append(String.format("  >& logs/log.%s &", collection));
     return builder.toString();
   }
 
   public String generateRankingCommand(String collection) {
-    boolean containRawDocs = false;
-    if (getIndex_options().contains("-storeRaw")) {
-      containRawDocs = true;
-    }
-
     StringBuilder builder = new StringBuilder();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         builder.append("nohup ");
-        builder.append(getSearch_command());
-        builder.append(" ").append("-index").append(" ").append(getIndex_path()).append(" \\\n");
-        builder.append(" ").append("-topicreader").append(" ").append(getTopic_reader());
-        builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
-        builder.append(" ").append("-output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
+        builder.append(SEARCH_COMMAND).append(" \\\n");
+        builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
+        builder.append("  -topicreader").append(" ").append(getTopic_reader());
+        builder.append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
+        builder.append("  -output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
         if (getSearch_options() != null) {
           for (String option : getSearch_options()) {
-            builder.append(" ").append(option);
+            builder.append("  ").append(option);
           }
         }
         if (model.getParams() != null) {
-          for (String option : model.getParams()) {
-            builder.append(" ").append(option);
-          }
+          builder.append(" ").append(model.getParams());
         }
         builder.append(" &"); // nohup
         builder.append("\n");
@@ -307,7 +297,7 @@ public class DataModel {
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         Map<String, Map<String, List<String>>> combinedEvalCmd = new HashMap<>();
-        for (Eval eval : getEvals()) {
+        for (Metric eval : getMetrics()) {
           String evalCmd = eval.getCommand();
           String evalCmdOption = "";
           if (eval.getParams() != null) {
@@ -339,7 +329,7 @@ public class DataModel {
 
   public String generateEffectiveness(String collection) {
     StringBuilder builder = new StringBuilder();
-    for (Eval eval : getEvals()) {
+    for (Metric eval : getMetrics()) {
       builder.append(String.format("%1$-40s|", eval.getMetric().toUpperCase()));
       for (Model model : getModels()) {
         if (model.getDisplay() == null) {
