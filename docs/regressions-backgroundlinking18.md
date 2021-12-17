@@ -71,7 +71,7 @@ MAP                                     | BM25      | +RM3      | +RM3+DF   |
 [TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)| 0.2490    | 0.2642    | 0.2692    |
 
 
-NDCG@5                                  | BM25      | +RM3      | +RM3+DF   |
+nDCG@5                                  | BM25      | +RM3      | +RM3+DF   |
 :---------------------------------------|-----------|-----------|-----------|
 [TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)| 0.3293    | 0.3526    | 0.4171    |
 

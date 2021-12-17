@@ -290,10 +290,10 @@ public class DataModel {
   public String generateEffectiveness(String collection) {
     StringBuilder builder = new StringBuilder();
     for (Metric eval : getMetrics()) {
-      builder.append(String.format("%1$-40s|", eval.getMetric().toUpperCase()));
+      builder.append(String.format("%1$-40s|", eval.getMetric()));
       for (Model model : getModels()) {
         if (model.getDisplay() == null) {
-          builder.append(String.format(" %1$-10s|", model.getName().toUpperCase()));
+          builder.append(String.format(" %1$-10s|", model.getName()));
         } else {
           builder.append(String.format(" %1$-10s|", model.getDisplay()));
         }

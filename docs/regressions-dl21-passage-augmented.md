@@ -107,7 +107,7 @@ MRR@100                                 | BM25 (default)| +RM3      | +Ax       
 [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5303    | 0.4906    | 0.4269    | 0.4737    |
 
 
-NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
+nDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.3977    | 0.3906    | 0.2927    | 0.3488    |
 

@@ -62,6 +62,6 @@ P20                                     | BM25      |
 [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)| 0.3740    |
 
 
-NDCG@20                                 | BM25      |
+nDCG@20                                 | BM25      |
 :---------------------------------------|-----------|
 [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)| 0.4261    |

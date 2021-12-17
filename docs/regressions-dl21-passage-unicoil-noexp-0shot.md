@@ -71,7 +71,7 @@ MRR@100                                 | uniCOIL (no expansion, zero-shot)|
 [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.6991    |
 
 
-NDCG@10                                 | uniCOIL (no expansion, zero-shot)|
+nDCG@10                                 | uniCOIL (no expansion, zero-shot)|
 :---------------------------------------|-----------|
 [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5756    |
 

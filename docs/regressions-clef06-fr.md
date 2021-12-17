@@ -63,6 +63,6 @@ P20                                     | BM25      |
 [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3184    |
 
 
-NDCG@20                                 | BM25      |
+nDCG@20                                 | BM25      |
 :---------------------------------------|-----------|
 [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.4458    |

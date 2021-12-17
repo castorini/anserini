@@ -116,7 +116,7 @@ R@1000                                  | BM25 (default)| +RM3      | BM25 (tune
 [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.8310    | 0.8861    | 0.8269    | 0.8826    | 0.8134    | 0.8424    |
 
 
-NDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.6417    | 0.6548    | 0.6482    | 0.6614    | 0.6336    | 0.6528    |
 

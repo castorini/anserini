@@ -151,7 +151,7 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.1273    | 0.1207    | 0.1107    | 0.1373    | 0.1173    | 0.1147    |
 
 
-NDCG@20                                 | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+nDCG@20                                 | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.1289    | 0.1114    | 0.1311    | 0.1104    | 0.0921    | 0.1113    |
 [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.1183    | 0.1075    | 0.0974    | 0.1176    | 0.1004    | 0.0984    |

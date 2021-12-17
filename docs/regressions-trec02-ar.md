@@ -64,6 +64,6 @@ P20                                     | BM25      |
 [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.3610    |
 
 
-NDCG@20                                 | BM25      |
+nDCG@20                                 | BM25      |
 :---------------------------------------|-----------|
 [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.4056    |

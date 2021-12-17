@@ -64,6 +64,6 @@ P20                                     | BM25      |
 [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
 
 
-NDCG@20                                 | BM25      |
+nDCG@20                                 | BM25      |
 :---------------------------------------|-----------|
 [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |
