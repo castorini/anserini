@@ -42,13 +42,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```

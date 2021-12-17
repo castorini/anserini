@@ -29,17 +29,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-korean \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.train.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.train.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.train.txt.gz \
   -bm25 -hits 100 -language ko &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-korean \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.dev.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.dev.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.dev.txt.gz \
   -bm25 -hits 100 -language ko &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-korean \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.test.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-ko.test.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.test.txt.gz \
   -bm25 -hits 100 -language ko &
 ```

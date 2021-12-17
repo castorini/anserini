@@ -39,7 +39,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ntcir8-zh \
-  -topicreader TsvString  -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
+  -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt -topicreader TsvString \
   -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
   -bm25 -language zh &
 ```

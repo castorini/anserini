@@ -29,17 +29,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.train.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.train.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.train.txt.gz \
   -bm25 -hits 100 -pretokenized &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.dev.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.dev.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.dev.txt.gz \
   -bm25 -hits 100 -pretokenized &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.test.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.test.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.test.txt.gz \
   -bm25 -hits 100 -pretokenized &
 ```

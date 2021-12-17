@@ -37,97 +37,97 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
   -output runs/run.disk45.bm25.topics.adhoc.351-400.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
   -output runs/run.disk45.bm25.topics.adhoc.401-450.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
   -output runs/run.disk45.bm25.topics.robust04.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
   -output runs/run.disk45.bm25+rm3.topics.adhoc.351-400.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
   -output runs/run.disk45.bm25+rm3.topics.adhoc.401-450.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
   -output runs/run.disk45.bm25+rm3.topics.robust04.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
   -output runs/run.disk45.bm25+ax.topics.adhoc.351-400.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
   -output runs/run.disk45.bm25+ax.topics.adhoc.401-450.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
   -output runs/run.disk45.bm25+ax.topics.robust04.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
   -output runs/run.disk45.ql.topics.adhoc.351-400.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
   -output runs/run.disk45.ql.topics.adhoc.401-450.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
   -output runs/run.disk45.ql.topics.robust04.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
   -output runs/run.disk45.ql+rm3.topics.adhoc.351-400.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
   -output runs/run.disk45.ql+rm3.topics.adhoc.401-450.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
   -output runs/run.disk45.ql+rm3.topics.robust04.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
   -output runs/run.disk45.ql+ax.topics.adhoc.351-400.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
   -output runs/run.disk45.ql+ax.topics.adhoc.401-450.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
   -output runs/run.disk45.ql+ax.topics.robust04.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```

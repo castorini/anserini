@@ -38,7 +38,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.clef06-fr \
-  -topicreader TsvString  -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt \
+  -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt -topicreader TsvString \
   -output runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt \
   -bm25 -language fr &
 ```

@@ -236,8 +236,9 @@ public class DataModel {
       for (Topic topic : getTopics()) {
         builder.append(SEARCH_COMMAND).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
-        builder.append("  -topicreader").append(" ").append(getTopic_reader());
-        builder.append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
+        builder
+            .append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString())
+            .append(" -topicreader").append(" ").append(getTopic_reader()).append(" \\\n");
         builder.append("  -output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
         if (model.getParams() != null) {
           builder.append("  ").append(model.getParams());

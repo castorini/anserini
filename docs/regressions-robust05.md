@@ -34,37 +34,37 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.robust05 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
   -output runs/run.robust05.bm25.topics.robust05.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.robust05 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
   -output runs/run.robust05.bm25+rm3.topics.robust05.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.robust05 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
   -output runs/run.robust05.bm25+ax.topics.robust05.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.robust05 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
   -output runs/run.robust05.ql.topics.robust05.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.robust05 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
   -output runs/run.robust05.ql+rm3.topics.robust05.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.robust05 \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
   -output runs/run.robust05.ql+ax.topics.robust05.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```

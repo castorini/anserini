@@ -45,49 +45,49 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-per-passage.bm25-default.topics.dl19-doc.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-per-passage.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-per-passage.bm25-default+ax.topics.dl19-doc.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-per-passage.bm25-default+prf.topics.dl19-doc.txt \
   -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-per-passage.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-per-passage.bm25-tuned+ax.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
-  -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-per-passage.bm25-tuned+prf.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 ```

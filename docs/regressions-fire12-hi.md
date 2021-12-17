@@ -37,7 +37,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fire12-hi \
-  -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt \
+  -topics src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt -topicreader Trec \
   -output runs/run.fire12-hi.bm25.topics.fire12hi.176-225.txt \
   -bm25 -language hi &
 ```
