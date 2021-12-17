@@ -11,7 +11,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/ntcir8-zh \
   -index indexes/lucene-index.ntcir8-zh \
@@ -37,7 +37,7 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ntcir8-zh \
   -topicreader TsvString  -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
   -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \

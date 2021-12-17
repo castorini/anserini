@@ -11,7 +11,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/fire12-en \
   -index indexes/lucene-index.fire12-en \
@@ -35,7 +35,7 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fire12-en \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt \
   -output runs/run.fire12-en.bm25.topics.fire12en.176-225.txt \

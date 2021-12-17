@@ -9,7 +9,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection ClueWeb12Collection \
   -input /path/to/cw12 \
   -index indexes/lucene-index.cw12 \
@@ -34,45 +34,45 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -output runs/run.cw12.bm25.topics.web.201-250.txt \
   -bm25 &
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -output runs/run.cw12.bm25.topics.web.251-300.txt \
   -bm25 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -output runs/run.cw12.bm25+rm3.topics.web.201-250.txt \
   -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -output runs/run.cw12.bm25+rm3.topics.web.251-300.txt \
   -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -output runs/run.cw12.ql.topics.web.201-250.txt \
   -qld &
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -output runs/run.cw12.ql.topics.web.251-300.txt \
   -qld &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -output runs/run.cw12.ql+rm3.topics.web.201-250.txt \
   -qld -rm3 &
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -output runs/run.cw12.ql+rm3.topics.web.251-300.txt \

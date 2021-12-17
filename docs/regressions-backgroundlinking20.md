@@ -9,7 +9,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v3 \
   -index indexes/lucene-index.wapo.v3 \
@@ -33,19 +33,19 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v3 \
   -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
   -output runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v3 \
   -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
   -output runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v3 \
   -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
   -output runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt \

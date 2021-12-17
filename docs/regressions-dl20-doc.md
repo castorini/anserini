@@ -20,7 +20,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/msmacro-doc \
   -index indexes/lucene-index.msmarco-doc \
@@ -42,37 +42,37 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmacro-doc.bm25-default.topics.dl20.txt \
   -bm25 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt \

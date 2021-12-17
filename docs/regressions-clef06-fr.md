@@ -11,7 +11,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/clef06-fr \
   -index indexes/lucene-index.clef06-fr \
@@ -36,7 +36,7 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.clef06-fr \
   -topicreader TsvString  -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt \
   -output runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt \

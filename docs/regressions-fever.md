@@ -10,7 +10,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection FeverParagraphCollection \
   -input /path/to/fever \
   -index indexes/lucene-index.fever-paragraph \
@@ -32,13 +32,13 @@ The original data can be found [here](https://fever.ai/resources.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fever-paragraph \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.fever.dev.txt \
   -output runs/run.fever.bm25-default.topics.fever.dev.txt \
   -bm25 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fever-paragraph \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.fever.dev.txt \
   -output runs/run.fever.bm25-tuned.topics.fever.dev.txt \

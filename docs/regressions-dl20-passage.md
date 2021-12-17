@@ -13,7 +13,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-passage \
   -index indexes/lucene-index.msmarco-passage \
@@ -36,49 +36,49 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-passage.bm25-default.topics.dl20.txt \
   -bm25 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-passage.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-passage.bm25-default+prf.topics.dl20.txt \
   -bm25 -bm25prf &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-passage.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-passage.bm25-tuned+prf.topics.dl20.txt \

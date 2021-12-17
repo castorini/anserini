@@ -21,7 +21,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-per-passage \
   -index indexes/lucene-index.msmarco-doc-per-passage \
@@ -43,49 +43,49 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-doc-per-passage.bm25-default.topics.dl20.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-doc-per-passage.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-doc-per-passage.bm25-default+ax.topics.dl20.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-doc-per-passage.bm25-default+prf.topics.dl20.txt \
   -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-doc-per-passage.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-doc-per-passage.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-doc-per-passage.bm25-tuned+ax.topics.dl20.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-per-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -output runs/run.msmarco-doc-per-passage.bm25-tuned+prf.topics.dl20.txt \

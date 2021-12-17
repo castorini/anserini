@@ -9,7 +9,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v2 \
   -index indexes/lucene-index.wapo.v2 \
@@ -33,37 +33,37 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2 \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
   -output runs/run.wapo.v2.bm25.topics.core18.txt \
   -bm25 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2 \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
   -output runs/run.wapo.v2.bm25+rm3.topics.core18.txt \
   -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2 \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
   -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2 \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
   -output runs/run.wapo.v2.ql.topics.core18.txt \
   -qld &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2 \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
   -output runs/run.wapo.v2.ql+rm3.topics.core18.txt \
   -qld -rm3 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2 \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
   -output runs/run.wapo.v2.ql+ax.topics.core18.txt \

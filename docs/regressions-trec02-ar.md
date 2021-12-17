@@ -11,7 +11,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/trec02-ar \
   -index indexes/lucene-index.trec02-ar \
@@ -37,7 +37,7 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.trec02-ar \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt \
   -output runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt \

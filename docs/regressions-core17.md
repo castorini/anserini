@@ -9,7 +9,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection NewYorkTimesCollection \
   -input /path/to/nyt \
   -index indexes/lucene-index.nyt \
@@ -33,37 +33,37 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.bm25.topics.core17.txt \
   -bm25 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.bm25+rm3.topics.core17.txt \
   -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.bm25+ax.topics.core17.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.ql.topics.core17.txt \
   -qld &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.ql+rm3.topics.core17.txt \
   -qld -rm3 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.ql+ax.topics.core17.txt \

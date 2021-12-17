@@ -12,7 +12,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
+target/appassembler/bin/IndexCollection \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2-doc \
   -index indexes/lucene-index.msmarco-v2-doc \
@@ -34,45 +34,45 @@ These regression experiments use the [dev queries](../src/main/resources/topics-
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc.bm25-default.topics.msmarco-v2-doc.dev.txt \
   -bm25 &
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc.bm25-default.topics.msmarco-v2-doc.dev2.txt \
   -bm25 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc.bm25-default+rm3.topics.msmarco-v2-doc.dev.txt \
   -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt \
   -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc.bm25-default+ax.topics.msmarco-v2-doc.dev.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc.bm25-default+ax.topics.msmarco-v2-doc.dev2.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc.bm25-default+prf.topics.msmarco-v2-doc.dev.txt \
   -bm25 -bm25prf &
-nohup target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc.bm25-default+prf.topics.msmarco-v2-doc.dev2.txt \
