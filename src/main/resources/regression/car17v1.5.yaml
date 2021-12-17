@@ -52,7 +52,7 @@ models:
     results:
       MAP:
         - 0.1295
-      recip_rank:
+      MRR:
         - 0.1923
   - name: bm25+ax
     display: +Ax

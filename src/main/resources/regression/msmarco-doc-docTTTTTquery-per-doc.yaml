@@ -2,7 +2,7 @@
 corpus: msmarco-doc-docTTTTTquery-per-doc
 corpus_path: collections/msmarco/doc-docTTTTTquery-per-doc
 
-index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1

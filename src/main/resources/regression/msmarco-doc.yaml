@@ -2,7 +2,7 @@
 corpus: msmarco-doc
 corpus_path: collections/msmarco/doc/
 
-index_path: indexes/lucene-index.msmarco-doc.pos+docvectors+raw
+index_path: indexes/lucene-index.msmarco-doc
 collection: CleanTrecCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1

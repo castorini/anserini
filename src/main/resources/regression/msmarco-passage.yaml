@@ -2,7 +2,7 @@
 corpus: msmarco-passage
 corpus_path: collections/msmarco/passage/
 
-index_path: indexes/lucene-index.msmarco-passage.pos+docvectors+raw
+index_path: indexes/lucene-index.msmarco-passage
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 9
