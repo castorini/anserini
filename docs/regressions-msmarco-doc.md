@@ -41,37 +41,37 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt \
- -bm25 &
+  -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -output runs/run.msmarco-doc.bm25-default+rm3.topics.msmarco-doc.dev.txt \
- -bm25 -rm3 &
+  -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -output runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -output runs/run.msmarco-doc.bm25-tuned+rm3.topics.msmarco-doc.dev.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -output runs/run.msmarco-doc.bm25-tuned2.topics.msmarco-doc.dev.txt \
- -bm25 -bm25.k1 4.46 -bm25.b 0.82 &
+  -bm25 -bm25.k1 4.46 -bm25.b 0.82 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -output runs/run.msmarco-doc.bm25-tuned2+rm3.topics.msmarco-doc.dev.txt \
- -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3 &
+  -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval`:

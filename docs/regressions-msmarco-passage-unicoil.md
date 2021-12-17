@@ -41,7 +41,7 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
   -output runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
- -impact -pretokenized &
+  -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:

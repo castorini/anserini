@@ -46,67 +46,67 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
   -output runs/run.mb13.bm25.topics.microblog2013.txt \
- -searchtweets -bm25 &
+  -searchtweets -bm25 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
   -output runs/run.mb13.bm25.topics.microblog2014.txt \
- -searchtweets -bm25 &
+  -searchtweets -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
   -output runs/run.mb13.bm25+rm3.topics.microblog2013.txt \
- -searchtweets -bm25 -rm3 &
+  -searchtweets -bm25 -rm3 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
   -output runs/run.mb13.bm25+rm3.topics.microblog2014.txt \
- -searchtweets -bm25 -rm3 &
+  -searchtweets -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
   -output runs/run.mb13.bm25+ax.topics.microblog2013.txt \
- -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
+  -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
   -output runs/run.mb13.bm25+ax.topics.microblog2014.txt \
- -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
+  -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
   -output runs/run.mb13.ql.topics.microblog2013.txt \
- -searchtweets -qld &
+  -searchtweets -qld &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
   -output runs/run.mb13.ql.topics.microblog2014.txt \
- -searchtweets -qld &
+  -searchtweets -qld &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
   -output runs/run.mb13.ql+rm3.topics.microblog2013.txt \
- -searchtweets -qld -rm3 &
+  -searchtweets -qld -rm3 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
   -output runs/run.mb13.ql+rm3.topics.microblog2014.txt \
- -searchtweets -qld -rm3 &
+  -searchtweets -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
   -output runs/run.mb13.ql+ax.topics.microblog2013.txt \
- -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
+  -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13 \
   -topicreader Microblog  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
   -output runs/run.mb13.ql+ax.topics.microblog2014.txt \
- -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
+  -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

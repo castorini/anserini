@@ -36,37 +36,37 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
   -output runs/run.wt10g.bm25.topics.adhoc.451-550.txt \
- -bm25 &
+  -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
   -output runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt \
- -bm25 -rm3 &
+  -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
   -output runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt \
- -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
   -output runs/run.wt10g.ql.topics.adhoc.451-550.txt \
- -qld &
+  -qld &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
   -output runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt \
- -qld -rm3 &
+  -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
   -output runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt \
- -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

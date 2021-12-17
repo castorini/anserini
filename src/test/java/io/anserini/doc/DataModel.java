@@ -176,6 +176,14 @@ public class DataModel {
     this.index_path = index_path;
   }
 
+  public String getIndex_options() {
+    return index_options;
+  }
+
+  public void setIndex_options(String index_options) {
+    this.index_options = index_options;
+  }
+
   static class Topic {
     private String name;
     private String id;
@@ -235,22 +243,6 @@ public class DataModel {
     public void setMetric_precision(int metric_precision) { this.metric_precision = metric_precision; }
   }
 
-  public String getIndex_options() {
-    return index_options;
-  }
-
-  public void setIndex_options(String index_options) {
-    this.index_options = index_options;
-  }
-
-  public List<String> getSearch_options() {
-    return search_options;
-  }
-
-  public void setSearch_options(List<String> search_options) {
-    this.search_options = search_options;
-  }
-
   public String generateIndexingCommand(String collection) {
     StringBuilder builder = new StringBuilder();
     builder.append("nohup sh ");
@@ -275,13 +267,8 @@ public class DataModel {
         builder.append("  -topicreader").append(" ").append(getTopic_reader());
         builder.append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
         builder.append("  -output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
-        if (getSearch_options() != null) {
-          for (String option : getSearch_options()) {
-            builder.append("  ").append(option);
-          }
-        }
         if (model.getParams() != null) {
-          builder.append(" ").append(model.getParams());
+          builder.append("  ").append(model.getParams());
         }
         builder.append(" &"); // nohup
         builder.append("\n");

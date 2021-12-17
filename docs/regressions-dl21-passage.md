@@ -44,25 +44,25 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -output runs/run.msmarco-v2-passage.bm25-default.topics.dl21.txt \
- -bm25 &
+  -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -output runs/run.msmarco-v2-passage.bm25-default+rm3.topics.dl21.txt \
- -bm25 -rm3 &
+  -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -output runs/run.msmarco-v2-passage.bm25-default+ax.topics.dl21.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -output runs/run.msmarco-v2-passage.bm25-default+prf.topics.dl21.txt \
- -bm25 -bm25prf &
+  -bm25 -bm25prf &
 ```
 
 Evaluation can be performed using `trec_eval`:

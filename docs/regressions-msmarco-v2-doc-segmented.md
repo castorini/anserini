@@ -38,45 +38,45 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt \
- -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt \
- -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.msmarco-v2-doc.dev.txt \
- -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt \
- -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.msmarco-v2-doc.dev.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.msmarco-v2-doc.dev2.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.msmarco-v2-doc.dev.txt \
- -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.msmarco-v2-doc.dev2.txt \
- -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:

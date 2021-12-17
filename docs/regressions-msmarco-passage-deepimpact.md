@@ -41,7 +41,7 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-deepimpact \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
   -output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
- -impact -pretokenized &
+  -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:

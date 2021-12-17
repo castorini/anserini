@@ -39,7 +39,7 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fire12-bn \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt \
   -output runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt \
- -bm25 -language bn &
+  -bm25 -language bn &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -37,37 +37,37 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.bm25.topics.core17.txt \
- -bm25 &
+  -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.bm25+rm3.topics.core17.txt \
- -bm25 -rm3 &
+  -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.bm25+ax.topics.core17.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.ql.topics.core17.txt \
- -qld &
+  -qld &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.ql+rm3.topics.core17.txt \
- -qld -rm3 &
+  -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
   -output runs/run.nyt.ql+ax.topics.core17.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

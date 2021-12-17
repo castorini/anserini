@@ -38,37 +38,37 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
   -topicreader Car  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -output runs/run.car-paragraphCorpus.v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt \
- -bm25 &
+  -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
   -topicreader Car  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -output runs/run.car-paragraphCorpus.v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt \
- -bm25 -rm3 &
+  -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
   -topicreader Car  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -output runs/run.car-paragraphCorpus.v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
   -topicreader Car  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -output runs/run.car-paragraphCorpus.v1.5.ql.topics.car17v1.5.benchmarkY1test.txt \
- -qld &
+  -qld &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
   -topicreader Car  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -output runs/run.car-paragraphCorpus.v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt \
- -qld -rm3 &
+  -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
   -topicreader Car  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -output runs/run.car-paragraphCorpus.v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

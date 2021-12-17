@@ -41,7 +41,7 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-distill-splade-max \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
   -output runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
- -impact -pretokenized &
+  -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -41,25 +41,25 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -output runs/run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt \
- -bm25 &
+  -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -output runs/run.msmarco-passage-doc2query.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt \
- -bm25 -rm3 &
+  -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -output runs/run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -output runs/run.msmarco-passage-doc2query.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval`:

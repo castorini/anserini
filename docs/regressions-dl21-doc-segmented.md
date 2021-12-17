@@ -49,25 +49,25 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl21.txt \
- -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 &
+  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl21.txt \
- -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -rm3 &
+  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.dl21.txt \
- -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.dl21.txt \
- -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -bm25prf &
+  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -bm25prf &
 ```
 
 Evaluation can be performed using `trec_eval`:

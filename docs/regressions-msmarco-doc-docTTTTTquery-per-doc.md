@@ -41,13 +41,13 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.msmarco-doc.dev.txt \
- -bm25 &
+  -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.msmarco-doc.dev.txt \
- -bm25 -bm25.k1 4.68 -bm25.b 0.87 &
+  -bm25 -bm25.k1 4.68 -bm25.b 0.87 &
 ```
 
 Evaluation can be performed using `trec_eval`:

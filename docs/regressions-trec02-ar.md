@@ -41,7 +41,7 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.trec02-ar \
   -topicreader Trec  -topics src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt \
   -output runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt \
- -bm25 -language ar &
+  -bm25 -language ar &
 ```
 
 Evaluation can be performed using `trec_eval`:

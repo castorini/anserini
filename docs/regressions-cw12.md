@@ -38,45 +38,45 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -output runs/run.cw12.bm25.topics.web.201-250.txt \
- -bm25 &
+  -bm25 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -output runs/run.cw12.bm25.topics.web.251-300.txt \
- -bm25 &
+  -bm25 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -output runs/run.cw12.bm25+rm3.topics.web.201-250.txt \
- -bm25 -rm3 &
+  -bm25 -rm3 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -output runs/run.cw12.bm25+rm3.topics.web.251-300.txt \
- -bm25 -rm3 &
+  -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -output runs/run.cw12.ql.topics.web.201-250.txt \
- -qld &
+  -qld &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -output runs/run.cw12.ql.topics.web.251-300.txt \
- -qld &
+  -qld &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -output runs/run.cw12.ql+rm3.topics.web.201-250.txt \
- -qld -rm3 &
+  -qld -rm3 &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12 \
   -topicreader Webxml  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -output runs/run.cw12.ql+rm3.topics.web.251-300.txt \
- -qld -rm3 &
+  -qld -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:

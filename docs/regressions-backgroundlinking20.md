@@ -37,19 +37,19 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v3 \
   -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
   -output runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt \
- -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
+  -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v3 \
   -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
   -output runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt \
- -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
+  -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v3 \
   -topicreader BackgroundLinking  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt \
   -output runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt \
- -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
+  -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:

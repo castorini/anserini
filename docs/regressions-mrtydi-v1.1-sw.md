@@ -31,17 +31,17 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.train.txt.gz \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.train.txt.gz \
- -bm25 -hits 100 -pretokenized &
+  -bm25 -hits 100 -pretokenized &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.dev.txt.gz \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.dev.txt.gz \
- -bm25 -hits 100 -pretokenized &
+  -bm25 -hits 100 -pretokenized &
 nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili \
   -topicreader TsvInt  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-sw.test.txt.gz \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.test.txt.gz \
- -bm25 -hits 100 -pretokenized &
+  -bm25 -hits 100 -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:

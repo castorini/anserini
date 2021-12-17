@@ -40,7 +40,7 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.clef06-fr \
   -topicreader TsvString  -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt \
   -output runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt \
- -bm25 -language fr &
+  -bm25 -language fr &
 ```
 
 Evaluation can be performed using `trec_eval`:

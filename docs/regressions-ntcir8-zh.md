@@ -41,7 +41,7 @@ nohup target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ntcir8-zh \
   -topicreader TsvString  -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
   -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
- -bm25 -language zh &
+  -bm25 -language zh &
 ```
 
 Evaluation can be performed using `trec_eval`:
