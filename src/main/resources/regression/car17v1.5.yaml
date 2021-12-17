@@ -68,7 +68,7 @@ models:
     results:
       MAP:
         - 0.1386
-      recip_rank:
+      MRR:
         - 0.2037
   - name: ql+rm3
     display: +RM3

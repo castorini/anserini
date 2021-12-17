@@ -12,40 +12,40 @@ index_stats:
   documents (non-empty): 138364197
   total terms: 4673266762
 
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m map -l 2
     separator: "\t"
     parse_index: 2
-    metric: MAP@100
     metric_precision: 4
     can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m recip_rank -l 2
     separator: "\t"
     parse_index: 2
-    metric: MRR@100
     metric_precision: 4
     can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
-    metric: NDCG@10
     metric_precision: 4
     can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.100 -l 2
     separator: "\t"
     parse_index: 2
-    metric: R@100
     metric_precision: 4
     can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.1000 -l 2
     separator: "\t"
     parse_index: 2
-    metric: R@1000
     metric_precision: 4
     can_combine: false
 
@@ -61,14 +61,13 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params:
-      - -bm25
+    params: -bm25
     results:
       MAP@100:
         - 0.1357
       MRR@100:
         - 0.5060
-      NDCG@10:
+      nDCG@10:
         - 0.4458
       R@100:
         - 0.3261
@@ -76,15 +75,13 @@ models:
         - 0.6149
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
       MAP@100:
         - 0.1632
       MRR@100:
         - 0.4925
-      NDCG@10:
+      nDCG@10:
         - 0.4480
       R@100:
         - 0.3498
@@ -92,17 +89,13 @@ models:
         - 0.6619
   - name: bm25-default+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
       MAP@100:
         - 0.1907
       MRR@100:
         - 0.5733
-      NDCG@10:
+      nDCG@10:
         - 0.4851
       R@100:
         - 0.3803
@@ -110,15 +103,13 @@ models:
         - 0.6882
   - name: bm25-default+prf
     display: +PRF
-    params:
-      - -bm25
-      - -bm25prf
+    params: -bm25 -bm25prf
     results:
       MAP@100:
         - 0.1821
       MRR@100:
         - 0.5532
-      NDCG@10:
+      nDCG@10:
         - 0.4740
       R@100:
         - 0.3745
