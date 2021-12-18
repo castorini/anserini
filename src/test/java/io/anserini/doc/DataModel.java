@@ -26,26 +26,10 @@ import java.util.Map;
 
 public class DataModel {
   private static final String INDEX_COMMAND = "target/appassembler/bin/IndexCollection";
+  private static final String SEARCH_COMMAND = "target/appassembler/bin/SearchCollection";
 
   private String corpus;
   private String corpus_path;
-
-  private String search_command;
-  private String topic_root;
-  private String qrels_root;
-  private String index_root;
-  private String ranking_root;
-  private String collection;
-  private String generator;
-  private int threads;
-  private String topic_reader;
-  private String index_path;
-  private String index_options;
-  private List<String> search_options;
-  private Map<String, Long> index_stats;
-  private List<Model> models;
-  private List<Topic> topics;
-  private List<Eval> evals;
 
   public String getCorpus() {
     return corpus;
@@ -63,76 +47,19 @@ public class DataModel {
     this.corpus_path = corpus_path;
   }
 
-  public Map<String, Long> getIndex_stats() {
-    return index_stats;
+  private String index_path;
+  private String collection;
+  private String generator;
+  private int threads;
+  private String index_options;
+  private Map<String, Long> index_stats;
+
+  public String getIndex_path() {
+    return index_path;
   }
 
-  public void setIndex_stats(Map<String, Long> index_stats) {
-    this.index_stats = index_stats;
-  }
-
-  public List<Eval> getEvals() {
-    return evals;
-  }
-
-  public void setEvals(List<Eval> evals) {
-    this.evals = evals;
-  }
-
-  public List<Topic> getTopics() {
-    return topics;
-  }
-
-  public void setTopics(List<Topic> topics) {
-    this.topics = topics;
-  }
-
-  public List<Model> getModels() {
-    return models;
-  }
-
-  public void setModels(List<Model> models) {
-    this.models = models;
-  }
-
-  public String getSearch_command() {
-    return search_command;
-  }
-
-  public void setSearch_command(String search_command) {
-    this.search_command = search_command;
-  }
-
-  public String getTopic_root() {
-    return topic_root;
-  }
-
-  public void setTopic_root(String topic_root) {
-    this.topic_root = topic_root;
-  }
-
-  public String getQrels_root() {
-    return qrels_root;
-  }
-
-  public void setQrels_root(String qrels_root) {
-    this.qrels_root = qrels_root;
-  }
-
-  public String getIndex_root() {
-    return index_root;
-  }
-
-  public void setIndex_root(String index_root) {
-    this.index_root = index_root;
-  }
-
-  public String getRanking_root() {
-    return ranking_root;
-  }
-
-  public void setRanking_root(String ranking_root) {
-    this.ranking_root = ranking_root;
+  public void setIndex_path(String index_path) {
+    this.index_path = index_path;
   }
 
   public String getCollection() {
@@ -159,6 +86,26 @@ public class DataModel {
     this.threads = threads;
   }
 
+  public String getIndex_options() {
+    return index_options;
+  }
+
+  public void setIndex_options(String index_options) {
+    this.index_options = index_options;
+  }
+
+  public Map<String, Long> getIndex_stats() {
+    return index_stats;
+  }
+
+  public void setIndex_stats(Map<String, Long> index_stats) {
+    this.index_stats = index_stats;
+  }
+
+  private String topic_root;
+  private String qrels_root;
+  private String topic_reader;
+
   public String getTopic_reader() {
     return topic_reader;
   }
@@ -166,13 +113,49 @@ public class DataModel {
   public void setTopic_reader(String topic_reader) {
     this.topic_reader = topic_reader;
   }
-  
-  public String getIndex_path() {
-    return index_path;
+
+  public String getTopic_root() {
+    return topic_root;
   }
 
-  public void setIndex_path(String index_path) {
-    this.index_path = index_path;
+  public void setTopic_root(String topic_root) {
+    this.topic_root = topic_root;
+  }
+
+  public String getQrels_root() {
+    return qrels_root;
+  }
+
+  public void setQrels_root(String qrels_root) {
+    this.qrels_root = qrels_root;
+  }
+
+  private List<Metric> metrics;
+  private List<Model> models;
+  private List<Topic> topics;
+
+  public List<Metric> getMetrics() {
+    return metrics;
+  }
+
+  public void setMetrics(List<Metric> evals) {
+    this.metrics = evals;
+  }
+
+  public List<Topic> getTopics() {
+    return topics;
+  }
+
+  public void setTopics(List<Topic> topics) {
+    this.topics = topics;
+  }
+
+  public List<Model> getModels() {
+    return models;
+  }
+
+  public void setModels(List<Model> models) {
+    this.models = models;
   }
 
   static class Topic {
@@ -194,19 +177,20 @@ public class DataModel {
   static class Model {
     private String name;
     private String display;
-    private List<String> params;
+    private String params;
     private Map<String, List<Float>> results;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public Map<String, List<Float>> getResults() { return results; }
+    public void setDisplay(String display) { this.display = display; }
     public String getDisplay() { return display; }
     public void setResults(Map<String, List<Float>> results) { this.results = results; }
-    public List<String> getParams() { return params; }
-    public void setParams(List<String> params) { this.params = params; }
+    public String getParams() { return params; }
+    public void setParams(String params) { this.params = params; }
   }
 
-  static class Eval {
+  static class Metric {
     private String command;
     private String params;
     private String separator;
@@ -233,65 +217,31 @@ public class DataModel {
     public void setMetric_precision(int metric_precision) { this.metric_precision = metric_precision; }
   }
 
-  public String getIndex_options() {
-    return index_options;
-  }
-
-  public void setIndex_options(String index_options) {
-    this.index_options = index_options;
-  }
-
-  public List<String> getSearch_options() {
-    return search_options;
-  }
-
-  public void setSearch_options(List<String> search_options) {
-    this.search_options = search_options;
-  }
-
   public String generateIndexingCommand(String collection) {
-    boolean containRawDocs = false;
-    if (getIndex_options().contains("-storeRaw")) {
-      containRawDocs = true;
-    }
-
     StringBuilder builder = new StringBuilder();
-    builder.append("nohup sh ");
-    builder.append(INDEX_COMMAND);
-    builder.append(" -collection ").append(getCollection()).append(" \\\n");
-    builder.append(" -input ").append("/path/to/"+collection).append(" \\\n");
-    builder.append(" -index ").append(getIndex_path()).append(" \\\n");
-    builder.append(" -generator ").append(getGenerator()).append(" \\\n");
-    builder.append(" -threads ").append(getThreads());
-    builder.append(" ").append(getIndex_options());
-    builder.append(" \\\n").append(String.format("  >& logs/log.%s &", collection));
+    builder.append(INDEX_COMMAND).append(" \\\n");
+    builder.append("  -collection ").append(getCollection()).append(" \\\n");
+    builder.append("  -input ").append("/path/to/"+collection).append(" \\\n");
+    builder.append("  -index ").append(getIndex_path()).append(" \\\n");
+    builder.append("  -generator ").append(getGenerator()).append(" \\\n");
+    builder.append("  -threads ").append(getThreads());
+    builder.append(" ").append(getIndex_options()).append(" \\\n");
+    builder.append(String.format("  >& logs/log.%s &", collection));
     return builder.toString();
   }
 
   public String generateRankingCommand(String collection) {
-    boolean containRawDocs = false;
-    if (getIndex_options().contains("-storeRaw")) {
-      containRawDocs = true;
-    }
-
     StringBuilder builder = new StringBuilder();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
-        builder.append("nohup ");
-        builder.append(getSearch_command());
-        builder.append(" ").append("-index").append(" ").append(getIndex_path()).append(" \\\n");
-        builder.append(" ").append("-topicreader").append(" ").append(getTopic_reader());
-        builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
-        builder.append(" ").append("-output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
-        if (getSearch_options() != null) {
-          for (String option : getSearch_options()) {
-            builder.append(" ").append(option);
-          }
-        }
+        builder.append(SEARCH_COMMAND).append(" \\\n");
+        builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
+        builder
+            .append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString())
+            .append(" -topicreader").append(" ").append(getTopic_reader()).append(" \\\n");
+        builder.append("  -output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
         if (model.getParams() != null) {
-          for (String option : model.getParams()) {
-            builder.append(" ").append(option);
-          }
+          builder.append("  ").append(model.getParams());
         }
         builder.append(" &"); // nohup
         builder.append("\n");
@@ -307,15 +257,15 @@ public class DataModel {
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         Map<String, Map<String, List<String>>> combinedEvalCmd = new HashMap<>();
-        for (Eval eval : getEvals()) {
+        for (Metric eval : getMetrics()) {
           String evalCmd = eval.getCommand();
           String evalCmdOption = "";
           if (eval.getParams() != null) {
-            evalCmdOption += " "+eval.getParams();
+            evalCmdOption += " " + eval.getParams();
           }
           String evalCmdResidual = "";
-          evalCmdResidual += " "+Paths.get(getQrels_root(), topic.getQrel());
-          evalCmdResidual += " runs/run."+collection+"."+model.getName()+"."+topic.getPath();
+          evalCmdResidual += " " + Paths.get(getQrels_root(), topic.getQrel());
+          evalCmdResidual += " runs/run." + collection+ "." + model.getName() + "." + topic.getPath();
           evalCmdResidual += "\n";
           if (eval.isCan_combine() || evalCmdOption.isEmpty()) {
             combinedEvalCmd.putIfAbsent(evalCmd, new HashMap<>());
@@ -339,11 +289,11 @@ public class DataModel {
 
   public String generateEffectiveness(String collection) {
     StringBuilder builder = new StringBuilder();
-    for (Eval eval : getEvals()) {
-      builder.append(String.format("%1$-40s|", eval.getMetric().toUpperCase()));
+    for (Metric eval : getMetrics()) {
+      builder.append(String.format("%1$-40s|", eval.getMetric()));
       for (Model model : getModels()) {
         if (model.getDisplay() == null) {
-          builder.append(String.format(" %1$-10s|", model.getName().toUpperCase()));
+          builder.append(String.format(" %1$-10s|", model.getName()));
         } else {
           builder.append(String.format(" %1$-10s|", model.getDisplay()));
         }

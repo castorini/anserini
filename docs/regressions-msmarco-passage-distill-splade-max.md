@@ -15,11 +15,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
- -input /path/to/msmarco-passage-distill-splade-max \
- -index indexes/lucene-index.msmarco-passage-distill-splade-max \
- -generator DefaultLuceneDocumentGenerator \
- -threads 16 -impact -pretokenized \
+target/appassembler/bin/IndexCollection \
+  -collection JsonVectorCollection \
+  -input /path/to/msmarco-passage-distill-splade-max \
+  -index indexes/lucene-index.msmarco-passage-distill-splade-max \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 16 -impact -pretokenized \
   >& logs/log.msmarco-passage-distill-splade-max &
 ```
 
@@ -36,10 +37,11 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-distill-splade-max \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
- -output runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
- -impact -pretokenized &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-distill-splade-max \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz -topicreader TsvInt \
+  -output runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
+  -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:

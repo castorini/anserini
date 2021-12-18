@@ -19,11 +19,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -input /path/to/msmarco-doc-docTTTTTquery-per-passage \
- -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 1 -storePositions -storeDocvectors -storeRaw \
+target/appassembler/bin/IndexCollection \
+  -collection JsonCollection \
+  -input /path/to/msmarco-doc-docTTTTTquery-per-passage \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
 ```
 
@@ -39,15 +40,17 @@ The regression experiments here evaluate on the 5193 dev set questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.txt \
- -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.msmarco-doc.dev.txt \
+  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.msmarco-doc.dev.txt \
- -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.msmarco-doc.dev.txt \
+  -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:

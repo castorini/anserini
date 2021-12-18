@@ -2,7 +2,7 @@
 corpus: wapo.v2
 corpus_path: collections/newswire/WashingtonPost.v2/data/
 
-index_path: indexes/lucene-index.wapo.v2.pos+docvectors+raw
+index_path: indexes/lucene-index.wapo.v2
 collection: WashingtonPostCollection
 generator: WashingtonPostGenerator
 threads: 1
@@ -12,28 +12,25 @@ index_stats:
   documents (non-empty): 595030
   total terms: 318219870
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -M1000 -m ndcg_cut.5
-    separator: "\t"
-    parse_index: 2
-    metric: NCDG@5
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M1000 -m map
     separator: "\t"
     parse_index: 2
-    metric: AP
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@5
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M1000 -m ndcg_cut.5
+    separator: "\t"
+    parse_index: 2
     metric_precision: 4
     can_combine: true
 
 topic_reader: BackgroundLinking
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)"
     id: bglink18
@@ -43,28 +40,25 @@ topics:
 models:
   - name: bm25
     display: BM25
-    params:
-      - -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100
+    params: -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100
     results:
-      AP:
+      MAP:
         - 0.2490
-      NCDG@5:
+      nDCG@5:
         - 0.3293
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100
+    params: -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
-      AP:
+      MAP:
         - 0.2642
-      NCDG@5:
+      nDCG@5:
         - 0.3526
   - name: bm25+rm3+df
     display: +RM3+DF
-    params:
-      - -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100
+    params: -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
-      AP:
+      MAP:
         - 0.2692
-      NCDG@5:
+      nDCG@5:
         - 0.4171

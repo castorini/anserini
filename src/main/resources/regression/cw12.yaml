@@ -2,7 +2,7 @@
 corpus: cw12
 corpus_path: collections/web/ClueWeb12/
 
-index_path: indexes/lucene-index.cw12.pos+docvectors+raw
+index_path: indexes/lucene-index.cw12
 collection: ClueWeb12Collection
 generator: DefaultLuceneDocumentGenerator
 threads: 44
@@ -12,115 +12,107 @@ index_stats:
   documents (non-empty): 731542236
   total terms: 429234508918
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m map
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: P30
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m P.30
     separator: "\t"
     parse_index: 2
-    metric: p30
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/gdeval.pl
+  - metric: nDCG@20
+    command: tools/eval/gdeval.pl
     separator: ","
     parse_index: -2
-    metric: ndcg20
     metric_precision: 5
-  - command: tools/eval/gdeval.pl
+  - metric: ERR@20
+    command: tools/eval/gdeval.pl
     separator: ","
     parse_index: -1
-    metric: err20
     metric_precision: 5
 
 topic_reader: Webxml
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)"
+    id: trec2013
     path: topics.web.201-250.txt
     qrel: qrels.web.201-250.txt
   - name: "[TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)"
+    id: trec2014
     path: topics.web.251-300.txt
     qrel: qrels.web.251-300.txt
 
 models:
   - name: bm25
     display: BM25
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
+      MAP:
         - 0.1695
         - 0.2470
-      p30:
+      P30:
         - 0.2767
         - 0.4547
-      ndcg20:
+      nDCG@20:
         - 0.20848
         - 0.25720
-      err20:
+      ERR@20:
         - 0.12829
         - 0.16163
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
+      MAP:
         - 0.1465
         - 0.2330
-      p30:
+      P30:
         - 0.2393
         - 0.4080
-      ndcg20:
+      nDCG@20:
         - 0.20325
         - 0.25163
-      err20:
+      ERR@20:
         - 0.12645
         - 0.16518
   - name: ql
     display: QL
-    params:
-      - -qld
+    params: -qld
     results:
-      map:
+      MAP:
         - 0.1493
         - 0.2467
-      p30:
+      P30:
         - 0.2607
         - 0.4380
-      ndcg20:
+      nDCG@20:
         - 0.19935
         - 0.22201
-      err20:
+      ERR@20:
         - 0.12325
         - 0.13234
   - name: ql+rm3
     display: +RM3
-    params:
-      - -qld
-      - -rm3
+    params: -qld -rm3
     results:
-      map:
+      MAP:
         - 0.1290
         - 0.2178
-      p30:
+      P30:
         - 0.2347
         - 0.3813
-      ndcg20:
+      nDCG@20:
         - 0.17248
         - 0.20926
-      err20:
+      ERR@20:
         - 0.10073
         - 0.12492
-

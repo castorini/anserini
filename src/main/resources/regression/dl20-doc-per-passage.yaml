@@ -2,7 +2,7 @@
 corpus: msmarco-doc-per-passage
 corpus_path: collections/msmarco/doc-per-passage/
 
-index_path: indexes/lucene-index.msmarco-doc-per-passage.pos+docvectors+raw
+index_path: indexes/lucene-index.msmarco-doc-per-passage
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 1
@@ -12,43 +12,39 @@ index_stats:
   documents (non-empty): 20544550
   total terms: 3197886407
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
-    metric: NDCG@10
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: MRR
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recip_rank
     separator: "\t"
     parse_index: 2
-    metric: RR
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
-    metric: R@100
     metric_precision: 4
     can_combine: true
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
@@ -58,130 +54,97 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params:
-      - -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
-      map:
+      MAP:
         - 0.3584
-      NDCG@10:
+      nDCG@10:
         - 0.5271
-      RR:
+      MRR:
         - 0.8479
       R@100:
         - 0.5823
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
-      map:
+      MAP:
         - 0.3769
-      NDCG@10:
+      nDCG@10:
         - 0.5159
-      RR:
+      MRR:
         - 0.8136
       R@100:
         - 0.6224
   - name: bm25-default+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
-      map:
+      MAP:
         - 0.3854
-      NDCG@10:
+      nDCG@10:
         - 0.5250
-      RR:
+      MRR:
         - 0.8123
       R@100:
         - 0.6332
   - name: bm25-default+prf
     display: +PRF
-    params:
-      - -bm25
-      - -bm25prf
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
-      map:
+      MAP:
         - 0.3672
-      NDCG@10:
+      nDCG@10:
         - 0.5217
-      RR:
+      MRR:
         - 0.7911
       R@100:
         - 0.5994
   - name: bm25-tuned
     display: BM25 (tuned)
-    params:
-      - -bm25
-      - -bm25.k1 2.16
-      - -bm25.b 0.61
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
-      map:
+      MAP:
         - 0.3456
-      NDCG@10:
+      nDCG@10:
         - 0.5213
-      RR:
+      MRR:
         - 0.8684
       R@100:
         - 0.5715
   - name: bm25-tuned+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 2.16
-      - -bm25.b 0.61
-      - -rm3
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
-      map:
+      MAP:
         - 0.3471
-      NDCG@10:
+      nDCG@10:
         - 0.4983
-      RR:
+      MRR:
         - 0.7807
       R@100:
         - 0.6013
   - name: bm25-tuned+ax
     display: +Ax
-    params:
-      - -bm25
-      - -bm25.k1 2.16
-      - -bm25.b 0.61
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
-      map:
+      MAP:
         - 0.3495
-      NDCG@10:
+      nDCG@10:
         - 0.4942
-      RR:
+      MRR:
         - 0.8102
       R@100:
         - 0.6086
   - name: bm25-tuned+prf
     display: +PRF
-    params:
-      - -bm25
-      - -bm25.k1 2.16
-      - -bm25.b 0.61
-      - -bm25prf
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
     results:
-      map:
+      MAP:
         - 0.3629
-      NDCG@10:
+      nDCG@10:
         - 0.5260
-      RR:
+      MRR:
         - 0.8478
       R@100:
         - 0.6064

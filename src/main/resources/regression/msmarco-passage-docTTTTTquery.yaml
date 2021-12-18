@@ -2,7 +2,7 @@
 corpus: msmarco-passage-docTTTTTquery
 corpus_path: collections/msmarco/passage-docTTTTTquery
 
-index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw
+index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery
 collection: JsonCollection
 generator: DefaultLuceneDocumentGenerator
 threads: 9
@@ -12,29 +12,25 @@ index_stats:
   documents (non-empty): 8841823
   total terms: 1986612263
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
-    metric: R@1000
     metric_precision: 4
     can_combine: true
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
@@ -44,10 +40,9 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
+      MAP:
         - 0.2805
       R@1000:
         - 0.9470
@@ -55,57 +50,41 @@ models:
         - 0.2767
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
+      MAP:
         - 0.2243
       R@1000:
         - 0.9463
   - name: bm25-tuned
     display: BM25 (tuned)
-    params:
-      - -bm25
-      - -bm25.k1 0.82
-      - -bm25.b 0.68
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68
     results:
-      map:
+      MAP:
         - 0.2850
       R@1000:
         - 0.9471
   - name: bm25-tuned+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 0.82
-      - -bm25.b 0.68
-      - -rm3
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3
     results:
-      map:
+      MAP:
         - 0.2266
       R@1000:
         - 0.9479
   - name: bm25-tuned2
     display: BM25 (tuned2)
-    params:
-      - -bm25
-      - -bm25.k1 2.18
-      - -bm25.b 0.86
+    params: -bm25 -bm25.k1 2.18 -bm25.b 0.86
     results:
-      map:
+      MAP:
         - 0.2893
       R@1000:
         - 0.9506
   - name: bm25-tuned2+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 2.18
-      - -bm25.b 0.86
-      - -rm3
+    params: -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rm3
     results:
-      map:
+      MAP:
         - 0.2464
       R@1000:
         - 0.9528
