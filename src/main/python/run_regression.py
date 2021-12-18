@@ -47,7 +47,7 @@ CORPUS_ROOTS = [
 
 INDEX_COMMAND = 'target/appassembler/bin/IndexCollection'
 INDEX_STATS_COMMAND = 'target/appassembler/bin/IndexReaderUtils'
-
+SEARCH_COMMAND = 'target/appassembler/bin/SearchCollection'
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
@@ -84,7 +84,7 @@ def construct_indexing_command(yaml_data, args):
     Returns:
         (:obj:`list` of :obj:`str`): the command as a list that can be executed by calling subprocess.call(command)
     """
-    logger.info('='*10+'Indexing'+'='*10)
+    logger.info('='*10 + ' Indexing ' + '='*10)
 
     # Determine the input collection path, either from the command line,
     # or by checking various locations specified in the YAML.
@@ -131,9 +131,9 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
     Args:
         yaml_data (dict): the yaml config
     """
-    logger.info('='*10+'Verifying Index'+'='*10)
+    logger.info('='*10 + ' Verifying Index ' + '='*10)
     index_path = get_index_path(yaml_data)
-    logger.info('[Index]: ' + index_path)
+    logger.info('index: ' + index_path)
     index_utils_command = [
         os.path.join(yaml_data['root'], INDEX_STATS_COMMAND),
         '-index', index_path, '-stats'
@@ -150,7 +150,7 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
                     print('{}: expected={}, actual={}'.format(stat, yaml_data['index_stats'][stat], value))
                 assert value == yaml_data['index_stats'][stat]
                 logger.info(line)
-        logger.info('='*10+'Verifying Index Succeed'+'='*10)
+        logger.info('Index statistics successfully verified!')
 
 
 def generate_run_file_name(corpus, topic, model_name):
@@ -183,13 +183,13 @@ def construct_ranking_command(output_root, yaml_data, build_index=True):
     """
     ranking_commands = [
         [
-            os.path.join(yaml_data['root'], yaml_data['search_command']),
-            '-topicreader', yaml_data['topic_reader'],
+            SEARCH_COMMAND,
             '-index', get_index_path(yaml_data),
-            ' '.join(model['params']),
             '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
+            '-topicreader', yaml_data['topic_reader'],
             '-output', os.path.join(output_root, generate_run_file_name(yaml_data['corpus'], topic, model['name'])),
-        ] + (yaml_data['search_options'] if 'search_options' in yaml_data else [])
+            model['params']
+        ]
         for (model, topic) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
     return ranking_commands
@@ -205,11 +205,11 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
     """
     fail_str = '\033[91m[FAIL]\033[0m '
     ok_str = '   [OK] '
-    logger.info('='*10+'Verifying Results'+'='*10)
+    logger.info('='*10 + ' Verifying Results: ' + yaml_data['corpus'] + ' ' + '='*10)
     success = True
     for model in yaml_data['models']:
         for i, topic in enumerate(yaml_data['topics']):
-            for eval in yaml_data['evals']:
+            for eval in yaml_data['metrics']:
                 eval_cmd = [
                   os.path.join(yaml_data['root'], eval['command']), eval['params'] if 'params' in eval and eval['params'] else '',
                   os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
@@ -225,7 +225,7 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
                 eval_out = out.strip().split(eval['separator'])[eval['parse_index']]
                 expected = round(model['results'][eval['metric']][i], eval['metric_precision'])
                 actual = round(float(eval_out), eval['metric_precision'])
-                result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3}'.format(expected, actual, eval['metric'], model['name'])
+                result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3} topics: {4}'.format(expected, actual, eval['metric'], model['name'], topic['id'])
                 if is_close(expected, actual):
                     logger.info(ok_str + result_str)
                 else:
@@ -281,7 +281,7 @@ if __name__ == '__main__':
     verify_index(yaml_data, args.index, args.dry_run)
 
     if not args.no_retrieval:
-        logger.info('='*10+'Ranking'+'='*10)
+        logger.info('='*10 + ' Ranking ' + '='*10)
         run_cmds = construct_ranking_command(args.output_root, yaml_data, args.index)
         p = Pool(args.parallelism)
         p.map(ranking_atom, run_cmds)

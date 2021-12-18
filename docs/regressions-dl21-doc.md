@@ -22,11 +22,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
- -input /path/to/msmarco-v2-doc \
- -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 18 -storePositions -storeDocvectors -storeRaw \
+target/appassembler/bin/IndexCollection \
+  -collection MsMarcoV2DocCollection \
+  -input /path/to/msmarco-v2-doc \
+  -index indexes/lucene-index.msmarco-v2-doc \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 18 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-v2-doc &
 ```
 
@@ -44,25 +45,29 @@ The regression experiments here evaluate on the 57 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-doc.bm25-default.topics.dl21.txt \
- -hits 1000 -bm25 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -output runs/run.msmarco-v2-doc.bm25-default.topics.dl21.txt \
+  -hits 1000 -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt \
- -hits 1000 -bm25 -rm3 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -output runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt \
+  -hits 1000 -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-doc.bm25-default+ax.topics.dl21.txt \
- -hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -output runs/run.msmarco-v2-doc.bm25-default+ax.topics.dl21.txt \
+  -hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
- -output runs/run.msmarco-v2-doc.bm25-default+prf.topics.dl21.txt \
- -hits 1000 -bm25 -bm25prf &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -output runs/run.msmarco-v2-doc.bm25-default+prf.topics.dl21.txt \
+  -hits 1000 -bm25 -bm25prf &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -103,7 +108,7 @@ MRR@100                                 | BM25 (default)| +RM3      | +Ax       
 [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.8367    | 0.7994    | 0.7434    | 0.7869    |
 
 
-NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
+nDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5116    | 0.5339    | 0.4804    | 0.4850    |
 
