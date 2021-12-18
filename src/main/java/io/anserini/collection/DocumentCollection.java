@@ -154,8 +154,10 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
   }
 
   /**
-   * Returns the paths in the collection, taking into account sharding
+   * Returns the paths in the collection, taking into account sharding.
    *
+   * @param currShard the current shard
+   * @param shardCount the total number of shards
    * @return file segments in current shard
    */
   public List<Path> getSegmentPaths(int shardCount, int currShard) {
