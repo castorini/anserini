@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.StrSubstitutor;
+import org.apache.commons.text.StringSubstitutor;
 import org.junit.Test;
 
 import java.io.File;
@@ -119,7 +119,8 @@ public class JDIQ2018EffectivenessDocsTest {
     Model data = mapper.readValue(new File(yaml.toURI()), Model.class);
     Map<String, String> valuesMap = new HashMap<>();
     valuesMap.put("results", data.generateEffectiveness());
-    StrSubstitutor sub = new StrSubstitutor(valuesMap);
+
+    StringSubstitutor sub = new StringSubstitutor(valuesMap);
     URL template = GenerateRegressionDocsTest.class.getResource("/jdiq2018/doc.template");
     Scanner scanner = new Scanner(new File(template.toURI()), "UTF-8");
     String text = scanner.useDelimiter("\\A").next();
