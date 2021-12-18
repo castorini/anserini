@@ -74,7 +74,7 @@ public class SimpleNearestNeighborSearcher {
    * @param id the input document identifier
    * @param d  the number of nearest neighbors to retrieve
    * @return an array of nearest neighbors
-   * @throws IOException
+   * @throws IOException if error encountered during search
    */
   public Result[] search(String id, int d) throws IOException {
     Result[][] neighbors = multisearch(id, 1, d);
@@ -87,7 +87,7 @@ public class SimpleNearestNeighborSearcher {
    * @param id documents' identifier
    * @param k  the number of nearest neighbors to retrieve for each document with the given id
    * @return an array of nearest neighbors for each matching document
-   * @throws IOException
+   * @throws IOException if error encountered during search
    */
   public Result[][] multisearch(String id, int k) throws IOException {
     return multisearch(id, Integer.MAX_VALUE, k);
