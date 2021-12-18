@@ -125,9 +125,9 @@ public enum Topics {
   MRTYDI_V11_TH_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.test.txt.gz");
 
   public final String path;
-  public final Class readerClass;
+  public final Class<? extends TopicReader> readerClass;
 
-  Topics(Class c, String path) {
+  Topics(Class<? extends TopicReader> c, String path) {
     this.readerClass = c;
     this.path = path;
   }
