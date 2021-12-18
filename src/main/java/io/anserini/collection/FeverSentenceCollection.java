@@ -96,6 +96,9 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
      * Extracts the sentences out of the "lines" field in the FEVER JSONL
      * files. Takes a JsonNode object for a single document as input and
      * returns a Stream of JsonNodes, one for each sentence.
+     *
+     * @param json object representing a single document
+     * @return stream of sentences
      */
     protected Stream<JsonNode> flattenToSentences(JsonNode json) {
       ObjectMapper mapper = new ObjectMapper();
