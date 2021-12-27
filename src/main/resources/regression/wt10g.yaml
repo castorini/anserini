@@ -3,9 +3,9 @@ corpus: wt10g
 corpus_path: collections/web/wt10g/
 
 index_path: indexes/lucene-index.wt10g
-collection: TrecwebCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+collection_class: TrecwebCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 1688390

@@ -3,9 +3,9 @@ corpus: mrtydi-v1.1-ko
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-korean
 
 index_path: indexes/lucene-index.mrtydi-v1.1-korean
-collection: MrTyDiCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw -language ko
 index_stats:
   documents: 1496126

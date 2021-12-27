@@ -3,9 +3,9 @@ corpus: cacm
 corpus_path: src/main/resources/cacm/
 
 index_path: indexes/lucene-index.cacm
-collection: HtmlCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 8
+collection_class: HtmlCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3204

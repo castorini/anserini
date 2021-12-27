@@ -3,9 +3,9 @@ corpus: msmarco-doc
 corpus_path: collections/msmarco/doc/
 
 index_path: indexes/lucene-index.msmarco-doc
-collection: CleanTrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: CleanTrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835

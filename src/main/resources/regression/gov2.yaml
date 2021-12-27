@@ -3,9 +3,9 @@ corpus: gov2
 corpus_path: collections/web/gov2/gov2-corpus/
 
 index_path: indexes/lucene-index.gov2
-collection: TrecwebCollection
-threads: 44
-generator: DefaultLuceneDocumentGenerator
+collection_class: TrecwebCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 44
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 25170853

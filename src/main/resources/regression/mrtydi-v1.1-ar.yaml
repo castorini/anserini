@@ -3,9 +3,9 @@ corpus: mrtydi-v1.1-ar
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-arabic
 
 index_path: indexes/lucene-index.mrtydi-v1.1-arabic
-collection: MrTyDiCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw -language ar
 index_stats:
   documents: 2106586

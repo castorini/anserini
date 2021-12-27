@@ -3,9 +3,9 @@ corpus: mrtydi-v1.1-te
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-telugu
 
 index_path: indexes/lucene-index.mrtydi-v1.1-telugu
-collection: MrTyDiCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw -pretokenized
 index_stats:
   documents: 548224

@@ -3,9 +3,9 @@ corpus: cw09b
 corpus_path: collections/web/ClueWeb09b/
 
 index_path: indexes/lucene-index.cw09b
-collection: ClueWeb09Collection
-generator: DefaultLuceneDocumentGenerator
-threads: 44
+collection_class: ClueWeb09Collection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 44
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 50220186

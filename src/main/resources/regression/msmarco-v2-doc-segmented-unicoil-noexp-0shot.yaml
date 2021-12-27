@@ -3,9 +3,9 @@ corpus: msmarco-v2-doc-segmented-unicoil-noexp-0shot
 corpus_path: collections/msmarco/msmarco-doc-v2-seg-unicoil-noexp-0shot-b8
 
 index_path: indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot
-collection: JsonVectorCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 18
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 18
 index_options: -impact -pretokenized
 index_stats:
   documents: 124131404
