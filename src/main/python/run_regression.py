@@ -88,7 +88,7 @@ def construct_indexing_command(yaml_data, args):
                 break
 
     if not corpus_path:
-        raise RuntimeError("Unable to find input collection path!")
+        raise RuntimeError("Unable to find the corpus!")
 
     # Determine the number of indexing threads, either from the command line,
     # or reading the YAML config.
