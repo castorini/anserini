@@ -5,7 +5,7 @@ This script automatically runs experiments based on configuration files stored i
 
 + Building the index from scratch.
 + Verifying index statistics (sanity check that the index has been built properly).
-+ Running all retrieval runs in Anserini documentation.
++ Performing retrieval runs with standard settings.
 + Evaluating the runs and verifying effectiveness results.
 
 Furthermore, the regression documentation pages are auto-generated based on [raw templates](../src/main/resources/docgen/templates).
