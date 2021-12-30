@@ -2,60 +2,56 @@
 corpus: msmarco-v2-doc
 corpus_path: collections/msmarco/msmarco_v2_doc
 
-index_path: indexes/lucene-index.msmarco-v2-doc.pos+docvectors+raw
-collection: MsMarcoV2DocCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 18
+index_path: indexes/lucene-index.msmarco-v2-doc
+collection_class: MsMarcoV2DocCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 18
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 11959635
   documents (non-empty): 11959635
   total terms: 14165661202
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m map
     separator: "\t"
     parse_index: 2
-    metric: MAP@100
     metric_precision: 4
     can_combine: no
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -M 100 -m recip_rank
     separator: "\t"
     parse_index: 2
-    metric: MRR@100
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
-    metric: NDCG@10
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
-    metric: R@100
     metric_precision: 4
     can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
-    metric: R@1000
     metric_precision: 4
     can_combine: false
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl21
@@ -65,15 +61,13 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params:
-      - -hits 1000
-      - -bm25
+    params: -hits 1000 -bm25
     results:
       MAP@100:
         - 0.2126
       MRR@100:
         - 0.8367
-      NDCG@10:
+      nDCG@10:
         - 0.5116
       R@100:
         - 0.3195
@@ -81,16 +75,13 @@ models:
         - 0.6739
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -hits 1000
-      - -bm25
-      - -rm3
+    params: -hits 1000 -bm25 -rm3
     results:
       MAP@100:
         - 0.2453
       MRR@100:
         - 0.7994
-      NDCG@10:
+      nDCG@10:
         - 0.5339
       R@100:
         - 0.3374
@@ -98,18 +89,13 @@ models:
         - 0.7335
   - name: bm25-default+ax
     display: +Ax
-    params:
-      - -hits 1000
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
       MAP@100:
         - 0.2034
       MRR@100:
         - 0.7434
-      NDCG@10:
+      nDCG@10:
         - 0.4804
       R@100:
         - 0.3002
@@ -117,16 +103,13 @@ models:
         - 0.7089
   - name: bm25-default+prf
     display: +PRF
-    params:
-      - -hits 1000
-      - -bm25
-      - -bm25prf
+    params: -hits 1000 -bm25 -bm25prf
     results:
       MAP@100:
         - 0.2079
       MRR@100:
         - 0.7869
-      NDCG@10:
+      nDCG@10:
         - 0.4850
       R@100:
         - 0.3096

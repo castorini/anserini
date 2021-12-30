@@ -2,38 +2,35 @@
 corpus: car-paragraphCorpus.v2.0
 corpus_path: collections/car/paragraphCorpus.v2.0/
 
-index_path: indexes/lucene-index.car-paragraphCorpus.v2.0.pos+docvectors+raw
-collection: CarCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+index_path: indexes/lucene-index.car-paragraphCorpus.v2.0
+collection_class: CarCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 29794689
   documents (non-empty): 29791059
   total terms: 1249754054
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: MRR
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recip_rank
     separator: "\t"
     parse_index: 2
-    metric: recip_rank
     metric_precision: 4
     can_combine: true
 
 topic_reader: Car
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)"
     id: car17v2.0
@@ -43,63 +40,49 @@ topics:
 models:
   - name: bm25
     display: BM25
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
+      MAP:
         - 0.1545
-      recip_rank:
+      MRR:
         - 0.2321
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
+      MAP:
         - 0.1286
-      recip_rank:
+      MRR:
         - 0.1927
   - name: bm25+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.1364 
-      recip_rank:
+      MRR:
         - 0.1978
   - name: ql
     display: QL
-    params:
-      - -qld
+    params: -qld
     results:
-      map:
+      MAP:
         - 0.1371
-      recip_rank:
+      MRR:
         - 0.2013
   - name: ql+rm3
     display: +RM3
-    params:
-      - -qld
-      - -rm3
+    params: -qld -rm3
     results:
-      map:
+      MAP:
         - 0.1080
-      recip_rank:
+      MRR:
         - 0.1598
   - name: ql+ax
     display: +Ax
-    params:
-      - -qld
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -qld -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.1077
-      recip_rank:
+      MRR:
         - 0.1588

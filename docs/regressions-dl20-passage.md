@@ -13,11 +13,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -input /path/to/msmarco-passage \
- -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 9 -storePositions -storeDocvectors -storeRaw \
+target/appassembler/bin/IndexCollection \
+  -collection JsonCollection \
+  -input /path/to/msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 9 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage &
 ```
 
@@ -35,45 +36,53 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
- -output runs/run.msmarco-passage.bm25-default.topics.dl20.txt \
- -bm25 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default.topics.dl20.txt \
+  -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
- -output runs/run.msmarco-passage.bm25-default+rm3.topics.dl20.txt \
- -bm25 -rm3 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default+rm3.topics.dl20.txt \
+  -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
- -output runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt \
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
- -output runs/run.msmarco-passage.bm25-default+prf.topics.dl20.txt \
- -bm25 -bm25prf &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default+prf.topics.dl20.txt \
+  -bm25 -bm25prf &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
- -output runs/run.msmarco-passage.bm25-tuned.topics.dl20.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned.topics.dl20.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
- -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl20.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl20.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
- -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl20.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl20.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
- -output runs/run.msmarco-passage.bm25-tuned+prf.topics.dl20.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned+prf.topics.dl20.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -137,12 +146,12 @@ MAP                                     | BM25 (default)| +RM3      | +Ax       
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.2856    | 0.3019    | 0.3240    | 0.3117    | 0.2876    | 0.3056    | 0.3322    | 0.3136    |
 
 
-NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+nDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.4796    | 0.4821    | 0.4834    | 0.4721    | 0.4876    | 0.4808    | 0.5027    | 0.4788    |
 
 
-RR                                      | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+MRR                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.6585    | 0.6360    | 0.6096    | 0.6157    | 0.6594    | 0.6278    | 0.6328    | 0.6252    |
 

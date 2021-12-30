@@ -92,12 +92,42 @@ public enum Topics {
   NQ_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.nq.test.txt"),
   MRTYDI_V11_AR_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.train.txt.gz"),
   MRTYDI_V11_AR_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.dev.txt.gz"),
-  MRTYDI_V11_AR_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.test.txt.gz");
+  MRTYDI_V11_AR_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.test.txt.gz"),
+  MRTYDI_V11_BN_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-bn.train.txt.gz"),
+  MRTYDI_V11_BN_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-bn.dev.txt.gz"),
+  MRTYDI_V11_BN_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-bn.test.txt.gz"),
+  MRTYDI_V11_EN_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-en.train.txt.gz"),
+  MRTYDI_V11_EN_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-en.dev.txt.gz"),
+  MRTYDI_V11_EN_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-en.test.txt.gz"),
+  MRTYDI_V11_FI_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-fi.train.txt.gz"),
+  MRTYDI_V11_FI_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-fi.dev.txt.gz"),
+  MRTYDI_V11_FI_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-fi.test.txt.gz"),
+  MRTYDI_V11_ID_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-id.train.txt.gz"),
+  MRTYDI_V11_ID_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-id.dev.txt.gz"),
+  MRTYDI_V11_ID_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-id.test.txt.gz"),
+  MRTYDI_V11_JA_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ja.train.txt.gz"),
+  MRTYDI_V11_JA_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ja.dev.txt.gz"),
+  MRTYDI_V11_JA_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ja.test.txt.gz"),
+  MRTYDI_V11_KO_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ko.train.txt.gz"),
+  MRTYDI_V11_KO_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ko.dev.txt.gz"),
+  MRTYDI_V11_KO_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ko.test.txt.gz"),
+  MRTYDI_V11_RU_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ru.train.txt.gz"),
+  MRTYDI_V11_RU_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ru.dev.txt.gz"),
+  MRTYDI_V11_RU_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ru.test.txt.gz"),
+  MRTYDI_V11_SW_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-sw.train.txt.gz"),
+  MRTYDI_V11_SW_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-sw.dev.txt.gz"),
+  MRTYDI_V11_SW_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-sw.test.txt.gz"),
+  MRTYDI_V11_TE_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-te.train.txt.gz"),
+  MRTYDI_V11_TE_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-te.dev.txt.gz"),
+  MRTYDI_V11_TE_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-te.test.txt.gz"),
+  MRTYDI_V11_TH_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.train.txt.gz"),
+  MRTYDI_V11_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.dev.txt.gz"),
+  MRTYDI_V11_TH_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.test.txt.gz");
 
   public final String path;
-  public final Class readerClass;
+  public final Class<? extends TopicReader> readerClass;
 
-  Topics(Class c, String path) {
+  Topics(Class<? extends TopicReader> c, String path) {
     this.readerClass = c;
     this.path = path;
   }

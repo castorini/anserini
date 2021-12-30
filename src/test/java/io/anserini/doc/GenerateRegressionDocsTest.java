@@ -19,7 +19,7 @@ package io.anserini.doc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.text.StrSubstitutor;
+import org.apache.commons.text.StringSubstitutor;
 import org.junit.Test;
 
 import java.io.File;
@@ -52,7 +52,7 @@ public class GenerateRegressionDocsTest {
       valuesMap.put("eval_cmds", data.generateEvalCommand(corpus));
       valuesMap.put("effectiveness", data.generateEffectiveness(corpus));
 
-      StrSubstitutor sub = new StrSubstitutor(valuesMap);
+      StringSubstitutor sub = new StringSubstitutor(valuesMap);
       URL template = GenerateRegressionDocsTest.class.getResource(String.format("/docgen/templates/%s.template", testName));
       Scanner scanner = new Scanner(new File(template.toURI()), "UTF-8");
       String text = scanner.useDelimiter("\\A").next();

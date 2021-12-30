@@ -20,11 +20,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -input /path/to/msmarco-doc-docTTTTTquery-per-doc \
- -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 1 -storePositions -storeDocvectors -storeRaw \
+target/appassembler/bin/IndexCollection \
+  -collection JsonCollection \
+  -input /path/to/msmarco-doc-docTTTTTquery-per-doc \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-docTTTTTquery-per-doc &
 ```
 
@@ -41,25 +42,29 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.dl19-doc.txt \
- -bm25 -hits 100 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default.topics.dl19-doc.txt \
+  -bm25 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default+rm3.topics.dl19-doc.txt \
- -bm25 -rm3 -hits 100 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-default+rm3.topics.dl19-doc.txt \
+  -bm25 -rm3 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.dl19-doc.txt \
- -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.topics.dl19-doc.txt \
+  -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned+rm3.topics.dl19-doc.txt \
- -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned+rm3.topics.dl19-doc.txt \
+  -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -88,7 +93,7 @@ R@100                                   | BM25 (default)| +RM3      | BM25 (tune
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4198    | 0.4465    | 0.3992    | 0.4119    |
 
 
-NDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5968    | 0.5895    | 0.5967    | 0.6075    |
 

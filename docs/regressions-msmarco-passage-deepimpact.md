@@ -15,11 +15,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonVectorCollection \
- -input /path/to/msmarco-passage-deepimpact \
- -index indexes/lucene-index.msmarco-passage-deepimpact \
- -generator DefaultLuceneDocumentGenerator \
- -threads 16 -impact -pretokenized \
+target/appassembler/bin/IndexCollection \
+  -collection JsonVectorCollection \
+  -input /path/to/msmarco-passage-deepimpact \
+  -index indexes/lucene-index.msmarco-passage-deepimpact \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 16 -impact -pretokenized \
   >& logs/log.msmarco-passage-deepimpact &
 ```
 
@@ -36,10 +37,11 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-deepimpact \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
- -output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
- -impact -pretokenized &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-deepimpact \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz -topicreader TsvInt \
+  -output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
+  -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:

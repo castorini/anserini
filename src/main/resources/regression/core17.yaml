@@ -2,38 +2,35 @@
 corpus: nyt
 corpus_path: collections/newswire/NYTcorpus/
 
-index_path: indexes/lucene-index.nyt.pos+docvectors+raw
-collection: NewYorkTimesCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+index_path: indexes/lucene-index.nyt
+collection_class: NewYorkTimesCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 1855650
   documents (non-empty): 1855650
   total terms: 751047962
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m map
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: P30
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m P.30
     separator: "\t"
     parse_index: 2
-    metric: p30
     metric_precision: 4
     can_combine: true
 
 topic_reader: Trec
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)"
     id: core17
@@ -43,63 +40,49 @@ topics:
 models:
   - name: bm25
     display: BM25
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
+      MAP:
         - 0.2087
-      p30:
+      P30:
         - 0.4293
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
+      MAP:
         - 0.2823
-      p30:
+      P30:
         - 0.5093
   - name: bm25+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.2739
-      p30:
+      P30:
         - 0.4940
   - name: ql
     display: QL
-    params:
-      - -qld
+    params: -qld
     results:
-      map:
+      MAP:
         - 0.2032
-      p30:
+      P30:
         - 0.4467
   - name: ql+rm3
     display: +RM3
-    params:
-      - -qld
-      - -rm3
+    params: -qld -rm3
     results:
-      map:
+      MAP:
         - 0.2606
-      p30:
+      P30:
         - 0.4827
   - name: ql+ax
     display: +Ax
-    params:
-      - -qld
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -qld -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.2579
-      p30:
+      P30:
         - 0.4893

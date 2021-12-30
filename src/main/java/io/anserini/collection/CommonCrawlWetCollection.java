@@ -88,7 +88,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
     /**
      * Reads in a WARC record from a data input stream.
      *
-     * @param in      the input stream
+     * @param in the input stream
      * @return a WARC record (or null if EOF)
      * @throws IOException if error encountered reading from stream
      */
@@ -112,6 +112,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
      *
      * @param in the data input stream
      * @param headerBuffer a blank string buffer to contain the WARC header
+     * @param headerEndKey delimiter of the end of the header
      * @return the content bytes (with the headerBuffer populated)
      * @throws IOException if error encountered reading from stream
      */

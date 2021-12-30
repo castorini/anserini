@@ -21,11 +21,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -input /path/to/msmarco-doc-docTTTTTquery-per-passage \
- -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 1 -storePositions -storeDocvectors -storeRaw \
+target/appassembler/bin/IndexCollection \
+  -collection JsonCollection \
+  -input /path/to/msmarco-doc-docTTTTTquery-per-passage \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
 ```
 
@@ -42,25 +43,29 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl19-doc.txt \
- -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.topics.dl19-doc.txt \
+  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl19-doc.txt \
- -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default+rm3.topics.dl19-doc.txt \
+  -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl19-doc.txt \
- -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.topics.dl19-doc.txt \
+  -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
- -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt \
- -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt \
+  -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -89,7 +94,7 @@ R@100                                   | BM25 (default)| +RM3      | BM25 (tune
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4092    | 0.4394    | 0.4020    | 0.4235    |
 
 
-NDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.6099    | 0.6318    | 0.6271    | 0.6256    |
 

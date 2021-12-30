@@ -3,45 +3,41 @@ corpus: msmarco-passage-deepimpact
 corpus_path: collections/msmarco/msmarco-passage-deepimpact-b8/
 
 index_path: indexes/lucene-index.msmarco-passage-deepimpact
-collection: JsonVectorCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -impact -pretokenized
 index_stats:
   documents: 8841823
   documents (non-empty): 8841823
   total terms: 35455908214
 
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
-    metric: map
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: MRR
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recip_rank
     separator: "\t"
     parse_index: 2
-    metric: mrr
     metric_precision: 4
     can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
-    metric: R@1000
     metric_precision: 4
     can_combine: true
 
 topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
@@ -51,12 +47,11 @@ topics:
 models:
   - name: deepimpact
     display: DeepImpact
-    params:
-      - -impact -pretokenized
+    params: -impact -pretokenized
     results:
-      map:
+      MAP:
         - 0.3334
-      mrr:
+      MRR:
         - 0.3386
       R@1000:
         - 0.9476
