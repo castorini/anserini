@@ -3,9 +3,9 @@ corpus: cw12b13
 corpus_path: collections/web/ClueWeb12-B13/
 
 index_path: indexes/lucene-index.cw12b13
-collection: ClueWeb12Collection
-generator: DefaultLuceneDocumentGenerator
-threads: 44
+collection_class: ClueWeb12Collection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 44
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 52244809

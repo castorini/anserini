@@ -3,9 +3,9 @@ corpus: trec02-ar
 corpus_path: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts
 
 index_path: indexes/lucene-index.trec02-ar
-collection: CleanTrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+collection_class: CleanTrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw -language ar
 index_stats:
   documents: 383872

@@ -48,9 +48,9 @@ public class DataModel {
   }
 
   private String index_path;
-  private String collection;
-  private String generator;
-  private int threads;
+  private String collection_class;
+  private String generator_class;
+  private int index_threads;
   private String index_options;
   private Map<String, Long> index_stats;
 
@@ -62,28 +62,28 @@ public class DataModel {
     this.index_path = index_path;
   }
 
-  public String getCollection() {
-    return collection;
+  public String getCollection_class() {
+    return collection_class;
   }
 
-  public void setCollection(String collection) {
-    this.collection = collection;
+  public void setCollection_class(String collection_class) {
+    this.collection_class = collection_class;
   }
 
-  public String getGenerator() {
-    return generator;
+  public String getGenerator_class() {
+    return generator_class;
   }
 
-  public void setGenerator(String generator) {
-    this.generator = generator;
+  public void setGenerator_class(String generator_class) {
+    this.generator_class = generator_class;
   }
 
-  public int getThreads() {
-    return threads;
+  public int getIndex_threads() {
+    return index_threads;
   }
 
-  public void setThreads(int threads) {
-    this.threads = threads;
+  public void setIndex_threads(int index_threads) {
+    this.index_threads = index_threads;
   }
 
   public String getIndex_options() {
@@ -220,11 +220,11 @@ public class DataModel {
   public String generateIndexingCommand(String collection) {
     StringBuilder builder = new StringBuilder();
     builder.append(INDEX_COMMAND).append(" \\\n");
-    builder.append("  -collection ").append(getCollection()).append(" \\\n");
+    builder.append("  -collection ").append(getCollection_class()).append(" \\\n");
     builder.append("  -input ").append("/path/to/"+collection).append(" \\\n");
     builder.append("  -index ").append(getIndex_path()).append(" \\\n");
-    builder.append("  -generator ").append(getGenerator()).append(" \\\n");
-    builder.append("  -threads ").append(getThreads());
+    builder.append("  -generator ").append(getGenerator_class()).append(" \\\n");
+    builder.append("  -threads ").append(getIndex_threads());
     builder.append(" ").append(getIndex_options()).append(" \\\n");
     builder.append(String.format("  >& logs/log.%s &", collection));
     return builder.toString();

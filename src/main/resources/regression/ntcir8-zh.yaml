@@ -3,9 +3,9 @@ corpus: ntcir8-zh
 corpus_path: collections/newswire/clir/ntcir.zh/ntcir8-zh/
 
 index_path: indexes/lucene-index.ntcir8-zh
-collection: CleanTrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+collection_class: CleanTrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize
 # we need -optimize because without, "documents (non-empty)" would be non-deterministic, failing regression.
 index_stats:
