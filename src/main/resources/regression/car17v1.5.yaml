@@ -3,9 +3,9 @@ corpus: car-paragraphCorpus.v1.5
 corpus_path: collections/car/paragraphCorpus.v1.5/
 
 index_path: indexes/lucene-index.car-paragraphCorpus.v1.5
-collection: CarCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: CarCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 29678360

@@ -3,9 +3,9 @@ corpus: msmarco-doc-docTTTTTquery-per-doc
 corpus_path: collections/msmarco/doc-docTTTTTquery-per-doc
 
 index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc
-collection: JsonCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213834

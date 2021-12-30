@@ -3,9 +3,9 @@ corpus: clef06-fr
 corpus_path: collections/newswire/clir/clef2006-fr.json
 
 index_path: indexes/lucene-index.clef06-fr
-collection: JsonCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw -language fr
 index_stats:
   documents: 171109

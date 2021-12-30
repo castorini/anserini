@@ -3,9 +3,9 @@ corpus: msmarco-passage-distill-splade-max
 corpus_path: collections/msmarco/msmarco-passage-distill-splade-max/
 
 index_path: indexes/lucene-index.msmarco-passage-distill-splade-max
-collection: JsonVectorCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -impact -pretokenized
 index_stats:
   documents: 8841823

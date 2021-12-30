@@ -3,9 +3,9 @@ corpus: nyt
 corpus_path: collections/newswire/NYTcorpus/
 
 index_path: indexes/lucene-index.nyt
-collection: NewYorkTimesCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+collection_class: NewYorkTimesCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 1855650

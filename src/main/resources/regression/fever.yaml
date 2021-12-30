@@ -3,9 +3,9 @@ corpus: fever
 corpus_path: collections/fever/wiki-pages
 
 index_path: indexes/lucene-index.fever-paragraph
-collection: FeverParagraphCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: FeverParagraphCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 5396106

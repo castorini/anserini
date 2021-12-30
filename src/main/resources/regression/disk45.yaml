@@ -3,9 +3,9 @@ corpus: disk45
 corpus_path: collections/newswire/disk45/
 
 index_path: indexes/lucene-index.disk45
-collection: TrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
+collection_class: TrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 528030

@@ -3,9 +3,9 @@ corpus: msmarco-doc-per-passage
 corpus_path: collections/msmarco/doc-per-passage/
 
 index_path: indexes/lucene-index.msmarco-doc-per-passage
-collection: JsonCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 20544550

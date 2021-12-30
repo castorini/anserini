@@ -3,9 +3,9 @@ corpus: mrtydi-v1.1-bn
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-bengali
 
 index_path: indexes/lucene-index.mrtydi-v1.1-bengali
-collection: MrTyDiCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw -language bn
 index_stats:
   documents: 304059
