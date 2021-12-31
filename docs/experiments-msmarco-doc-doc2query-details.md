@@ -1,4 +1,4 @@
-# Anserini: Reproducibility Notes for MS MARCO V1 Doc Ranking
+# Anserini: Reproducibility Notes for MS MARCO V1
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Reproducibility is hard.</p>&mdash; Jimmy Lin (@lintool) <a href="https://twitter.com/lintool/status/1458853999298465796?ref_src=twsrc%5Etfw">November 11, 2021</a></blockquote>
 
@@ -21,6 +21,17 @@ Separately, around July 2021, Xueguang performed extensive experiments with many
 This was for dense retrieval experiments, as we were not aware of the doc2query-T5 issues at the time.
 It is very likely, but we cannot know for sure, that this was the same segmentation that generated the original doc2query-T5 expansions.
 Fortunately, Xueguang was able to save a copy of this segmented corpus.
+
+---
+
+In December 2021, we completely refactored the doc2query-T5 expansion data for the MS MARCO corpora.
+They are now available as Huggingface Datasets:
+
++ [`msmarco_v1_passage_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_passage_doc2query-t5_expansions): passage expansions
++ [`msmarco_v1_doc_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_doc_doc2query-t5_expansions)
++ [`msmarco_v1_doc_segmented_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_doc_segmented_doc2query-t5_expansions)
+
+
 
 So, now we have:
 

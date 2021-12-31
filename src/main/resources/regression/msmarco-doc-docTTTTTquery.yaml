@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-doc-docTTTTTquery-per-doc
-corpus_path: collections/msmarco/doc-docTTTTTquery-per-doc
+corpus: msmarco-doc-docTTTTTquery
+corpus_path: collections/msmarco/msmarco-doc-docTTTTTquery
 
-index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -50,18 +50,18 @@ models:
     params: -bm25
     results:
       MAP:
-        - 0.2886
+        - 0.2888
       R@100:
-        - 0.7990
+        - 0.7993
       R@1000:
-        - 0.9259
+        - 0.9253
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 4.68 -bm25.b 0.87
     results:
       MAP:
-        - 0.3270
+        - 0.3271
       R@100:
         - 0.8608
       R@1000:
-        - 0.9553
+        - 0.9547

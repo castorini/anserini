@@ -22,11 +22,11 @@ Typical indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \
-  -collection CleanTrecCollection \
+  -collection JsonCollection \
   -input /path/to/msmarco-doc \
   -index indexes/lucene-index.msmarco-doc \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -threads 7 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc &
 ```
 
@@ -101,17 +101,17 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2310    | 0.1632    | 0.2788    | 0.2289    | 0.2775    | 0.2238    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2305    | 0.1631    | 0.2784    | 0.2289    | 0.2774    | 0.2239    |
 
 
 R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7279    | 0.6765    | 0.8065    | 0.7872    | 0.8076    | 0.7789    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7281    | 0.6767    | 0.8069    | 0.7878    | 0.8070    | 0.7791    |
 
 
 R@1000                                  | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8785    | 0.9326    | 0.9320    | 0.9357    | 0.9307    |
+[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8791    | 0.9324    | 0.9314    | 0.9357    | 0.9305    |
 
 Explanation of settings:
 

@@ -1,16 +1,16 @@
 ---
-corpus: msmarco-doc-docTTTTTquery-per-passage-v3
-corpus_path: collections/msmarco/doc-docTTTTTquery-per-passage-v3
+corpus: msmarco-doc-segmented-docTTTTTquery
+corpus_path: collections/msmarco/msmarco-doc-segmented-docTTTTTquery
 
-index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage-v3
+index_path: indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 16
+index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 20545677
-  documents (non-empty): 20545677
-  total terms: 4206639543
+  documents: 20544550
+  documents (non-empty): 20544550
+  total terms: 4203956960
 
 metrics:
   - metric: MAP
