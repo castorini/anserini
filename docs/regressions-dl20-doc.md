@@ -101,22 +101,22 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.3791    | 0.4006    | 0.3630    | 0.3588    | 0.3583    | 0.3618    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.3793    | 0.4014    | 0.3631    | 0.3592    | 0.3581    | 0.3619    |
 
 
 nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5271    | 0.5248    | 0.5087    | 0.5117    | 0.5078    | 0.5202    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5286    | 0.5225    | 0.5070    | 0.5124    | 0.5061    | 0.5238    |
 
 
 MRR                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.8521    | 0.8541    | 0.8641    | 0.8188    | 0.8541    | 0.8458    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.8521    | 0.8541    | 0.8641    | 0.8186    | 0.8522    | 0.8582    |
 
 
 R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6110    | 0.6392    | 0.5926    | 0.5983    | 0.5860    | 0.5998    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6110    | 0.6414    | 0.5935    | 0.5977    | 0.5860    | 0.5995    |
 
 Explanation of settings:
 

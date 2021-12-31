@@ -1,8 +1,8 @@
 ---
 corpus: msmarco-doc-per-passage
-corpus_path: collections/msmarco/doc-per-passage/
+corpus_path: collections/msmarco/msmarco-doc-segmented/
 
-index_path: indexes/lucene-index.msmarco-doc-per-passage
+index_path: indexes/lucene-index.msmarco-doc-segmented
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

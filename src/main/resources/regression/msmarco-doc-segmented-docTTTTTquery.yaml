@@ -1,6 +1,6 @@
 ---
 corpus: msmarco-doc-segmented-docTTTTTquery
-corpus_path: collections/msmarco/msmarco-doc-segmented-docTTTTTquery
+corpus_path: collections/msmarco/msmarco-doc-segmented-docTTTTTquery/
 
 index_path: indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery
 collection_class: JsonCollection

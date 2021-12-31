@@ -1,6 +1,6 @@
 ---
 corpus: msmarco-passage-docTTTTTquery
-corpus_path: collections/msmarco/passage-docTTTTTquery
+corpus_path: collections/msmarco/passage-docTTTTTquery/
 
 index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery
 collection_class: JsonCollection

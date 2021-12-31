@@ -1,6 +1,6 @@
 ---
 corpus: clef06-fr
-corpus_path: collections/newswire/clir/clef2006-fr.json
+corpus_path: collections/newswire/clir/clef2006-fr.json/
 
 index_path: indexes/lucene-index.clef06-fr
 collection_class: JsonCollection

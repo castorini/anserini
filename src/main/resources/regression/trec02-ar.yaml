@@ -1,6 +1,6 @@
 ---
 corpus: trec02-ar
-corpus_path: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts
+corpus_path: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts/
 
 index_path: indexes/lucene-index.trec02-ar
 collection_class: CleanTrecCollection
