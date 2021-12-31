@@ -26,7 +26,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-doc-segmented-docTTTTTquery \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -threads 16 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-segmented-docTTTTTquery &
 ```
 
@@ -86,12 +86,12 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4150    | 0.4269    | 0.4042    | 0.4023    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4150    | 0.4268    | 0.4047    | 0.4025    |
 
 
 nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5957    | 0.5848    | 0.5931    | 0.5723    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5957    | 0.5850    | 0.5943    | 0.5724    |
 
 
 MRR                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
@@ -101,7 +101,7 @@ MRR                                     | BM25 (default)| +RM3      | BM25 (tune
 
 R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6201    | 0.6443    | 0.6192    | 0.6392    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6201    | 0.6443    | 0.6195    | 0.6394    |
 
 Explanation of settings:
 

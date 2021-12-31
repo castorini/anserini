@@ -26,7 +26,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-doc-segmented-docTTTTTquery \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -threads 16 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-segmented-docTTTTTquery &
 ```
 
@@ -86,17 +86,17 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2791    | 0.3025    | 0.2655    | 0.2895    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2798    | 0.3021    | 0.2658    | 0.2893    |
 
 
 R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4092    | 0.4394    | 0.4020    | 0.4235    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4093    | 0.4392    | 0.4026    | 0.4237    |
 
 
 nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.6099    | 0.6318    | 0.6271    | 0.6256    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.6119    | 0.6297    | 0.6273    | 0.6239    |
 
 Explanation of settings:
 

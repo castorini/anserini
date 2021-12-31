@@ -24,7 +24,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-doc-segmented-docTTTTTquery \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -threads 16 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-segmented-docTTTTTquery &
 ```
 
