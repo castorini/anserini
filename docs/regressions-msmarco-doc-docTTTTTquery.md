@@ -21,7 +21,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-docTTTTTquery \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-docTTTTTquery &
@@ -40,13 +40,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery \
+  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 &

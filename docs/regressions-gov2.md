@@ -12,7 +12,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection TrecwebCollection \
   -input /path/to/gov2 \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 44 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.gov2 &
@@ -37,97 +37,97 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt -topicreader Trec \
   -output runs/run.gov2.bm25.topics.terabyte04.701-750.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt -topicreader Trec \
   -output runs/run.gov2.bm25.topics.terabyte05.751-800.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt -topicreader Trec \
   -output runs/run.gov2.bm25.topics.terabyte06.801-850.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt -topicreader Trec \
   -output runs/run.gov2.bm25+rm3.topics.terabyte04.701-750.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt -topicreader Trec \
   -output runs/run.gov2.bm25+rm3.topics.terabyte05.751-800.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt -topicreader Trec \
   -output runs/run.gov2.bm25+rm3.topics.terabyte06.801-850.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt -topicreader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte04.701-750.txt \
   -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt -topicreader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte05.751-800.txt \
   -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt -topicreader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte06.801-850.txt \
   -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt -topicreader Trec \
   -output runs/run.gov2.ql.topics.terabyte04.701-750.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt -topicreader Trec \
   -output runs/run.gov2.ql.topics.terabyte05.751-800.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt -topicreader Trec \
   -output runs/run.gov2.ql.topics.terabyte06.801-850.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt -topicreader Trec \
   -output runs/run.gov2.ql+rm3.topics.terabyte04.701-750.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt -topicreader Trec \
   -output runs/run.gov2.ql+rm3.topics.terabyte05.751-800.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt -topicreader Trec \
   -output runs/run.gov2.ql+rm3.topics.terabyte06.801-850.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt -topicreader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte04.701-750.txt \
   -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt -topicreader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte05.751-800.txt \
   -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.gov2 \
+  -index indexes/lucene-index.gov2/ \
   -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt -topicreader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte06.801-850.txt \
   -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &

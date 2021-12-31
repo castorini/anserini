@@ -23,11 +23,11 @@ Typical indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
-  -input /path/to/msmarco-doc-per-passage \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -input /path/to/msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.msmarco-doc-per-passage &
+  -threads 16 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.msmarco-doc-segmented &
 ```
 
 The directory `/path/to/msmarco-doc-per-passage/` should be a directory containing the segmented paragraph collection; see [this link](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini) for how to prepare this collection.
@@ -44,72 +44,72 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
-  -output runs/run.msmarco-doc-per-passage.bm25-default.topics.dl19-doc.txt \
+  -output runs/run.msmarco-doc-segmented.bm25-default.topics.dl19-doc.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
-  -output runs/run.msmarco-doc-per-passage.bm25-default+rm3.topics.dl19-doc.txt \
+  -output runs/run.msmarco-doc-segmented.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
-  -output runs/run.msmarco-doc-per-passage.bm25-default+ax.topics.dl19-doc.txt \
+  -output runs/run.msmarco-doc-segmented.bm25-default+ax.topics.dl19-doc.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
-  -output runs/run.msmarco-doc-per-passage.bm25-default+prf.topics.dl19-doc.txt \
+  -output runs/run.msmarco-doc-segmented.bm25-default+prf.topics.dl19-doc.txt \
   -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
-  -output runs/run.msmarco-doc-per-passage.bm25-tuned.topics.dl19-doc.txt \
+  -output runs/run.msmarco-doc-segmented.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
-  -output runs/run.msmarco-doc-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt \
+  -output runs/run.msmarco-doc-segmented.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
-  -output runs/run.msmarco-doc-per-passage.bm25-tuned+ax.topics.dl19-doc.txt \
+  -output runs/run.msmarco-doc-segmented.bm25-tuned+ax.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
-  -output runs/run.msmarco-doc-per-passage.bm25-tuned+prf.topics.dl19-doc.txt \
+  -output runs/run.msmarco-doc-segmented.bm25-tuned+prf.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+ax.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-default+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+prf.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+ax.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-per-passage.bm25-tuned+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+prf.topics.dl19-doc.txt
 ```
 
 ## Effectiveness
@@ -118,17 +118,17 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2441    | 0.2880    | 0.3015    | 0.2821    | 0.2394    | 0.2656    | 0.2934    | 0.2838    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2449    | 0.2884    | 0.2981    | 0.2827    | 0.2398    | 0.2658    | 0.2975    | 0.2828    |
 
 
 R@100                                   | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.3840    | 0.4356    | 0.4501    | 0.4477    | 0.3903    | 0.4126    | 0.4437    | 0.4362    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.3840    | 0.4355    | 0.4490    | 0.4476    | 0.3903    | 0.4133    | 0.4491    | 0.4361    |
 
 
 nDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5276    | 0.5750    | 0.5590    | 0.5591    | 0.5364    | 0.5379    | 0.5546    | 0.5478    |
+[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5302    | 0.5764    | 0.5556    | 0.5599    | 0.5389    | 0.5405    | 0.5574    | 0.5476    |
 
 Explanation of settings:
 

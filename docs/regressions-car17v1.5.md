@@ -12,7 +12,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection CarCollection \
   -input /path/to/car-paragraphCorpus.v1.5 \
-  -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
+  -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.car-paragraphCorpus.v1.5 &
@@ -35,37 +35,37 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
+  -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
   -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
+  -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
   -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
+  -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
   -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
+  -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
   -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql.topics.car17v1.5.benchmarkY1test.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
+  -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
   -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v1.5 \
+  -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
   -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
