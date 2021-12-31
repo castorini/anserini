@@ -2,7 +2,7 @@
 corpus: nyt
 corpus_path: collections/newswire/NYTcorpus/
 
-index_path: indexes/lucene-index.nyt
+index_path: indexes/lucene-index.nyt/
 collection_class: NewYorkTimesCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

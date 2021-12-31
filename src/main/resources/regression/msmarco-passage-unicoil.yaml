@@ -2,7 +2,7 @@
 corpus: msmarco-passage-unicoil
 corpus_path: collections/msmarco/msmarco-passage-unicoil-b8/
 
-index_path: indexes/lucene-index.msmarco-passage-unicoil
+index_path: indexes/lucene-index.msmarco-passage-unicoil/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-doc-docTTTTTquery-per-doc
-corpus_path: collections/msmarco/doc-docTTTTTquery-per-doc/
+corpus: msmarco-doc-docTTTTTquery
+corpus_path: collections/msmarco/msmarco-doc-docTTTTTquery/
 
-index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

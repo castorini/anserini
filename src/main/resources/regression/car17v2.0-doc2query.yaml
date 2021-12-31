@@ -2,7 +2,7 @@
 corpus: car-paragraphCorpus.v2.0-doc2query
 corpus_path: collections/car/paragraphCorpus.v2.0-expanded-topk10/
 
-index_path: indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query
+index_path: indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 30

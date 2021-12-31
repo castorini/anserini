@@ -2,7 +2,7 @@
 corpus: mrtydi-v1.1-ko
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-korean/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-korean
+index_path: indexes/lucene-index.mrtydi-v1.1-korean/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

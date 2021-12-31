@@ -2,7 +2,7 @@
 corpus: msmarco-doc-segmented
 corpus_path: collections/msmarco/msmarco-doc-segmented/
 
-index_path: indexes/lucene-index.msmarco-doc-segmented
+index_path: indexes/lucene-index.msmarco-doc-segmented/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

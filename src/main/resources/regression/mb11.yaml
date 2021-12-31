@@ -2,7 +2,7 @@
 corpus: mb11
 corpus_path: collections/twitter/Tweets2011-corpus/json.gold/
 
-index_path: indexes/lucene-index.mb11
+index_path: indexes/lucene-index.mb11/
 collection_class: TweetCollection
 generator_class: TweetGenerator
 index_threads: 44

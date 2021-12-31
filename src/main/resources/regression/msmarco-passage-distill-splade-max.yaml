@@ -2,7 +2,7 @@
 corpus: msmarco-passage-distill-splade-max
 corpus_path: collections/msmarco/msmarco-passage-distill-splade-max/
 
-index_path: indexes/lucene-index.msmarco-passage-distill-splade-max
+index_path: indexes/lucene-index.msmarco-passage-distill-splade-max/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

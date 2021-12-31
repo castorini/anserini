@@ -2,15 +2,15 @@
 corpus: msmarco-doc
 corpus_path: collections/msmarco/msmarco-doc/
 
-index_path: indexes/lucene-index.msmarco-doc
-collection_class: CleanTrecCollection
+index_path: indexes/lucene-index.msmarco-doc/
+collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 7
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 2748636047
+  total terms: 2742209690
 
 metrics:
   - metric: MAP
