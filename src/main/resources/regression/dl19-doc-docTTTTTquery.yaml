@@ -5,12 +5,12 @@ corpus_path: collections/msmarco/msmarco-doc-docTTTTTquery/
 index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 7
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 3213834
-  documents (non-empty): 3213834
-  total terms: 3748332076
+  documents: 3213835
+  documents (non-empty): 3213835
+  total terms: 3748333319
 
 metrics:
   - metric: MAP
@@ -50,7 +50,7 @@ models:
     params: -bm25 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2699
+        - 0.2700
       nDCG@10:
         - 0.5968
       R@100:
@@ -60,9 +60,9 @@ models:
     params: -bm25 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.3044
+        - 0.3045
       nDCG@10:
-        - 0.5895
+        - 0.5897
       R@100:
         - 0.4465
   - name: bm25-tuned
@@ -72,7 +72,7 @@ models:
       MAP:
         - 0.2620
       nDCG@10:
-        - 0.5967
+        - 0.5972
       R@100:
         - 0.3992
   - name: bm25-tuned+rm3
@@ -80,8 +80,8 @@ models:
     params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2812
+        - 0.2814
       nDCG@10:
-        - 0.6075
+        - 0.6080
       R@100:
         - 0.4119

@@ -5,12 +5,12 @@ corpus_path: collections/msmarco/msmarco-doc-docTTTTTquery/
 index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 7
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 3213834
-  documents (non-empty): 3213834
-  total terms: 3748332076
+  documents: 3213835
+  documents (non-empty): 3213835
+  total terms: 3748333319
 
 metrics:
   - metric: MAP
@@ -50,18 +50,18 @@ models:
     params: -bm25
     results:
       MAP:
-        - 0.2888
+        - 0.2886
       R@100:
         - 0.7993
       R@1000:
-        - 0.9253
+        - 0.9259
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 4.68 -bm25.b 0.87
     results:
       MAP:
-        - 0.3271
+        - 0.3273
       R@100:
-        - 0.8608
+        - 0.8612
       R@1000:
-        - 0.9547
+        - 0.9553
