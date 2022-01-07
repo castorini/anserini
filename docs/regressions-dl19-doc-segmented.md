@@ -10,11 +10,15 @@ Note that there are four different regression conditions for this task, and this
 + **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
 + **Expansion Condition:** none
 
-In the passage indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
-All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
+All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
+In the passage (i.e., segment) indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-segmented.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc-segmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
+As a result, we have had to rebuild all our regressions from the raw corpus.
+These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
 ## Indexing
 
@@ -30,7 +34,8 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.msmarco-doc-segmented &
 ```
 
-The directory `/path/to/msmarco-doc-per-passage/` should be a directory containing the segmented paragraph collection; see [this link](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini) for how to prepare this collection.
+The directory `/path/to/msmarco-doc-segmented/` should be a directory containing the segmented corpus in Anserini's jsonl format.
+See [this page](experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

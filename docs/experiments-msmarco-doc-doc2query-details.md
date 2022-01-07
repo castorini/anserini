@@ -24,22 +24,18 @@ Fortunately, Xueguang was able to save a copy of this segmented corpus.
 
 ---
 
-In December 2021, we completely refactored the doc2query-T5 expansion data for the MS MARCO corpora.
+In January 2022, we completely refactored the doc2query-T5 expansion data for the MS MARCO (V1) corpora.
 They are now available as Huggingface Datasets:
 
 + [`msmarco_v1_passage_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_passage_doc2query-t5_expansions): passage expansions
-+ [`msmarco_v1_doc_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_doc_doc2query-t5_expansions)
-+ [`msmarco_v1_doc_segmented_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_doc_segmented_doc2query-t5_expansions)
++ [`msmarco_v1_doc_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_doc_doc2query-t5_expansions): document expansions
++ [`msmarco_v1_doc_segmented_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_doc_segmented_doc2query-t5_expansions): document segment expansions
 
+So now we have the following new regressions:
 
++ `msmarco-doc`: document corpus in Anserini's jsonl format, with 3,213,835 documents. Each contains URL, title, body, delimited by newlines.
++ `msmarco-doc-docTTTTTquery`: same as above, but with docTTTTTquery expansions, delimited by another newline.
++ `msmarco-segmented`: segmented document corpus, with 20,545,677 segments. Each contains URL, title, segment, delimited by newlines.
++ `msmarco-segmented-docTTTTTquery`: same as above, but with docTTTTTquery expansions, delimited by another newline.
 
-So, now we have:
-
-+ `doc-per-passage-v2`: materialized corpus with 20,545,677 segments.
-+ `doc-per-passage-v3`: same as above, except with URL and title (delimited by newlines). Note that bag-of-words search over this variant yields higher effectiveness than above, but for input to an encoder, you probably don't want to include the URL.
-+ `doc-docTTTTTquery-per-passage3`: `doc-per-passage-v3`, but with the doc2query-T5 expansions added in.
-
-And, for symmetry:
-
-+ `doc-v3`: this is the "per-doc" counterpart of `doc-per-passage-v3`. This differs slightly from `doc`, which is based on the corpus in TREC doc format.
-+ `doc-docTTTTTquery-per-doc-v3`: `doc-v3`, but with the doc2query-T5 expansions added in.
+These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match, this may be the reason.
