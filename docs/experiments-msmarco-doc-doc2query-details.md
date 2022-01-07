@@ -33,9 +33,11 @@ They are now available as Huggingface Datasets:
 
 So now we have the following new regressions:
 
-+ `msmarco-doc`: document corpus in Anserini's jsonl format, with 3,213,835 documents. Each contains URL, title, body, delimited by newlines.
++ `msmarco-doc`: document corpus in Anserini's jsonl format with 3,213,835 documents. Each contains URL, title, body, delimited by newlines.
 + `msmarco-doc-docTTTTTquery`: same as above, but with docTTTTTquery expansions, delimited by another newline.
-+ `msmarco-segmented`: segmented document corpus, with 20,545,677 segments. Each contains URL, title, segment, delimited by newlines.
++ `msmarco-segmented`: segmented document corpus in Anserini's jsonl format with 20,545,677 segments. Each contains URL, title, segment, delimited by newlines.
 + `msmarco-segmented-docTTTTTquery`: same as above, but with docTTTTTquery expansions, delimited by another newline.
 
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match, this may be the reason.
+
+*TODO:* Circle back and add links to scripts once everything has been verified and checked in.
