@@ -1,8 +1,8 @@
 ---
 corpus: msmarco-v2-doc-segmented
-corpus_path: collections/msmarco/msmarco_v2_doc_segmented
+corpus_path: collections/msmarco/msmarco_v2_doc_segmented/
 
-index_path: indexes/lucene-index.msmarco-v2-doc-segmented
+index_path: indexes/lucene-index.msmarco-v2-doc-segmented/
 collection_class: MsMarcoV2DocCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18

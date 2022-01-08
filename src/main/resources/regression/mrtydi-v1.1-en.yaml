@@ -1,8 +1,8 @@
 ---
 corpus: mrtydi-v1.1-en
-corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-english
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-english/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-english
+index_path: indexes/lucene-index.mrtydi-v1.1-english/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

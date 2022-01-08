@@ -18,7 +18,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-distill-splade-max \
-  -index indexes/lucene-index.msmarco-passage-distill-splade-max \
+  -index indexes/lucene-index.msmarco-passage-distill-splade-max/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -impact -pretokenized \
   >& logs/log.msmarco-passage-distill-splade-max &
@@ -38,7 +38,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-distill-splade-max \
+  -index indexes/lucene-index.msmarco-passage-distill-splade-max/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz -topicreader TsvInt \
   -output runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
   -impact -pretokenized &

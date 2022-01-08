@@ -12,7 +12,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection TrecCollection \
   -input /path/to/disk12 \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.disk12 &
@@ -37,97 +37,97 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec \
   -output runs/run.disk12.bm25.topics.adhoc.51-100.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt -topicreader Trec \
   -output runs/run.disk12.bm25.topics.adhoc.101-150.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt -topicreader Trec \
   -output runs/run.disk12.bm25.topics.adhoc.151-200.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec \
   -output runs/run.disk12.bm25+rm3.topics.adhoc.51-100.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt -topicreader Trec \
   -output runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt -topicreader Trec \
   -output runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec \
   -output runs/run.disk12.bm25+ax.topics.adhoc.51-100.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt -topicreader Trec \
   -output runs/run.disk12.bm25+ax.topics.adhoc.101-150.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt -topicreader Trec \
   -output runs/run.disk12.bm25+ax.topics.adhoc.151-200.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec \
   -output runs/run.disk12.ql.topics.adhoc.51-100.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt -topicreader Trec \
   -output runs/run.disk12.ql.topics.adhoc.101-150.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt -topicreader Trec \
   -output runs/run.disk12.ql.topics.adhoc.151-200.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec \
   -output runs/run.disk12.ql+rm3.topics.adhoc.51-100.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt -topicreader Trec \
   -output runs/run.disk12.ql+rm3.topics.adhoc.101-150.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt -topicreader Trec \
   -output runs/run.disk12.ql+rm3.topics.adhoc.151-200.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec \
   -output runs/run.disk12.ql+ax.topics.adhoc.51-100.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt -topicreader Trec \
   -output runs/run.disk12.ql+ax.topics.adhoc.101-150.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.disk12 \
+  -index indexes/lucene-index.disk12/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt -topicreader Trec \
   -output runs/run.disk12.ql+ax.topics.adhoc.151-200.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &

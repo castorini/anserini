@@ -15,7 +15,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MsMarcoV2PassageCollection \
   -input /path/to/msmarco-v2-passage \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 18 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-v2-passage &
@@ -35,45 +35,45 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev2.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default+ax.topics.msmarco-v2-passage.dev.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default+ax.topics.msmarco-v2-passage.dev2.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default+prf.topics.msmarco-v2-passage.dev.txt \
   -bm25 -bm25prf &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage \
+  -index indexes/lucene-index.msmarco-v2-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default+prf.topics.msmarco-v2-passage.dev2.txt \
   -bm25 -bm25prf &

@@ -1,16 +1,16 @@
 ---
 corpus: msmacro-doc
-corpus_path: collections/msmarco/doc/
+corpus_path: collections/msmarco/msmarco-doc/
 
-index_path: indexes/lucene-index.msmarco-doc
-collection_class: CleanTrecCollection
+index_path: indexes/lucene-index.msmarco-doc/
+collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 7
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 2748636047
+  total terms: 2742209690
 
 metrics:
   - metric: MAP
@@ -57,9 +57,9 @@ models:
     params: -bm25 -hits 100  # Note, this is different DL 2020 passage ranking!
     results:
       MAP:
-        - 0.3791
+        - 0.3793
       nDCG@10:
-        - 0.5271
+        - 0.5286
       MRR:
         - 0.8521
       R@100:
@@ -69,47 +69,47 @@ models:
     params: -bm25 -rm3 -hits 100  # Note, this is different DL 2020 passage ranking!
     results:
       MAP:
-        - 0.4006
+        - 0.4014
       nDCG@10:
-        - 0.5248
+        - 0.5225
       MRR:
         - 0.8541
       R@100:
-        - 0.6392
+        - 0.6414
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100  # Note, this is different DL 2020 passage ranking!
     results:
       MAP:
-        - 0.3630
+        - 0.3631
       nDCG@10:
-        - 0.5087
+        - 0.5070
       MRR:
         - 0.8641
       R@100:
-        - 0.5926
+        - 0.5935
   - name: bm25-tuned+rm3
     display: +RM3
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100  # Note, this is different DL 2020 passage ranking!
     results:
       MAP:
-        - 0.3588
+        - 0.3592
       nDCG@10:
-        - 0.5117
+        - 0.5124
       MRR:
-        - 0.8188
+        - 0.8186
       R@100:
-        - 0.5983
+        - 0.5977
   - name: bm25-tuned2
     display: BM25 (tuned2)
     params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100  # Note, this is different DL 2020 passage ranking!
     results:
       MAP:
-        - 0.3583
+        - 0.3581
       nDCG@10:
-        - 0.5078
+        - 0.5061
       MRR:
-        - 0.8541
+        - 0.8522
       R@100:
         - 0.5860
   - name: bm25-tuned2+rm3
@@ -117,10 +117,10 @@ models:
     params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3 -hits 100  # Note, this is different DL 2020 passage ranking!
     results:
       MAP:
-        - 0.3618
+        - 0.3619
       nDCG@10:
-        - 0.5202
+        - 0.5238
       MRR:
-        - 0.8458
+        - 0.8582
       R@100:
-        - 0.5998
+        - 0.5995

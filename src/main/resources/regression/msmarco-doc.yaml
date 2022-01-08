@@ -1,16 +1,16 @@
 ---
 corpus: msmarco-doc
-corpus_path: collections/msmarco/doc/
+corpus_path: collections/msmarco/msmarco-doc/
 
-index_path: indexes/lucene-index.msmarco-doc
-collection_class: CleanTrecCollection
+index_path: indexes/lucene-index.msmarco-doc/
+collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 7
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 2748636047
+  total terms: 2742209690
 
 metrics:
   - metric: MAP
@@ -50,9 +50,9 @@ models:
     params: -bm25
     results:
       MAP:
-        - 0.2310
+        - 0.2305
       R@100:
-        - 0.7279
+        - 0.7281
       R@1000:
         - 0.8856
   - name: bm25-default+rm3
@@ -60,21 +60,21 @@ models:
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.1632
+        - 0.1631
       R@100:
-        - 0.6765
+        - 0.6767
       R@1000:
-        - 0.8785
+        - 0.8791
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87
     results:
       MAP:
-        - 0.2788
+        - 0.2784
       R@100:
-        - 0.8065
+        - 0.8069
       R@1000:
-        - 0.9326
+        - 0.9324
   - name: bm25-tuned+rm3
     display: +RM3
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3
@@ -82,17 +82,17 @@ models:
       MAP:
         - 0.2289
       R@100:
-        - 0.7872
+        - 0.7878
       R@1000:
-        - 0.9320
+        - 0.9314
   - name: bm25-tuned2
     display: BM25 (tuned2)
     params: -bm25 -bm25.k1 4.46 -bm25.b 0.82
     results:
       MAP:
-        - 0.2775
+        - 0.2774
       R@100:
-        - 0.8076
+        - 0.8070
       R@1000:
         - 0.9357
   - name: bm25-tuned2+rm3
@@ -100,8 +100,8 @@ models:
     params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3
     results:
       MAP:
-        - 0.2238
+        - 0.2239
       R@100:
-        - 0.7789
+        - 0.7791
       R@1000:
-        - 0.9307
+        - 0.9305

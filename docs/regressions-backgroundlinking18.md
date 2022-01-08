@@ -12,7 +12,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v2 \
-  -index indexes/lucene-index.wapo.v2 \
+  -index indexes/lucene-index.wapo.v2/ \
   -generator WashingtonPostGenerator \
   -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.wapo.v2 &
@@ -34,19 +34,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.wapo.v2 \
+  -index indexes/lucene-index.wapo.v2/ \
   -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.wapo.v2 \
+  -index indexes/lucene-index.wapo.v2/ \
   -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.wapo.v2 \
+  -index indexes/lucene-index.wapo.v2/ \
   -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &

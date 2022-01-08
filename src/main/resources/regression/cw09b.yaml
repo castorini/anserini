@@ -2,7 +2,7 @@
 corpus: cw09b
 corpus_path: collections/web/ClueWeb09b/
 
-index_path: indexes/lucene-index.cw09b
+index_path: indexes/lucene-index.cw09b/
 collection_class: ClueWeb09Collection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44

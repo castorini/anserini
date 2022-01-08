@@ -1,8 +1,8 @@
 ---
 corpus: fire12-bn
-corpus_path: collections/fire/bengali/bn.docs.2012.19032012
+corpus_path: collections/fire/bengali/bn.docs.2012.19032012/
 
-index_path: indexes/lucene-index.fire12-bn
+index_path: indexes/lucene-index.fire12-bn/
 collection_class: CleanTrecCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

@@ -1,8 +1,8 @@
 ---
 corpus: fire12-en
-corpus_path: collections/fire/english/en.docs.2011
+corpus_path: collections/fire/english/en.docs.2011/
 
-index_path: indexes/lucene-index.fire12-en
+index_path: indexes/lucene-index.fire12-en/
 collection_class: CleanTrecCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

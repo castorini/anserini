@@ -2,7 +2,7 @@
 corpus: msmarco-passage-unicoil-tilde-expansion
 corpus_path: collections/msmarco/msmarco-passage-unicoil-tilde-expansion-b8/
 
-index_path: indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion
+index_path: indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

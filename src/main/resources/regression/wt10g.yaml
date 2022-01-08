@@ -2,7 +2,7 @@
 corpus: wt10g
 corpus_path: collections/web/wt10g/
 
-index_path: indexes/lucene-index.wt10g
+index_path: indexes/lucene-index.wt10g/
 collection_class: TrecwebCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

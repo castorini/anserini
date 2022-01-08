@@ -13,7 +13,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-id \
-  -index indexes/lucene-index.mrtydi-v1.1-indonesian \
+  -index indexes/lucene-index.mrtydi-v1.1-indonesian/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 1 -storePositions -storeDocvectors -storeRaw -language id \
   >& logs/log.mrtydi-v1.1-id &
@@ -28,17 +28,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-indonesian \
+  -index indexes/lucene-index.mrtydi-v1.1-indonesian/ \
   -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.train.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.train.txt.gz \
   -bm25 -hits 100 -language id &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-indonesian \
+  -index indexes/lucene-index.mrtydi-v1.1-indonesian/ \
   -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.dev.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.dev.txt.gz \
   -bm25 -hits 100 -language id &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-indonesian \
+  -index indexes/lucene-index.mrtydi-v1.1-indonesian/ \
   -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-id.test.txt.gz -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-id.bm25.topics.mrtydi-v1.1-id.test.txt.gz \
   -bm25 -hits 100 -language id &

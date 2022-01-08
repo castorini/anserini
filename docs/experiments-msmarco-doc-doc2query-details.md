@@ -1,4 +1,4 @@
-# Anserini: Reproducibility Notes for MS MARCO V1 Doc Ranking
+# Anserini: Reproducibility Notes for MS MARCO V1
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Reproducibility is hard.</p>&mdash; Jimmy Lin (@lintool) <a href="https://twitter.com/lintool/status/1458853999298465796?ref_src=twsrc%5Etfw">November 11, 2021</a></blockquote>
 
@@ -22,8 +22,22 @@ This was for dense retrieval experiments, as we were not aware of the doc2query-
 It is very likely, but we cannot know for sure, that this was the same segmentation that generated the original doc2query-T5 expansions.
 Fortunately, Xueguang was able to save a copy of this segmented corpus.
 
-So, now we have:
+---
 
-+ `doc-per-passage-v2`: materialized corpus with 20,545,677 segments.
-+ `doc-per-passage-v3`: same as above, except with URL. Note that bag-of-words search over this variant yields higher effectiveness than above, but for input to an encoder, you probably don't want to include the URL.
-+ `doc-docTTTTTquery-per-doc-v3`: `doc-per-passage-v3`, but with the doc2query-T5 expansions added in. 
+In January 2022, we completely refactored the doc2query-T5 expansion data for the MS MARCO (V1) corpora.
+They are now available as Huggingface Datasets:
+
++ [`msmarco_v1_passage_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_passage_doc2query-t5_expansions): passage expansions
++ [`msmarco_v1_doc_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_doc_doc2query-t5_expansions): document expansions
++ [`msmarco_v1_doc_segmented_doc2query-t5_expansions`](https://huggingface.co/datasets/castorini/msmarco_v1_doc_segmented_doc2query-t5_expansions): document segment expansions
+
+So now we have the following new regressions:
+
++ `msmarco-doc`: document corpus in Anserini's jsonl format with 3,213,835 documents. Each contains URL, title, body, delimited by newlines.
++ `msmarco-doc-docTTTTTquery`: same as above, but with docTTTTTquery expansions, delimited by another newline.
++ `msmarco-segmented`: segmented document corpus in Anserini's jsonl format with 20,545,677 segments. Each contains URL, title, segment, delimited by newlines.
++ `msmarco-segmented-docTTTTTquery`: same as above, but with docTTTTTquery expansions, delimited by another newline.
+
+These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match, this may be the reason.
+
+*TODO:* Circle back and add links to scripts once everything has been verified and checked in.

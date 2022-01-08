@@ -14,7 +14,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/fire12-bn \
-  -index indexes/lucene-index.fire12-bn \
+  -index indexes/lucene-index.fire12-bn/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -storePositions -storeDocvectors -storeRaw -language bn \
   >& logs/log.fire12-bn &
@@ -36,7 +36,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.fire12-bn \
+  -index indexes/lucene-index.fire12-bn/ \
   -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt -topicreader Trec \
   -output runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt \
   -bm25 -language bn &

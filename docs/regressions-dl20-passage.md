@@ -16,7 +16,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-passage \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage &
@@ -37,49 +37,49 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default.topics.dl20.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+prf.topics.dl20.txt \
   -bm25 -bm25prf &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+prf.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf &
