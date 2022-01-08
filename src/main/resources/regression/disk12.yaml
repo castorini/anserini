@@ -2,7 +2,7 @@
 corpus: disk12
 corpus_path: collections/newswire/disk12/
 
-index_path: indexes/lucene-index.disk12
+index_path: indexes/lucene-index.disk12/
 collection_class: TrecCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

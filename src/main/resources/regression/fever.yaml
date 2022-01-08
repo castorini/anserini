@@ -1,8 +1,8 @@
 ---
 corpus: fever
-corpus_path: collections/fever/wiki-pages
+corpus_path: collections/fever/wiki-pages/
 
-index_path: indexes/lucene-index.fever-paragraph
+index_path: indexes/lucene-index.fever-paragraph/
 collection_class: FeverParagraphCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

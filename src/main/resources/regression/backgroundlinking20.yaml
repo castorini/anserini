@@ -2,7 +2,7 @@
 corpus: wapo.v3
 corpus_path: collections/newswire/WashingtonPost.v3/data/
 
-index_path: indexes/lucene-index.wapo.v3
+index_path: indexes/lucene-index.wapo.v3/
 collection_class: WashingtonPostCollection
 generator_class: WashingtonPostGenerator
 index_threads: 1

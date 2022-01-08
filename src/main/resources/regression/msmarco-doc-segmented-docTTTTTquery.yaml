@@ -1,16 +1,16 @@
 ---
-corpus: msmarco-doc-docTTTTTquery-per-doc
-corpus_path: collections/msmarco/doc-docTTTTTquery-per-doc
+corpus: msmarco-doc-segmented-docTTTTTquery
+corpus_path: collections/msmarco/msmarco-doc-segmented-docTTTTTquery/
 
-index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc
+index_path: indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 3213834
-  documents (non-empty): 3213834
-  total terms: 3748332076
+  documents: 20545677
+  documents (non-empty): 20545677
+  total terms: 4206639543
 
 metrics:
   - metric: MAP
@@ -47,21 +47,21 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25
+    params: -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP:
-        - 0.2886
+        - 0.3184
       R@100:
-        - 0.7990
+        - 0.8479
       R@1000:
-        - 0.9259
+        - 0.9490
   - name: bm25-tuned
     display: BM25 (tuned)
-    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87
+    params: -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP:
-        - 0.3270
+        - 0.3213
       R@100:
-        - 0.8608
+        - 0.8627
       R@1000:
-        - 0.9553
+        - 0.9530

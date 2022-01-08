@@ -1,16 +1,16 @@
 ---
 corpus: msmarco-doc
-corpus_path: collections/msmarco/doc/
+corpus_path: collections/msmarco/msmarco-doc/
 
-index_path: indexes/lucene-index.msmarco-doc
-collection_class: CleanTrecCollection
+index_path: indexes/lucene-index.msmarco-doc/
+collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 7
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 2748636047
+  total terms: 2742209690
 
 metrics:
   - metric: MAP
@@ -50,19 +50,19 @@ models:
     params: -bm25 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2443
+        - 0.2434
       nDCG@10:
-        - 0.5190
+        - 0.5176
       R@100:
-        - 0.3948
+        - 0.3949
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2772
+        - 0.2774
       nDCG@10:
-        - 0.5169
+        - 0.5170
       R@100:
         - 0.4189
   - name: bm25-default+ax
@@ -70,11 +70,11 @@ models:
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2452
+        - 0.2454
       nDCG@10:
-        - 0.4730
+        - 0.4732
       R@100:
-        - 0.3945
+        - 0.3946
   - name: bm25-default+prf
     display: +PRF
     params: -bm25 -bm25prf -hits 100  # Note, this is different DL 2019 passage ranking!
@@ -82,46 +82,46 @@ models:
       MAP:
         - 0.2541
       nDCG@10:
-        - 0.5105
+        - 0.5107
       R@100:
-        - 0.4004
+        - 0.4003
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2318
+        - 0.2311
       nDCG@10:
-        - 0.5140
+        - 0.5139
       R@100:
-        - 0.3862
+        - 0.3853
   - name: bm25-tuned+rm3
     display: +RM3
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2700
+        - 0.2684
       nDCG@10:
-        - 0.5485
+        - 0.5445
       R@100:
-        - 0.4193
+        - 0.4186
   - name: bm25-tuned+ax
     display: +Ax
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2816
+        - 0.2792
       nDCG@10:
-        - 0.5245
+        - 0.5203
       R@100:
-        - 0.4399
+        - 0.4378
   - name: bm25-tuned+prf
     display: +PRF
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf -hits 100  # Note, this is different DL 2019 passage ranking!
     results:
       MAP:
-        - 0.2758
+        - 0.2774
       nDCG@10:
-        - 0.5280
+        - 0.5294
       R@100:
-        - 0.4287
+        - 0.4295

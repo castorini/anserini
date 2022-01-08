@@ -1,8 +1,8 @@
 ---
 corpus: mrtydi-v1.1-fi
-corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-finnish
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-finnish/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-finnish
+index_path: indexes/lucene-index.mrtydi-v1.1-finnish/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

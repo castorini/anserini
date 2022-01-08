@@ -1,8 +1,8 @@
 ---
 corpus: msmarco-passage-doc2query
-corpus_path: collections/msmarco/passage-expanded-topk10
+corpus_path: collections/msmarco/passage-expanded-topk10/
 
-index_path: indexes/lucene-index.msmarco-passage-doc2query
+index_path: indexes/lucene-index.msmarco-passage-doc2query/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 9

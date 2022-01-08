@@ -1,8 +1,8 @@
 ---
 corpus: fire12-hi
-corpus_path: collections/fire/hindi/hi.docs.2011
+corpus_path: collections/fire/hindi/hi.docs.2011/
 
-index_path: indexes/lucene-index.fire12-hi
+index_path: indexes/lucene-index.fire12-hi/
 collection_class: CleanTrecCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

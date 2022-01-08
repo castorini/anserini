@@ -54,16 +54,16 @@ For the most part, these runs are based on [_default_ parameter settings](https:
   + Bag-of-words models: [baselines](docs/regressions-msmarco-passage.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
   + Sparse learned models: [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [uniCOIL with doc2query-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md)
 + Regressions for MS MARCO (V1) Document Ranking:
-  + Per doc method: [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
-  + Per passage method: [baselines](docs/regressions-msmarco-doc-per-passage.md) ([v2](docs/regressions-msmarco-doc-per-passage-v2.md), [v3](docs/regressions-msmarco-doc-per-passage-v3.md))[*](docs/experiments-msmarco-doc-doc2query-details.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md) ([v3](docs/regressions-msmarco-doc-docTTTTTquery-per-passage-v3.md))[*](docs/experiments-msmarco-doc-doc2query-details.md)
+  + Complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery.md)
+  + Segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-msmarco-doc-segmented.md), [doc2query-T5](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md)
 + Regressions for TREC 2019 Deep Learning Track:
   + Passage ranking: [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
-  + Document ranking, per doc method: [baselines](docs/regressions-dl19-doc.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery-per-doc.md)
-  + Document ranking, per passage method: [baselines](docs/regressions-dl19-doc-per-passage.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery-per-passage.md)
+  + Document ranking, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl19-doc.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery.md)
+  + Document ranking, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl19-doc-segmented.md), [doc2query-T5](docs/regressions-dl19-doc-segmented-docTTTTTquery.md)
 + Regressions for TREC 2020 Deep Learning Track:
   + Passage ranking: [baselines](docs/regressions-dl20-passage.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
-  + Document ranking, per doc method: [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery-per-doc.md)
-  + Document ranking, per passage method: [baselines](docs/regressions-dl20-doc-per-passage.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery-per-passage.md)
+  + Document ranking, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
+  + Document ranking, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc-segmented.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
 + Regressions for MS MARCO (V2) Passage Ranking:
   + Bag-of-words models: [baselines](docs/regressions-msmarco-v2-passage.md), [on augmented corpus](docs/regressions-msmarco-v2-passage-augmented.md)
   + Sparse learned models: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md)

@@ -1,8 +1,8 @@
 ---
 corpus: msmarco-v2-doc
-corpus_path: collections/msmarco/msmarco_v2_doc
+corpus_path: collections/msmarco/msmarco_v2_doc/
 
-index_path: indexes/lucene-index.msmarco-v2-doc
+index_path: indexes/lucene-index.msmarco-v2-doc/
 collection_class: MsMarcoV2DocCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18

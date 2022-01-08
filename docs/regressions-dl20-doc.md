@@ -10,10 +10,14 @@ Note that there are four different regression conditions for this task, and this
 + **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
 + **Expansion Condition:** none
 
-All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
+All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-doc.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
+As a result, we have had to rebuild all our regressions from the raw corpus.
+These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
 ## Indexing
 
@@ -21,15 +25,16 @@ Typical indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \
-  -collection CleanTrecCollection \
+  -collection JsonCollection \
   -input /path/to/msmacro-doc \
-  -index indexes/lucene-index.msmarco-doc \
+  -index indexes/lucene-index.msmarco-doc/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -threads 7 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmacro-doc &
 ```
 
-The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
+The directory `/path/to/msmarco-doc/` should be a directory containing the document corpus in Anserini's jsonl format.
+See [this page](experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -43,37 +48,37 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc \
+  -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default.topics.dl20.txt \
   -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc \
+  -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc \
+  -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc \
+  -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc \
+  -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc \
+  -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3 -hits 100 &
@@ -101,22 +106,22 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.3791    | 0.4006    | 0.3630    | 0.3588    | 0.3583    | 0.3618    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.3793    | 0.4014    | 0.3631    | 0.3592    | 0.3581    | 0.3619    |
 
 
 nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5271    | 0.5248    | 0.5087    | 0.5117    | 0.5078    | 0.5202    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5286    | 0.5225    | 0.5070    | 0.5124    | 0.5061    | 0.5238    |
 
 
 MRR                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.8521    | 0.8541    | 0.8641    | 0.8188    | 0.8541    | 0.8458    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.8521    | 0.8541    | 0.8641    | 0.8186    | 0.8522    | 0.8582    |
 
 
 R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6110    | 0.6392    | 0.5926    | 0.5983    | 0.5860    | 0.5998    |
+[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6110    | 0.6414    | 0.5935    | 0.5977    | 0.5860    | 0.5995    |
 
 Explanation of settings:
 

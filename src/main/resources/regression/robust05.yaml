@@ -2,7 +2,7 @@
 corpus: robust05
 corpus_path: collections/newswire/AQUAINT/
 
-index_path: indexes/lucene-index.robust05
+index_path: indexes/lucene-index.robust05/
 collection_class: TrecCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

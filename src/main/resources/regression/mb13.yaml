@@ -2,7 +2,7 @@
 corpus: mb13
 corpus_path: collections/twitter/Tweets2013-corpus/data/
 
-index_path: indexes/lucene-index.mb13
+index_path: indexes/lucene-index.mb13/
 collection_class: TweetCollection
 generator_class: TweetGenerator
 index_threads: 44

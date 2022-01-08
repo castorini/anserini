@@ -1,8 +1,8 @@
 ---
 corpus: mrtydi-v1.1-ar
-corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-arabic
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-arabic/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-arabic
+index_path: indexes/lucene-index.mrtydi-v1.1-arabic/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

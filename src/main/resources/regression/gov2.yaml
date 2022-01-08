@@ -2,7 +2,7 @@
 corpus: gov2
 corpus_path: collections/web/gov2/gov2-corpus/
 
-index_path: indexes/lucene-index.gov2
+index_path: indexes/lucene-index.gov2/
 collection_class: TrecwebCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
