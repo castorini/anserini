@@ -1184,6 +1184,46 @@ public class TopicReaderTest {
     assertEquals(12377, TopicReader.getTopics(Topics.MRTYDI_V11_AR_TRAIN).keySet().size());
     assertEquals(3115, TopicReader.getTopics(Topics.MRTYDI_V11_AR_DEV).keySet().size());
     assertEquals(1081, TopicReader.getTopics(Topics.MRTYDI_V11_AR_TEST).keySet().size());
+
+    assertEquals(1713, TopicReader.getTopics(Topics.MRTYDI_V11_BN_TRAIN).keySet().size());
+    assertEquals(440, TopicReader.getTopics(Topics.MRTYDI_V11_BN_DEV).keySet().size());
+    assertEquals(111, TopicReader.getTopics(Topics.MRTYDI_V11_BN_TEST).keySet().size());
+
+    assertEquals(3547, TopicReader.getTopics(Topics.MRTYDI_V11_EN_TRAIN).keySet().size());
+    assertEquals(878, TopicReader.getTopics(Topics.MRTYDI_V11_EN_DEV).keySet().size());
+    assertEquals(744, TopicReader.getTopics(Topics.MRTYDI_V11_EN_TEST).keySet().size());
+
+    assertEquals(6561, TopicReader.getTopics(Topics.MRTYDI_V11_FI_TRAIN).keySet().size());
+    assertEquals(1738, TopicReader.getTopics(Topics.MRTYDI_V11_FI_DEV).keySet().size());
+    assertEquals(1254, TopicReader.getTopics(Topics.MRTYDI_V11_FI_TEST).keySet().size());
+
+    assertEquals(4902, TopicReader.getTopics(Topics.MRTYDI_V11_ID_TRAIN).keySet().size());
+    assertEquals(1224, TopicReader.getTopics(Topics.MRTYDI_V11_ID_DEV).keySet().size());
+    assertEquals(829, TopicReader.getTopics(Topics.MRTYDI_V11_ID_TEST).keySet().size());
+
+    assertEquals(3697, TopicReader.getTopics(Topics.MRTYDI_V11_JA_TRAIN).keySet().size());
+    assertEquals(928, TopicReader.getTopics(Topics.MRTYDI_V11_JA_DEV).keySet().size());
+    assertEquals(720, TopicReader.getTopics(Topics.MRTYDI_V11_JA_TEST).keySet().size());
+
+    assertEquals(1295, TopicReader.getTopics(Topics.MRTYDI_V11_KO_TRAIN).keySet().size());
+    assertEquals(303, TopicReader.getTopics(Topics.MRTYDI_V11_KO_DEV).keySet().size());
+    assertEquals(421, TopicReader.getTopics(Topics.MRTYDI_V11_KO_TEST).keySet().size());
+
+    assertEquals(5366, TopicReader.getTopics(Topics.MRTYDI_V11_RU_TRAIN).keySet().size());
+    assertEquals(1375, TopicReader.getTopics(Topics.MRTYDI_V11_RU_DEV).keySet().size());
+    assertEquals(995, TopicReader.getTopics(Topics.MRTYDI_V11_RU_TEST).keySet().size());
+
+    assertEquals(2072, TopicReader.getTopics(Topics.MRTYDI_V11_SW_TRAIN).keySet().size());
+    assertEquals(526, TopicReader.getTopics(Topics.MRTYDI_V11_SW_DEV).keySet().size());
+    assertEquals(670, TopicReader.getTopics(Topics.MRTYDI_V11_SW_TEST).keySet().size());
+
+    assertEquals(3880, TopicReader.getTopics(Topics.MRTYDI_V11_TE_TRAIN).keySet().size());
+    assertEquals(983, TopicReader.getTopics(Topics.MRTYDI_V11_TE_DEV).keySet().size());
+    assertEquals(646, TopicReader.getTopics(Topics.MRTYDI_V11_TE_TEST).keySet().size());
+
+    assertEquals(3319, TopicReader.getTopics(Topics.MRTYDI_V11_TH_TRAIN).keySet().size());
+    assertEquals(807, TopicReader.getTopics(Topics.MRTYDI_V11_TH_DEV).keySet().size());
+    assertEquals(1190, TopicReader.getTopics(Topics.MRTYDI_V11_TH_TEST).keySet().size());
   }
 
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
