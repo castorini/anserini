@@ -15,7 +15,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/mrtydi-v1.1-te \
   -index indexes/lucene-index.mrtydi-v1.1-telugu/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -pretokenized \
+  -threads 1 -storePositions -storeDocvectors -storeRaw -language te \
   >& logs/log.mrtydi-v1.1-te &
 ```
 
