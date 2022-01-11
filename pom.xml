@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.13.6-SNAPSHOT</version>
+  <version>0.14.0</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -34,7 +34,7 @@
     <connection>scm:git:git@github.com:castorini/Anserini.git</connection>
     <developerConnection>scm:git:git@github.com:castorini/Anserini.git</developerConnection>
     <url>git@github.com:castorini/Anserini.git</url>
-    <tag>HEAD</tag>
+    <tag>anserini-0.14.0</tag>
   </scm>
 
   <repositories>
@@ -222,7 +222,7 @@
                 cf. https://stackoverflow.com/questions/38361533/an-spi-class-of-type-org-apache-lucene-codecs-codec-with-name-lucene54-does-no/38382096
               -->
               <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
               </transformers>
               <!-- This fixes the issue "Invalid signature file digest for Manifest main attributes"
                    cf. http://zhentao-li.blogspot.com/2012/06/maven-shade-plugin-invalid-signature.html -->
