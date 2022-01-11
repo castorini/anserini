@@ -11,7 +11,7 @@ At that point in time, we made two mistakes:
 2. We did not materialize the segmented corpus. That is, we did not separately store a copy of the segemented texts.
 
 The doc2query-T5 sentence predictions were made on a collection that contains 20,545,677 segments.
-However, when the Anserini regressions were built (specifically, the [`msmarco-doc-docTTTTTquery-per-passage`](regressions-msmarco-doc-docTTTTTquery-per-passage.md) condition), the index only had 20,544,550 segments.
+However, when the Anserini regressions were built (specifically, the `msmarco-doc-docTTTTTquery-per-passage` condition), the index only had 20,544,550 segments.
 This meant that in the regressions, some relatively small fraction of segments were misaligned with the doc2query-T5 expansions.
 
 We did not discover this discrepancy until November 2021.
