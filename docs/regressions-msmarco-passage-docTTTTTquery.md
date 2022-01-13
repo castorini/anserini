@@ -19,7 +19,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-passage-docTTTTTquery \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 9 -storePositions -storeDocvectors -storeRaw \
+  -threads 18 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage-docTTTTTquery &
 ```
 
