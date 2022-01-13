@@ -1,11 +1,11 @@
 ---
 corpus: msmarco-passage-docTTTTTquery
-corpus_path: collections/msmarco/passage-docTTTTTquery/
+corpus_path: collections/msmarco/msmarco-passage-docTTTTTquery/
 
 index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 9
+index_threads: 18
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 8841823
