@@ -200,4 +200,5 @@ For the `collection` meta-parameter, use `robust04`, `core18`, `msmarco-passage`
 + Results reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04](regressions-robust04.md), [Core18](regressions-core18.md), and [MS MARCO Passage](regressions-msmarco-passage.md)
 + Results reproduced by [@lintool](https://github.com/lintool) on 2020-11-10 (commit [`e19755`](https://github.com/castorini/anserini/commit/e19755b5fa976127830597bc9fbca203b9f5ad24)), all commands and end-to-end regression script for all four collections
 + Results reproduced by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-02 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for [MS MARCO Passage](regressions-msmarco-passage.md)
+Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2022-01-13 (commit [`06fb4f9`](https://github.com/castorini/anserini/commit/06fb4f9947ff2167c276d8893287453af7680786)) for [MS MARCO Passage](regressions-msmarco-passage.md)
 
