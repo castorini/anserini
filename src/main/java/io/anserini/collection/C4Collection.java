@@ -123,10 +123,10 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
 
   public static class Document implements SourceDocument {
     protected String id;
+    protected String url;
     private String contents;
     private String contentsURL;
     private String raw;
-    private String url;
     private long timestamp;
 
     public Document(JsonNode json, String filename, int jsonLoc) {

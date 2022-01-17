@@ -1,71 +1,57 @@
 ---
-name: trec02-ar
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-collection: CleanTrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-  - -language ar
-search_options:
-  - -language ar
-topic_reader: Trec
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-    separator: "\t"
-    parse_index: 2
-    metric: map
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m P.20
-    separator: "\t"
-    parse_index: 2
-    metric: p20
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m ndcg_cut.20
-    separator: "\t"
-    parse_index: 2
-    metric: ndcg20
-    metric_precision: 4
-    can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts
-index_path: indexes/lucene-index.trec02-ar.pos+docvectors+raw
+corpus: trec02-ar
+corpus_path: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts/
+
+index_path: indexes/lucene-index.trec02-ar/
+collection_class: CleanTrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw -language ar
 index_stats:
   documents: 383872
   documents (non-empty): 383872
-  total terms: 62378088  
+  total terms: 62378088
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m P.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Trec
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)"
+    id: trec02
     path: topics.trec02ar-ar.txt
     qrel: qrels.trec02ar.txt
+
 models:
   - name: bm25
     display: BM25
-    params:
-      - -bm25
+    params: -bm25 -language ar
     results:
-      map:
+      MAP:
         - 0.2932
-      p20:
+      P20:
         - 0.3610
-      ndcg20:
+      nDCG@20:
         - 0.4056

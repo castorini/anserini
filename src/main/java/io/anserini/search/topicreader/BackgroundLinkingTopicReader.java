@@ -102,9 +102,6 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
     return map;
   }
   
-  /**
-   * Extracts the top <i>k</i> terms from document in terms of tf-idf.
-   */
   public static List<String> extractTerms(IndexReader reader, String docid, int k, Analyzer analyzer)
       throws IOException {
     // Fetch the raw JSON representation of the document.

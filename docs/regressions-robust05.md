@@ -9,11 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
- -input /path/to/robust05 \
- -index indexes/lucene-index.robust05.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 16 -storePositions -storeDocvectors -storeRaw \
+target/appassembler/bin/IndexCollection \
+  -collection TrecCollection \
+  -input /path/to/robust05 \
+  -index indexes/lucene-index.robust05/ \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 16 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.robust05 &
 ```
 
@@ -31,35 +32,41 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -output runs/run.robust05.bm25.topics.robust05.txt \
- -bm25 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.robust05/ \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
+  -output runs/run.robust05.bm25.topics.robust05.txt \
+  -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -output runs/run.robust05.bm25+rm3.topics.robust05.txt \
- -bm25 -rm3 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.robust05/ \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
+  -output runs/run.robust05.bm25+rm3.topics.robust05.txt \
+  -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -output runs/run.robust05.bm25+ax.topics.robust05.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.robust05/ \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
+  -output runs/run.robust05.bm25+ax.topics.robust05.txt \
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -output runs/run.robust05.ql.topics.robust05.txt \
- -qld &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.robust05/ \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
+  -output runs/run.robust05.ql.topics.robust05.txt \
+  -qld &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -output runs/run.robust05.ql+rm3.topics.robust05.txt \
- -qld -rm3 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.robust05/ \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
+  -output runs/run.robust05.ql+rm3.topics.robust05.txt \
+  -qld -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -output runs/run.robust05.ql+ax.topics.robust05.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.robust05/ \
+  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -topicreader Trec \
+  -output runs/run.robust05.ql+ax.topics.robust05.txt \
+  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

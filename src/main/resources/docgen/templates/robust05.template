@@ -1,8 +1,8 @@
 # Anserini: Regressions for [AQUAINT](https://tac.nist.gov//data/data_desc.html#AQUAINT) (Robust05)
 
 This page describes regressions for the TREC 2005 Robust Track, which uses the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT).
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/robust05.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/robust05.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 

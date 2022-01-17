@@ -37,8 +37,11 @@ public class SearchArgs {
   @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
   public String queryGenerator = "BagOfWordsQueryGenerator";
 
-  @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
+  @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
   public int threads = 1;
+
+  @Option(name = "-parallelism", metaVar = "[int]", usage = "Number of threads to use for each individual parameter configuration.")
+  public int parallelism = 8;
 
   @Option(name = "-language", usage = "Analyzer Language")
   public String language = "en";
@@ -103,6 +106,9 @@ public class SearchArgs {
 
   @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
+
+  @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
+  public String format = "trec";
 
   // ---------------------------------------------
   // Simple built-in support for passage retrieval

@@ -222,6 +222,7 @@ public abstract class WarcBaseDocument implements SourceDocument {
    *
    * @param in the data input stream
    * @param headerBuffer a blank string buffer to contain the WARC header
+   * @param headerEndKey delimiter of the end of the header
    * @return the content bytes (with the headerBuffer populated)
    * @throws IOException if error encountered reading from stream
    */
