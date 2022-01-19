@@ -65,15 +65,17 @@ For the most part, these runs are based on [_default_ parameter settings](https:
   + Document ranking, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
   + Document ranking, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc-segmented.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
 + Regressions for MS MARCO (V2) Passage Ranking:
-  + Bag-of-words models, default corpus: [baselines](docs/regressions-msmarco-v2-passage.md)
-  + Bag-of-words models, augmented corpus: [baselines](docs/regressions-msmarco-v2-passage-augmented.md)
+  + Bag-of-words models, original corpus: [baselines](docs/regressions-msmarco-v2-passage.md), [doc2query-T5](docs/regressions-msmarco-v2-passage-d2q-t5.md)
+  + Bag-of-words models, augmented corpus: [baselines](docs/regressions-msmarco-v2-passage-augmented.md), [doc2query-T5](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md)
   + Sparse learned models: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md)
 + Regressions for MS MARCO (V2) Document Ranking:
   + Bag-of-words, complete doc: [baselines](docs/regressions-msmarco-v2-doc.md), [doc2query-T5](docs/regressions-msmarco-v2-doc-d2q-t5.md)
   + Bag-of-words, segmented doc: [baselines](docs/regressions-msmarco-v2-doc-segmented.md), [doc2query-T5](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md)
   + Sparse learned models: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot.md)
 + Regressions for TREC 2021 Deep Learning Track:
-  + Passage ranking: [baselines](docs/regressions-dl21-passage.md), [on augmented corpus](docs/regressions-dl21-passage-augmented.md), [uniCOIL noexp zero-shot](docs/regressions-dl21-passage-unicoil-noexp-0shot.md)
+  + Passage ranking, original corpus: [baselines](docs/regressions-dl21-passage.md), [doc2query-T5](docs/regressions-dl21-passage-d2q-t5.md)
+  + Passage ranking, augmented corpus: [baselines](docs/regressions-dl21-passage-augmented.md), [doc2query-T5](docs/regressions-dl21-passage-augmented-d2q-t5.md)
+  + Passage ranking, sparse learned models: [uniCOIL noexp zero-shot](docs/regressions-dl21-passage-unicoil-noexp-0shot.md)
   + Document ranking, complete doc: [baselines](docs/regressions-dl21-doc.md), [doc2query-T5](docs/regressions-dl21-doc-d2q-t5.md)
   + Document ranking, segmented doc: [baselines](docs/regressions-dl21-doc-segmented.md), [doc2query-T5](docs/regressions-dl21-doc-segmented-d2q-t5.md)
   + Document ranking, sparse learned models: [uniCOIL noexp zero-shot](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot.md)
