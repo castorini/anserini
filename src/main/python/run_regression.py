@@ -174,8 +174,7 @@ def evaluate_and_verify(yaml_data, dry_run):
 
 def run_search(cmd):
     logger.info(' '.join(cmd))
-    if not args.dry_run:
-        call(' '.join(cmd), shell=True)
+    call(' '.join(cmd), shell=True)
 
 
 if __name__ == '__main__':
@@ -225,7 +224,11 @@ if __name__ == '__main__':
     if args.search:
         logger.info('='*10 + ' Ranking ' + '='*10)
         search_cmds = construct_search_commands(yaml_data)
-        p = Pool(args.search_pool)
-        p.map(run_search, search_cmds)
+        if args.dry_run:
+            for cmd in search_cmds:
+                logger.info(' '.join(cmd))
+        else:
+            with Pool(args.search_pool) as p:
+                p.map(run_search, search_cmds)
 
         evaluate_and_verify(yaml_data, args.dry_run)
