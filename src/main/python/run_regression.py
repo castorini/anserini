@@ -228,7 +228,7 @@ if __name__ == '__main__':
             for cmd in search_cmds:
                 logger.info(' '.join(cmd))
         else:
-            p = Pool(args.search_pool)
-            p.map(run_search, search_cmds)
+            with Pool(args.search_pool) as p:
+                p.map(run_search, search_cmds)
 
         evaluate_and_verify(yaml_data, args.dry_run)
