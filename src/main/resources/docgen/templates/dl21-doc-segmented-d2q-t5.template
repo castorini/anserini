@@ -7,7 +7,7 @@ You must download the qrels from NIST's "active participants" password-protected
 The qrels will be added to Anserini when they are publicly released in Spring 2022.
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-v2.md).
+For additional instructions on working with MS MARCO V2 document collection, refer to [this page](experiments-msmarco-v2.md).
 
 Note that there are four different regression conditions for this task, and this page describes the following:
 
