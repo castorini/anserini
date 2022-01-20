@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### January 20, 2022
+
++ commit [`1be47b`](https://github.com/castorini/anserini/commit/1be47b95cbc722fff1b883a6b91a92632a00461e) (01/20/2022)
+
+Added MS MARCO (V2) {doc, segmented doc, passage, augmented passage} regressions for doc2query-T5 expansions (both dev/dev2 queries as well as TREC 2021 DL Track).
+
 ### January 8, 2022
 
 + commit [`6fcb89`](https://github.com/castorini/anserini/commit/6fcb896c61e2b8cf2f235def3e95dda5fe4cd2fc) (01/08/2022)
