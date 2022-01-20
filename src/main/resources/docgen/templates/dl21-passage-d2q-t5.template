@@ -1,6 +1,6 @@
 # Anserini: Regressions for [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Passage Ranking Task) on the MS MARCO V2 _augmented_ passage collection using relevance judgments from NIST.
+This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Passage Ranking Task) on the MS MARCO V2 passage collection using relevance judgments from NIST.
 
 At the time this regression was created (November 2021), the qrels are only available to TREC participants.
 You must download the qrels from NIST's "active participants" password-protected site and place at `src/main/resources/topics-and-qrels/qrels.dl21-passage.txt`.
@@ -48,8 +48,3 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
-
-+ `paug_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
-+ `paug_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`

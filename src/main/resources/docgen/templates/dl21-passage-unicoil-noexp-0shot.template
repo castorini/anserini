@@ -8,7 +8,7 @@ You must download the qrels from NIST's "active participants" password-protected
 The qrels will be added to Anserini when they are publicly released in Spring 2022.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-v2.md).
+For additional instructions on working with MS MARCO V2 passage collection, refer to [this page](experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
