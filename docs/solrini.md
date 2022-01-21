@@ -52,7 +52,7 @@ Indexing into Solr is similar indexing to disk with Lucene, with a few added par
 Most notably, we replace the `-index` parameter (which specifies the Lucene index path on disk) with Solr parameters.
 Alternatively, Solr can also be configured to [read prebuilt Lucene index](#solr-with-prebuilt-lucene-index), since Solr uses Lucene indexes under the hood.
 
-We'll index [Robust04](regressions-robust04.md) as an example.
+We'll index [Robust04](regressions-disk45.md) as an example.
 First, create the `robust04` collection in Solr:
 
 ```
