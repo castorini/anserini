@@ -98,6 +98,7 @@ public class FeatureExtractorUtils {
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
+  @SuppressWarnings("unchecked")
   public List<debugOutput> extract(String qid, List<String> docIds, List<String> queryTokens) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     Map<String, Object> json = new HashMap();
@@ -188,12 +189,11 @@ public class FeatureExtractorUtils {
     }));
   }
 
-
-
   /**
    * submit tasks to workers, exposed in Pyserini
    * @throws JsonProcessingException
    */
+  @SuppressWarnings("unchecked")
   public String lazyExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode root = mapper.readValue(jsonInput, JsonNode.class);
@@ -207,6 +207,7 @@ public class FeatureExtractorUtils {
    * submit tasks to workers, exposed in Pyserini
    * @throws JsonProcessingException
    */
+  @SuppressWarnings("unchecked")
   public String debugExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode root = mapper.readValue(jsonInput, JsonNode.class);

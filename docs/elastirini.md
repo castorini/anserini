@@ -23,7 +23,7 @@ If you want to install Kibana, it's just another distribution to unpack and a si
 ## Indexing and Retrieval: Robust04
 
 Once we have a local instance of Elasticsearch up and running, we can index using Elasticsearch through Elastirini.
-In this example, we reproduce experiments on [Robust04](regressions-robust04.md).
+In this example, we reproduce experiments on [Robust04](regressions-disk45.md).
 
 First, let's create the index in Elasticsearch.
 We define the schema and the ranking function (BM25) using [this config](../src/main/resources/elasticsearch/index-config.robust04.json):

@@ -52,6 +52,7 @@ import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -281,6 +282,9 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new TurkishAnalyzer();
     } else if (language.equals("zh") || language.equals("ko")) {
       this.analyzer = new CJKAnalyzer();
+    } else if (language.equals("sw") || language.equals("te")) {
+      this.analyzer = new WhitespaceAnalyzer();
+      // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
     }
   }
 
@@ -488,9 +492,11 @@ public class SimpleSearcher implements Closeable {
         } catch (IOException e) {
           throw new CompletionException(e);
         }
-        // logging for speed
+        // Logging to track query latency.
+        // Note that this is potentially noisy because it might interfere with tqdm on the Python side; logging
+        // every 500 queries seems like a reasonable comprise between offering helpful info and not being too noisy.
         Long lineNumber = index.incrementAndGet();
-        if (lineNumber % 100 == 0) {
+        if (lineNumber % 500 == 0) {
           double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
           LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)", timePerQuery));
         }

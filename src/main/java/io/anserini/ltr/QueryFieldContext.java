@@ -32,6 +32,8 @@ public class QueryFieldContext {
     public int querySize;
 
     private Map<String, Map<String, Float>> featureLog;
+
+    @SuppressWarnings("unchecked")
     public QueryFieldContext(String fieldName, JsonNode root){
         this.fieldName = fieldName;
         ObjectMapper mapper = new ObjectMapper();
@@ -42,6 +44,7 @@ public class QueryFieldContext {
             queryFreqs.put(token, queryFreqs.getOrDefault(token,0)+1);
         this.featureLog = new HashMap<>();
     }
+
     public List<Pair<String, String>> genQueryPair() {
         List<Pair<String, String>> queryPairs = new ArrayList<>();
         for (int i = 0; i < queryTokens.size() - 1; i++) {

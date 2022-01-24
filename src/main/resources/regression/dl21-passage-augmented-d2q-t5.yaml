@@ -1,0 +1,89 @@
+---
+corpus: msmarco-v2-passage-augmented-d2q-t5
+corpus_path: collections/msmarco/msmarco_v2_passage_augmented_d2q-t5/
+
+index_path: indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/
+collection_class: MsMarcoV2PassageCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 18
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 138364198
+  documents (non-empty): 138364198
+  total terms: 27561177420
+
+metrics:
+  - metric: MAP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    id: dl21
+    path: topics.dl21.txt
+    qrel: qrels.dl21-passage.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25
+    results:
+      MAP@100:
+        - 0.1649
+      MRR@100:
+        - 0.6391
+      nDCG@10:
+        - 0.4702
+      R@100:
+        - 0.3883
+      R@1000:
+        - 0.6962
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3
+    results:
+      MAP@100:
+        - 0.1932
+      MRR@100:
+        - 0.5882
+      nDCG@10:
+        - 0.4834
+      R@100:
+        - 0.4295
+      R@1000:
+        - 0.7668

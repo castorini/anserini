@@ -19,7 +19,7 @@ mkdir collections/msmarco-doc
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docs.trec.gz -P collections/msmarco-doc
 
 # Alternative mirror:
-# wget https://www.dropbox.com/s/w6caao3sfx9nluo/msmarco-docs.trec.gz -P collections/msmarco-doc
+# wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-docs.trec.gz -P collections/msmarco-doc
 ```
 
 To confirm, `msmarco-docs.trec.gz` should have MD5 checksum of `d4863e4f342982b51b9a8fc668b2d0c0`.
@@ -46,13 +46,15 @@ After indexing finishes, we can do a retrieval run.
 The dev queries are already stored in our repo:
 
 ```
-target/appassembler/bin/SearchCollection -topicreader TsvInt \
+target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
  -index indexes/msmarco-doc/lucene-index-msmarco \
- -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc.dev.bm25.txt -bm25
 ```
 
-On a modern desktop with an SSD, the run takes around 12 minutes.
+Retrieval speed will vary by machine:
+On a reasonably modern desktop with an SSD, with four threads (as specified above), the run takes less than five minutes.
+Adjust the parallelism by changing the `-parallelism` argument.
 
 After the run completes, we can evaluate with `trec_eval`:
 
@@ -87,13 +89,13 @@ This dataset is part of the [MS MARCO Document Ranking Leaderboard](https://micr
 Let's try to reproduce runs on there!
 
 A few minor details to pay attention to: the official metric is MRR@100, so we want to only return the top 100 hits, and the submission files to the leaderboard have a slightly different format.
-So, we use `SearchMsmarco` instead of `SearchCollection`:
 
 ```bash
-sh target/appassembler/bin/SearchMsmarco -hits 100 -threads 1 \
- -index indexes/msmarco-doc/lucene-index-msmarco/ \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -k1 0.9 -b 0.4
+target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
+ -index indexes/msmarco-doc/lucene-index-msmarco \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -format msmarco \
+ -bm25 -bm25.k1 0.9 -bm25.b 0.4
 ```
 
 The command above uses the default BM25 parameters (`k1=0.9`, `b=0.4`), and note we set `-hits 100`.
@@ -112,10 +114,11 @@ The above run corresponds to "Anserini's BM25, default parameters (k1=0.9, b=0.4
 Here's the invocation for BM25 with parameters optimized for recall@100 (`k1=4.46`, `b=0.82`):
 
 ```bash
-sh target/appassembler/bin/SearchMsmarco -hits 100 -threads 1 \
- -index indexes/msmarco-doc/lucene-index-msmarco/ \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -k1 4.46 -b 0.82
+target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
+ -index indexes/msmarco-doc/lucene-index-msmarco \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -format msmarco \
+ -bm25 -bm25.k1 4.46 -bm25.b 0.82
 ```
 
 Command for evaluation:
@@ -160,19 +163,21 @@ Note that MRR@100 is computed with the leaderboard eval script (with 100 hits pe
 So, we need to use different search programs, for example:
 
 ```
-$ target/appassembler/bin/SearchCollection -topicreader TsvInt \
- -index indexes/msmarco-doc/lucene-index-msmarco \
- -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.dev.opt-mrr.txt -bm25 -bm25.k1 3.8 -bm25.b 0.87
+$ target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
+   -index indexes/msmarco-doc/lucene-index-msmarco \
+   -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -output runs/run.msmarco-doc.dev.opt-mrr.txt \
+   -bm25 -bm25.k1 3.8 -bm25.b 0.87
 
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
 map                   	all	0.2789
 recall_1000           	all	0.9326
 
-$ sh target/appassembler/bin/SearchMsmarco -hits 100 -threads 1 \
- -index indexes/msmarco-doc/lucene-index-msmarco/ \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -k1 3.8 -b 0.87
+$ target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
+   -index indexes/msmarco-doc/lucene-index-msmarco \
+   -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -format msmarco \
+   -bm25 -bm25.k1 3.8 -bm25.b 0.87
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt
 #####################
@@ -217,7 +222,7 @@ That's it!
 + Results reproduced by [@HEC2018](https://github.com/HEC2018) on 2021-01-04 (commit [`4de21ec`](https://github.com/castorini/anserini/commit/4de21ece5e53cf20b4fcc711b575606b83c0d1f1))
 + Results reproduced by [@KaiSun314](https://github.com/KaiSun314) on 2021-01-08 (commit [`113f1c7`](https://github.com/castorini/anserini/commit/113f1c78c3ffc8681a06c571901cf9ad8f5ee633))
 + Results reproduced by [@yemiliey](https://github.com/yemiliey) on 2021-01-18 (commit [`179c242`](https://github.com/castorini/anserini/commit/179c242562bbb990e421f315370f34d4d19bbb9f))
-+ Results reproduced by [@larryli1999](https://github.com/larryli1999) on 2021-01-22 (commit [`3f9af5`](https://github.com/castorini/anserini/commit/3f9af54d6215eacbade7fc99ff8890920fdddee0))
++ Results reproduced by [@larryli1999](https://github.com/larryli1999) on 2021-01-22 (commit [`179c242`](https://github.com/castorini/anserini/commit/179c242562bbb990e421f315370f34d4d19bbb9f))
 + Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2021-04-08 (commit [`45a5a21`](https://github.com/castorini/anserini/commit/45a5a219af92c82dd429f4d96aee13bd87825147))
 + Results reproduced by [@printfCalvin](https://github.com/printfCalvin) on 2021-04-11 (commit [`d808d4a`](https://github.com/castorini/anserini/commit/d808d4a50ee69f44493e19a87dc36c7eb99402a9))
 + Results reproduced by [@saileshnankani](https://github.com/saileshnankani) on 2021-04-26 (commit [`5781c87`](https://github.com/castorini/anserini/commit/5781c871db12f0e36139982fbf1c805cfec189ee))
@@ -228,3 +233,15 @@ That's it!
 + Results reproduced by [@jpark621](https://github.com/jpark621) on 2021-06-01 (commit [`2591e06`](https://github.com/castorini/anserini/commit/2591e063b4bee8881a641cf2167352ac212865a6))
 + Results reproduced by [@nimasadri11](https://github.com/nimasadri11) on 2021-06-27 (commit [`6f9352f`](https://github.com/castorini/anserini/commit/6f9352fc5d6a4938fadc2bda9d0c428056eec5f0))
 + Results reproduced by [@mzzchy](https://github.com/mzzchy) on 2021-07-05 (commit [`589928b`](https://github.com/castorini/anserini/commit/589928b1873b3ebe00234becd8b5da9d573dda6d))
++ Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2021-07-16 (commit [`43ad899`](https://github.com/castorini/anserini/commit/43ad899337ac5e3b219d899bb218c4bcae18b1e6))
++ Results reproduced by [@apokali](https://github.com/apokali) on 2021-08-19 (commit[`ad4caeb`](https://github.com/castorini/anserini/commit/ad4caeb59ec512d0ce07412e6c4b873a8b841da4))
++ Results reproduced by [@leungjch](https://github.com/leungjch) on 2021-09-12 (commit [`f79fb67`](https://github.com/castorini/anserini/commit/f79fb67845b4b68b8c177eacb5832c209847dc29))
++ Results reproduced by [@AlexWang000](https://github.com/AlexWang000) on 2021-10-10 (commit [`fc2ddb0`](https://github.com/castorini/anserini/commit/fc2ddb026677d2695fa4a1e9cfdd5608cb0ac26b))
++ Results reproduced by [@ToluClassics](https://github.com/ToluClassics) on 2021-10-20 (commit [`fcc2aff`](https://github.com/castorini/anserini/commit/fcc2aff950edc8e81ad32776418288da6a4dbaf8))
++ Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2021-12-05 (commit [`aee51ad`](https://github.com/castorini/anserini/commit/aee51adefe9d2b8f178df37abc5b236b185c5bab))
++ Results reproduced by [@lingwei-gu](https://github.com/lingwei-gu) on 2021-12-15 (commit [`30605f5`](https://github.com/castorini/anserini/commit/30605f535192befdf59c2f330decd3656315ffaa))
++ Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2021-12-18 (commit [`6500560`](https://github.com/castorini/anserini/commit/65005606ec6ccd2d337c8dd150cc030d14b0aca9))
++ Results reproduced by [@kevin-wangg](https://github.com/kevin-wangg) on 2022-01-04 (commit [`c3e14dc`](https://github.com/castorini/anserini/commit/c3e14dcda516455e2daa4ffe10fb9900c4a8fc12))
++ Results reproduced by [@vivianliu0](https://github.com/vivianliu0) on 2022-01-06 (commit [`c3e14dc`](https://github.com/castorini/anserini/commit/c3e14dcda516455e2daa4ffe10fb9900c4a8fc12))
++ Results reproduced by [@mikhail-tsir](https://github.com/mikhail-tsir) on 2022-01-07 (commit [`806ac89`](https://github.com/castorini/anserini/commit/806ac896a4a5531f0a39dafb79d481e679c7dc19))
++ Results reproduced by [@AceZhan](https://github.com/AceZhan) on 2022-01-14 (commit [`7ff99e0`](https://github.com/castorini/anserini/commit/7ff99e0d3208dc8bfec6bb8ca254d0b016015a2d))

@@ -32,7 +32,7 @@ mkdir collections/msmarco-passage
 wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 # Alternative mirror:
-# wget https://www.dropbox.com/s/9f54jg2f71ray3b/collectionandqueries.tar.gz -P collections/msmarco-passage
+# wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
@@ -119,19 +119,20 @@ These queries are taken from Bing search logs, so they're "realistic" web querie
 We can now perform a retrieval run using this smaller set of queries:
 
 ```bash
-sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 1 \
+sh target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
  -index indexes/msmarco-passage/lucene-index-msmarco \
- -queries collections/msmarco-passage/queries.dev.small.tsv \
- -output runs/run.msmarco-passage.dev.small.tsv
+ -topicreader TsvInt -topics collections/msmarco-passage/queries.dev.small.tsv \
+ -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68
 ```
 
-Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
+The above command uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
 The option `-hits` specifies the number of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
 
 Retrieval speed will vary by machine:
-On a modern desktop with an SSD, we can get ~0.07 s/query, so the run should finish in under ten minutes.
-We can perform multi-threaded retrieval by changing the `-threads` argument.
+On a reasonably modern desktop with an SSD, with four threads (as specified above), the run takes a couple of minutes.
+Adjust the parallelism by changing the `-parallelism` argument.
 
 <details>
 <summary>What's going on here?</summary>
@@ -208,7 +209,7 @@ These are captured in what are known as relevance judgments.
 Take a look:
 
 ```bash
-$ grep 1048585 collections/msmarco-passage/qrels.dev.tsv
+$ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv
 1048585	0	7187158	1
 ```
 
@@ -313,7 +314,7 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@JMMackenzie](https://github.com/JMMackenzie) on 2020-01-08 (commit [`f63cd22`](https://github.com/castorini/anserini/commit/f63cd2275fa5a9d4da2d17e5f983a3308e8b50ce ))
 + Results reproduced by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-08 (commit [`5cc923d`](https://github.com/castorini/anserini/commit/5cc923d5c02777d8b25df32ff2e2a59be5badfdd))
 + Results reproduced by [@LuKuuu](https://github.com/LuKuuu) on 2020-01-15 (commit [`f21137b`](https://github.com/castorini/anserini/commit/f21137b44f1115d25d1ff8ecaf7780c36498c5de))
-+ Results reproduced by [@kevinxyc1](https://github.com/kevinxyc1) on 2020-01-18 (commit [`798cb3a`](https://github.com/castorini/anserini/commit/798cb3a1a86f39317a5e5badb209795826d2033d))
++ Results reproduced by [@kevinxyc1](https://github.com/kevinxyc1) on 2020-01-18 (commit [`f21137b`](https://github.com/castorini/anserini/commit/f21137b44f1115d25d1ff8ecaf7780c36498c5de))
 + Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-01-21 (commit [`631589e`](https://github.com/castorini/anserini/commit/631589e9e08326373f46555e007e6c302c19126d))
 + Results reproduced by [@yuki617](https://github.com/yuki617) on 2020-03-29 (commit [`074723c`](https://github.com/castorini/anserini/commit/074723cbb10660fb9be2bfe6325739ab5fe0dd8d))
 + Results reproduced by [@weipang142857](https://github.com/weipang142857) on 2020-04-20 (commit [`074723c`](https://github.com/castorini/anserini/commit/074723cbb10660fb9be2bfe6325739ab5fe0dd8d))
@@ -351,7 +352,7 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@HEC2018](https://github.com/HEC2018) on 2021-01-04 (commit [`4de21ec`](https://github.com/castorini/anserini/commit/4de21ece5e53cf20b4fcc711b575606b83c0d1f1))
 + Results reproduced by [@KaiSun314](https://github.com/KaiSun314) on 2021-01-08 (commit [`113f1c7`](https://github.com/castorini/anserini/commit/113f1c78c3ffc8681a06c571901cf9ad8f5ee633))
 + Results reproduced by [@yemiliey](https://github.com/yemiliey) on 2021-01-18 (commit [`179c242`](https://github.com/castorini/anserini/commit/179c242562bbb990e421f315370f34d4d19bbb9f))
-+ Results reproduced by [@larryli1999](https://github.com/larryli1999) on 2021-01-22 (commit [`3f9af5`](https://github.com/castorini/anserini/commit/3f9af54d6215eacbade7fc99ff8890920fdddee0))
++ Results reproduced by [@larryli1999](https://github.com/larryli1999) on 2021-01-22 (commit [`179c242`](https://github.com/castorini/anserini/commit/179c242562bbb990e421f315370f34d4d19bbb9f))
 + Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2021-04-08 (commit [`45a5a21`](https://github.com/castorini/anserini/commit/45a5a219af92c82dd429f4d96aee13bd87825147))
 + Results reproduced by [@printfCalvin](https://github.com/printfCalvin) on 2021-04-11 (commit [`d808d4a`](https://github.com/castorini/anserini/commit/d808d4a50ee69f44493e19a87dc36c7eb99402a9))
 + Results reproduced by [@saileshnankani](https://github.com/saileshnankani) on 2021-04-26 (commit [`5781c87`](https://github.com/castorini/anserini/commit/5781c871db12f0e36139982fbf1c805cfec189ee))
@@ -362,3 +363,15 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@jpark621](https://github.com/jpark621) on 2021-06-01 (commit [`2591e06`](https://github.com/castorini/anserini/commit/2591e063b4bee8881a641cf2167352ac212865a6))
 + Results reproduced by [@nimasadri11](https://github.com/nimasadri11) on 2021-06-27 (commit [`6f9352f`](https://github.com/castorini/anserini/commit/6f9352fc5d6a4938fadc2bda9d0c428056eec5f0))
 + Results reproduced by [@mzzchy](https://github.com/mzzchy) on 2021-07-05 (commit [`589928b`](https://github.com/castorini/anserini/commit/589928b1873b3ebe00234becd8b5da9d573dda6d))
++ Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2021-07-16 (commit [`43ad899`](https://github.com/castorini/anserini/commit/43ad899337ac5e3b219d899bb218c4bcae18b1e6))
++ Results reproduced by [@apokali](https://github.com/apokali) on 2021-08-19 (commit[`ad4caeb`](https://github.com/castorini/anserini/commit/ad4caeb59ec512d0ce07412e6c4b873a8b841da4))
++ Results reproduced by [@leungjch](https://github.com/leungjch) on 2021-09-12 (commit [`f79fb67`](https://github.com/castorini/anserini/commit/f79fb67845b4b68b8c177eacb5832c209847dc29))
++ Results reproduced by [@AlexWang000](https://github.com/AlexWang000) on 2021-10-10 (commit [`fc2ddb0`](https://github.com/castorini/anserini/commit/fc2ddb026677d2695fa4a1e9cfdd5608cb0ac26b))
++ Results reproduced by [@ToluClassics](https://github.com/ToluClassics) on 2021-10-20 (commit [`fcc2aff`](https://github.com/castorini/anserini/commit/fcc2aff950edc8e81ad32776418288da6a4dbaf8))
++ Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2021-12-05 (commit [`aee51ad`](https://github.com/castorini/anserini/commit/aee51adefe9d2b8f178df37abc5b236b185c5bab))
++ Results reproduced by [@lingwei-gu](https://github.com/lingwei-gu) on 2021-12-15 (commit [`30605f5`](https://github.com/castorini/anserini/commit/30605f535192befdf59c2f330decd3656315ffaa))
++ Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2021-12-18 (commit [`6500560`](https://github.com/castorini/anserini/commit/65005606ec6ccd2d337c8dd150cc030d14b0aca9))
++ Results reproduced by [@kevin-wangg](https://github.com/kevin-wangg) on 2022-01-04 (commit [`c3e14dc`](https://github.com/castorini/anserini/commit/c3e14dcda516455e2daa4ffe10fb9900c4a8fc12))
++ Results reproduced by [@vivianliu0](https://github.com/vivianliu0) on 2022-01-06 (commit [`c3e14dc`](https://github.com/castorini/anserini/commit/c3e14dcda516455e2daa4ffe10fb9900c4a8fc12))
++ Results reproduced by [@mikhail-tsir](https://github.com/mikhail-tsir) on 2022-01-07 (commit [`806ac89`](https://github.com/castorini/anserini/commit/806ac896a4a5531f0a39dafb79d481e679c7dc19))
++ Results reproduced by [@AceZhan](https://github.com/AceZhan) on 2022-01-13 (commit [`7ff99e0`](https://github.com/castorini/anserini/commit/7ff99e0d3208dc8bfec6bb8ca254d0b016015a2d))

@@ -11,11 +11,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
- -input /path/to/fire12-bn \
- -index indexes/lucene-index.fire12-bn.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 16 -storePositions -storeDocvectors -storeRaw -language bn \
+target/appassembler/bin/IndexCollection \
+  -collection CleanTrecCollection \
+  -input /path/to/fire12-bn \
+  -index indexes/lucene-index.fire12-bn/ \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 16 -storePositions -storeDocvectors -storeRaw -language bn \
   >& logs/log.fire12-bn &
 ```
 
@@ -34,10 +35,11 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.fire12-bn.pos+docvectors+raw \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt \
- -output runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt \
- -language bn -bm25 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.fire12-bn/ \
+  -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt -topicreader Trec \
+  -output runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt \
+  -bm25 -language bn &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -60,6 +62,6 @@ P20                                     | BM25      |
 [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)| 0.3740    |
 
 
-NDCG20                                  | BM25      |
+nDCG@20                                 | BM25      |
 :---------------------------------------|-----------|
 [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)| 0.4261    |

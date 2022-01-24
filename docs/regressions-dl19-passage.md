@@ -13,11 +13,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -input /path/to/msmarco-passage \
- -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -generator DefaultLuceneDocumentGenerator \
- -threads 9 -storePositions -storeDocvectors -storeRaw \
+target/appassembler/bin/IndexCollection \
+  -collection JsonCollection \
+  -input /path/to/msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 9 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage &
 ```
 
@@ -35,45 +36,53 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage.bm25-default.topics.dl19-passage.txt \
- -bm25 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default.topics.dl19-passage.txt \
+  -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage.bm25-default+rm3.topics.dl19-passage.txt \
- -bm25 -rm3 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default+rm3.topics.dl19-passage.txt \
+  -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage.bm25-default+ax.topics.dl19-passage.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default+ax.topics.dl19-passage.txt \
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage.bm25-default+prf.topics.dl19-passage.txt \
- -bm25 -bm25prf &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default+prf.topics.dl19-passage.txt \
+  -bm25 -bm25prf &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage.bm25-tuned.topics.dl19-passage.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned.topics.dl19-passage.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl19-passage.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl19-passage.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl19-passage.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl19-passage.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -output runs/run.msmarco-passage.bm25-tuned+prf.topics.dl19-passage.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned+prf.topics.dl19-passage.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -126,7 +135,7 @@ R@1000                                  | BM25 (default)| +RM3      | +Ax       
 [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.7501    | 0.7998    | 0.8241    | 0.7929    | 0.7450    | 0.7792    | 0.8138    | 0.7988    |
 
 
-NDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+nDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.5058    | 0.5180    | 0.5511    | 0.5372    | 0.4973    | 0.5231    | 0.5461    | 0.5536    |
 

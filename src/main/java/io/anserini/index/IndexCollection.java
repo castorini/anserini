@@ -649,9 +649,10 @@ public final class IndexCollection {
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
+    LOG.info("Language: " + args.language);
     LOG.info("Stemmer: " + args.stemmer);
     LOG.info("Keep stopwords? " + args.keepStopwords);
-    LOG.info("Stopwords:  " + args.stopwords);
+    LOG.info("Stopwords: " + args.stopwords);
     LOG.info("Store positions? " + args.storePositions);
     LOG.info("Store docvectors? " + args.storeDocvectors);
     LOG.info("Store document \"contents\" field? " + args.storeContents);
@@ -805,6 +806,9 @@ public final class IndexCollection {
         config = new IndexWriterConfig(turkishAnalyzer);
       } else if (args.language.equals("zh") || args.language.equals("ko")) {
         config = new IndexWriterConfig(chineseAnalyzer);
+      } else if (args.language.equals("sw") || args.language.equals("te")) {
+        // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
+        config = new IndexWriterConfig(whitespaceAnalyzer);
       } else if (args.pretokenized) {
         config = new IndexWriterConfig(whitespaceAnalyzer);
       } else {

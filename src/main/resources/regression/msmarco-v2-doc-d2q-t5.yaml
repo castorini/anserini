@@ -1,0 +1,74 @@
+---
+corpus: msmarco-v2-doc-d2q-t5
+corpus_path: collections/msmarco/msmarco_v2_doc_d2q-t5/
+
+index_path: indexes/lucene-index.msmarco-v2-doc-d2q-t5/
+collection_class: MsMarcoV2DocCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 24
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 11959635
+  documents (non-empty): 11959635
+  total terms: 19760777295
+
+metrics:
+  - metric: MAP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev
+    path: topics.msmarco-v2-doc.dev.txt
+    qrel: qrels.msmarco-v2-doc.dev.txt
+  - name: "[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev2
+    path: topics.msmarco-v2-doc.dev2.txt
+    qrel: qrels.msmarco-v2-doc.dev2.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25
+    results:
+      MAP@100:
+        - 0.1988
+        - 0.1986
+      MRR@100:
+        - 0.2011
+        - 0.2012
+      R@100:
+        - 0.6786
+        - 0.6821
+      R@1000:
+        - 0.8614
+        - 0.8568
