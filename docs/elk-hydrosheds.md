@@ -772,18 +772,18 @@ To test Elastic Search, we can try to query for the segment of Grand River in Wa
 
 After you’re done creating it, go to Analytics → Maps. Select Add Layer → Documents → Select the index pattern that you’ve just created. Choose `Use vector tiles` for scaling because our dataset is too large. If you zoom in near Toronto, you should see something similar to this:
     
-    ![Untitled](Elastic%20Search%20on%20Rivers%204d0ee491ec1b4d779103899d006f0dda/Untitled.png)
+    ![Untitled](https://user-images.githubusercontent.com/42086645/151693301-ddf44696-b7d9-43f5-8a49-d3fd86ebae09.png)
     
     Zoom in to the Waterloo region:
     
-    ![Untitled](Elastic%20Search%20on%20Rivers%204d0ee491ec1b4d779103899d006f0dda/Untitled%201.png)
+    ![Untitled 1](https://user-images.githubusercontent.com/42086645/151693309-3353c735-0b79-4ac5-a0a0-9369edf7db6f.png)
     
     Click on the wrench on the left, and you can choose a way to filter your data:
-    
-    ![Screen Shot 2022-01-30 at 3.47.19 AM.png](Elastic%20Search%20on%20Rivers%204d0ee491ec1b4d779103899d006f0dda/Screen_Shot_2022-01-30_at_3.47.19_AM.png)
+
+    ![Screen_Shot_2022-01-30_at_3 47 19_AM](https://user-images.githubusercontent.com/42086645/151693319-76bcb080-6db0-40f4-b49f-cd8153197151.png)
     
     A quick way to do so is to choose the first option, then Spatial relation: `within` inside that option, and draw something like this:
-    
-    ![Untitled](Elastic%20Search%20on%20Rivers%204d0ee491ec1b4d779103899d006f0dda/Untitled%202.png)
+
+    ![Untitled 2](https://user-images.githubusercontent.com/42086645/151693314-79b373af-4e5d-4bfc-8682-ee718eb7b456.png)
     
     The green line shows the Grand River segment queried.
