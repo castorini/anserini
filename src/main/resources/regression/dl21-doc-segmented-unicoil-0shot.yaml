@@ -59,8 +59,8 @@ topics:
     qrel: qrels.dl21-doc.txt
 
 models:
-  - name: unicoil-noexp-0shot
-    display: uniCOIL (no expansion, zero-shot)
+  - name: unicoil-0shot
+    display: uniCOIL (zero-shot)
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized
     results:
       MAP@100:

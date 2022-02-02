@@ -56,8 +56,8 @@ topics:
     qrel: qrels.msmarco-v2-passage.dev2.txt
 
 models:
-  - name: unicoil-noexp-0shot
-    display: uniCOIL (no expansion, zero-shot)
+  - name: unicoil-0shot
+    display: uniCOIL (zero-shot)
     params: -impact -pretokenized
     results:
       MAP@100:

@@ -59,8 +59,8 @@ topics:
     qrel: qrels.dl21-passage.txt
 
 models:
-  - name: unicoil-noexp-0shot
-    display: uniCOIL (no expansion, zero-shot)
+  - name: unicoil-0shot
+    display: uniCOIL (zero-shot)
     params: -impact -pretokenized
     results:
       MAP@100:
