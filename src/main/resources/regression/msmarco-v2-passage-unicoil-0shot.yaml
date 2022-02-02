@@ -10,7 +10,7 @@ index_options: -impact -pretokenized
 index_stats:
   documents: 138364198
   documents (non-empty): 138364198
-  total terms: 411330032512
+  total terms: 775253560148
 
 metrics:
   - metric: MAP@100
@@ -61,14 +61,14 @@ models:
     params: -impact -pretokenized
     results:
       MAP@100:
-        - 0.1333
-        - 0.1374
+        - 0.1485
+        - 0.1538
       MRR@100:
-        - 0.1342
-        - 0.1385
+        - 0.1499
+        - 0.1552
       R@100:
-        - 0.4976
-        - 0.5217
+        - 0.5433
+        - 0.5596
       R@1000:
-        - 0.7010
-        - 0.7114
+        - 0.7521
+        - 0.7593
