@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-v2-passage-unicoil-noexp-0shot
-corpus_path: collections/msmarco/msmarco_v2_passage_unicoil_noexp_0shot/
+corpus: msmarco-v2-passage-unicoil-0shot
+corpus_path: collections/msmarco/msmarco_v2_passage_unicoil_0shot/
 
-index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/
+index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18
@@ -10,7 +10,7 @@ index_options: -impact -pretokenized
 index_stats:
   documents: 138364198
   documents (non-empty): 138364198
-  total terms: 411330032512
+  total terms: 775253560148
 
 metrics:
   - metric: MAP@100
