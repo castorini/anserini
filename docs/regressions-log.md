@@ -3,6 +3,53 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### January 20, 2022
+
++ commit [`1be47b`](https://github.com/castorini/anserini/commit/1be47b95cbc722fff1b883a6b91a92632a00461e) (01/20/2022)
+
+Added MS MARCO (V2) {doc, segmented doc, passage, augmented passage} regressions for doc2query-T5 expansions (both dev/dev2 queries as well as TREC 2021 DL Track).
+
+### January 8, 2022
+
++ commit [`6fcb89`](https://github.com/castorini/anserini/commit/6fcb896c61e2b8cf2f235def3e95dda5fe4cd2fc) (01/08/2022)
++ commit [`f0502c`](https://github.com/castorini/anserini/commit/f0502cc7cf4978b266b6427a594e6c57e524fd8e) (11/16/2022)
+
+Rebuilt all MS MARCO (V1) doc regressions from scratch to fix segmentation issues described [here](experiments-msmarco-doc-doc2query-details.md).
+
+### December 15, 2021
+
++ commit [`151404`](https://github.com/castorini/anserini/commit/15140448d6b6dbf12d7461fc4d90cfb3f4529f69) (12/15/2021)
++ commit [`aee51a`](https://github.com/castorini/anserini/commit/aee51adefe9d2b8f178df37abc5b236b185c5bab) (12/05/2021)
+
+Added regressions for Mr.TyDi (v1.1).
+
+### December 13, 2021
+
++ commit [`64f4d1`](https://github.com/castorini/anserini/commit/64f4d1e226e5e478ebb5cec93f3e4705d09d4326) (12/13/2021)
++ commit [`12149f`](https://github.com/castorini/anserini/commit/12149f87457f4eeff3818a76be1331f5a8a60c75) (12/09/2021)
+
+Expanded regressions for TREC Disks 4 &amp; 5.
+
+### November 25, 2021
+
++ commit [`47685b`](https://github.com/castorini/anserini/commit/47685b1c42375c1a46404effdd866dc01c424358) (11/25/2021)
++ commit [`1c5f64`](https://github.com/castorini/anserini/commit/1c5f640ee566c74d45f9c558f518b188e6473748) (11/18/2021)
+
+Added regressions for MS MARCO V2 (dev2) and TREC 2021 DL Track queries; add uniCOIL noexp zero-shot results.
+
+### October 18, 2021
+
++ commit [`828d05`](https://github.com/castorini/anserini/commit/828d05f77e3e0655c059cba07e576c67a9378c77) (10/18/2021)
++ commit [`cf5c4f`](https://github.com/castorini/anserini/commit/cf5c4fb9e8d2d8a8d883b0f0f9b778908cb49a6d) (10/16/2021)
+
+Refactored regressions for DeepImpact and uniCOIL on MS MARCO passage, added SPLADEv2.
+
+### October 9, 2021
+
++ commit [`f8b7cd`](https://github.com/castorini/anserini/commit/f8b7cd9f8d1d11ca8b5415cf868b60676aff5472) (10/09/2021)
+
+Major refactoring of MS MARCO V2 naming conventions.
+
 ### September 5, 2021
 
 + commit [`f79fb6`](https://github.com/castorini/anserini/commit/f79fb67845b4b68b8c177eacb5832c209847dc29) (09/05/2021)

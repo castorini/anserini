@@ -1,132 +1,122 @@
 ---
-name: msmarco-v2-doc-segmented
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-collection: MsMarcoV2DocCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 18
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: TsvInt
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m map
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: map
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -M 100
-      - -m recip_rank
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: MRR@100
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.100
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: R@100
-    metric_precision: 4
-    can_combine: false
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.1000
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: R@1000
-    metric_precision: 4
-    can_combine: false
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/msmarco_v2_doc_segmented
-index_path: indexes/lucene-index.msmarco-v2-doc-segmented.pos+docvectors+raw
+corpus: msmarco-v2-doc-segmented
+corpus_path: collections/msmarco/msmarco_v2_doc_segmented/
+
+index_path: indexes/lucene-index.msmarco-v2-doc-segmented/
+collection_class: MsMarcoV2DocCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 18
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 124131414
   documents (non-empty): 124131414
   total terms: 24780915974
+
+metrics:
+  - metric: MAP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev
     path: topics.msmarco-v2-doc.dev.txt
     qrel: qrels.msmarco-v2-doc.dev.txt
+  - name: "[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev2
+    path: topics.msmarco-v2-doc.dev2.txt
+    qrel: qrels.msmarco-v2-doc.dev2.txt
+
 models:
   - name: bm25-default
     display: BM25 (default)
-    params:
-      - -bm25
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    params: -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
+      MAP@100:
         - 0.1875
+        - 0.1903
       MRR@100:
         - 0.1896
+        - 0.1930
       R@100:
         - 0.6555
+        - 0.6629
       R@1000:
         - 0.8542
+        - 0.8549
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    params: -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
+      MAP@100:
         - 0.1648
+        - 0.1679
       MRR@100:
         - 0.1664
+        - 0.1701
       R@100:
         - 0.6558
+        - 0.6561
       R@1000:
         - 0.8605
+        - 0.8633
   - name: bm25-default+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
+      MAP@100:
         - 0.1344
+        - 0.1345
       MRR@100:
         - 0.1360
+        - 0.1366
       R@100:
         - 0.5593
+        - 0.5800
       R@1000:
         - 0.8161
+        - 0.8210
   - name: bm25-default+prf
     display: +PRF
-    params:
-      - -bm25
-      - -bm25prf
-      - -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    params: -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      map:
+      MAP@100:
         - 0.1528
+        - 0.1565
       MRR@100:
         - 0.1547
+        - 0.1587
       R@100:
         - 0.5945
+        - 0.6134
       R@1000:
         - 0.8270
+        - 0.8280

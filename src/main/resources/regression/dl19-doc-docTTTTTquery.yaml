@@ -1,0 +1,87 @@
+---
+corpus: msmarco-doc-docTTTTTquery
+corpus_path: collections/msmarco/msmarco-doc-docTTTTTquery/
+
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 7
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 3213835
+  documents (non-empty): 3213835
+  total terms: 3748333319
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
+    id: dl19
+    path: topics.dl19-doc.txt
+    qrel: qrels.dl19-doc.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -hits 100  # Note, this is different DL 2019 passage ranking!
+    results:
+      MAP:
+        - 0.2700
+      nDCG@10:
+        - 0.5968
+      R@100:
+        - 0.4198
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
+    results:
+      MAP:
+        - 0.3045
+      nDCG@10:
+        - 0.5897
+      R@100:
+        - 0.4465
+  - name: bm25-tuned
+    display: BM25 (tuned)
+    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100  # Note, this is different DL 2019 passage ranking!
+    results:
+      MAP:
+        - 0.2620
+      nDCG@10:
+        - 0.5972
+      R@100:
+        - 0.3992
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100  # Note, this is different DL 2019 passage ranking!
+    results:
+      MAP:
+        - 0.2814
+      nDCG@10:
+        - 0.6080
+      R@100:
+        - 0.4119

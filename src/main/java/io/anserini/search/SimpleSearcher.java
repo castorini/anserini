@@ -492,9 +492,11 @@ public class SimpleSearcher implements Closeable {
         } catch (IOException e) {
           throw new CompletionException(e);
         }
-        // logging for speed
+        // Logging to track query latency.
+        // Note that this is potentially noisy because it might interfere with tqdm on the Python side; logging
+        // every 500 queries seems like a reasonable comprise between offering helpful info and not being too noisy.
         Long lineNumber = index.incrementAndGet();
-        if (lineNumber % 100 == 0) {
+        if (lineNumber % 500 == 0) {
           double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
           LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)", timePerQuery));
         }

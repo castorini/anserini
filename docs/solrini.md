@@ -52,7 +52,7 @@ Indexing into Solr is similar indexing to disk with Lucene, with a few added par
 Most notably, we replace the `-index` parameter (which specifies the Lucene index path on disk) with Solr parameters.
 Alternatively, Solr can also be configured to [read prebuilt Lucene index](#solr-with-prebuilt-lucene-index), since Solr uses Lucene indexes under the hood.
 
-We'll index [Robust04](regressions-robust04.md) as an example.
+We'll index [Robust04](regressions-disk45.md) as an example.
 First, create the `robust04` collection in Solr:
 
 ```
@@ -191,3 +191,5 @@ The regression script has been verified to work for [`robust04`](regressions-rob
 + Results reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04 `robust04`](regressions-robust04.md), [Washington Post `core18`](regressions-core18.md), and [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
 + Results reproduced by [@lintool](https://github.com/lintool) on 2020-11-10 (commit [`e19755`](https://github.com/castorini/anserini/commit/e19755b5fa976127830597bc9fbca203b9f5ad24)), all commands and end-to-end regression script for all four collections
 + Results reproduced by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-10 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for [MS MARCO Passage](regressions-msmarco-passage.md)
++ Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2021-01-13 (commit [`a62aca0`](https://github.com/castorini/anserini/commit/a62aca06c1603617207c1c148133de0f90f24738)) for [MS MARCO Passage](regressions-msmarco-passage.md) and [MS MARCO Document](regressions-msmarco-doc.md)
++ Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2022-01-21 (commit [`a81299e5`](https://github.com/castorini/anserini/commit/a81299e59eff24512d635e0d49fba6e373286469)) for [MS MARCO Document](regressions-msmarco-doc.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
