@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(103, cnt);
+    assertEquals(104, cnt);
   }
 
   @Test
@@ -750,6 +750,20 @@ public class TopicReaderTest {
     assertEquals(1136962, (int) topics.lastKey());
     assertEquals("why did the ancient egyptians call their land kemet, or black land?", topics.get(topics.lastKey()).get("title"));
     assertEquals("who is aziz hashim", topics.get(1030303).get("title"));
+  }
+
+  @Test
+  public void testTREC21DL() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2021_DL);
+    assertNotNull(topics);
+    assertEquals(477, topics.size());
+    assertEquals(2082, (int) topics.firstKey());
+    assertEquals("At about what age do adults normally begin to lose bone mass?", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1136769, (int) topics.lastKey());
+    assertEquals("why does lacquered brass tarnish", topics.get(topics.lastKey()).get("title"));
+    assertEquals("who killed nicholas ii of russia", topics.get(1043135).get("title"));
   }
 
   @Test
