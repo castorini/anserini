@@ -62,27 +62,27 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP@100                                 | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.2475    |
+[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.2617    |
 
 
 MRR@100                                 | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.9122    |
+[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.9298    |
 
 
 nDCG@10                                 | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.6282    |
+[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.6308    |
 
 
 R@100                                   | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.3497    |
+[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.3585    |
 
 
 R@1000                                  | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.6767    |
+[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.6958    |
 
 This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
 The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.

@@ -50,7 +50,7 @@ topics:
     id: dev
     path: topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz
     qrel: qrels.msmarco-v2-doc.dev.txt
-  - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+  - name: "[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev2
     path: topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz
     qrel: qrels.msmarco-v2-doc.dev2.txt
