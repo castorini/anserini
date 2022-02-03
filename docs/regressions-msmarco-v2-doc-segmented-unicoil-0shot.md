@@ -33,25 +33,25 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz -topicreader TsvInt \
+  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz -topicreader TsvInt \
+  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz
 ```
 
 ## Effectiveness
@@ -60,23 +60,23 @@ With the above commands, you should be able to reproduce the following results:
 
 MAP@100                                 | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2204    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2238    |
+[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2218    |
+[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2270    |
 
 
 MRR@100                                 | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2229    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2257    |
+[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2243    |
+[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2291    |
 
 
 R@100                                   | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.7483    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.7486    |
+[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.7551    |
+[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.7550    |
 
 
 R@1000                                  | uniCOIL (zero-shot)|
 :---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.9012    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.9094    |
+[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.9056    |
+[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.9097    |
