@@ -55,7 +55,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl21
-    path: topics.dl21.unicoil-noexp.0shot.tsv.gz
+    path: topics.dl21.unicoil.0shot.tsv.gz
     qrel: qrels.dl21-doc.txt
 
 models:
@@ -64,12 +64,12 @@ models:
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized
     results:
       MAP@100:
-        - 0.2617
+        - 0.2652
       MRR@100:
-        - 0.9298
+        - 0.9576
       nDCG@10:
-        - 0.6308
+        - 0.6392
       R@100:
-        - 0.3585
+        - 0.3664
       R@1000:
-        - 0.6958
+        - 0.7053

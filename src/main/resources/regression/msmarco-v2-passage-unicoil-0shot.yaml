@@ -48,11 +48,11 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev
-    path: topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz
+    path: topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz
     qrel: qrels.msmarco-v2-passage.dev.txt
   - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev2
-    path: topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz
+    path: topics.msmarco-v2-passage.dev2.unicoil.0shot.tsv.gz
     qrel: qrels.msmarco-v2-passage.dev2.txt
 
 models:
@@ -62,13 +62,13 @@ models:
     results:
       MAP@100:
         - 0.1485
-        - 0.1538
+        - 0.1561
       MRR@100:
         - 0.1499
-        - 0.1552
+        - 0.1577
       R@100:
-        - 0.5433
-        - 0.5596
+        - 0.5518
+        - 0.5661
       R@1000:
-        - 0.7521
-        - 0.7593
+        - 0.7616
+        - 0.7671
