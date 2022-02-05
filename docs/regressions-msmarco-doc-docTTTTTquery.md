@@ -103,13 +103,13 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.68 -b 0.87 -threads 9 \
-   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw \
-   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-   -output runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.txt
+    -index indexes/lucene-index.msmarco-doc-docTTTTTquery \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
-   --run runs/run.msmarco-doc-docTTTTTquery-per-doc.bm25-tuned.txt
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt
 
 #####################
 MRR @100: 0.3265190296491929
@@ -118,3 +118,48 @@ QueriesRanked: 5193
 ```
 
 This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per document), parameters tuned for recall@100 (k1=4.68, b=0.87)" dated 2020/12/11, and is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
+
+As of February 2022, following resolution of [#1721](https://github.com/castorini/anserini/issues/1721), BM25 runs for the MS MARCO leaderboard can be generated with the commands below.
+For default parameters (`k1=0.9`, `b=0.4`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.txt \
+    -format msmarco \
+    -bm25 -hits 100
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc-docTTTTTquery.bm25-default.txt
+
+#####################
+MRR @100: 0.2880115937357742
+QueriesRanked: 5193
+#####################
+```
+
+For tuned parameters (`k1=4.68`, `b=0.87`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt \
+    -format msmarco \
+    -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt
+
+#####################
+MRR @100: 0.3268656233100833
+QueriesRanked: 5193
+#####################
+```
+
+Note that the resolution of [#1721](https://github.com/castorini/anserini/issues/1721) _did_ slightly change the results, since we corrected underlying issues with data preparation.
