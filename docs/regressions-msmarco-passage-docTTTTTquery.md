@@ -120,13 +120,13 @@ The following command generates with `SearchMsmarco` the run denoted "BM25 (tune
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
-    -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
-    -queries collections/msmarco-passage/queries.dev.small.tsv \
+    -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
     -k1 0.82 -b 0.68 \
     -output runs/run.msmarco-passage-docTTTTTquery.1
 
 $ python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery.1
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.1
 
 #####################
 MRR @10: 0.27680089370991834
@@ -145,13 +145,13 @@ This does _not_ correspond to an official leaderboard submission.
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
-    -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
-    -queries collections/msmarco-passage/queries.dev.small.tsv \
+    -index indexes/lucene-index.msmarco-passage-docTTTTTquery \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
     -k1 2.18 -b 0.86 \
     -output runs/run.msmarco-passage-docTTTTTquery.2
 
 $ python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery.2
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.2
 
 #####################
 MRR @10: 0.281560751807885
@@ -160,3 +160,46 @@ QueriesRanked: 6980
 ```
 
 This corresponds to the scores reported in the Lin et al. (SIGIR 2021) Pyserini paper.
+
+As of February 2022, following resolution of [#1730](https://github.com/castorini/anserini/issues/1730), BM25 runs for the MS MARCO leaderboard can be generated with the commands below.
+For parameters `k1=0.82`, `b=0.68`:
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-passage-docTTTTTquery.1 \
+    -format msmarco \
+    -bm25 -bm25.k1 0.82 -bm25.b 0.68
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.1
+
+#####################
+MRR @10: 0.27680089370991834
+QueriesRanked: 6980
+#####################
+```
+
+For parameters `k1=2.18`, `b=0.86`:
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-passage-docTTTTTquery.2 \
+    -format msmarco \
+    -bm25 -bm25.k1 2.18 -bm25.b 0.86
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.2
+
+#####################
+MRR @10: 0.281560751807885
+QueriesRanked: 6980
+#####################
+```
+
+Note that the resolution of [#1730](https://github.com/castorini/anserini/issues/1730) did not change the results.

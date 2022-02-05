@@ -134,13 +134,13 @@ The following command generates with `SearchMsmarco` the run denoted "BM25 (defa
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
-   -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
-   -queries collections/msmarco-passage/queries.dev.small.tsv \
-   -k1 0.9 -b 0.4 \
-   -output runs/run.msmarco-passage.bm25.default.tsv
+    -index indexes/lucene-index.msmarco-passage/ \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -k1 0.9 -b 0.4 \
+    -output runs/run.msmarco-passage.bm25.default.tsv
 
 $ python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.bm25.default.tsv
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.default.tsv
 
 #####################
 MRR @10: 0.18398616227770961
@@ -152,16 +152,59 @@ The following command generates with `SearchMsmarco` the run denoted "BM25 (tune
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
-   -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
-   -queries collections/msmarco-passage/queries.dev.small.tsv \
-   -k1 0.82 -b 0.68 \
-   -output runs/run.msmarco-passage.bm25.tuned.tsv
+    -index indexes/lucene-index.msmarco-passage/ \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -k1 0.82 -b 0.68 \
+    -output runs/run.msmarco-passage.bm25.tuned.tsv
 
 $ python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.bm25.tuned.tsv
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.tuned.tsv
 
 #####################
 MRR @10: 0.18741227770955546
 QueriesRanked: 6980
 #####################
 ```
+
+As of February 2022, following resolution of [#1730](https://github.com/castorini/anserini/issues/1730), BM25 runs for the MS MARCO leaderboard can be generated with the commands below.
+For default parameters (`k1=0.9`, `b=0.4`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-passage/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-passage.bm25.default.tsv \
+    -format msmarco \
+    -bm25
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.default.tsv
+
+#####################
+MRR @10: 0.18398616227770961
+QueriesRanked: 6980
+#####################
+```
+
+For tuned parameters (`k1=0.82`, `b=0.68`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-passage/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-passage.bm25.tuned.tsv \
+    -format msmarco \
+    -bm25 -bm25.k1 0.82 -bm25.b 0.68
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.tuned.tsv
+
+#####################
+MRR @10: 0.18741227770955546
+QueriesRanked: 6980
+#####################
+```
+
+Note that the resolution of [#1730](https://github.com/castorini/anserini/issues/1730) did not change the results.

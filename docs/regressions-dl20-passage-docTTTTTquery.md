@@ -157,3 +157,5 @@ Some of these regressions correspond to official TREC 2020 Deep Learning Track s
 
 + `p_d2q_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
 + `p_d2q_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
+
+Note this regression was revamped as part of [#1730](https://github.com/castorini/anserini/issues/1730), but the results did not change.
