@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-v2-passage-unicoil-noexp-0shot
-corpus_path: collections/msmarco/msmarco_v2_passage_unicoil_noexp_0shot/
+corpus: msmarco-v2-passage-unicoil-0shot
+corpus_path: collections/msmarco/msmarco_v2_passage_unicoil_0shot/
 
-index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/
+index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18
@@ -10,7 +10,7 @@ index_options: -impact -pretokenized
 index_stats:
   documents: 138364198
   documents (non-empty): 138364198
-  total terms: 411330032512
+  total terms: 775253560148
 
 metrics:
   - metric: MAP@100
@@ -55,21 +55,21 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl21
-    path: topics.dl21.unicoil-noexp.0shot.tsv.gz
+    path: topics.dl21.unicoil.0shot.tsv.gz
     qrel: qrels.dl21-passage.txt
 
 models:
-  - name: unicoil-noexp-0shot
-    display: uniCOIL (no expansion, zero-shot)
+  - name: unicoil-0shot
+    display: uniCOIL (zero-shot)
     params: -impact -pretokenized
     results:
       MAP@100:
-        - 0.2193
+        - 0.2538
       MRR@100:
-        - 0.6991
+        - 0.7311
       nDCG@10:
-        - 0.5756
+        - 0.6159
       R@100:
-        - 0.4246
+        - 0.4731
       R@1000:
-        - 0.6897
+        - 0.7551
