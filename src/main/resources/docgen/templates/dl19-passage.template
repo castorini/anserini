@@ -66,3 +66,5 @@ These regressions correspond to official TREC 2019 Deep Learning Track submissio
 + `bm25tuned_rm3_p` = BM25 (tuned) + RM3, `k1=0.82`, `b=0.68`
 + `bm25tuned_ax_p` = BM25 (tuned) + Ax, `k1=0.82`, `b=0.68`
 + `bm25tuned_prf_p` = BM25 (tuned) + PRF, `k1=0.82`, `b=0.68`
+
+Note this regression was revamped as part of [#1730](https://github.com/castorini/anserini/issues/1730), but the results did not change.
