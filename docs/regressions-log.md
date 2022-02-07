@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### February 5, 2022
+
++ commit [`4c33f1`](https://github.com/castorini/anserini/commit/4c33f137f81c9e6fef030befd2a6e089cfe0ab78) (02/05/2022)
+
+Added uniCOIL (with d2q-T5 expansions) regressions on MS MARCO V2 (both dev/dev2 queries as well as TREC 2021 DL Track).
+Tweaked noexp regressions to make consistent.
+
 ### January 20, 2022
 
 + commit [`1be47b`](https://github.com/castorini/anserini/commit/1be47b95cbc722fff1b883a6b91a92632a00461e) (01/20/2022)
