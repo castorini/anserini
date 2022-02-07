@@ -1,0 +1,75 @@
+---
+corpus: msmarco-passage-unicoil
+corpus_path: collections/msmarco/msmarco-passage-unicoil/
+
+index_path: indexes/lucene-index.msmarco-passage-unicoil/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 44495093768
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: MRR
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recip_rank -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.unicoil.0shot.tsv.gz
+    qrel: qrels.dl20-passage.txt
+
+models:
+  - name: unicoil
+    display: uniCOIL w/ doc2query-T5 expansion
+    params: -impact -pretokenized
+    results:
+      MAP:
+        - 0.4430
+      nDCG@10:
+        - 0.6745
+      MRR:
+        - 0.8235
+      R@100:
+        - 0.7006
+      R@1000:
+        - 0.8430
