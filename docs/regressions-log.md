@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### February 7, 2022
+
++ commit [`51c386`](https://github.com/castorini/anserini/commit/51c386a22f5ca8b749ccb0eb200c3ee135e504eb) (02/07/2022)
+
+Added uniCOIL regressions for MS MARCO V1: missing regressions for uniCOIL passage on DL19, DL20, and brand new regressions for uniCOIL segmented doc on dev, DL19, and DL20.
+
 ### February 5, 2022
 
 + commit [`4c33f1`](https://github.com/castorini/anserini/commit/4c33f137f81c9e6fef030befd2a6e089cfe0ab78) (02/05/2022)
