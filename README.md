@@ -65,7 +65,7 @@ For the most part, these runs are based on [_default_ parameter settings](https:
   + Document ranking, sparse learned models: [uniCOIL with doc2query-T5](docs/regressions-dl19-doc-segmented-unicoil.md)
 + Regressions for TREC 2020 Deep Learning Track:
   + Passage ranking: [baselines](docs/regressions-dl20-passage.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
-  + Passage ranking, sparse learned models: [uniCOIL with doc2query-T5](docs/regressions-dl19-passage-unicoil.md)
+  + Passage ranking, sparse learned models: [uniCOIL with doc2query-T5](docs/regressions-dl20-passage-unicoil.md)
   + Document ranking, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
   + Document ranking, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc-segmented.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
   + Document ranking, sparse learned models: [uniCOIL with doc2query-T5](docs/regressions-dl20-doc-segmented-unicoil.md)
