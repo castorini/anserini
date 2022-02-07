@@ -5,7 +5,7 @@ These runs use the uniCOIL model described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
-The paper does not actually report on the experiments here; these were created after the paper was posted on arXiv.
+The experiments on this page are not actually reported in the paper.
 However, the model is the same.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
@@ -23,7 +23,6 @@ ${index_cmds}
 ```
 
 The directory `/path/to/msmarco-passage-unicoil/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
-See [this page](experiments-msmarco-unicoil.md) for additional details.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
