@@ -12,7 +12,23 @@ Retrieval uses MaxP technique, where we select the score of the highest-scoring 
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-unicoil.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
-Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+
+## Corpus
+
+We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+Thus, no neural inference is involved.
+For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
+
+Download the corpus and unpack into `collections/`:
+
+```
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar -P collections/
+
+tar xvf collections/msmarco-doc-segmented-unicoil.tar -C collections/
+```
+
+To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
 
 ## Indexing
 
@@ -22,7 +38,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/msmarco-doc-segmented-unicoil/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+The directory `/path/to/msmarco-doc-segmented-unicoil/` should point to the corpus downloaded above.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -48,3 +64,38 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
+
+This model corresponds to the run named "uniCOIL-d2q" on the official MS MARCO Document Ranking Leaderboard, submitted 2021/09/16.
+The following command generates a comparable run:
+
+```
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-doc-segmented-unicoil.msmarco-doc.dev.txt \
+  -format msmarco \
+  -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+```
+
+Note that the above command uses `-format msmarco` to directly generate a run in the MS MARCO output format.
+And to evaluate:
+
+```bash
+python tools/scripts/msmarco/msmarco_doc_eval.py \
+  --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+  --run runs/run.msmarco-doc-segmented-unicoil.msmarco-doc.dev.txt
+```
+
+The results should be as follows:
+
+```
+#####################
+MRR @100: 0.352997702662614
+QueriesRanked: 5193
+#####################
+```
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.

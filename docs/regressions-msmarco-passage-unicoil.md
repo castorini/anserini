@@ -8,7 +8,23 @@ The uniCOIL model is described in the following paper:
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-unicoil.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-unicoil.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+
+## Corpus
+
+We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+Thus, no neural inference is involved.
+For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
+
+Download the corpus and unpack into `collections/`:
+
+```
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar -P collections/
+
+tar xvf collections/msmarco-passage-unicoil.tar -C collections/
+```
+
+To confirm, `msmarco-passage-unicoil.tar` is 3.3 GB and has MD5 checksum `78eef752c78c8691f7d61600ceed306f`.
 
 ## Indexing
 
@@ -24,7 +40,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.msmarco-passage-unicoil &
 ```
 
-The directory `/path/to/msmarco-passage-unicoil/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+The path `/path/to/msmarco-passage-unicoil/` should point to the corpus downloaded above.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -90,3 +106,8 @@ QueriesRanked: 6980
 ```
 
 This corresponds to the effectiveness reported in the paper.
+This is also the run named "uniCOIL-d2q" on the official MS MARCO Passage Ranking Leaderboard, submitted 2021/09/22.
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
