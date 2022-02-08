@@ -12,11 +12,27 @@ Note that the NIST relevance judgments provide far more relevant passages per to
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-passage-unicoil.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+
+## Corpus
+
+We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+Thus, no neural inference is involved.
+For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
+
+Download the corpus and unpack into `collections/`:
+
+```
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar -P collections/
+
+tar xvf collections/msmarco-passage-unicoil.tar -C collections/
+```
+
+To confirm, `msmarco-passage-unicoil.tar` is 3.3 GB and has MD5 checksum `78eef752c78c8691f7d61600ceed306f`.
 
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \
@@ -28,7 +44,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.msmarco-passage-unicoil &
 ```
 
-The directory `/path/to/msmarco-passage-unicoil/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+The path `/path/to/msmarco-passage-unicoil/` should point to the corpus downloaded above.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -85,3 +101,7 @@ R@100                                   | uniCOIL w/ doc2query-T5 expansion|
 R@1000                                  | uniCOIL w/ doc2query-T5 expansion|
 :---------------------------------------|-----------|
 [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.8430    |
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.

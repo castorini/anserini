@@ -32,7 +32,7 @@ To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6
 
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \
