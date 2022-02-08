@@ -39,8 +39,9 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-distill-splade-max/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz -topicreader TsvInt \
-  -output runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.txt \
   -impact -pretokenized &
 ```
 

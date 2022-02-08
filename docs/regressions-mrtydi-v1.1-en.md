@@ -29,18 +29,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-english/ \
-  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-en.train.txt.gz -topicreader TsvInt \
-  -output runs/run.mrtydi-v1.1-en.bm25.topics.mrtydi-v1.1-en.train.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-en.train.txt.gz \
+  -topicreader TsvInt \
+  -output runs/run.mrtydi-v1.1-en.bm25.topics.mrtydi-v1.1-en.train.txt \
   -bm25 -hits 100 -language en &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-english/ \
-  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-en.dev.txt.gz -topicreader TsvInt \
-  -output runs/run.mrtydi-v1.1-en.bm25.topics.mrtydi-v1.1-en.dev.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-en.dev.txt.gz \
+  -topicreader TsvInt \
+  -output runs/run.mrtydi-v1.1-en.bm25.topics.mrtydi-v1.1-en.dev.txt \
   -bm25 -hits 100 -language en &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-english/ \
-  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-en.test.txt.gz -topicreader TsvInt \
-  -output runs/run.mrtydi-v1.1-en.bm25.topics.mrtydi-v1.1-en.test.txt.gz \
+  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-en.test.txt.gz \
+  -topicreader TsvInt \
+  -output runs/run.mrtydi-v1.1-en.bm25.topics.mrtydi-v1.1-en.test.txt \
   -bm25 -hits 100 -language en &
 ```
 

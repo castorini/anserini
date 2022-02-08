@@ -44,67 +44,79 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.bm25.topics.microblog2013.txt \
   -searchtweets -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.bm25.topics.microblog2014.txt \
   -searchtweets -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.bm25+rm3.topics.microblog2013.txt \
   -searchtweets -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.bm25+rm3.topics.microblog2014.txt \
   -searchtweets -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.bm25+ax.topics.microblog2013.txt \
   -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.bm25+ax.topics.microblog2014.txt \
   -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.ql.topics.microblog2013.txt \
   -searchtweets -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.ql.topics.microblog2014.txt \
   -searchtweets -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.ql+rm3.topics.microblog2013.txt \
   -searchtweets -qld -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.ql+rm3.topics.microblog2014.txt \
   -searchtweets -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.ql+ax.topics.microblog2013.txt \
   -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -topicreader Microblog \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topicreader Microblog \
   -output runs/run.mb13.ql+ax.topics.microblog2014.txt \
   -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 ```
