@@ -49,25 +49,29 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl20.txt \
   -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100 &
 ```

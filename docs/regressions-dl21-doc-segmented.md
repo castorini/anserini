@@ -47,25 +47,29 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl21.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl21.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+ax.topics.dl21.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+prf.topics.dl21.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -bm25prf &
 ```

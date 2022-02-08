@@ -234,12 +234,23 @@ public class DataModel {
     StringBuilder builder = new StringBuilder();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
+        // Strip suffixes (e.g., gz) to avoid confusion.
+        String modifiedPath = topic.getPath();
+        if (modifiedPath.endsWith(".gz")) {
+          modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".gz"));
+        }
+        if (modifiedPath.endsWith(".txt")) {
+          modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".txt"));
+        }
+        if (modifiedPath.endsWith(".tsv")) {
+          modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".tsv"));
+        }
+
         builder.append(SEARCH_COMMAND).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
-        builder
-            .append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString())
-            .append(" -topicreader").append(" ").append(getTopic_reader()).append(" \\\n");
-        builder.append("  -output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
+        builder.append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
+        builder.append("  -topicreader").append(" ").append(getTopic_reader()).append(" \\\n");
+        builder.append("  -output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+modifiedPath+ ".txt").append(" \\\n");
         if (model.getParams() != null) {
           builder.append("  ").append(model.getParams());
         }

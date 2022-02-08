@@ -41,8 +41,9 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz -topicreader TsvInt \
-  -output runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
