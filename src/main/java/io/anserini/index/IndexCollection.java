@@ -694,7 +694,13 @@ public final class IndexCollection {
       }
     }
 
-    collectionPath = Paths.get(args.input);
+    // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work, we assume
+    // collections/ as the path location.
+    String pathStr = args.input;
+    if (pathStr.startsWith("/path/to")) {
+      pathStr = pathStr.replace("/path/to", "collections");
+    }
+    collectionPath = Paths.get(pathStr);
     if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
       throw new RuntimeException("Document directory " + collectionPath.toString() + " does not exist or is not readable, please check the path");
     }

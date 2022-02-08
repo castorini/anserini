@@ -34,12 +34,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-d2q-t5/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-d2q-t5/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev2.txt \
   -bm25 &
 ```

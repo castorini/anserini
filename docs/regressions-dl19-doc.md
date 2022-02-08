@@ -49,49 +49,57 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt \
   -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+prf.topics.dl19-doc.txt \
   -bm25 -bm25prf -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+prf.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf -hits 100 &
 ```
