@@ -86,8 +86,7 @@ QueriesRanked: 6980
 #####################
 ```
 
-This corresponds to the effectiveness reported in the paper.
-This is also the run named "uniCOIL-d2q" on the official MS MARCO Passage Ranking Leaderboard, submitted 2021/09/22.
+This corresponds to the effectiveness reported in the paper and also the run named "uniCOIL-d2q" on the official MS MARCO Passage Ranking Leaderboard, submitted 2021/09/22.
 
 ## Reproduction Log[*](reproducibility.md)
 
