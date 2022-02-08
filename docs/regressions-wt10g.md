@@ -34,37 +34,43 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topicreader Trec \
   -output runs/run.wt10g.bm25.topics.adhoc.451-550.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topicreader Trec \
   -output runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topicreader Trec \
   -output runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt \
   -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topicreader Trec \
   -output runs/run.wt10g.ql.topics.adhoc.451-550.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topicreader Trec \
   -output runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topicreader Trec \
   -output runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt \
   -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 ```
