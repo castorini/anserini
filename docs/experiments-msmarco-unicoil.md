@@ -7,5 +7,5 @@ This page describes how to reproduce the uniCOIL experiments in the following pa
 To reduce duplication in documentation, we provide the following pointers:
 
 + For instructions on how to perform end-to-end experiments in Python, see [this guide](https://github.com/castorini/pyserini/blob/master/docs/experiments-unicoil.md).
-+ For instructions on how to perform end-to-end experiments in Java, see individual pages under "Regression Experiments" in [the main Anserini landing page](../README.md).
++ For instructions on how to perform end-to-end experiments in Java, see individual pages under "Regression Experiments" in [the main Anserini landing page](../README.md#regression-experiments).
 + For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
