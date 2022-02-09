@@ -29,7 +29,7 @@ To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar` is 54 GB and has 
 
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \

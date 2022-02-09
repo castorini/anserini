@@ -29,7 +29,7 @@ To confirm, `msmarco_v2_doc_segmented_unicoil_0shot.tar` is 62 GB and has an MD5
 
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \

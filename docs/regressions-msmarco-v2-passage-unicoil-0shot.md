@@ -29,7 +29,7 @@ To confirm, `msmarco_v2_passage_unicoil_0shot.tar` is 41 GB and has an MD5 check
 
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \

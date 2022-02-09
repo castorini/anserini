@@ -29,7 +29,7 @@ To confirm, `msmarco_v2_passage_unicoil_noexp_0shot.tar` is 24 GB and has an MD5
 
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 ${index_cmds}
