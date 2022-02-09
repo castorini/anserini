@@ -3,6 +3,10 @@
 This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Passage Ranking Task) on the MS MARCO V2 passage collection using relevance judgments from NIST.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with no document expansion.
 
+The uniCOIL model is described in the following paper:
+
+> Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
+
 At the time this regression was created (November 2021), the qrels are only available to TREC participants.
 You must download the qrels from NIST's "active participants" password-protected site and place at `src/main/resources/topics-and-qrels/qrels.dl21-passage.txt`.
 The qrels will be added to Anserini when they are publicly released in Spring 2022.
@@ -13,15 +17,35 @@ For additional instructions on working with MS MARCO V2 passage collection, refe
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+## Corpus
+
+Download, unpack, and prepare the corpus:
+
+```
+# Download
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar -P collections/
+
+# Unpack
+tar -xvf collections/msmarco_v2_passage_unicoil_noexp_0shot.tar -C collections/
+
+# Rename (indexer is expecting corpus under a slightly different name)
+mv collections/msmarco_v2_passage_unicoil_noexp_0shot collections/msmarco-v2-passage-unicoil-noexp-0shot
+```
+
+To confirm, `msmarco_v2_passage_unicoil_noexp_0shot.tar` is 24 GB and has an MD5 checksum of `d9cc1ed3049746e68a2c91bf90e5212d`.
+
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 ${index_cmds}
 ```
 
-The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+The path `/path/to/msmarco-v2-passage-unicoil-noexp-0shot/` should point to the corpus downloaded above.
+
+The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
+Upon completion, we should have an index with 138,364,198 documents.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -51,3 +75,7 @@ ${effectiveness}
 
 This run roughly corresponds to run `d_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
 The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
