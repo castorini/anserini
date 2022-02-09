@@ -12,12 +12,17 @@ Note that this page is automatically generated from [this template](../src/main/
 
 ## Corpus
 
-Download the corpus:
+Download, unpack, and prepare the corpus:
 
 ```
+# Download
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot.tar -P collections/
 
+# Unpack
 tar -xvf collections/msmarco_v2_doc_segmented_unicoil_0shot.tar -C collections/
+
+# Rename (indexer is expecting corpus under a slightly different name)
+mv collections/msmarco_v2_doc_segmented_unicoil_0shot collections/msmarco-v2-doc-segmented-unicoil-0shot
 ```
 
 To confirm, `msmarco_v2_doc_segmented_unicoil_0shot.tar` is 62 GB and has an MD5 checksum of `889db095113cc4fe152382ccff73304a`.
@@ -39,7 +44,7 @@ target/appassembler/bin/IndexCollection \
 The path `/path/to/msmarco-v2-doc-segmented-unicoil-0shot/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
-Upon completion, we should have an index with 124,131,414documents.
+Upon completion, we should have an index with 124,131,414 documents.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

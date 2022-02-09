@@ -12,12 +12,17 @@ Note that this page is automatically generated from [this template](${template})
 
 ## Corpus
 
-Download the corpus:
+Download, unpack, and prepare the corpus:
 
 ```
+# Download
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar -P collections/
 
+# Unpack
 tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar -C collections/
+
+# Rename (indexer is expecting corpus under a slightly different name)
+mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot
 ```
 
 To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar` is 54 GB and has an MD5 checksum of `28261587d6afde56efd8df4f950e7fb4`.
