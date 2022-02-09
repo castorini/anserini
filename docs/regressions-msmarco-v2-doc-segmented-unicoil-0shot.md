@@ -103,18 +103,11 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.7550    |
 
 
-<<<<<<< HEAD
-R@1000                                  | uniCOIL (zero-shot)|
-:---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.9056    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.9097    |
-
-## Reproduction Log[*](reproducibility.md)
-
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot.template) and run `bin/build.sh` to rebuild the documentation.
-=======
 | R@1000                                                                                                       | uniCOIL (zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.9056    |
 | [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.9097    |
->>>>>>> master
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot.template) and run `bin/build.sh` to rebuild the documentation.
