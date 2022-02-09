@@ -50,24 +50,24 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.train.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.test.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MRR@100                                 | BM25      |
-:---------------------------------------|-----------|
-[Mr. TyDi (Bengali): train](https://github.com/castorini/mr.tydi)| 0.3566    |
-[Mr. TyDi (Bengali): dev](https://github.com/castorini/mr.tydi)| 0.3385    |
-[Mr. TyDi (Bengali): test](https://github.com/castorini/mr.tydi)| 0.4182    |
+| MRR@100                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [Mr. TyDi (Bengali): train](https://github.com/castorini/mr.tydi)                                            | 0.3566    |
+| [Mr. TyDi (Bengali): dev](https://github.com/castorini/mr.tydi)                                              | 0.3385    |
+| [Mr. TyDi (Bengali): test](https://github.com/castorini/mr.tydi)                                             | 0.4182    |
 
 
-R@100                                   | BM25      |
-:---------------------------------------|-----------|
-[Mr. TyDi (Bengali): train](https://github.com/castorini/mr.tydi)| 0.8336    |
-[Mr. TyDi (Bengali): dev](https://github.com/castorini/mr.tydi)| 0.8432    |
-[Mr. TyDi (Bengali): test](https://github.com/castorini/mr.tydi)| 0.8694    |
+| R@100                                                                                                        | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [Mr. TyDi (Bengali): train](https://github.com/castorini/mr.tydi)                                            | 0.8336    |
+| [Mr. TyDi (Bengali): dev](https://github.com/castorini/mr.tydi)                                              | 0.8432    |
+| [Mr. TyDi (Bengali): test](https://github.com/castorini/mr.tydi)                                             | 0.8694    |
