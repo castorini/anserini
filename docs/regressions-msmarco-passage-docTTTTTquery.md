@@ -99,14 +99,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.1000 src/main/resour
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.2805    | 0.2243    | 0.2850    | 0.2266    | 0.2893    | 0.2464    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2805    | 0.2243    | 0.2850    | 0.2266    | 0.2893    | 0.2464    |
 
 
-R@1000                                  | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.9470    | 0.9463    | 0.9471    | 0.9479    | 0.9506    | 0.9528    |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9470    | 0.9463    | 0.9471    | 0.9479    | 0.9506    | 0.9528    |
 
 Explanation of settings:
 

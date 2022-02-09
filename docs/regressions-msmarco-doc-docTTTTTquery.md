@@ -69,19 +69,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m recall.100
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| BM25 (tuned)|
-:---------------------------------------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2886    | 0.3273    |
+| MAP                                                                                                          | BM25 (default)| BM25 (tuned)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2886    | 0.3273    |
 
 
-R@100                                   | BM25 (default)| BM25 (tuned)|
-:---------------------------------------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7993    | 0.8612    |
+| R@100                                                                                                        | BM25 (default)| BM25 (tuned)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7993    | 0.8612    |
 
 
-R@1000                                  | BM25 (default)| BM25 (tuned)|
-:---------------------------------------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9259    | 0.9553    |
+| R@1000                                                                                                       | BM25 (default)| BM25 (tuned)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9259    | 0.9553    |
 
 Explanation of settings:
 

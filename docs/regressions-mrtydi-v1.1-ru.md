@@ -50,24 +50,24 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.train.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.test.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MRR@100                                 | BM25      |
-:---------------------------------------|-----------|
-[Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)| 0.2205    |
-[Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)| 0.2152    |
-[Mr. TyDi (Russian): test](https://github.com/castorini/mr.tydi)| 0.3129    |
+| MRR@100                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)                                            | 0.2205    |
+| [Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)                                              | 0.2152    |
+| [Mr. TyDi (Russian): test](https://github.com/castorini/mr.tydi)                                             | 0.3129    |
 
 
-R@100                                   | BM25      |
-:---------------------------------------|-----------|
-[Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)| 0.5706    |
-[Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)| 0.5673    |
-[Mr. TyDi (Russian): test](https://github.com/castorini/mr.tydi)| 0.6482    |
+| R@100                                                                                                        | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)                                            | 0.5706    |
+| [Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)                                              | 0.5673    |
+| [Mr. TyDi (Russian): test](https://github.com/castorini/mr.tydi)                                             | 0.6482    |

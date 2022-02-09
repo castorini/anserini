@@ -48,26 +48,26 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | uniCOIL w/ TILDE expansion|
-:---------------------------------------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3561    |
+| MAP                                                                                                          | uniCOIL w/ TILDE expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3561    |
 
 
-MRR                                     | uniCOIL w/ TILDE expansion|
-:---------------------------------------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.3607    |
+| MRR                                                                                                          | uniCOIL w/ TILDE expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3607    |
 
 
-R@1000                                  | uniCOIL w/ TILDE expansion|
-:---------------------------------------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.9646    |
+| R@1000                                                                                                       | uniCOIL w/ TILDE expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9646    |
 
 The above runs are in TREC output format and evaluated with `trec_eval`.
 In order to reproduce results reported in the paper, we need to convert to MS MARCO output format and then evaluate:

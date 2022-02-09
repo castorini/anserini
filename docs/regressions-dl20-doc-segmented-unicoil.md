@@ -69,26 +69,26 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4126    |
+| MAP                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4126    |
 
 
-R@100                                   | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.6210    |
+| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6210    |
 
 
-nDCG@10                                 | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.6033    |
+| nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6033    |
 
 ## Reproduction Log[*](reproducibility.md)
 
