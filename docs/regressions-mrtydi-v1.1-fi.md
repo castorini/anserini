@@ -50,24 +50,24 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.train.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.dev.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.test.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.train.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.train.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.dev.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.test.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.test.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MRR@100                                 | BM25      |
-:---------------------------------------|-----------|
-[Mr. TyDi (Finnish): train](https://github.com/castorini/mr.tydi)| 0.4101    |
-[Mr. TyDi (Finnish): dev](https://github.com/castorini/mr.tydi)| 0.4133    |
-[Mr. TyDi (Finnish): test](https://github.com/castorini/mr.tydi)| 0.2836    |
+| MRR@100                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [Mr. TyDi (Finnish): train](https://github.com/castorini/mr.tydi)                                            | 0.4101    |
+| [Mr. TyDi (Finnish): dev](https://github.com/castorini/mr.tydi)                                              | 0.4133    |
+| [Mr. TyDi (Finnish): test](https://github.com/castorini/mr.tydi)                                             | 0.2836    |
 
 
-R@100                                   | BM25      |
-:---------------------------------------|-----------|
-[Mr. TyDi (Finnish): train](https://github.com/castorini/mr.tydi)| 0.8198    |
-[Mr. TyDi (Finnish): dev](https://github.com/castorini/mr.tydi)| 0.8285    |
-[Mr. TyDi (Finnish): test](https://github.com/castorini/mr.tydi)| 0.7193    |
+| R@100                                                                                                        | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [Mr. TyDi (Finnish): train](https://github.com/castorini/mr.tydi)                                            | 0.8198    |
+| [Mr. TyDi (Finnish): dev](https://github.com/castorini/mr.tydi)                                              | 0.8285    |
+| [Mr. TyDi (Finnish): test](https://github.com/castorini/mr.tydi)                                             | 0.7193    |

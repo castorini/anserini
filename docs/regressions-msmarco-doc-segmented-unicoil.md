@@ -70,26 +70,26 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.3535    |
+| MAP                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3535    |
 
 
-R@100                                   | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8858    |
+| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8858    |
 
 
-R@1000                                  | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9546    |
+| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9546    |
 
 This model corresponds to the run named "uniCOIL-d2q" on the official MS MARCO Document Ranking Leaderboard, submitted 2021/09/16.
 The following command generates a comparable run:

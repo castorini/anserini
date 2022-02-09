@@ -54,16 +54,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      |
-:---------------------------------------|-----------|
-[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3111    |
+| MAP                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3111    |
 
 
-P20                                     | BM25      |
-:---------------------------------------|-----------|
-[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3184    |
+| P20                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3184    |
 
 
-nDCG@20                                 | BM25      |
-:---------------------------------------|-----------|
-[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.4458    |
+| nDCG@20                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.4458    |
