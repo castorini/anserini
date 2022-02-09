@@ -55,16 +55,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      |
-:---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.2932    |
+| MAP                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)              | 0.2932    |
 
 
-P20                                     | BM25      |
-:---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.3610    |
+| P20                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)              | 0.3610    |
 
 
-nDCG@20                                 | BM25      |
-:---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.4056    |
+| nDCG@20                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)              | 0.4056    |

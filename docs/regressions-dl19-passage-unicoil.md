@@ -71,28 +71,28 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl19-passage.unicoil.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl19-passage.unicoil.0shot.tsv.gz
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl19-passage.unicoil.0shot.tsv.gz
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl19-passage.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl19-passage.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl19-passage.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.4612    |
+| MAP                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.4612    |
 
 
-R@1000                                  | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.8292    |
+| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.8292    |
 
 
-nDCG@10                                 | uniCOIL w/ doc2query-T5 expansion|
-:---------------------------------------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.7024    |
+| nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.7024    |
 
 ## Reproduction Log[*](reproducibility.md)
 

@@ -50,24 +50,24 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.train.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.dev.txt.gz
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.test.txt.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.train.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt runs/run.mrtydi-v1.1-ar.bm25.topics.mrtydi-v1.1-ar.test.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-MRR@100                                 | BM25      |
-:---------------------------------------|-----------|
-[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)| 0.3356    |
-[Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)| 0.3462    |
-[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)| 0.3682    |
+| MRR@100                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)                                             | 0.3356    |
+| [Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)                                               | 0.3462    |
+| [Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)                                              | 0.3682    |
 
 
-R@100                                   | BM25      |
-:---------------------------------------|-----------|
-[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)| 0.7944    |
-[Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)| 0.7872    |
-[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)| 0.7928    |
+| R@100                                                                                                        | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)                                             | 0.7944    |
+| [Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)                                               | 0.7872    |
+| [Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)                                              | 0.7928    |

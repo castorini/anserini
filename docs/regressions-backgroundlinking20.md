@@ -69,12 +69,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 sr
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      | +RM3      | +RM3+DF   |
-:---------------------------------------|-----------|-----------|-----------|
-[TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)| 0.3286    | 0.4519    | 0.3438    |
+| MAP                                                                                                          | BM25      | +RM3      | +RM3+DF   |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)                    | 0.3286    | 0.4519    | 0.3438    |
 
 
-nDCG@5                                  | BM25      | +RM3      | +RM3+DF   |
-:---------------------------------------|-----------|-----------|-----------|
-[TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)| 0.5231    | 0.5673    | 0.5316    |
+| nDCG@5                                                                                                       | BM25      | +RM3      | +RM3+DF   |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)                    | 0.5231    | 0.5673    | 0.5316    |
 

@@ -53,16 +53,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      |
-:---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)| 0.3867    |
+| MAP                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)          | 0.3867    |
 
 
-P20                                     | BM25      |
-:---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)| 0.4470    |
+| P20                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)          | 0.4470    |
 
 
-nDCG@20                                 | BM25      |
-:---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)| 0.5310    |
+| nDCG@20                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)          | 0.5310    |
