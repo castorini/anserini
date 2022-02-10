@@ -6,6 +6,12 @@ Associated data can be found on the [CLEF test suites pages](http://www.clef-ini
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/clef06-fr.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/clef06-fr.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression clef06-fr
+```
+
 ## Indexing
 
 Typical indexing command:
