@@ -38,11 +38,14 @@ cd tools/eval/ndeval && make && cd ../../..
 
 With that, you should be ready to go!
 
-## Regression Experiments
+## Regression Experiments (+ Reproduction Guides)
 
 Anserini is designed to support experiments on various standard IR test collections out of the box.
 The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini reproducibility promise](docs/regressions.md).
 For the most part, these runs are based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
+
+These pages can also serve as guides to reproduce our results.
+See individual pages for details!
 
 + Regressions for [Disks 1 &amp; 2 (TREC 1-3)](docs/regressions-disk12.md), [Disks 4 &amp; 5 (TREC 7-8, Robust04)](docs/regressions-disk45.md), [AQUAINT (Robust05)](docs/regressions-robust05.md)
 + Regressions for [the New York Times Corpus (Core17)](docs/regressions-core17.md), [the Washington Post Corpus (Core18)](docs/regressions-core18.md)
@@ -92,7 +95,7 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
 + Regressions for Mr. TyDi (v1.1): [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
 
-## Reproduction Guides
+## Additional Documentation
 
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of reproducibility.
 For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
@@ -132,7 +135,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
 
-## Additional Documentation
+### Other Features
 
 + Use Anserini in Python via [Pyserini](http://pyserini.io/)
 + Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)

@@ -1,8 +1,12 @@
 # Anserini: SPLADEv2 for MS MARCO V1 Passage Ranking
 
-This page describes how to reproduce the SPLADEv2 results with the DistilSPLADE-max model from the following paper:
+This page previously hosted a guide on how to reproduce the SPLADEv2 results with the DistilSPLADE-max model from the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, Stéphane Clinchant. [SPLADE v2: Sparse Lexical and Expansion Model for Information Retrieval.](https://arxiv.org/abs/2109.10086) _arXiv:2109.10086_.
+
+The guide has been integrated in [Anserini's regression framework](regressions-msmarco-passage-distill-splade-max.md), and this page has been reduced to a redirect stub.
+
+---
 
 Here, we start with a version of the MS MARCO passage corpus that has already been processed with the model, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved. As the model weights are provided in fp16, they have been converted to integers by taking the round of weight*100.
