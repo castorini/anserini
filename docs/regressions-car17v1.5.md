@@ -4,6 +4,12 @@ This page documents regression experiments for the [TREC 2017 Complex Answer Ret
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/car17v1.5.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/car17v1.5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression car17v1.5
+```
+
 ## Indexing
 
 Typical indexing command:

@@ -6,6 +6,12 @@ The description of the document collection can be found in the [NTCIR-8 data pag
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/ntcir8-zh.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/ntcir8-zh.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ntcir8-zh
+```
+
 ## Indexing
 
 Typical indexing command:

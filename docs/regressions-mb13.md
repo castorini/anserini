@@ -4,6 +4,12 @@ This page describes regressions for the Microblog Tracks from TREC 2013 and 2014
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/mb13.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/mb13.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression mb13
+```
+
 ## Indexing
 
 Note that the Tweets2013 collection is distributed as a list of tweet ids that you have to download yourself, so the
