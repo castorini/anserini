@@ -1,11 +1,9 @@
-# Anserini: Regressions for SPLADEv2 on [MS MARCO Passage](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini: Regressions on MS MARCO Passage with DistilSPLADE-max model
 
-This page documents regression experiments for the DistilSPLADE-max model from SPLADEv2 on the MS MARCO Passage Ranking Task, which is integrated into Anserini's regression testing framework.
-The model is described in the following paper:
+This page describes regression experiments, integrated into Anserini's regression testing framework, with DistilSPLADE-max model from SPLADEv2 on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+The DistilSPLADE-max model is described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, Stéphane Clinchant. [SPLADE v2: Sparse Lexical and Expansion Model for Information Retrieval.](https://arxiv.org/abs/2109.10086) _arXiv:2109.10086_.
-
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage-splade-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -45,7 +43,7 @@ Alternatively, you can simply copy/paste from the commands below and obtain the 
 
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 ${index_cmds}

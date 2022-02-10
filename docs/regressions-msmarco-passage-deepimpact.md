@@ -1,11 +1,9 @@
-# Anserini: Regressions for DeepImpact on [MS MARCO Passage](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini: Regressions on MS MARCO Passage with DeepImpact
 
-This page documents regression experiments for DeepImpact on the MS MARCO Passage Ranking Task, which is integrated into Anserini's regression testing framework.
-DeepImpact is described in the following paper:
+This page describes regression experiments, integrated into Anserini's regression testing framework, with DeepImpact on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+The DeepImpact model is described in the following paper:
 
 > Antonio Mallia, Omar Khattab, Nicola Tonellotto, and Torsten Suel. [Learning Passage Impacts for Inverted Indexes.](https://dl.acm.org/doi/10.1145/3404835.3463030) _SIGIR 2021_.
-
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage-deepimpact.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-deepimpact.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-deepimpact.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -42,7 +40,7 @@ Alternatively, you can simply copy/paste from the commands below and obtain the 
 
 ## Indexing
 
-Typical indexing command:
+Sample indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \
