@@ -6,6 +6,12 @@ Here, we expand the document corpus with doc2query-T5.
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-doc-d2q-t5.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-v2-doc-d2q-t5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-d2q-t5
+```
+
 ## Indexing
 
 Typical indexing command:

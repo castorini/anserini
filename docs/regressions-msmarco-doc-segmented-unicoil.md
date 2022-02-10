@@ -1,6 +1,6 @@
-# Anserini: Regressions for uniCOIL on [MS MARCO Document](https://github.com/microsoft/MSMARCO-Document-Ranking)
+# Anserini: Regressions on MS MARCO Document with uniCOIL
 
-This page documents regression experiments for uniCOIL on the MS MARCO Document Ranking Task, which is integrated into Anserini's regression testing framework.
+This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [MS MARCO Document Ranking Task](https://github.com/microsoft/MSMARCO-Document-Ranking).
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
@@ -9,10 +9,14 @@ The experiments on this page are not actually reported in the paper.
 However, the model is the same, applied to the MS MARCO _segmented_ document corpus (with doc2query-T5 expansions).
 Retrieval uses MaxP technique, where we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking.
 
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-unicoil.md).
-
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc-segmented-unicoil.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc-segmented-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil
+```
 
 ## Corpus
 
@@ -29,6 +33,15 @@ tar xvf collections/msmarco-doc-segmented-unicoil.tar -C collections/
 ```
 
 To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
+
+With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil \
+  --corpus-path collections/msmarco-doc-segmented-unicoil
+```
+
+Alternatively, you can simply copy/paste from the commands below and obtain the same results.
 
 ## Indexing
 

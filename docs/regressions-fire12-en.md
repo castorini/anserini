@@ -6,6 +6,12 @@ The document collection can be found in [FIRE data page](http://fire.irsi.res.in
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire12-en.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/fire12-en.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression fire12-en
+```
+
 ## Indexing
 
 Typical indexing command:
