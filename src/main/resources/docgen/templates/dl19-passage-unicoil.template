@@ -3,9 +3,6 @@
 This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [TREC 2019 Deep Learning Track Passage Ranking Task](https://trec.nist.gov/data/deep2019.html).
 The uniCOIL model is described in the following paper:
 
-This page describes document expansion experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
-These runs use the uniCOIL model described in the following paper:
-
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
 The experiments on this page are not actually reported in the paper.
