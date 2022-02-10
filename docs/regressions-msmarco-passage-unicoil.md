@@ -1,11 +1,9 @@
-# Anserini: Regressions for uniCOIL on [MS MARCO Passage](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini: Regressions for uniCOIL on MS MARCO Passage
 
-This page documents regression experiments for uniCOIL on the MS MARCO Passage Ranking Task, which is integrated into Anserini's regression testing framework.
+This page documents regression experiments for uniCOIL on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
-
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-unicoil.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-unicoil.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
@@ -13,7 +11,7 @@ Note that this page is automatically generated from [this template](../src/main/
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-$ python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil
 ```
 
 ## Corpus
@@ -35,7 +33,7 @@ To confirm, `msmarco-passage-unicoil.tar` is 3.3 GB and has MD5 checksum `78eef7
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
-$ python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil --corpus-path collections/msmarco-passage-unicoil
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil --corpus-path collections/msmarco-passage-unicoil
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.
