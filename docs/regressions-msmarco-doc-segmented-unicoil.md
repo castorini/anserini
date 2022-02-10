@@ -1,6 +1,6 @@
-# Anserini: Regressions for uniCOIL on MS MARCO Document
+# Anserini: Regressions on MS MARCO Document with uniCOIL
 
-This page documents regression experiments for uniCOIL on the [MS MARCO Document Ranking Task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
+This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [MS MARCO Document Ranking Task](https://github.com/microsoft/MSMARCO-Document-Ranking).
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
@@ -37,7 +37,8 @@ To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil --corpus-path collections/msmarco-doc-segmented-unicoil
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil \
+  --corpus-path collections/msmarco-doc-segmented-unicoil
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.
