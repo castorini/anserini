@@ -22,7 +22,7 @@ Thus, no neural inference is involved.
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar -P collections/
 
 tar xvf collections/msmarco-passage-deepimpact.tar -C collections/
 ```
