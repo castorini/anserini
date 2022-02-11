@@ -1,6 +1,6 @@
 ---
 corpus: msmarco-passage-deepimpact
-corpus_path: collections/msmarco/msmarco-passage-deepimpact-b8/
+corpus_path: collections/msmarco/msmarco-passage-deepimpact/
 
 index_path: indexes/lucene-index.msmarco-passage-deepimpact/
 collection_class: JsonVectorCollection
