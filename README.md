@@ -108,10 +108,6 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Reproducing [doc2query results](docs/experiments-doc2query.md) (MS MARCO Passage Ranking and TREC-CAR)
 + Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO Passage and Document Ranking)
 + Notes about reproduction issues with [MS MARCO Document Ranking w/ docTTTTTquery](docs/experiments-msmarco-doc-doc2query-details.md)
-+ Reproducing experiments with sparse learned models for MS MARCO Passage Ranking:
-  + [DeepImpact](docs/experiments-msmarco-passage-deepimpact.md), [uniCOIL with doc2query-T5](docs/experiments-msmarco-unicoil.md), [uniCOIL with TILDE](docs/experiments-msmarco-passage-unicoil-tilde-expansion.md), [SPLADEv2](docs/experiments-msmarco-passage-splade-v2.md)
-+ Reproducing experiments with sparse learned models for MS MARCO Document Ranking:
-  + [uniCOIL with doc2query-T5](docs/experiments-msmarco-unicoil.md)
 
 ### MS MARCO (V2)
 
