@@ -56,13 +56,13 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
         assertEquals(1, hits1.totalHits.value);
         assertEquals(2, hits1.scoreDocs[0].doc);
 
-        Query q2 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN,
-                40, 60, 55, 65);
+        Query q2 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.CONTAINS,
+                35, 45, 55, 65);
         TopDocs hits2 = searcher.search(q2, 5);
         assertEquals(1, hits2.totalHits.value);
         assertEquals(2, hits2.scoreDocs[0].doc);
 
-        Query q3 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.INTERSECTS,
+        Query q3 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN,
                 -10, 80, 30, 80);
         TopDocs hits3 = searcher.search(q3, 5);
         assertEquals(1, hits3.totalHits.value);
@@ -71,7 +71,7 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
 
     @Test
     public void testGetLine() throws Exception {
-
+        Query q
     }
 
     @Test
