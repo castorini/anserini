@@ -19,6 +19,7 @@ package io.anserini;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LatLonShape;
+import org.apache.lucene.geo.Line;
 import org.apache.lucene.geo.Polygon;
 import org.apache.lucene.geo.SimpleWKTShapeParser;
 import org.apache.lucene.index.IndexWriter;
@@ -44,8 +45,7 @@ import java.util.Scanner;
 public class GeoIndexerTestBase extends LuceneTestCase {
     protected Path tempDir1;
 
-    @Test
-    public void buildTestIndex() throws IOException {
+    private void buildTestIndex() throws IOException {
         try {
             Directory dir = FSDirectory.open(tempDir1);
 
@@ -96,8 +96,45 @@ public class GeoIndexerTestBase extends LuceneTestCase {
             writer.addDocument(doc3);
 
 
+            Document doc4 = new Document();
+            Path path4 = Paths.get("src/test/resources/sample_docs/geosearch/line.wkt");
+            List<String> listLines4 = Files.readAllLines(path4);
+            String[] lines4 = listLines4.toArray(new String[0]);
+            Line lineShape = (Line) SimpleWKTShapeParser.parse(lines4[0]);
+
+            Field[] fields4 = LatLonShape.createIndexableFields("geometry", lineShape);
+            for (Field f: fields4) {
+                doc4.add(f);
+            }
+            writer.addDocument(doc4);
 
 
+            Document doc5 = new Document();
+            Path path5 = Paths.get("src/test/resources/sample_docs/geosearch/multiline.wkt");
+            List<String> listLines5 = Files.readAllLines(path5);
+            String[] lines5 = listLines5.toArray(new String[0]);
+            Line[] lineShapes = (Line[]) SimpleWKTShapeParser.parse(lines5[0]);
+
+            for (Line l: lineShapes) {
+                Field[] fields5 = LatLonShape.createIndexableFields("geometry", l);
+                for (Field f : fields5) {
+                    doc5.add(f);
+                }
+            }
+            writer.addDocument(doc5);
+
+
+            Document doc6 = new Document();
+            Path path6 = Paths.get("src/test/resources/sample_docs/geosearch/grand_river.wkt");
+            List<String> listLines6 = Files.readAllLines(path6);
+            String[] lines6 = listLines6.toArray(new String[0]);
+            Line grand_river = (Line) SimpleWKTShapeParser.parse(lines6[0]);
+
+            Field[] fields6 = LatLonShape.createIndexableFields("geometry", grand_river);
+            for (Field f: fields6) {
+                doc6.add(f);
+            }
+            writer.addDocument(doc6);
 
 
             writer.commit();
