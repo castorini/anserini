@@ -29,18 +29,13 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.Before;
 import org.junit.After;
-import org.junit.Test;
-
-import javax.print.Doc;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class GeoIndexerTestBase extends LuceneTestCase {
     protected Path tempDir1;
