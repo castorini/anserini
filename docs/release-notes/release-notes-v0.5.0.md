@@ -38,7 +38,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Boris Lin ([borislin](https://github.com/borislin))
 + Victor Yang ([Victor0118](https://github.com/Victor0118))
 + Yuhao Xie ([Kytabyte](https://github.com/Kytabyte))
-+ Salman Mohammed ([Salman Mohammed](https://github.com/salman1993))
++ Salman Mohammed ([salman1993](https://github.com/salman1993))
 + Luchen Tan ([LuchenTan](https://github.com/LuchenTan))
 + Michael Tu ([tuzhucheng](https://github.com/tuzhucheng))
 + Dayang Shi ([dyshi](https://github.com/dyshi))

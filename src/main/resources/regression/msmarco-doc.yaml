@@ -1,141 +1,107 @@
 ---
-name: msmarco-doc
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-collection: CleanTrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: TsvInt
-evals:
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: map
-    metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m recall.1000
-      - -c
-    separator: "\t"
-    parse_index: 2
-    metric: R@1000
-    metric_precision: 4
-    can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/msmarco/doc/
-index_path: indexes/lucene-index.msmarco-doc.pos+docvectors+raw
+corpus: msmarco-doc
+corpus_path: collections/msmarco/msmarco-doc/
+
+index_path: indexes/lucene-index.msmarco-doc/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 7
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 2748636047
+  total terms: 2742209690
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)"
+  - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
+    id: dev
     path: topics.msmarco-doc.dev.txt
     qrel: qrels.msmarco-doc.dev.txt
+
 models:
   - name: bm25-default
-    display: BM25 (Default)
-    params:
-      - -bm25
+    display: BM25 (default)
+    params: -bm25
     results:
-      map:
-        - 0.2310
+      MAP:
+        - 0.2305
+      R@100:
+        - 0.7281
       R@1000:
         - 0.8856
   - name: bm25-default+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
-        - 0.1632
+      MAP:
+        - 0.1631
+      R@100:
+        - 0.6767
       R@1000:
-        - 0.8785
-  - name: bm25-default+ax
-    display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
-    results:
-      map:
-        - 0.1147
-      R@1000:
-        - 0.8369
-  - name: bm25-default+prf
-    display: +PRF
-    params:
-      - -bm25
-      - -bm25prf
-    results:
-      map:
-        - 0.1357
-      R@1000:
-        - 0.8471
+        - 0.8791
   - name: bm25-tuned
-    display: BM25 (Tuned)
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
+    display: BM25 (tuned)
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87
     results:
-      map:
-        - 0.2788
+      MAP:
+        - 0.2784
+      R@100:
+        - 0.8069
       R@1000:
-        - 0.9326
+        - 0.9324
   - name: bm25-tuned+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
-      - -rm3
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3
     results:
-      map:
+      MAP:
         - 0.2289
+      R@100:
+        - 0.7878
       R@1000:
-        - 0.9320
-  - name: bm25-tuned+ax
-    display: +Ax
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+        - 0.9314
+  - name: bm25-tuned2
+    display: BM25 (tuned2)
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82
     results:
-      map:
-        - 0.1895
+      MAP:
+        - 0.2774
+      R@100:
+        - 0.8070
       R@1000:
-        - 0.9264
-  - name: bm25-tuned+prf
-    display: +PRF
-    params:
-      - -bm25
-      - -bm25.k1 3.44
-      - -bm25.b 0.87
-      - -bm25prf
+        - 0.9357
+  - name: bm25-tuned2+rm3
+    display: +RM3
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3
     results:
-      map:
-        - 0.1559
+      MAP:
+        - 0.2239
+      R@100:
+        - 0.7791
       R@1000:
-        - 0.8758
+        - 0.9305

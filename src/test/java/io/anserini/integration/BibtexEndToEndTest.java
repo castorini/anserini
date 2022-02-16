@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,21 +37,21 @@ public class BibtexEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
-    documents.put("article-id", Map.of(
+    referenceDocs.put("article-id", Map.of(
         "contents", "this is the title. ",
         "raw", "this is the title. "));
-    documents.put("inproceedings-id", Map.of(
+    referenceDocs.put("inproceedings-id", Map.of(
         "contents", "this is the title. this is the abstract",
         "raw", "this is the title. this is the abstract"));
-    documents.put("proceedings-id", Map.of(
+    referenceDocs.put("proceedings-id", Map.of(
         "contents", "this is the title. ",
         "raw", "this is the title. "));
 
     fieldNormStatusTotalFields = 12;
-    termIndexStatusTermCount = 42;
-    termIndexStatusTotFreq = 54;
+    termIndexStatusTermCount = 45;
+    termIndexStatusTotFreq = 57;
     storedFieldStatusTotalDocCounts = 3;
-    termIndexStatusTotPos = 54;
+    termIndexStatusTotPos = 57;
     storedFieldStatusTotFields = 37;
   }
 

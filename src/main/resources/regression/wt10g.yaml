@@ -1,113 +1,88 @@
 ---
-name: wt10g
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
-search_command: target/appassembler/bin/SearchCollection
+corpus: wt10g
+corpus_path: collections/web/wt10g/
+
+index_path: indexes/lucene-index.wt10g/
+collection_class: TrecwebCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 1688390
+  documents (non-empty): 1688299
+  total terms: 752785964
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P30
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Trec
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-collection: TrecwebCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: Trec
-evals:
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-    separator: "\t"
-    parse_index: 2
-    metric: map
-    metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m P.30
-    separator: "\t"
-    parse_index: 2
-    metric: p30
-    metric_precision: 4
-    can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/web/wt10g/
-index_path: indexes/lucene-index.wt10g.pos+docvectors+raw
-index_stats:
-  documents: 1688402
-  documents (non-empty): 1688291
-  total terms: 752790242
 topics:
   - name: "[Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)"
+    id: wt10g
     path: topics.adhoc.451-550.txt
     qrel: qrels.adhoc.451-550.txt
+
 models:
   - name: bm25
     display: BM25
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
-        - 0.1992
-      p30:
-        - 0.2214
+      MAP:
+        - 0.1991
+      P30:
+        - 0.2211
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
-        - 0.2276
-      p30:
-        - 0.2398
+      MAP:
+        - 0.2270
+      P30:
+        - 0.2401
   - name: bm25+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.beta 0.1
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20
     results:
-      map:
-        - 0.2200
-      p30:
-        - 0.2483
+      MAP:
+        - 0.2196
+      P30:
+        - 0.2466
   - name: ql
     display: QL
-    params:
-      - -qld
+    params: -qld
     results:
-      map:
+      MAP:
         - 0.2021
-      p30:
+      P30:
         - 0.2180
   - name: ql+rm3
     display: +RM3
-    params:
-      - -qld
-      - -rm3
+    params: -qld -rm3
     results:
-      map:
+      MAP:
         - 0.2188
-      p30:
-        - 0.2310
+      P30:
+        - 0.2306
   - name: ql+ax
     display: +Ax
-    params:
-      - -qld
-      - -axiom
-      - -axiom.beta 0.1
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20
     results:
-      map:
-        - 0.2275
-      p30:
-        - 0.2514
+      MAP:
+        - 0.2268
+      P30:
+        - 0.2469

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -46,6 +47,10 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
   @Before
   public void setUp() throws Exception {
     super.setUp();
+
+    // There's a non-deterministic bug that occurs when Arabic numerals in docids get "localized", and hence fail
+    // to match expected docids. This makes sure it doesn't happen.
+    Locale.setDefault(Locale.US);
 
     segmentPaths = new HashSet<>();
     segmentDocCounts = new HashMap<>();
@@ -68,7 +73,7 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
       int docCount = 0;
       for (T doc : segment) {
-        // This is a special case for ClueWeb collections, where the id can be null.
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
           checkDocument(doc, expected.get("null"));
         } else {
@@ -97,7 +102,7 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
       int docCount = 0;
       for (T doc : segment) {
-        // This is a special case for ClueWeb collections, where the id can be null.
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
           checkDocument(doc, expected.get("null"));
         } else {
@@ -123,7 +128,8 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
     collection.iterator().forEachRemaining(d -> {
       d.iterator().forEachRemaining(doc -> {
-        // This is a special case for ClueWeb collections, where the id can be null.
+
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
           checkDocument(doc, expected.get("null"));
         } else {

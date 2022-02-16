@@ -1,6 +1,6 @@
 # Anserini: ECIR 2019 Axiomatic Semantic Term Matching
 
-This page documents code for replicating results from the following paper:
+This page documents code for reproducing results from the following paper:
 
 + Peilin Yang and Jimmy Lin. [Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval](https://cs.uwaterloo.ca/~jimmylin/publications/Yang_Lin_ECIR2019.pdf). _Proceedings of the 41th European Conference on Information Retrieval, Part I (ECIR 2019)_, pages 369-381, April 2019, Cologne, Germany.
 

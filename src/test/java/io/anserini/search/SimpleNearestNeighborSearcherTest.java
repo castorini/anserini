@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.anserini.search;
 
 import io.anserini.ann.IndexVectorsTest;
@@ -40,7 +41,7 @@ public class SimpleNearestNeighborSearcherTest {
     SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath, "lexlsh");
     SimpleNearestNeighborSearcher.Result[] results = simpleNearestNeighborSearcher.search("text", 2);
     assertNotNull(results);
-    assertEquals(1, results.length);
+    assertEquals(2, results.length);
   }
 
   @Test
@@ -62,6 +63,6 @@ public class SimpleNearestNeighborSearcherTest {
     SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.multisearch("text", 2, 2);
     assertNotNull(results);
     assertEquals(1, results.length);
-    assertEquals(1, results[0].length);
+    assertEquals(2, results[0].length);
   }
 }

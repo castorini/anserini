@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,8 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     URL("url"),
     BOOKTITLE("booktitle"),
     ADDRESS("address"),
-    EDITOR("editor");
+    EDITOR("editor"),
+    ABSTRACT("abstract");
 
     public final String name;
 
@@ -77,7 +78,8 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     BibtexField.PUBLISHER.name,
     BibtexField.JOURNAL.name,
     BibtexField.ADDRESS.name,
-    BibtexField.EDITOR.name);
+    BibtexField.EDITOR.name,
+    BibtexField.ABSTRACT.name);
 
   public BibtexGenerator(IndexArgs args) {
     this.args = args;

@@ -1,75 +1,64 @@
 ---
-name: backgroundlinking19
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
-generator: WashingtonPostGenerator
-threads: 1
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: BackgroundLinking
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/WashingtonPost.v2/data/
-index_path: indexes/lucene-index.core18.pos+docvectors+raw
-collection: WashingtonPostCollection
+corpus: wapo.v2
+corpus_path: collections/newswire/WashingtonPost.v2/data/
+
+index_path: indexes/lucene-index.wapo.v2/
+collection_class: WashingtonPostCollection
+generator_class: WashingtonPostGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 595031
   documents (non-empty): 595030
-  total terms: 318219945
+  total terms: 318219870
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M1000 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@5
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M1000 -m ndcg_cut.5
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: BackgroundLinking
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)"
+    id: bglink19
     path: topics.backgroundlinking19.txt
     qrel: qrels.backgroundlinking19.txt
-evals:
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -c -M1000 -m ndcg_cut.5
-    separator: "\t"
-    parse_index: 2
-    metric: NCDG@5
-    metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -c -M1000 -m map
-    separator: "\t"
-    parse_index: 2
-    metric: AP
-    metric_precision: 4
-    can_combine: true
+
 models:
   - name: bm25
     display: BM25
-    params:
-      - -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100
+    params: -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100
     results:
-      AP:
-        - 0.3027
-      NCDG@5:
+      MAP:
+        - 0.3029
+      nDCG@5:
         - 0.4785
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100
+    params: -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
-      AP:
-        - 0.3790
-      NCDG@5:
+      MAP:
+        - 0.3786
+      nDCG@5:
         - 0.5217
   - name: bm25+rm3+df
     display: +RM3+DF
-    params:
-      - -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100
+    params: -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
-      AP:
-        - 0.3158
-      NCDG@5:
+      MAP:
+        - 0.3154
+      nDCG@5:
         - 0.5051

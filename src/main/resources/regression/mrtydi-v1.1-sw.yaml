@@ -1,0 +1,60 @@
+---
+corpus: mrtydi-v1.1-sw
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-swahili/
+
+index_path: indexes/lucene-index.mrtydi-v1.1-swahili/
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language sw
+index_stats:
+  documents: 136689
+  documents (non-empty): 136689
+  total terms: 4937051
+
+metrics:
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[Mr. TyDi (Swahili): train](https://github.com/castorini/mr.tydi)"
+    id: train
+    path: topics.mrtydi-v1.1-sw.train.txt.gz
+    qrel: qrels.mrtydi-v1.1-sw.train.txt
+  - name: "[Mr. TyDi (Swahili): dev](https://github.com/castorini/mr.tydi)"
+    id: dev
+    path: topics.mrtydi-v1.1-sw.dev.txt.gz
+    qrel: qrels.mrtydi-v1.1-sw.dev.txt
+  - name: "[Mr. TyDi (Swahili): test](https://github.com/castorini/mr.tydi)"
+    id: test
+    path: topics.mrtydi-v1.1-sw.test.txt.gz
+    qrel: qrels.mrtydi-v1.1-sw.test.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -hits 100 -language sw
+    results:
+      MRR@100:
+        - 0.2610
+        - 0.2693
+        - 0.3893
+      R@100:
+        - 0.5903
+        - 0.5789
+        - 0.7642

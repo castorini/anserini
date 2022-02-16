@@ -1,0 +1,122 @@
+{
+  "document_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27",
+  "metadata": {
+    "title": "Contact NPPTL",
+    "url": "https://www.cdc.gov/niosh/npptl/contact.html"
+  },
+  "contexts": [
+    {
+      "section": null,
+      "context_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000",
+      "text": "1-800-CDC-INFO (1-800-232-4636) Outside the U.S. 412-386-6111 1-888-232-6348 TTYIf you have questions concerning:Respirator Certification, please contact the Conformity Verification and Standards Development Branch. Karyn oyv0@cdc.gov; cvsdbadmin@cdc.gov or 412-386-4000.Personal Protective Equipment Research, please contact the Research Branch. Barb S bgs3@cdc.gov; Barb G ohr2@cdc.gov; Jessica B pwv9@cdc.gov; Diana pfz8@cdc.gov or 412-386-6111.Testing or evaluation, please contact the Evaluation and Testing Branch. Mike lmy9@cdc.gov; Sue knv2@cdc.gov; Melanie lli6@cdc.gov or 412-386-6111.Administrative issues or questions, please contact the Office of the Director. Jessica B pwv9@cdc.gov; Wendy lqn3@cdc.gov; Melissa xfa2@cdc.gov or 412-386-6111.Other inquiries, please contact ppeconcerns@cdc.gov.",
+      "sentences": [
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S000",
+          "start": 0,
+          "end": 31
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S001",
+          "start": 32,
+          "end": 48
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S002",
+          "start": 49,
+          "end": 113
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S003",
+          "start": 113,
+          "end": 215
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S004",
+          "start": 216,
+          "end": 346
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S005",
+          "start": 347,
+          "end": 412
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S006",
+          "start": 413,
+          "end": 520
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S007",
+          "start": 521,
+          "end": 557
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S008",
+          "start": 558,
+          "end": 629
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S009",
+          "start": 629,
+          "end": 673
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S010",
+          "start": 674,
+          "end": 697
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S011",
+          "start": 698,
+          "end": 717
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S012",
+          "start": 718,
+          "end": 786
+        },
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C000-S013",
+          "start": 787,
+          "end": 807
+        }
+      ]
+    },
+    {
+      "section": "NPPTL Mailing Address",
+      "context_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C001",
+      "text": "626 Cochrans Mill Road Pittsburgh, PA 15236",
+      "sentences": [
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C001-S000",
+          "start": 0,
+          "end": 43
+        }
+      ]
+    },
+    {
+      "section": "NPPTL Morgantown Mailing Address",
+      "context_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C002",
+      "text": "1095 Willowdale Road Mail Stop H2703 Morgantown, WV 26505",
+      "sentences": [
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C002-S000",
+          "start": 0,
+          "end": 57
+        }
+      ]
+    },
+    {
+      "section": "",
+      "context_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C003",
+      "text": "Before you contact NPPTL, please review the answers to the most frequently asked questions:",
+      "sentences": [
+        {
+          "sentence_id": "f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27-C003-S000",
+          "start": 0,
+          "end": 91
+        }
+      ]
+    }
+  ]
+}

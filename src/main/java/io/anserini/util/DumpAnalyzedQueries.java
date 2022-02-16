@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ public class DumpAnalyzedQueries {
     TopicReader<?> tr;
     try {
       // Can we infer the TopicReader?
-      Class<? extends TopicReader> clazz = TopicReader.getTopicReaderByFile(args.topicsFile.toString());
+      Class<? extends TopicReader> clazz = TopicReader.getTopicReaderClassByFile(args.topicsFile.toString());
       if (clazz != null) {
         System.out.println(String.format("Inferring %s has TopicReader class %s.", args.topicsFile, clazz));
       } else {

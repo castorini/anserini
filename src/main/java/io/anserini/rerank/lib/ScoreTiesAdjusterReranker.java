@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,8 @@ public class ScoreTiesAdjusterReranker implements Reranker {
 
     int dup = 0;
     for (int i=0; i<docs.documents.length; i++) {
-      docs.scores[i] = Math.round(docs.scores[i] * 1e4f) / 1e4f;
+      // Double here because otherwise we might run into overflow issues; this was encountered with SPLADEv2.
+      docs.scores[i] = (float) (Math.round(docs.scores[i] * 1e4d) / 1e4d);
 
       // If we encounter ties, we want to perturb the final score a tiny bit.
       // Here's the basic approach, by example. Say our starting ranked list was:

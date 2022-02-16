@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.analysis.AnalyzerUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -97,7 +97,8 @@ public class BM25PrfReranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
     List<String> originalQueryTerms = AnalyzerUtils.analyze(analyzer, context.getQueryText());
 
-    PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader);
+    boolean useRf = (context.getSearchArgs().rf_qrels != null);
+    PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader, useRf);
     Query newQuery = fv.toQuery();
 
     if (this.outputQuery) {
@@ -127,17 +128,25 @@ public class BM25PrfReranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocuments docs, IndexReader reader) {
+  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocuments docs, IndexReader reader, boolean useRf) {
     PrfFeatures newFeatures = new PrfFeatures();
 
     Set<String> vocab = new HashSet<>();
 
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
-    int numRelDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    int numFbDocs;
+    if (useRf){
+      numFbDocs = docs.documents.length;
+    } else {
+      numFbDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    }
     int numDocs = reader.numDocs();
 
-    for (int i = 0; i < numRelDocs; i++) {
+    for (int i = 0; i < numFbDocs; i++) {
       try {
+        if (useRf && docs.scores[i] <= 0){
+          continue;
+        }
         Terms terms = reader.getTermVector(docs.ids[i], field);
         Set<String> termsStr = getTermsStr(terms);
         docToTermsMap.put(docs.ids[i], termsStr);
@@ -146,6 +155,8 @@ public class BM25PrfReranker implements Reranker {
         e.printStackTrace();
       }
     }
+
+    int numRelDocs = docToTermsMap.size();
 
     Set<String> originalTermsSet = new HashSet<>(originalTerms);
 
@@ -160,8 +171,8 @@ public class BM25PrfReranker implements Reranker {
         int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         int dfRel = 0;
 
-        for (int i = 0; i < numRelDocs; i++) {
-          Set<String> terms = docToTermsMap.get(docs.ids[i]);
+        for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {
+          Set<String> terms = entry.getValue();
           if (terms.contains(term)) {
             dfRel++;
           }
@@ -183,8 +194,8 @@ public class BM25PrfReranker implements Reranker {
         int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         int dfRel = 0;
 
-        for (int i = 0; i < numRelDocs; i++) {
-          Set<String> terms = docToTermsMap.get(docs.ids[i]);
+        for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {
+          Set<String> terms = entry.getValue();
           if (terms.contains(term)) {
             dfRel++;
           }

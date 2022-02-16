@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,12 +30,18 @@ public class SearchArgs {
   @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
   public String output;
 
-  @Option(name = "-topicreader", required = true, usage = "define how to read the topic(query) file: one of [Trec|Webxml]")
+  @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
   public String topicReader;
 
   // optional arguments
-  @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
+  @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
+  public String queryGenerator = "BagOfWordsQueryGenerator";
+
+  @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
   public int threads = 1;
+
+  @Option(name = "-parallelism", metaVar = "[int]", usage = "Number of threads to use for each individual parameter configuration.")
+  public int parallelism = 8;
 
   @Option(name = "-language", usage = "Analyzer Language")
   public String language = "en";
@@ -47,6 +53,11 @@ public class SearchArgs {
       " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
 
+  // Note that this option is set to false by default because duplicate documents usually indicate some underlying
+  // indexing issues, and we don't want to just eat errors silently.
+  @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
+  public Boolean removedups = false;
+
   @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
   public Boolean skipexists = false;
 
@@ -54,20 +65,13 @@ public class SearchArgs {
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
 
-  @Option(name = "-backgroundlinking", usage = "performs the background linking task as part of the TREC News Track")
+  @Option(name = "-backgroundlinking", forbids = {"-sdm", "-rf.qrels"},
+      usage = "performs the background linking task as part of the TREC News Track")
   public Boolean backgroundlinking = false;
-
-  @Option(name = "-backgroundlinking.paragraph", usage = "construct one query string from each paragraph of the query document. " +
-      "The results will be a round-robin combination of the results from running these paragraph queries")
-  public boolean backgroundlinking_paragraph = false;
 
   @Option(name = "-backgroundlinking.k", usage = "extract top k terms from the query document for TREC News Track Background " +
       "Linking task. The terms are ranked by their tf-idf score from the query document")
   public int backgroundlinking_k = 10;
-
-  @Option(name = "-backgroundlinking.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
-      "Linking task. The terms scores are their tf-idf score from the query document")
-  public boolean backgroundlinking_weighted = false;
 
   @Option(name = "-backgroundlinking.datefilter", usage = "Boolean switch to filter out articles published after topic article " +
       "for the TREC News Track Background Linking task.")
@@ -78,6 +82,13 @@ public class SearchArgs {
 
   @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
   public boolean keepstop = false;
+
+  @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
+          usage = "Path to file with stopwords.")
+  public String stopwords = null;
+
+  @Option(name = "-pretokenized", usage = "Boolean switch to accept pre tokenized jsonl.")
+  public boolean pretokenized = false;
 
   @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
   public boolean arbitraryScoreTieBreak = false;
@@ -90,15 +101,58 @@ public class SearchArgs {
       "the top documents from the initial round ranking.")
   public int rerankcutoff = 50;
 
+  @Option(name = "-rf.qrels", metaVar = "[file]", usage = "qrels file used for relevance feedback")
+  public String rf_qrels = null;
+
   @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
+
+  @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
+  public String format = "trec";
+
+  // ---------------------------------------------
+  // Simple built-in support for passage retrieval
+  // ---------------------------------------------
+
+  // A simple approach to passage retrieval is to pre-segment documents in the corpus into passages and index those
+  // passages. At retrieval time, we retain only the max scoring passage from each document; this is often called MaxP,
+  // from Dai and Callan (SIGIR 2019) in the context of BERT, although the general approach dates back to Callan
+  // (SIGIR 1994), Hearst and Plaunt (SIGIR 1993), and lots of other papers from the 1990s and even earlier.
+  //
+  // One common convention is to label the passages of a docid as "docid.00000", "docid.00001", "docid.00002", ...
+  // We use this convention in CORD-19. Alternatively, in document expansion for the MS MARCO document corpus, we use
+  // '#' as the delimiter.
+  //
+  // The options below control various aspects of this behavior.
+
+  @Option(name = "-selectMaxPassage", usage = "Select and retain only the max scoring segment from each document.")
+  public Boolean selectMaxPassage = false;
+
+  @Option(name = "-selectMaxPassage.delimiter", metaVar = "[regexp]",
+      usage = "The delimiter (as a regular regression) for splitting the segment id from the doc id.")
+  public String selectMaxPassage_delimiter = "\\.";
+
+  @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
+      usage = "Maximum number of hits to return per topic after segment id removal. " +
+              "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+  public int selectMaxPassage_hits = Integer.MAX_VALUE;
+  // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
+
+  // ----------------------------------------------------------
+  // ranking model: impact scores (basically, just sum of tf's)
+  // ----------------------------------------------------------
+
+  @Option(name = "-impact",
+      forbids = {"-bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      usage = "ranking model: BM25")
+  public boolean impact = false;
 
   // -------------------
   // ranking model: bm25
   // -------------------
 
   @Option(name = "-bm25",
-      forbids = {"-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
       usage = "ranking model: BM25")
   public boolean bm25 = false;
 
@@ -123,7 +177,7 @@ public class SearchArgs {
   // --------------------------------------------------------
 
   @Option(name = "-qld",
-      forbids = {"-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
       usage = "ranking model: query likelihood with Dirichlet smoothing")
   public boolean qld = false;
 
@@ -143,15 +197,19 @@ public class SearchArgs {
   // -------------------------------------------------------------
 
   @Option(name = "-qljm",
-      forbids = {"-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
       usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
   public boolean qljm = false;
 
   @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "qljm: lambda smoothing parameter")
   public String[] qljm_lambda = new String[]{"0.1"};
 
+  // -----------------------------------------
+  // other ranking models (less commonly used)
+  // -----------------------------------------
+
   @Option(name = "-inl2",
-      forbids = {"bm25", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "bm25", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
       usage = "use I(n)L2 scoring model")
   public boolean inl2 = false;
 
@@ -159,7 +217,7 @@ public class SearchArgs {
   public String[] inl2_c = new String[]{"0.1"};
 
   @Option(name = "-spl",
-      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
       usage = "use SPL scoring model")
   public boolean spl = false;
 
@@ -167,7 +225,7 @@ public class SearchArgs {
   public String[] spl_c = new String[]{"0.1"};
 
   @Option(name = "-f2exp",
-      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
+      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
       usage = "use F2Exp scoring model")
   public boolean f2exp = false;
 
@@ -175,12 +233,16 @@ public class SearchArgs {
   public String[] f2exp_s = new String[]{"0.5"};
 
   @Option(name = "-f2log",
-      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
+      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
       usage = "use F2Log scoring model")
   public boolean f2log = false;
 
   @Option(name = "-f2log.s", metaVar = "[value]", usage = "F2Log s parameter")
   public String[] f2log_s = new String[]{"0.5"};
+
+  // -------------------------------------------
+  // options for the sequential dependence model
+  // -------------------------------------------
 
   @Option(name = "-sdm", usage = "boolean switch to use Sequential Dependence Model query")
   public boolean sdm = false;
@@ -214,7 +276,7 @@ public class SearchArgs {
   public String[] rm3_fbTerms = new String[]{"10"};
 
   @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class,
-      usage = "RM3 parameter: number of documents")
+      usage = "RM3 parameter: number of expansion documents")
   public String[] rm3_fbDocs = new String[]{"10"};
 
   @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class,
@@ -222,8 +284,12 @@ public class SearchArgs {
   public String[] rm3_originalQueryWeight = new String[]{"0.5"};
 
   @Option(name = "-rm3.outputQuery",
-      usage = "RM3 parameter: print original and expanded queries")
+      usage = "RM3 parameter: flag to print original and expanded queries")
   public boolean rm3_outputQuery = false;
+
+  @Option(name = "-rm3.noTermFilter",
+      usage = "RM3 parameter: turn off English term filter")
+  public boolean rm3_noTermFilter = false;
 
   // ------------------------------
   // query expansion model: bm25prf
@@ -295,7 +361,21 @@ public class SearchArgs {
   public String qid_queries = "";
 
   // These are convenience methods to support a fluent, method-chaining style of programming.
+  public SearchArgs impact() {
+    this.impact = true;
+    this.bm25 = false;
+    this.qld = false;
+    this.qljm = false;
+    this.inl2 = false;
+    this.spl = false;
+    this.f2exp = false;
+    this.f2log = false;
+
+    return this;
+  }
+
   public SearchArgs bm25() {
+    this.impact = false;
     this.bm25 = true;
     this.qld = false;
     this.qljm = false;
@@ -308,6 +388,7 @@ public class SearchArgs {
   }
 
   public SearchArgs qld() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = true;
     this.qljm = false;
@@ -320,6 +401,7 @@ public class SearchArgs {
   }
 
   public SearchArgs qljm() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = true;
@@ -332,6 +414,7 @@ public class SearchArgs {
   }
 
   public SearchArgs inl2() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = false;
@@ -344,6 +427,7 @@ public class SearchArgs {
   }
 
   public SearchArgs spl() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = false;
@@ -356,6 +440,7 @@ public class SearchArgs {
   }
 
   public SearchArgs f2exp() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = false;
@@ -368,6 +453,7 @@ public class SearchArgs {
   }
 
   public SearchArgs f2log() {
+    this.impact = false;
     this.bm25 = false;
     this.qld = false;
     this.qljm = false;

@@ -1,0 +1,10 @@
+{
+  "id": "doc1",
+  "contents": "this is the contents 1.",
+  "vector": {"f1": 1, "f2": 2, "f3": 1, "f4": 4, "f5": 1}
+}
+{
+  "id": "doc2",
+  "contents": "this is the contents 2.",
+  "vector": {"f4": 3, "f5": 1, "f9": 2, "f22": 6, "f35": 8}
+}

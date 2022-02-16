@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -131,7 +132,7 @@ public class ApproximateNearestNeighborEval {
 
     System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, float[]> wordVectors = IndexVectors.readGloVe(indexArgs.input);
+    Map<String, List<float[]>> wordVectors = IndexVectors.readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
@@ -159,39 +160,41 @@ public class ApproximateNearestNeighborEval {
       if (wordVectors.containsKey(word)) {
         Set<String> truth = nearestVector(wordVectors, word, indexArgs.topN);
         try {
-          float[] vector = wordVectors.get(word);
-          StringBuilder sb = new StringBuilder();
-          for (double fv : vector) {
-            if (sb.length() > 0) {
-              sb.append(' ');
+          List<float[]> vectors = wordVectors.get(word);
+          for (float[] vector : vectors) {
+            StringBuilder sb = new StringBuilder();
+            for (double fv : vector) {
+              if (sb.length() > 0) {
+                sb.append(' ');
+              }
+              sb.append(fv);
             }
-            sb.append(fv);
-          }
-          String fvString = sb.toString();
+            String fvString = sb.toString();
 
-          CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, indexArgs.cutoff);
-          if (indexArgs.msm > 0) {
-            simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
-          }
-          for (String token : AnalyzerUtils.analyze(vectorAnalyzer, fvString)) {
-            simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
-          }
+            CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, indexArgs.cutoff);
+            if (indexArgs.msm > 0) {
+              simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
+            }
+            for (String token : AnalyzerUtils.analyze(vectorAnalyzer, fvString)) {
+              simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
+            }
 
-          long start = System.currentTimeMillis();
-          TopScoreDocCollector results = TopScoreDocCollector.create(indexArgs.depth, Integer.MAX_VALUE);
-          searcher.search(simQuery, results);
-          time += System.currentTimeMillis() - start;
+            long start = System.currentTimeMillis();
+            TopScoreDocCollector results = TopScoreDocCollector.create(indexArgs.depth, Integer.MAX_VALUE);
+            searcher.search(simQuery, results);
+            time += System.currentTimeMillis() - start;
 
-          Set<String> observations = new HashSet<>();
-          for (ScoreDoc sd : results.topDocs().scoreDocs) {
-            Document document = reader.document(sd.doc);
-            String wordValue = document.get(IndexVectors.FIELD_ID);
-            observations.add(wordValue);
+            Set<String> observations = new HashSet<>();
+            for (ScoreDoc sd : results.topDocs().scoreDocs) {
+              Document document = reader.document(sd.doc);
+              String wordValue = document.get(IndexVectors.FIELD_ID);
+              observations.add(wordValue);
+            }
+            double intersection = Sets.intersection(truth, observations).size();
+            double localRecall = intersection / (double) truth.size();
+            recall += localRecall;
+            queryCount++;
           }
-          double intersection = Sets.intersection(truth, observations).size();
-          double localRecall = intersection / (double) truth.size();
-          recall += localRecall;
-          queryCount++;
         } catch (IOException e) {
           System.err.println("search for '" + word + "' failed " + e.getLocalizedMessage());
         }
@@ -218,18 +221,21 @@ public class ApproximateNearestNeighborEval {
    * @param topN    the number of similar word vectors to output
    * @return the {@code topN} similar words of the input word
    */
-  private static Set<String> nearestVector(Map<String, float[]> vectors, String word, int topN) {
+  private static Set<String> nearestVector(Map<String, List<float[]>> vectors, String word, int topN) {
     Set<String> intermediate = new TreeSet<>();
-    float[] input = vectors.get(word);
+    List<float[]> inputs = vectors.get(word);
     String separateToken = "__";
-    for (Map.Entry<String, float[]> entry : vectors.entrySet()) {
-      float sim = 0;
-      float[] value = entry.getValue();
-      for (int i = 0; i < value.length; i++) {
-        sim += value[i] * input[i];
+    for (Map.Entry<String, List<float[]>> entry : vectors.entrySet()) {
+      for (float[] value : entry.getValue()) {
+        for (float[] input : inputs) {
+          float sim = 0;
+          for (int i = 0; i < value.length; i++) {
+            sim += value[i] * input[i];
+          }
+          // store the words, sorted by decreasing distance using natural order (in the $dist__$word format)
+          intermediate.add((1 - sim) + separateToken + entry.getKey());
+        }
       }
-      // store the words, sorted by decreasing distance using natural order (in the $dist__$word format)
-      intermediate.add((1 - sim) + separateToken + entry.getKey());
     }
     Set<String> result = new HashSet<>();
     int i = 0;

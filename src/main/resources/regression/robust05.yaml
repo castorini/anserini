@@ -1,111 +1,88 @@
 ---
-name: robust05
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-index_root:
-ranking_root:
-collection: TrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: Trec
-evals:
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-    separator: "\t"
-    parse_index: 2
-    metric: map
-    metric_precision: 4
-    can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m P.30
-    separator: "\t"
-    parse_index: 2
-    metric: p30
-    metric_precision: 4
-    can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/AQUAINT/
-index_path: indexes/lucene-index.robust05.pos+docvectors+raw
+corpus: robust05
+corpus_path: collections/newswire/AQUAINT/
+
+index_path: indexes/lucene-index.robust05/
+collection_class: TrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 1031455
   documents (non-empty): 1031326
   total terms: 317246296
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P30
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Trec
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)"
+    id: trec05
     path: topics.robust05.txt
     qrel: qrels.robust05.txt
+
 models:
   - name: bm25
     display: BM25
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
+      MAP:
         - 0.2032
-      p30:
+      P30:
         - 0.3693
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
+      MAP:
         - 0.2602
-      p30:
+      P30:
         - 0.4187
   - name: bm25+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.2587
-      p30:
+      P30:
         - 0.4120
   - name: ql
     display: QL
-    params:
-      - -qld
+    params: -qld
     results:
-      map:
+      MAP:
         - 0.2028
-      p30:
+      P30:
         - 0.3653
   - name: ql+rm3
     display: +RM3
-    params:
-      - -qld
-      - -rm3
+    params: -qld -rm3
     results:
-      map:
+      MAP:
         - 0.2491
-      p30:
+      P30:
         - 0.4067
   - name: ql+ax
     display: +Ax
-    params:
-      - -qld
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -qld -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
+      MAP:
         - 0.2476
-      p30:
+      P30:
         - 0.4113

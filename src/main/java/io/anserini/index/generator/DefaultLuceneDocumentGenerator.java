@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,7 +99,11 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
     // Currently we just use all the settings of the main "content" field.
     if (src instanceof MultifieldSourceDocument) {
       ((MultifieldSourceDocument) src).fields().forEach((k, v) -> {
-        document.add(new Field(k, v, fieldType));
+        if (k == IndexArgs.ENTITY) {
+          document.add(new StoredField(IndexArgs.ENTITY, v));
+        } else {
+          document.add(new Field(k, v, fieldType));
+        }
       });
     }
 

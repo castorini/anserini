@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -62,9 +63,12 @@ public class CovidTopicReader extends TopicReader<Integer> {
 
       Element cur = (Element) nodes.item(i);
 
-      topic.put("query", cur.getElementsByTagName("query").item(0).getTextContent().trim());
-      topic.put("question", cur.getElementsByTagName("question").item(0).getTextContent().trim());
-      topic.put("narrative", cur.getElementsByTagName("narrative").item(0).getTextContent().trim());
+      for (String field : List.of("query", "question", "narrative")) {
+        NodeList nl = cur.getElementsByTagName(field);
+        if (nl.getLength() != 0) {
+          topic.put(field, nl.item(0).getTextContent().trim());
+        }
+      }
 
       map.put(Integer.parseInt(cur.getAttributes().getNamedItem("number").getNodeValue()), topic);
     }

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "2000000",
+    "contents": "this was ##a simple pretokenized test"
+  },
+  {
+    "id": "2000001",
+    "contents": "some time extra ##vert ##ing and some time intro ##vert ##ing"
+  }
+]

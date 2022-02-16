@@ -1,0 +1,74 @@
+---
+corpus: msmarco-v2-passage-unicoil-noexp-0shot
+corpus_path: collections/msmarco/msmarco_v2_passage_unicoil_noexp_0shot/
+
+index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 18
+index_options: -impact -pretokenized
+index_stats:
+  documents: 138364198
+  documents (non-empty): 138364198
+  total terms: 411330032512
+
+metrics:
+  - metric: MAP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev
+    path: topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz
+    qrel: qrels.msmarco-v2-passage.dev.txt
+  - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev2
+    path: topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz
+    qrel: qrels.msmarco-v2-passage.dev2.txt
+
+models:
+  - name: unicoil-noexp-0shot
+    display: uniCOIL (no expansion, zero-shot)
+    params: -impact -pretokenized
+    results:
+      MAP@100:
+        - 0.1333
+        - 0.1374
+      MRR@100:
+        - 0.1342
+        - 0.1385
+      R@100:
+        - 0.4976
+        - 0.5217
+      R@1000:
+        - 0.7010
+        - 0.7114

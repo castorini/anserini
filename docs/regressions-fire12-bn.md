@@ -6,14 +6,24 @@ The document collection can be found in [FIRE data page](http://fire.irsi.res.in
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire12-bn.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/fire12-bn.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression fire12-bn
+```
+
 ## Indexing
 
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/fire12-bn \
- -index lucene-index.fire12-bn.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language bn >& log.fire12-bn.pos+docvectors+rawdocs &
+target/appassembler/bin/IndexCollection \
+  -collection CleanTrecCollection \
+  -input /path/to/fire12-bn \
+  -index indexes/lucene-index.fire12-bn/ \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 16 -storePositions -storeDocvectors -storeRaw -language bn \
+  >& logs/log.fire12-bn &
 ```
 
 The directory `/path/to/fire12-bn/` should be a directory containing the collection, containing `bn_ABP` and `bn_BDNews24` directories.
@@ -31,31 +41,34 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-bn.pos+docvectors+rawdocs \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt \
- -language bn -bm25 -output run.fire12-bn.bm25.topics.fire12bn.176-225.txt &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.fire12-bn/ \
+  -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt \
+  -topicreader Trec \
+  -output runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt \
+  -bm25 -language bn &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12bn.176-225.txt run.fire12-bn.bm25.topics.fire12bn.176-225.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12bn.176-225.txt runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt
 ```
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      |
-:---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)| 0.2881    |
-
-
-P20                                     | BM25      |
-:---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)| 0.3740    |
+| MAP                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)        | 0.2881    |
 
 
-NDCG20                                  | BM25      |
-:---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)| 0.4261    |
+| P20                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)        | 0.3740    |
+
+
+| nDCG@20                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)        | 0.4261    |

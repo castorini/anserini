@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,8 +39,10 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
@@ -56,14 +58,16 @@ public class Rm3Reranker implements Reranker {
   private final int fbDocs;
   private final float originalQueryWeight;
   private final boolean outputQuery;
+  private final boolean filterTerms;
 
-  public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
+  public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     this.analyzer = analyzer;
     this.field = field;
     this.fbTerms = fbTerms;
     this.fbDocs = fbDocs;
     this.originalQueryWeight = originalQueryWeight;
     this.outputQuery = outputQuery;
+    this.filterTerms = filterTerms;
   }
 
   @Override
@@ -75,7 +79,8 @@ public class Rm3Reranker implements Reranker {
 
     FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
-    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets);
+    boolean useRf = (context.getSearchArgs().rf_qrels != null);
+    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets, useRf);
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
@@ -124,21 +129,31 @@ public class Rm3Reranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
+  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, boolean useRf) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();
-    int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
-    FeatureVector[] docvectors = new FeatureVector[numdocs];
+    int numdocs;
+    if (useRf) {
+      numdocs = docs.documents.length;
+    }
+    else {
+      numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    }
 
+    List<FeatureVector> docvectors = new ArrayList<>();
+    List<Float> docScores = new ArrayList<>();
     for (int i = 0; i < numdocs; i++) {
+      if (useRf && docs.scores[i] <= .0) {
+        continue;
+      }
       try {
         FeatureVector docVector = createdFeatureVector(
             reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
         docVector.pruneToSize(fbTerms);
-
         vocab.addAll(docVector.getFeatures());
-        docvectors[i] = docVector;
+        docvectors.add(docVector);
+        docScores.add(Float.valueOf(docs.scores[i]));
       } catch (IOException e) {
         e.printStackTrace();
         // Just return empty feature vector.
@@ -147,19 +162,19 @@ public class Rm3Reranker implements Reranker {
     }
 
     // Precompute the norms once and cache results.
-    float[] norms = new float[docvectors.length];
-    for (int i = 0; i < docvectors.length; i++) {
-      norms[i] = (float) docvectors[i].computeL1Norm();
+    float[] norms = new float[docvectors.size()];
+    for (int i = 0; i < docvectors.size(); i++) {
+      norms[i] = (float) docvectors.get(i).computeL1Norm();
     }
 
     for (String term : vocab) {
       float fbWeight = 0.0f;
-      for (int i = 0; i < docvectors.length; i++) {
+      for (int i = 0; i < docvectors.size(); i++) {
         // Avoids zero-length feedback documents, which causes division by zero when computing term weights.
         // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
         // that accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
-          fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * docs.scores[i];
+          fbWeight += (docvectors.get(i).getFeatureWeight(term) / norms[i]) * docScores.get(i);
         }
       }
       f.addFeatureWeight(term, fbWeight);
@@ -183,7 +198,7 @@ public class Rm3Reranker implements Reranker {
         String term = text.utf8ToString();
 
         if (term.length() < 2 || term.length() > 20) continue;
-        if (!term.matches("[a-z0-9]+")) continue;
+        if (this.filterTerms && !term.matches("[a-z0-9]+")) continue;
 
         // This seemingly arbitrary logic needs some explanation. See following PR for details:
         //   https://github.com/castorini/Anserini/pull/289

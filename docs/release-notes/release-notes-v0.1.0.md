@@ -26,7 +26,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Ahmet Arslan ([iorixxx](https://github.com/iorixxx))
 + Royal Sequiera ([rosequ](https://github.com/rosequ))
 + Luchen Tan ([LuchenTan](https://github.com/LuchenTan))
-+ Salman Mohammed ([Salman Mohammed](https://github.com/salman1993))
++ Salman Mohammed ([salman1993](https://github.com/salman1993))
 + Dayang Shi ([dyshi](https://github.com/dyshi))
 + Michael Tu ([tuzhucheng](https://github.com/tuzhucheng))
 + Xin Qian ([xeniaqian94](https://github.com/xeniaqian94))

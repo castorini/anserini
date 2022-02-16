@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
@@ -140,32 +141,34 @@ public class ApproximateNearestNeighborSearch {
       searcher.setSimilarity(new ClassicSimilarity());
     }
 
-    Collection<String> vectors = new LinkedList<>();
+    Collection<String> vectorStrings = new LinkedList<>();
     if (indexArgs.stored) {
       TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_ID, indexArgs.word)), indexArgs.depth);
       for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-        vectors.add(reader.document(scoreDoc.doc).get(IndexVectors.FIELD_VECTOR));
+        vectorStrings.add(reader.document(scoreDoc.doc).get(IndexVectors.FIELD_VECTOR));
       }
     } else {
       System.out.println(String.format("Loading model %s", indexArgs.input));
 
-      Map<String, float[]> wordVectors = IndexVectors.readGloVe(indexArgs.input);
+      Map<String, List<float[]>> wordVectors = IndexVectors.readGloVe(indexArgs.input);
 
       if (wordVectors.containsKey(indexArgs.word)) {
-        float[] vector = wordVectors.get(indexArgs.word);
-        StringBuilder sb = new StringBuilder();
-        for (double fv : vector) {
-          if (sb.length() > 0) {
-            sb.append(' ');
+        List<float[]> vectors = wordVectors.get(indexArgs.word);
+        for (float[] vector : vectors) {
+          StringBuilder sb = new StringBuilder();
+          for (double fv : vector) {
+            if (sb.length() > 0) {
+              sb.append(' ');
+            }
+            sb.append(fv);
           }
-          sb.append(fv);
+          String vectorString = sb.toString();
+          vectorStrings.add(vectorString);
         }
-        String vectorString = sb.toString();
-        vectors.add(vectorString);
       }
     }
 
-    for (String vectorString : vectors) {
+    for (String vectorString : vectorStrings) {
       float msm = indexArgs.msm;
       float cutoff = indexArgs.cutoff;
       CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, cutoff);

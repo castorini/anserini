@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -116,7 +118,7 @@ public class IndexVectors {
     final long start = System.nanoTime();
     System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, float[]> vectors = readGloVe(indexArgs.input);
+    Map<String, List<float[]>> vectors = readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
@@ -134,27 +136,27 @@ public class IndexVectors {
     IndexWriter indexWriter = new IndexWriter(d, conf);
     final AtomicInteger cnt = new AtomicInteger();
 
-    for (Map.Entry<String, float[]> entry : vectors.entrySet()) {
-      Document doc = new Document();
-
-      doc.add(new StringField(FIELD_ID, entry.getKey(), Field.Store.YES));
-      float[] vector = entry.getValue();
-      StringBuilder sb = new StringBuilder();
-      for (double fv : vector) {
-        if (sb.length() > 0) {
-          sb.append(' ');
+    for (Map.Entry<String, List<float[]>> entry : vectors.entrySet()) {
+      for (float[] vector: entry.getValue()) {
+        Document doc = new Document();
+        doc.add(new StringField(FIELD_ID, entry.getKey(), Field.Store.YES));
+        StringBuilder sb = new StringBuilder();
+        for (double fv : vector) {
+          if (sb.length() > 0) {
+            sb.append(' ');
+          }
+          sb.append(fv);
         }
-        sb.append(fv);
-      }
-      doc.add(new TextField(FIELD_VECTOR, sb.toString(), indexArgs.stored ? Field.Store.YES : Field.Store.NO));
-      try {
-        indexWriter.addDocument(doc);
-        int cur = cnt.incrementAndGet();
-        if (cur % 100000 == 0) {
-          System.out.println(String.format("%s docs added", cnt));
+        doc.add(new TextField(FIELD_VECTOR, sb.toString(), indexArgs.stored ? Field.Store.YES : Field.Store.NO));
+        try {
+          indexWriter.addDocument(doc);
+          int cur = cnt.incrementAndGet();
+          if (cur % 100000 == 0) {
+            System.out.println(String.format("%s docs added", cnt));
+          }
+        } catch (IOException e) {
+          System.err.println("Error while indexing: " + e.getLocalizedMessage());
         }
-      } catch (IOException e) {
-        System.err.println("Error while indexing: " + e.getLocalizedMessage());
       }
     }
 
@@ -171,8 +173,8 @@ public class IndexVectors {
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
-  static Map<String, float[]> readGloVe(File input) throws IOException {
-    Map<String, float[]> vectors = new HashMap<>();
+  static Map<String, List<float[]>> readGloVe(File input) throws IOException {
+    Map<String, List<float[]>> vectors = new HashMap<>();
     for (String line : IOUtils.readLines(new FileReader(input))) {
       String[] s = line.split("\\s+");
       if (s.length > 2) {
@@ -188,7 +190,13 @@ public class IndexVectors {
         for (int i = 0; i < vector.length; i++) {
           vector[i] = vector[i] / norm;
         }
-        vectors.put(key, vector);
+        if (vectors.containsKey(key)) {
+          List<float[]> floats = new LinkedList<>(vectors.get(key));
+          floats.add(vector);
+          vectors.put(key, floats);
+        } else {
+          vectors.put(key, List.of(vector));
+        }
       }
     }
     return vectors;

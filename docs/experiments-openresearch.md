@@ -11,7 +11,7 @@ First, we need to download and extract the OpenResearch dataset (2017-02-21):
 DATA_DIR=./openresearch_data
 mkdir ${DATA_DIR}
 
-wget https://s3-us-west-2.amazonaws.com/ai2-s2-research-public/open-corpus-archive/2017-02-21/papers-2017-02-21.zip -P ${DATA_DIR}
+wget https://s3-us-west-2.amazonaws.com/ai2-s2-research-public/open-corpus/2017-02-21/papers-2017-02-21.zip -P ${DATA_DIR}
 unzip ${DATA_DIR}/papers-2017-02-21.zip -d ${DATA_DIR}
 ```
 
@@ -36,7 +36,7 @@ We can now index these docs as a `JsonCollection` using Anserini:
 
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator LuceneDocumentGenerator -threads 8 -input ${DATA_DIR}/anserini_format/corpus \
+ -generator DefaultLuceneDocumentGenerator -threads 8 -input ${DATA_DIR}/anserini_format/corpus \
  -index ${DATA_DIR}/lucene-index-openresearch -optimize -storePositions -storeDocvectors -storeRawDocs 
 ```
 
@@ -48,7 +48,7 @@ The output message should be something like this:
 
 Your speed may vary... with a modern desktop machine with an SSD, indexing takes around a minute.
 
-**Optional:** To further replicate the result presented in [Bhagavatula et. al (2018)](https://arxiv.org/pdf/1802.08301.pdf), we could use `key_terms_from_text` method presented in [whoosh](https://whoosh.readthedocs.io/en/latest/). For that purpose, we need to generate whoosh's own index:
+**Optional:** To further reproduce the result presented in [Bhagavatula et. al (2018)](https://arxiv.org/pdf/1802.08301.pdf), we could use `key_terms_from_text` method presented in [whoosh](https://whoosh.readthedocs.io/en/latest/). For that purpose, we need to generate whoosh's own index:
 
 ```
 python ./src/main/python/openresearch/convert_openresearch_to_whoosh_index.py \

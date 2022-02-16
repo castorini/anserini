@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,15 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class SimpleSearcherTest extends IndexerTestBase {
 
@@ -217,13 +222,16 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
 
+    hits = searcher.searchFields("test", Map.of("id", 1.0f), 10);
+    assertEquals(0, hits.length);
+
     searcher.close();
   }
 
   @Test
   public void testFieldedBatchSearch() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
-      
+
     List<String> queries = new ArrayList<>();
     queries.add("doc1");
     queries.add("test");
@@ -246,5 +254,48 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("doc3", hits.get("query_contents")[0].docid);
 
     searcher.close();
+  }
+
+  @Test
+  public void testMain() throws Exception {
+    Random random = new Random();
+    String tmpFile = "tmp" + random.nextInt() + ".txt";
+    String contents;
+
+    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(),
+        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
+        "-output", tmpFile});
+
+    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
+    assertEquals("620 Q0 doc3 1 0.570200 Anserini\n", contents);
+
+    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-threads", "2",
+        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
+        "-output", tmpFile});
+
+    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
+    assertEquals("620 Q0 doc3 1 0.570200 Anserini\n", contents);
+
+    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-rm3",
+        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
+        "-output", tmpFile});
+
+    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
+    assertEquals("620 Q0 doc3 1 0.095000 Anserini\n", contents);
+
+    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-qld",
+        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
+        "-output", tmpFile});
+
+    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
+    assertEquals("620 Q0 doc3 1 0.004500 Anserini\n", contents);
+
+    new File(tmpFile).delete();
+  }
+
+  @Test
+  public void testTotalNumDocuments() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    assertEquals(3 ,searcher.getTotalNumDocuments());
   }
 }

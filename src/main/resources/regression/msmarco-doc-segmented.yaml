@@ -1,0 +1,127 @@
+---
+corpus: msmarco-doc-segmented
+corpus_path: collections/msmarco/msmarco-doc-segmented/
+
+index_path: indexes/lucene-index.msmarco-doc-segmented/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 20545677
+  documents (non-empty): 20545677
+  total terms: 3200515914
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
+    id: dev
+    path: topics.msmarco-doc.dev.txt
+    qrel: qrels.msmarco-doc.dev.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP:
+        - 0.2690
+      R@100:
+        - 0.7847
+      R@1000:
+        - 0.9178
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP:
+        - 0.2419
+      R@100:
+        - 0.7882
+      R@1000:
+        - 0.9355
+  - name: bm25-default+ax
+    display: +Ax
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP:
+        - 0.2208
+      R@100:
+        - 0.7710
+      R@1000:
+        - 0.9264
+  - name: bm25-default+prf
+    display: +PRF
+    params: -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP:
+        - 0.2325
+      R@100:
+        - 0.7722
+      R@1000:
+        - 0.9185
+  - name: bm25-tuned
+    display: BM25 (tuned)
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP:
+        - 0.2762
+      R@100:
+        - 0.8013
+      R@1000:
+        - 0.9311
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP:
+        - 0.2450
+      R@100:
+        - 0.7961
+      R@1000:
+        - 0.9363
+  - name: bm25-tuned+ax
+    display: +Ax
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP:
+        - 0.2330
+      R@100:
+        - 0.7888
+      R@1000:
+        - 0.9353
+  - name: bm25-tuned+prf
+    display: +PRF
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP:
+        - 0.2276
+      R@100:
+        - 0.7687
+      R@1000:
+        - 0.9157

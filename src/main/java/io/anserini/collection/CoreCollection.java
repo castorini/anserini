@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     public Segment(Path path) throws IOException {
       super(path);
 
-      if (path.endsWith(".xz")) {
+      if (path.toString().endsWith(".xz")) {
         bufferedReader = new BufferedReader(new InputStreamReader(
           new XZInputStream(new FileInputStream(path.toString()))));
       } else {
