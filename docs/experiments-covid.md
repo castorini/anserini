@@ -70,11 +70,7 @@ The actual evaluated runs are (mirrored from URL above):
 | `anserini` | `r5.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/qtwny6bd6k3ijzq/anserini.final-r5.fusion2.post-processed.txt?dl=1)] | `77ce612916becbb5ccfd6d891f797d1d` |
 | `anserini` | `r5.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/1ak8w2280dzrflu/anserini.final-r5.rf.post-processed.txt?dl=1)]      | `dd765fa9491c585476735115eb966ea2` |
 
-<<<<<<< HEAD
-- Jimmy Lin. [Is Searching Full Text More Effective Than Searching Abstracts?](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-10-46) BMC Bioinformatics, 10:46 (3 February 2009).
-=======
 Effectiveness results (note that starting in Round 4, NIST changed from nDCG@10 to nDCG@20):
->>>>>>> c7614d212a8f7744b2e7071fd5819c058ab6a09c
 
 | group | runtag | nDCG@20 | J@20 | AP   | R@1k |
 |:------|:-------|--------:|-----:|-----:|-----:|
