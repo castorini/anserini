@@ -24,11 +24,14 @@ import org.apache.lucene.geo.Polygon;
 import org.apache.lucene.geo.SimpleWKTShapeParser;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.Before;
 import org.junit.After;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,7 +43,8 @@ import java.util.List;
 public class GeoIndexerTestBase extends LuceneTestCase {
   protected Path tempDir1;
 
-  private void buildTestIndex() throws IOException {
+  @Test
+  public void buildTestIndex() throws IOException {
     try {
       Directory dir = FSDirectory.open(tempDir1);
 
@@ -130,6 +134,16 @@ public class GeoIndexerTestBase extends LuceneTestCase {
         doc6.add(f);
       }
       writer.addDocument(doc6);
+
+      int counter = 0;
+      for (IndexableField f: doc6.getFields()) {
+        System.out.println(f.name());
+        System.out.println(f.binaryValue());
+        f.fieldType();
+        System.out.println(f.fieldType().stored());
+        ++counter;
+      }
+      System.out.println(counter);
 
 
       writer.commit();
