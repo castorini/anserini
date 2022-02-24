@@ -32,7 +32,7 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
 
     geoDoc.fields().forEach((k, v) -> {
       if ("geometry".equals(k)) {
-        // parse the fields using SimpleWKTParser and
+        // parse the geometry fields using SimpleWKTParser and index them
         try {
           Object shape = SimpleWKTShapeParser.parse(v);
 
