@@ -63,43 +63,57 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-docTTTTTquery >& logs/log.msmarco-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented >& logs/log.msmarco-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-docTTTTTquery >& logs/log.msmarco-doc-segmented-docTTTTTquery &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil >& logs/log.msmarco-doc-segmented-unicoil &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage >& logs/log.dl19-passage &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-docTTTTTquery >& logs/log.dl19-passage-docTTTTTquery &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil >& logs/log.dl19-passage-unicoil &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc >& logs/log.dl19-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-docTTTTTquery >& logs/log.dl19-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented >& logs/log.dl19-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-docTTTTTquery >& logs/log.dl19-doc-segmented-docTTTTTquery &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-unicoil >& logs/log.dl19-doc-segmented-unicoil &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage >& logs/log.dl20-passage &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-docTTTTTquery >& logs/log.dl20-passage-docTTTTTquery &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-unicoil >& logs/log.dl20-passage-unicoil &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-docTTTTTquery >& logs/log.dl20-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented >& logs/log.dl20-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-docTTTTTquery >& logs/log.dl20-doc-segmented-docTTTTTquery &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-unicoil >& logs/log.dl20-doc-segmented-unicoil &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage >& logs/log.msmarco-v2-passage &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-d2q-t5 >& logs/log.msmarco-v2-passage-d2q-t5 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented >& logs/log.msmarco-v2-passage-augmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented-d2q-t5 >& logs/log.msmarco-v2-passage-augmented-d2q-t5 &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-noexp-0shot >& logs/log.msmarco-v2-passage-unicoil-noexp-0shot &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-0shot >& logs/log.msmarco-v2-passage-unicoil-0shot &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc >& logs/log.msmarco-v2-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-d2q-t5 >& logs/log.msmarco-v2-doc-d2q-t5 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented >& logs/log.msmarco-v2-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-d2q-t5 >& logs/log.msmarco-v2-doc-segmented-d2q-t5 &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot >& logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot >& logs/log.msmarco-v2-doc-segmented-unicoil-0shot &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage >& logs/log.dl21-passage &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-d2q-t5 >& logs/log.dl21-passage-d2q-t5 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-augmented >& logs/log.dl21-passage-augmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-augmented-d2q-t5 >& logs/log.dl21-passage-augmented-d2q-t5 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-unicoil-noexp-0shot >& logs/log.dl21-passage-unicoil-noexp-0shot &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-unicoil-0shot >& logs/log.dl21-passage-unicoil-0shot &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc >& logs/log.dl21-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-d2q-t5 >& logs/log.dl21-doc-d2q-t5 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented >& logs/log.dl21-doc-segmented &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-noexp-0shot >& logs/log.dl21-doc-segmented-unicoil-noexp-0shot &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-d2q-t5 >& logs/log.dl21-doc-segmented-d2q-t5 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-noexp-0shot >& logs/log.dl21-doc-segmented-unicoil-noexp-0shot &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-0shot >& logs/log.dl21-doc-segmented-unicoil-0shot &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking18 >& logs/log.backgroundlinking18 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking19 >& logs/log.backgroundlinking19 &

@@ -12,6 +12,12 @@ For additional instructions on working with MS MARCO V2 passage collection, refe
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-passage-augmented.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-passage-augmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-augmented
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -42,25 +48,29 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented.bm25-default.topics.dl21.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented.bm25-default+rm3.topics.dl21.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented.bm25-default+ax.topics.dl21.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented.bm25-default+prf.topics.dl21.txt \
   -bm25 -bm25prf &
 ```
@@ -97,29 +107,29 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP@100                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.0977    | 0.1050    | 0.0849    | 0.0959    |
+| MAP@100                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.0977    | 0.1050    | 0.0849    | 0.0959    |
 
 
-MRR@100                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5303    | 0.4906    | 0.4269    | 0.4737    |
+| MRR@100                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5303    | 0.4906    | 0.4269    | 0.4737    |
 
 
-nDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.3977    | 0.3906    | 0.2927    | 0.3488    |
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3977    | 0.3906    | 0.2927    | 0.3488    |
 
 
-R@100                                   | BM25 (default)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.2709    | 0.2795    | 0.2645    | 0.2729    |
+| R@100                                                                                                        | BM25 (default)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2709    | 0.2795    | 0.2645    | 0.2729    |
 
 
-R@1000                                  | BM25 (default)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)| 0.5835    | 0.6268    | 0.6085    | 0.5952    |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5835    | 0.6268    | 0.6085    | 0.5952    |
 
 Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
 

@@ -15,6 +15,12 @@ Note that in November 2021 we discovered issues in our regression tests, documen
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -44,37 +50,43 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+rm3.topics.msmarco-doc.dev.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+rm3.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2+rm3.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3 &
 ```
@@ -99,19 +111,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m recall.100
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2305    | 0.1631    | 0.2784    | 0.2289    | 0.2774    | 0.2239    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2305    | 0.1631    | 0.2784    | 0.2289    | 0.2774    | 0.2239    |
 
 
-R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.7281    | 0.6767    | 0.8069    | 0.7878    | 0.8070    | 0.7791    |
+| R@100                                                                                                        | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7281    | 0.6767    | 0.8069    | 0.7878    | 0.8070    | 0.7791    |
 
 
-R@1000                                  | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8856    | 0.8791    | 0.9324    | 0.9314    | 0.9357    | 0.9305    |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8856    | 0.8791    | 0.9324    | 0.9314    | 0.9357    | 0.9305    |
 
 Explanation of settings:
 
@@ -138,13 +150,13 @@ To generate an MS MARCO submission with the BM25 default parameters, correspondi
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
-   -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
-   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-   -output runs/run.msmarco-doc.bm25-default.txt
+    -index indexes/lucene-index.msmarco-doc/ \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -output runs/run.msmarco-doc.bm25-default.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
-   --run runs/run.msmarco-doc.bm25-default.txt
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.bm25-default.txt
 
 #####################
 MRR @100: 0.23005723505603573
@@ -158,7 +170,7 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
-   -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
+   -index indexes/lucene-index.msmarco-doc/ \
    -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
    -output runs/run.msmarco-doc.bm25-tuned.txt
 
@@ -173,3 +185,48 @@ QueriesRanked: 5193
 ```
 
 This run was _not_ submitted to the MS MARCO document ranking leaderboard, but is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
+
+As of February 2022, following resolution of [#1721](https://github.com/castorini/anserini/issues/1721), BM25 runs for the MS MARCO leaderboard can be generated with the commands below.
+For default parameters (`k1=0.9`, `b=0.4`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-doc/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-doc.bm25-default.txt \
+    -format msmarco \
+    -bm25 -hits 100
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.bm25-default.txt
+
+#####################
+MRR @100: 0.22994387925437856
+QueriesRanked: 5193
+#####################
+```
+
+For tuned parameters (`k1=4.46`, `b=0.82`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-doc/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-doc.bm25-tuned.txt \
+    -format msmarco \
+    -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.bm25-tuned.txt
+
+#####################
+MRR @100: 0.2766351807440808
+QueriesRanked: 5193
+#####################
+```
+
+Note that the resolution of [#1721](https://github.com/castorini/anserini/issues/1721) _did_ slightly change the results, since we corrected underlying issues with data preparation.

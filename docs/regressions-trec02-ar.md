@@ -6,6 +6,12 @@ The description of the document collection can be found on the [TREC data page](
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/trec02-ar.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/trec02-ar.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression trec02-ar
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -39,7 +45,8 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.trec02-ar/ \
-  -topics src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt \
+  -topicreader Trec \
   -output runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt \
   -bm25 -language ar &
 ```
@@ -54,16 +61,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      |
-:---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.2932    |
+| MAP                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)              | 0.2932    |
 
 
-P20                                     | BM25      |
-:---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.3610    |
+| P20                                                                                                          | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)              | 0.3610    |
 
 
-nDCG@20                                 | BM25      |
-:---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.4056    |
+| nDCG@20                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)              | 0.4056    |

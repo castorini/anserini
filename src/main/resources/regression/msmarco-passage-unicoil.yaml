@@ -1,6 +1,6 @@
 ---
 corpus: msmarco-passage-unicoil
-corpus_path: collections/msmarco/msmarco-passage-unicoil-b8/
+corpus_path: collections/msmarco/msmarco-passage-unicoil/
 
 index_path: indexes/lucene-index.msmarco-passage-unicoil/
 collection_class: JsonVectorCollection

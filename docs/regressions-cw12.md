@@ -4,6 +4,12 @@ This page describes regressions for the Web Tracks from TREC 2013 and 2014 using
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/cw12.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/cw12.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression cw12
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -36,45 +42,53 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -topicreader Webxml \
   -output runs/run.cw12.bm25.topics.web.201-250.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -topicreader Webxml \
   -output runs/run.cw12.bm25.topics.web.251-300.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -topicreader Webxml \
   -output runs/run.cw12.bm25+rm3.topics.web.201-250.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -topicreader Webxml \
   -output runs/run.cw12.bm25+rm3.topics.web.251-300.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -topicreader Webxml \
   -output runs/run.cw12.ql.topics.web.201-250.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -topicreader Webxml \
   -output runs/run.cw12.ql.topics.web.251-300.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -topicreader Webxml \
   -output runs/run.cw12.ql+rm3.topics.web.201-250.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -topicreader Webxml \
   -output runs/run.cw12.ql+rm3.topics.web.251-300.txt \
   -qld -rm3 &
 ```
@@ -107,25 +121,25 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      | +RM3      | QL        | +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.1695    | 0.1465    | 0.1493    | 0.1290    |
-[TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.2470    | 0.2330    | 0.2467    | 0.2178    |
+| MAP                                                                                                          | BM25      | +RM3      | QL        | +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.1695    | 0.1465    | 0.1493    | 0.1290    |
+| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.2470    | 0.2330    | 0.2467    | 0.2178    |
 
 
-P30                                     | BM25      | +RM3      | QL        | +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.2767    | 0.2393    | 0.2607    | 0.2347    |
-[TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.4547    | 0.4080    | 0.4380    | 0.3813    |
+| P30                                                                                                          | BM25      | +RM3      | QL        | +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.2767    | 0.2393    | 0.2607    | 0.2347    |
+| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.4547    | 0.4080    | 0.4380    | 0.3813    |
 
 
-nDCG@20                                 | BM25      | +RM3      | QL        | +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.2085    | 0.2033    | 0.1993    | 0.1725    |
-[TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.2572    | 0.2516    | 0.2220    | 0.2093    |
+| nDCG@20                                                                                                      | BM25      | +RM3      | QL        | +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.2085    | 0.2033    | 0.1993    | 0.1725    |
+| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.2572    | 0.2516    | 0.2220    | 0.2093    |
 
 
-ERR@20                                  | BM25      | +RM3      | QL        | +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.1283    | 0.1265    | 0.1233    | 0.1007    |
-[TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.1616    | 0.1652    | 0.1323    | 0.1249    |
+| ERR@20                                                                                                       | BM25      | +RM3      | QL        | +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.1283    | 0.1265    | 0.1233    | 0.1007    |
+| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.1616    | 0.1652    | 0.1323    | 0.1249    |

@@ -9,6 +9,12 @@ For additional instructions on working with MS MARCO passage collection, refer t
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-passage-docTTTTTquery.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-docTTTTTquery.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-docTTTTTquery
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -39,37 +45,43 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rm3 &
 ```
@@ -118,29 +130,29 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.4074    | 0.4295    | 0.4082    | 0.4296    | 0.4171    | 0.4347    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4074    | 0.4295    | 0.4082    | 0.4296    | 0.4171    | 0.4347    |
 
 
-nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.6187    | 0.6172    | 0.6192    | 0.6177    | 0.6265    | 0.6232    |
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6187    | 0.6172    | 0.6192    | 0.6177    | 0.6265    | 0.6232    |
 
 
-MRR                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.7326    | 0.7424    | 0.7425    | 0.7422    | 0.7467    | 0.7327    |
+| MRR                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7326    | 0.7424    | 0.7425    | 0.7422    | 0.7467    | 0.7327    |
 
 
-R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.7044    | 0.7153    | 0.7046    | 0.7143    | 0.7044    | 0.7109    |
+| R@100                                                                                                        | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7044    | 0.7153    | 0.7046    | 0.7143    | 0.7044    | 0.7109    |
 
 
-R@1000                                  | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)| 0.8452    | 0.8699    | 0.8443    | 0.8692    | 0.8393    | 0.8609    |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      | BM25 (tuned2)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8452    | 0.8699    | 0.8443    | 0.8692    | 0.8393    | 0.8609    |
 
 Explanation of settings:
 
@@ -157,3 +169,5 @@ Some of these regressions correspond to official TREC 2020 Deep Learning Track s
 
 + `p_d2q_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
 + `p_d2q_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
+
+Note this regression was revamped as part of [#1730](https://github.com/castorini/anserini/issues/1730), but the results did not change.

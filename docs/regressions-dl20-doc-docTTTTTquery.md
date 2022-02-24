@@ -19,6 +19,12 @@ Note that in November 2021 we discovered issues in our regression tests, documen
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-docTTTTTquery
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -49,25 +55,29 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl20.txt \
   -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100 &
 ```
@@ -88,24 +98,24 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m ndcg_cut.10 -c -m recip_ran
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4230    | 0.4229    | 0.4099    | 0.4104    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.4230    | 0.4229    | 0.4099    | 0.4104    |
 
 
-nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5885    | 0.5407    | 0.5852    | 0.5743    |
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5885    | 0.5407    | 0.5852    | 0.5743    |
 
 
-MRR                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.9369    | 0.8147    | 0.9439    | 0.8701    |
+| MRR                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.9369    | 0.8147    | 0.9439    | 0.8701    |
 
 
-R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6414    | 0.6555    | 0.6178    | 0.6127    |
+| R@100                                                                                                        | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6414    | 0.6555    | 0.6178    | 0.6127    |
 
 Explanation of settings:
 
@@ -121,3 +131,5 @@ Some of these regressions correspond to official TREC 2020 Deep Learning Track s
 
 + `d_d2q_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
 + `d_d2q_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
+
+Note that [#1721](https://github.com/castorini/anserini/issues/1721) slightly change the results, since we corrected underlying issues with data preparation.

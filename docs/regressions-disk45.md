@@ -4,6 +4,12 @@ This page describes regressions for ad hoc topics from TREC 7-8, which use [TREC
 The exact configurations for these regressions are stored in [this YAML file](${yaml).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression disk45
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -37,97 +43,115 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25.topics.adhoc.351-400.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25.topics.adhoc.401-450.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25.topics.robust04.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25+rm3.topics.adhoc.351-400.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25+rm3.topics.adhoc.401-450.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25+rm3.topics.robust04.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25+ax.topics.adhoc.351-400.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25+ax.topics.adhoc.401-450.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topicreader Trec \
   -output runs/run.disk45.bm25+ax.topics.robust04.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql.topics.adhoc.351-400.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql.topics.adhoc.401-450.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql.topics.robust04.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql+rm3.topics.adhoc.351-400.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql+rm3.topics.adhoc.401-450.txt \
   -qld -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql+rm3.topics.robust04.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql+ax.topics.adhoc.351-400.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql+ax.topics.adhoc.401-450.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topicreader Trec \
   -output runs/run.disk45.ql+ax.topics.robust04.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
@@ -164,18 +188,18 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)| 0.1862    | 0.2354    | 0.2431    | 0.1843    | 0.2168    | 0.2298    |
-[TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)| 0.2515    | 0.2750    | 0.2812    | 0.2460    | 0.2702    | 0.2647    |
-[TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)| 0.2531    | 0.2903    | 0.2896    | 0.2467    | 0.2747    | 0.2774    |
+| MAP                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.1862    | 0.2354    | 0.2431    | 0.1843    | 0.2168    | 0.2298    |
+| [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.2515    | 0.2750    | 0.2812    | 0.2460    | 0.2702    | 0.2647    |
+| [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.2531    | 0.2903    | 0.2896    | 0.2467    | 0.2747    | 0.2774    |
 
 
-P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)| 0.3093    | 0.3447    | 0.3287    | 0.3073    | 0.3307    | 0.3193    |
-[TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)| 0.3560    | 0.3760    | 0.3753    | 0.3480    | 0.3680    | 0.3500    |
-[TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)| 0.3102    | 0.3365    | 0.3333    | 0.3079    | 0.3232    | 0.3229    |
+| P30                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.3093    | 0.3447    | 0.3287    | 0.3073    | 0.3307    | 0.3193    |
+| [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.3560    | 0.3760    | 0.3753    | 0.3480    | 0.3680    | 0.3500    |
+| [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.3102    | 0.3365    | 0.3333    | 0.3079    | 0.3232    | 0.3229    |
 
 ## Reproduction Log[*](reproducibility.md)
 

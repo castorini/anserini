@@ -19,6 +19,12 @@ Note that in November 2021 we discovered issues in our regression tests, documen
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -66,3 +72,4 @@ Settings tuned on the MS MARCO document sparse judgments _may not_ work well on 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 
+Note that [#1721](https://github.com/castorini/anserini/issues/1721) slightly change the results, since we corrected underlying issues with data preparation.

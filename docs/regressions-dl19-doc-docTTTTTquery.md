@@ -19,6 +19,12 @@ Note that in November 2021 we discovered issues in our regression tests, documen
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-docTTTTTquery
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -49,25 +55,29 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt \
   -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100 &
 ```
@@ -88,19 +98,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.1
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2700    | 0.3045    | 0.2620    | 0.2814    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2700    | 0.3045    | 0.2620    | 0.2814    |
 
 
-R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.4198    | 0.4465    | 0.3992    | 0.4119    |
+| R@100                                                                                                        | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4198    | 0.4465    | 0.3992    | 0.4119    |
 
 
-nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5968    | 0.5897    | 0.5972    | 0.6080    |
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5968    | 0.5897    | 0.5972    | 0.6080    |
 
 Explanation of settings:
 
@@ -112,3 +122,4 @@ Settings tuned on the MS MARCO document sparse judgments _may not_ work well on 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 
+Note that [#1721](https://github.com/castorini/anserini/issues/1721) slightly change the results, since we corrected underlying issues with data preparation.

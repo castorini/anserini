@@ -8,6 +8,12 @@ For additional instructions on working with MS MARCO passage collection, refer t
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-passage.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression dl19-passage
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -38,49 +44,57 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default.topics.dl19-passage.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+rm3.topics.dl19-passage.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+ax.topics.dl19-passage.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+prf.topics.dl19-passage.txt \
   -bm25 -bm25prf &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+prf.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf &
 ```
@@ -125,19 +139,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.3013    | 0.3390    | 0.3745    | 0.3561    | 0.2903    | 0.3377    | 0.3632    | 0.3684    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.3013    | 0.3390    | 0.3745    | 0.3561    | 0.2903    | 0.3377    | 0.3632    | 0.3684    |
 
 
-R@1000                                  | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.7501    | 0.7998    | 0.8241    | 0.7929    | 0.7450    | 0.7792    | 0.8138    | 0.7988    |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.7501    | 0.7998    | 0.8241    | 0.7929    | 0.7450    | 0.7792    | 0.8138    | 0.7988    |
 
 
-nDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.5058    | 0.5180    | 0.5511    | 0.5372    | 0.4973    | 0.5231    | 0.5461    | 0.5536    |
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.5058    | 0.5180    | 0.5511    | 0.5372    | 0.4973    | 0.5231    | 0.5461    | 0.5536    |
 
 Explanation of settings:
 
@@ -160,3 +174,5 @@ These regressions correspond to official TREC 2019 Deep Learning Track submissio
 + `bm25tuned_rm3_p` = BM25 (tuned) + RM3, `k1=0.82`, `b=0.68`
 + `bm25tuned_ax_p` = BM25 (tuned) + Ax, `k1=0.82`, `b=0.68`
 + `bm25tuned_prf_p` = BM25 (tuned) + PRF, `k1=0.82`, `b=0.68`
+
+Note this regression was revamped as part of [#1730](https://github.com/castorini/anserini/issues/1730), but the results did not change.

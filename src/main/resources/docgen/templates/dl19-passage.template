@@ -8,6 +8,12 @@ For additional instructions on working with MS MARCO passage collection, refer t
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -66,3 +72,5 @@ These regressions correspond to official TREC 2019 Deep Learning Track submissio
 + `bm25tuned_rm3_p` = BM25 (tuned) + RM3, `k1=0.82`, `b=0.68`
 + `bm25tuned_ax_p` = BM25 (tuned) + Ax, `k1=0.82`, `b=0.68`
 + `bm25tuned_prf_p` = BM25 (tuned) + PRF, `k1=0.82`, `b=0.68`
+
+Note this regression was revamped as part of [#1730](https://github.com/castorini/anserini/issues/1730), but the results did not change.

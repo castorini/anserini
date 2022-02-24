@@ -20,6 +20,12 @@ Note that in November 2021 we discovered issues in our regression tests, documen
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-docTTTTTquery
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -50,25 +56,29 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl20.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 ```
@@ -89,24 +99,24 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m ndcg_cut.10 -c -m recip_ran
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.4150    | 0.4268    | 0.4047    | 0.4025    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.4150    | 0.4268    | 0.4047    | 0.4025    |
 
 
-nDCG@10                                 | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.5957    | 0.5850    | 0.5943    | 0.5724    |
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5957    | 0.5850    | 0.5943    | 0.5724    |
 
 
-MRR                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.9361    | 0.8944    | 0.9469    | 0.9150    |
+| MRR                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.9361    | 0.8944    | 0.9469    | 0.9150    |
 
 
-R@100                                   | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)| 0.6201    | 0.6443    | 0.6195    | 0.6394    |
+| R@100                                                                                                        | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6201    | 0.6443    | 0.6195    | 0.6394    |
 
 Explanation of settings:
 
@@ -118,3 +128,4 @@ Settings tuned on the MS MARCO document sparse judgments _may not_ work well on 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL20 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL20 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 
+Note that [#1721](https://github.com/castorini/anserini/issues/1721) slightly change the results, since we corrected underlying issues with data preparation.

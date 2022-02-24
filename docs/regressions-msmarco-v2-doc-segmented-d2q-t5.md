@@ -6,6 +6,12 @@ Here, we expand the segmented document corpus with doc2query-T5.
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-doc-segmented-d2q-t5.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-d2q-t5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-d2q-t5
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -35,12 +41,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.msmarco-v2-doc.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.msmarco-v2-doc.dev2.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
@@ -60,25 +68,25 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank sr
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP@100                                 | BM25 (default)|
-:---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2203    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2205    |
+| MAP@100                                                                                                      | BM25 (default)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2203    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2205    |
 
 
-MRR@100                                 | BM25 (default)|
-:---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2226    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.2234    |
+| MRR@100                                                                                                      | BM25 (default)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2226    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2234    |
 
 
-R@100                                   | BM25 (default)|
-:---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.7297    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.7316    |
+| R@100                                                                                                        | BM25 (default)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.7297    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.7316    |
 
 
-R@1000                                  | BM25 (default)|
-:---------------------------------------|-----------|
-[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.8982    |
-[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)| 0.8952    |
+| R@1000                                                                                                       | BM25 (default)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.8982    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.8952    |

@@ -4,6 +4,12 @@ This page describes regressions for the TREC 2017 Common Core Track, which uses 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/core17.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/core17.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression core17
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -35,37 +41,43 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics src/main/resources/topics-and-qrels/topics.core17.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+  -topicreader Trec \
   -output runs/run.nyt.bm25.topics.core17.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics src/main/resources/topics-and-qrels/topics.core17.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+  -topicreader Trec \
   -output runs/run.nyt.bm25+rm3.topics.core17.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics src/main/resources/topics-and-qrels/topics.core17.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+  -topicreader Trec \
   -output runs/run.nyt.bm25+ax.topics.core17.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics src/main/resources/topics-and-qrels/topics.core17.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+  -topicreader Trec \
   -output runs/run.nyt.ql.topics.core17.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics src/main/resources/topics-and-qrels/topics.core17.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+  -topicreader Trec \
   -output runs/run.nyt.ql+rm3.topics.core17.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics src/main/resources/topics-and-qrels/topics.core17.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+  -topicreader Trec \
   -output runs/run.nyt.ql+ax.topics.core17.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
@@ -90,14 +102,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)| 0.2087    | 0.2823    | 0.2739    | 0.2032    | 0.2606    | 0.2579    |
+| MAP                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)               | 0.2087    | 0.2823    | 0.2739    | 0.2032    | 0.2606    | 0.2579    |
 
 
-P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)| 0.4293    | 0.5093    | 0.4940    | 0.4467    | 0.4827    | 0.4893    |
+| P30                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)               | 0.4293    | 0.5093    | 0.4940    | 0.4467    | 0.4827    | 0.4893    |
 
 ## Reproduction Log[*](reproducibility.md)
 

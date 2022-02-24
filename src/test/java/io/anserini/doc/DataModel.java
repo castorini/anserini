@@ -230,16 +230,31 @@ public class DataModel {
     return builder.toString();
   }
 
+  private String generateRunFile(String collection, Model model, Topic topic) {
+    // Strip suffixes (e.g., gz) to avoid confusion.
+    String modifiedPath = topic.getPath();
+    if (modifiedPath.endsWith(".gz")) {
+      modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".gz"));
+    }
+    if (modifiedPath.endsWith(".txt")) {
+      modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".txt"));
+    }
+    if (modifiedPath.endsWith(".tsv")) {
+      modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".tsv"));
+    }
+
+    return "runs/run."+collection+"."+model.getName()+"."+modifiedPath+ ".txt";
+  }
+
   public String generateRankingCommand(String collection) {
     StringBuilder builder = new StringBuilder();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         builder.append(SEARCH_COMMAND).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
-        builder
-            .append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString())
-            .append(" -topicreader").append(" ").append(getTopic_reader()).append(" \\\n");
-        builder.append("  -output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
+        builder.append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
+        builder.append("  -topicreader").append(" ").append(getTopic_reader()).append(" \\\n");
+        builder.append("  -output").append(" ").append(generateRunFile(collection, model, topic)).append(" \\\n");
         if (model.getParams() != null) {
           builder.append("  ").append(model.getParams());
         }
@@ -265,7 +280,7 @@ public class DataModel {
           }
           String evalCmdResidual = "";
           evalCmdResidual += " " + Paths.get(getQrels_root(), topic.getQrel());
-          evalCmdResidual += " runs/run." + collection+ "." + model.getName() + "." + topic.getPath();
+          evalCmdResidual += " " + generateRunFile(collection, model, topic);
           evalCmdResidual += "\n";
           if (eval.isCan_combine() || evalCmdOption.isEmpty()) {
             combinedEvalCmd.putIfAbsent(evalCmd, new HashMap<>());
@@ -290,7 +305,7 @@ public class DataModel {
   public String generateEffectiveness(String collection) {
     StringBuilder builder = new StringBuilder();
     for (Metric eval : getMetrics()) {
-      builder.append(String.format("%1$-40s|", eval.getMetric()));
+      builder.append(String.format("| %1$-109s|", eval.getMetric()));
       for (Model model : getModels()) {
         if (model.getDisplay() == null) {
           builder.append(String.format(" %1$-10s|", model.getName()));
@@ -299,14 +314,14 @@ public class DataModel {
         }
       }
       builder.append("\n");
-      builder.append(":").append(StringUtils.repeat("-", 39)).append("|");
+      builder.append("|:").append(StringUtils.repeat("-", 109)).append("|");
       for (Model model : getModels()) {
         builder.append(StringUtils.repeat("-", 11)).append("|");
       }
       builder.append("\n");
       for (int i = 0; i < topics.size(); i++) {
         Topic topic = getTopics().get(i);
-        builder.append(String.format("%1$-40s|", topic.getName()));
+        builder.append(String.format("| %1$-109s|", topic.getName()));
         for (Model model : getModels()) {
           builder.append(String.format(" %-10.4f|", model.getResults().get(eval.getMetric()).get(i)));
         }

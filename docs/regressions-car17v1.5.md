@@ -4,6 +4,12 @@ This page documents regression experiments for the [TREC 2017 Complex Answer Ret
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/car17v1.5.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/car17v1.5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression car17v1.5
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -36,37 +42,43 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
+  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
+  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
+  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
+  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql.topics.car17v1.5.benchmarkY1test.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
+  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt -topicreader Car \
+  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
@@ -91,11 +103,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resourc
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)| 0.1562    | 0.1295    | 0.1358    | 0.1386    | 0.1080    | 0.1048    |
+| MAP                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)| 0.1562    | 0.1295    | 0.1358    | 0.1386    | 0.1080    | 0.1048    |
 
 
-MRR                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)| 0.2331    | 0.1923    | 0.1949    | 0.2037    | 0.1599    | 0.1524    |
+| MRR                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)| 0.2331    | 0.1923    | 0.1949    | 0.2037    | 0.1599    | 0.1524    |

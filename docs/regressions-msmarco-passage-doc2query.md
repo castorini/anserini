@@ -10,6 +10,12 @@ For more complete instructions on how to run end-to-end experiments, refer to [t
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-doc2query.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-doc2query.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-doc2query
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -39,25 +45,29 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-doc2query.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-doc2query.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 ```
@@ -78,14 +88,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.1000 src/main/resour
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.2270    | 0.2028    | 0.2293    | 0.2077    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2270    | 0.2028    | 0.2293    | 0.2077    |
 
 
-R@1000                                  | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8900    | 0.8916    | 0.8911    | 0.8957    |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8900    | 0.8916    | 0.8911    | 0.8957    |
 
 Explanation of settings:
 

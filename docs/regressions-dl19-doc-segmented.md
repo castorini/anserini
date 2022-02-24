@@ -20,6 +20,12 @@ Note that in November 2021 we discovered issues in our regression tests, documen
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -50,49 +56,57 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-default.topics.dl19-doc.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-default+ax.topics.dl19-doc.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-default+prf.topics.dl19-doc.txt \
   -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-tuned+ax.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-tuned+prf.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 ```
@@ -121,19 +135,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.1
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.2449    | 0.2884    | 0.2981    | 0.2827    | 0.2398    | 0.2658    | 0.2975    | 0.2828    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2449    | 0.2884    | 0.2981    | 0.2827    | 0.2398    | 0.2658    | 0.2975    | 0.2828    |
 
 
-R@100                                   | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.3840    | 0.4355    | 0.4490    | 0.4476    | 0.3903    | 0.4133    | 0.4491    | 0.4361    |
+| R@100                                                                                                        | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3840    | 0.4355    | 0.4490    | 0.4476    | 0.3903    | 0.4133    | 0.4491    | 0.4361    |
 
 
-nDCG@10                                 | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)| 0.5302    | 0.5764    | 0.5556    | 0.5599    | 0.5389    | 0.5405    | 0.5574    | 0.5476    |
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5302    | 0.5764    | 0.5556    | 0.5599    | 0.5389    | 0.5405    | 0.5574    | 0.5476    |
 
 Explanation of settings:
 
@@ -144,3 +158,5 @@ Settings tuned on the MS MARCO document sparse judgments _may not_ work well on 
 
 Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
 Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+
+Note that [#1721](https://github.com/castorini/anserini/issues/1721) slightly change the results, since we corrected underlying issues with data preparation.

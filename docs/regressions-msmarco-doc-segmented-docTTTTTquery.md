@@ -16,6 +16,12 @@ Note that in November 2021 we discovered issues in our regression tests, documen
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-docTTTTTquery
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -45,13 +51,15 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
@@ -68,19 +76,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m recall.100
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| BM25 (tuned)|
-:---------------------------------------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.3184    | 0.3213    |
+| MAP                                                                                                          | BM25 (default)| BM25 (tuned)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3184    | 0.3213    |
 
 
-R@100                                   | BM25 (default)| BM25 (tuned)|
-:---------------------------------------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.8479    | 0.8627    |
+| R@100                                                                                                        | BM25 (default)| BM25 (tuned)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8479    | 0.8627    |
 
 
-R@1000                                  | BM25 (default)| BM25 (tuned)|
-:---------------------------------------|-----------|-----------|
-[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9490    | 0.9530    |
+| R@1000                                                                                                       | BM25 (default)| BM25 (tuned)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9490    | 0.9530    |
 
 Explanation of settings:
 
@@ -97,16 +105,16 @@ The MaxP passage retrieval functionality is available in `SearchCollection`.
 To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (default)" above:
 
 ```bash
-$ target/appassembler/bin/SearchCollection -topicreader TsvString \
-   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
-   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.txt -format msmarco \
-   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 \
-   -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+$ sh target/appassembler/bin/SearchCollection -topicreader TsvString \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
+    -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.txt -format msmarco \
+    -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 \
+    -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
-   --run runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-default.txt
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.txt
 
 #####################
 MRR @100: 0.31779258157039536
@@ -119,16 +127,16 @@ Note that the above command uses `-format msmarco` to directly generate a run in
 To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (tuned)" above:
 
 ```bash
-$ target/appassembler/bin/SearchCollection -topicreader TsvString \
-   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-   -index indexes/lucene-index.msmarco-doc-docTTTTTquery-per-passage.pos+docvectors+raw \
-   -output runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.txt -format msmarco \
-   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 \
-   -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+$ sh target/appassembler/bin/SearchCollection -topicreader TsvString \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
+    -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.txt -format msmarco \
+    -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 \
+    -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
-   --run runs/run.msmarco-doc-docTTTTTquery-per-passage.bm25-tuned.txt
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.txt
 
 #####################
 MRR @100: 0.32081861579183746
@@ -138,3 +146,32 @@ QueriesRanked: 5193
 
 This run corresponds to the MS MARCO document ranking leaderboard entry "Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for recall@100 (k1=2.56, b=0.59)" dated 2020/12/11, and is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
 Again, note that the above command uses `-format msmarco` to directly generate a run in the MS MARCO output format.
+
+As of February 2022, following resolution of [#1721](https://github.com/castorini/anserini/issues/1721), BM25 runs for the MS MARCO leaderboard can be generated with the same commands as above.
+However, the effectiveness has changed slightly, since we corrected underlying issues with data preparation.
+
+For default parameters (`k1=0.9`, `b=0.4`):
+
+```
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.txt
+
+#####################
+MRR @100: 0.317905445196054
+QueriesRanked: 5193
+#####################
+```
+
+For tuned parameters (`k1=2.56`, `b=0.59`):
+
+```
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.txt
+
+#####################
+MRR @100: 0.3209184381409182
+QueriesRanked: 5193
+#####################
+```

@@ -6,6 +6,12 @@ For more complete instructions on how to run end-to-end experiments, refer to [t
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -35,49 +41,57 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+ax.topics.msmarco-passage.dev-subset.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+prf.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25prf &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+ax.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -topicreader TsvInt \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+prf.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf &
 ```
@@ -106,14 +120,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.1000 src/main/resour
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.1926    | 0.1661    | 0.1625    | 0.1520    | 0.1958    | 0.1762    | 0.1699    | 0.1582    |
+| MAP                                                                                                          | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1926    | 0.1661    | 0.1625    | 0.1520    | 0.1958    | 0.1762    | 0.1699    | 0.1582    |
 
 
-R@1000                                  | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8526    | 0.8606    | 0.8747    | 0.8537    | 0.8573    | 0.8687    | 0.8809    | 0.8561    |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8526    | 0.8606    | 0.8747    | 0.8537    | 0.8573    | 0.8687    | 0.8809    | 0.8561    |
 
 Explanation of settings:
 
@@ -134,13 +148,13 @@ The following command generates with `SearchMsmarco` the run denoted "BM25 (defa
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
-   -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
-   -queries collections/msmarco-passage/queries.dev.small.tsv \
-   -k1 0.9 -b 0.4 \
-   -output runs/run.msmarco-passage.bm25.default.tsv
+    -index indexes/lucene-index.msmarco-passage/ \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -k1 0.9 -b 0.4 \
+    -output runs/run.msmarco-passage.bm25.default.tsv
 
 $ python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.bm25.default.tsv
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.default.tsv
 
 #####################
 MRR @10: 0.18398616227770961
@@ -152,16 +166,59 @@ The following command generates with `SearchMsmarco` the run denoted "BM25 (tune
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
-   -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
-   -queries collections/msmarco-passage/queries.dev.small.tsv \
-   -k1 0.82 -b 0.68 \
-   -output runs/run.msmarco-passage.bm25.tuned.tsv
+    -index indexes/lucene-index.msmarco-passage/ \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -k1 0.82 -b 0.68 \
+    -output runs/run.msmarco-passage.bm25.tuned.tsv
 
 $ python tools/scripts/msmarco/msmarco_passage_eval.py \
-   collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.bm25.tuned.tsv
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.tuned.tsv
 
 #####################
 MRR @10: 0.18741227770955546
 QueriesRanked: 6980
 #####################
 ```
+
+As of February 2022, following resolution of [#1730](https://github.com/castorini/anserini/issues/1730), BM25 runs for the MS MARCO leaderboard can be generated with the commands below.
+For default parameters (`k1=0.9`, `b=0.4`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-passage/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-passage.bm25.default.tsv \
+    -format msmarco \
+    -bm25
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.default.tsv
+
+#####################
+MRR @10: 0.18398616227770961
+QueriesRanked: 6980
+#####################
+```
+
+For tuned parameters (`k1=0.82`, `b=0.68`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-passage/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-passage.bm25.tuned.tsv \
+    -format msmarco \
+    -bm25 -bm25.k1 0.82 -bm25.b 0.68
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.tuned.tsv
+
+#####################
+MRR @10: 0.18741227770955546
+QueriesRanked: 6980
+#####################
+```
+
+Note that the resolution of [#1730](https://github.com/castorini/anserini/issues/1730) did not change the results.
