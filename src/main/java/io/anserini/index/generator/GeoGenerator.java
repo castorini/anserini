@@ -65,13 +65,13 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
       } else {
         // go through all the non-geometry fields and try to index them as int or long if possible
         try {
-          int vInt = Integer.parseInt(v);
-          doc.add(new IntPoint(k, vInt));
+          long vLong = Long.parseLong(v);
+          doc.add(new LongPoint(k, vLong));
           doc.add(new StoredField(k, v));
         } catch (NumberFormatException e1) {
           try {
-            long vLong = Long.parseLong(v);
-            doc.add(new LongPoint(k, vLong));
+            double vDouble = Double.parseDouble(v);
+            doc.add(new DoublePoint(k, vDouble));
             doc.add(new StoredField(k, v));
           } catch (NumberFormatException e2) {
             doc.add(new StringField(k, v, Field.Store.YES));

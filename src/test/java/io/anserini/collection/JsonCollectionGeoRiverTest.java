@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class JsonCollectionGeoTest extends JsonCollectionTest {
+public class JsonCollectionGeoRiverTest extends JsonCollectionTest {
   @Before
   public void setUp() throws Exception {
     super.setUp();
@@ -82,6 +82,7 @@ public class JsonCollectionGeoTest extends JsonCollectionTest {
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
+    // Note that we need an id in addition to HYRIV_ID to distinct between different docs
     assertTrue(doc.indexable());
     assertEquals(expected.get("HYRIV_ID"), ((JsonCollection.Document) doc).fields().get("HYRIV_ID"));
     assertEquals(expected.get("NEXT_DOWN"), ((JsonCollection.Document) doc).fields().get("NEXT_DOWN"));
