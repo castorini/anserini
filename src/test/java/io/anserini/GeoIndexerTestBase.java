@@ -29,7 +29,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.Before;
 import org.junit.After;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
