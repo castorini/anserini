@@ -30,7 +30,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.Before;
 import org.junit.After;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,8 +42,7 @@ import java.util.List;
 public class GeoIndexerTestBase extends LuceneTestCase {
   protected Path tempDir1;
 
-  @Test
-  public void buildTestIndex() throws IOException {
+  private void buildTestIndex() throws IOException {
     try {
       Directory dir = FSDirectory.open(tempDir1);
 
