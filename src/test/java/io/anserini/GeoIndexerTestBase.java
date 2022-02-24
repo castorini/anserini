@@ -24,7 +24,6 @@ import org.apache.lucene.geo.Polygon;
 import org.apache.lucene.geo.SimpleWKTShapeParser;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.LuceneTestCase;
@@ -132,16 +131,6 @@ public class GeoIndexerTestBase extends LuceneTestCase {
         doc6.add(f);
       }
       writer.addDocument(doc6);
-
-      int counter = 0;
-      for (IndexableField f: doc6.getFields()) {
-        System.out.println(f.name());
-        System.out.println(f.binaryValue());
-        f.fieldType();
-        System.out.println(f.fieldType().stored());
-        ++counter;
-      }
-      System.out.println(counter);
 
 
       writer.commit();
