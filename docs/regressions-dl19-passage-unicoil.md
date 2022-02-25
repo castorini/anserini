@@ -112,3 +112,5 @@ With the above commands, you should be able to reproduce the following results:
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl19-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
