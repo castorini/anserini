@@ -55,9 +55,8 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
 //    public int threads = 1;
 //  }
 
-  public Result[] searchGeo(String queryString, int k) throws IOException {
-    Query query = new GeoQueryGenerator().buildQuery(queryString);
 
+  public Result[] searchGeo(Query query, int k) throws IOException {
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
     }
@@ -79,6 +78,8 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
 
       results[i] = new Result(docId, hits.ids[i], hits.scores[i], contents, raw, doc);
     }
+
+    return results;
   }
 
   @Override
@@ -116,8 +117,10 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
 
+
+
     for (Object id : topics.keySet()) {
-      Result[] results = searcher.searchGeo(topics.get(id).get("title"), 1000);
+      Result[] results = searcher.searchGeo(, 1000);
 
       for (int i=0; i<results.length; i++) {
         out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini", id, results[i].docid, (i+1), results[i].score));
