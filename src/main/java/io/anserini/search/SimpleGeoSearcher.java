@@ -1,8 +1,6 @@
 package io.anserini.search;
 import io.anserini.index.IndexArgs;
 import io.anserini.rerank.ScoredDocuments;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LatLonShape;
 import org.apache.lucene.document.ShapeField;
