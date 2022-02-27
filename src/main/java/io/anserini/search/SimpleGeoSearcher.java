@@ -1,6 +1,7 @@
 package io.anserini.search;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -54,18 +55,19 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
 //    public int threads = 1;
 //  }
 
-  public Result[] searchGeo(String queryString, int hits) throws IOException {
+  public Result[] searchGeo(String queryString, int k) throws IOException {
     Query query = new GeoQueryGenerator().buildQuery(queryString);
 
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
     }
 
-    TopDocs rs = searcher.search(query, hits);
-    Result[] results = new Result[rs.scoreDocs.length];
+    TopDocs rs = searcher.search(query, k);
+    ScoredDocuments hits = ScoredDocuments.fromTopDocs(rs, searcher);
+    Result[] results = new Result[hits.ids.length];
 
-    for (int i = 0; i < rs.scoreDocs.length; i++) {
-      Document doc = searcher.doc(rs.scoreDocs[i].doc);
+    for (int i = 0; i < hits.ids.length; i++) {
+      Document doc = hits.documents[i];
       String docId = doc.getField(IndexArgs.ID).stringValue();
 
       IndexableField field;
@@ -75,7 +77,7 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
       field = doc.getField(IndexArgs.RAW);
       String raw = field == null ? null : field.stringValue();
 
-      results[i] = new Result(docId, , rs.scoreDocs[i].score, contents, raw, doc);
+      results[i] = new Result(docId, hits.ids[i], hits.scores[i], contents, raw, doc);
     }
   }
 
@@ -115,8 +117,7 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
 
     for (Object id : topics.keySet()) {
-      long t = Long.parseLong(topics.get(id).get("time"));
-      Result[] results = searcher.searchGeo(topics.get(id).get("title"), 1000, t);
+      Result[] results = searcher.searchGeo(topics.get(id).get("title"), 1000);
 
       for (int i=0; i<results.length; i++) {
         out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini", id, results[i].docid, (i+1), results[i].score));
@@ -126,8 +127,6 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
-    }
-
-
+    
   }
 }
