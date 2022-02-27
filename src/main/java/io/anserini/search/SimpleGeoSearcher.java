@@ -22,12 +22,10 @@ import java.nio.file.Paths;
 
 
 public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
-  private static final Logger LOG = LogManager.getLogger(SimpleGeoSearcher.class);
-
   private IndexReader reader;
   private IndexSearcher searcher = null;
 
-  public Result[] searchGeo(ShapeField.QueryRelation relation, LatLonGeometry[] geometries, int k) throws IOException {
+  public Result[] searchGeo(int k, ShapeField.QueryRelation relation, LatLonGeometry... geometries) throws IOException {
     Query query = LatLonShape.newGeometryQuery("geometry", relation, geometries);
 
     if (searcher == null) {
