@@ -12,7 +12,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.Test;
 
-public class GeoSearcherTest extends GeoIndexerTestBase {
+/**
+ * Initial exploration test on the Lucene Geospatial search API
+ */
+public class GeoSearchExplorationTest extends GeoIndexerTestBase {
 
   @Test
   public void testGetLakeOntarioGeoJson() throws Exception {
