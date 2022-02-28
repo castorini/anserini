@@ -23,9 +23,7 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
   private IndexReader reader;
   private IndexSearcher searcher = null;
 
-  public Result[] searchGeo(int k, ShapeField.QueryRelation relation, LatLonGeometry... geometries) throws IOException {
-    Query query = LatLonShape.newGeometryQuery("geometry", relation, geometries);
-
+  public Result[] searchGeo(Query query, int k) throws IOException {
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
     }

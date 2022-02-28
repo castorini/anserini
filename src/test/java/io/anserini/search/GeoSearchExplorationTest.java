@@ -104,8 +104,8 @@ public class GeoSearchExplorationTest extends GeoIndexerTestBase {
     DirectoryReader reader = DirectoryReader.open(directory);
     IndexSearcher searcher = new IndexSearcher(reader);
 
-    double[] queryPoints = new double[]{50, 75};
-    Query q1 = LatLonShape.newPointQuery("geometry", ShapeField.QueryRelation.CONTAINS, queryPoints);
+    double[] queryPoint = new double[]{50, 75};
+    Query q1 = LatLonShape.newPointQuery("geometry", ShapeField.QueryRelation.CONTAINS, queryPoint);
     TopDocs hits1 = searcher.search(q1, 5);
     assertEquals(0, hits1.totalHits.value);
 

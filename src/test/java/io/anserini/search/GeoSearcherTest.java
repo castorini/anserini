@@ -1,10 +1,10 @@
 package io.anserini.search;
 
 import io.anserini.GeoIndexerTestBase;
+import org.apache.lucene.document.LatLonShape;
 import org.apache.lucene.document.ShapeField;
 import org.apache.lucene.geo.Line;
-import org.apache.lucene.geo.Point;
-import org.apache.lucene.geo.Rectangle;
+import org.apache.lucene.search.Query;
 import org.junit.Test;
 
 public class GeoSearcherTest extends GeoIndexerTestBase {
@@ -12,7 +12,9 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
   public void testGetLakeOntarioGeoJson() throws Exception {
     SimpleGeoSearcher searcher = new SimpleGeoSearcher(super.tempDir1.toString());
 
-    SimpleSearcher.Result[] hits = searcher.searchGeo(1, ShapeField.QueryRelation.INTERSECTS, new Rectangle(43, 44, -78, -77));
+    Query q = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.INTERSECTS, 43, 44, -78, -77);
+
+    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 1);
 
     assertEquals(1, hits.length);
     assertEquals(0, hits[0].lucene_docid);
@@ -24,8 +26,11 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
   public void testGetPolygonWithHole() throws Exception {
     SimpleGeoSearcher searcher = new SimpleGeoSearcher(super.tempDir1.toString());
 
-    SimpleSearcher.Result[] hits1 = searcher.searchGeo(1, ShapeField.QueryRelation.INTERSECTS, new Rectangle(12.5, 17.5, 12.5, 17.5));
-    SimpleSearcher.Result[] hits2 = searcher.searchGeo(1, ShapeField.QueryRelation.INTERSECTS, new Rectangle(2.5, 27.5, 2.5, 27.5));
+    Query q1 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.INTERSECTS, 12.5, 17.5, 12.5, 17.5);
+    Query q2 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.INTERSECTS, 2.5, 27.5, 2.5, 27.5);
+
+    SimpleSearcher.Result[] hits1 = searcher.searchGeo(q1, 1);
+    SimpleSearcher.Result[] hits2 = searcher.searchGeo(q2, 1);
 
     assertEquals(0, hits1.length);
 
@@ -39,10 +44,15 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
   public void testGetMultiPolygon() throws Exception {
     SimpleGeoSearcher searcher = new SimpleGeoSearcher(super.tempDir1.toString());
 
-    SimpleSearcher.Result[] hits1 = searcher.searchGeo(5, ShapeField.QueryRelation.WITHIN, new Rectangle(-10, 25, 30, 80));
-    SimpleSearcher.Result[] hits2 = searcher.searchGeo(5, ShapeField.QueryRelation.CONTAINS, new Rectangle(35, 45, 55, 65));
-    SimpleSearcher.Result[] hits3 = searcher.searchGeo(5, ShapeField.QueryRelation.WITHIN, new Rectangle(-1, 80, 30, 71));
-    SimpleSearcher.Result[] hits4 = searcher.searchGeo(5, ShapeField.QueryRelation.CONTAINS, new Point(10, 65));
+    Query q1 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, -10, 25, 30, 80);
+    Query q2 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.CONTAINS, 35, 45, 55, 65);
+    Query q3 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, -1, 80, 30, 71);
+    Query q4 = LatLonShape.newPointQuery("geometry", ShapeField.QueryRelation.CONTAINS, new double[]{10, 65});
+
+    SimpleSearcher.Result[] hits1 = searcher.searchGeo(q1, 5);
+    SimpleSearcher.Result[] hits2 = searcher.searchGeo(q2, 5);
+    SimpleSearcher.Result[] hits3 = searcher.searchGeo(q3, 5);
+    SimpleSearcher.Result[] hits4 = searcher.searchGeo(q4, 5);
 
     assertEquals(0, hits1.length);
 
@@ -63,7 +73,10 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
     SimpleGeoSearcher searcher = new SimpleGeoSearcher(super.tempDir1.toString());
 
     Line queryLine = new Line(new double[]{30, 50}, new double[]{10, 10});
-    SimpleSearcher.Result[] hits = searcher.searchGeo(5, ShapeField.QueryRelation.INTERSECTS, queryLine);
+    Query q = LatLonShape.newLineQuery("geometry", ShapeField.QueryRelation.INTERSECTS, queryLine);
+
+    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 5);
+
     assertEquals(1, hits.length);
     assertEquals(3, hits[0].lucene_docid);
 
@@ -74,9 +87,13 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
   public void testGetMultiLine() throws Exception {
     SimpleGeoSearcher searcher = new SimpleGeoSearcher(super.tempDir1.toString());
 
-    SimpleSearcher.Result[] hits1 = searcher.searchGeo(5, ShapeField.QueryRelation.CONTAINS, new Point(50, 75));
-    SimpleSearcher.Result[] hits2 = searcher.searchGeo(5, ShapeField.QueryRelation.WITHIN, new Rectangle(0, 80, 74, 76));
-    SimpleSearcher.Result[] hits3 = searcher.searchGeo(5, ShapeField.QueryRelation.WITHIN, new Rectangle(0, 80, 74, 81));
+    Query q1 = LatLonShape.newPointQuery("geometry", ShapeField.QueryRelation.CONTAINS, new double[]{50, 75});
+    Query q2 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, 0, 80, 74, 76);
+    Query q3 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, 0, 80, 74, 81);
+
+    SimpleSearcher.Result[] hits1 = searcher.searchGeo(q1, 5);
+    SimpleSearcher.Result[] hits2 = searcher.searchGeo(q2, 5);
+    SimpleSearcher.Result[] hits3 = searcher.searchGeo(q3, 5);
 
     assertEquals(0, hits1.length);
 
@@ -92,7 +109,9 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
   public void testGetGrandRiver() throws Exception {
     SimpleGeoSearcher searcher = new SimpleGeoSearcher(super.tempDir1.toString());
 
-    SimpleSearcher.Result[] hits = searcher.searchGeo(5, ShapeField.QueryRelation.WITHIN, new Rectangle(43.46, 43.56, -80.52, -80.45));
+    Query q = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, 43.46, 43.56, -80.52, -80.45);
+
+    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 5);
 
     assertEquals(1, hits.length);
     assertEquals(5, hits[0].lucene_docid);
