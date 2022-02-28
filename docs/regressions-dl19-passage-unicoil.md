@@ -114,3 +114,4 @@ With the above commands, you should be able to reproduce the following results:
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl19-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
++ Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2022-02-28 (commit [`950d7fd`](https://github.com/castorini/anserini/commit/950d7fd88dbb87f39e9c1f6ccf9e41cbb6f04f36))
