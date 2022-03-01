@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(121, cnt);
+    assertEquals(123, cnt);
   }
 
   @Test
@@ -753,6 +753,14 @@ public class TopicReaderTest {
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals(682, topics.get(topics.lastKey()).get("title").split(" ").length);
 
+    topics = TopicReader.getTopics(Topics.MSMARCO_DOC_DEV_UNICOIL_NOEXP);
+    assertNotNull(topics);
+    assertEquals(5193, topics.size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals(609, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1102400, (int) topics.lastKey());
+    assertEquals(577, topics.get(topics.lastKey()).get("title").split(" ").length);
+
     topics = TopicReader.getTopics(Topics.MSMARCO_DOC_TEST);
     assertNotNull(topics);
     assertEquals(5793, topics.size());
@@ -783,6 +791,13 @@ public class TopicReaderTest {
     assertEquals(619, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals(686, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_NOEXP);
+    assertNotNull(topics);
+    assertEquals(6980, topics.size());
+    assertEquals(609, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1102400, (int) topics.lastKey());
+    assertEquals(577, topics.get(topics.lastKey()).get("title").split(" ").length);
 
     topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_TILDE);
     assertNotNull(topics);
