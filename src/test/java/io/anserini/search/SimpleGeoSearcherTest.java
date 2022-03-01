@@ -7,7 +7,7 @@ import org.apache.lucene.geo.Line;
 import org.apache.lucene.search.Query;
 import org.junit.Test;
 
-public class GeoSearcherTest extends GeoIndexerTestBase {
+public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
   @Test
   public void testGetLakeOntarioGeoJson() throws Exception {
     SimpleGeoSearcher searcher = new SimpleGeoSearcher(super.tempDir1.toString());
