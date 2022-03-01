@@ -63,7 +63,7 @@ public enum Topics {
   MSMARCO_DOC_TEST(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.test.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET_DEEPIMPACT(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz"),
-  MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_D2Q(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_NOEXP(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_TILDE(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_DISTILL_SPLADE_MAX(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz"),

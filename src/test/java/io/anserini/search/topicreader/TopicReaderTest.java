@@ -785,7 +785,7 @@ public class TopicReaderTest {
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals("why hibernate bears", topics.get(topics.lastKey()).get("title"));
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_D2Q);
+    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL);
     assertNotNull(topics);
     assertEquals(6980, topics.size());
     assertEquals(619, topics.get(topics.firstKey()).get("title").split(" ").length);
