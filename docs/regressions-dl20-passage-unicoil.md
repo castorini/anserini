@@ -1,4 +1,4 @@
-# Anserini: Regressions on DL20 (Passage) with uniCOIL
+# Anserini: Regressions for TREC 2020 Deep Learning Track (Passage)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [TREC 2020 Deep Learning Track Passage Ranking Task](https://trec.nist.gov/data/deep2020.html).
 The uniCOIL model is described in the following paper:
@@ -86,18 +86,17 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recip_rank -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
+| AP@1000                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4430    |
 
@@ -105,11 +104,6 @@ With the above commands, you should be able to reproduce the following results:
 | nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6745    |
-
-
-| MRR                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8235    |
 
 
 | R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
@@ -120,6 +114,10 @@ With the above commands, you should be able to reproduce the following results:
 | R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8430    |
+
+Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for DL20 doc ranking).
+Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., MAP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
 
 ## Reproduction Log[*](reproducibility.md)
 
