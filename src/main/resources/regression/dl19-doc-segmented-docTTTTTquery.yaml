@@ -13,27 +13,34 @@ index_stats:
   total terms: 4206639543
 
 metrics:
-  - metric: MAP
+  - metric: AP@100
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m map
+    params: -c -M 100 -m map # Note, this is different DL 2019 passage ranking!
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
-  - metric: R@100
-    command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recall.100
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: true
+    can_combine: false
   - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
@@ -47,41 +54,49 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      MAP:
+      AP@100:
         - 0.2798
       nDCG@10:
         - 0.6119
       R@100:
         - 0.4093
+      R@1000:
+        - 0.7165
   - name: bm25-default+rm3
     display: +RM3
-    params: -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      MAP:
+      AP@100:
         - 0.3021
       nDCG@10:
         - 0.6297
       R@100:
         - 0.4392
+      R@1000:
+        - 0.7481
   - name: bm25-tuned
     display: BM25 (tuned)
-    params: -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      MAP:
+      AP@100:
         - 0.2658
       nDCG@10:
         - 0.6273
       R@100:
         - 0.4026
+      R@1000:
+        - 0.6707
   - name: bm25-tuned+rm3
     display: +RM3
-    params: -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
+    params: -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      MAP:
+      AP@100:
         - 0.2893
       nDCG@10:
         - 0.6239
       R@100:
         - 0.4237
+      R@1000:
+        - 0.7066
