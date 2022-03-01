@@ -93,5 +93,7 @@ public class GeoGeneratorTest {
     for (IndexableField f: doc.getFields("geometry")) {
       assertEquals(ShapeField.Triangle.class, f.getClass());
     }
+
+    assertEquals("90000003", doc.getField(IndexArgs.ID).stringValue());
   }
 }

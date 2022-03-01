@@ -16,9 +16,11 @@
 
 package io.anserini;
 
+import io.anserini.index.IndexArgs;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LatLonShape;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.geo.Line;
 import org.apache.lucene.geo.Polygon;
 import org.apache.lucene.geo.SimpleWKTShapeParser;
@@ -60,6 +62,7 @@ public class GeoIndexerTestBase extends LuceneTestCase {
       for (Field f: fields) {
         doc1.add(f);
       }
+      doc1.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
       writer.addDocument(doc1);
 
       // Index Polygon with a hole in it using SimpleWKTShapeParser
@@ -73,6 +76,7 @@ public class GeoIndexerTestBase extends LuceneTestCase {
       for (Field f: fields2) {
         doc2.add(f);
       }
+      doc2.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
       writer.addDocument(doc2);
 
       // Index MultiPolygon using SimpleWKTShapeParser
@@ -88,6 +92,7 @@ public class GeoIndexerTestBase extends LuceneTestCase {
           doc3.add(f);
         }
       }
+      doc3.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
       writer.addDocument(doc3);
 
       // Index LineString using SimpleWKTShapeParser
@@ -101,6 +106,7 @@ public class GeoIndexerTestBase extends LuceneTestCase {
       for (Field f: fields4) {
         doc4.add(f);
       }
+      doc4.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
       writer.addDocument(doc4);
 
       // Index MultiLineString using SimpleWKTShapeParser
@@ -116,6 +122,7 @@ public class GeoIndexerTestBase extends LuceneTestCase {
           doc5.add(f);
         }
       }
+      doc5.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
       writer.addDocument(doc5);
 
       // Index Grand River (a LineString) using SimpleWKTShapeParser
@@ -129,6 +136,7 @@ public class GeoIndexerTestBase extends LuceneTestCase {
       for (Field f: fields6) {
         doc6.add(f);
       }
+      doc6.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
       writer.addDocument(doc6);
 
 
