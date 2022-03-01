@@ -25,6 +25,10 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
   public Document createDocument(JsonCollection.Document geoDoc) {
     Document doc = new Document();
 
+    // Add ID field
+    String id = geoDoc.id();
+    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+
     // Store the raw JSON
     if (args.storeRaw) {
       doc.add(new StoredField(IndexArgs.RAW, geoDoc.raw()));

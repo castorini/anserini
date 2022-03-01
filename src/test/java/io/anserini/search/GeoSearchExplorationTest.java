@@ -12,7 +12,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.Test;
 
-public class GeoSearcherTest extends GeoIndexerTestBase {
+/**
+ * Initial exploration test on the Lucene Geospatial search API
+ */
+public class GeoSearchExplorationTest extends GeoIndexerTestBase {
 
   @Test
   public void testGetLakeOntarioGeoJson() throws Exception {
@@ -101,8 +104,8 @@ public class GeoSearcherTest extends GeoIndexerTestBase {
     DirectoryReader reader = DirectoryReader.open(directory);
     IndexSearcher searcher = new IndexSearcher(reader);
 
-    double[] queryPoints = new double[]{50, 75};
-    Query q1 = LatLonShape.newPointQuery("geometry", ShapeField.QueryRelation.CONTAINS, queryPoints);
+    double[] queryPoint = new double[]{50, 75};
+    Query q1 = LatLonShape.newPointQuery("geometry", ShapeField.QueryRelation.CONTAINS, queryPoint);
     TopDocs hits1 = searcher.search(q1, 5);
     assertEquals(0, hits1.totalHits.value);
 
