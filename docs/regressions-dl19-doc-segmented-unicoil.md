@@ -1,4 +1,4 @@
-# Anserini: Regressions on DL19 (Doc) with uniCOIL
+# Anserini: Regressions for TREC 2019 Deep Learning Track (Doc)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [TREC 2019 Deep Learning Track Document Ranking Task](https://trec.nist.gov/data/deep2019.html).
 The uniCOIL model is described in the following paper:
@@ -84,16 +84,24 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
+| AP@100                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3508    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2789    |
+
+
+| nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6396    |
 
 
 | R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
@@ -101,9 +109,15 @@ With the above commands, you should be able to reproduce the following results:
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4099    |
 
 
-| nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
+| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6396    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6652    |
+
+Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
+Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.
+Remember that we keep qrels of _all_ relevance grades, unlike the case for passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+Here, we retrieve 1000 hits per query, but measure AP at cutoff 100 (e.g., AP@100).
+Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
 ## Reproduction Log[*](reproducibility.md)
 

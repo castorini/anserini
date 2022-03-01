@@ -1,4 +1,4 @@
-# Anserini: Regressions on DL20 (Doc) with uniCOIL
+# Anserini: Regressions for TREC 2020 Deep Learning Track (Doc)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [TREC 2020 Deep Learning Track Document Ranking Task](https://trec.nist.gov/data/deep2020.html).
 The uniCOIL model is described in the following paper:
@@ -81,6 +81,12 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
+
+Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
+Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.
+Remember that we keep qrels of _all_ relevance grades, unlike the case for passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+Here, we retrieve 1000 hits per query, but measure AP at cutoff 100 (e.g., AP@100).
+Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
 
 ## Reproduction Log[*](reproducibility.md)
 
