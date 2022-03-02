@@ -46,7 +46,7 @@ topics:
 
 models:
   - name: unicoil
-    display: uniCOIL w/ doc2query-T5 expansion
+    display: uniCOIL (with doc2query-T5 expansions)
     params: -impact -pretokenized
     results:
       MAP:

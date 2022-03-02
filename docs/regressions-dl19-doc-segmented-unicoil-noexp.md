@@ -94,22 +94,22 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@100                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
+| AP@100                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2621    |
 
 
-| nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
+| nDCG@10                                                                                                      | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6118    |
 
 
-| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
+| R@100                                                                                                        | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3956    |
 
 
-| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
+| R@1000                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6382    |
 

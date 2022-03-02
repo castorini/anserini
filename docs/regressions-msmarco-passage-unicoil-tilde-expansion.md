@@ -85,17 +85,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank -c -m recall.100
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | uniCOIL w/ TILDE expansion|
+| MAP                                                                                                          | uniCOIL (with TILDE expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3561    |
 
 
-| MRR                                                                                                          | uniCOIL w/ TILDE expansion|
+| MRR                                                                                                          | uniCOIL (with TILDE expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3607    |
 
 
-| R@1000                                                                                                       | uniCOIL w/ TILDE expansion|
+| R@1000                                                                                                       | uniCOIL (with TILDE expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9646    |
 

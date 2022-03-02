@@ -96,22 +96,22 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
+| AP@1000                                                                                                      | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4033    |
 
 
-| nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
+| nDCG@10                                                                                                      | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6433    |
 
 
-| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
+| R@100                                                                                                        | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5629    |
 
 
-| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
+| R@1000                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7752    |
 

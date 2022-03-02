@@ -91,25 +91,25 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank sr
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP@100                                                                                                      | uniCOIL (no expansion, zero-shot)|
+| MAP@100                                                                                                      | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.1333    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.1374    |
 
 
-| MRR@100                                                                                                      | uniCOIL (no expansion, zero-shot)|
+| MRR@100                                                                                                      | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.1342    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.1385    |
 
 
-| R@100                                                                                                        | uniCOIL (no expansion, zero-shot)|
+| R@100                                                                                                        | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.4976    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.5217    |
 
 
-| R@1000                                                                                                       | uniCOIL (no expansion, zero-shot)|
+| R@1000                                                                                                       | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.7010    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.7114    |
