@@ -1,6 +1,6 @@
 # Anserini: Regressions on MS MARCO Document with uniCOIL
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [MS MARCO Document Ranking Task](https://github.com/microsoft/MSMARCO-Document-Ranking).
+This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL (with doc2query-T5 expansions) on the [MS MARCO Document Ranking Task](https://github.com/microsoft/MSMARCO-Document-Ranking).
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
@@ -90,17 +90,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m recall.100
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
+| MAP                                                                                                          | uniCOIL (with doc2query-T5 expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3535    |
 
 
-| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
+| R@100                                                                                                        | uniCOIL (with doc2query-T5 expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8858    |
 
 
-| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
+| R@1000                                                                                                       | uniCOIL (with doc2query-T5 expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9546    |
 

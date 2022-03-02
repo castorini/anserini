@@ -1,7 +1,7 @@
 # Anserini: Regressions for [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
 
 This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Passage Ranking Task) on the MS MARCO V2 passage collection using relevance judgments from NIST.
-Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with no document expansion.
+Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with no document expansions.
 
 The uniCOIL model is described in the following paper:
 
@@ -92,27 +92,27 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP@100                                                                                                      | uniCOIL (no expansion, zero-shot)|
+| MAP@100                                                                                                      | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2193    |
 
 
-| MRR@100                                                                                                      | uniCOIL (no expansion, zero-shot)|
+| MRR@100                                                                                                      | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6991    |
 
 
-| nDCG@10                                                                                                      | uniCOIL (no expansion, zero-shot)|
+| nDCG@10                                                                                                      | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5756    |
 
 
-| R@100                                                                                                        | uniCOIL (no expansion, zero-shot)|
+| R@100                                                                                                        | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4246    |
 
 
-| R@1000                                                                                                       | uniCOIL (no expansion, zero-shot)|
+| R@1000                                                                                                       | uniCOIL (no expansions, zero-shot)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6897    |
 

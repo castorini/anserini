@@ -1,42 +1,42 @@
 ---
-corpus: msmarco-doc-segmented-unicoil
-corpus_path: collections/msmarco/msmarco-doc-segmented-unicoil/
+corpus: msmarco-passage-unicoil-noexp
+corpus_path: collections/msmarco/msmarco-passage-unicoil-noexp/
 
-index_path: indexes/lucene-index.msmarco-doc-segmented-unicoil/
+index_path: indexes/lucene-index.msmarco-passage-unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
 index_options: -impact -pretokenized
 index_stats:
-  documents: 20545677
-  documents (non-empty): 20545677
-  total terms: 214505277898
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 26468530021
 
 metrics:
-  - metric: AP@100
+  - metric: AP@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -M 100 -m map # Note, this is different DL 2019 passage ranking!
+    params: -m map -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m ndcg_cut.10
+    params: -m ndcg_cut.10 -c
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@100
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recall.100
+    params: -m recall.100 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recall.1000
+    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -46,21 +46,23 @@ topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
-    id: dl19
-    path: topics.dl19-doc.unicoil.0shot.tsv.gz
-    qrel: qrels.dl19-doc.txt
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.unicoil-noexp.0shot.tsv.gz
+    qrel: qrels.dl20-passage.txt
 
 models:
   - name: unicoil
-    display: uniCOIL (with doc2query-T5 expansions)
-    params: -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    display: uniCOIL (no expansions)
+    params: -impact -pretokenized
     results:
-      AP@100:
-        - 0.2789
+      AP@1000:
+        - 0.4021
       nDCG@10:
-        - 0.6396
+        - 0.6523
+      MRR:
+        - 0.7566
       R@100:
-        - 0.4099
+        - 0.6658
       R@1000:
-        - 0.6652
+        - 0.7861
