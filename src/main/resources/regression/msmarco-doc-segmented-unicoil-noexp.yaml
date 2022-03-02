@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-doc-segmented-unicoil-exp
-corpus_path: collections/msmarco/msmarco-doc-segmented-unicoil-exp/
+corpus: msmarco-doc-segmented-unicoil-noexp
+corpus_path: collections/msmarco/msmarco-doc-segmented-unicoil-noexp/
 
-index_path: indexes/lucene-index.msmarco-doc-segmented-unicoil-exp/
+index_path: indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -10,7 +10,7 @@ index_options: -impact -pretokenized
 index_stats:
   documents: 20545677
   documents (non-empty): 20545677
-  total terms: 214505277898
+  total terms: 152325913715
 
 metrics:
   - metric: MAP
@@ -41,7 +41,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
     id: dev
-    path: topics.msmarco-doc.dev.unicoil.tsv.gz
+    path: topics.msmarco-doc.dev.unicoil-noexp.tsv.gz
     qrel: qrels.msmarco-doc.dev.txt
 
 models:
@@ -50,9 +50,9 @@ models:
     params: -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP:
-        - 0.3535
+        - 0.3200
       R@100:
-        - 0.8858
+        - 0.8398
       R@1000:
-        - 0.9546
+        - 0.9286
 

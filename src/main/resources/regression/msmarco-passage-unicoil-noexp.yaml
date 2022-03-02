@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-passage-unicoil-exp
-corpus_path: collections/msmarco/msmarco-passage-unicoil-exp/
+corpus: msmarco-passage-unicoil-noexp
+corpus_path: collections/msmarco/msmarco-passage-unicoil-noexp/
 
-index_path: indexes/lucene-index.msmarco-passage-unicoil-exp/
+index_path: indexes/lucene-index.msmarco-passage-unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -10,7 +10,7 @@ index_options: -impact -pretokenized
 index_stats:
   documents: 8841823
   documents (non-empty): 8841823
-  total terms: 44495093768
+  total terms: 26468530021
 
 metrics:
   - metric: MAP
@@ -41,7 +41,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
-    path: topics.msmarco-passage.dev-subset.unicoil.tsv.gz
+    path: topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
@@ -50,9 +50,9 @@ models:
     params: -impact -pretokenized
     results:
       MAP:
-        - 0.3574
+        - 0.3215
       MRR:
-        - 0.3625
+        - 0.3263
       R@1000:
-        - 0.9582
+        - 0.9239
 
