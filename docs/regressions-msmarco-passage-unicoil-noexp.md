@@ -1,17 +1,20 @@
 # Anserini: Regressions on MS MARCO Passage with uniCOIL
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL (with doc2query-T5 expansions) on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL (without any expansions) on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-unicoil.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The experiments on this page are not actually reported in the paper.
+Here, a variant model without expansion is used.
+
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-unicoil-noexp.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil-noexp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-noexp
 ```
 
 ## Corpus
@@ -33,8 +36,8 @@ To confirm, `msmarco-passage-unicoil.tar` is 3.3 GB and has MD5 checksum `78eef7
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil \
-  --corpus-path collections/msmarco-passage-unicoil
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-noexp \
+  --corpus-path collections/msmarco-passage-unicoil-noexp
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.
@@ -46,14 +49,14 @@ Sample indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
-  -input /path/to/msmarco-passage-unicoil \
-  -index indexes/lucene-index.msmarco-passage-unicoil/ \
+  -input /path/to/msmarco-passage-unicoil-noexp \
+  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -impact -pretokenized \
-  >& logs/log.msmarco-passage-unicoil &
+  >& logs/log.msmarco-passage-unicoil-noexp &
 ```
 
-The path `/path/to/msmarco-passage-unicoil/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-passage-unicoil-noexp/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
 Upon completion, we should have an index with 8,841,823 documents.
@@ -69,36 +72,36 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-unicoil/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
+  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt \
+  -output runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt \
   -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | uniCOIL (with doc2query-T5 expansions)|
+| MAP                                                                                                          | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3574    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3215    |
 
 
-| MRR                                                                                                          | uniCOIL (with doc2query-T5 expansions)|
+| MRR                                                                                                          | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3625    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3263    |
 
 
-| R@1000                                                                                                       | uniCOIL (with doc2query-T5 expansions)|
+| R@1000                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9582    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9239    |
 
 The above runs are in TREC output format and evaluated with `trec_eval`.
 In order to reproduce results reported in the paper, we need to convert to MS MARCO output format and then evaluate:
@@ -126,7 +129,7 @@ This corresponds to the effectiveness reported in the paper and also the run nam
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil-noexp.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@lintool](https://github.com/lintool) on 2021-06-28 (commit [`1550683`](https://github.com/castorini/anserini/commit/1550683e41cefe89b7e67c0a5f0e147bc70dfcda))
 + Results reproduced by [@JMMackenzie](https://github.com/JMMackenzie) on 2021-07-02 (commit [`e4c5127`](https://github.com/castorini/anserini/commit/e4c51278d375ebad9aa2bf9bde66cab32260d6b4))

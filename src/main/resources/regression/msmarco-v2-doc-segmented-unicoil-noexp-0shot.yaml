@@ -57,7 +57,7 @@ topics:
 
 models:
   - name: unicoil-noexp-0shot
-    display: uniCOIL (no expansion, zero-shot)
+    display: uniCOIL (no expansions, zero-shot)
     params: -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP@100:

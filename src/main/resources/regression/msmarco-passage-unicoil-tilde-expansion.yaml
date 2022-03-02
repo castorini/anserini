@@ -46,7 +46,7 @@ topics:
 
 models:
   - name: unicoil-tilde-expansion
-    display: uniCOIL w/ TILDE expansion
+    display: uniCOIL (with TILDE expansions)
     params: -impact -pretokenized
     results:
       MAP:
