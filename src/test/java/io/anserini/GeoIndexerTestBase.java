@@ -34,7 +34,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 
 public class GeoIndexerTestBase extends LuceneTestCase {

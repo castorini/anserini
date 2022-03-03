@@ -53,8 +53,6 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
       field = doc.getField(IndexArgs.RAW);
       String raw = field == null ? null : field.stringValue();
 
-      System.out.println(rs.scoreDocs[i].score);
-
       results[i] = new Result(docId, hits.ids[i], hits.scores[i], contents, raw, doc);
     }
 

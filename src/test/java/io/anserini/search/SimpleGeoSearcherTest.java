@@ -131,6 +131,7 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
 
     SimpleSearcher.Result[] hits = searcher.searchGeo(q, 2, sort);
 
+    // Make sure that we get the second line in line_sorted.wkt first (since it has closer endpoint)
     assertEquals(2, hits.length);
     assertEquals(7, hits[0].lucene_docid);
     assertEquals(6, hits[1].lucene_docid);
