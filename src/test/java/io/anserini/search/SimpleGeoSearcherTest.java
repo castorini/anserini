@@ -1,10 +1,13 @@
 package io.anserini.search;
 
 import io.anserini.GeoIndexerTestBase;
+import org.apache.lucene.document.LatLonDocValuesField;
 import org.apache.lucene.document.LatLonShape;
 import org.apache.lucene.document.ShapeField;
+import org.apache.lucene.geo.Circle;
 import org.apache.lucene.geo.Line;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
 import org.junit.Test;
 
 public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
@@ -117,5 +120,20 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
     assertEquals(5, hits[0].lucene_docid);
 
     searcher.close();
+  }
+
+  @Test
+  public void testGetLineSorted() throws Exception {
+    SimpleGeoSearcher searcher = new SimpleGeoSearcher(super.tempDir1.toString());
+
+    Sort sort = new Sort(LatLonDocValuesField.newDistanceSort("point", -35, 0));
+    Query q = LatLonShape.newDistanceQuery("geometry", ShapeField.QueryRelation.WITHIN, new Circle(-35, 0, 900000000));
+
+    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 2, sort);
+
+    // Make sure that we get the second line in line_sorted.wkt first (since it has closer endpoint)
+    assertEquals(2, hits.length);
+    assertEquals(7, hits[0].lucene_docid);
+    assertEquals(6, hits[1].lucene_docid);
   }
 }

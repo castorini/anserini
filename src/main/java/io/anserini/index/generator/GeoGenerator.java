@@ -42,17 +42,39 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
 
           Field[] fields = new Field[0];
           if (shape instanceof Line) {
-            fields = LatLonShape.createIndexableFields("geometry", (Line) shape);
+            Line line = (Line) shape;
+            fields = LatLonShape.createIndexableFields("geometry", line);
+
+            for (int i = 0; i < line.numPoints(); i++) {
+              doc.add(new LatLonDocValuesField("point", line.getLat(i), line.getLon(i)));
+            }
+
           } else if (shape instanceof Polygon) {
-            fields = LatLonShape.createIndexableFields("geometry", (Polygon) shape);
+            Polygon polygon = (Polygon) shape;
+            fields = LatLonShape.createIndexableFields("geometry", polygon);
+
+            for (int i = 0; i < polygon.numPoints(); i++) {
+              doc.add(new LatLonDocValuesField("point", polygon.getPolyLat(i), polygon.getPolyLon(i)));
+            }
+
           } else if (shape instanceof Line[]) {
             for (Line line: (Line[]) shape) {
               fields = LatLonShape.createIndexableFields("geometry", line);
+
+              for (int i = 0; i < line.numPoints(); i++) {
+                doc.add(new LatLonDocValuesField("point", line.getLat(i), line.getLon(i)));
+              }
             }
+
           } else if (shape instanceof Polygon[]) {
             for (Polygon polygon: (Polygon[]) shape) {
               fields = LatLonShape.createIndexableFields("geometry", polygon);
+
+              for (int i = 0; i < polygon.numPoints(); i++) {
+                doc.add(new LatLonDocValuesField("point", polygon.getPolyLat(i), polygon.getPolyLon(i)));
+              }
             }
+
           } else {
             throw new IllegalArgumentException("unknown shape");
           }
