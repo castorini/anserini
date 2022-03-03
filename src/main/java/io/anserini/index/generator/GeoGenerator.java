@@ -45,7 +45,7 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
             Line line = (Line) shape;
             fields = LatLonShape.createIndexableFields("geometry", line);
 
-            for (int i = 0; i < line.numPoints(); ++i) {
+            for (int i = 0; i < line.numPoints(); i++) {
               doc.add(new LatLonDocValuesField("point", line.getLat(i), line.getLon(i)));
             }
 
@@ -53,7 +53,7 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
             Polygon polygon = (Polygon) shape;
             fields = LatLonShape.createIndexableFields("geometry", polygon);
 
-            for (int i = 0; i < polygon.numPoints(); ++i) {
+            for (int i = 0; i < polygon.numPoints(); i++) {
               doc.add(new LatLonDocValuesField("point", polygon.getPolyLat(i), polygon.getPolyLon(i)));
             }
 
@@ -61,7 +61,7 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
             for (Line line: (Line[]) shape) {
               fields = LatLonShape.createIndexableFields("geometry", line);
 
-              for (int i = 0; i < line.numPoints(); ++i) {
+              for (int i = 0; i < line.numPoints(); i++) {
                 doc.add(new LatLonDocValuesField("point", line.getLat(i), line.getLon(i)));
               }
             }
@@ -70,7 +70,7 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
             for (Polygon polygon: (Polygon[]) shape) {
               fields = LatLonShape.createIndexableFields("geometry", polygon);
 
-              for (int i = 0; i < polygon.numPoints(); ++i) {
+              for (int i = 0; i < polygon.numPoints(); i++) {
                 doc.add(new LatLonDocValuesField("point", polygon.getPolyLat(i), polygon.getPolyLon(i)));
               }
             }
