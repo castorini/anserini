@@ -10,6 +10,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import java.io.Closeable;
@@ -24,11 +25,20 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
   private IndexSearcher searcher = null;
 
   public Result[] searchGeo(Query query, int k) throws IOException {
+    return searchGeo(query, k, null);
+  }
+
+  public Result[] searchGeo(Query query, int k, Sort sort) throws IOException {
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
     }
 
-    TopDocs rs = searcher.search(query, k);
+    TopDocs rs;
+    if (sort == null) {
+      rs = searcher.search(query, k);
+    } else {
+      rs = searcher.search(query, k, sort);
+    }
     ScoredDocuments hits = ScoredDocuments.fromTopDocs(rs, searcher);
     Result[] results = new Result[hits.ids.length];
 
