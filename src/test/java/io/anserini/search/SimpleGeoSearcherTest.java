@@ -129,14 +129,10 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
     Sort sort = new Sort(LatLonDocValuesField.newDistanceSort("point", -35, 0));
     Query q = LatLonShape.newDistanceQuery("geometry", ShapeField.QueryRelation.WITHIN, new Circle(-35, 0, 900000000));
 
-    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 3, sort);
+    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 2, sort);
 
-    // our searcher should return the closer line by distance to line, not distance to endpoints of line
-    System.out.println(hits[0].lucene_docid);
-    System.out.println(hits[1].lucene_docid);
-    System.out.println(hits[2].lucene_docid);
-//    assertEquals(2, hits.length);
-//    assertEquals(7, hits[0].lucene_docid);
-//    assertEquals(6, hits[1].lucene_docid);
+    assertEquals(2, hits.length);
+    assertEquals(7, hits[0].lucene_docid);
+    assertEquals(6, hits[1].lucene_docid);
   }
 }
