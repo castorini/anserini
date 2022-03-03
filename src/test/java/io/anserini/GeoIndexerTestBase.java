@@ -17,10 +17,7 @@
 package io.anserini;
 
 import io.anserini.index.IndexArgs;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.LatLonShape;
-import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.geo.Line;
 import org.apache.lucene.geo.Polygon;
 import org.apache.lucene.geo.SimpleWKTShapeParser;
@@ -37,6 +34,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 
 
 public class GeoIndexerTestBase extends LuceneTestCase {
@@ -138,6 +136,39 @@ public class GeoIndexerTestBase extends LuceneTestCase {
       }
       doc6.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
       writer.addDocument(doc6);
+
+      // Index LineStrings for testing the sorted search feature using SimpleWKTShapeParser
+      Document doc7 = new Document();
+      Document doc8 = new Document();
+      Path path7 = Paths.get("src/test/resources/sample_docs/geosearch/line_sorted.wkt");
+      List<String> listLines7 = Files.readAllLines(path7);
+      String[] lines7 = listLines7.toArray(new String[0]);
+
+      Line lineShapeSorted1 = (Line) SimpleWKTShapeParser.parse(lines7[0]);
+      Line lineShapeSorted2 = (Line) SimpleWKTShapeParser.parse(lines7[1]);
+
+      for (double lat: lineShapeSorted1.getLats()) {
+        System.out.println(lat);
+      }
+
+      System.out.println(lineShapeSorted1.numPoints());
+      Field[] fields7 = LatLonShape.createIndexableFields("geometry", lineShapeSorted1);
+      for (Field f: fields7) {
+        doc7.add(f);
+      }
+      doc7.add(new LatLonDocValuesField("point", -10, 0));
+      doc7.add(new LatLonDocValuesField("point", -20, 0));
+      Field[] fields8 = LatLonShape.createIndexableFields("geometry", lineShapeSorted2);
+      for (Field f: fields8) {
+        doc8.add(f);
+      }
+      doc8.add(new LatLonDocValuesField("point", -70, -40));
+      doc8.add(new LatLonDocValuesField("point", 70, -40));
+
+      doc7.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
+      doc8.add(new StringField(IndexArgs.ID, "id", Field.Store.YES));
+      writer.addDocument(doc7);
+      writer.addDocument(doc8);
 
 
       writer.commit();
