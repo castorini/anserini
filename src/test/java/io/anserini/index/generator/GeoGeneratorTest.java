@@ -87,15 +87,14 @@ public class GeoGeneratorTest {
     assertEquals(LongPoint.class, doc.getField("HYBAS_L12").getClass());
     assertEquals(9120016580L, doc.getField("HYBAS_L12").numericValue());
 
+    assertEquals(2, doc.getFields("geometry").length);
     for (IndexableField f: doc.getFields("geometry")) {
       assertEquals(ShapeField.Triangle.class, f.getClass());
     }
 
+    assertEquals(3, doc.getFields("point").length);
     for (IndexableField f: doc.getFields("point")) {
       assertEquals(LatLonDocValuesField.class, f.getClass());
-      System.out.println("hi");
-//      LatLonDocValuesField d = (LatLonDocValuesField) f;
-
     }
 
     assertEquals("90000003", doc.getField(IndexArgs.ID).stringValue());
