@@ -414,7 +414,7 @@
     <dependency>
       <groupId>com.github.TREMA-UNH</groupId>
       <artifactId>trec-car-tools-java</artifactId>
-      <version>13</version>
+      <version>19</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
