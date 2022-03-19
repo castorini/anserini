@@ -1,45 +1,37 @@
-# -*- coding: utf-8 -*-
-"""
-Anserini: A toolkit for reproducible information retrieval research built on Lucene
+#
+# Anserini: A Lucene toolkit for reproducible information retrieval research
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
-
-import os
-import subprocess
 import argparse
-from multiprocessing import Pool
 import json
 import logging
+import os
+import subprocess
+from multiprocessing import Pool
 
 import yaml
 
-from search import Search
-from evaluation import Evaluation
 from effectiveness import Effectiveness
+from evaluation import Evaluation
+from search import Search
 from xfold import XFoldValidate
 
 logger = logging.getLogger('fine_tuning')
 logger.setLevel(logging.INFO)
-# create console handler with a higher log level
-#ch = logging.StreamHandler()
-#ch.setLevel(logging.INFO)
-#formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-#ch.setFormatter(formatter)
-# add the handlers to the logger
-#logger.addHandler(ch)
 
-parallelism=1
+
 def batch_everything(all_params, func):
     if len(all_params) == 0:
         return
@@ -56,6 +48,7 @@ def get_index_path(yaml_data):
     """
     Find the possible index path
     """
+    index_path = ''
     for index_root in yaml_data['index_roots']:
         if os.path.exists(os.path.join(index_root, yaml_data['index_path'])):
             index_path = os.path.join(index_root, yaml_data['index_path'])
@@ -193,21 +186,6 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, fold_setting
         logger.info('\x1b[6;30;41m[Tests Failures!]\x1b[0m')
 
 
-def del_method_related_files(method_name):
-    folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
-    for q in g.query:
-        collection_name = q['collection']
-        index_name = c['index']
-        collection_path = os.path.join(_root, index_name)
-        for f in folders:
-            if os.path.exists( os.path.join(collection_path, f) ):
-                logger.info('Deleting ' + os.path.join(collection_path, f) + ' *' + method_name + '*')
-                if f == 'split_results' or f == 'merged_results':
-                    subprocess.call('find %s -name "*method:%s*" -exec rm -rf {} \\;' % (os.path.join(collection_path, f), method_name), shell=True)
-                else:
-                    subprocess.call('find %s -name "*%s*" -exec rm -rf {} \\;' % (os.path.join(collection_path, f), method_name), shell=True)
-
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
@@ -220,13 +198,6 @@ if __name__ == '__main__':
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
     parser.add_argument('--fold_settings', default='', help='JSON file holding fold definitions, see src/main/resources/fine_tuning/robust04-paper1-folds.json for an example')
     parser.add_argument('--verbose', action='store_true', help='if specified print out model parameters and per fold scores')
-
-    # runtime
-    parser.add_argument(
-        "--del_method_related_files",
-        nargs=1,
-        help="Delete all the output files of a method."
-    )
     parser.add_argument(
         "--metrics",
         nargs='+',
@@ -235,25 +206,21 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
+    parallelism = args.parallelism
+    with open(os.path.join(args.anserini_root, 'src/main/resources/fine_tuning/collections.yaml')) as f:
+        collections_yaml = yaml.safe_load(f)
+    with open(os.path.join(args.anserini_root, 'src/main/resources/fine_tuning/models.yaml')) as f:
+        models_yaml = yaml.safe_load(f)['models'][args.model]
+    collection_yaml = collections_yaml['collections'][args.collection]
+    for k in collections_yaml:
+        if k != 'collections':
+            collection_yaml[k] = collections_yaml[k]
+    collection_yaml['anserini_root'] = args.anserini_root
+    if not os.path.exists(os.path.join(args.output_root, collection_yaml['name'])):
+        os.makedirs(os.path.join(args.output_root, collection_yaml['name']))
 
-    if args.del_method_related_files:
-        del_method_related_files(args.del_method_related_files[0])
-    else:
-        parallelism = args.parallelism
-        with open(os.path.join(args.anserini_root, 'src/main/resources/fine_tuning/collections.yaml')) as f:
-            collections_yaml = yaml.safe_load(f)
-        with open(os.path.join(args.anserini_root, 'src/main/resources/fine_tuning/models.yaml')) as f:
-            models_yaml = yaml.safe_load(f)['models'][args.model]
-        collection_yaml = collections_yaml['collections'][args.collection]
-        for k in collections_yaml:
-            if k != 'collections':
-                collection_yaml[k] = collections_yaml[k]
-        collection_yaml['anserini_root'] = args.anserini_root
-        if not os.path.exists(os.path.join(args.output_root, collection_yaml['name'])):
-            os.makedirs(os.path.join(args.output_root, collection_yaml['name']))
-
-        if args.run:
-            batch_retrieval(collection_yaml, models_yaml, args.output_root)
-            batch_eval(collection_yaml, models_yaml, args.output_root)
-            batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
-        verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.fold_settings, args.verbose)
+    if args.run:
+        batch_retrieval(collection_yaml, models_yaml, args.output_root)
+        batch_eval(collection_yaml, models_yaml, args.output_root)
+        batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
+    verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.fold_settings, args.verbose)
