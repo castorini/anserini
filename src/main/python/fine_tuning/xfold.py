@@ -1,35 +1,36 @@
-"""
-Anserini: A toolkit for reproducible information retrieval research built on Lucene
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
+#
+# Anserini: A Lucene toolkit for reproducible information retrieval research
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
-from __future__ import print_function
-import os
-import re
 import argparse
-import logging
 import json
-
+import logging
+import os
 
 logging.basicConfig()
+
+
 class XFoldValidate(object):
     """
-    Perform X-Fold cross validation for various 
+    Perform x-fold cross validation for various
     parameters and report the average effectiveness
     for each fold. fold_mapping is an optional argument.
     It can be a dictionary {qid:fold_id} that maps 
     each qid to its corresponding fold.
     """
-    def __init__(self,output_root,collection,
-                 fold=5,fold_mapping=None):
+    def __init__(self, output_root, collection, fold=5, fold_mapping=None):
         self.logger = logging.getLogger('x_fold_cv.XFlodValidate')
         self.output_root = output_root
         self.eval_files_root = 'eval_files'
@@ -37,8 +38,6 @@ class XFoldValidate(object):
         self.fold = fold
         self.fold_mapping = fold_mapping
 
-
-    
     def _get_param_average(self):
         # For each parameter set, get its 
         # average performances in each fold,
@@ -136,7 +135,7 @@ class XFoldValidate(object):
                     try:
                         value = float(row[2])
                     except:
-                        self.logger.error( 'Cannot parse %s' %(row[2]) )
+                        self.logger.error('Cannot parse %s' %(row[2]))
                         continue
                     else:
                         if qid != 'all':
@@ -151,7 +150,8 @@ class XFoldValidate(object):
                 param_avg_performances[metric][fold_id] = round(sum(param_performance_list[fold_id][metric])/len(param_performance_list[fold_id][metric]), 4)
         return param_avg_performances
 
-def main():
+
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
     parser.add_argument('--fold', '-f', default=2, type=int, help='number of fold')
@@ -165,7 +165,4 @@ def main():
         from run_batch import load_drr_fold_mapping
         fold_mapping = load_drr_fold_mapping(args.fold_dir)
     print(json.dumps(XFoldValidate(args.output_root, args.collection, args.fold, fold_mapping).tune(args.verbose), sort_keys=True, indent=2))
-
-if __name__ == '__main__':
-    main()
 

@@ -7,7 +7,7 @@ index_roots:
 collections:
     robust04:
       name: robust04
-      index_path: indexes/lucene-index.robust04.pos+docvectors+raw
+      index_path: indexes/lucene-index.disk45
       topic_reader: Trec
       topic: topics.robust04.txt
       qrel: qrels.robust04.txt
