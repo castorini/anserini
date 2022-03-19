@@ -259,7 +259,7 @@ def main():
     expected_metrics = {
         'expanded.anserini.final-r4.fusion1.txt':
             {'topics': 45, 'ndcg_cut_10': 0.5395, 'judged_cut_10': 0.7222, 'ndcg_cut_20': 0.5115,
-             'judged_cut_20': 0.6944, 'map': 0.2498, 'recall_1000': 0.6717, 'judged_cut_1000': 0.1424},
+             'judged_cut_20': 0.6944, 'map': 0.2497, 'recall_1000': 0.6717, 'judged_cut_1000': 0.1424},
         'expanded.anserini.final-r4.fusion2.txt':
             {'topics': 45, 'ndcg_cut_10': 0.5630, 'judged_cut_10': 0.7444, 'ndcg_cut_20': 0.5175,
              'judged_cut_20': 0.6911, 'map': 0.2550, 'recall_1000': 0.6800, 'judged_cut_1000': 0.1434},
