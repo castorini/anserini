@@ -1,28 +1,29 @@
-# -*- coding: utf-8 -*-
-"""
-Anserini: A toolkit for reproducible information retrieval research built on Lucene
+#
+# Anserini: A Lucene toolkit for reproducible information retrieval research
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
-
-import os
-import json
 import ast
-from operator import itemgetter
-from inspect import currentframe, getframeinfo
+import json
 import logging
+import os
+from inspect import currentframe, getframeinfo
+from operator import itemgetter
 
 logging.basicConfig()
+
+
 class Effectiveness(object):
     """
     Handle the performace. For example, get all the effectiveness of one method(has multiple parameters).
@@ -56,8 +57,8 @@ class Effectiveness(object):
                     all_results[output_fn].append( os.path.join(output_root, self.eval_files_root, metric_dir, fn) )
         for output_fn in all_results:
             performace_fn = os.path.join(output_root, self.effectiveness_root, output_fn)
-            tmp = [ self.index_path, performace_fn ]
-            tmp.extend( all_results[output_fn] )
+            tmp = [self.index_path, performace_fn]
+            tmp.extend(all_results[output_fn])
             all_params.append(tuple(tmp))
 
         return all_params
