@@ -19,7 +19,7 @@
 import os
 import sys
 
-from covid_baseline_tools import perform_runs, perform_fusion, prepare_final_submissions,\
+from covid_baseline_tools import perform_runs, perform_fusion, prepare_final_submissions, \
     evaluate_runs, verify_stored_runs
 
 # This makes errors more readable,
@@ -52,35 +52,35 @@ final_runs = {
 }
 
 stored_runs = {
-    'https://www.dropbox.com/s/g80cqdxud1l06wq/anserini.covid-r3.abstract.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qq.bm25.txt':
         cumulative_runs['anserini.covid-r3.abstract.qq.bm25.txt'],
-    'https://www.dropbox.com/s/sjcnxq7h0a3j3xz/anserini.covid-r3.abstract.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r3.abstract.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/4bjx35sgosu0jz0/anserini.covid-r3.full-text.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.full-text.qq.bm25.txt':
         cumulative_runs['anserini.covid-r3.full-text.qq.bm25.txt'],
-    'https://www.dropbox.com/s/mjt7y1ywae784d0/anserini.covid-r3.full-text.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.full-text.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r3.full-text.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/qwn7jd8vg2chjik/anserini.covid-r3.paragraph.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.paragraph.qq.bm25.txt':
         cumulative_runs['anserini.covid-r3.paragraph.qq.bm25.txt'],
-    'https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.paragraph.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r3.paragraph.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/6vk5iohqf81iy8b/anserini.covid-r3.fusion1.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.fusion1.txt':
         cumulative_runs['anserini.covid-r3.fusion1.txt'],
-    'https://www.dropbox.com/s/n09595t1eqymkks/anserini.covid-r3.fusion2.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.fusion2.txt':
         cumulative_runs['anserini.covid-r3.fusion2.txt'],
-    'https://www.dropbox.com/s/p8fzefgwzkvvbxx/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt':
         cumulative_runs['anserini.covid-r3.abstract.qdel.bm25+rm3Rf.txt'],
-    'https://www.dropbox.com/s/ypoe9tgwef17rak/anserini.final-r3.fusion1.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion1.txt':
         final_runs['anserini.final-r3.fusion1.txt'],
-    'https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion2.txt':
         final_runs['anserini.final-r3.fusion2.txt'],
-    'https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.rf.txt':
         final_runs['anserini.final-r3.rf.txt'],
-    'https://www.dropbox.com/s/ilqgky1tti0zvez/anserini.final-r3.fusion1.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion1.post-processed.txt':
         final_runs['anserini.final-r3.fusion1.post-processed.txt'],
-    'https://www.dropbox.com/s/ue3z6xxxca9krkb/anserini.final-r3.fusion2.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion2.post-processed.txt':
         final_runs['anserini.final-r3.fusion2.post-processed.txt'],
-    'https://www.dropbox.com/s/95vk831wp1ldnpm/anserini.final-r3.rf.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.rf.post-processed.txt':
         final_runs['anserini.final-r3.rf.post-processed.txt']
 }
 
