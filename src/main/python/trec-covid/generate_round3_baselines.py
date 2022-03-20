@@ -107,10 +107,10 @@ def main():
 
     expected_metrics = {
         'anserini.covid-r3.abstract.qq.bm25.txt':
-            {'topics': 40, 'ndcg_cut_10': 0.2118, 'judged_cut_10': 0.3300, 'ndcg_cut_20': 0.2043,
+            {'topics': 40, 'ndcg_cut_10': 0.2117, 'judged_cut_10': 0.3300, 'ndcg_cut_20': 0.2043,
              'judged_cut_20': 0.3150, 'map': 0.0951, 'recall_1000': 0.4398, 'judged_cut_1000': 0.1275},
         'anserini.covid-r3.abstract.qdel.bm25.txt':
-            {'topics': 40, 'ndcg_cut_10': 0.2470, 'judged_cut_10': 0.3375, 'ndcg_cut_20': 0.2256,
+            {'topics': 40, 'ndcg_cut_10': 0.2466, 'judged_cut_10': 0.3375, 'ndcg_cut_20': 0.2253,
              'judged_cut_20': 0.3175, 'map': 0.1023, 'recall_1000': 0.4537, 'judged_cut_1000': 0.1248},
         'anserini.covid-r3.full-text.qq.bm25.txt':
             {'topics': 40, 'ndcg_cut_10': 0.2337, 'judged_cut_10': 0.4650, 'ndcg_cut_20': 0.2259,
@@ -138,10 +138,10 @@ def main():
 
     expected_metrics = {
         'anserini.covid-r3.abstract.qq.bm25.txt':
-            {'topics': 40, 'ndcg_cut_10': 0.5781, 'judged_cut_10': 0.8875, 'ndcg_cut_20': 0.5359,
+            {'topics': 40, 'ndcg_cut_10': 0.5780, 'judged_cut_10': 0.8875, 'ndcg_cut_20': 0.5359,
              'judged_cut_20': 0.8325, 'map': 0.2348, 'recall_1000': 0.5040, 'judged_cut_1000': 0.2351},
         'anserini.covid-r3.abstract.qdel.bm25.txt':
-            {'topics': 40, 'ndcg_cut_10': 0.6291, 'judged_cut_10': 0.9300, 'ndcg_cut_20': 0.5972,
+            {'topics': 40, 'ndcg_cut_10': 0.6289, 'judged_cut_10': 0.9300, 'ndcg_cut_20': 0.5971,
              'judged_cut_20': 0.8925, 'map': 0.2525, 'recall_1000': 0.5215, 'judged_cut_1000': 0.2370},
         'anserini.covid-r3.full-text.qq.bm25.txt':
             {'topics': 40, 'ndcg_cut_10': 0.3977, 'judged_cut_10': 0.7500, 'ndcg_cut_20': 0.3681,
