@@ -14,12 +14,9 @@
 # limitations under the License.
 #
 
-import re
 import os
+import re
 import subprocess
-import sys
-
-sys.path.insert(0, '../pyserini/')
 
 import pyserini.util
 
