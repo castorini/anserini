@@ -17,20 +17,16 @@
 """Download pre-built docTTTTTquery expanded CORD-19 indexes."""
 
 import argparse
-import sys
-
-sys.path.insert(0, '../pyserini/')
 
 import pyserini.util
 
-
 all_indexes = {
-    '2020-06-19': ['https://www.dropbox.com/s/jqdcub1newrb5pa/lucene-index-cord19-abstract-docT5query-2020-06-19.tar.gz?dl=1',
-                   'https://www.dropbox.com/s/bmdbg103zmjufnj/lucene-index-cord19-full-text-docT5query-2020-06-19.tar.gz?dl=1',
-                   'https://www.dropbox.com/s/7dajfdff192dy9k/lucene-index-cord19-paragraph-docT5query-2020-06-19.tar.gz?dl=1'],
-    '2020-07-16': ['https://www.dropbox.com/s/gzq1d305oe465t1/lucene-index-cord19-abstract-docT5query-2020-07-16.tar.gz?dl=1',
-                   'https://www.dropbox.com/s/63gbbzqossemkzk/lucene-index-cord19-full-text-docT5query-2020-07-16.tar.gz?dl=1',
-                   'https://www.dropbox.com/s/9fml7m2si7qbm17/lucene-index-cord19-paragraph-docT5query-2020-07-16.tar.gz?dl=1']
+    '2020-06-19': ['https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-06-19/lucene-index-cord19-abstract-docT5query-2020-06-19.tar.gz',
+                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-06-19/lucene-index-cord19-full-text-docT5query-2020-06-19.tar.gz',
+                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-06-19/lucene-index-cord19-paragraph-docT5query-2020-06-19.tar.gz'],
+    '2020-07-16': ['https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-07-16/lucene-index-cord19-abstract-docT5query-2020-07-16.tar.gz',
+                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-07-16/lucene-index-cord19-full-text-docT5query-2020-07-16.tar.gz',
+                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-07-16/lucene-index-cord19-paragraph-docT5query-2020-07-16.tar.gz']
 }
 
 
