@@ -12,6 +12,13 @@ Unpacking:
 mkdir elastirini && tar -zxvf elasticsearch*.tar.gz -C elastirini --strip-components=1
 ```
 
+To make life easier, disable Elasticsearch's built-in security features.
+In the file `elastirini/config/elasticsearch.yml`, add the following line:
+
+```
+xpack.security.enabled: false
+```
+
 Start running:
 
 ```bash
@@ -243,8 +250,8 @@ For the `collection` meta-parameter, use `robust04`, `core18`, `msmarco-passage`
 
 + Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`d5ee069`](https://github.com/castorini/anserini/commit/d5ee069399e6a306d7685bda756c1f19db721156)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-disk45.md)
 + Results reproduced by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-26 (commit [`7b76dfb`](https://github.com/castorini/anserini/commit/7b76dfbea7e0c01a3a5dc13e74f54852c780ec9b)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-disk45.md)
-+ Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`07a9b05`](https://github.com/castorini/anserini/commit/07a9b053173637e15be79de4e7fce4d5a93d04fe)) for [MS Marco Passage](regressions-msmarco-passage.md), [Robust04](regressions-disk45.md) and [Core18](regressions-core18.md) using end-to-end [`run_es_regression`](../src/main/python/run_es_regression.py)
-+ Results reproduced by [@shaneding](https://github.com/shaneding) on 2020-05-25 (commit [`1de3274`](https://github.com/castorini/anserini/commit/1de3274b057a63382534c5277ffcd772c3fc0d43)) for [MS Marco Passage](regressions-msmarco-passage.md)
++ Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`07a9b05`](https://github.com/castorini/anserini/commit/07a9b053173637e15be79de4e7fce4d5a93d04fe)) for [MS MARCO Passage](regressions-msmarco-passage.md), [Robust04](regressions-disk45.md) and [Core18](regressions-core18.md) using end-to-end [`run_es_regression`](../src/main/python/run_es_regression.py)
++ Results reproduced by [@shaneding](https://github.com/shaneding) on 2020-05-25 (commit [`1de3274`](https://github.com/castorini/anserini/commit/1de3274b057a63382534c5277ffcd772c3fc0d43)) for [MS MARCO Passage](regressions-msmarco-passage.md)
 + Results reproduced by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`94893f1`](https://github.com/castorini/anserini/commit/94893f170e047d77c3ef5b8b995d7fbdd13f4298)) for [MS MARCO Passage](regressions-msmarco-passage.md), [MS MARCO Document](experiments-msmarco-doc.md)
 + Results reproduced by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS MARCO Passage](regressions-msmarco-passage.md)
 + Results reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04](regressions-disk45.md), [Core18](regressions-core18.md), and [MS MARCO Passage](regressions-msmarco-passage.md)
@@ -252,3 +259,4 @@ For the `collection` meta-parameter, use `robust04`, `core18`, `msmarco-passage`
 + Results reproduced by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-02 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for [MS MARCO Passage](regressions-msmarco-passage.md)
 + Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2022-01-13 (commit [`06fb4f9`](https://github.com/castorini/anserini/commit/06fb4f9947ff2167c276d8893287453af7680786)) for [MS MARCO Passage](regressions-msmarco-passage.md) and [MS MARCO Document](regressions-msmarco-doc.md)
 + Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2022-01-21 (commit [`a81299e`](https://github.com/castorini/anserini/commit/a81299e59eff24512d635e0d49fba6e373286469)) for [MS MARCO Document](regressions-msmarco-doc.md) using end-to-end [`run_es_regression`](../src/main/python/run_es_regression.py)
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-03-21 (commit [`3d1fc34`](https://github.com/castorini/anserini/commit/3d1fc3457b993832b4682c0482b26d8271d02ec6)) for all collections
