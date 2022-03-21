@@ -206,7 +206,7 @@ $ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map \
     src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     runs/run.es.msmarco-doc.txt
 
-map                   	all	0.2308
+map                   	all	0.2307
 recall_1000           	all	0.8856
 ```
 
