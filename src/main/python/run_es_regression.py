@@ -106,19 +106,19 @@ class ElasticsearchClient:
         # TODO: abstract this into an external config instead of hard-coded.
         if collection == 'robust04':
             command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
-                      '-generator DefaultLuceneDocumentGenerator -es -es.index robust04 -threads 16 -input ' + \
+                      '-generator DefaultLuceneDocumentGenerator -es -es.index robust04 -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeRaw'
         elif collection == 'msmarco-passage':
             command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
-                      '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-passage -threads 9 -input ' + \
+                      '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-passage -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeRaw'
         elif collection == 'core18':
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
                       '-generator WashingtonPostGenerator -es -es.index core18 -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeContents'
         elif collection == 'msmarco-doc':
-            command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
-                      '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-doc -threads 1 -input ' + \
+            command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
+                      '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-doc -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeRaw'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
@@ -180,7 +180,7 @@ class ElasticsearchClient:
         elif collection == 'core18':
             expected = 0.2496
         elif collection == 'msmarco-doc':
-            expected = 0.2308
+            expected = 0.2307
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
