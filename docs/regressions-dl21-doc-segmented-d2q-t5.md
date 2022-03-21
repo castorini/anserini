@@ -1,4 +1,4 @@
-# Anserini: Regressions for [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
+# Anserini Regressions: TREC 2021 Deep Learning Track (Document)
 
 This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Document Ranking Task) on the MS MARCO V2 _segmented_ document collection (with doc2query-T5 expansions) using relevance judgments from NIST.
 

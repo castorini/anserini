@@ -1,4 +1,4 @@
-# Anserini: Regressions for [MS MARCO Passage Retrieval](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini Regressions: MS MARCO Passage Ranking
 
 This page documents regression experiments for the MS MARCO Passage Retrieval Task with doc2query expansions (also called doc2query-base) , as proposed in the following paper:
 

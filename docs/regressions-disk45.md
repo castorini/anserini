@@ -1,8 +1,8 @@
 # Anserini: Regressions for [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html)
 
 This page describes regressions for ad hoc topics from TREC 7-8, which use [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html).
-The exact configurations for these regressions are stored in [this YAML file](${yaml).
-Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/disk45.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/disk45.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

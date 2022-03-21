@@ -1,4 +1,4 @@
-# Anserini: Regressions for TREC 2019 Deep Learning Track (Passage)
+# Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
 
 This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
 

@@ -1,4 +1,4 @@
-# Anserini: Regressions for TREC 2020 Deep Learning Track (Doc)
+# Anserini Regressions: TREC 2020 Deep Learning Track (Document)
 
 This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
 

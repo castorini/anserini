@@ -1,4 +1,4 @@
-# Anserini: Regressions on MS MARCO Passage with DeepImpact
+# Anserini Regressions: MS MARCO Passage Ranking
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, with DeepImpact on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 The DeepImpact model is described in the following paper:

@@ -1,4 +1,4 @@
-# Anserini: Regressions for TREC 2019 Deep Learning Track (Doc)
+# Anserini Regressions: TREC 2019 Deep Learning Track (Document)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL (with doc2query-T5 expansions) on the [TREC 2019 Deep Learning Track Document Ranking Task](https://trec.nist.gov/data/deep2019.html).
 The uniCOIL model is described in the following paper:
