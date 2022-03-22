@@ -2,12 +2,12 @@
 
 **Models**: various bag-of-words approaches on complete documents
 
-This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track (document ranking task)](https://trec.nist.gov/data/deep2020.html).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
 
-Note that there are four different regression conditions for this task, and this page describes the following:
+Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
 + **Expansion Condition:** none

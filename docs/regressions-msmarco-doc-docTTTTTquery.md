@@ -1,6 +1,6 @@
 # Anserini Regressions: MS MARCO Document Ranking
 
-**Models**: BM25 on complete documents, with doc2query-T5 expansions
+**Models**: BM25 on complete documents with doc2query-T5 expansions
 
 This page documents regression experiments on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
