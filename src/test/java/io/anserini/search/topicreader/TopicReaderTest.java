@@ -29,7 +29,7 @@ public class TopicReaderTest {
 
   @Test
   public void testIterateThroughAllEnums() {
-    int cnt = 0;
+    int cnt = 1;
     for (Topics topic : Topics.values()) {
       cnt++;
 
@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(123, cnt);
+    assertEquals(137, cnt);
   }
 
   @Test
