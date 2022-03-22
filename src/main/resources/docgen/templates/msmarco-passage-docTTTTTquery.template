@@ -2,7 +2,7 @@
 
 **Models**: BM25 with doc2query-T5 expansions
 
-This page documents regression experiments for the MS MARCO Passage Retrieval Task with [docTTTTTquery](https://github.com/castorini/docTTTTTquery) (also called doc2query-T5) expansions, as proposed in the following paper:
+This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking) with BM25 on [docTTTTTquery](https://github.com/castorini/docTTTTTquery) (also called doc2query-T5) expansions, as proposed in the following paper:
 
 > Rodrigo Nogueira and Jimmy Lin. [From doc2query to docTTTTTquery.](https://cs.uwaterloo.ca/~jimmylin/publications/Nogueira_Lin_2019_docTTTTTquery-latest.pdf) December 2019.
 

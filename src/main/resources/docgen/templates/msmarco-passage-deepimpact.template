@@ -2,7 +2,7 @@
 
 **Model**: DeepImpact
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, with DeepImpact on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using DeepImpact on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 The DeepImpact model is described in the following paper:
 
 > Antonio Mallia, Omar Khattab, Nicola Tonellotto, and Torsten Suel. [Learning Passage Impacts for Inverted Indexes.](https://dl.acm.org/doi/10.1145/3404835.3463030) _SIGIR 2021_.
