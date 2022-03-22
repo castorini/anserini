@@ -1,4 +1,6 @@
-# Anserini: Regressions for [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html)
+# Anserini Regressions: TREC Disks 4 &amp; 5
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for ad hoc topics from TREC 7-8, which use [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/disk45.yaml).

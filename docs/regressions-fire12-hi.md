@@ -1,6 +1,6 @@
-# Anserini: Regressions for [FIRE 2012 Monolingual Hindi](https://www.isical.ac.in/~fire/2012/adhoc.html)
+# Anserini Regressions: FIRE 2012 Monolingual Hindi
 
-This page documents regression experiments for [FIRE 2012 ad hoc retrieval (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html).
+This page documents BM25 regression experiments for [FIRE 2012 ad hoc retrieval (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html).
 The document collection can be found in [FIRE data page](http://fire.irsi.res.in/fire/static/data).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire12-hi.yaml).
