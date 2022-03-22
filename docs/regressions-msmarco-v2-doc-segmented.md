@@ -1,5 +1,7 @@
 # Anserini Regressions: MS MARCO (V2) Document Ranking
 
+**Models**: various bag-of-words approaches on segmented documents
+
 This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO (V2) document corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we cover bag-of-words baselines.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-v2.md).

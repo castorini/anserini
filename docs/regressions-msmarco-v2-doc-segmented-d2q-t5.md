@@ -1,5 +1,7 @@
 # Anserini Regressions: MS MARCO (V2) Document Ranking
 
+**Models**: BM25 on segmented documents with doc2query-T5 expansions
+
 This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO (V2) document corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we expand the segmented document corpus with doc2query-T5.
 

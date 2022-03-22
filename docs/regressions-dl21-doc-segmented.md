@@ -2,7 +2,7 @@
 
 **Models**: various bag-of-words approaches on segmented documents
 
-This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Document Ranking Task) on the MS MARCO V2 _segmented_ document collection using relevance judgments from NIST.
+This page describes experiments, integrated into Anserini's regression testing framework, on the TREC 2021 Deep Learning Track (document ranking task) using the MS MARCO V2 _segmented_ document collection.
 
 At the time this regression was created (November 2021), the qrels are only available to TREC participants.
 You must download the qrels from NIST's "active participants" password-protected site and place at `src/main/resources/topics-and-qrels/qrels.dl21-doc.txt`.
@@ -11,7 +11,7 @@ The qrels will be added to Anserini when they are publicly released in Spring 20
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO V2 document collection, refer to [this page](experiments-msmarco-v2.md).
 
-Note that there are four different regression conditions for this task, and this page describes the following:
+Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each segment in the MS MARCO V2 _segmented_ document collection is treated as a unit of indexing
 + **Expansion Condition:** none

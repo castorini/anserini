@@ -2,7 +2,7 @@
 
 **Model**: uniCOIL (with doc2query-T5 expansions)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL (with doc2query-T5 expansions) on the [TREC 2020 Deep Learning Track Passage Ranking Task](https://trec.nist.gov/data/deep2020.html).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (with doc2query-T5 expansions) on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html).
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.

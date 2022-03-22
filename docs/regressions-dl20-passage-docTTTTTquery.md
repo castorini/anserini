@@ -2,8 +2,8 @@
 
 **Models**: BM25 with doc2query-T5 expansions
 
-This page describes document expansion experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
-These experimental runs take advantage of [docTTTTTquery](http://doc2query.ai/) expansions.
+This page describes document expansion experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html).
+These experiments take advantage of [docTTTTTquery](http://doc2query.ai/) (also called doc2query-T5) expansions.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
