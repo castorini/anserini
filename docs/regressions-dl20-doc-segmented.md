@@ -1,5 +1,7 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Document)
 
+**Models**: various bag-of-words approaches on segmented documents
+
 This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2020 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).

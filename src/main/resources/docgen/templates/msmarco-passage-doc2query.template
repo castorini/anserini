@@ -1,5 +1,7 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
+**Models**: BM25 with (vanilla) doc2query expansions
+
 This page documents regression experiments for the MS MARCO Passage Retrieval Task with doc2query expansions (also called doc2query-base) , as proposed in the following paper:
 
 > Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) arXiv:1904.08375, 2019.

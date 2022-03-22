@@ -1,5 +1,7 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
 
+**Models**: various bag-of-words approaches
+
 This page describes baseline experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).

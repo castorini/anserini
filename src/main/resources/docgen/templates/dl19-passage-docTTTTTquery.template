@@ -1,5 +1,7 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
 
+**Models**: BM25 with doc2query-T5 expansions
+
 This page describes document expansion experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Passage Ranking Task) on the MS MARCO passage collection using relevance judgments from NIST.
 These experimental runs take advantage of [docTTTTTquery](http://doc2query.ai/) expansions.
 

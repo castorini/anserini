@@ -1,5 +1,7 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
+**Model**: DistilSPLADE-max
+
 This page describes regression experiments, integrated into Anserini's regression testing framework, with DistilSPLADE-max model from SPLADEv2 on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 The DistilSPLADE-max model is described in the following paper:
 

@@ -1,6 +1,8 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL+TILDE on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+**Model**: uniCOIL (with TILDE expansions)
+
+This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (with TILDE expansions) on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 The uniCOIL+TILDE model is described in the following paper:
 
 > Shengyao Zhuang and Guido Zuccon. [Fast Passage Re-ranking with Contextualized Exact Term Matching and Efficient Passage Expansion.](https://arxiv.org/pdf/2108.08513) _arXiv:2108.08513_.
