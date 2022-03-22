@@ -1,4 +1,6 @@
-# Anserini: Regressions for [AQUAINT](https://tac.nist.gov//data/data_desc.html#AQUAINT) (Robust05)
+# Anserini Regressions: TREC 2005 Robust Track
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the TREC 2005 Robust Track, which uses the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/robust05.yaml).
