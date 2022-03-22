@@ -1392,6 +1392,23 @@ public class TopicReaderTest {
     assertEquals(1190, TopicReader.getTopics(Topics.MRTYDI_V11_TH_TEST).keySet().size());
   }
 
+  @Test
+  public void testBeirTopics() {
+    assertEquals(1406, TopicReader.getTopics(Topics.BEIR_V100_ARGUANA_TEST).keySet().size());
+    assertEquals(1535, TopicReader.getTopics(Topics.BEIR_V100_CLIMATE_FEVER_TEST).keySet().size());
+    assertEquals(400, TopicReader.getTopics(Topics.BEIR_V100_DBPEDIA_ENTITY_TEST).keySet().size());
+    assertEquals(6666, TopicReader.getTopics(Topics.BEIR_V100_FEVER_TEST).keySet().size());
+    assertEquals(648, TopicReader.getTopics(Topics.BEIR_V100_FIQA_TEST).keySet().size());
+    assertEquals(7405, TopicReader.getTopics(Topics.BEIR_V100_HOTPOTQA_TEST).keySet().size());
+    assertEquals(323, TopicReader.getTopics(Topics.BEIR_V100_NFCORPUS_TEST).keySet().size());
+    assertEquals(3452, TopicReader.getTopics(Topics.BEIR_V100_NQ_TEST).keySet().size());
+    assertEquals(10000, TopicReader.getTopics(Topics.BEIR_V100_QUORA_TEST).keySet().size());
+    assertEquals(1000, TopicReader.getTopics(Topics.BEIR_V100_SCIDOCS_TEST).keySet().size());
+    assertEquals(300, TopicReader.getTopics(Topics.BEIR_V100_SCIFACT_TEST).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.BEIR_V100_TREC_COVID_TEST).keySet().size());
+    assertEquals(49, TopicReader.getTopics(Topics.BEIR_V100_WEBIS_TOUCHE2020_TEST).keySet().size());
+  }
+
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
     Map<String, Map<String, String>> topics;
 
