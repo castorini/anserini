@@ -143,19 +143,19 @@ public enum Topics {
   MRTYDI_V11_TH_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.train.txt.gz"),
   MRTYDI_V11_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.dev.txt.gz"),
   MRTYDI_V11_TH_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.test.txt.gz"),
-  BEIR_V100_ARGUANA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-arguana.test.tsv.gz"),
-  BEIR_V100_CLIMATE_FEVER_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.tsv.gz"),
-  BEIR_V100_DBPEDIA_ENTITY_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-dbpedia-entity.test.tsv.gz"),
-  BEIR_V100_FEVER_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.tsv.gz"),
-  BEIR_V100_FIQA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fiqa.test.tsv.gz"),
-  BEIR_V100_HOTPOTQA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-hotpotqa.test.tsv.gz"),
-  BEIR_V100_NFCORPUS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-nfcorpus.test.tsv.gz"),
-  BEIR_V100_NQ_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-nq.test.tsv.gz"),
-  BEIR_V100_QUORA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-quora.test.tsv.gz"),
-  BEIR_V100_SCIDOCS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scidocs.test.tsv.gz"),
-  BEIR_V100_SCIFACT_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.tsv.gz"),
-  BEIR_V100_TREC_COVID_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-covid.test.tsv.gz"),
-  BEIR_V100_WEBIS_TOUCHE2020_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-webis-touche2020.test.tsv.gz");
+  BEIR_V1_0_0_ARGUANA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-arguana.test.tsv.gz"),
+  BEIR_V1_0_0_CLIMATE_FEVER_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.tsv.gz"),
+  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-dbpedia-entity.test.tsv.gz"),
+  BEIR_V1_0_0_FEVER_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.tsv.gz"),
+  BEIR_V1_0_0_FIQA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fiqa.test.tsv.gz"),
+  BEIR_V1_0_0_HOTPOTQA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-hotpotqa.test.tsv.gz"),
+  BEIR_V1_0_0_NFCORPUS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-nfcorpus.test.tsv.gz"),
+  BEIR_V1_0_0_NQ_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-nq.test.tsv.gz"),
+  BEIR_V1_0_0_QUORA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-quora.test.tsv.gz"),
+  BEIR_V1_0_0_SCIDOCS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scidocs.test.tsv.gz"),
+  BEIR_V1_0_0_SCIFACT_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.tsv.gz"),
+  BEIR_V1_0_0_TREC_COVID_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-covid.test.tsv.gz"),
+  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-webis-touche2020.test.tsv.gz");
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;
