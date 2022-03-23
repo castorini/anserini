@@ -1,6 +1,6 @@
-# Anserini: Regressions for [TREC 2002 Monolingual Arabic](https://trec.nist.gov/pubs/trec11/t11_proceedings.html)
+# Anserini Regressions: TREC 2002 Monolingual Arabic
 
-This page documents regression experiments for monolingual Arabic document retrieval as part of the [TREC 2002 CLIR Track](https://trec.nist.gov/pubs/trec11/t11_proceedings.html).
+This page documents BM25 regression experiments for monolingual Arabic document retrieval as part of the [TREC 2002 CLIR Track](https://trec.nist.gov/pubs/trec11/t11_proceedings.html).
 The description of the document collection can be found on the [TREC data page](https://trec.nist.gov/data/docs_noneng.html).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/trec02-ar.yaml).

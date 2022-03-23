@@ -2,7 +2,7 @@
 
 **Models**: BM25 on segmented documents with doc2query-T5 expansions
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the TREC 2021 Deep Learning Track (document ranking task) using the MS MARCO V2 _segmented_ document collection (with doc2query-T5 expansions).
+This page describes experiments, integrated into Anserini's regression testing framework, on the TREC 2021 Deep Learning Track document ranking task using the MS MARCO V2 _segmented_ document collection (with doc2query-T5 expansions).
 
 At the time this regression was created (November 2021), the qrels are only available to TREC participants.
 You must download the qrels from NIST's "active participants" password-protected site and place at `src/main/resources/topics-and-qrels/qrels.dl21-doc.txt`.

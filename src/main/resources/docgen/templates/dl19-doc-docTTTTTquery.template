@@ -2,7 +2,7 @@
 
 **Models**: BM25 on complete documents with doc2query-T5 expansions
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track (document ranking task)](https://trec.nist.gov/data/deep2019.html).
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).

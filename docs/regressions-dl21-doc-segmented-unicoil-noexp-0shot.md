@@ -2,7 +2,7 @@
 
 **Model**: zero-shot uniCOIL (without any expansions) on segmented documents
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the TREC 2021 Deep Learning Track (document ranking task) using the MS MARCO V2 _segmented_ document collection.
+This page describes experiments, integrated into Anserini's regression testing framework, on the TREC 2021 Deep Learning Track document ranking task using the MS MARCO V2 _segmented_ document collection.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, without any expansions.
 
 The uniCOIL model is described in the following paper:
