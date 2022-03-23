@@ -134,6 +134,40 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
+  public void testTrec21DLDoc() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl21-doc.txt");
+    assertNotNull(qrels);
+    assertEquals(57, qrels.getQids().size());
+    assertEquals(13058, getQrelsCount(qrels));
+    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_doc_01_1320020407"));
+    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_doc_59_863449044"));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2021_DL_DOC);
+    assertNotNull(qrels);
+    assertEquals(57, qrels.getQids().size());
+    assertEquals(13058, getQrelsCount(qrels));
+    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_doc_01_1320020407"));
+    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_doc_59_863449044"));
+  }
+
+  @Test
+  public void testTrec21DLPassage() {
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl21-passage.txt");
+    assertNotNull(qrels);
+    assertEquals(53, qrels.getQids().size());
+    assertEquals(10828, getQrelsCount(qrels));
+    assertEquals(3, qrels.getRelevanceGrade("2082", "msmarco_passage_02_179207466"));
+    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_passage_67_937656589"));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2021_DL_PASSAGE);
+    assertNotNull(qrels);
+    assertEquals(53, qrels.getQids().size());
+    assertEquals(10828, getQrelsCount(qrels));
+    assertEquals(3, qrels.getRelevanceGrade("2082", "msmarco_passage_02_179207466"));
+    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_passage_67_937656589"));
+  }
+
+  @Test
   public void testMsmarcoDocDev() {
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt");
     assertNotNull(qrels);

@@ -2,11 +2,7 @@
 
 **Models**: BM25 with doc2query-T5 expansions on original passages
 
-This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, on the TREC 2021 Deep Learning Track passage ranking task using the MS MARCO V2 passage collection.
-
-At the time this regression was created (November 2021), the qrels are only available to TREC participants.
-You must download the qrels from NIST's "active participants" password-protected site and place at `src/main/resources/topics-and-qrels/qrels.dl21-passage.txt`.
-The qrels will be added to Anserini when they are publicly released in Spring 2022.
+This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 passage collection.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO V2 passage collection, refer to [this page](experiments-msmarco-v2.md).
@@ -43,7 +39,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
 The regression experiments here evaluate on the 53 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-<!-- The original data can be found [here](https://trec.nist.gov/data/deep2021.html). -->
+The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
