@@ -1,6 +1,8 @@
-# Anserini: Regressions for [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
+# Anserini Regressions: TREC 2021 Deep Learning Track (Passage)
 
-This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, for the TREC 2021 Deep Learning Track (Passage Ranking Task) on the MS MARCO V2 _augmented_ passage collection using relevance judgments from NIST.
+**Models**: BM25 with doc2query-T5 expansions on augmented passages
+
+This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, on the TREC 2021 Deep Learning Track passage ranking task using the MS MARCO V2 _augmented_ passage collection.
 
 At the time this regression was created (November 2021), the qrels are only available to TREC participants.
 You must download the qrels from NIST's "active participants" password-protected site and place at `src/main/resources/topics-and-qrels/qrels.dl21-passage.txt`.

@@ -1,4 +1,6 @@
-# Anserini: Regressions for [ClueWeb09 (Category B)](http://lemurproject.org/clueweb09.php/)
+# Anserini Regressions: ClueWeb09 (Category B)
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the Web Tracks from TREC 2009 to 2012 using the [ClueWeb09 (Category B) collection](http://lemurproject.org/clueweb09.php/).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/cw09b.yaml).
