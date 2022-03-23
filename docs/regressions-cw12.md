@@ -1,4 +1,6 @@
-# Anserini: Regressions for [ClueWeb12](http://lemurproject.org/clueweb12.php/)
+# Anserini Regressions: ClueWeb12
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the Web Tracks from TREC 2013 and 2014 using the (full) [ClueWeb12 collection](http://lemurproject.org/clueweb12.php/).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/cw12.yaml).

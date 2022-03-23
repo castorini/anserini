@@ -1,4 +1,6 @@
-# Anserini: Regressions for [Wt10g](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html)
+# Anserini Regressions: Wt10g
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the TREC-9 Web Track and the TREC 2001 Web Track, which uses the [Wt10g collection](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/wt10g.yaml).

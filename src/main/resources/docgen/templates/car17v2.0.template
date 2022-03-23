@@ -1,4 +1,6 @@
-# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0)
+# Anserini Regressions: CAR17 (v2.0)
+
+**Models**: various bag-of-words approaches
 
 This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0).
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
