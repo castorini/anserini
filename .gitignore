@@ -30,10 +30,6 @@ src/main/resources/topics-and-qrels/qrels.gov2.all.txt
 src/main/resources/topics-and-qrels/qrels.mb11.all.txt
 src/main/resources/topics-and-qrels/qrels.mb13.all.txt
 
-# so we don't accidentally check in qrels that haven't been publicly released yet
-src/main/resources/topics-and-qrels/qrels.dl21-passage.txt
-src/main/resources/topics-and-qrels/qrels.dl21-doc.txt
-
 # vscode related files
 .settings
 .factorypath
