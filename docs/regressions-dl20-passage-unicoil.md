@@ -1,6 +1,6 @@
-# Anserini: Regressions on DL20 (Passage) with uniCOIL
+# Anserini: Regressions for TREC 2020 Deep Learning Track (Passage)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [TREC 2020 Deep Learning Track Passage Ranking Task](https://trec.nist.gov/data/deep2020.html).
+This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL (with doc2query-T5 expansions) on the [TREC 2020 Deep Learning Track Passage Ranking Task](https://trec.nist.gov/data/deep2020.html).
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
@@ -86,41 +86,41 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recip_rank -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
+| AP@1000                                                                                                      | uniCOIL (with doc2query-T5 expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4430    |
 
 
-| nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
+| nDCG@10                                                                                                      | uniCOIL (with doc2query-T5 expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6745    |
 
 
-| MRR                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8235    |
-
-
-| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
+| R@100                                                                                                        | uniCOIL (with doc2query-T5 expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7006    |
 
 
-| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
+| R@1000                                                                                                       | uniCOIL (with doc2query-T5 expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8430    |
+
+Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
 
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))

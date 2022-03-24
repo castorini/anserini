@@ -13,27 +13,34 @@ index_stats:
   total terms: 214505277898
 
 metrics:
-  - metric: MAP
+  - metric: AP@100
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m map
+    params: -c -M 100 -m map # Note, this is different DL 2019 passage ranking!
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
-  - metric: R@100
-    command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recall.100
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: true
+    can_combine: false
   - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
@@ -46,12 +53,14 @@ topics:
 
 models:
   - name: unicoil
-    display: uniCOIL w/ doc2query-T5 expansion
+    display: uniCOIL (with doc2query-T5 expansions)
     params: -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
-      MAP:
-        - 0.3508
+      AP@100:
+        - 0.2789
       nDCG@10:
         - 0.6396
       R@100:
         - 0.4099
+      R@1000:
+        - 0.6652

@@ -1,4 +1,4 @@
-# Anserini: Regressions for [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)
+# Anserini: Regressions for TREC 2019 Deep Learning Track (Doc)
 
 This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
 
@@ -58,85 +58,114 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt \
-  -bm25 -hits 100 &
+  -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt \
-  -bm25 -rm3 -hits 100 &
+  -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100 &
+  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+prf.topics.dl19-doc.txt \
-  -bm25 -bm25prf -hits 100 &
+  -bm25 -bm25prf &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt \
-  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100 &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt \
-  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100 &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt \
-  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 -hits 100 &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+prf.topics.dl19-doc.txt \
-  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf -hits 100 &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-default+prf.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+prf.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc.bm25-tuned+prf.topics.dl19-doc.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+| AP@100                                                                                                       | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2434    | 0.2774    | 0.2454    | 0.2541    | 0.2311    | 0.2684    | 0.2792    | 0.2774    |
+
+
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5176    | 0.5170    | 0.4732    | 0.5107    | 0.5139    | 0.5445    | 0.5203    | 0.5294    |
 
 
 | R@100                                                                                                        | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
@@ -144,9 +173,9 @@ With the above commands, you should be able to reproduce the following results:
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3949    | 0.4189    | 0.3946    | 0.4003    | 0.3853    | 0.4186    | 0.4378    | 0.4295    |
 
 
-| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5176    | 0.5170    | 0.4732    | 0.5107    | 0.5139    | 0.5445    | 0.5203    | 0.5294    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6966    | 0.7503    | 0.7323    | 0.7357    | 0.6804    | 0.7288    | 0.7532    | 0.7559    |
 
 Explanation of settings:
 
@@ -155,9 +184,11 @@ Explanation of settings:
 
 Settings tuned on the MS MARCO document sparse judgments _may not_ work well on the TREC dense judgments.
 
-Note that retrieval metrics are computed to depth 100 hits per query (as opposed to 1000 hits per query for DL19 passage ranking).
-Also, remember that we keep qrels of _all_ relevance grades, unlike the case for DL19 passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
-These results correspond to the Anserini baselines reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
+Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.
+Remember that we keep qrels of _all_ relevance grades, unlike the case for passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+Here, we retrieve 1000 hits per query, but measure AP at cutoff 100 (e.g., AP@100).
+Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
 These regressions correspond to official TREC 2019 Deep Learning Track submissions by `BASELINE` group:
 

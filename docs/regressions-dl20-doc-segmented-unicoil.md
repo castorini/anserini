@@ -1,6 +1,6 @@
-# Anserini: Regressions on DL20 (Doc) with uniCOIL
+# Anserini: Regressions for TREC 2020 Deep Learning Track (Doc)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL on the [TREC 2020 Deep Learning Track Document Ranking Task](https://trec.nist.gov/data/deep2020.html).
+This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL (with doc2query-T5 expansions) on the [TREC 2020 Deep Learning Track Document Ranking Task](https://trec.nist.gov/data/deep2020.html).
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
@@ -84,27 +84,43 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recall.100 -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | uniCOIL w/ doc2query-T5 expansion|
+| AP@100                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4126    |
-
-
-| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6210    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3882    |
 
 
 | nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6033    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6033    |
+
+
+| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6210    |
+
+
+| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7869    |
+
+Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
+Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.
+Remember that we keep qrels of _all_ relevance grades, unlike the case for passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
+Here, we retrieve 1000 hits per query, but measure AP at cutoff 100 (e.g., AP@100).
+Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
 
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-doc-segmented-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
