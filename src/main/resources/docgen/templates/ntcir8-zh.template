@@ -1,6 +1,6 @@
-# Anserini: Regressions for [NTCIR-8 Monolingual Chinese](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html)
+# Anserini Regressions: NTCIR-8 Monolingual Chinese
 
-This page documents regression experiments for [NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html).
+This page documents BM25 regression experiments for [NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html).
 The description of the document collection can be found in the [NTCIR-8 data page](http://research.nii.ac.jp/ntcir/permission/ntcir-8/perm-en-ACLIA.html).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).

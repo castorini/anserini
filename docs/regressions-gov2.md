@@ -1,4 +1,6 @@
-# Anserini: Regressions for [Gov2](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm)
+# Anserini Regressions: Gov2
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the Terabyte Tracks from TREC 2004 to 2006, which uses the [Gov2 collection](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/gov2.yaml).

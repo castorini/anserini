@@ -1,4 +1,6 @@
-# Anserini: Regressions for [MS MARCO (V2) Passage Ranking](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)
+# Anserini Regressions: MS MARCO (V2) Passage Ranking
+
+**Model**: uniCOIL (with doc2query-T5 expansions) zero-shot
 
 This page describes regression experiments for passage ranking on the MS MARCO (V2) passage corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with doc2query-T5 expansion.
@@ -91,25 +93,25 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank sr
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP@100                                                                                                      | uniCOIL (zero-shot)|
+| MAP@100                                                                                                      | uniCOIL (with doc2query-T5) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.1485    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.1561    |
 
 
-| MRR@100                                                                                                      | uniCOIL (zero-shot)|
+| MRR@100                                                                                                      | uniCOIL (with doc2query-T5) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.1499    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.1577    |
 
 
-| R@100                                                                                                        | uniCOIL (zero-shot)|
+| R@100                                                                                                        | uniCOIL (with doc2query-T5) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.5518    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.5661    |
 
 
-| R@1000                                                                                                       | uniCOIL (zero-shot)|
+| R@1000                                                                                                       | uniCOIL (with doc2query-T5) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.7616    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.7671    |

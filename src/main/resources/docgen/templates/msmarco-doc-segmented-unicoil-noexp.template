@@ -1,6 +1,8 @@
-# Anserini: Regressions on MS MARCO Document with uniCOIL
+# Anserini Regressions: MS MARCO Document Ranking
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, with uniCOIL (without any expansions) on the [MS MARCO Document Ranking Task](https://github.com/microsoft/MSMARCO-Document-Ranking).
+**Model**: uniCOIL (without any expansions) on segmented documents
+
+This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (without any expansions) on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking).
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.

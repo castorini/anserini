@@ -99,7 +99,7 @@ class SolrClient:
                       '-solr -solr.index msmarco-passage -solr.zkUrl localhost:9983 ' + \
                       '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
         elif collection == 'msmarco-doc':
-            command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
+            command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
                       '-generator DefaultLuceneDocumentGenerator ' + \
                       '-solr -solr.index msmarco-doc -solr.zkUrl localhost:9983 ' + \
                       '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
@@ -176,7 +176,7 @@ class SolrClient:
         elif collection == 'msmarco-passage':
             expected = 0.1926
         elif collection == 'msmarco-doc':
-            expected = 0.2310
+            expected = 0.2305
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 

@@ -1,6 +1,6 @@
-# Anserini: Regressions for [Mr. TyDi (v1.1) &mdash; English](https://github.com/castorini/mr.tydi)
+# Anserini Regressions: Mr. TyDi (v1.1) &mdash; English
 
-This page documents regression experiments for [Mr. TyDi (v1.1) &mdash; English](https://github.com/castorini/mr.tydi).
+This page documents BM25 regression experiments for [Mr. TyDi (v1.1) &mdash; English](https://github.com/castorini/mr.tydi).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/mrtydi-v1.1-en.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/mrtydi-v1.1-en.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
