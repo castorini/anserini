@@ -70,6 +70,18 @@ models:
         - 0.3447
         - 0.3760
         - 0.3365
+  - name: bm25+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      MAP:
+        - 0.2784
+        - 0.2706
+        - 0.2818
+      P30:
+        - 0.3880
+        - 0.3840
+        - 0.3378
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20

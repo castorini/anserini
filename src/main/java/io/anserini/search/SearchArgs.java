@@ -291,6 +291,41 @@ public class SearchArgs {
       usage = "RM3 parameter: turn off English term filter")
   public boolean rm3_noTermFilter = false;
 
+    // --------------------------
+  // query expansion model: rocchio
+  // --------------------------
+
+  // Anserini uses the same default options as in Indri.
+  // As of v5.13, the defaults in Indri are, from src/RMExpander.cpp:
+  //
+  //   int fbDocs = _param.get( "fbDocs" , 10 );
+  //   int fbTerms = _param.get( "fbTerms" , 10 );
+  //   double fbOrigWt = _param.get( "fbOrigWeight", 0.5 );
+  //   double mu = _param.get( "fbMu", 0 );
+
+  @Option(name = "-rocchio", usage = "use rocchio query expansion model")
+  public boolean rocchio = false;
+
+  @Option(name = "-rocchio.fbTerms", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion terms")
+  public String[] rocchio_fbTerms = new String[]{"256"};
+
+  @Option(name = "-rocchio.fbDocs", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion documents")
+  public String[] rocchio_fbDocs = new String[]{"5"};
+
+  @Option(name = "-rocchio.originalQueryWeight", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: weight to assign to the original query")
+  public String[] rocchio_originalQueryWeight = new String[]{"0.4"};
+
+  @Option(name = "-rocchio.outputQuery",
+      usage = "Rocchio parameter: flag to print original and expanded queries")
+  public boolean rocchio_outputQuery = false;
+
+  @Option(name = "-rocchio.noTermFilter",
+      usage = "Rocchio parameter: turn off English term filter")
+  public boolean rocchio_noTermFilter = false;
+
   // ------------------------------
   // query expansion model: bm25prf
   // ------------------------------
