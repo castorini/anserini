@@ -77,7 +77,7 @@ public class RocchioReranker implements Reranker {
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
 
-    FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL1Norm();
+    FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText()));
 
     FeatureVector rm = computeMeanOfDocumentVectors(docs, reader);
 
@@ -162,7 +162,7 @@ public class RocchioReranker implements Reranker {
     }
 
     f.pruneToSize(fbTerms);
-    f.scaleToUnitL1Norm();
+    f.scaleToUnitL2Norm();
 
     return f;
   }
