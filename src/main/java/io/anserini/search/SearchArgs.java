@@ -318,6 +318,10 @@ public class SearchArgs {
       usage = "Rocchio parameter: weight to assign to the original query")
   public String[] rocchio_alpha = new String[]{"0.4"};
 
+  @Option(name = "-rocchio.beta", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: weight to assign to the relevant document vectors")
+  public String[] rocchio_beta = new String[]{"0.6"};
+
   @Option(name = "-rocchio.outputQuery",
       usage = "Rocchio parameter: flag to print original and expanded queries")
   public boolean rocchio_outputQuery = false;

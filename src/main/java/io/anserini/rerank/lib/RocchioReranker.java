@@ -57,15 +57,17 @@ public class RocchioReranker implements Reranker {
   private final int fbTerms;
   private final int fbDocs;
   private final float alpha;
+  private final float beta;
   private final boolean outputQuery;
   private final boolean filterTerms;
 
-  public RocchioReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float alpha, boolean outputQuery, boolean filterTerms) {
+  public RocchioReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float alpha, float beta, boolean outputQuery, boolean filterTerms) {
     this.analyzer = analyzer;
     this.field = field;
     this.fbTerms = fbTerms;
     this.fbDocs = fbDocs;
     this.alpha = alpha;
+    this.beta = beta;
     this.outputQuery = outputQuery;
     this.filterTerms = filterTerms;
   }
@@ -83,7 +85,7 @@ public class RocchioReranker implements Reranker {
 
     // Rocchio weight = alpha * original query + beta * mean(top n doc embedding)
     // Here beta = 1-alpha
-    rm = FeatureVector.interpolate(qfv, rm, alpha);
+    rm = interpolateQueryDocVector(qfv, rm, alpha, beta);
 
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
 
@@ -191,6 +193,20 @@ public class RocchioReranker implements Reranker {
     }
 
     return f;
+  }
+
+  private FeatureVector interpolateQueryDocVector(FeatureVector x, FeatureVector y, float xWeight, float yWeight) {
+    FeatureVector z = new FeatureVector();
+    Set<String> vocab = new HashSet<String>();
+    vocab.addAll(x.getFeatures());
+    vocab.addAll(y.getFeatures());
+    Iterator<String> features = vocab.iterator();
+    while (features.hasNext()) {
+      String feature = features.next();
+      float weight = (float) (xWeight * x.getFeatureWeight(feature) + yWeight * y.getFeatureWeight(feature));
+      z.addFeatureWeight(feature, weight);
+    }
+    return z;
   }
   
   @Override
