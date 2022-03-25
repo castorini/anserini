@@ -140,8 +140,7 @@ public class RocchioReranker implements Reranker {
     List<FeatureVector> docvectors = new ArrayList<>();
     for (int i = 0; i < numdocs; i++) {
       try {
-        FeatureVector docVector = createDocumentVector(
-            reader.getTermVector(docs.ids[i], field), reader,docs.ids[i]);
+        FeatureVector docVector = createDocumentVector(reader.getTermVector(docs.ids[i], field), reader, docs.ids[i]);
         docVector.pruneToSize(fbTerms);
         vocab.addAll(docVector.getFeatures());
         docvectors.add(docVector);
@@ -191,6 +190,7 @@ public class RocchioReranker implements Reranker {
   }
 
   private FeatureVector interpolateQueryDocVector(FeatureVector x, FeatureVector y, float xWeight, float yWeight) {
+
     FeatureVector z = new FeatureVector();
     Set<String> vocab = new HashSet<String>();
     vocab.addAll(x.getFeatures());
@@ -201,11 +201,12 @@ public class RocchioReranker implements Reranker {
       float weight = (float) (xWeight * x.getFeatureWeight(feature) + yWeight * y.getFeatureWeight(feature));
       z.addFeatureWeight(feature, weight);
     }
+
     return z;
   }
   
   @Override
   public String tag() {
-    return "Rocchio(fbDocs="+fbDocs+",fbTerms="+fbTerms+",alpha:"+alpha+")";
+    return "Rocchio(fbDocs="+fbDocs+",fbTerms="+fbTerms+",alpha:"+alpha+",beta:"+beta+")";
   }
 }

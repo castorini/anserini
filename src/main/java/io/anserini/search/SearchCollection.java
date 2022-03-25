@@ -614,17 +614,13 @@ public final class SearchCollection implements Closeable {
             for (String beta : args.rocchio_beta) {
               String tag;
               if (this.args.rf_qrels != null){
-                tag = String.format("rocchioRf(fbTerms=%s,alpha=%s,beta=%s)",
-                  fbTerms, alpha, beta);
+                tag = String.format("rocchioRf(fbTerms=%s,alpha=%s,beta=%s)", fbTerms, alpha, beta);
               } else{
-                tag = String.format("rocchio(fbTerms=%s,fbDocs=%s,alpha=%s,beta=%s)",
-                  fbTerms, fbDocs, alpha, beta);
+                tag = String.format("rocchio(fbTerms=%s,fbDocs=%s,alpha=%s,beta=%s)", fbTerms, fbDocs, alpha, beta);
               }
-
               RerankerCascade cascade = new RerankerCascade(tag);
               cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
-                  Integer.valueOf(fbDocs), Float.valueOf(alpha), Float.valueOf(beta), 
-                  args.rocchio_outputQuery));
+                  Integer.valueOf(fbDocs), Float.valueOf(alpha), Float.valueOf(beta), args.rocchio_outputQuery));
               cascade.add(new ScoreTiesAdjusterReranker());
               cascades.add(cascade);
             }
