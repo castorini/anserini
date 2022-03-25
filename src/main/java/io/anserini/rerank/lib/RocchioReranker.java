@@ -59,9 +59,8 @@ public class RocchioReranker implements Reranker {
   private final float alpha;
   private final float beta;
   private final boolean outputQuery;
-  private final boolean filterTerms;
 
-  public RocchioReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float alpha, float beta, boolean outputQuery, boolean filterTerms) {
+  public RocchioReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float alpha, float beta, boolean outputQuery) {
     this.analyzer = analyzer;
     this.field = field;
     this.fbTerms = fbTerms;
@@ -69,7 +68,6 @@ public class RocchioReranker implements Reranker {
     this.alpha = alpha;
     this.beta = beta;
     this.outputQuery = outputQuery;
-    this.filterTerms = filterTerms;
   }
 
   @Override
@@ -81,7 +79,7 @@ public class RocchioReranker implements Reranker {
 
     FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
-    FeatureVector rm = estimateRelevanceModel(docs, reader);
+    FeatureVector rm = computeMeanOfDocumentVectors(docs, reader);
 
     // Rocchio weight = alpha * original query + beta * mean(top n doc embedding)
     // Here beta = 1-alpha
@@ -132,7 +130,7 @@ public class RocchioReranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader) {
+  private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();
@@ -142,7 +140,7 @@ public class RocchioReranker implements Reranker {
     List<FeatureVector> docvectors = new ArrayList<>();
     for (int i = 0; i < numdocs; i++) {
       try {
-        FeatureVector docVector = createdFeatureVector(
+        FeatureVector docVector = createDocumentVector(
             reader.getTermVector(docs.ids[i], field), reader,docs.ids[i]);
         docVector.pruneToSize(fbTerms);
         vocab.addAll(docVector.getFeatures());
@@ -154,12 +152,12 @@ public class RocchioReranker implements Reranker {
       }
     }
 
+    // Get the mean of term weight for the Top n expansion documents
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.size(); i++) {
         fbWeight += (docvectors.get(i).getFeatureWeight(term));
       }
-      // Get the mean of term weight for the Top n expansion documents
       f.addFeatureWeight(term, (float) fbWeight/docvectors.size());
     }
 
@@ -169,7 +167,7 @@ public class RocchioReranker implements Reranker {
     return f;
   }
 
-  private FeatureVector createdFeatureVector(Terms terms, IndexReader reader, int lucenedDocid) {
+  private FeatureVector createDocumentVector(Terms terms, IndexReader reader, int lucenedDocid) {
     FeatureVector f = new FeatureVector();
 
     try {
@@ -178,9 +176,6 @@ public class RocchioReranker implements Reranker {
       BytesRef text;
       while ((text = termsEnum.next()) != null) {
         String term = text.utf8ToString();
-
-        if (term.length() < 2 || term.length() > 20) continue;
-        if (this.filterTerms && !term.matches("[a-z0-9]+")) continue;
         String docid = IndexReaderUtils.convertLuceneDocidToDocid(reader, lucenedDocid);
         float weight = IndexReaderUtils.getBM25AnalyzedTermWeight(reader, String.valueOf(docid), term);
         // Produce BM25 Weight for each term 

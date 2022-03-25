@@ -300,7 +300,7 @@ public class SearchArgs {
   // Successes and pitfalls." arXiv preprint arXiv:2108.11044 (2021).
   //
   //   int fbDocs = _param.get( "fbDocs" , 5 );
-  //   int fbTerms = _param.get( "fbTerms" , 50 );
+  //   int fbTerms = _param.get( "fbTerms" , 256 );
   //   double alpha = _param.get( "alpha", 0.4 );
 
   @Option(name = "-rocchio", usage = "use rocchio query expansion model")
@@ -325,10 +325,6 @@ public class SearchArgs {
   @Option(name = "-rocchio.outputQuery",
       usage = "Rocchio parameter: flag to print original and expanded queries")
   public boolean rocchio_outputQuery = false;
-
-  @Option(name = "-rocchio.noTermFilter",
-      usage = "Rocchio parameter: turn off English term filter")
-  public boolean rocchio_noTermFilter = false;
 
   // ------------------------------
   // query expansion model: bm25prf
