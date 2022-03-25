@@ -77,20 +77,19 @@ public class RocchioReranker implements Reranker {
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
 
-    FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText()));
+    FeatureVector queryVector = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText()));
 
-    FeatureVector rm = computeMeanOfDocumentVectors(docs, reader);
+    FeatureVector documentVector = computeMeanOfDocumentVectors(docs, reader);
 
-    // Rocchio weight = alpha * original query + beta * mean(top n doc embedding)
-    // Here beta = 1-alpha
-    rm = interpolateQueryDocVector(qfv, rm, alpha, beta);
+    // Rocchio Algorithm  = alpha * original query + beta * mean(top n document vectors)
+    FeatureVector weightedVector = computeWeightedVector(queryVector, documentVector, alpha, beta);
 
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
 
-    Iterator<String> terms = rm.iterator();
+    Iterator<String> terms = weightedVector.iterator();
     while (terms.hasNext()) {
       String term = terms.next();
-      float prob = rm.getFeatureWeight(term);
+      float prob = weightedVector.getFeatureWeight(term);
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), prob), BooleanClause.Occur.SHOULD);
     }
 
@@ -102,7 +101,7 @@ public class RocchioReranker implements Reranker {
       LOG.info("Running new query: " + feedbackQuery.toString(this.field));
     }
 
-    TopDocs rs;
+    TopDocs searchResult;
     try {
       Query finalQuery = feedbackQuery;
       // If there's a filter condition, we need to add in the constraint.
@@ -116,18 +115,16 @@ public class RocchioReranker implements Reranker {
 
       // Figure out how to break the scoring ties.
       if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
+        searchResult = searcher.search(finalQuery, context.getSearchArgs().hits);
       } else {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
+        searchResult = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     } catch (IOException e) {
       e.printStackTrace();
       return docs;
     }
 
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return ScoredDocuments.fromTopDocs(searchResult, searcher);
   }
 
   private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader) {
@@ -141,7 +138,6 @@ public class RocchioReranker implements Reranker {
     for (int i = 0; i < numdocs; i++) {
       try {
         FeatureVector docVector = createDocumentVector(reader.getTermVector(docs.ids[i], field), reader, docs.ids[i]);
-        docVector.pruneToSize(fbTerms);
         vocab.addAll(docVector.getFeatures());
         docvectors.add(docVector);
       } catch (IOException e) {
@@ -189,7 +185,7 @@ public class RocchioReranker implements Reranker {
     return f;
   }
 
-  private FeatureVector interpolateQueryDocVector(FeatureVector x, FeatureVector y, float xWeight, float yWeight) {
+  private FeatureVector computeWeightedVector(FeatureVector x, FeatureVector y, float xWeight, float yWeight) {
 
     FeatureVector z = new FeatureVector();
     Set<String> vocab = new HashSet<String>();
