@@ -44,6 +44,8 @@ public enum Qrels {
   TREC2019_DL_PASSAGE("topics-and-qrels/qrels.dl19-passage.txt"),
   TREC2020_DL_DOC("topics-and-qrels/qrels.dl20-doc.txt"),
   TREC2020_DL_PASSAGE("topics-and-qrels/qrels.dl20-passage.txt"),
+  TREC2021_DL_DOC("topics-and-qrels/qrels.dl21-doc.txt"),
+  TREC2021_DL_PASSAGE("topics-and-qrels/qrels.dl21-passage.txt"),
   MSMARCO_DOC_DEV("topics-and-qrels/qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("topics-and-qrels/qrels.msmarco-passage.dev-subset.txt"),
   MSMARCO_V2_DOC_DEV("topics-and-qrels/qrels.msmarco-v2-doc.dev.txt"),

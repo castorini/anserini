@@ -1,6 +1,6 @@
-# Anserini: Regressions for [CLEF2006 Monolingual French](http://www.clef-initiative.eu/edition/clef2006)
+# Anserini Regressions: CLEF2006 Monolingual French
 
-This page documents regression experiments for monolingual French document retrieval as part of the [CLEF 2006 Multilingual Document Retrieval (Ad Hoc) Track](http://www.clef-initiative.eu/edition/clef2006).
+This page documents BM25 regression experiments for monolingual French document retrieval as part of the [CLEF 2006 Multilingual Document Retrieval (Ad Hoc) Track](http://www.clef-initiative.eu/edition/clef2006).
 Associated data can be found on the [CLEF test suites pages](http://www.clef-initiative.eu/dataset/corpus).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/clef06-fr.yaml).

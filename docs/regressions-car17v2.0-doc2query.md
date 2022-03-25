@@ -1,8 +1,10 @@
-# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0) + doc2query
+# Anserini Regressions: CAR17 (v2.0)
+
+**Models**: various bag-of-words approaches with (vanilla) doc2query expansions
 
 This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with doc2query expansions, as proposed in the following paper:
 
-+ Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
+> Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 
 These experiments are integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-doc2query.md).

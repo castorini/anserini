@@ -1,4 +1,6 @@
-# Anserini: Regressions for [TREC 2019 Background Linking](http://trec-news.org/)
+# Anserini Regressions: TREC 2019 News Track (Background Linking)
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the background linking task in the [TREC 2019 News Track](http://trec-news.org/).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/backgroundlinking19.yaml).

@@ -57,7 +57,7 @@ topics:
 
 models:
   - name: unicoil-0shot
-    display: uniCOIL (zero-shot)
+    display: uniCOIL (with doc2query-T5) zero-shot
     params: -impact -pretokenized
     results:
       MAP@100:

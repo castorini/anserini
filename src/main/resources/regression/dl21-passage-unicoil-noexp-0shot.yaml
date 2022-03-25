@@ -60,7 +60,7 @@ topics:
 
 models:
   - name: unicoil-noexp-0shot
-    display: uniCOIL (no expansions, zero-shot)
+    display: uniCOIL (noexp) zero-shot
     params: -impact -pretokenized
     results:
       MAP@100:

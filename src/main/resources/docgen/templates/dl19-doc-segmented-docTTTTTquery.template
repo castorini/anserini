@@ -1,11 +1,13 @@
-# Anserini: Regressions for TREC 2019 Deep Learning Track (Doc)
+# Anserini Regressions: TREC 2019 Deep Learning Track (Document)
 
-This page describes experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Document Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
+**Models**: BM25 on segmented documents with doc2query-T5 expansions
+
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
 
-Note that there are four different regression conditions for this task, and this page describes the following:
+Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5

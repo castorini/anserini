@@ -1,4 +1,6 @@
-# Anserini: Regressions for [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A)
+# Anserini Regressions: TIPSTER Disks 1 &amp; 2
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for ad hoc topics from TREC 1-3, which use [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/disk12.yaml).
