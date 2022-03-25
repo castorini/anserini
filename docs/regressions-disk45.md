@@ -215,16 +215,16 @@ With the above commands, you should be able to reproduce the following results:
 
 | MAP                                                                                                          | BM25      | +RM3      | +Rocchio  | +Ax       | QL        | +RM3      | +Ax       |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.1862    | 0.2354    | 0.2784    | 0.2431    | 0.1843    | 0.2168    | 0.2298    |
-| [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.2515    | 0.2750    | 0.2706    | 0.2812    | 0.2460    | 0.2702    | 0.2647    |
-| [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.2531    | 0.2903    | 0.2818    | 0.2896    | 0.2467    | 0.2747    | 0.2774    |
+| [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.1862    | 0.2354    | 0.2326    | 0.2431    | 0.1843    | 0.2168    | 0.2298    |
+| [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.2515    | 0.2750    | 0.2741    | 0.2812    | 0.2460    | 0.2702    | 0.2647    |
+| [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.2531    | 0.2903    | 0.2919    | 0.2896    | 0.2467    | 0.2747    | 0.2774    |
 
 
 | P30                                                                                                          | BM25      | +RM3      | +Rocchio  | +Ax       | QL        | +RM3      | +Ax       |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.3093    | 0.3447    | 0.3880    | 0.3287    | 0.3073    | 0.3307    | 0.3193    |
-| [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.3560    | 0.3760    | 0.3840    | 0.3753    | 0.3480    | 0.3680    | 0.3500    |
-| [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.3102    | 0.3365    | 0.3378    | 0.3333    | 0.3079    | 0.3232    | 0.3229    |
+| [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.3093    | 0.3447    | 0.3460    | 0.3287    | 0.3073    | 0.3307    | 0.3193    |
+| [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.3560    | 0.3760    | 0.3860    | 0.3753    | 0.3480    | 0.3680    | 0.3500    |
+| [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.3102    | 0.3365    | 0.3454    | 0.3333    | 0.3079    | 0.3232    | 0.3229    |
 
 ## Reproduction Log[*](reproducibility.md)
 

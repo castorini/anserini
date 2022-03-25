@@ -610,19 +610,20 @@ public final class SearchCollection implements Closeable {
     } else if (args.rocchio) {
       for (String fbTerms : args.rocchio_fbTerms) {
         for (String fbDocs : args.rocchio_fbDocs) {
-          for (String originalQueryWeight : args.rocchio_originalQueryWeight) {
+          for (String alpha : args.rocchio_alpha) {
             String tag;
+            float beta = 1 - Float.valueOf(alpha);
             if (this.args.rf_qrels != null){
-              tag = String.format("rocchioRf(fbTerms=%s,originalQueryWeight=%s)",
-                fbTerms, originalQueryWeight);
+              tag = String.format("rocchioRf(fbTerms=%s,alpha=%s,beta=%s)",
+                fbTerms, alpha, String.valueOf(beta));
             } else{
-              tag = String.format("rocchio(fbTerms=%s,fbDocs=%s,originalQueryWeight=%s)",
-                fbTerms, fbDocs, originalQueryWeight);
+              tag = String.format("rocchio(fbTerms=%s,fbDocs=%s,alpha=%s,beta=%s)",
+                fbTerms, fbDocs, alpha, String.valueOf(beta));
             }
 
             RerankerCascade cascade = new RerankerCascade(tag);
             cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
-                Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rocchio_outputQuery,
+                Integer.valueOf(fbDocs), Float.valueOf(alpha), args.rocchio_outputQuery,
                 !args.rocchio_noTermFilter));
             cascade.add(new ScoreTiesAdjusterReranker());
             cascades.add(cascade);

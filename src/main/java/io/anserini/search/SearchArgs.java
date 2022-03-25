@@ -291,17 +291,17 @@ public class SearchArgs {
       usage = "RM3 parameter: turn off English term filter")
   public boolean rm3_noTermFilter = false;
 
-    // --------------------------
+  // --------------------------
   // query expansion model: rocchio
   // --------------------------
 
-  // Anserini uses the same default options as in Indri.
-  // As of v5.13, the defaults in Indri are, from src/RMExpander.cpp:
+  // Anserini uses the same default options as the Vector-clprf in the following work:
+  // Li, Hang, et al. "Pseudo relevance feedback with deep language models and dense retrievers: 
+  // Successes and pitfalls." arXiv preprint arXiv:2108.11044 (2021).
   //
-  //   int fbDocs = _param.get( "fbDocs" , 10 );
-  //   int fbTerms = _param.get( "fbTerms" , 10 );
-  //   double fbOrigWt = _param.get( "fbOrigWeight", 0.5 );
-  //   double mu = _param.get( "fbMu", 0 );
+  //   int fbDocs = _param.get( "fbDocs" , 5 );
+  //   int fbTerms = _param.get( "fbTerms" , 50 );
+  //   double alpha = _param.get( "alpha", 0.4 );
 
   @Option(name = "-rocchio", usage = "use rocchio query expansion model")
   public boolean rocchio = false;
@@ -314,9 +314,9 @@ public class SearchArgs {
       usage = "Rocchio parameter: number of expansion documents")
   public String[] rocchio_fbDocs = new String[]{"5"};
 
-  @Option(name = "-rocchio.originalQueryWeight", handler = StringArrayOptionHandler.class,
+  @Option(name = "-rocchio.alpha", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: weight to assign to the original query")
-  public String[] rocchio_originalQueryWeight = new String[]{"0.4"};
+  public String[] rocchio_alpha = new String[]{"0.4"};
 
   @Option(name = "-rocchio.outputQuery",
       usage = "Rocchio parameter: flag to print original and expanded queries")

@@ -17,6 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -39,8 +40,10 @@ import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
@@ -53,16 +56,16 @@ public class RocchioReranker implements Reranker {
 
   private final int fbTerms;
   private final int fbDocs;
-  private final float originalQueryWeight;
+  private final float alpha;
   private final boolean outputQuery;
   private final boolean filterTerms;
 
-  public RocchioReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
+  public RocchioReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float alpha, boolean outputQuery, boolean filterTerms) {
     this.analyzer = analyzer;
     this.field = field;
     this.fbTerms = fbTerms;
     this.fbDocs = fbDocs;
-    this.originalQueryWeight = originalQueryWeight;
+    this.alpha = alpha;
     this.outputQuery = outputQuery;
     this.filterTerms = filterTerms;
   }
@@ -76,10 +79,11 @@ public class RocchioReranker implements Reranker {
 
     FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
-    boolean useRf = (context.getSearchArgs().rf_qrels != null);
-    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets, useRf);
+    FeatureVector rm = estimateRelevanceModel(docs, reader);
 
-    rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
+    // Rocchio weight = alpha * original query + beta * mean(top n doc embedding)
+    // Here beta = 1-alpha
+    rm = FeatureVector.interpolate(qfv, rm, alpha);
 
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
 
@@ -126,26 +130,20 @@ public class RocchioReranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, boolean useRf) {
+  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader) {
     FeatureVector f = new FeatureVector();
 
+    Set<String> vocab = new HashSet<>();
     int numdocs;
-    if (useRf) {
-      numdocs = docs.documents.length;
-    }
-    else {
-      numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
-    }
+    numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
 
     List<FeatureVector> docvectors = new ArrayList<>();
     for (int i = 0; i < numdocs; i++) {
-      if (useRf && docs.scores[i] <= .0) {
-        continue;
-      }
       try {
         FeatureVector docVector = createdFeatureVector(
-            reader.getTermVector(docs.ids[i], field), reader, tweetsearch, fbDocs);
+            reader.getTermVector(docs.ids[i], field), reader,docs.ids[i]);
         docVector.pruneToSize(fbTerms);
+        vocab.addAll(docVector.getFeatures());
         docvectors.add(docVector);
       } catch (IOException e) {
         e.printStackTrace();
@@ -154,23 +152,13 @@ public class RocchioReranker implements Reranker {
       }
     }
 
-    // Precompute the norms once and cache results.
-    float[] norms = new float[docvectors.size()];
-    for (int i = 0; i < docvectors.size(); i++) {
-      norms[i] = (float) docvectors.get(i).computeL1Norm();
-    }
-
-    for (int i = 0; i < docvectors.size(); i++) {
+    for (String term : vocab) {
       float fbWeight = 0.0f;
-      for (String term : docvectors.get(i).getFeatures()) {
-        // Avoids zero-length feedback documents, which causes division by zero when computing term weights.
-        // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
-        // that accents (which are indexed, but not selected for feedback).
-        if (norms[i] > 0.001f) {
-          fbWeight = (docvectors.get(i).getFeatureWeight(term) / norms[i] );
-        }
-        f.addFeatureWeight(term, fbWeight);
+      for (int i = 0; i < docvectors.size(); i++) {
+        fbWeight += (docvectors.get(i).getFeatureWeight(term));
       }
+      // Get the mean of term weight for the Top n expansion documents
+      f.addFeatureWeight(term, (float) fbWeight/docvectors.size());
     }
 
     f.pruneToSize(fbTerms);
@@ -179,7 +167,7 @@ public class RocchioReranker implements Reranker {
     return f;
   }
 
-  private FeatureVector createdFeatureVector(Terms terms, IndexReader reader, boolean tweetsearch, int fbDocs) {
+  private FeatureVector createdFeatureVector(Terms terms, IndexReader reader, int lucenedDocid) {
     FeatureVector f = new FeatureVector();
 
     try {
@@ -191,9 +179,10 @@ public class RocchioReranker implements Reranker {
 
         if (term.length() < 2 || term.length() > 20) continue;
         if (this.filterTerms && !term.matches("[a-z0-9]+")) continue;
-
-        int freq = (int) termsEnum.totalTermFreq();
-        f.addFeatureWeight(term, (float) freq / fbDocs);
+        String docid = IndexReaderUtils.convertLuceneDocidToDocid(reader, lucenedDocid);
+        float weight = IndexReaderUtils.getBM25AnalyzedTermWeight(reader, String.valueOf(docid), term);
+        // Produce BM25 Weight for each term 
+        f.addFeatureWeight(term, (float) weight);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -206,6 +195,6 @@ public class RocchioReranker implements Reranker {
   
   @Override
   public String tag() {
-    return "Rocchio(fbDocs="+fbDocs+",fbTerms="+fbTerms+",originalQueryWeight:"+originalQueryWeight+")";
+    return "Rocchio(fbDocs="+fbDocs+",fbTerms="+fbTerms+",alpha:"+alpha+")";
   }
 }
