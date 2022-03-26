@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; beir-v1.0.0-arguana
+# Anserini Regressions: BEIR (v1.0.0) &mdash; arguana
 
 This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; arguana](http://beir.ai/).
 
@@ -52,4 +52,4 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25 (default)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR v1.0.0                                                                                                  | 0.3970    |
+| BEIR (v1.0.0): arguana                                                                                       | 0.3970    |
