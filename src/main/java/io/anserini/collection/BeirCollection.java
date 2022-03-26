@@ -80,7 +80,7 @@ public class BeirCollection extends DocumentCollection<BeirCollection.Document> 
     @Override
     public String contents() {
       if (contents == null) {
-        throw new RuntimeException("JSON document has no contents that coule be parsed!");
+        throw new RuntimeException("JSON document has no contents that could be parsed!");
       }
       return contents;
     }

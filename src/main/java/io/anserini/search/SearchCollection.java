@@ -256,6 +256,10 @@ public final class SearchCollection implements Closeable {
               if (docids.contains(docid))
                 continue;
 
+              // Remove docids that are identical to the query id if flag is set.
+              if (args.removeQuery && docid.equals(qid))
+                continue;
+
               if ("msmarco".equals(args.format)) {
                 // MS MARCO output format:
                 out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, docid, rank));

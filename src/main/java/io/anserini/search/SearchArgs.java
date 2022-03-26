@@ -53,6 +53,9 @@ public class SearchArgs {
       " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
 
+  @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
+  public Boolean removeQuery = false;
+
   // Note that this option is set to false by default because duplicate documents usually indicate some underlying
   // indexing issues, and we don't want to just eat errors silently.
   @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
