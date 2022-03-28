@@ -29,6 +29,7 @@ import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
@@ -464,7 +465,7 @@ public final class SearchCollection implements Closeable {
       LOG.info("Number of threads for running each individual parameter configuration: " + args.parallelism);
     }
 
-    isRerank = args.rm3 || args.axiom || args.bm25prf;
+    isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
 
     if (this.isRerank && args.rf_qrels != null){
       loadQrels(args.rf_qrels);      
@@ -606,7 +607,27 @@ public final class SearchCollection implements Closeable {
           }
         }
       }
-    } else {
+    } else if (args.rocchio) {
+      for (String fbTerms : args.rocchio_fbTerms) {
+        for (String fbDocs : args.rocchio_fbDocs) {
+          for (String alpha : args.rocchio_alpha) {
+            for (String beta : args.rocchio_beta) {
+              String tag;
+              if (this.args.rf_qrels != null){
+                tag = String.format("rocchioRf(fbTerms=%s,alpha=%s,beta=%s)", fbTerms, alpha, beta);
+              } else{
+                tag = String.format("rocchio(fbTerms=%s,fbDocs=%s,alpha=%s,beta=%s)", fbTerms, fbDocs, alpha, beta);
+              }
+              RerankerCascade cascade = new RerankerCascade(tag);
+              cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
+                  Integer.valueOf(fbDocs), Float.valueOf(alpha), Float.valueOf(beta), args.rocchio_outputQuery));
+              cascade.add(new ScoreTiesAdjusterReranker());
+              cascades.add(cascade);
+            }
+          }
+        }
+      }
+    }else {
       RerankerCascade cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.add(cascade);
