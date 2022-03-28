@@ -295,32 +295,32 @@ public class SearchArgs {
   // query expansion model: rocchio
   // --------------------------
 
-  // Anserini uses the same default options as the Vector-clprf in the following work:
-  // Li, Hang, et al. "Pseudo relevance feedback with deep language models and dense retrievers: 
-  // Successes and pitfalls." arXiv preprint arXiv:2108.11044 (2021).
+  // Anserini uses the same default options as the parameters in the following textbook:
+  // https://nlp.stanford.edu/IR-book/html/htmledition/the-rocchio71-algorithm-1.html
   //
-  //   int fbDocs = _param.get( "fbDocs" , 5 );
-  //   int fbTerms = _param.get( "fbTerms" , 256 );
-  //   double alpha = _param.get( "alpha", 0.4 );
+  //   int fbDocs = _param.get( "fbDocs" , 10 );
+  //   int fbTerms = _param.get( "fbTerms" , 10 );
+  //   double alpha = _param.get( "alpha", 1);
+  //   double alpha = _param.get( "beta", 0.75);
 
   @Option(name = "-rocchio", usage = "use rocchio query expansion model")
   public boolean rocchio = false;
 
   @Option(name = "-rocchio.fbTerms", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: number of expansion terms")
-  public String[] rocchio_fbTerms = new String[]{"256"};
+  public String[] rocchio_fbTerms = new String[]{"10"};
 
   @Option(name = "-rocchio.fbDocs", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: number of expansion documents")
-  public String[] rocchio_fbDocs = new String[]{"5"};
+  public String[] rocchio_fbDocs = new String[]{"10"};
 
   @Option(name = "-rocchio.alpha", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: weight to assign to the original query")
-  public String[] rocchio_alpha = new String[]{"0.4"};
+  public String[] rocchio_alpha = new String[]{"1"};
 
   @Option(name = "-rocchio.beta", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: weight to assign to the relevant document vectors")
-  public String[] rocchio_beta = new String[]{"0.6"};
+  public String[] rocchio_beta = new String[]{"0.75"};
 
   @Option(name = "-rocchio.outputQuery",
       usage = "Rocchio parameter: flag to print original and expanded queries")

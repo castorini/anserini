@@ -46,7 +46,6 @@ import java.util.List;
 import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
-import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
 public class RocchioReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(RocchioReranker.class);
@@ -77,11 +76,11 @@ public class RocchioReranker implements Reranker {
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
 
-    FeatureVector queryVector = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText()));
+    FeatureVector  queryVector = computeMeanOfQueryVectors(AnalyzerUtils.analyze(analyzer, context.getQueryText()), docs, reader);
 
     FeatureVector documentVector = computeMeanOfDocumentVectors(docs, reader);
 
-    // Rocchio Algorithm  = alpha * original query + beta * mean(top n document vectors)
+    // Rocchio Algorithm  = alpha * original binary query vector+ beta * mean(top n document vectors)
     FeatureVector weightedVector = computeWeightedVector(queryVector, documentVector, alpha, beta);
 
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
@@ -101,7 +100,7 @@ public class RocchioReranker implements Reranker {
       LOG.info("Running new query: " + feedbackQuery.toString(this.field));
     }
 
-    TopDocs searchResult;
+    TopDocs results;
     try {
       Query finalQuery = feedbackQuery;
       // If there's a filter condition, we need to add in the constraint.
@@ -115,16 +114,16 @@ public class RocchioReranker implements Reranker {
 
       // Figure out how to break the scoring ties.
       if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        searchResult = searcher.search(finalQuery, context.getSearchArgs().hits);
+        results = searcher.search(finalQuery, context.getSearchArgs().hits);
       } else {
-        searchResult = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
+        results = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     } catch (IOException e) {
       e.printStackTrace();
       return docs;
     }
 
-    return ScoredDocuments.fromTopDocs(searchResult, searcher);
+    return ScoredDocuments.fromTopDocs(results, searcher);
   }
 
   private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader) {
@@ -147,13 +146,24 @@ public class RocchioReranker implements Reranker {
       }
     }
 
+    // Precompute the norms once and cache results.
+    float[] norms = new float[docvectors.size()];
+    for (int i = 0; i < docvectors.size(); i++) {
+      norms[i] = (float) docvectors.get(i).computeL2Norm();
+    }
+
     // Get the mean of term weight for the Top n expansion documents
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.size(); i++) {
-        fbWeight += (docvectors.get(i).getFeatureWeight(term));
+        // Avoids zero-length feedback documents, which causes division by zero when computing term weights.
+        // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
+        // that accents (which are indexed, but not selected for feedback).
+        if (norms[i] > 0.001f) {
+          fbWeight += (docvectors.get(i).getFeatureWeight(term) / norms[i]) ;
+        }
       }
-      f.addFeatureWeight(term, (float) fbWeight/docvectors.size());
+      f.addFeatureWeight(term, fbWeight / docvectors.size());
     }
 
     f.pruneToSize(fbTerms);
@@ -171,10 +181,9 @@ public class RocchioReranker implements Reranker {
       BytesRef text;
       while ((text = termsEnum.next()) != null) {
         String term = text.utf8ToString();
-        String docid = IndexReaderUtils.convertLuceneDocidToDocid(reader, lucenedDocid);
-        float weight = IndexReaderUtils.getBM25AnalyzedTermWeight(reader, String.valueOf(docid), term);
-        // Produce BM25 Weight for each term 
-        f.addFeatureWeight(term, (float) weight);
+        // Produce Term freq Weight for each term 
+        int freq = (int) termsEnum.totalTermFreq();
+        f.addFeatureWeight(term, (float) freq);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -185,8 +194,67 @@ public class RocchioReranker implements Reranker {
     return f;
   }
 
-  private FeatureVector computeWeightedVector(FeatureVector x, FeatureVector y, float xWeight, float yWeight) {
+  private FeatureVector computeMeanOfQueryVectors(List<String> terms, ScoredDocuments docs, IndexReader reader) {
+    FeatureVector f = new FeatureVector();
 
+    Set<String> vocab = new HashSet<>();
+    int numdocs;
+    numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+
+    List<FeatureVector> docvectors = new ArrayList<>();
+    for (int i = 0; i < numdocs; i++) {
+      try {
+        FeatureVector docVector = createQueryVector(terms, reader.getTermVector(docs.ids[i], field), reader, docs.ids[i]);
+        vocab.addAll(docVector.getFeatures());
+        docvectors.add(docVector);
+      } catch (IOException e) {
+        e.printStackTrace();
+        // Just return empty feature vector.
+        return f;
+      }
+    }
+
+    // Get the mean of binary term weight for the Top n expansion documents
+    // Produce binary weight for each term; 1 if query appears (no matter how many times), otherwise, 0
+    for (String term : vocab) {
+      float fbWeight = 0.0f;
+      for (int i = 0; i < docvectors.size(); i++) {
+        fbWeight += 1.0f;
+      }
+      f.addFeatureWeight(term, (float) fbWeight / docvectors.size());
+    }
+
+    f.scaleToUnitL2Norm();
+
+    return f;
+  }
+
+  private FeatureVector createQueryVector(List<String> query_terms, Terms terms, IndexReader reader, int lucenedDocid) {
+    FeatureVector f = new FeatureVector();
+
+    try {
+      TermsEnum termsEnum = terms.iterator();
+
+      BytesRef text;
+      while ((text = termsEnum.next()) != null) {
+        String term = text.utf8ToString();
+        if (query_terms.contains(term)){
+          int freq = (int) termsEnum.totalTermFreq();
+          f.addFeatureWeight(term, freq);
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Return empty feature vector
+      return f;
+    }
+
+    return f;
+
+  }
+
+  private FeatureVector computeWeightedVector(FeatureVector x, FeatureVector y, float xWeight, float yWeight) {
+    // Produce an interpolation of two vector
     FeatureVector z = new FeatureVector();
     Set<String> vocab = new HashSet<String>();
     vocab.addAll(x.getFeatures());
