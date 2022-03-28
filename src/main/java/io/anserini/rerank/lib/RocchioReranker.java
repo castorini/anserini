@@ -76,11 +76,11 @@ public class RocchioReranker implements Reranker {
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
 
-    FeatureVector  queryVector = computeMeanOfQueryVectors(AnalyzerUtils.analyze(analyzer, context.getQueryText()), docs, reader);
+    FeatureVector queryVector = computeMeanOfQueryVectors(AnalyzerUtils.analyze(analyzer, context.getQueryText()), docs, reader);
 
     FeatureVector documentVector = computeMeanOfDocumentVectors(docs, reader);
 
-    // Rocchio Algorithm  = alpha * original binary query vector+ beta * mean(top n document vectors)
+    // Rocchio Algorithm  = alpha * original binary query vector + beta * mean(top n document vectors)
     FeatureVector weightedVector = computeWeightedVector(queryVector, documentVector, alpha, beta);
 
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
@@ -219,7 +219,9 @@ public class RocchioReranker implements Reranker {
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.size(); i++) {
-        fbWeight += 1.0f;
+        if (docvectors.get(i).getFeatureWeight(term) > 1.0f){
+          fbWeight += 1.0f;
+        }
       }
       f.addFeatureWeight(term, (float) fbWeight / docvectors.size());
     }
