@@ -215,15 +215,15 @@ public class RocchioReranker implements Reranker {
     }
 
     // Get the mean of binary term weight for the Top n expansion documents
-    // Produce binary weight for each term; 1 if query appears (no matter how many times), otherwise, 0
+    // Produce binary weight for each term; 1 if query appears in any of the top n relevant documents (no matter how many times)
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.size(); i++) {
-        if (docvectors.get(i).getFeatureWeight(term) > 1.0f){
-          fbWeight += 1.0f;
-        }
+        fbWeight += docvectors.get(i).getFeatureWeight(term);
       }
-      f.addFeatureWeight(term, (float) fbWeight / docvectors.size());
+      if (fbWeight> 1.0f){
+        f.addFeatureWeight(term, 1.0f);
+      }
     }
 
     f.scaleToUnitL2Norm();
