@@ -145,6 +145,10 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     private String raw;
     private Map<String, String> fields;
 
+    protected Document() {
+      // This is no-op constructor for sub-classes that want to do everything themselves.
+    }
+
     public Document(JsonNode json) {
       this.raw = json.toPrettyString();
       this.fields = new HashMap<>();
@@ -163,7 +167,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     @Override
     public String id() {
       if (id == null) {
-        throw new RuntimeException("JSON document has no \"id\" field");
+        throw new RuntimeException("JSON document has no \"id\" field!");
       }
       return id;
     }
@@ -171,7 +175,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     @Override
     public String contents() {
       if (contents == null) {
-        throw new RuntimeException("JSON document has no \"contents\" field");
+        throw new RuntimeException("JSON document has no \"contents\" field!");
       }
       return contents;
     }

@@ -53,6 +53,9 @@ public class SearchArgs {
       " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
 
+  @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
+  public Boolean removeQuery = false;
+
   // Note that this option is set to false by default because duplicate documents usually indicate some underlying
   // indexing issues, and we don't want to just eat errors silently.
   @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
@@ -290,6 +293,41 @@ public class SearchArgs {
   @Option(name = "-rm3.noTermFilter",
       usage = "RM3 parameter: turn off English term filter")
   public boolean rm3_noTermFilter = false;
+
+  // --------------------------
+  // query expansion model: rocchio
+  // --------------------------
+
+  // Anserini uses the same default options as the parameters in the following textbook:
+  // https://nlp.stanford.edu/IR-book/html/htmledition/the-rocchio71-algorithm-1.html
+  //
+  //   int fbDocs = _param.get( "fbDocs" , 10 );
+  //   int fbTerms = _param.get( "fbTerms" , 10 );
+  //   double alpha = _param.get( "alpha", 1);
+  //   double alpha = _param.get( "beta", 0.75);
+
+  @Option(name = "-rocchio", usage = "use rocchio query expansion model")
+  public boolean rocchio = false;
+
+  @Option(name = "-rocchio.fbTerms", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion terms")
+  public String[] rocchio_fbTerms = new String[]{"10"};
+
+  @Option(name = "-rocchio.fbDocs", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion documents")
+  public String[] rocchio_fbDocs = new String[]{"10"};
+
+  @Option(name = "-rocchio.alpha", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: weight to assign to the original query")
+  public String[] rocchio_alpha = new String[]{"1"};
+
+  @Option(name = "-rocchio.beta", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: weight to assign to the relevant document vectors")
+  public String[] rocchio_beta = new String[]{"0.75"};
+
+  @Option(name = "-rocchio.outputQuery",
+      usage = "Rocchio parameter: flag to print original and expanded queries")
+  public boolean rocchio_outputQuery = false;
 
   // ------------------------------
   // query expansion model: bm25prf
