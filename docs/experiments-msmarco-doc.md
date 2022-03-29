@@ -247,3 +247,4 @@ That's it!
 + Results reproduced by [@AceZhan](https://github.com/AceZhan) on 2022-01-14 (commit [`7ff99e0`](https://github.com/castorini/anserini/commit/7ff99e0d3208dc8bfec6bb8ca254d0b016015a2d))
 + Results reproduced by [@jh8liang](https://github.com/jh8liang) on 2022-02-06 (commit [`5cdf9ec`](https://github.com/castorini/anserini/commit/5cdf9ec3600bf693cf8d80a9c869444b4e29ff75))
 + Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2022-02-22 (commit [`6a70804`](https://github.com/castorini/anserini/commit/6a708047f71528f7d516c0dd45485204a36e6b1d))
++ Results reproduced by [@jasper-xian](https://github.com/jasper-xian) on 2022-03-27 (commit [`2e8e9fd`](https://github.com/castorini/anserini/commit/2e8e9fdfedc1b81522d9e22a805e08e6a7105762))
