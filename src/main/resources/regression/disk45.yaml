@@ -118,6 +118,18 @@ models:
         - 0.3307
         - 0.3680
         - 0.3232
+  - name: qld+rocchio
+    display: +Rocchio
+    params: -qld -rocchio
+    results:
+      MAP:
+        - 0.2078
+        - 0.2640
+        - 0.2678
+      P30:
+        - 0.3173
+        - 0.3620
+        - 0.3186
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.deterministic -rerankCutoff 20
