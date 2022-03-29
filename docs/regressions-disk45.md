@@ -222,7 +222,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | P30                                                                                                          | BM25      | +RM3      | +Rocchio  | +Ax       | QL        | +RM3      | +Ax       |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.3093    | 0.3447    | 0.3367    | 0.3287    | 0.3073    | 0.3307    | 0.3193    |
+| [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.3093    | 0.3447    | 0.3473    | 0.3287    | 0.3073    | 0.3307    | 0.3193    |
 | [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.3560    | 0.3760    | 0.3760    | 0.3753    | 0.3480    | 0.3680    | 0.3500    |
 | [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.3102    | 0.3365    | 0.3364    | 0.3333    | 0.3079    | 0.3232    | 0.3229    |
 
