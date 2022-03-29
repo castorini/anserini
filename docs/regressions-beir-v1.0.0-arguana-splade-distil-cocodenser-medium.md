@@ -73,13 +73,15 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-arguana.test.splade_distil_cocodenser_medium.tsv.gz \
   -topicreader TsvString \
   -output runs/run.beir-v1.0.0-arguana.splade_distil_cocodenser_medium.topics.beir-v1.0.0-arguana.test.splade_distil_cocodenser_medium.txt \
-  -impact -pretokenized -removeQuery -hits 20 &
+  -impact -pretokenized -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt runs/run.beir-v1.0.0-arguana.splade_distil_cocodenser_medium.topics.beir-v1.0.0-arguana.test.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt runs/run.beir-v1.0.0-arguana.splade_distil_cocodenser_medium.topics.beir-v1.0.0-arguana.test.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt runs/run.beir-v1.0.0-arguana.splade_distil_cocodenser_medium.topics.beir-v1.0.0-arguana.test.splade_distil_cocodenser_medium.txt
 ```
 
 ## Effectiveness
@@ -90,7 +92,16 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): arguana                                                                                       | 0.5210    |
 
-```
+
+| R@100                                                                                                        | SPLADE-distill CoCodenser Medium|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| BEIR (v1.0.0): arguana                                                                                       | 0.9822    |
+
+
+| R@1000                                                                                                       | SPLADE-distill CoCodenser Medium|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| BEIR (v1.0.0): arguana                                                                                       | 0.9950    |
+
 
 ## Reproduction Log[*](reproducibility.md)
 

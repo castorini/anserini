@@ -20,6 +20,20 @@ metrics:
     parse_index: 2
     metric_precision: 4
     can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: TsvString
 topic_root: src/main/resources/topics-and-qrels/
@@ -33,8 +47,12 @@ topics:
 models:
   - name: splade_distil_cocodenser_medium
     display: SPLADE-distill CoCodenser Medium
-    params: -impact -pretokenized -removeQuery -hits 20
+    params: -impact -pretokenized -removeQuery -hits 1000
     results:
       nDCG@10:
         - 0.5210
+      R@100:
+        - 0.9822
+      R@1000:
+        - 0.9950
 
