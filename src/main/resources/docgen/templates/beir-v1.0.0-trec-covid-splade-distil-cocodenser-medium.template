@@ -1,8 +1,8 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; arguana, SPLADE-distil CoCodenser Medium
+# Anserini Regressions: BEIR (v1.0.0) &mdash; trec-covid, SPLADE-distil CoCodenser Medium
 
 **Model**: SPLADE-distil CoCodenser Medium
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on the [BEIR (v1.0.0) &mdash; arguana](http://beir.ai/).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on the [BEIR (v1.0.0) &mdash; trec-covid](http://beir.ai/).
 The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models)
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
@@ -16,19 +16,19 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Corpus
 
-We make available a version of the BEIR-v1.0.0 arguana corpus that has already been processed with SPLADE-distil CoCodenser Medium, i.e., gone through document expansion and term reweighting.
+We make available a version of the BEIR-v1.0.0 trec-covid corpus that has already been processed with SPLADE-distil CoCodenser Medium, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
 For details on how to train SPLADE-distil CoCodenser Medium and perform inference, please see [guide provided by Naver Labs Europe](https://github.com/naver/splade/tree/main/anserini_evaluation).
 
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/arguana.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/trec-covid.tar -P collections/
 
-tar xvf collections/arguana.tar -C collections/beir-v1.0.0/splade_distil_cocodenser_medium/arguana
+tar xvf collections/trec-covid.tar -C collections/beir-v1.0.0/splade_distil_cocodenser_medium/trec-covid
 ```
 
-To confirm, `arguana.tar` is 8.9 MB and has MD5 checksum `cbc95edcaf1d7306d780aa913d2e9018`.
+To confirm, `trec-covid.tar` is 133 MB and has MD5 checksum `6819744082e545203c07c03446484f81`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
@@ -50,7 +50,7 @@ ${index_cmds}
 The path `/path/to/${corpus}/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
-Upon completion, we should have an index with 8,674 documents.
+Upon completion, we should have an index with 171,332 documents.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
