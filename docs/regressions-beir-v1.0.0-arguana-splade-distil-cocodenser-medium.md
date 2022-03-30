@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; arguana, SPLADE-distil CoCodenser Medium
+# Anserini Regressions: BEIR (v1.0.0) &mdash; arguana
 
 **Model**: SPLADE-distil CoCodenser Medium
 
@@ -16,7 +16,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Corpus
 
-We make available a version of the BEIR-v1.0.0 Arguana corpus that has already been processed with SPLADE-distil CoCodenser Medium, i.e., gone through document expansion and term reweighting.
+We make available a version of the BEIR-v1.0.0 arguana corpus that has already been processed with SPLADE-distil CoCodenser Medium, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
 For details on how to train SPLADE-distil CoCodenser Medium and perform inference, please see [guide provided by Naver Labs Europe](https://github.com/naver/splade/tree/main/anserini_evaluation).
 
@@ -55,15 +55,15 @@ target/appassembler/bin/IndexCollection \
 
 The path `/path/to/beir-v1.0.0-arguana/` should point to the corpus downloaded above.
 
-The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
-Upon completion, we should have an index with 8,841,823 documents.
+The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
+Upon completion, we should have an index with 8,674 documents.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+The regression experiments here evaluate on the test set questions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

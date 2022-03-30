@@ -99,7 +99,19 @@ See individual pages for details!
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
 + Regressions for Mr. TyDi (v1.1): [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
 + Regressions for BEIR (v1.0.0): 
-  + Arguana: [baseline](docs/regressions-beir-v1.0.0-arguana.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-arguana-splade-distil-cocodenser-medium.md)
+  + ArguAna: [baseline](docs/regressions-beir-v1.0.0-arguana.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-arguana-splade-distil-cocodenser-medium.md)
+  + Climate-FEVER: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium.md)
+  + DBPedia: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium.md)
+  + FEVER: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fever-splade-distil-cocodenser-medium.md)
+  + FiQA-2018: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fiqa-splade-distil-cocodenser-medium.md)
+  + HotpotQA: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium.md)
+  + NFCorpus: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.md)
+  + NQ: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nq-splade-distil-cocodenser-medium.md)
+  + Quora: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-quora-splade-distil-cocodenser-medium.md)
+  + SCIDOCS: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scidocs-splade-distil-cocodenser-medium.md)
+  + SciFact: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md)
+  + TREC-COVID: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md)
+  + Touche2020: [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-webis-touche2020-splade-distil-cocodenser-medium.md)
 
 ## Additional Documentation
 
