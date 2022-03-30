@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; nq, SPLADE-distil CoCodenser Medium
+# Anserini Regressions: BEIR (v1.0.0) &mdash; nq
 
 **Model**: SPLADE-distil CoCodenser Medium
 

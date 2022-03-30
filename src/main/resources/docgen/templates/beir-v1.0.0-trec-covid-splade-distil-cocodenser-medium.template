@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; trec-covid, SPLADE-distil CoCodenser Medium
+# Anserini Regressions: BEIR (v1.0.0) &mdash; trec-covid
 
 **Model**: SPLADE-distil CoCodenser Medium
 

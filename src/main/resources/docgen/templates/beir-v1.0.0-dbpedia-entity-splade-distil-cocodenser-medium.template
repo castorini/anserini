@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; dbpedia-entity, SPLADE-distil CoCodenser Medium
+# Anserini Regressions: BEIR (v1.0.0) &mdash; dbpedia-entity
 
 **Model**: SPLADE-distil CoCodenser Medium
 
