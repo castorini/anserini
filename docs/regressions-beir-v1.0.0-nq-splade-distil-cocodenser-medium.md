@@ -90,7 +90,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): nq                                                                                            | 0.5443    |
+| BEIR (v1.0.0): nq                                                                                            | 0.5442    |
 
 
 | R@100                                                                                                        | SPLADE-distill CoCodenser Medium|
