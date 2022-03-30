@@ -1,14 +1,14 @@
-corpus: beir-v1.0.0-arguana
-corpus_path: collections/beir-v1.0.0/splade_distil_cocodenser_medium/arguana
-index_path: indexes/lucene-index.splade_distil_cocodenser_medium-arguana/
+corpus: beir-v1.0.0-nq
+corpus_path: collections/beir-v1.0.0/splade_distil_cocodenser_medium/nq
+index_path: indexes/lucene-index.splade_distil_cocodenser_medium-nq/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
 index_options: -impact -pretokenized
 index_stats:
-  documents: 8674
-  documents (non-empty): 8674
-  total terms: 96421121
+  documents: 2681468
+  documents (non-empty): 2681468
+  total terms: 21901570532
 metrics:
 - metric: nDCG@10
   command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -35,18 +35,18 @@ topic_reader: TsvString
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
-- name: 'BEIR (v1.0.0): arguana'
+- name: 'BEIR (v1.0.0): nq'
   id: test
-  path: topics.beir-v1.0.0-arguana.test.splade_distil_cocodenser_medium.tsv.gz
-  qrel: qrels.beir-v1.0.0-arguana.test.txt
+  path: topics.beir-v1.0.0-nq.test.splade_distil_cocodenser_medium.tsv.gz
+  qrel: qrels.beir-v1.0.0-nq.test.txt
 models:
 - name: splade_distil_cocodenser_medium
   display: SPLADE-distill CoCodenser Medium
   params: -impact -pretokenized -removeQuery -hits 1000
   results:
     nDCG@10:
-    - 0.5210
+    - 0.5442
     R@100:
-    - 0.9822
+    - 0.9285
     R@1000:
-    - 0.9950
+    - 0.9812
