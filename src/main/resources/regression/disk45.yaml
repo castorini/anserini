@@ -75,13 +75,13 @@ models:
     params: -bm25 -rocchio
     results:
       MAP:
-        - 0.2351
-        - 0.2726
-        - 0.2875
+        - 0.2397
+        - 0.2743
+        - 0.2924
       P30:
-        - 0.3473
-        - 0.3760
-        - 0.3364
+        - 0.3527
+        - 0.3707
+        - 0.3365
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
@@ -123,13 +123,13 @@ models:
     params: -qld -rocchio
     results:
       MAP:
-        - 0.2078
-        - 0.2640
-        - 0.2678
+        - 0.2189
+        - 0.2709
+        - 0.2756
       P30:
-        - 0.3173
-        - 0.3620
-        - 0.3186
+        - 0.3293
+        - 0.3640
+        - 0.3237
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.deterministic -rerankCutoff 20
