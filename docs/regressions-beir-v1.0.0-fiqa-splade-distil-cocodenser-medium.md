@@ -28,7 +28,7 @@ wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil
 tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-fiqa.tar -C collections/
 ```
 
-To confirm, the tarball is 3.2 GB and has MD5 checksum `781f7683b6e73971afd01df1650756bf`.
+To confirm, the tarball is 48 MB and has MD5 checksum `781f7683b6e73971afd01df1650756bf`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
