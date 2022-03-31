@@ -23,18 +23,17 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/quora.tar -P collections/
-
-tar xvf collections/quora.tar -C collections/beir-v1.0.0/splade_distil_cocodenser_medium/quora
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-quora.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-quora.tar -C collections/
 ```
 
-To confirm, `quora.tar` is 112 MB and has MD5 checksum `93d6659dedfbf226ce68ad10f28db6e4`.
+To confirm, `quora.tar` is 112 MB and has MD5 checksum `fa86bbfa8195c6f45a0b0435ee268b0e`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-splade-distil-cocodenser-medium \
-  --corpus-path collections/beir-v1.0.0-quora
+  --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-quora
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.

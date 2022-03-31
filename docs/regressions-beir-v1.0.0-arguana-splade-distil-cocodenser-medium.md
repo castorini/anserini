@@ -23,18 +23,17 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/arguana.tar -P collections/
-
-tar xvf collections/arguana.tar -C collections/beir-v1.0.0/splade_distil_cocodenser_medium/arguana
+wget wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-arguana.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-arguana.tar -C collections/
 ```
 
-To confirm, `arguana.tar` is 8.9 MB and has MD5 checksum `cbc95edcaf1d7306d780aa913d2e9018`.
+To confirm, `arguana.tar` is 8.9 MB and has MD5 checksum `9c5a181e03cbc7f13abd0e0e4bf9158e`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-splade-distil-cocodenser-medium \
-  --corpus-path collections/beir-v1.0.0-arguana
+  --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-arguana
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.

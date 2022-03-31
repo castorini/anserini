@@ -23,18 +23,17 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/dbpedia-entity.tar -P collections/
-
-tar xvf collections/dbpedia-entity.tar -C collections/beir-v1.0.0/splade_distil_cocodenser_medium/dbpedia-entity
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-dbpedia-entity.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-dbpedia-entity.tar -C collections/
 ```
 
-To confirm, `dbpedia-entity.tar` is 2.5 GB and has MD5 checksum `a52d2752b1b21397cd10b78f7235dcee`.
+To confirm, `dbpedia-entity.tar` is 2.5 GB and has MD5 checksum `fdd1467eae4fbe6c53b75428492c776f`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium \
-  --corpus-path collections/beir-v1.0.0-dbpedia-entity
+  --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-dbpedia-entity
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.

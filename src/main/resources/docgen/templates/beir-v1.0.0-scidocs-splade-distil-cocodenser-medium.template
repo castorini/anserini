@@ -23,18 +23,17 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/scidocs.tar -P collections/
-
-tar xvf collections/scidocs.tar -C collections/beir-v1.0.0/splade_distil_cocodenser_medium/scidocs
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-scidocs.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-scidocs.tar -C collections/
 ```
 
-To confirm, `scidocs.tar` is 24 MB and has MD5 checksum `1cc218ecc94473fafa98881ebbfa24b9`.
+To confirm, `scidocs.tar` is 24 MB and has MD5 checksum `535c9dcb9698bec4345c07d96e5b1e75`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
-  --corpus-path collections/${corpus}
+  --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-scidocs
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.

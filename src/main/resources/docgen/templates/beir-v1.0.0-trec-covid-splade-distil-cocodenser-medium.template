@@ -23,18 +23,17 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/trec-covid.tar -P collections/
-
-tar xvf collections/trec-covid.tar -C collections/beir-v1.0.0/splade_distil_cocodenser_medium/trec-covid
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-trec-covid.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-trec-covid.tar -C collections/
 ```
 
-To confirm, `trec-covid.tar` is 133 MB and has MD5 checksum `6819744082e545203c07c03446484f81`.
+To confirm, `trec-covid.tar` is 133 MB and has MD5 checksum `84b9b090fa7ad7f08e2208a59837c216`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
-  --corpus-path collections/${corpus}
+  --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-trec-covid
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.
