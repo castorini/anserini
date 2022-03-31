@@ -24,8 +24,8 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-hotpotqa.tar -P collections/
-tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-hotpotqa.tar -C collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-nfcorpus.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-nfcorpus.tar -C collections/
 ```
 
 To confirm, the tarball is 3.2 MB and has MD5 checksum `81215d1fd44c378b44c5b1f4ab555098`.
