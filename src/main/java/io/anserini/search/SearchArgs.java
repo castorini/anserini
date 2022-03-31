@@ -294,17 +294,13 @@ public class SearchArgs {
       usage = "RM3 parameter: turn off English term filter")
   public boolean rm3_noTermFilter = false;
 
-  // --------------------------
+  // ------------------------------
   // query expansion model: rocchio
-  // --------------------------
+  // ------------------------------
 
-  // Anserini uses the same default options as the parameters in the following textbook:
+  // Anserini uses as defaults the same fbTerms and fbDocs settings as RM3.
+  // For alpha/beta weights, we use the setting referenced in the Manning et al. textbook:
   // https://nlp.stanford.edu/IR-book/html/htmledition/the-rocchio71-algorithm-1.html
-  //
-  //   int fbDocs = _param.get( "fbDocs" , 10 );
-  //   int fbTerms = _param.get( "fbTerms" , 10 );
-  //   double alpha = _param.get( "alpha", 1);
-  //   double alpha = _param.get( "beta", 0.75);
 
   @Option(name = "-rocchio", usage = "use rocchio query expansion model")
   public boolean rocchio = false;
