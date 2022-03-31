@@ -11,7 +11,8 @@ Note that this page is automatically generated from [this template](${template})
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+python src/main/python/run_regression.py --index --verify --search \
+  --regression ${test_name}
 ```
 
 ## Corpus
@@ -27,12 +28,13 @@ wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil
 tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-hotpotqa.tar -C collections/
 ```
 
-To confirm, `hotpotqa.tar` is 2.6 GB and has MD5 checksum `b607eb3e1cb0ba105a75ae8db4356e90`.
+To confirm, the tarball is 2.6 GB and has MD5 checksum `b607eb3e1cb0ba105a75ae8db4356e90`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
+python src/main/python/run_regression.py --index --verify --search \
+  --regression ${test_name} \
   --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-hotpotqa
 ```
 

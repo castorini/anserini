@@ -11,7 +11,8 @@ Note that this page is automatically generated from [this template](../src/main/
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium
+python src/main/python/run_regression.py --index --verify --search \
+  --regression beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium
 ```
 
 ## Corpus
@@ -27,12 +28,13 @@ wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil
 tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-dbpedia-entity.tar -C collections/
 ```
 
-To confirm, `dbpedia-entity.tar` is 2.5 GB and has MD5 checksum `fdd1467eae4fbe6c53b75428492c776f`.
+To confirm, the tarball is 2.5 GB and has MD5 checksum `fdd1467eae4fbe6c53b75428492c776f`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium \
+python src/main/python/run_regression.py --index --verify --search \
+  --regression beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium \
   --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-dbpedia-entity
 ```
 

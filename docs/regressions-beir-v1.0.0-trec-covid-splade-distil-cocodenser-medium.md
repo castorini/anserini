@@ -11,7 +11,8 @@ Note that this page is automatically generated from [this template](../src/main/
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium
+python src/main/python/run_regression.py --index --verify --search \
+  --regression beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium
 ```
 
 ## Corpus
@@ -27,12 +28,13 @@ wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil
 tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-trec-covid.tar -C collections/
 ```
 
-To confirm, `trec-covid.tar` is 133 MB and has MD5 checksum `84b9b090fa7ad7f08e2208a59837c216`.
+To confirm, the tarball is 133 MB and has MD5 checksum `84b9b090fa7ad7f08e2208a59837c216`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium \
+python src/main/python/run_regression.py --index --verify --search \
+  --regression beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium \
   --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-trec-covid
 ```
 
