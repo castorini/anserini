@@ -62,6 +62,13 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default+rocchio.topics.dl20.txt \
+  -bm25 -rocchio &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
@@ -85,6 +92,13 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-tuned+rocchio.topics.dl20.txt \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
@@ -114,6 +128,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+rm3.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+rm3.topics.dl20.txt
 
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+rocchio.topics.dl20.txt
+
 tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt
@@ -134,6 +153,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl20.txt
 
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+rocchio.topics.dl20.txt
+
 tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+ax.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+ax.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.bm25-tuned+ax.topics.dl20.txt
@@ -149,24 +173,24 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.2856    | 0.3019    | 0.3240    | 0.3117    | 0.2876    | 0.3056    | 0.3322    | 0.3136    |
+| AP@1000                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.2856    | 0.3019    | 0.3063    | 0.3240    | 0.3117    | 0.2876    | 0.3056    | 0.3064    | 0.3322    | 0.3136    |
 
 
-| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4796    | 0.4821    | 0.4834    | 0.4721    | 0.4876    | 0.4808    | 0.5027    | 0.4788    |
+| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4796    | 0.4821    | 0.4869    | 0.4834    | 0.4721    | 0.4876    | 0.4808    | 0.4854    | 0.5027    | 0.4788    |
 
 
-| R@100                                                                                                        | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5599    | 0.6046    | 0.6428    | 0.5783    | 0.5669    | 0.6333    | 0.6468    | 0.5782    |
+| R@100                                                                                                        | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5599    | 0.6046    | 0.5871    | 0.6428    | 0.5783    | 0.5669    | 0.6333    | 0.5970    | 0.6468    | 0.5782    |
 
 
-| R@1000                                                                                                       | BM25 (default)| +RM3      | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7863    | 0.8217    | 0.8483    | 0.8074    | 0.8031    | 0.8286    | 0.8455    | 0.8121    |
+| R@1000                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Ax       | +PRF      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7863    | 0.8217    | 0.8050    | 0.8483    | 0.8074    | 0.8031    | 0.8286    | 0.8265    | 0.8455    | 0.8121    |
 
 Explanation of settings:
 
