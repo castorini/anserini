@@ -2,7 +2,7 @@
 
 **Model**: SPLADE-distil CoCodenser Medium
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on the [BEIR (v1.0.0) &mdash; hotpotqa](http://beir.ai/).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; hotpotqa](http://beir.ai/).
 The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models)
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium.yaml).
@@ -11,7 +11,8 @@ Note that this page is automatically generated from [this template](../src/main/
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium
+python src/main/python/run_regression.py --index --verify --search \
+  --regression beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium
 ```
 
 ## Corpus
@@ -23,18 +24,18 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/hotpotqa.tar -P collections/
-
-tar xvf collections/hotpotqa.tar -C collections/beir-v1.0.0/splade_distil_cocodenser_medium/hotpotqa
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-hotpotqa.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-hotpotqa.tar -C collections/
 ```
 
-To confirm, `hotpotqa.tar` is 2.6 GB and has MD5 checksum `f20fef3ffbd95c19e9b64e9b4bc93f72`.
+To confirm, the tarball is 2.6 GB and has MD5 checksum `b607eb3e1cb0ba105a75ae8db4356e90`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium \
-  --corpus-path collections/beir-v1.0.0-hotpotqa
+python src/main/python/run_regression.py --index --verify --search \
+  --regression beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium \
+  --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-hotpotqa
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.
