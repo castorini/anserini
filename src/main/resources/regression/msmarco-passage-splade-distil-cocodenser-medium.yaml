@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-passage
-corpus_path: collections/beir-v1.0.0/splade_distil_cocodenser_medium/msmarco
+corpus: msmarco-passage-splade_distil_cocodenser_medium
+corpus_path: collections/msmarco/msmarco-passage-splade_distil_cocodenser_medium
 
-index_path: indexes/lucene-index.splade_distil_cocodenser_medium-msmarco/
+index_path: indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

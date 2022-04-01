@@ -11,7 +11,8 @@ Note that this page is automatically generated from [this template](../src/main/
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium
+python src/main/python/run_regression.py --index --verify --search \
+  --regression msmarco-passage-splade-distil-cocodenser-medium
 ```
 
 ## Corpus
@@ -23,18 +24,18 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collections/beir-v1.0.0/splade_distil_cocodenser_medium/msmarco.tar -P collections/
-
-tar xvf collections/msmarco.tar -C collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar -P collections/
+tar xvf collections/msmarco-passage-splade_distil_cocodenser_medium.tar -C collections/
 ```
 
-To confirm, `msmarco.tar` is 4.9 GB and has MD5 checksum `7ade4ffb3cd986f8467fc70d9a052d40`.
+To confirm, `msmarco.tar` is 4.9 GB and has MD5 checksum `54a81e855a7678bc83ecb3ecf1ac5c1c`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium \
-  --corpus-path collections/msmarco-passage
+python src/main/python/run_regression.py --index --verify --search \
+  --regression msmarco-passage-splade-distil-cocodenser-medium \
+  --corpus-path collections/msmarco-passage-splade_distil_cocodenser_medium
 ```
 
 Alternatively, you can simply copy/paste from the commands below and obtain the same results.
@@ -46,14 +47,14 @@ Sample indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
-  -input /path/to/msmarco-passage \
-  -index indexes/lucene-index.splade_distil_cocodenser_medium-msmarco/ \
+  -input /path/to/msmarco-passage-splade_distil_cocodenser_medium \
+  -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -impact -pretokenized \
-  >& logs/log.msmarco-passage &
+  >& logs/log.msmarco-passage-splade_distil_cocodenser_medium &
 ```
 
-The path `/path/to/msmarco-passage/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-passage-splade_distil_cocodenser_medium/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doc lengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 8,841,823 documents.
@@ -69,20 +70,20 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.splade_distil_cocodenser_medium-msmarco/ \
+  -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt \
+  -output runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt
 ```
 
 ## Effectiveness
