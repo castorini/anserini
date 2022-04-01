@@ -24,7 +24,7 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-arguana.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-arguana.tar -P collections/
 tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-arguana.tar -C collections/
 ```
 
