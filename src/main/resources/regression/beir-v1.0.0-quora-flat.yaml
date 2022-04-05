@@ -1,15 +1,15 @@
 ---
-corpus: beir-v1.0.0-fever
-corpus_path: collections/beir-v1.0.0/corpus/fever/
-index_path: indexes/lucene-index.beir-v1.0.0-fever-bm25-flat/
+corpus: beir-v1.0.0-quora
+corpus_path: collections/beir-v1.0.0/corpus/quora/
+index_path: indexes/lucene-index.beir-v1.0.0-quora-flat/
 collection_class: BeirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 5416568
-  documents (non-empty): 5416568
-  total terms: 325179170
+  documents: 522931
+  documents (non-empty): 522913
+  total terms: 4390852
 metrics:
   - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
@@ -36,19 +36,19 @@ topic_reader: TsvString
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "BEIR (v1.0.0): fever"
+  - name: "BEIR (v1.0.0): quora"
     id: beir
-    path: topics.beir-v1.0.0-fever.test.tsv.gz
-    qrel: qrels.beir-v1.0.0-fever.test.txt
+    path: topics.beir-v1.0.0-quora.test.tsv.gz
+    qrel: qrels.beir-v1.0.0-quora.test.txt
 
 models:
-  - name: bm25-flat-default
+  - name: flat-default
     display: BM25-flat (default)
     params: -bm25 -removeQuery -hits 1000
     results:
       nDCG@10:
-        - 0.6513
+        - 0.7886
       R@100:
-        - 0.9185
+        - 0.9733
       R@1000:
-        - 0.9589
+        - 0.9950
