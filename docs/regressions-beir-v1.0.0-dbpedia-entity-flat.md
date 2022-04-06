@@ -17,7 +17,7 @@ Typical indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \
-  -collection BeirCollection \
+  -collection BeirFlatCollection \
   -input /path/to/beir-v1.0.0-dbpedia-entity \
   -index indexes/lucene-index.beir-v1.0.0-dbpedia-entity-flat/ \
   -generator DefaultLuceneDocumentGenerator \
