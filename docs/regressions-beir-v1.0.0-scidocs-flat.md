@@ -36,32 +36,32 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-scidocs-flat/ \
   -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-scidocs.test.tsv.gz \
   -topicreader TsvString \
-  -output runs/run.beir-v1.0.0-scidocs.flat-default.topics.beir-v1.0.0-scidocs.test.txt \
+  -output runs/run.beir-v1.0.0-scidocs.bm25.topics.beir-v1.0.0-scidocs.test.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.flat-default.topics.beir-v1.0.0-scidocs.test.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.flat-default.topics.beir-v1.0.0-scidocs.test.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.flat-default.topics.beir-v1.0.0-scidocs.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bm25.topics.beir-v1.0.0-scidocs.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bm25.topics.beir-v1.0.0-scidocs.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bm25.topics.beir-v1.0.0-scidocs.test.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| nDCG@10                                                                                                      | BM25-flat (default)|
+| nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): scidocs                                                                                       | 0.1490    |
 
 
-| R@100                                                                                                        | BM25-flat (default)|
+| R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): scidocs                                                                                       | 0.3477    |
 
 
-| R@1000                                                                                                       | BM25-flat (default)|
+| R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): scidocs                                                                                       | 0.5638    |
