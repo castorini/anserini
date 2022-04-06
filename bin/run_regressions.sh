@@ -1,4 +1,5 @@
 #!/bin/sh
+
 python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking18 > logs/log.backgroundlinking18 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking19 > logs/log.backgroundlinking19 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking20 > logs/log.backgroundlinking20 2>&1
