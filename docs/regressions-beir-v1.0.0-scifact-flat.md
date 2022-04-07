@@ -17,7 +17,7 @@ Typical indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \
-  -collection BeirCollection \
+  -collection BeirFlatCollection \
   -input /path/to/beir-v1.0.0-scifact \
   -index indexes/lucene-index.beir-v1.0.0-scifact-flat/ \
   -generator DefaultLuceneDocumentGenerator \

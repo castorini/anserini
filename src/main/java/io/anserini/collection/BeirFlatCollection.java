@@ -26,17 +26,17 @@ import java.util.Map;
 /**
  * A document collection for BEIR corpora.
  */
-public class BeirCollection extends DocumentCollection<BeirCollection.Document> {
-  public BeirCollection(Path path) {
+public class BeirFlatCollection extends DocumentCollection<BeirFlatCollection.Document> {
+  public BeirFlatCollection(Path path) {
     this.path = path;
   }
 
   @Override
-  public FileSegment<BeirCollection.Document> createFileSegment(Path p) throws IOException {
-    return new BeirCollection.Segment<>(p);
+  public FileSegment<BeirFlatCollection.Document> createFileSegment(Path p) throws IOException {
+    return new BeirFlatCollection.Segment<>(p);
   }
 
-  public static class Segment<T extends BeirCollection.Document> extends JsonCollection.Segment<T> {
+  public static class Segment<T extends BeirFlatCollection.Document> extends JsonCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
     }
