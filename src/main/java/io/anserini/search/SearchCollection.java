@@ -117,6 +117,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -158,7 +159,6 @@ public final class SearchCollection implements Closeable {
   private final boolean isRerank;
   private Map<String, ScoredDocuments> qrels;
   private Set<String> queriesWithRel;
-  //private Map<String, List<String>> queries = new HashMap<>(); // let query tokens get exposed to the test (with analyzer)
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -382,10 +382,21 @@ public final class SearchCollection implements Closeable {
 
     LOG.info("============ Initializing Searcher ============");
     LOG.info("Index: " + indexPath);
-    if (args.inmem) {
-      this.reader = DirectoryReader.open(MMapDirectory.open(indexPath));
-    } else {
-      this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    this.reader = args.inmem ? DirectoryReader.open(MMapDirectory.open(indexPath)) :
+        DirectoryReader.open(FSDirectory.open(indexPath));
+
+    LOG.info("Fields: " + Arrays.toString(args.fields));
+    if (args.fields.length != 0) {
+      // The -fields argument should be in the form of "field1=weight1 field2=weight2...".
+      // Try to parse, and throw exception if anything goes wrong.
+      try {
+        for (String part : args.fields) {
+          String[] tok = part.split("=");
+          args.fieldsMap.put(tok[0], Float.parseFloat(tok[1]));
+        }
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Error parsing -fields parameter: " + Arrays.toString(args.fields));
+      }
     }
 
     // Are we searching tweets?
@@ -738,7 +749,7 @@ public final class SearchCollection implements Closeable {
 
   public <K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade, ScoredDocuments queryQrels,
                                     boolean hasRelDocs) throws IOException {
-    Query query = null;
+    Query query;
 
     if (args.sdm) {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
@@ -751,12 +762,11 @@ public final class SearchCollection implements Closeable {
         e.printStackTrace();
         throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
       }
-//      Map<String, Float> fields = new HashMap<>();
-//      fields.put(IndexArgs.CONTENTS, 1.0f);
-//      fields.put("title", 1.0f);
-//      query = generator.buildQuery(fields, analyzer, queryString);
 
-      query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
+      // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
+      // multiple fields with the associated boosts.
+      query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString) :
+          generator.buildQuery(args.fieldsMap, analyzer, queryString);
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
@@ -882,10 +892,6 @@ public final class SearchCollection implements Closeable {
     return cascade.run(scoredFbDocs,  context);
   }
 
-//  public Map<String, List<String>> getQueries(){
-//    return queries;
-//  }
-
   public static void main(String[] args) throws Exception {
     SearchArgs searchArgs = new SearchArgs();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
@@ -906,8 +912,8 @@ public final class SearchCollection implements Closeable {
     // exception messages and display on console.
     try {
       searcher = new SearchCollection(searchArgs);
-    } catch (IllegalArgumentException e1) {
-      System.err.println(e1.getMessage());
+    } catch (IllegalArgumentException e) {
+      System.err.println(e.getMessage());
       return;
     }
 

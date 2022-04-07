@@ -24,7 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A document collection for BEIR corpora.
+ * A document collection for BEIR corpora flattens the BEIR fields.
+ * The "title" and "text" fields are concatenated into the "contents" field for indexing.
  */
 public class BeirFlatCollection extends DocumentCollection<BeirFlatCollection.Document> {
   public BeirFlatCollection(Path path) {
@@ -62,7 +63,7 @@ public class BeirFlatCollection extends DocumentCollection<BeirFlatCollection.Do
       this.contents = new StringBuilder().append(json.get("title").asText())
           .append("\n").append(json.get("text").asText()).toString();
 
-      // We don't want to explicitly index any other fields, so just initialize an empty map.
+      // We're not going to index any other fields, so just initialize an empty map.
       this.fields = new HashMap<>();
     }
 

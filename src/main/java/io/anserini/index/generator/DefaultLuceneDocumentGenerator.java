@@ -20,6 +20,7 @@ import io.anserini.collection.InvalidContentsException;
 import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexArgs;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -28,6 +29,8 @@ import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
+
+import java.util.Arrays;
 
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
@@ -98,13 +101,14 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
     // If this document has other fields, then we want to index it also.
     // Currently, we just use all the settings of the main "content" field.
     if (src instanceof MultifieldSourceDocument) {
-      System.out.println("!!!! This is a MultifieldSourceDocument");
       ((MultifieldSourceDocument) src).fields().forEach((k, v) -> {
         if (k == IndexArgs.ENTITY) {
           document.add(new StoredField(IndexArgs.ENTITY, v));
         } else {
-          System.out.println("Adding " + k + ": " + v);
-          document.add(new Field(k, v, fieldType));
+          // Only index fields that have been explicitly referenced in -fields parameter of indexing program.
+          if (ArrayUtils.contains(args.fields, k)) {
+            document.add(new Field(k, v, fieldType));
+          }
         }
       });
     }

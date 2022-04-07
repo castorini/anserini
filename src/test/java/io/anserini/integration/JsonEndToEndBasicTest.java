@@ -17,21 +17,20 @@
 package io.anserini.integration;
 
 import io.anserini.collection.JsonCollection;
-import io.anserini.collection.JsonVectorCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.search.SearchArgs;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class JsonCollectionEndToEndTest1 extends EndToEndTest {
+public class JsonEndToEndBasicTest extends EndToEndTest {
   @Override
   IndexArgs getIndexArgs() {
     IndexArgs indexArgs = createDefaultIndexArgs();
     indexArgs.input = "src/test/resources/sample_docs/json/collection3";
     indexArgs.collectionClass = JsonCollection.class.getSimpleName();
+    // The difference between JsonCollectionEndToEndMultifieldTest and JsonCollectionEndToEndBasicTest is that
+    // here we are *not* indexing additional fields.
+    indexArgs.fields = null;
 
     return indexArgs;
   }
@@ -39,31 +38,39 @@ public class JsonCollectionEndToEndTest1 extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 2;
-    docFieldCount = 5; // id, raw, contents + two extra fields
+    docFieldCount = 3; // id, raw, contents
 
     referenceDocs.put("doc1", Map.of("contents", "this is the contents 1."));
     referenceDocs.put("doc2", Map.of("contents", "this is the contents 2."));
 
-    fieldNormStatusTotalFields = 3;
-    termIndexStatusTermCount = 13;
-    termIndexStatusTotFreq = 18;
+    fieldNormStatusTotalFields = 1;
+    termIndexStatusTermCount = 5;
+    termIndexStatusTotFreq = 6;
     storedFieldStatusTotalDocCounts = 2;
-    termIndexStatusTotPos = 18;
-    storedFieldStatusTotFields = 10;
+    termIndexStatusTotPos = 6;
+    storedFieldStatusTotFields = 6;
   }
 
   @Override
   protected void setSearchGroundTruth() {
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_topics2.tsv";
-    SearchArgs searchArg = createDefaultSearchArgs().bm25();
-
-    testQueries.put("bm25", searchArg);
+    SearchArgs searchArg1 = createDefaultSearchArgs().bm25();
+    testQueries.put("bm25", searchArg1);
     referenceRunOutput.put("bm25", new String[]{
         "1 Q0 doc1 1 0.364800 Anserini",
         "2 Q0 doc2 1 0.364800 Anserini",
         "3 Q0 doc1 1 0.096000 Anserini",
         "3 Q0 doc2 2 0.095999 Anserini"});
+
+    topicReader = "TsvString";
+    topicFile = "src/test/resources/sample_topics/json_topics3.tsv";
+    SearchArgs searchArg2 = createDefaultSearchArgs().bm25();
+    searchArg2.removeQuery = true;
+    testQueries.put("bm25-rq", searchArg2);
+    referenceRunOutput.put("bm25-rq", new String[]{
+        "doc1 Q0 doc2 1 0.095999 Anserini",
+        "doc2 Q0 doc1 1 0.096000 Anserini"});
   }
 
 }

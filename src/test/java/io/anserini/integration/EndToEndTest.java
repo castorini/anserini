@@ -154,8 +154,15 @@ public abstract class EndToEndTest extends LuceneTestCase {
       args.add(Integer.toString(indexArgs.shardCurrent));
     }
 
-    if (indexArgs.pretokenized){
+    if (indexArgs.pretokenized) {
       args.add("-pretokenized");
+    }
+
+    if (indexArgs.fields != null) {
+      args.add("-fields");
+      for (String field: indexArgs.fields) {
+        args.add(field);
+      }
     }
 
     IndexCollection.main(args.toArray(new String[args.size()]));
@@ -209,8 +216,6 @@ public abstract class EndToEndTest extends LuceneTestCase {
       if (referenceDocs.get(collectionDocid).get("contents") != null) {
         assertEquals(referenceDocs.get(collectionDocid).get("contents"), IndexReaderUtils.documentContents(reader, collectionDocid));
       }
-
-      System.out.println(IndexReaderUtils.document(reader, collectionDocid).getFields());
 
       // Make sure each doc has the right number of fields.
       // If the docFieldCount == -1, it means that documents may have variable number of fields (e.g., AclAnthology),

@@ -102,6 +102,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -657,6 +658,7 @@ public final class IndexCollection {
     LOG.info("Store docvectors? " + args.storeDocvectors);
     LOG.info("Store document \"contents\" field? " + args.storeContents);
     LOG.info("Store document \"raw\" field? " + args.storeRaw);
+    LOG.info("Additional fields to index: " + Arrays.toString(args.fields));
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
     LOG.info("Pretokenized?: " + args.pretokenized);

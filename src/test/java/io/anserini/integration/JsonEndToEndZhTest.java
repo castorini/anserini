@@ -24,7 +24,7 @@ import io.anserini.search.SearchArgs;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class JsonCollectionEndToEndZhTest extends EndToEndTest {
+public class JsonEndToEndZhTest extends EndToEndTest {
   @Override
   IndexArgs getIndexArgs() {
     IndexArgs indexArgs = createDefaultIndexArgs();

@@ -24,7 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A document collection for BEIR corpora.
+ * A document collection for BEIR corpora that preserves the BEIR fields.
+ * The "title" and "text" fields are indexed separately; "text" maps to the "contents" field.
  */
 public class BeirMultifieldCollection extends DocumentCollection<BeirMultifieldCollection.Document> {
   public BeirMultifieldCollection(Path path) {
