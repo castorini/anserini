@@ -158,7 +158,7 @@ public final class SearchCollection implements Closeable {
   private final boolean isRerank;
   private Map<String, ScoredDocuments> qrels;
   private Set<String> queriesWithRel;
-  private Map<String, List<String>> queries = new HashMap<>(); // let query tokens get exposed to the test (with analyzer)
+  //private Map<String, List<String>> queries = new HashMap<>(); // let query tokens get exposed to the test (with analyzer)
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -751,6 +751,11 @@ public final class SearchCollection implements Closeable {
         e.printStackTrace();
         throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
       }
+//      Map<String, Float> fields = new HashMap<>();
+//      fields.put(IndexArgs.CONTENTS, 1.0f);
+//      fields.put("title", 1.0f);
+//      query = generator.buildQuery(fields, analyzer, queryString);
+
       query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     }
 
@@ -764,9 +769,6 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-
-    queries.put(qid.toString(), queryTokens);
-
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
     if ( isRerank && args.rf_qrels != null) {
@@ -880,9 +882,9 @@ public final class SearchCollection implements Closeable {
     return cascade.run(scoredFbDocs,  context);
   }
 
-  public Map<String, List<String>> getQueries(){
-    return queries;
-  }
+//  public Map<String, List<String>> getQueries(){
+//    return queries;
+//  }
 
   public static void main(String[] args) throws Exception {
     SearchArgs searchArgs = new SearchArgs();

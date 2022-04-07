@@ -22,10 +22,9 @@ import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.search.SearchArgs;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class ZhEndToEndTest extends EndToEndTest {
+public class JsonCollectionEndToEndZhTest extends EndToEndTest {
   @Override
   IndexArgs getIndexArgs() {
     IndexArgs indexArgs = createDefaultIndexArgs();
@@ -41,6 +40,8 @@ public class ZhEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = 3; // id, raw, contents
+
     referenceDocs.put("doc1", Map.of(
       "contents", "滑铁卢大学（英语：University of Waterloo，常简称为UWaterloo、UW、滑大等）是加拿大安大略省滑铁卢的一所省立研究型大学，前身为教会学校，建校于1957年。因加拿大最早成立的计算机科学系而知名，工程系全科为建教合作制度，且拥有全球最大规模的独立数学院（Faculty of Mathematics）和加拿大最大的环境学院（Faculty of Environment）。",
       "raw","{\n" +

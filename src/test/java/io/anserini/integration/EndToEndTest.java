@@ -74,7 +74,9 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected int termIndexStatusTotPos;
   protected int storedFieldStatusTotalDocCounts;
   protected int storedFieldStatusTotFields;
-  protected int docCount;
+
+  protected int docCount;       // Total number of docs.
+  protected int docFieldCount;  // Each doc should have this number of fields.
 
   // List of files for cleanup in @After.
   protected List<File> cleanup = new ArrayList<>();
@@ -208,7 +210,16 @@ public abstract class EndToEndTest extends LuceneTestCase {
         assertEquals(referenceDocs.get(collectionDocid).get("contents"), IndexReaderUtils.documentContents(reader, collectionDocid));
       }
 
-      // check list of tokens by calling document vector
+      System.out.println(IndexReaderUtils.document(reader, collectionDocid).getFields());
+
+      // Make sure each doc has the right number of fields.
+      // If the docFieldCount == -1, it means that documents may have variable number of fields (e.g., AclAnthology),
+      // so don't bother testing.
+      if (docFieldCount != -1) {
+        assertEquals(docFieldCount, IndexReaderUtils.document(reader, collectionDocid).getFields().size());
+      }
+
+      // Check list of tokens by calling document vector.
       if (!referenceDocTokens.isEmpty()){
         try {
           List<String> docTokens = IndexReaderUtils.getDocumentTokens(reader, collectionDocid);
@@ -288,14 +299,10 @@ public abstract class EndToEndTest extends LuceneTestCase {
       for (Map.Entry<String, SearchArgs> entry : testQueries.entrySet()) {
         SearchCollection searcher = new SearchCollection(entry.getValue());
         searcher.runTopics();
-        Map<String, List<String>> actualQuery = searcher.getQueries();
         searcher.close();
-        //check query tokens
-        if(!queryTokens.isEmpty()){
-          assertEquals(queryTokens, actualQuery);
-        }
+
         checkRankingResults(entry.getKey(), entry.getValue().output);
-        // Remember to cleanup run files.
+        // Remember to clean up run files.
         cleanup.add(new File(entry.getValue().output));
       }
     } catch (Exception e) {

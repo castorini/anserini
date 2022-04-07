@@ -38,6 +38,8 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 1;
+    docFieldCount = 3; // id, raw, contents
+
     referenceDocs.put("DOC222", Map.of(
         "contents", "HEAD simple enough text text text",
         "raw", "<HEAD>HEAD</HEAD>\n" +

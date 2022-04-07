@@ -96,12 +96,14 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
     document.add(new Field(IndexArgs.CONTENTS, contents, fieldType));
 
     // If this document has other fields, then we want to index it also.
-    // Currently we just use all the settings of the main "content" field.
+    // Currently, we just use all the settings of the main "content" field.
     if (src instanceof MultifieldSourceDocument) {
+      System.out.println("!!!! This is a MultifieldSourceDocument");
       ((MultifieldSourceDocument) src).fields().forEach((k, v) -> {
         if (k == IndexArgs.ENTITY) {
           document.add(new StoredField(IndexArgs.ENTITY, v));
         } else {
+          System.out.println("Adding " + k + ": " + v);
           document.add(new Field(k, v, fieldType));
         }
       });
