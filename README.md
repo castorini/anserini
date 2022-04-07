@@ -63,14 +63,16 @@ See individual pages for details!
   + Learned sparse lexical: [uniCOIL noexp](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-doc-segmented-unicoil.md)
 + Regressions for TREC 2019 Deep Learning Track, Passage Ranking:
   + Unsupervised lexical: [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
-  + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl19-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-passage-unicoil.md)
+  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl19-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-passage-unicoil.md)
+  + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md)
 + Regressions for TREC 2019 Deep Learning Track, Document Ranking:
   + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl19-doc.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery.md)
   + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl19-doc-segmented.md), [doc2query-T5](docs/regressions-dl19-doc-segmented-docTTTTTquery.md)
   + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl19-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-doc-segmented-unicoil.md)
 + Regressions for TREC 2020 Deep Learning Track, Passage Ranking:
   + Unsupervised lexical: [baselines](docs/regressions-dl20-passage.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
-  + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl20-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-passage-unicoil.md)
+  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl20-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-passage-unicoil.md)
+  + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md)
 + Regressions for TREC 2020 Deep Learning Track, Document Ranking:
   + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
   + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc-segmented.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
