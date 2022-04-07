@@ -1,0 +1,179 @@
+# Anserini Regressions: MS MARCO Passage Ranking
+
+**Models**: bag-of-words approaches with WordPiece tokenization
+
+This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
+For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage.md).
+
+Note that here we are using **WordPiece tokenization** (i.e., from BERT).
+In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
+
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-wp.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-wp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-wp
+```
+
+## Indexing
+
+Typical indexing command:
+
+```
+target/appassembler/bin/IndexCollection \
+  -collection JsonCollection \
+  -input /path/to/msmarco-passage \
+  -index indexes/lucene-index.msmarco-passage-wp/ \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 9 -storePositions -storeDocvectors -storeRaw -pretokenized \
+  >& logs/log.msmarco-passage &
+```
+
+The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
+[This page](experiments-msmarco-passage.md) explains how to perform this conversion.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-wp/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.wp.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt \
+  -bm25 -pretokenized &
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+| AP@1000                                                                                                      | BM25 (default)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1836    |
+
+
+| RR@10                                                                                                        | BM25 (default)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1752    |
+
+
+| R@100                                                                                                        | BM25 (default)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.6231    |
+
+
+| R@1000                                                                                                       | BM25 (default)|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8263    |
+
+Explanation of settings:
+
++ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, as described in [this page](experiments-msmarco-passage.md). Note that results here are slightly different from the above referenced page because those experiments used `SearchMsmarco` to generate runs in the MS MARCO format, and then converted them into the TREC format, which is slightly lossy (due to tie-breaking effects).
+
+To generate runs corresponding to the submissions on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/), follow the instructions below:
+
+## Additional Implementation Details
+
+Note that prior to December 2021, runs generated with `SearchCollection` in the TREC format and then converted into the MS MARCO format give slightly different results from runs generated by `SearchMsmarco` directly in the MS MARCO format, due to tie-breaking effects.
+This was fixed with [#1458](https://github.com/castorini/anserini/issues/1458), which also introduced (intra-configuration) multi-threading.
+As a result, `SearchMsmarco` has been deprecated and replaced by `SearchCollection`; both have been verified to generate _identical_ output.
+
+The commands below have been retained for historical reasons only, since in some cases they correspond to official MS MARCO leaderboard submissions.
+
+The following command generates with `SearchMsmarco` the run denoted "BM25 (default)" above (`k1=0.9`, `b=0.4`), which roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 on the leaderboard (but Anserini was using Lucene 7.6 at the time):
+
+```bash
+$ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
+    -index indexes/lucene-index.msmarco-passage/ \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -k1 0.9 -b 0.4 \
+    -output runs/run.msmarco-passage.bm25.default.tsv
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.default.tsv
+
+#####################
+MRR @10: 0.18398616227770961
+QueriesRanked: 6980
+#####################
+```
+
+The following command generates with `SearchMsmarco` the run denoted "BM25 (tuned)" above (`k1=0.82`, `b=0.68`), which corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the leaderboard:
+
+```bash
+$ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 8 \
+    -index indexes/lucene-index.msmarco-passage/ \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -k1 0.82 -b 0.68 \
+    -output runs/run.msmarco-passage.bm25.tuned.tsv
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.tuned.tsv
+
+#####################
+MRR @10: 0.18741227770955546
+QueriesRanked: 6980
+#####################
+```
+
+As of February 2022, following resolution of [#1730](https://github.com/castorini/anserini/issues/1730), BM25 runs for the MS MARCO leaderboard can be generated with the commands below.
+For default parameters (`k1=0.9`, `b=0.4`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-passage/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-passage.bm25.default.tsv \
+    -format msmarco \
+    -bm25
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.default.tsv
+
+#####################
+MRR @10: 0.18398616227770961
+QueriesRanked: 6980
+#####################
+```
+
+For tuned parameters (`k1=0.82`, `b=0.68`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-passage/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-passage.bm25.tuned.tsv \
+    -format msmarco \
+    -bm25 -bm25.k1 0.82 -bm25.b 0.68
+
+$ python tools/scripts/msmarco/msmarco_passage_eval.py \
+    src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25.tuned.tsv
+
+#####################
+MRR @10: 0.18741227770955546
+QueriesRanked: 6980
+#####################
+```
+
+Note that the resolution of [#1730](https://github.com/castorini/anserini/issues/1730) did not change the results.
