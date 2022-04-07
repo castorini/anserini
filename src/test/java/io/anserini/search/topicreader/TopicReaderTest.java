@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(150, cnt);
+    assertEquals(152, cnt);
   }
 
   @Test
@@ -671,6 +671,14 @@ public class TopicReaderTest {
     assertEquals(668, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals(586, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_SPLADE_DISTILL_COCODENSER_MEDIUM);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals(1890, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals(1382, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
@@ -701,6 +709,14 @@ public class TopicReaderTest {
     assertEquals(689, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1136962, (int) topics.lastKey());
     assertEquals(1164, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2020_DL_SPLADE_DISTILL_COCODENSER_MEDIUM);
+    assertNotNull(topics);
+    assertEquals(54, topics.size());
+    assertEquals(23849, (int) topics.firstKey());
+    assertEquals(2168, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1136962, (int) topics.lastKey());
+    assertEquals(2075, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
