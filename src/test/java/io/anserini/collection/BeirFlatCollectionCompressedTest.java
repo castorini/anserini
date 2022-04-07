@@ -22,17 +22,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class BeirCollectionTest extends DocumentCollectionTest<BeirCollection.Document> {
+public class BeirFlatCollectionCompressedTest extends DocumentCollectionTest<BeirFlatCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/beir/collection1");
-    collection = new BeirCollection(collectionPath);
+    collectionPath = Paths.get("src/test/resources/sample_docs/beir/collection2");
+    collection = new BeirFlatCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/beir/collection1/segment1.jsonl");
-    Path segment2 = Paths.get("src/test/resources/sample_docs/beir/collection1/segment2.jsonl");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/beir/collection2/segment1.jsonl.gz");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/beir/collection2/segment2.jsonl.gz");
 
     segmentPaths.add(segment1);
     segmentPaths.add(segment2);
@@ -54,6 +54,6 @@ public class BeirCollectionTest extends DocumentCollectionTest<BeirCollection.Do
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("contents"), doc.contents());
     // fields() should return a Map that contains all three of the original fields.
-    assertEquals(3, ((BeirCollection.Document) doc).fields().size());
+    assertEquals(3, ((BeirFlatCollection.Document) doc).fields().size());
   }
 }
