@@ -31,8 +31,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.msmarco-passage &
 ```
 
-The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
-[This page](experiments-msmarco-passage.md) explains how to perform this conversion.
+The directory `/path/to/msmarco-passage-wp/` should be a directory containing the corpus in Anserini's jsonl format.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
