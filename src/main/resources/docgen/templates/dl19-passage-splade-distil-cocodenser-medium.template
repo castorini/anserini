@@ -2,7 +2,7 @@
 
 **Model**: SPLADE-distil CoCodenser Medium
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html)..
+This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
 The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
@@ -26,12 +26,12 @@ For details on how to train SPLADE-distil CoCodenser Medium and perform inferenc
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar -P collections/
 
-tar xvf collections/msmarco-passage-unicoil.tar -C collections/
+tar xvf collections/msmarco-passage-splade_distil_cocodenser_medium.tar -C collections/
 ```
 
-To confirm, `msmarco.tar` is 4.9 GB and has MD5 checksum `54a81e855a7678bc83ecb3ecf1ac5c1c`.
+To confirm, `msmarco-passage-splade_distil_cocodenser_medium.tar` is 4.9 GB and has MD5 checksum `54a81e855a7678bc83ecb3ecf1ac5c1c`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
