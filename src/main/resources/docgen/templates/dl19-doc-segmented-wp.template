@@ -3,9 +3,9 @@
 **Models**: various bag-of-words approaches on segmented documents with WordPiece tokenization
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
-Here we are using **WordPiece tokenization** (i.e., from BERT) on passages from the document.
+Here we are using **WordPiece tokenization** (i.e., from BERT) on passages from the documents.
+At retrieval time, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
-We select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
