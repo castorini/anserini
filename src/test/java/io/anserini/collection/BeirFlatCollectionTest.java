@@ -53,7 +53,7 @@ public class BeirFlatCollectionTest extends DocumentCollectionTest<BeirFlatColle
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("contents"), doc.contents());
-    // fields() should return a Map that contains all three of the original fields.
-    assertEquals(3, ((BeirFlatCollection.Document) doc).fields().size());
+    // No additional fields to index.
+    assertEquals(0, ((BeirFlatCollection.Document) doc).fields().size());
   }
 }

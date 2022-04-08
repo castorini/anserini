@@ -37,6 +37,8 @@ public class CoreEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = -1; // Documents may have variable number of fields, so don't bother checking.
+
     referenceDocs.put("fullCoreDoc", Map.of(
         "contents", "Full CORE doc ",
         "raw", "Full CORE doc "));

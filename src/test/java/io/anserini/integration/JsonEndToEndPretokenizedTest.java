@@ -21,11 +21,10 @@ import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.search.SearchArgs;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PretokenizedIndexEndToEndTest extends EndToEndTest {
+public class JsonEndToEndPretokenizedTest extends EndToEndTest {
   @Override
   IndexArgs getIndexArgs() {
     IndexArgs indexArgs = createDefaultIndexArgs();
@@ -41,6 +40,8 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 2;
+    docFieldCount = 3; // id, raw, contents
+
     referenceDocs.put("2000000", Map.of(
       "contents", "this was ##a simple pretokenized test",
       "raw","{\n" +
@@ -70,13 +71,11 @@ public class PretokenizedIndexEndToEndTest extends EndToEndTest {
   @Override
   protected void setSearchGroundTruth() {
     topicReader = "TsvInt";
-    topicFile = "src/test/resources/sample_topics/json_topics.tsv";
+    topicFile = "src/test/resources/sample_topics/json_topics1.tsv";
     SearchArgs searchArg = createDefaultSearchArgs().bm25();
     searchArg.pretokenized = true;
+
     testQueries.put("bm25", searchArg);
-    queryTokens.put("1", new ArrayList<>());
-    queryTokens.get("1").add("##ing");
-    queryTokens.get("1").add("##vert");
     referenceRunOutput.put("bm25", new String[]{
             "1 Q0 2000001 1 0.922400 Anserini"});
   }

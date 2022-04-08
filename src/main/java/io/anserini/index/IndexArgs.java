@@ -17,6 +17,10 @@
 package io.anserini.index;
 
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class IndexArgs {
 
@@ -68,6 +72,10 @@ public class IndexArgs {
   @Option(name = "-index", metaVar = "[path]", forbids = {"-solr", "-es"},
       usage = "Index path.")
   public String index;
+
+  @Option(name = "-fields", handler = StringArrayOptionHandler.class,
+      usage = "List of fields to index (space separated), in addition to the default 'contents' field.")
+  public String[] fields = new String[]{};
 
   @Option(name = "-storePositions",
       usage = "Boolean switch to index store term positions; needed for phrase queries.")
