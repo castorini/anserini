@@ -31,11 +31,11 @@ Typical indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
-  -input /path/to/msmarco-doc-segmented \
+  -input /path/to/msmarco-doc-segmented-wp \
   -index indexes/lucene-index.msmarco-doc-segmented-wp/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -storePositions -storeDocvectors -storeRaw -pretokenized \
-  >& logs/log.msmarco-doc-segmented &
+  >& logs/log.msmarco-doc-segmented-wp &
 ```
 
 The directory `/path/to/msmarco-doc-segmented/` should be a directory containing the segmented corpus in Anserini's jsonl format.
@@ -55,17 +55,17 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-wp/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.wp.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.wp.txt \
+  -output runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt \
   -bm25 -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
 ```
 
 ## Effectiveness
@@ -74,22 +74,22 @@ With the above commands, you should be able to reproduce the following results:
 
 | AP@1000                                                                                                      | BM25 (default)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2690    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2674    |
 
 
 | RR@100                                                                                                       | BM25 (default)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2684    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2668    |
 
 
 | R@100                                                                                                        | BM25 (default)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7847    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7705    |
 
 
 | R@1000                                                                                                       | BM25 (default)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9178    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9118    |
 
 Explanation of settings:
 
