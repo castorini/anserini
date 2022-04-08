@@ -87,6 +87,20 @@ models:
         - 0.3892
       R@1000:
         - 0.7694
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -rocchio
+    results:
+      MAP@100:
+        - 0.2974
+      MRR@100:
+        - 0.9099
+      nDCG@10:
+        - 0.6067
+      R@100:
+        - 0.3957
+      R@1000:
+        - 0.7740
   - name: bm25-default+ax
     display: +Ax
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20
