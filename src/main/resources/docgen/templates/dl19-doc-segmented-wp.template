@@ -8,7 +8,6 @@ In general, effectiveness is lower than with "standard" Lucene tokenization for 
 We select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
