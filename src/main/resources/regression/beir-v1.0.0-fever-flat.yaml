@@ -1,5 +1,5 @@
 ---
-corpus: beir-v1.0.0-fever
+corpus: beir-v1.0.0-fever-flat
 corpus_path: collections/beir-v1.0.0/corpus/fever/
 
 index_path: indexes/lucene-index.beir-v1.0.0-fever-flat/

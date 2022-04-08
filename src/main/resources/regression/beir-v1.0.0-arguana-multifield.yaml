@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-arguana
+corpus: beir-v1.0.0-arguana-multifield
 corpus_path: collections/beir-v1.0.0/corpus/arguana/
 
-index_path: indexes/lucene-index.beir-v1.0.0-arguana-multi-field/
+index_path: indexes/lucene-index.beir-v1.0.0-arguana-multifield/
 collection_class: BeirMultifieldCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
