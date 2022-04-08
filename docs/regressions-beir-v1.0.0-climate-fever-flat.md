@@ -17,7 +17,7 @@ Typical indexing command:
 
 ```
 target/appassembler/bin/IndexCollection \
-  -collection BeirCollection \
+  -collection BeirFlatCollection \
   -input /path/to/beir-v1.0.0-climate-fever \
   -index indexes/lucene-index.beir-v1.0.0-climate-fever-flat/ \
   -generator DefaultLuceneDocumentGenerator \
@@ -36,32 +36,32 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-climate-fever-flat/ \
   -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.tsv.gz \
   -topicreader TsvString \
-  -output runs/run.beir-v1.0.0-climate-fever.flat-default.topics.beir-v1.0.0-climate-fever.test.txt \
+  -output runs/run.beir-v1.0.0-climate-fever.bm25.topics.beir-v1.0.0-climate-fever.test.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt runs/run.beir-v1.0.0-climate-fever.flat-default.topics.beir-v1.0.0-climate-fever.test.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt runs/run.beir-v1.0.0-climate-fever.flat-default.topics.beir-v1.0.0-climate-fever.test.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt runs/run.beir-v1.0.0-climate-fever.flat-default.topics.beir-v1.0.0-climate-fever.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt runs/run.beir-v1.0.0-climate-fever.bm25.topics.beir-v1.0.0-climate-fever.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt runs/run.beir-v1.0.0-climate-fever.bm25.topics.beir-v1.0.0-climate-fever.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt runs/run.beir-v1.0.0-climate-fever.bm25.topics.beir-v1.0.0-climate-fever.test.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| nDCG@10                                                                                                      | BM25-flat (default)|
+| nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): climate-fever                                                                                 | 0.1651    |
 
 
-| R@100                                                                                                        | BM25-flat (default)|
+| R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): climate-fever                                                                                 | 0.4249    |
 
 
-| R@1000                                                                                                       | BM25-flat (default)|
+| R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): climate-fever                                                                                 | 0.6324    |

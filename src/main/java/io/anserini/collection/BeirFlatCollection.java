@@ -24,19 +24,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A document collection for BEIR corpora.
+ * A document collection for BEIR corpora flattens the BEIR fields.
+ * The "title" and "text" fields are concatenated into the "contents" field for indexing.
  */
-public class BeirCollection extends DocumentCollection<BeirCollection.Document> {
-  public BeirCollection(Path path) {
+public class BeirFlatCollection extends DocumentCollection<BeirFlatCollection.Document> {
+  public BeirFlatCollection(Path path) {
     this.path = path;
   }
 
   @Override
-  public FileSegment<BeirCollection.Document> createFileSegment(Path p) throws IOException {
-    return new BeirCollection.Segment<>(p);
+  public FileSegment<BeirFlatCollection.Document> createFileSegment(Path p) throws IOException {
+    return new BeirFlatCollection.Segment<>(p);
   }
 
-  public static class Segment<T extends BeirCollection.Document> extends JsonCollection.Segment<T> {
+  public static class Segment<T extends BeirFlatCollection.Document> extends JsonCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
     }
@@ -62,11 +63,8 @@ public class BeirCollection extends DocumentCollection<BeirCollection.Document> 
       this.contents = new StringBuilder().append(json.get("title").asText())
           .append("\n").append(json.get("text").asText()).toString();
 
+      // We're not going to index any other fields, so just initialize an empty map.
       this.fields = new HashMap<>();
-
-      json.fields().forEachRemaining( e -> {
-        this.fields.put(e.getKey(), e.getValue().asText());
-      });
     }
 
     @Override

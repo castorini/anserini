@@ -39,6 +39,8 @@ public class C4EndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 2;
+    docFieldCount = 5; // id, raw, contents, url, timestamp
+
     referenceDocs.put("c4-0001-000000", Map.of(
             "contents", "test text",
             "raw", "{\n" +

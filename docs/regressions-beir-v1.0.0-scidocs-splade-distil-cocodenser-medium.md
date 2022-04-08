@@ -48,7 +48,7 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/beir-v1.0.0-scidocs \
-  -index indexes/lucene-index.splade_distil_cocodenser_medium-scidocs/ \
+  -index indexes/lucene-index.beir-v1.0.0-scidocs-splade_distil_cocodenser_medium/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -impact -pretokenized \
   >& logs/log.beir-v1.0.0-scidocs &
@@ -70,7 +70,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.splade_distil_cocodenser_medium-scidocs/ \
+  -index indexes/lucene-index.beir-v1.0.0-scidocs-splade_distil_cocodenser_medium/ \
   -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-scidocs.test.splade_distil_cocodenser_medium.tsv.gz \
   -topicreader TsvString \
   -output runs/run.beir-v1.0.0-scidocs.splade_distil_cocodenser_medium.topics.beir-v1.0.0-scidocs.test.splade_distil_cocodenser_medium.txt \

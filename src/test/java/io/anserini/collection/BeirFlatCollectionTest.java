@@ -22,17 +22,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class BeirCollectionCompressedTest extends DocumentCollectionTest<BeirCollection.Document> {
+public class BeirFlatCollectionTest extends DocumentCollectionTest<BeirFlatCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/beir/collection2");
-    collection = new BeirCollection(collectionPath);
+    collectionPath = Paths.get("src/test/resources/sample_docs/beir/collection1");
+    collection = new BeirFlatCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/beir/collection2/segment1.jsonl.gz");
-    Path segment2 = Paths.get("src/test/resources/sample_docs/beir/collection2/segment2.jsonl.gz");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/beir/collection1/segment1.jsonl");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/beir/collection1/segment2.jsonl");
 
     segmentPaths.add(segment1);
     segmentPaths.add(segment2);
@@ -53,7 +53,7 @@ public class BeirCollectionCompressedTest extends DocumentCollectionTest<BeirCol
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("contents"), doc.contents());
-    // fields() should return a Map that contains all three of the original fields.
-    assertEquals(3, ((BeirCollection.Document) doc).fields().size());
+    // No additional fields to index.
+    assertEquals(0, ((BeirFlatCollection.Document) doc).fields().size());
   }
 }

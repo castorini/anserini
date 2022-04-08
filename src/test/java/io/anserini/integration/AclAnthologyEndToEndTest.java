@@ -37,6 +37,8 @@ public class AclAnthologyEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = -1; // Documents may have variable number of fields, so don't bother checking.
+
     referenceDocs.put("E17-1003", Map.of(
         "contents",
         "Exploring Different Dimensions of Attention for Uncertainty Detection Neural networks with attention " +
