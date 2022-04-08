@@ -37,6 +37,8 @@ public class BibtexEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = -1; // Documents may have variable number of fields, so don't bother checking.
+
     referenceDocs.put("article-id", Map.of(
         "contents", "this is the title. ",
         "raw", "this is the title. "));

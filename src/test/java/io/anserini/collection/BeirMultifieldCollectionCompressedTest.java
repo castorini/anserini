@@ -22,14 +22,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class BeirFlatCollectionCompressedTest extends DocumentCollectionTest<BeirFlatCollection.Document> {
+public class BeirMultifieldCollectionCompressedTest extends DocumentCollectionTest<BeirMultifieldCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/beir/collection2");
-    collection = new BeirFlatCollection(collectionPath);
+    collection = new BeirMultifieldCollection(collectionPath);
 
     Path segment1 = Paths.get("src/test/resources/sample_docs/beir/collection2/segment1.jsonl.gz");
     Path segment2 = Paths.get("src/test/resources/sample_docs/beir/collection2/segment2.jsonl.gz");
@@ -43,9 +43,9 @@ public class BeirFlatCollectionCompressedTest extends DocumentCollectionTest<Bei
     totalSegments = 2;
     totalDocs = 3;
 
-    expected.put("doc1", Map.of("id", "doc1", "contents", "doc1 title\ndoc1 text"));
-    expected.put("doc2", Map.of("id", "doc2", "contents", "doc2 title\ndoc2 text"));
-    expected.put("doc3", Map.of("id", "doc3", "contents", "doc3 title\ndoc3 text"));
+    expected.put("doc1", Map.of("id", "doc1", "contents", "doc1 text", "title", "doc1 title"));
+    expected.put("doc2", Map.of("id", "doc2", "contents", "doc2 text", "title", "doc2 title"));
+    expected.put("doc3", Map.of("id", "doc3", "contents", "doc3 text", "title", "doc3 title"));
   }
 
   @Override
@@ -53,7 +53,7 @@ public class BeirFlatCollectionCompressedTest extends DocumentCollectionTest<Bei
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("contents"), doc.contents());
-    // No additional fields to index.
-    assertEquals(0, ((BeirFlatCollection.Document) doc).fields().size());
+    assertEquals(1, ((BeirMultifieldCollection.Document) doc).fields().size());
+    assertEquals(expected.get("title"), ((BeirMultifieldCollection.Document) doc).fields().get("title"));
   }
 }

@@ -45,6 +45,8 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = 3; // id, raw, contents
+
     referenceDocs.put("TREC_DOC_1", Map.of(
         "contents", "This is head very simple text",
         "raw", "<HEAD>This is head</HEAD>\n" +

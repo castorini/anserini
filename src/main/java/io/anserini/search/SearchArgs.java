@@ -19,6 +19,9 @@ package io.anserini.search;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SearchArgs {
   // required arguments
   @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
@@ -36,6 +39,10 @@ public class SearchArgs {
   // optional arguments
   @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
   public String queryGenerator = "BagOfWordsQueryGenerator";
+
+  @Option(name = "-fields", metaVar = "[file]", handler = StringArrayOptionHandler.class, usage = "Fields")
+  public String[] fields = new String[]{};
+  public Map<String, Float> fieldsMap = new HashMap<>();
 
   @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
   public int threads = 1;

@@ -24,20 +24,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A document collection for BEIR corpora flattens the BEIR fields.
- * The "title" and "text" fields are concatenated into the "contents" field for indexing.
+ * A document collection for BEIR corpora that preserves the BEIR fields.
+ * The "title" and "text" fields are indexed separately; "text" maps to the "contents" field.
  */
-public class BeirFlatCollection extends DocumentCollection<BeirFlatCollection.Document> {
-  public BeirFlatCollection(Path path) {
+public class BeirMultifieldCollection extends DocumentCollection<BeirMultifieldCollection.Document> {
+  public BeirMultifieldCollection(Path path) {
     this.path = path;
   }
 
   @Override
-  public FileSegment<BeirFlatCollection.Document> createFileSegment(Path p) throws IOException {
-    return new BeirFlatCollection.Segment<>(p);
+  public FileSegment<BeirMultifieldCollection.Document> createFileSegment(Path p) throws IOException {
+    return new BeirMultifieldCollection.Segment<>(p);
   }
 
-  public static class Segment<T extends BeirFlatCollection.Document> extends JsonCollection.Segment<T> {
+  public static class Segment<T extends BeirMultifieldCollection.Document> extends JsonCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
     }
@@ -60,11 +60,11 @@ public class BeirFlatCollection extends DocumentCollection<BeirFlatCollection.Do
       this.raw = json.toPrettyString();
       this.id = json.get("_id").asText();
 
-      this.contents = new StringBuilder().append(json.get("title").asText())
-          .append("\n").append(json.get("text").asText()).toString();
+      this.contents = json.get("text").asText();
 
-      // We're not going to index any other fields, so just initialize an empty map.
+      // We want to separately index the title field.
       this.fields = new HashMap<>();
+      this.fields.put("title", json.get("title").asText());
     }
 
     @Override
