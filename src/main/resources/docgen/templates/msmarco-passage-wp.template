@@ -3,9 +3,7 @@
 **Models**: bag-of-words approaches with WordPiece tokenization
 
 This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage.md).
-
-Note that here we are using **WordPiece tokenization** (i.e., from BERT).
+Here we are using **WordPiece tokenization** (i.e., from BERT).
 In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
