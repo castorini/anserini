@@ -47,14 +47,14 @@ Sample indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
-  -input /path/to/beir-v1.0.0-quora \
+  -input /path/to/beir-v1.0.0-quora-splade_distil_cocodenser_medium \
   -index indexes/lucene-index.beir-v1.0.0-quora-splade_distil_cocodenser_medium/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -impact -pretokenized \
-  >& logs/log.beir-v1.0.0-quora &
+  >& logs/log.beir-v1.0.0-quora-splade_distil_cocodenser_medium &
 ```
 
-The path `/path/to/beir-v1.0.0-quora/` should point to the corpus downloaded above.
+The path `/path/to/beir-v1.0.0-quora-splade_distil_cocodenser_medium/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 522,931 documents.
@@ -73,16 +73,16 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-quora-splade_distil_cocodenser_medium/ \
   -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.tsv.gz \
   -topicreader TsvString \
-  -output runs/run.beir-v1.0.0-quora.splade_distil_cocodenser_medium.topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.txt \
+  -output runs/run.beir-v1.0.0-quora-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.splade_distil_cocodenser_medium.topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.splade_distil_cocodenser_medium.topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.splade_distil_cocodenser_medium.topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-quora.test.splade_distil_cocodenser_medium.txt
 ```
 
 ## Effectiveness

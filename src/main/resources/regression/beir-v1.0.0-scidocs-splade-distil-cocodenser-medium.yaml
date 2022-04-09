@@ -1,5 +1,5 @@
 ---
-corpus: beir-v1.0.0-scidocs
+corpus: beir-v1.0.0-scidocs-splade_distil_cocodenser_medium
 corpus_path: collections/beir-v1.0.0/splade_distil_cocodenser_medium/scidocs
 
 index_path: indexes/lucene-index.beir-v1.0.0-scidocs-splade_distil_cocodenser_medium/

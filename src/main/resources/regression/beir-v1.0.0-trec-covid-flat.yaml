@@ -1,5 +1,5 @@
 ---
-corpus: beir-v1.0.0-trec-covid
+corpus: beir-v1.0.0-trec-covid-flat
 corpus_path: collections/beir-v1.0.0/corpus/trec-covid/
 
 index_path: indexes/lucene-index.beir-v1.0.0-trec-covid-flat/
