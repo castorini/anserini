@@ -54,28 +54,28 @@ See individual pages for details!
 + Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions-car17v1.5.md), [v2.0](docs/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)
 + Regressions for MS MARCO (V1) Passage Ranking:
-  + Unsupervised lexical: [baselines](docs/regressions-msmarco-passage.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
+  + Unsupervised lexical: [BoW baselines](docs/regressions-msmarco-passage.md), [WP baselines](docs/regressions-msmarco-passage-wp.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
   + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-msmarco-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
   + Learned sparse lexical (other): [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md), [SPLADE-distill CoCodenser-medium](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md)
 + Regressions for MS MARCO (V1) Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-msmarco-doc-segmented.md), [doc2query-T5](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md)
+  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-msmarco-doc.md), [WP baselines](docs/regressions-msmarco-doc-wp.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery.md)
+  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-msmarco-doc-segmented.md), [WP baselines](docs/regressions-msmarco-doc-segmented-wp.md), [doc2query-T5](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md)
   + Learned sparse lexical: [uniCOIL noexp](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-doc-segmented-unicoil.md)
 + Regressions for TREC 2019 Deep Learning Track, Passage Ranking:
-  + Unsupervised lexical: [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
+  + Unsupervised lexical: [BoW baselines](docs/regressions-dl19-passage.md), [WP baselines](docs/regressions-dl19-passage-wp.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
   + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl19-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-passage-unicoil.md)
   + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md)
 + Regressions for TREC 2019 Deep Learning Track, Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl19-doc.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl19-doc-segmented.md), [doc2query-T5](docs/regressions-dl19-doc-segmented-docTTTTTquery.md)
+  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl19-doc.md), [WP baselines](docs/regressions-dl19-doc-wp.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery.md)
+  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl19-doc-segmented.md), [WP baselines](docs/regressions-dl19-doc-segmented-wp.md), [doc2query-T5](docs/regressions-dl19-doc-segmented-docTTTTTquery.md)
   + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl19-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-doc-segmented-unicoil.md)
 + Regressions for TREC 2020 Deep Learning Track, Passage Ranking:
-  + Unsupervised lexical: [baselines](docs/regressions-dl20-passage.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
+  + Unsupervised lexical: [BoW baselines](docs/regressions-dl20-passage.md), [WP baselines](docs/regressions-dl20-passage-wp.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
   + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl20-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-passage-unicoil.md)
   + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md)
 + Regressions for TREC 2020 Deep Learning Track, Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc-segmented.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
+  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl20-doc.md), [WP baselines](docs/regressions-dl20-doc-wp.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
+  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl20-doc-segmented.md), [WP baselines](docs/regressions-dl20-doc-segmented-wp.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
   + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl20-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-doc-segmented-unicoil.md)
 + Regressions for MS MARCO (V2) Passage Ranking:
   + Unsupervised lexical, original corpus: [baselines](docs/regressions-msmarco-v2-passage.md), [doc2query-T5](docs/regressions-msmarco-v2-passage-d2q-t5.md)
