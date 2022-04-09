@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(152, cnt);
+    assertEquals(157, cnt);
   }
 
   @Test
@@ -630,6 +630,15 @@ public class TopicReaderTest {
     assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
     assertEquals("does legionella pneumophila cause pneumonia", topics.get(168216).get("title"));
 
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_WP);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+    assertEquals("does legion ##ella p ##ne ##um ##op ##hila cause pneumonia", topics.get(168216).get("title"));
+
     topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_UNICOIL);
     assertNotNull(topics);
     assertEquals(43, topics.size());
@@ -646,8 +655,16 @@ public class TopicReaderTest {
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals(586, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-
     topics = TopicReader.getTopics(Topics.TREC2019_DL_DOC);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("anthropological definition of environment", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("how is the weather in jamaica", topics.get(topics.lastKey()).get("title"));
+    assertEquals("how long to hold bow in yoga", topics.get(1132213).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_DOC_WP);
     assertNotNull(topics);
     assertEquals(43, topics.size());
     assertEquals(19335, (int) topics.firstKey());
@@ -693,6 +710,15 @@ public class TopicReaderTest {
     assertEquals(1136962, (int) topics.lastKey());
     assertEquals("why did the ancient egyptians call their land kemet, or black land?", topics.get(topics.lastKey()).get("title"));
     assertEquals("who is aziz hashim", topics.get(1030303).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2020_DL_WP);
+    assertNotNull(topics);
+    assertEquals(200, topics.size());
+    assertEquals(3505, (int) topics.firstKey());
+    assertEquals("how do they do open heart surgery", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1136962, (int) topics.lastKey());
+    assertEquals("why did the ancient egyptians call their land ke ##met , or black land ?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("who is aziz hash ##im", topics.get(1030303).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2020_DL_UNICOIL);
     assertNotNull(topics);
@@ -761,6 +787,14 @@ public class TopicReaderTest {
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
 
+    topics = TopicReader.getTopics(Topics.MSMARCO_DOC_DEV_WP);
+    assertNotNull(topics);
+    assertEquals(5193, topics.size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals("and ##rogen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1102400, (int) topics.lastKey());
+    assertEquals("why do bears hi ##ber ##nate", topics.get(topics.lastKey()).get("title"));
+
     topics = TopicReader.getTopics(Topics.MSMARCO_DOC_DEV_UNICOIL);
     assertNotNull(topics);
     assertEquals(5193, topics.size());
@@ -792,6 +826,14 @@ public class TopicReaderTest {
     assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_WP);
+    assertNotNull(topics);
+    assertEquals(6980, topics.size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals("and ##rogen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1102400, (int) topics.lastKey());
+    assertEquals("why do bears hi ##ber ##nate", topics.get(topics.lastKey()).get("title"));
 
     topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_DEEPIMPACT);
     assertNotNull(topics);
