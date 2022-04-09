@@ -1,5 +1,5 @@
 ---
-corpus: beir-v1.0.0-webis-touche2020
+corpus: beir-v1.0.0-webis-touche2020-splade_distil_cocodenser_medium
 corpus_path: collections/beir-v1.0.0/splade_distil_cocodenser_medium/webis-touche2020
 
 index_path: indexes/lucene-index.beir-v1.0.0-webis-touche2020-splade_distil_cocodenser_medium/

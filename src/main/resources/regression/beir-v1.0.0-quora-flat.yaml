@@ -1,5 +1,5 @@
 ---
-corpus: beir-v1.0.0-quora
+corpus: beir-v1.0.0-quora-flat
 corpus_path: collections/beir-v1.0.0/corpus/quora/
 
 index_path: indexes/lucene-index.beir-v1.0.0-quora-flat/
