@@ -172,4 +172,4 @@ With the above commands, you should be able to reproduce the following results:
 | R@1000                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.6925    | 0.6859    | 0.6912    | 0.5887    | 0.6157    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.6933    | 0.6838    | 0.6844    | 0.6043    | 0.6351    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.6933    | 0.6838    | 0.6864    | 0.6043    | 0.6351    |
