@@ -233,7 +233,12 @@ public class RocchioReranker implements Reranker {
     vocab.addAll(c.getFeatures());
 
     vocab.iterator().forEachRemaining(feature -> {
-      z.addFeatureWeight(feature, alpha * a.getFeatureWeight(feature) + beta * b.getFeatureWeight(feature) - gamma *  c.getFeatureWeight(feature));
+      float weighted_score = alpha * a.getFeatureWeight(feature) + beta * b.getFeatureWeight(feature) - gamma *  c.getFeatureWeight(feature);
+      if (weighted_score < 0){
+        z.addFeatureWeight(feature, 0);
+      }else{
+        z.addFeatureWeight(feature, weighted_score);
+      }
     });
 
     return z;
