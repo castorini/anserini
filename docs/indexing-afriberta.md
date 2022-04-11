@@ -17,7 +17,8 @@ in 10 African languages.
 - Yoruba
 
 # Downloading the dataset
--  You can download the dataset from huggingface for both train and eval using the code below
+- You can download the dataset from huggingface for both train and eval using the code below. `$language` represents the
+language corpora to download as listed above in lower case e.g `igbo`.
     ```bash
     wget https://huggingface.co/datasets/castorini/afriberta-corpus/resolve/main/{$language}/train.zip
     ```
@@ -31,7 +32,7 @@ in 10 African languages.
       -input /path/to/language_corpus \
       -index indexes/lucene-index.afriberta.lang/ \
       -generator DefaultLuceneDocumentGenerator \
-      -threads 1 -storePositions -storeDocvectors -storeRaw  -language langcode \
+      -threads 1 -storePositions -storeDocvectors -storeRaw  -pretokenized \
       >& logs/log.afriberta &
     ```
 
