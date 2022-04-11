@@ -166,7 +166,7 @@ public class RocchioReranker implements Reranker {
       if (relevantFlag){
         docVector = createDocumentVector(reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
       }else{
-        docVector = createDocumentVector(reader.getTermVector(docs.ids[-i], field), reader, tweetsearch);
+        docVector = createDocumentVector(reader.getTermVector(docs.ids[docs.documents.length-i], field), reader, tweetsearch);
       }
       vocab.addAll(docVector.getFeatures());
       docvectors.add(docVector);
