@@ -54,26 +54,28 @@ See individual pages for details!
 + Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions-car17v1.5.md), [v2.0](docs/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)
 + Regressions for MS MARCO (V1) Passage Ranking:
-  + Unsupervised lexical: [baselines](docs/regressions-msmarco-passage.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
+  + Unsupervised lexical: [BoW baselines](docs/regressions-msmarco-passage.md), [WP baselines](docs/regressions-msmarco-passage-wp.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
   + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-msmarco-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
-  + Learned sparse lexical (other): [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md)
+  + Learned sparse lexical (other): [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md), [SPLADE-distill CoCodenser-medium](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md)
 + Regressions for MS MARCO (V1) Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-msmarco-doc.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-msmarco-doc-segmented.md), [doc2query-T5](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md)
+  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-msmarco-doc.md), [WP baselines](docs/regressions-msmarco-doc-wp.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery.md)
+  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-msmarco-doc-segmented.md), [WP baselines](docs/regressions-msmarco-doc-segmented-wp.md), [doc2query-T5](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md)
   + Learned sparse lexical: [uniCOIL noexp](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-doc-segmented-unicoil.md)
 + Regressions for TREC 2019 Deep Learning Track, Passage Ranking:
-  + Unsupervised lexical: [baselines](docs/regressions-dl19-passage.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
-  + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl19-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-passage-unicoil.md)
+  + Unsupervised lexical: [BoW baselines](docs/regressions-dl19-passage.md), [WP baselines](docs/regressions-dl19-passage-wp.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
+  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl19-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-passage-unicoil.md)
+  + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md)
 + Regressions for TREC 2019 Deep Learning Track, Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl19-doc.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl19-doc-segmented.md), [doc2query-T5](docs/regressions-dl19-doc-segmented-docTTTTTquery.md)
+  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl19-doc.md), [WP baselines](docs/regressions-dl19-doc-wp.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery.md)
+  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl19-doc-segmented.md), [WP baselines](docs/regressions-dl19-doc-segmented-wp.md), [doc2query-T5](docs/regressions-dl19-doc-segmented-docTTTTTquery.md)
   + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl19-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-doc-segmented-unicoil.md)
 + Regressions for TREC 2020 Deep Learning Track, Passage Ranking:
-  + Unsupervised lexical: [baselines](docs/regressions-dl20-passage.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
-  + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl20-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-passage-unicoil.md)
+  + Unsupervised lexical: [BoW baselines](docs/regressions-dl20-passage.md), [WP baselines](docs/regressions-dl20-passage-wp.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
+  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl20-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-passage-unicoil.md)
+  + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md)
 + Regressions for TREC 2020 Deep Learning Track, Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [baselines](docs/regressions-dl20-doc-segmented.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
+  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl20-doc.md), [WP baselines](docs/regressions-dl20-doc-wp.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
+  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl20-doc-segmented.md), [WP baselines](docs/regressions-dl20-doc-segmented-wp.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
   + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl20-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-doc-segmented-unicoil.md)
 + Regressions for MS MARCO (V2) Passage Ranking:
   + Unsupervised lexical, original corpus: [baselines](docs/regressions-msmarco-v2-passage.md), [doc2query-T5](docs/regressions-msmarco-v2-passage-d2q-t5.md)
@@ -97,9 +99,21 @@ See individual pages for details!
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
-+ Regressions for Mr. TyDi (v1.1): [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
-+ Regressions for BEIR (v1.0.0): 
-  + Arguana: [baseline](docs/regressions-beir-v1.0.0-arguana.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-arguana-splade-distil-cocodenser-medium.md)
++ Regressions for Mr. TyDi (v1.1) baselines : [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
++ Regressions for BEIR (v1.0.0):
+  + ArguAna: ["flat" baseline](docs/regressions-beir-v1.0.0-arguana-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-arguana-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-arguana-splade-distil-cocodenser-medium.md)
+  + Climate-FEVER: ["flat" baseline](docs/regressions-beir-v1.0.0-climate-fever-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-climate-fever-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium.md)
+  + DBPedia: ["flat" baseline](docs/regressions-beir-v1.0.0-dbpedia-entity-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium.md)
+  + FEVER: ["flat" baseline](docs/regressions-beir-v1.0.0-fever-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fever-splade-distil-cocodenser-medium.md)
+  + FiQA-2018: ["flat" baseline](docs/regressions-beir-v1.0.0-fiqa-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fiqa-splade-distil-cocodenser-medium.md)
+  + HotpotQA: ["flat" baseline](docs/regressions-beir-v1.0.0-hotpotqa-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium.md)
+  + NFCorpus: ["flat" baseline](docs/regressions-beir-v1.0.0-nfcorpus-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.md)
+  + NQ: ["flat" baseline](docs/regressions-beir-v1.0.0-nq-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nq-splade-distil-cocodenser-medium.md)
+  + Quora: ["flat" baseline](docs/regressions-beir-v1.0.0-quora-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-quora-splade-distil-cocodenser-medium.md)
+  + SCIDOCS: ["flat" baseline](docs/regressions-beir-v1.0.0-scidocs-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scidocs-splade-distil-cocodenser-medium.md)
+  + SciFact: ["flat" baseline](docs/regressions-beir-v1.0.0-scifact-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md)
+  + TREC-COVID: ["flat" baseline](docs/regressions-beir-v1.0.0-trec-covid-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md)
+  + Touche2020: ["flat" baseline](docs/regressions-beir-v1.0.0-webis-touche2020-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-webis-touche2020-splade-distil-cocodenser-medium.md)
 
 ## Additional Documentation
 

@@ -87,6 +87,20 @@ models:
         - 0.3374
       R@1000:
         - 0.7335
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -hits 1000 -bm25 -rocchio
+    results:
+      MAP@100:
+        - 0.2467
+      MRR@100:
+        - 0.7997
+      nDCG@10:
+        - 0.5476
+      R@100:
+        - 0.3456
+      R@1000:
+        - 0.7367
   - name: bm25-default+ax
     display: +Ax
     params: -hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20
