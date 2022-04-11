@@ -16,18 +16,23 @@ in 10 African languages.
 - Tigrinya
 - Yoruba
 
+# Downloading the dataset
+-  You can download the dataset from huggingface for both train and eval using the code below
+    ```bash
+    wget https://huggingface.co/datasets/castorini/afriberta-corpus/resolve/main/{$language}/train.zip
+    ```
+
 ## Indexing
 
-Typical indexing command:
-
-```
-target/appassembler/bin/IndexCollection \
-  -collection AfribertaCollection \
-  -input /path/to/language_corpus \
-  -index indexes/lucene-index.afriberta.lang/ \
-  -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw  -language langcode \
-  >& logs/log.afriberta &
-```
+- Typical indexing command:
+    ```
+    target/appassembler/bin/IndexCollection \
+      -collection AfribertaCollection \
+      -input /path/to/language_corpus \
+      -index indexes/lucene-index.afriberta.lang/ \
+      -generator DefaultLuceneDocumentGenerator \
+      -threads 1 -storePositions -storeDocvectors -storeRaw  -language langcode \
+      >& logs/log.afriberta &
+    ```
 
 you can find more indexing options at [common-indexing-options](common-indexing-options.md)
