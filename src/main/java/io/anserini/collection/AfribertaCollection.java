@@ -154,6 +154,5 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
     public boolean indexable() {
       return true;
     }
-    
   }
 }

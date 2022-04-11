@@ -1,7 +1,7 @@
 # Indexing the AfriBERTa Corpus
 
 This document contains instructions to index the [AfriBERTa corpus](https://aclanthology.org/2021.mrl-1.11/) hosted on 
-huggingface at https://huggingface.co/datasets/castorini/afriberta-corpus. The corpus contains train and evaluation sets
+[huggingface](https://huggingface.co/datasets/castorini/afriberta-corpus). The corpus contains train and evaluation sets
 in 10 African languages.
 
 # Languages
@@ -18,7 +18,7 @@ in 10 African languages.
 
 # Downloading the dataset
 - You can download the dataset from huggingface for both train and eval using the code below. `$language` represents the
-language corpora to download as listed above in lower case e.g `igbo`.
+individual languages as listed above in lower case e.g `igbo`.
     ```bash
     wget https://huggingface.co/datasets/castorini/afriberta-corpus/resolve/main/{$language}/train.zip
     ```
