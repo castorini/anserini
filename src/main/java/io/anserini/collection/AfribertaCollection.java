@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -37,6 +36,7 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
 
     public AfribertaCollection(Path path){
         this.path = path;
+        this.allowedFileSuffix = new HashSet<>(Arrays.asList(".zip", ".txt"));
     }
 
     @SuppressWarnings("unchecked")
@@ -45,14 +45,6 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
         return new Segment(p);
     }
 
-//    public static void main(String[] args) throws IOException {
-//
-//        Path segment1 = Paths.get("collections/afriberta/06061756970746d77188461866c859523170731395217978372791bf0ccc22f5.zip");
-//        Segment seg = new Segment(segment1);
-//        seg.readNext();
-//        seg.readNext();
-//
-//    }
 
     public static class Segment<T extends Document> extends FileSegment<T> {
         private JsonNode node = null;
@@ -88,7 +80,7 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
             try {
                 int i=0;
                 while ((line = reader.readLine()) != null) {
-                    String json = "{ \"id\" : \"doc_"+i+"\", \"contents\" : \""+line.replaceAll("[^a-zA-Z0-9,’?()\\-: ]","")+"\" }";
+                    String json = "{ \"id\" : \"doc_"+i+"\", \"contents\" : \""+line.replaceAll("[-+\"\'^[\\\\p{C}]\\\\]*","").strip()+"\" }";
                     JsonNode jsonNode = objectMapper.readTree(json);
                     jsonNodeArray.add(jsonNode);
                     i++;
