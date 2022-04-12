@@ -305,8 +305,8 @@ public class SearchArgs {
   // query expansion model: rocchio
   // ------------------------------
 
-  // Anserini uses as defaults the same fbTerms and fbDocs settings as RM3.
-  // For alpha/beta weights, we use the setting referenced in the Manning et al. textbook:
+  // Anserini uses as defaults the same topFbTerms, topFbDocs, bottomFbTerms and bottomFbDocs settings as RM3.
+  // For alpha/beta/gamma weights, we use the setting referenced in the Manning et al. textbook:
   // https://nlp.stanford.edu/IR-book/html/htmledition/the-rocchio71-algorithm-1.html
 
   @Option(name = "-rocchio", usage = "use rocchio query expansion model")

@@ -82,17 +82,17 @@ public class RocchioReranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
 
     // The Rocchio Algorithm:
-    //   q_new = alpha * q_original + beta * mean(top k document vectors) + gamma * mean(tail k document vectors)
+    //   q_new = alpha * q_original + beta * mean(top k document vectors) - gamma * mean(tail k document vectors)
 
     // Compute q_original:
     FeatureVector queryVector = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL2Norm();
 
     // Compute mean(top k relevant document vectors):
     FeatureVector meanRelevantDocumentVector;
-    boolean relevant;
+    boolean relevantFlag;
     try {
-      relevant = true; 
-      meanRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, topFbTerms, topFbDocs, relevant);
+      relevantFlag = true; 
+      meanRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, topFbTerms, topFbDocs, relevantFlag);
     } catch (IOException e) {
       // If we run into any issues, just return the original results - as if we never performed feedback.
       e.printStackTrace();
@@ -102,8 +102,8 @@ public class RocchioReranker implements Reranker {
     // Compute mean(tail k nonrelevant document vectors):
     FeatureVector meanNonRelevantDocumentVector;
     try {
-      relevant = false; 
-      meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevant);
+      relevantFlag = false; 
+      meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
     } catch (IOException e) {
       // If we run into any issues, just return the original results - as if we never performed feedback.
       e.printStackTrace();
