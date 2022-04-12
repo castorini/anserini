@@ -623,23 +623,23 @@ public final class SearchCollection implements Closeable {
         }
       }
     } else if (args.rocchio) {
-      for (String topfbTerms : args.rocchio_topfbTerms) {
-        for (String topfbDocs : args.rocchio_topfbDocs) {
-          for (String bottomfbTerms : args.rocchio_bottomfbTerms) {
-            for (String bottomfbDocs : args.rocchio_bottomfbDocs) {
+      for (String topFbTerms : args.rocchio_topFbTerms) {
+        for (String topFbDocs : args.rocchio_topFbDocs) {
+          for (String bottomFbTerms : args.rocchio_bottomFbTerms) {
+            for (String bottomFbDocs : args.rocchio_bottomFbDocs) {
               for (String alpha : args.rocchio_alpha) {
                 for (String beta : args.rocchio_beta) {
                   for (String gamma : args.rocchio_gamma) {
                     String tag;
                     if (this.args.rf_qrels != null){
-                      tag = String.format("rocchioRf(topfbTerms=%s,bottomfbTerms=%s,alpha=%s,beta=%s,gamma=%s)", topfbTerms, bottomfbTerms, alpha, beta, gamma);
+                      tag = String.format("rocchioRf(topFbTerms=%s,bottomFbTerms=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, bottomFbTerms, alpha, beta, gamma);
                     } else{
-                      tag = String.format("rocchio(topfbTerms=%s,topfbDocs=%s,bottomfbTerms=%s,bottomfbDocs=%s,alpha=%s,beta=%s,gamma=%s)", topfbTerms, topfbDocs, bottomfbTerms, bottomfbDocs, alpha, beta, gamma);
+                      tag = String.format("rocchio(topFbTerms=%s,topFbDocs=%s,bottomFbTerms=%s,bottomFbDocs=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma);
                     }
                     RerankerCascade cascade = new RerankerCascade(tag);
-                    cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(topfbTerms),
-                        Integer.valueOf(topfbDocs), Integer.valueOf(bottomfbTerms),
-                        Integer.valueOf(bottomfbDocs),Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery));
+                    cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
+                        Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms),
+                        Integer.valueOf(bottomFbDocs),Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery));
                     cascade.add(new ScoreTiesAdjusterReranker());
                     cascades.add(cascade);
                   }

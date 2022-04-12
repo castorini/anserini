@@ -312,21 +312,21 @@ public class SearchArgs {
   @Option(name = "-rocchio", usage = "use rocchio query expansion model")
   public boolean rocchio = false;
 
-  @Option(name = "-rocchio.topfbTerms", handler = StringArrayOptionHandler.class,
+  @Option(name = "-rocchio.topFbTerms", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: number of expansion relevant terms")
-  public String[] rocchio_topfbTerms = new String[]{"10"};
+  public String[] rocchio_topFbTerms = new String[]{"10"};
 
-  @Option(name = "-rocchio.topfbDocs", handler = StringArrayOptionHandler.class,
+  @Option(name = "-rocchio.topFbDocs", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: number of expansion relevant documents")
-  public String[] rocchio_topfbDocs = new String[]{"10"};
+  public String[] rocchio_topFbDocs = new String[]{"10"};
 
-  @Option(name = "-rocchio.bottomfbTerms", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: number of expansion irrelevant terms")
-  public String[] rocchio_bottomfbTerms = new String[]{"10"};
+  @Option(name = "-rocchio.bottomFbTerms", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion nonrelevant terms")
+  public String[] rocchio_bottomFbTerms = new String[]{"10"};
 
-  @Option(name = "-rocchio.bottomfbDocs", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: number of expansion irrelevant documents")
-  public String[] rocchio_bottomfbDocs = new String[]{"10"};
+  @Option(name = "-rocchio.bottomFbDocs", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion nonrelevant documents")
+  public String[] rocchio_bottomFbDocs = new String[]{"10"};
 
   @Option(name = "-rocchio.alpha", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: weight to assign to the original query")
@@ -337,7 +337,7 @@ public class SearchArgs {
   public String[] rocchio_beta = new String[]{"0.75"};
 
   @Option(name = "-rocchio.gamma", handler = StringArrayOptionHandler.class,
-  usage = "Rocchio parameter: weight to assign to the irrelevant document vectors")
+  usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
 public String[] rocchio_gamma = new String[]{"0"};
 
   @Option(name = "-rocchio.outputQuery",
