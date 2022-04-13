@@ -305,20 +305,28 @@ public class SearchArgs {
   // query expansion model: rocchio
   // ------------------------------
 
-  // Anserini uses as defaults the same fbTerms and fbDocs settings as RM3.
-  // For alpha/beta weights, we use the setting referenced in the Manning et al. textbook:
+  // Anserini uses as defaults the same topFbTerms, topFbDocs, bottomFbTerms and bottomFbDocs settings as RM3.
+  // For alpha/beta/gamma weights, we use the setting referenced in the Manning et al. textbook:
   // https://nlp.stanford.edu/IR-book/html/htmledition/the-rocchio71-algorithm-1.html
 
   @Option(name = "-rocchio", usage = "use rocchio query expansion model")
   public boolean rocchio = false;
 
-  @Option(name = "-rocchio.fbTerms", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: number of expansion terms")
-  public String[] rocchio_fbTerms = new String[]{"10"};
+  @Option(name = "-rocchio.topFbTerms", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion relevant terms")
+  public String[] rocchio_topFbTerms = new String[]{"10"};
 
-  @Option(name = "-rocchio.fbDocs", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: number of expansion documents")
-  public String[] rocchio_fbDocs = new String[]{"10"};
+  @Option(name = "-rocchio.topFbDocs", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion relevant documents")
+  public String[] rocchio_topFbDocs = new String[]{"10"};
+
+  @Option(name = "-rocchio.bottomFbTerms", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion nonrelevant terms")
+  public String[] rocchio_bottomFbTerms = new String[]{"10"};
+
+  @Option(name = "-rocchio.bottomFbDocs", handler = StringArrayOptionHandler.class,
+      usage = "Rocchio parameter: number of expansion nonrelevant documents")
+  public String[] rocchio_bottomFbDocs = new String[]{"10"};
 
   @Option(name = "-rocchio.alpha", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: weight to assign to the original query")
@@ -327,6 +335,10 @@ public class SearchArgs {
   @Option(name = "-rocchio.beta", handler = StringArrayOptionHandler.class,
       usage = "Rocchio parameter: weight to assign to the relevant document vectors")
   public String[] rocchio_beta = new String[]{"0.75"};
+
+  @Option(name = "-rocchio.gamma", handler = StringArrayOptionHandler.class,
+  usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
+public String[] rocchio_gamma = new String[]{"0"};
 
   @Option(name = "-rocchio.outputQuery",
       usage = "Rocchio parameter: flag to print original and expanded queries")
