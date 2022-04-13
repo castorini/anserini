@@ -52,19 +52,25 @@ public class RocchioReranker implements Reranker {
   private final Analyzer analyzer;
   private final String field;
 
-  private final int fbTerms;
-  private final int fbDocs;
+  private final int topFbTerms;
+  private final int topFbDocs;
+  private final int bottomFbTerms;
+  private final int bottomFbDocs;
   private final float alpha;
   private final float beta;
+  private final float gamma;
   private final boolean outputQuery;
 
-  public RocchioReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float alpha, float beta, boolean outputQuery) {
+  public RocchioReranker(Analyzer analyzer, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery) {
     this.analyzer = analyzer;
     this.field = field;
-    this.fbTerms = fbTerms;
-    this.fbDocs = fbDocs;
+    this.topFbTerms = topFbTerms;
+    this.topFbDocs = topFbDocs;
+    this.bottomFbTerms = bottomFbTerms;
+    this.bottomFbDocs = bottomFbDocs;
     this.alpha = alpha;
     this.beta = beta;
+    this.gamma = gamma;
     this.outputQuery = outputQuery;
   }
 
@@ -76,23 +82,36 @@ public class RocchioReranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
 
     // The Rocchio Algorithm:
-    //   q_new = alpha * q_original + beta * mean(top k document vectors)
+    //   q_new = alpha * q_original + beta * mean(top k document vectors) - gamma * mean(tail k document vectors)
 
     // Compute q_original:
     FeatureVector queryVector = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL2Norm();
 
-    // Compute mean(top k document vectors):
-    FeatureVector meanDocumentVector;
+    // Compute mean(top k relevant document vectors):
+    FeatureVector meanRelevantDocumentVector;
+    boolean relevantFlag;
     try {
-      meanDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets);
+      relevantFlag = true; 
+      meanRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, topFbTerms, topFbDocs, relevantFlag);
     } catch (IOException e) {
       // If we run into any issues, just return the original results - as if we never performed feedback.
       e.printStackTrace();
       return docs;
     }
 
-    // Compute q_new based on alpha and beta weights:
-    FeatureVector weightedVector = computeWeightedVector(queryVector, meanDocumentVector, alpha, beta);
+    // Compute mean(tail k nonrelevant document vectors):
+    FeatureVector meanNonRelevantDocumentVector;
+    try {
+      relevantFlag = false; 
+      meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
+    } catch (IOException e) {
+      // If we run into any issues, just return the original results - as if we never performed feedback.
+      e.printStackTrace();
+      return docs;
+    }
+
+    // Compute q_new based on alpha, beta and gamma weights:
+    FeatureVector weightedVector = computeWeightedVector(queryVector, meanRelevantDocumentVector, meanNonRelevantDocumentVector, alpha, beta, gamma);
 
     // Use the weights as boosts to a second-round Lucene query:
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
@@ -134,16 +153,21 @@ public class RocchioReranker implements Reranker {
     return ScoredDocuments.fromTopDocs(results, searcher);
   }
 
-  private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) throws IOException {
+  private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, int fbTerms, int fbDocs, boolean relevantFlag) throws IOException {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();
     int numdocs;
+    FeatureVector docVector;
     numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
 
     List<FeatureVector> docvectors = new ArrayList<>();
     for (int i = 0; i < numdocs; i++) {
-      FeatureVector docVector = createDocumentVector(reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
+      if (relevantFlag){
+        docVector = createDocumentVector(reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
+      }else{
+        docVector = createDocumentVector(reader.getTermVector(docs.ids[docs.ids.length-i-1], field), reader, tweetsearch);
+      }
       vocab.addAll(docVector.getFeatures());
       docvectors.add(docVector);
     }
@@ -201,14 +225,18 @@ public class RocchioReranker implements Reranker {
     return f;
   }
 
-  private FeatureVector computeWeightedVector(FeatureVector a, FeatureVector b, float alpha, float beta) {
+  private FeatureVector computeWeightedVector(FeatureVector a, FeatureVector b, FeatureVector c, float alpha, float beta, float gamma) {
     FeatureVector z = new FeatureVector();
     Set<String> vocab = new HashSet<>();
     vocab.addAll(a.getFeatures());
     vocab.addAll(b.getFeatures());
+    vocab.addAll(c.getFeatures());
 
     vocab.iterator().forEachRemaining(feature -> {
-      z.addFeatureWeight(feature, alpha * a.getFeatureWeight(feature) + beta * b.getFeatureWeight(feature));
+      float weighted_score = alpha * a.getFeatureWeight(feature) + beta * b.getFeatureWeight(feature) - gamma *  c.getFeatureWeight(feature);
+      if (weighted_score > 0){
+        z.addFeatureWeight(feature, weighted_score);
+      }
     });
 
     return z;
@@ -216,6 +244,6 @@ public class RocchioReranker implements Reranker {
   
   @Override
   public String tag() {
-    return "Rocchio(fbDocs="+fbDocs+",fbTerms="+fbTerms+",alpha:"+alpha+",beta:"+beta+")";
+    return "Rocchio(topFbDocs="+topFbDocs+",topFbTerms="+topFbTerms+"bottomFbDocs="+bottomFbDocs+",bottomFbTerms="+bottomFbTerms+",alpha:"+alpha+",beta:"+beta+",gamma:"+gamma+")";
   }
 }
