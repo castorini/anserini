@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; fiqa
+# Anserini Regressions: BEIR (v1.0.0) &mdash; FiQA-2018
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; fiqa](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; FiQA-2018](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-fiqa-flat.yaml).
