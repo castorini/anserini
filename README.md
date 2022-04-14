@@ -116,7 +116,7 @@ See individual pages for details!
   + Touche2020: ["flat" baseline](docs/regressions-beir-v1.0.0-webis-touche2020-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-webis-touche2020-splade-distil-cocodenser-medium.md)
   + BioASQ: ["flat" baseline](docs/regressions-beir-v1.0.0-bioasq-flat.md)
   + Signal-1M(RT): ["flat" baseline](docs/regressions-beir-v1.0.0-signal1m-flat.md)
-  + TREC-NEWS: ["flat" baseline](docs/regressions-beir-v1.0.0-trec-news-flat.md)
+  + TREC-NEWS: ["flat" baseline](docs/regressions-beir-v1.0.0-trec-news-flat.md), , ["multifield" baseline](docs/regressions-beir-v1.0.0-trec-news-multifield.md)
   + Robust04: ["flat" baseline](docs/regressions-beir-v1.0.0-robust04-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-robust04-multifield.md)
 
 ## Additional Documentation
