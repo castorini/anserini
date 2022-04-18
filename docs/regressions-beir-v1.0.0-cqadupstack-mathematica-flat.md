@@ -1,43 +1,68 @@
-# ANserini REgressions: BEIR (V1.0.0) &Mdash; Cqadupstack-Mathematica
+# Anserini Regressions: BEIR (v1.0.0) &mdash; Cqadupstack-mathematica
 
-THis Page Documents BM25 Regression Experiments For [BEIR (V1.0.0) &Mdash; Cqadupstack-Mathematica](Http://Beir.Ai/).
-THese Experiments Index The Corpus In A "Flat" Manner, By Concatenating The "Title" And "Text" Into The "Contents" Field.
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; Cqadupstack-mathematica](http://beir.ai/).
+These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
-THe Exact Configurations For These Regressions Are Stored In [This YAML File](${Yaml}).
-NOte That This Page Is Automatically Generated From [This Template](${Template}) As Part Of ANserini'S Regression Pipeline, So Do Not Modify This Page Directly; Modify The Template Instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-mathematica-flat.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/beir-v1.0.0-cqadupstack-mathematica-flat.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
-FRom One Of Our WAterloo Servers (E.G., `Orca`), The Following Command Will Perform The Complete Regression, End To End:
-
-```
-Python Src/Main/Python/Run_Regression.Py --Index --Verify --Search --Regression ${Test_Name}
-```
-
-## INdexing
-
-TYpical Indexing Command:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-${Index_Cmds}
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-flat
 ```
 
-FOr Additional Details, See Explanation Of [Common Indexing Options](Common-Indexing-Options.Md).
+## Indexing
 
-## REtrieval
-
-AFter Indexing Has Completed, You Should Be Able To Perform Retrieval As Follows:
+Typical indexing command:
 
 ```
-${Ranking_Cmds}
+target/appassembler/bin/IndexCollection \
+  -collection BeirFlatCollection \
+  -input /path/to/beir-v1.0.0-cqadupstack-mathematica-flat \
+  -index indexes/lucene-index.beir-v1.0.0-cqadupstack-mathematica-flat/ \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.beir-v1.0.0-cqadupstack-mathematica-flat &
 ```
 
-EValuation Can Be Performed Using `Trec_Eval`:
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-${Eval_Cmds}
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.beir-v1.0.0-cqadupstack-mathematica-flat/ \
+  -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-mathematica.test.tsv.gz \
+  -topicreader TsvString \
+  -output runs/run.beir-v1.0.0-cqadupstack-mathematica-flat.bm25.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt \
+  -bm25 -removeQuery -hits 1000 &
 ```
 
-## EFfectiveness
+Evaluation can be performed using `trec_eval`:
 
-WIth The Above Commands, You Should Be Able To Reproduce The Following Results:
+```
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-flat.bm25.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-flat.bm25.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-flat.bm25.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
+```
 
-${Effectiveness}
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+| nDCG@10                                                                                                      | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| BEIR (v1.0.0): cqadupstack-mathematica                                                                       | 0.2015    |
+
+
+| R@100                                                                                                        | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| BEIR (v1.0.0): cqadupstack-mathematica                                                                       | 0.4877    |
+
+
+| R@1000                                                                                                       | BM25      |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| BEIR (v1.0.0): cqadupstack-mathematica                                                                       | 0.7221    |
