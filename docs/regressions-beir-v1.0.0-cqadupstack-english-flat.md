@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; Cqadupstack-english
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-english
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; Cqadupstack-english](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Engligh](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-english-flat.yaml).
