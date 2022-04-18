@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-physics
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Physics
 
 This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Physics](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
