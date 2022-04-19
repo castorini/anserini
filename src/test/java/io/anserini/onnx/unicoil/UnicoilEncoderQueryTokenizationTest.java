@@ -71,7 +71,7 @@ public class UnicoilEncoderQueryTokenizationTest {
         }
     }
 
-    public long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens) {
+    private long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens) {
         int numTokens = tokens.size();
         long tokenIds[] = new long[numTokens];
         for(int i = 0; i < numTokens; ++i) {
