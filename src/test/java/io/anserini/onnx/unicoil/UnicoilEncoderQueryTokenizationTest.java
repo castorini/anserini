@@ -2,10 +2,13 @@ package io.anserini.onnx.unicoil;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,15 +50,25 @@ public class UnicoilEncoderQueryTokenizationTest {
                 new long[] {101, 2029, 18672, 8844, 26450, 6740, 16896, 2006, 1996, 4942, 15782, 14289, 8017, 1042, 21842, 1997, 1996, 8040, 9331, 7068, 1998, 19274, 2015, 2006, 1996, 8276, 7270, 21769, 1997, 1996, 20368, 7946, 1029, 102}},
     };
 
-    private static Path getResourcePath(String path) {
-        return Paths.get("src/main/resources/onnx/unicoil-msmarco-passage", path);
+    private static String getCacheDir() {
+        File cacheDir = new File("~/.cache/anserini");
+        if (!cacheDir.exists()) {
+            cacheDir.mkdir();
+        }
+        return cacheDir.getPath();
+    }
+
+    private static Path getVocabPath(String vocabName) throws IOException {
+        File vocabFile = new File(getCacheDir(), vocabName);
+        FileUtils.copyURLToFile(new URL("https://dl.dropboxusercontent.com/s/2kgkvw6gm37ghc8/vocab.txt?dl=0RYd"), vocabFile);
+        return vocabFile.toPath();
     }
 
     @Test
     public void basic() throws Exception {
         DefaultVocabulary vocabulary =
                 DefaultVocabulary.builder()
-                        .addFromTextFile(getResourcePath("vocab.txt"))
+                        .addFromTextFile(getVocabPath("vocab.txt"))
                         .optUnknownToken("[UNK]")
                         .build();
         BertFullTokenizer tokenizer = new BertFullTokenizer(vocabulary, true);
