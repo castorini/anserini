@@ -12,7 +12,7 @@ The uniCOIL model is described in the following paper:
 **NOTE**: As an important detail, there is the question of what text we feed into the encoder to generate document representations.
 Initially, we fed only the segment text, but later we realized that prepending the title of the document improves effectiveness.
 This regression captures segment-only encoding and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
-The version that uses title/segment encoding can be found [here](dl21-doc-segmented-unicoil-0shot-v2.md).
+The version that uses title/segment encoding can be found [here](regressions-dl21-doc-segmented-unicoil-0shot-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO V2 document collection, refer to [this page](experiments-msmarco-v2.md).
