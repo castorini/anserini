@@ -14,8 +14,6 @@ Initially, we fed only the segment text, but later we realized that prepending t
 This regression captures segment-only encoding and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
 The version that uses title/segment encoding can be found [here](regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md).
 
-This regression captures the latter title/segment encoding, which for clarity we call v2, distinguished
-
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-doc-segmented-unicoil-0shot.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
