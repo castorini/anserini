@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2021 Deep Learning Track (Document)
 
-**Model**: uniCOIL (without any expansions) zero-shot on segmented documents (segment-only encoding) - _Deprecated_, see below
+**Model**: uniCOIL (without any expansions) zero-shot on segmented documents (title/segment encoding)
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document collection.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, without any expansions.
@@ -12,13 +12,13 @@ The uniCOIL model is described in the following paper:
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO V2 document collection, refer to [this page](experiments-msmarco-v2.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-doc-segmented-unicoil-noexp-0shot.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-noexp-0shot.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-doc-segmented-unicoil-noexp-0shot-v2.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-noexp-0shot-v2.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-noexp-0shot
+python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-noexp-0shot-v2
 ```
 
 ## Corpus
@@ -36,7 +36,7 @@ tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar -C coll
 mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2 collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2
 ```
 
-To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar` is 55 GB and has an MD5 checksum of `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar`.
+To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar` is 55 GB and has an MD5 checksum of `97ba262c497164de1054f357caea0c63`.
 
 ## Indexing
 
@@ -45,11 +45,11 @@ Sample indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
-  -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
+  -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 18 -impact -pretokenized \
-  >& logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot &
+  >& logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 &
 ```
 
 The path `/path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot/` should point to the corpus downloaded above.
@@ -69,20 +69,20 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt \
+  -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
 ```
 
 ## Effectiveness
@@ -91,31 +91,31 @@ With the above commands, you should be able to reproduce the following results:
 
 | MAP@100                                                                                                      | uniCOIL (noexp) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2475    |
+| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2587    |
 
 
 | MRR@100                                                                                                      | uniCOIL (noexp) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.9122    |
+| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.9282    |
 
 
 | nDCG@10                                                                                                      | uniCOIL (noexp) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6282    |
+| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6495    |
 
 
 | R@100                                                                                                        | uniCOIL (noexp) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3497    |
+| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3563    |
 
 
 | R@1000                                                                                                       | uniCOIL (noexp) zero-shot|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6767    |
+| [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6787    |
 
 This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
 The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-noexp-0shot.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-noexp-0shot-v2.template) and run `bin/build.sh` to rebuild the documentation.

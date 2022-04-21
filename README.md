@@ -84,7 +84,7 @@ See individual pages for details!
 + Regressions for MS MARCO (V2) Document Ranking:
   + Unsupervised lexical, complete doc: [baselines](docs/regressions-msmarco-v2-doc.md), [doc2query-T5](docs/regressions-msmarco-v2-doc-d2q-t5.md)
   + Unsupervised lexical, segmented doc: [baselines](docs/regressions-msmarco-v2-doc-segmented.md), [doc2query-T5](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot.md)
+  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md)
 + Regressions for TREC 2021 Deep Learning Track, Passage Ranking:
   + Unsupervised lexical, original corpus: [baselines](docs/regressions-dl21-passage.md), [doc2query-T5](docs/regressions-dl21-passage-d2q-t5.md)
   + Unsupervised lexical, augmented corpus: [baselines](docs/regressions-dl21-passage-augmented.md), [doc2query-T5](docs/regressions-dl21-passage-augmented-d2q-t5.md)
@@ -92,7 +92,7 @@ See individual pages for details!
 + Regressions for TREC 2021 Deep Learning Track, Document Ranking:
   + Unsupervised lexical, complete doc: [baselines](docs/regressions-dl21-doc.md), [doc2query-T5](docs/regressions-dl21-doc-d2q-t5.md)
   + Unsupervised lexical, segmented doc: [baselines](docs/regressions-dl21-doc-segmented.md), [doc2query-T5](docs/regressions-dl21-doc-segmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-dl21-doc-segmented-unicoil-0shot.md)
+  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md)
 + Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions-backgroundlinking18.md), [2019](docs/regressions-backgroundlinking19.md), [2020](docs/regressions-backgroundlinking20.md)
 + Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
