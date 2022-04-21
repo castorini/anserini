@@ -11,7 +11,7 @@ The uniCOIL model is described in the following paper:
 
 **NOTE**: As an important detail, there is the question of what text we feed into the encoder to generate document representations.
 Initially, we fed only the segment text, but later we realized that prepending the title of the document improves effectiveness.
-This regression captures segment-only encoding, and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
+This regression captures segment-only encoding and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
 The version that uses title/segment encoding can be found [here](regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md).
 
 This regression captures the latter title/segment encoding, which for clarity we call v2, distinguished
