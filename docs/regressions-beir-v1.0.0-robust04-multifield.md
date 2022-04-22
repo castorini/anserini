@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; robust04
+# Anserini Regressions: BEIR (v1.0.0) &mdash; Robust04
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; robust04](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; Robust04](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
