@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; trec-news
+# Anserini Regressions: BEIR (v1.0.0) &mdash; TREC-NEWS
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; trec-news](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; TREC-NEWS](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
