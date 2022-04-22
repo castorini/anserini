@@ -129,7 +129,7 @@ See individual pages for details!
   + CQADupStack-Wordpress: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-flat.md)
   + Quora: ["flat" baseline](docs/regressions-beir-v1.0.0-quora-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-quora-splade-distil-cocodenser-medium.md)
   + DBPedia: ["flat" baseline](docs/regressions-beir-v1.0.0-dbpedia-entity-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium.md)
-  + SCIDOCS: ["flat" baseline](docs/regressions-beir-v1.0.0-scidocs-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scidocs-splade-distil-cocodenser-medium.md)
+  + SCIDOCS: ["flat" baseline](docs/regressions-beir-v1.0.0-scidocs-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-multifield-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scidocs-splade-distil-cocodenser-medium.md)
   + FEVER: ["flat" baseline](docs/regressions-beir-v1.0.0-fever-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fever-splade-distil-cocodenser-medium.md)
   + Climate-FEVER: ["flat" baseline](docs/regressions-beir-v1.0.0-climate-fever-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-climate-fever-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium.md)
   + SciFact: ["flat" baseline](docs/regressions-beir-v1.0.0-scifact-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-scifact-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md)
