@@ -107,7 +107,7 @@ See individual pages for details!
   + TREC-COVID: ["flat" baseline](docs/regressions-beir-v1.0.0-trec-covid-flat.md), ["multfield" baseline](docs/regressions-beir-v1.0.0-trec-covid-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md)
   + BioASQ: ["flat" baseline](docs/regressions-beir-v1.0.0-bioasq-flat.md)
   + NFCorpus: ["flat" baseline](docs/regressions-beir-v1.0.0-nfcorpus-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-nfcorpus-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.md)
-  + NQ: ["flat" baseline](docs/regressions-beir-v1.0.0-nq-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nq-splade-distil-cocodenser-medium.md)
+  + NQ: ["flat" baseline](docs/regressions-beir-v1.0.0-nq-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-nq-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nq-splade-distil-cocodenser-medium.md)
   + HotpotQA: ["flat" baseline](docs/regressions-beir-v1.0.0-hotpotqa-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium.md)
   + FiQA-2018: ["flat" baseline](docs/regressions-beir-v1.0.0-fiqa-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-fiqa-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fiqa-splade-distil-cocodenser-medium.md)
   + Signal-1M(RT): ["flat" baseline](docs/regressions-beir-v1.0.0-signal1m-flat.md)
