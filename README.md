@@ -132,7 +132,7 @@ See individual pages for details!
   + SCIDOCS: ["flat" baseline](docs/regressions-beir-v1.0.0-scidocs-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scidocs-splade-distil-cocodenser-medium.md)
   + FEVER: ["flat" baseline](docs/regressions-beir-v1.0.0-fever-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fever-splade-distil-cocodenser-medium.md)
   + Climate-FEVER: ["flat" baseline](docs/regressions-beir-v1.0.0-climate-fever-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-climate-fever-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium.md)
-  + SciFact: ["flat" baseline](docs/regressions-beir-v1.0.0-scifact-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md)
+  + SciFact: ["flat" baseline](docs/regressions-beir-v1.0.0-scifact-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-scifact-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md)
 
 ## Additional Documentation
 
