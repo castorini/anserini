@@ -1,8 +1,8 @@
-# Anserini Regressions: TREC 2021 Deep Learning Track (Document)
+# Anserini Regressions: MS MARCO (V2) Document Ranking
 
-**Model**: uniCOIL (without any expansions) zero-shot on segmented documents (segment-only encoding) - _Deprecated_, see below
+**Model**: uniCOIL (without any expansions) zero-shot on segmented documents (title/segment encoding)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document collection.
+This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO (V2) document corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, without any expansions.
 
 The uniCOIL model is described in the following paper:
@@ -11,11 +11,9 @@ The uniCOIL model is described in the following paper:
 
 **NOTE**: As an important detail, there is the question of what text we feed into the encoder to generate document representations.
 Initially, we fed only the segment text, but later we realized that prepending the title of the document improves effectiveness.
-This regression captures segment-only encoding and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
-The version that uses title/segment encoding can be found [here](regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md).
-
-Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO V2 document collection, refer to [this page](experiments-msmarco-v2.md).
+This regression captures the latter title/segment encoding, which for clarity we call v2, distinguished from segment-only encoding, which is documented [here](regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot.md).
+The segment-only encoding results are deprecated and kept around primarily for archival purposes and ablation experiments.
+You probably don't want to use them.
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -41,7 +39,7 @@ tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar -C coll
 mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2 collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2
 ```
 
-To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar` is 55 GB and has an MD5 checksum of `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar`.
+To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar` is 55 GB and has an MD5 checksum of `97ba262c497164de1054f357caea0c63`.
 
 ## Indexing
 
@@ -51,7 +49,7 @@ Sample indexing command:
 ${index_cmds}
 ```
 
-The path `/path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
 Upon completion, we should have an index with 124,131,404 documents.
@@ -61,8 +59,7 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+These regression experiments use the [dev queries](../src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt) and the [dev2 queries](../src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -81,9 +78,6 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
-The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
 
 ## Reproduction Log[*](reproducibility.md)
 
