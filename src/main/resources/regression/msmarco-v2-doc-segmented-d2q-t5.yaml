@@ -72,3 +72,19 @@ models:
       R@1000:
         - 0.8982
         - 0.8952
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP@100:
+        - 0.1955
+        - 0.1939
+      MRR@100:
+        - 0.1974
+        - 0.1966
+      R@100:
+        - 0.7104
+        - 0.7164
+      R@1000:
+        - 0.9000
+        - 0.8967
