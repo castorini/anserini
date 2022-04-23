@@ -68,7 +68,7 @@ public class UnicoilEncoderQueryInferenceTest {
 
     @Test
     public void basic() throws OrtException, IOException {
-        String modelPath = getUnicoilEncoderModelPath("/UnicoilEncoder.onnx").toString();
+        String modelPath = getUnicoilEncoderModelPath("UnicoilEncoder.onnx").toString();
         try (OrtEnvironment env = OrtEnvironment.getEnvironment();
              OrtSession.SessionOptions options = new OrtSession.SessionOptions();
              OrtSession session = env.createSession(modelPath, options)) {
