@@ -10,7 +10,7 @@ index_options: -impact -pretokenized
 index_stats:
   documents: 20545677
   documents (non-empty): 20545677
-  total terms: 152325913715
+  total terms: 152323732876
 
 metrics:
   - metric: AP@100
@@ -57,10 +57,10 @@ models:
     params: -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       AP@100:
-        - 0.3586
+        - 0.3698
       nDCG@10:
-        - 0.5632
+        - 0.5893
       R@100:
-        - 0.5932
+        - 0.5872
       R@1000:
-        - 0.7562
+        - 0.7623

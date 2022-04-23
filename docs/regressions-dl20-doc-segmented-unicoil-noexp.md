@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Document)
 
-**Model**: uniCOIL (without any expansions) on segmented documents (segment-only encoding) - _Deprecated_, see below
+**Model**: uniCOIL (without any expansions) on segmented documents (title/segment encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (without any expansions) on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
 The uniCOIL model is described in the following paper:
@@ -98,22 +98,22 @@ With the above commands, you should be able to reproduce the following results:
 
 | AP@100                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3586    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3698    |
 
 
 | nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5632    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5893    |
 
 
 | R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5932    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5872    |
 
 
 | R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7562    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7623    |
 
 Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
 Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.

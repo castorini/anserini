@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Document)
 
-**Model**: uniCOIL (without any expansions) on segmented documents (segment-only encoding) - _Deprecated_, see below
+**Model**: uniCOIL (without any expansions) on segmented documents  (title/segment encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (without any expansions) on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 The uniCOIL model is described in the following paper:
@@ -98,22 +98,22 @@ With the above commands, you should be able to reproduce the following results:
 
 | AP@100                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2621    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2665    |
 
 
 | nDCG@10                                                                                                      | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6118    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6349    |
 
 
 | R@100                                                                                                        | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3956    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3943    |
 
 
 | R@1000                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6382    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6391    |
 
 Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
 Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.

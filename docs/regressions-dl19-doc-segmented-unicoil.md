@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Document)
 
-**Model**: uniCOIL (with doc2query-T5 expansions) on segmented documents (segment-only encoding) - _Deprecated_, see below
+**Model**: uniCOIL (with doc2query-T5 expansions) on segmented documents  (title/segment encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (with doc2query-T5 expansions) on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 The uniCOIL model is described in the following paper:
