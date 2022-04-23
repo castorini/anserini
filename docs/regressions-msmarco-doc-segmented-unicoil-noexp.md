@@ -1,6 +1,6 @@
 # Anserini Regressions: MS MARCO Document Ranking
 
-**Model**: uniCOIL (without any expansions) on segmented documents
+**Model**: uniCOIL (without any expansions) on segmented documents (segment-only encoding) - _Deprecated_, see below
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (without any expansions) on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking).
 The uniCOIL model is described in the following paper:
