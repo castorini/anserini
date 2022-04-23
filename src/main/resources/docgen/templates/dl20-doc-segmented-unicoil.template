@@ -22,7 +22,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Corpus
 
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+We make available a version of the MS MARCO segmented document corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
 For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
 
