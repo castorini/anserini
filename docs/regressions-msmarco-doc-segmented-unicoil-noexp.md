@@ -1,6 +1,6 @@
 # Anserini Regressions: MS MARCO Document Ranking
 
-**Model**: uniCOIL (without any expansions) on segmented documents
+**Model**: uniCOIL (without any expansions) on segmented documents (title/segment encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (without any expansions) on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking).
 The uniCOIL model is described in the following paper:
@@ -22,19 +22,19 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Corpus
 
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+We make available a version of the MS MARCO segmented document corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
 For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
 
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar -P collections/
 
-tar xvf collections/msmarco-doc-segmented-unicoil.tar -C collections/
+tar xvf collections/msmarco-doc-segmented-unicoil-noexp.tar -C collections/
 ```
 
-To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
+To confirm, `msmarco-doc-segmented-unicoil-noexp.tar` is 11 GB and has MD5 checksum `11b226e1cacd9c8ae0a660fd14cdd710`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
@@ -59,7 +59,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.msmarco-doc-segmented-unicoil-noexp &
 ```
 
-The directory `/path/to/msmarco-doc-segmented-unicoil/` should point to the corpus downloaded above.
+The directory `/path/to/msmarco-doc-segmented-unicoil-noexp/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
 Upon completion, we should have an index with 20,545,677 documents.
@@ -97,22 +97,22 @@ With the above commands, you should be able to reproduce the following results:
 
 | AP@1000                                                                                                      | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3200    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3413    |
 
 
 | RR@100                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3195    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3409    |
 
 
 | R@100                                                                                                        | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8398    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8639    |
 
 
 | R@1000                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9286    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9420    |
 
 This model corresponds to the run named "uniCOIL-d2q" on the official MS MARCO Document Ranking Leaderboard, submitted 2021/09/16.
 The following command generates a comparable run:
