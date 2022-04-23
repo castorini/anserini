@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Document)
 
-**Model**: uniCOIL (without any expansions) on segmented documents
+**Model**: uniCOIL (without any expansions) on segmented documents (title/segment encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (without any expansions) on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 The uniCOIL model is described in the following paper:
@@ -22,19 +22,19 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Corpus
 
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+We make available a version of the MS MARCO segmented document corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
 For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
 
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar -P collections/
 
-tar xvf collections/msmarco-doc-segmented-unicoil.tar -C collections/
+tar xvf collections/msmarco-doc-segmented-unicoil-noexp.tar -C collections/
 ```
 
-To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
+To confirm, `msmarco-doc-segmented-unicoil-noexp.tar` is 11 GB and has MD5 checksum `11b226e1cacd9c8ae0a660fd14cdd710`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
@@ -53,7 +53,7 @@ Sample indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/msmarco-doc-segmented-unicoil/` should point to the corpus downloaded above.
+The directory `/path/to/msmarco-doc-segmented-unicoil-noexp/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
 Upon completion, we should have an index with 20,545,677 documents.
