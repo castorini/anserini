@@ -449,7 +449,7 @@
     <dependency>
       <groupId>com.microsoft.onnxruntime</groupId>
       <artifactId>onnxruntime</artifactId>
-      <version>1.7.0</version>
+      <version>1.11.0</version>
     </dependency>
     <dependency>
       <groupId>ai.djl</groupId>
