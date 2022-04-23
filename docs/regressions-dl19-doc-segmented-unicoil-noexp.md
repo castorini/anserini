@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Document)
 
-**Model**: uniCOIL (without any expansions) on segmented documents  (title/segment encoding)
+**Model**: uniCOIL (without any expansions) on segmented documents (title/segment encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (without any expansions) on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 The uniCOIL model is described in the following paper:
@@ -29,12 +29,12 @@ For details on how to train uniCOIL and perform inference, please see [this guid
 Download the corpus and unpack into `collections/`:
 
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar -P collections/
 
-tar xvf collections/msmarco-doc-segmented-unicoil.tar -C collections/
+tar xvf collections/msmarco-doc-segmented-unicoil-noexp.tar -C collections/
 ```
 
-To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
+To confirm, `msmarco-doc-segmented-unicoil-noexp.tar` is 11 GB and has MD5 checksum `bc71c588c9a2ed175cf2fbe52bd0b86e`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
