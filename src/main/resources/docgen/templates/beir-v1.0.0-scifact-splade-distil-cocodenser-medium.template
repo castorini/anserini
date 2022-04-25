@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; scifact
+# Anserini Regressions: BEIR (v1.0.0) &mdash; SciFact
 
 **Model**: SPLADE-distil CoCodenser Medium
 

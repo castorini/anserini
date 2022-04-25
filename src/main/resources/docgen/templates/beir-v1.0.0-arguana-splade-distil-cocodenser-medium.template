@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; arguana
+# Anserini Regressions: BEIR (v1.0.0) &mdash; ArguAna
 
 **Model**: SPLADE-distil CoCodenser Medium
 

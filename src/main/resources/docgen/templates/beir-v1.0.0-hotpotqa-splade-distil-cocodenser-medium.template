@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; hotpotqa
+# Anserini Regressions: BEIR (v1.0.0) &mdash; HotpotQA
 
 **Model**: SPLADE-distil CoCodenser Medium
 
