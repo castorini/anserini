@@ -168,6 +168,18 @@ public enum Topics {
   BEIR_V1_0_0_TREC_NEWS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-news.test.tsv.gz"),
   BEIR_V1_0_0_ROBUST04_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-robust04.test.tsv.gz"),
   BEIR_V1_0_0_SIGNAL1M_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-signal1m.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-android.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-english.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-gaming.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-gis.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-mathematica.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-physics.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-programmers.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-stats.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-tex.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-unix.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-webmasters.test.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-wordpress.test.tsv.gz"),
   BEIR_V1_0_0_ARGUANA_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-arguana.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-dbpedia-entity.test.splade_distil_cocodenser_medium.tsv.gz"),
@@ -180,7 +192,25 @@ public enum Topics {
   BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scidocs.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_SCIFACT_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-covid.test.splade_distil_cocodenser_medium.tsv.gz"),
-  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-webis-touche2020.test.splade_distil_cocodenser_medium.tsv.gz");
+  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-webis-touche2020.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_BIOASQ_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-bioasq.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-news.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_ROBUST04_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-robust04.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-android.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-english.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-gaming.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-gis.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-mathematica.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-physics.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-programmers.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-stats.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-tex.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-unix.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-webmasters.test.splade_distil_cocodenser_medium.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-cqadupstack-wordpress.test.splade_distil_cocodenser_medium.tsv.gz");
+
+
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;
