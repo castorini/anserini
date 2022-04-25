@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; webis-touche2020
+# Anserini Regressions: BEIR (v1.0.0) &mdash; Webis-Touche2020
 
 **Model**: SPLADE-distil CoCodenser Medium
 
