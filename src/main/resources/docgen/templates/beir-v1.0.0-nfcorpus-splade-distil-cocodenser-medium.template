@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; nfcorpus
+# Anserini Regressions: BEIR (v1.0.0) &mdash; NFCorpus
 
 **Model**: SPLADE-distil CoCodenser Medium
 

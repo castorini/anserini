@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; quora
+# Anserini Regressions: BEIR (v1.0.0) &mdash; Quora
 
 **Model**: SPLADE-distil CoCodenser Medium
 

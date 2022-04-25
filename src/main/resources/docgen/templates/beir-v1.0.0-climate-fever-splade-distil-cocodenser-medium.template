@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; climate-fever
+# Anserini Regressions: BEIR (v1.0.0) &mdash; Climate-FEVER
 
 **Model**: SPLADE-distil CoCodenser Medium
 

@@ -8,9 +8,9 @@ generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 528036
-  documents (non-empty): 528036
-  total terms: 174384263
+  documents: 8674
+  documents (non-empty): 8673
+  total terms: 969528
 
 metrics:
   - metric: nDCG@10
@@ -50,8 +50,8 @@ models:
     params: -bm25 -removeQuery -hits 1000
     results:
       nDCG@10:
-        - 0.4070
+        - 0.3970
       R@100:
-        - 0.3746
+        - 0.9324
       R@1000:
-        - 0.6345
+        - 0.9872
