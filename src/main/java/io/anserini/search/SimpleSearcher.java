@@ -682,6 +682,45 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
+   * Returns a map of internal Lucene docid to Lucene {@link Document}.
+   * Batch version of {@link #document(int)}.
+   *
+   * @param docids list of docids
+   * @return a map of docid to corresponding Lucene {@link Document}
+   */
+  public Map<Integer, Document> batchDocument(List<Integer> docids, int threads){
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
+    ConcurrentHashMap<Integer, Document> results = new ConcurrentHashMap<>();
+
+    for (Integer docid: docids) {
+      executor.execute(() -> {
+        Document result = null;
+        try {
+          result = reader.document(docid);
+          results.put(docid, result);
+        } catch (Exception e){}
+      });
+    }
+
+    executor.shutdown();
+
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        LOG.info(String.format("%.2f percent completed",
+                (double) executor.getCompletedTaskCount() / docids.size() * 100.0d));
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+    }
+
+    return results;
+  }
+
+  /**
    * Fetches the Lucene {@link Document} based on some field other than its unique collection docid.
    * For example, scientific articles might have DOIs.
    * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
