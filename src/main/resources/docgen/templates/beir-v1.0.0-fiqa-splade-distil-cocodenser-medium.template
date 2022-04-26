@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; fiqa
+# Anserini Regressions: BEIR (v1.0.0) &mdash; FiQA-2018
 
 **Model**: SPLADE-distil CoCodenser Medium
 

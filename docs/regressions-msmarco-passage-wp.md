@@ -22,11 +22,11 @@ Typical indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
-  -input /path/to/msmarco-passage \
+  -input /path/to/msmarco-passage-wp \
   -index indexes/lucene-index.msmarco-passage-wp/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw -pretokenized \
-  >& logs/log.msmarco-passage &
+  >& logs/log.msmarco-passage-wp &
 ```
 
 The directory `/path/to/msmarco-passage-wp/` should be a directory containing the corpus in Anserini's jsonl format.
@@ -45,17 +45,17 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-wp/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.wp.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt \
+  -output runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt \
   -bm25 -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
 ```
 
 ## Effectiveness
