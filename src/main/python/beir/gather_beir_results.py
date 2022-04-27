@@ -71,6 +71,7 @@ for key in beir_keys:
     for model in models:
         for metric in metrics:
             if key.startswith('cqa'):
+                # The running sum for cqa needs to be kept separately.
                 cqadupstack_sums[model][metric] += table[key][model][metric]
             else:
                 top_level_sums[model][metric] += table[key][model][metric]
@@ -78,9 +79,10 @@ for key in beir_keys:
 # Compute the final mean
 for model in models:
     for metric in metrics:
+        # Compute mean over cqa sub-collections first
         cqa_score = cqadupstack_sums[model][metric] / 12
+        # Roll cqa scores into final overall mean
         final_score = (top_level_sums[model][metric] + cqa_score) / 18
-        print(f'{model} {cqa_score:.4f} {final_score:.4f}')
         final_scores[model][metric] = final_score
 
 for metric in metrics:
@@ -92,5 +94,7 @@ for metric in metrics:
               f'{table[key]["splade-distil-cocodenser-medium"][metric]:.4f}')
 
     print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6)
-    print(' ' * 25 + f'{final_scores["flat"][metric]:0.4f}  {final_scores["multifield"][metric]:0.4f}  {final_scores["splade-distil-cocodenser-medium"][metric]:0.4f}')
+    print(' ' * 25 + f'{final_scores["flat"][metric]:0.4f}  ' +
+          f'{final_scores["multifield"][metric]:0.4f}  ' +
+          f'{final_scores["splade-distil-cocodenser-medium"][metric]:0.4f}')
     print('\n')
