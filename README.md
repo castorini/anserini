@@ -29,7 +29,8 @@ mvn clean package appassembler:assemble
 ```
 
 Note that on Windows, tests may fail due to encoding issues, see [#1466](https://github.com/castorini/anserini/issues/1466).
-Solution is to skip tests by adding `-Dmaven.test.skip=true` to the above `mvn` command.
+A simple workaround is to skip tests by adding `-Dmaven.test.skip=true` to the above `mvn` command.
+See [#1121](https://github.com/castorini/pyserini/discussions/1121) for additional discussions on debugging Windows build errors.
 
 The `tools/` directory, which contains evaluation tools and other scripts, is actually [this repo](https://github.com/castorini/anserini-tools), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
 Build as follows (you might get warnings, but okay to ignore):
