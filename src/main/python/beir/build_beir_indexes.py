@@ -46,6 +46,10 @@ beir_keys = {
     'scifact': 'SciFact'
 }
 
+
+#collection_base = '/store/collections'
+collection_base = '/System/Volumes/Data/store/collections'
+
 commitid_full = 'xxxxxxxxxxxxxxxxxxx'
 commitid_short = 'xxxxxx'
 date_abbreviated = '20220430'
@@ -58,7 +62,7 @@ metrics = ['nDCG@10', 'R@100', 'R@1000']
 def generate_flat_command(corpora):
     return f'nohup target/appassembler/bin/IndexCollection \\\n' + \
            f'  -collection BeirFlatCollection \\\n' + \
-           f'  -input /store/collections/beir-v1.0.0/corpus/{corpora} \\\n' + \
+           f'  -input {collection_base}/beir-v1.0.0/corpus/{corpora} \\\n' + \
            f'  -index indexes/lucene-index.beir-v1.0.0-{corpora}-flat.{date_abbreviated}.{commitid_short}/ \\\n' + \
            f'  -generator DefaultLuceneDocumentGenerator \\\n' + \
            f'  -threads 16 -storePositions -storeDocvectors -storeRaw -optimize \\\n' + \
@@ -68,10 +72,10 @@ def generate_flat_command(corpora):
 def generate_multifield_command(corpora):
     return f'nohup target/appassembler/bin/IndexCollection \\\n' + \
            f'  -collection BeirMultifieldCollection \\\n' + \
-           f'  -input /store/collections/beir-v1.0.0/corpus/{corpora} \\\n' + \
+           f'  -input {collection_base}/beir-v1.0.0/corpus/{corpora} \\\n' + \
            f'  -index indexes/lucene-index.beir-v1.0.0-{corpora}-multifield.{date_abbreviated}.{commitid_short}/ \\\n' + \
            f'  -generator DefaultLuceneDocumentGenerator \\\n' + \
-           f'  -threads 16 -storePositions -storeDocvectors -storeRaw -optimize \\\n' + \
+           f'  -threads 16 -fields title -storePositions -storeDocvectors -storeRaw -optimize \\\n' + \
            f'  >& logs/log.beir-v1.0.0-{corpora}-multifield.{date_abbreviated}.{commitid_short} &'
 
 
@@ -79,7 +83,7 @@ def generate_splade_command(corpora):
     return f'nohup target/appassembler/bin/IndexCollection \\\n' +\
            f'  -collection JsonVectorCollection \\\n' + \
            f'  -generator DefaultLuceneDocumentGenerator \\\n' + \
-           f'  -input /store/collections/beir-v1.0.0/splade_distil_cocodenser_medium/{corpora} \\\n' + \
+           f'  -input {collection_base}/beir-v1.0.0/splade_distil_cocodenser_medium/{corpora} \\\n' + \
            f'  -index indexes/lucene-index.beir-v1.0.0-{corpora}-splade_distil_cocodenser_medium.{date_abbreviated}.{commitid_short}/ \\\n' + \
            f'  -threads 16 -impact -pretokenized \\\n' +\
            f'  >& logs/log.beir-v1.0.0-{corpora}-splade_distil_cocodenser_medium.{date_abbreviated}.{commitid_short} &'
