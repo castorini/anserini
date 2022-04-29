@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Gis
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-gis
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Gis](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-gis](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-gis                                                                               | 0.2904    |
+| BEIR (v1.0.0): CQADupStack-gis                                                                               | 0.2904    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-gis                                                                               | 0.6458    |
+| BEIR (v1.0.0): CQADupStack-gis                                                                               | 0.6458    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-gis                                                                               | 0.8248    |
+| BEIR (v1.0.0): CQADupStack-gis                                                                               | 0.8248    |

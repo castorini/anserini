@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-English
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-english
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Engligh](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-english](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-english-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-english                                                                           | 0.3453    |
+| BEIR (v1.0.0): CQADupStack-english                                                                           | 0.3453    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-english                                                                           | 0.5757    |
+| BEIR (v1.0.0): CQADupStack-english                                                                           | 0.5757    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-english                                                                           | 0.7323    |
+| BEIR (v1.0.0): CQADupStack-english                                                                           | 0.7323    |

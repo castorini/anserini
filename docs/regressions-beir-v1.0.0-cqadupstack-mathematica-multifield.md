@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Mathematica
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-mathematica
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Mathematica](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-mathematica](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-mathematica                                                                       | 0.2046    |
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.2046    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-mathematica                                                                       | 0.5215    |
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.5215    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-mathematica                                                                       | 0.7559    |
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.7559    |

@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Gaming
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-gaming
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Gaming](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-gaming](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-gaming                                                                            | 0.4418    |
+| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.4418    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-gaming                                                                            | 0.7571    |
+| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.7571    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-gaming                                                                            | 0.8882    |
+| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.8882    |

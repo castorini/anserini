@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Wordpress
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-wordpress
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Wordpress](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-wordpress](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-wordpress                                                                         | 0.2562    |
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.2562    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-wordpress                                                                         | 0.5526    |
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.5526    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-wordpress                                                                         | 0.7848    |
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.7848    |

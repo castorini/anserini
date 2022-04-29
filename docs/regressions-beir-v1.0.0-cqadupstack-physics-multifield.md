@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Physics
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-physics
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Physics](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-physics](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-physics                                                                           | 0.3248    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.3248    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-physics                                                                           | 0.6486    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.6486    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-physics                                                                           | 0.8506    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.8506    |

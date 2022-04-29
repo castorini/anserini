@@ -1,8 +1,8 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Programmers
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-programmers
 
 **Model**: SPLADE-distil CoCodenser Medium
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; cqadupstack-programmers](http://beir.ai/).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; CQADupStack-programmers](http://beir.ai/).
 The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-programmers-splade-distil-cocodenser-medium.yaml).
@@ -91,17 +91,17 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-programmers                                                                       | 0.3412    |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.3412    |
 
 
 | R@100                                                                                                        | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-programmers                                                                       | 0.6653    |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.6653    |
 
 
 | R@1000                                                                                                       | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-programmers                                                                       | 0.8451    |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.8451    |
 
 
 ## Reproduction Log[*](reproducibility.md)
