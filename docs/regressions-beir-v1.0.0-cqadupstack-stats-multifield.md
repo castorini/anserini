@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Stats
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-stats
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Stats](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-stats](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-stats                                                                             | 0.2790    |
+| BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.2790    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-stats                                                                             | 0.5719    |
+| BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.5719    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-stats                                                                             | 0.7619    |
+| BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.7619    |

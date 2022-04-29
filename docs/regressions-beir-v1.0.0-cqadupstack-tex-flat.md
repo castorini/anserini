@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Tex
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-tex
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Tex](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-tex](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-tex-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-tex                                                                               | 0.2244    |
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.2244    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-tex                                                                               | 0.4686    |
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.4686    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-tex                                                                               | 0.6907    |
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.6907    |

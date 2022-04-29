@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Webmasters
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-webmasters
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Webmasters](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-webmasters](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-webmasters                                                                        | 0.3008    |
+| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.3008    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-webmasters                                                                        | 0.6100    |
+| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.6100    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-webmasters                                                                        | 0.8226    |
+| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.8226    |

@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Stats
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-stats
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Stats](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-stats](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-stats-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-stats                                                                             | 0.2711    |
+| BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.2711    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-stats                                                                             | 0.5338    |
+| BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.5338    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-stats                                                                             | 0.7310    |
+| BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.7310    |
