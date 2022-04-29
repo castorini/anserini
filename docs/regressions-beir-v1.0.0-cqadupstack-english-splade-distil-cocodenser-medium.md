@@ -1,8 +1,8 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-English
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-english
 
 **Model**: SPLADE-distil CoCodenser Medium
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; cqadupstack-english](http://beir.ai/).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; CQADupStack-english](http://beir.ai/).
 The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-english-splade-distil-cocodenser-medium.yaml).
@@ -91,17 +91,17 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-english                                                                           | 0.4026    |
+| BEIR (v1.0.0): CQADupStack-english                                                                           | 0.4026    |
 
 
 | R@100                                                                                                        | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-english                                                                           | 0.6768    |
+| BEIR (v1.0.0): CQADupStack-english                                                                           | 0.6768    |
 
 
 | R@1000                                                                                                       | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-english                                                                           | 0.8346    |
+| BEIR (v1.0.0): CQADupStack-english                                                                           | 0.8346    |
 
 
 ## Reproduction Log[*](reproducibility.md)

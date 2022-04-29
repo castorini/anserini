@@ -2,7 +2,7 @@
 
 **Model**: SPLADE-distil CoCodenser Medium
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; nfcorpus](http://beir.ai/).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; NFCorpus](http://beir.ai/).
 The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.yaml).
@@ -91,17 +91,17 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): nfcorpus                                                                                      | 0.3454    |
+| BEIR (v1.0.0): NFCorpus                                                                                      | 0.3454    |
 
 
 | R@100                                                                                                        | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): nfcorpus                                                                                      | 0.2891    |
+| BEIR (v1.0.0): NFCorpus                                                                                      | 0.2891    |
 
 
 | R@1000                                                                                                       | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): nfcorpus                                                                                      | 0.5694    |
+| BEIR (v1.0.0): NFCorpus                                                                                      | 0.5694    |
 
 
 ## Reproduction Log[*](reproducibility.md)

@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Tex
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-tex
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Tex](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-tex](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-tex                                                                               | 0.2086    |
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.2086    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-tex                                                                               | 0.4954    |
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.4954    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-tex                                                                               | 0.7222    |
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.7222    |
