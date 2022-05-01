@@ -59,21 +59,17 @@ public class SimpleSearcherTest extends IndexerTestBase {
   public void testBatchGetDoc() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
-    ArrayList<Integer> ldocIds = new ArrayList<Integer>();
-    ldocIds.add(0);
-    ldocIds.add(1);
-    ldocIds.add(2);
-    ldocIds.add(3);
+    ArrayList<String> docIds = new ArrayList<String>();
+    docIds.add("doc1");
+    docIds.add("doc2");
+    docIds.add("doc3");
+    docIds.add("fake_doc");
 
-    Map<Integer, Document> results = searcher.batchDocument(ldocIds, 2);
-
-    assertEquals("here is some text here is some more text. city.",
-            results.get(0).get("contents"));
-    assertEquals("more texts",
-            results.get(1).get("contents"));
-    assertEquals("here is a test",
-            results.get(2).get("contents"));
-    assertNull(results.get(3));
+    Map<String, Document> results = searcher.batchGetDocument(docIds, 2);
+    assertEquals("here is some text here is some more text. city.", results.get("doc1").get("contents"));
+    assertEquals("more texts", results.get("doc2").get("contents"));
+    assertEquals("here is a test", results.get("doc3").get("contents"));
+    assertNull(results.get("fake_doc"));
 
     searcher.close();
   }

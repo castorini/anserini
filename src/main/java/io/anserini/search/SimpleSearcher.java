@@ -682,21 +682,20 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Returns a map of internal Lucene docid to Lucene {@link Document}.
-   * Batch version of {@link #document(int)}.
+   * Returns a map of collection docid to Lucene {@link Document}.
+   * Batch version of {@link #document(String)}.
    *
    * @param docids list of docids
    * @return a map of docid to corresponding Lucene {@link Document}
    */
-  public Map<Integer, Document> batchDocument(List<Integer> docids, int threads){
+  public Map<String, Document> batchGetDocument(List<String> docids, int threads) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
-    ConcurrentHashMap<Integer, Document> results = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Document> results = new ConcurrentHashMap<>();
 
-    for (Integer docid: docids) {
+    for (String docid: docids) {
       executor.execute(() -> {
-        Document result = null;
         try {
-          result = reader.document(docid);
+          Document result = IndexReaderUtils.document(reader, docid);
           results.put(docid, result);
         } catch (Exception e){}
       });
