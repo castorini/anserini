@@ -55,6 +55,7 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.da.DanishAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fa.PersianAnalyzer;
 import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
@@ -750,6 +751,7 @@ public final class IndexCollection {
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
       final DanishAnalyzer danishAnalyzer = new DanishAnalyzer();
       final DutchAnalyzer dutchAnalyzer = new DutchAnalyzer();
+      final PersianAnalyzer farsiAnalyzer = new PersianAnalyzer();
       final FinnishAnalyzer finnishAnalyzer = new FinnishAnalyzer();
       final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
@@ -784,6 +786,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(germanAnalyzer);
       } else if (args.language.equals("es")) {
         config = new IndexWriterConfig(spanishAnalyzer);
+      } else if (args.language.equals("fa")) {
+        config = new IndexWriterConfig(farsiAnalyzer);
       } else if (args.language.equals("fi")) {
         config = new IndexWriterConfig(finnishAnalyzer);
       } else if (args.language.equals("fr")) {
