@@ -47,13 +47,15 @@ beir_keys = {
 }
 
 
-#collection_base = '/store/collections'
-collection_base = '/System/Volumes/Data/store/collections'
+collection_base = '/scratch2/collections/beir-v1.0.0/'
+# Alternatives:
+#   - on my iMac Pro: '/System/Volumes/Data/store/collections'
+#   - on orca: '/store/collections'
 
-commitid_full = 'xxxxxxxxxxxxxxxxxxx'
-commitid_short = 'xxxxxx'
-date_abbreviated = '20220430'
-date_full = '2022/04/30'
+commitid_full = '1842eeffcbf4d18698d401b1c5a4b1c868f32fc6'
+commitid_short = '1842ee'
+date_abbreviated = '20220501'
+date_full = '2022/05/01'
 
 models = ['flat', 'multifield', 'splade-distil-cocodenser-medium']
 metrics = ['nDCG@10', 'R@100', 'R@1000']
@@ -94,7 +96,7 @@ for key in beir_keys:
     print(f'{cmd}\n')
     with open(f'logs/lucene-index.beir-v1.0.0-{key}-flat.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
         f.write(f'# BEIR (v1.0.0) — {beir_keys[key]}\n\n')
-        f.write(f'This **"flat" Lucene index** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `orca` with the following command:\n\n')
+        f.write(f'This **"flat" Lucene index** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `damiano` with the following command:\n\n')
         f.write('```\n')
         f.write(f'{cmd}\n')
         f.write('```\n')
@@ -104,7 +106,7 @@ for key in beir_keys:
     print(f'{cmd}\n')
     with open(f'logs/lucene-index.beir-v1.0.0-{key}-multifield.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
         f.write(f'# BEIR (v1.0.0) — {beir_keys[key]}\n\n')
-        f.write(f'This **"multifield" Lucene index** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `orca` with the following command:\n\n')
+        f.write(f'This **"multifield" Lucene index** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `damiano` with the following command:\n\n')
         f.write('```\n')
         f.write(f'{cmd}\n')
         f.write('```\n')
@@ -114,7 +116,7 @@ for key in beir_keys:
     print(f'{cmd}\n')
     with open(f'logs/lucene-index.beir-v1.0.0-{key}-splade_distil_cocodenser_medium.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
         f.write(f'# BEIR (v1.0.0) — {beir_keys[key]}\n\n')
-        f.write(f'This Lucene impact index for **SPLADE-distill CoCodenser-medium** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `orca` with the following command:\n\n')
+        f.write(f'This Lucene impact index for **SPLADE-distill CoCodenser-medium** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `damiano` with the following command:\n\n')
         f.write('```\n')
         f.write(f'{cmd}\n')
         f.write('```\n')
