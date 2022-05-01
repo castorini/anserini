@@ -47,7 +47,7 @@ beir_keys = {
 }
 
 
-collection_base = '/scratch2/collections/beir-v1.0.0/'
+collection_base = '/scratch2/collections'
 # Alternatives:
 #   - on my iMac Pro: '/System/Volumes/Data/store/collections'
 #   - on orca: '/store/collections'
