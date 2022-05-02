@@ -17,25 +17,32 @@
 package io.anserini.ltr;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.*;
-import io.anserini.ltr.feature.base.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,7 +61,6 @@ public class FeatureExtractorUtils {
   private ExecutorService pool;
   private Map<String, Future<byte[]>> tasks = new HashMap<>();
   private Map<String, Future<List<debugOutput>>> debugTasks = new HashMap<>();
-  private Boolean executeBM25Stat = false;
 
   /**
    * set up the feature we wish to extract
@@ -73,18 +79,6 @@ public class FeatureExtractorUtils {
       fieldsToLoad.add(field);
     if(qfield != null)
       qfieldsToLoad.add(qfield);
-    if(extractor instanceof BM25HMean)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Max)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Mean)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Min)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Quartile)
-      executeBM25Stat = true;
-    if(extractor instanceof BM25Var)
-      executeBM25Stat = true;
     return this;
   }
 
@@ -104,6 +98,7 @@ public class FeatureExtractorUtils {
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
+  @SuppressWarnings("unchecked")
   public List<debugOutput> extract(String qid, List<String> docIds, List<String> queryTokens) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     Map<String, Object> json = new HashMap();
@@ -131,10 +126,6 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
       List<debugOutput> result = new ArrayList<>();
-      if (executeBM25Stat){
-        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
-        documentContext.generateBM25Stat(qcontext.queryTokens);
-      }
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -175,11 +166,6 @@ public class FeatureExtractorUtils {
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
       QueryContext queryContext = new QueryContext(qid, qfieldsToLoad, jsonQuery);
 
-      if (executeBM25Stat){
-        QueryFieldContext qcontext = queryContext.fieldContexts.get("analyzed");
-        documentContext.generateBM25Stat(qcontext.queryTokens);
-      }
-
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       DataOutputStream dos = new DataOutputStream(baos);
       //strict follow doc id order
@@ -203,12 +189,11 @@ public class FeatureExtractorUtils {
     }));
   }
 
-
-
   /**
    * submit tasks to workers, exposed in Pyserini
    * @throws JsonProcessingException
    */
+  @SuppressWarnings("unchecked")
   public String lazyExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode root = mapper.readValue(jsonInput, JsonNode.class);
@@ -222,6 +207,7 @@ public class FeatureExtractorUtils {
    * submit tasks to workers, exposed in Pyserini
    * @throws JsonProcessingException
    */
+  @SuppressWarnings("unchecked")
   public String debugExtract(String jsonInput) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode root = mapper.readValue(jsonInput, JsonNode.class);

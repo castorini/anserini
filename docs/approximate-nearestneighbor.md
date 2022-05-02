@@ -133,3 +133,7 @@ Evaluating at retrieval depth: 100
 R@100: 0.8750
 avg query time: 418.83 ms
 ```
+
+## Reproduction Log[*](reproducibility.md)
+
++ Results reproduced by @rootofallevii on 2021-09-09 (commit [387405a](https://github.com/castorini/anserini/commit/387405a4b187ecb30adab29ae903091cecce8481))

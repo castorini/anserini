@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package io.anserini.search.topicreader;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,6 +31,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.zip.GZIPInputStream;
 
 /**
  * A reader of topics, i.e., information needs or queries, in a variety of standard formats.
@@ -37,57 +39,18 @@ import java.util.SortedMap;
  * @param <K> type of the topic id
  */
 public abstract class TopicReader<K> {
+  protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
 
-  // Holds mappings from known topic files to corresponding TopicReader class.
-  static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = Map.ofEntries(
-      Map.entry("topics.adhoc.51-100.txt", TrecTopicReader.class),
-      Map.entry("topics.adhoc.101-150.txt", TrecTopicReader.class),
-      Map.entry("topics.adhoc.151-200.txt", TrecTopicReader.class),
-      Map.entry("topics.robust04.txt", TrecTopicReader.class),
-      Map.entry("topics.robust05.txt", TrecTopicReader.class),
-      Map.entry("topics.core17.txt", TrecTopicReader.class),
-      Map.entry("topics.core18.txt", TrecTopicReader.class),
-      Map.entry("topics.adhoc.451-550.txt", TrecTopicReader.class),
-      Map.entry("topics.terabyte04.701-750.txt", TrecTopicReader.class),
-      Map.entry("topics.terabyte05.751-800.txt", TrecTopicReader.class),
-      Map.entry("topics.terabyte06.801-850.txt", TrecTopicReader.class),
-      Map.entry("topics.web.51-100.txt", WebxmlTopicReader.class),
-      Map.entry("topics.web.101-150.txt", WebxmlTopicReader.class),
-      Map.entry("topics.web.151-200.txt", WebxmlTopicReader.class),
-      Map.entry("topics.web.201-250.txt", WebxmlTopicReader.class),
-      Map.entry("topics.web.251-300.txt", WebxmlTopicReader.class),
-      Map.entry("topics.microblog2011.txt", MicroblogTopicReader.class),
-      Map.entry("topics.microblog2012.txt", MicroblogTopicReader.class),
-      Map.entry("topics.microblog2013.txt", MicroblogTopicReader.class),
-      Map.entry("topics.microblog2014.txt", MicroblogTopicReader.class),
-      Map.entry("topics.car17v1.5.benchmarkY1test.txt", CarTopicReader.class),
-      Map.entry("topics.car17v2.0.benchmarkY1test.txt", CarTopicReader.class),
-      Map.entry("topics.dl19-doc.txt", TsvIntTopicReader.class),
-      Map.entry("topics.dl19-passage.txt", TsvIntTopicReader.class),
-      Map.entry("topics.msmarco-doc.dev.txt", TsvIntTopicReader.class),
-      Map.entry("topics.msmarco-passage.dev-subset.txt", TsvIntTopicReader.class),
-      Map.entry("topics.ntcir8zh.eval.txt", TsvStringTopicReader.class),
-      Map.entry("topics.clef06fr.mono.fr.txt", TsvStringTopicReader.class),
-      Map.entry("topics.trec02ar-ar.txt", TrecTopicReader.class),
-      Map.entry("topics.fire12bn.176-225.txt", TrecTopicReader.class),
-      Map.entry("topics.fire12hi.176-225.txt", TrecTopicReader.class),
-      Map.entry("topics.fire12en.176-225.txt", TrecTopicReader.class),
-      Map.entry("topics.covid-round1.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round1-udel.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round2.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round2-udel.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round3.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round3-udel.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round4.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round4-udel.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round5.xml", CovidTopicReader.class),
-      Map.entry("topics.covid-round5-udel.xml", CovidTopicReader.class),
-      Map.entry("topics.backgroundlinking18.txt", BackgroundLinkingTopicReader.class),
-      Map.entry("topics.backgroundlinking19.txt", BackgroundLinkingTopicReader.class),
-      Map.entry("topics.dpr.nq.dev.txt", DprNqTopicReader.class),
-      Map.entry("topics.dpr.nq.test.txt", DprNqTopicReader.class)
-  );
+  static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = new HashMap<>();
+
+  static {
+    // Inverts the "Topic" enum to populate the lookup table that maps topics filename to reader class.
+    for (Topics topic : Topics.values()) {
+      String pathParts[] = topic.path.split("\\/");
+      TOPIC_FILE_TO_TYPE.put(pathParts[1], topic.readerClass);
+    }
+  }
 
   /**
    * Returns the {@link TopicReader} class corresponding to a known topics file, or <code>null</code> if unknown.
@@ -122,14 +85,21 @@ public abstract class TopicReader<K> {
    * @throws IOException if error encountered reading topics
    */
   public SortedMap<K, Map<String, String>> read() throws IOException {
-    InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
-    BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
-    return read(bRdr);
+    BufferedReader bufferedReader;
+    if (topicFile.toString().endsWith(".gz")) {
+      InputStream stream = new GZIPInputStream(Files.newInputStream(topicFile, StandardOpenOption.READ), BUFFER_SIZE);
+      bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+    } else {
+      InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
+      bufferedReader = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
+    }
+
+    return read(bufferedReader);
   }
 
   public SortedMap<K, Map<String, String>> read(String str) throws IOException {
-    BufferedReader bRdr = new BufferedReader(new StringReader(str));
-    return read(bRdr);
+    BufferedReader bufferedReader = new BufferedReader(new StringReader(str));
+    return read(bufferedReader);
   }
 
   abstract public SortedMap<K, Map<String, String>> read(BufferedReader bRdr) throws IOException;
@@ -144,8 +114,15 @@ public abstract class TopicReader<K> {
   @SuppressWarnings("unchecked")
   public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) {
     try {
-      InputStream inputStream = TopicReader.class.getClassLoader().getResourceAsStream(topics.path);
-      String raw = new String(inputStream.readAllBytes());
+      String raw;
+      InputStream inputStream;
+      if (topics.path.endsWith(".gz")) {
+        inputStream = new GZIPInputStream(TopicReader.class.getClassLoader().getResourceAsStream(topics.path));
+      } else {
+        inputStream = TopicReader.class.getClassLoader().getResourceAsStream(topics.path);
+      }
+      raw = new String(inputStream.readAllBytes());
+      inputStream.close();
 
       // Get the constructor
       Constructor[] ctors = topics.readerClass.getDeclaredConstructors();
@@ -154,6 +131,7 @@ public abstract class TopicReader<K> {
       return reader.read(raw);
 
     } catch (Exception e) {
+      e.printStackTrace();
       return null;
     }
   }

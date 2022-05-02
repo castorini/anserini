@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,13 +37,15 @@ public class CoreEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
-    documents.put("fullCoreDoc", Map.of(
+    docFieldCount = -1; // Documents may have variable number of fields, so don't bother checking.
+
+    referenceDocs.put("fullCoreDoc", Map.of(
         "contents", "Full CORE doc ",
         "raw", "Full CORE doc "));
-    documents.put("coreDoc1", Map.of(
+    referenceDocs.put("coreDoc1", Map.of(
         "contents", "this is the title 1 this is the abstract 1",
         "raw", "this is the title 1 this is the abstract 1"));
-    documents.put("doi2", Map.of(
+    referenceDocs.put("doi2", Map.of(
         "contents", "this is the title 2 this is the abstract 2",
         "raw", "this is the title 2 this is the abstract 2"));
 

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,10 +51,10 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -347,6 +347,70 @@ public class IndexReaderUtils {
 
   public static List<Posting> getPostingsListWithAnalyzer(IndexReader reader, String term, Analyzer analyzer) {
     return getPostingsList(reader, term, analyzer);
+  }
+
+  /**
+   * Returns the document vector for a particular document as a list of tokens contained in the document. Note that this
+   * method explicitly returns {@code null} if the document does not exist (as opposed to an empty list), so that the
+   * caller is explicitly forced to handle this case.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the document vector for a particular document as a list of tokens or {@code null} if document does not exist.
+   * @throws IOException if error encountered during query
+   * @throws NotStoredException if the term vector is not stored or positions are not stored
+   */
+  public static List<String> getDocumentTokens(IndexReader reader, String docid) throws IOException, NotStoredException {
+    int ldocid = convertDocidToLuceneDocid(reader, docid);
+    if (ldocid == -1) {
+      return null;
+    }
+    Terms terms = reader.getTermVector(ldocid, IndexArgs.CONTENTS);
+    if (terms == null) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+    if (!terms.hasPositions()) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+    TermsEnum te = terms.iterator();
+    if (te == null) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+
+    // We need to first find out how long the document vector is so we can allocate an array for it.
+    // The temptation is to just call terms.getSumTotalTermFreq(), but we can't - since this value will not include stopwords!
+    // The only sure way is to iterate through all the terms once to find the max position.
+    // Note that position is zero-based.
+    PostingsEnum postingsEnum = null;
+    int maxPos = 0;
+    while ((te.next()) != null) {
+      postingsEnum = te.postings(postingsEnum);
+      postingsEnum.nextDoc();
+
+      for (int j=0; j<postingsEnum.freq(); j++) {
+        int pos = postingsEnum.nextPosition();
+        if (pos > maxPos) {
+          maxPos = pos;
+        }
+      }
+    }
+
+    // We now know how long to make the array.
+    String[] tokens = new String[maxPos + 1];
+
+    // Go through the terms again, this time to actually build the list of tokens.
+    te = reader.getTermVector(ldocid, IndexArgs.CONTENTS).iterator();
+    while ((te.next()) != null) {
+      postingsEnum = te.postings(postingsEnum);
+      postingsEnum.nextDoc();
+
+      for (int j=0; j<postingsEnum.freq(); j++) {
+        int pos = postingsEnum.nextPosition();
+        tokens[pos] = te.term().utf8ToString();
+      }
+    }
+
+    return Arrays.asList(tokens);
   }
 
   /**

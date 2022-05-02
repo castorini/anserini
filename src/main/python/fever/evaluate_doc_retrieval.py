@@ -59,7 +59,7 @@ def evaluate_retrieval(args):
         curr_query = -1
         predicted_docs = []
         for i, line in enumerate(f):
-            query_id, doc_id, rank = line.strip().split('\t')
+            query_id, _, doc_id, rank, _, _ = line.strip().split(' ')
             query_id = int(query_id)
 
             # if we reach a new query in the run file, evaluate the previous query

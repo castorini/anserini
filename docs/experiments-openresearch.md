@@ -48,7 +48,7 @@ The output message should be something like this:
 
 Your speed may vary... with a modern desktop machine with an SSD, indexing takes around a minute.
 
-**Optional:** To further replicate the result presented in [Bhagavatula et. al (2018)](https://arxiv.org/pdf/1802.08301.pdf), we could use `key_terms_from_text` method presented in [whoosh](https://whoosh.readthedocs.io/en/latest/). For that purpose, we need to generate whoosh's own index:
+**Optional:** To further reproduce the result presented in [Bhagavatula et. al (2018)](https://arxiv.org/pdf/1802.08301.pdf), we could use `key_terms_from_text` method presented in [whoosh](https://whoosh.readthedocs.io/en/latest/). For that purpose, we need to generate whoosh's own index:
 
 ```
 python ./src/main/python/openresearch/convert_openresearch_to_whoosh_index.py \

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.rerank.RerankerCascade;
@@ -30,33 +29,47 @@ import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
+import io.anserini.search.similarity.ImpactSimilarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.Topics;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.da.DanishAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.hu.HungarianAnalyzer;
+import org.apache.lucene.analysis.id.IndonesianAnalyzer;
+import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.nl.DutchAnalyzer;
+import org.apache.lucene.analysis.no.NorwegianAnalyzer;
+import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
+import org.apache.lucene.analysis.ru.RussianAnalyzer;
+import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.th.ThaiAnalyzer;
+import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.BooleanClause;
@@ -89,32 +102,38 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.BufferedInputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Main entry point for search.
@@ -139,7 +158,7 @@ public final class SearchCollection implements Closeable {
   private List<RerankerCascade> cascades;
   private final boolean isRerank;
   private Map<String, ScoredDocuments> qrels;
-  private Set<String> queriesWithRel; 
+  private Set<String> queriesWithRel;
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -151,8 +170,7 @@ public final class SearchCollection implements Closeable {
     final private String runTag;
 
     private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
-                           RerankerCascade cascade, Map<String, ScoredDocuments> qrels, String outputPath, 
-                           String runTag) {
+                           RerankerCascade cascade, Map<String, ScoredDocuments> qrels, String outputPath, String runTag) {
       this.reader = reader;
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
@@ -167,96 +185,189 @@ public final class SearchCollection implements Closeable {
     @Override
     public void run() {
       try {
-        String id = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
-        LOG.info("[Start] " + id);
+        // A short descriptor of the ranking setup.
+        final String desc = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
 
-        int cnt = 0;
+        // This is the number of threads that we're going to devote to running the queries in parallel.
+        int parallelism = args.parallelism;
+        // BM25 PRF is not thread safe, so we can't run in parallel.
+        if (args.bm25prf) {
+          parallelism = 1;
+        }
+
+        // ThreadPool for parallelizing the execution of individual queries:
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(parallelism);
+        // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
+        // will go into the final run file) as the value.
+        ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
+        AtomicInteger cnt = new AtomicInteger();
+
         final long start = System.nanoTime();
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
 
-          String queryString = "";
-          if (args.topicfield.contains("+")) {
-            for (String field : args.topicfield.split("\\+")) {
-              queryString += " " + entry.getValue().get(field);
+          // This is the per-query execution, in parallel.
+          executor.execute(() -> {
+            // This is for holding the results.
+            StringBuilder out = new StringBuilder();
+
+            String queryString = "";
+            if (args.topicfield.contains("+")) {
+              for (String field : args.topicfield.split("\\+")) {
+                queryString += " " + entry.getValue().get(field);
+              }
+            } else {
+              queryString = entry.getValue().get(args.topicfield);
             }
-          } else {
-            queryString = entry.getValue().get(args.topicfield);
+
+            ScoredDocuments queryQrels = null;
+            boolean hasRelDocs = false;
+            String qidString = qid.toString();
+            if (qrels != null) {
+              queryQrels = qrels.get(qidString);
+              if (queriesWithRel.contains(qidString)) {
+                hasRelDocs = true;
+              }
+            }
+            ScoredDocuments docs;
+            try {
+              if (args.searchtweets) {
+                docs = searchTweets(this.searcher, qid, queryString,
+                    Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
+              } else if (args.backgroundlinking) {
+                docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
+              } else {
+                docs = search(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
+              }
+            } catch (IOException e) {
+              throw new CompletionException(e);
+            }
+
+            // For removing duplicate docids.
+            Set<String> docids = new HashSet<>();
+
+            int rank = 1;
+            for (int i = 0; i < docs.documents.length; i++) {
+              String docid = docs.documents[i].get(IndexArgs.ID);
+
+              if (args.selectMaxPassage) {
+                docid = docid.split(args.selectMaxPassage_delimiter)[0];
+              }
+
+              if (docids.contains(docid))
+                continue;
+
+              // Remove docids that are identical to the query id if flag is set.
+              if (args.removeQuery && docid.equals(qid))
+                continue;
+
+              if ("msmarco".equals(args.format)) {
+                // MS MARCO output format:
+                out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, docid, rank));
+              } else {
+                // Standard TREC format:
+                // + the first column is the topic number.
+                // + the second column is currently unused and should always be "Q0".
+                // + the third column is the official document identifier of the retrieved document.
+                // + the fourth column is the rank the document is retrieved.
+                // + the fifth column shows the score (integer or floating point) that generated the ranking.
+                // + the sixth column is called the "run tag" and should be a unique identifier for your
+                out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n",
+                    qid, docid, rank, docs.scores[i], runTag));
+              }
+
+              // Note that this option is set to false by default because duplicate documents usually indicate some
+              // underlying indexing issues, and we don't want to just eat errors silently.
+              //
+              // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
+              // duplicates.
+              if (args.removedups || args.selectMaxPassage) {
+                docids.add(docid);
+              }
+
+              rank++;
+
+              if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
+                break;
+              }
+            }
+
+            results.put(qid, out.toString());
+            int n = cnt.incrementAndGet();
+            if (n % 100 == 0) {
+              LOG.info(String.format("%s: %d queries processed", desc, n));
+            }
+          });
+        }
+
+        executor.shutdown();
+
+        try {
+          // Wait for existing tasks to terminate.
+          while (!executor.awaitTermination(1, TimeUnit.MINUTES));
+        } catch (InterruptedException ie) {
+          // (Re-)Cancel if current thread also interrupted.
+          executor.shutdownNow();
+          // Preserve interrupt status.
+          Thread.currentThread().interrupt();
+        }
+        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+
+        LOG.info(desc + ": " + topics.size() + " queries processed in " +
+            DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+            String.format(" = ~%.2f q/s", topics.size()/(durationMillis/1000.0)));
+
+        // Now we write the results to a run file.
+        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
+
+        // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
+        // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
+        // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
+        // results in different orders. Due to the way that the MS MARCO V1 eval scripts are written (they report MRR to
+        // an excessive number of significant digits), different orders yield slightly different metric values (due to
+        // floating point precision issues). Just to retain exactly the same output as SearchMsmarco (which was used to,
+        // for example, generate Anserini leaderboard runs), we add an ugly hack here to dump the results in the order
+        // of the qids in the query files.
+        boolean isMSMARCOv1_passage = topics.firstKey().equals(2) &&
+            topics.get(2).get("title").equals("Androgen receptor define") &&
+            topics.keySet().size() == 6980;
+        boolean isMAMARCOv1_doc = topics.firstKey().equals(2) &&
+            topics.get(2).get("title").equals("androgen receptor define") &&
+            topics.keySet().size() == 5193;
+
+        if (isMSMARCOv1_passage || isMAMARCOv1_doc) {
+          String raw = "";
+          try {
+            InputStream inputStream = null;
+            if (isMSMARCOv1_passage) {
+              inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path);
+            } else {
+              inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_DOC_DEV.path);
+            }
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+              line = line.trim();
+              String[] arr = line.split("\\t");
+              out.print(results.get(Integer.parseInt(arr[0])));
+            }
+
+            inputStream.close();
+          } catch (IOException e) {
+            e.printStackTrace();
           }
-
-          ScoredDocuments queryQrels = null;
-          boolean hasRelDocs = false;
-          String qidString = qid.toString();
-          if (qrels != null){
-            queryQrels = qrels.get(qidString);
-            if (queriesWithRel.contains(qidString)) {
-              hasRelDocs = true;
-            }
-          }
-          ScoredDocuments docs;
-          if (args.searchtweets) {
-            docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
-          } else if (args.backgroundlinking) {
-            docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
-          } else {
-            docs = search(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
-          }
-
-          // For removing duplicate docids.
-          Set<String> docids = new HashSet<>();
-
-          /*
-           * the first column is the topic number.
-           * the second column is currently unused and should always be "Q0".
-           * the third column is the official document identifier of the retrieved document.
-           * the fourth column is the rank the document is retrieved.
-           * the fifth column shows the score (integer or floating point) that generated the ranking.
-           * the sixth column is called the "run tag" and should be a unique identifier for your
-           */
-          int rank = 1;
-          for (int i = 0; i < docs.documents.length; i++) {
-            String docid = docs.documents[i].get(IndexArgs.ID);
-
-            if (args.selectMaxPassage) {
-              docid = docid.split(args.selectMaxPassage_delimiter)[0];
-            }
-
-            if (docids.contains(docid))
-              continue;
-
-            out.println(String.format(Locale.US, "%s Q0 %s %d %f %s",
-                qid, docid, rank, docs.scores[i], runTag));
-
-            // Note that this option is set to false by default because duplicate documents usually indicate some
-            // underlying indexing issues, and we don't want to just eat errors silently.
-            //
-            // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
-            // duplicates.
-            if (args.removedups || args.selectMaxPassage) {
-              docids.add(docid);
-            }
-
-            rank++;
-
-            if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
-              break;
-            }
-          }
-          cnt++;
-          if (cnt % 100 == 0) {
-            LOG.info(String.format("%d queries processed", cnt));
+        } else {
+          // This is the default case: just dump out the qids by their natural order.
+          for (K qid : results.keySet()) {
+            out.print(results.get(qid));
           }
         }
         out.flush();
         out.close();
-        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
-        LOG.info("[End  ] " + id);
-        LOG.info(topics.size() + " topics processed in "
-            + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
       } catch (Exception e) {
-        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception: ", e);
       }
     }
   }
@@ -271,50 +382,105 @@ public final class SearchCollection implements Closeable {
 
     LOG.info("============ Initializing Searcher ============");
     LOG.info("Index: " + indexPath);
-    if (args.inmem) {
-      this.reader = DirectoryReader.open(MMapDirectory.open(indexPath));
-    } else {
-      this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    this.reader = args.inmem ? DirectoryReader.open(MMapDirectory.open(indexPath)) :
+        DirectoryReader.open(FSDirectory.open(indexPath));
+
+    LOG.info("Fields: " + Arrays.toString(args.fields));
+    if (args.fields.length != 0) {
+      // The -fields argument should be in the form of "field1=weight1 field2=weight2...".
+      // Try to parse, and throw exception if anything goes wrong.
+      try {
+        for (String part : args.fields) {
+          String[] tok = part.split("=");
+          args.fieldsMap.put(tok[0], Float.parseFloat(tok[1]));
+        }
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Error parsing -fields parameter: " + Arrays.toString(args.fields));
+      }
     }
 
     // Are we searching tweets?
     if (args.searchtweets) {
       LOG.info("Searching tweets? true");
       analyzer = new TweetAnalyzer();
-    } else if (args.language.equals("zh")) {
-      analyzer = new CJKAnalyzer();
-      LOG.info("Language: zh");
     } else if (args.language.equals("ar")) {
       analyzer = new ArabicAnalyzer();
       LOG.info("Language: ar");
-    } else if (args.language.equals("fr")) {
-      analyzer = new FrenchAnalyzer();
-      LOG.info("Language: fr");
-    } else if (args.language.equals("hi")) {
-      analyzer = new HindiAnalyzer();
-      LOG.info("Language: hi");
     } else if (args.language.equals("bn")) {
       analyzer = new BengaliAnalyzer();
       LOG.info("Language: bn");
+    } else if (args.language.equals("da")) {
+      analyzer = new DanishAnalyzer();
+      LOG.info("Language: da");
     } else if (args.language.equals("de")) {
       analyzer = new GermanAnalyzer();
       LOG.info("Language: de");
     } else if (args.language.equals("es")) {
       analyzer = new SpanishAnalyzer();
       LOG.info("Language: es");
-    } else if (args.language.equals("en_ws")) {
+    } else if (args.language.equals("fi")) {
+      analyzer = new FinnishAnalyzer();
+      LOG.info("Language: fi");
+    } else if (args.language.equals("fr")) {
+      analyzer = new FrenchAnalyzer();
+      LOG.info("Language: fr");
+    } else if (args.language.equals("hi")) {
+      analyzer = new HindiAnalyzer();
+      LOG.info("Language: hi");
+    } else if (args.language.equals("hu")) {
+      analyzer = new HungarianAnalyzer();
+      LOG.info("Language: hu");
+    } else if (args.language.equals("id")) {
+      analyzer = new IndonesianAnalyzer();
+      LOG.info("Language: id");
+    } else if (args.language.equals("it")) {
+      analyzer = new ItalianAnalyzer();
+      LOG.info("Language: it");
+    } else if (args.language.equals("ja")) {
+      analyzer = new JapaneseAnalyzer();
+      LOG.info("Language: ja");
+    } else if (args.language.equals("ko")) {
+      analyzer = new CJKAnalyzer();
+      LOG.info("Language: ko");
+    } else if (args.language.equals("nl")) {
+      analyzer = new DutchAnalyzer();
+      LOG.info("Language: nl");
+    } else if (args.language.equals("no")) {
+      analyzer = new NorwegianAnalyzer();
+      LOG.info("Language: no");
+    } else if (args.language.equals("pt")) {
+      analyzer = new PortugueseAnalyzer();
+      LOG.info("Language: pt");
+    } else if (args.language.equals("ru")) {
+      analyzer = new RussianAnalyzer();
+      LOG.info("Language: ru");
+    } else if (args.language.equals("sv")) {
+      analyzer = new SwedishAnalyzer();
+      LOG.info("Language: sv");
+    } else if (args.language.equals("th")) {
+      analyzer = new ThaiAnalyzer();
+      LOG.info("Language: th");
+    } else if (args.language.equals("tr")) {
+      analyzer = new TurkishAnalyzer();
+      LOG.info("Language: tr");
+    } else if (args.language.equals("zh")) {
+      analyzer = new CJKAnalyzer();
+      LOG.info("Language: zh");
+    } else if (args.pretokenized || args.language.equals("sw") || args.language.equals("te")) {
       analyzer = new WhitespaceAnalyzer();
-      LOG.info("Language: en_ws");
+      LOG.info("Pretokenized");
     } else {
       // Default to English
       analyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
       LOG.info("Language: en");
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);
-      LOG.info("Stopwords file " + args.stopwords);
+      LOG.info("Stopwords file: " + args.stopwords);
+      LOG.info("Number of threads for running different parameter configurations: " + args.threads);
+      LOG.info("Number of threads for running each individual parameter configuration: " + args.parallelism);
     }
 
-    isRerank = args.rm3 || args.axiom || args.bm25prf;
+    isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
 
     if (this.isRerank && args.rf_qrels != null){
       loadQrels(args.rf_qrels);      
@@ -374,6 +540,8 @@ public final class SearchCollection implements Closeable {
       for (String s : args.f2log_s) {
         similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), String.format("f2log(s=%s)", s)));
       }
+    } else if (args.impact) {
+      similarities.add(new TaggedSimilarity(new ImpactSimilarity(), "impact()"));
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
     }
@@ -398,7 +566,8 @@ public final class SearchCollection implements Closeable {
 
             RerankerCascade cascade = new RerankerCascade(tag);
             cascade.add(new Rm3Reranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
-                Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery));
+                Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery,
+                !args.rm3_noTermFilter));
             cascade.add(new ScoreTiesAdjusterReranker());
             cascades.add(cascade);
           }
@@ -453,7 +622,34 @@ public final class SearchCollection implements Closeable {
           }
         }
       }
-    } else {
+    } else if (args.rocchio) {
+      for (String topFbTerms : args.rocchio_topFbTerms) {
+        for (String topFbDocs : args.rocchio_topFbDocs) {
+          for (String bottomFbTerms : args.rocchio_bottomFbTerms) {
+            for (String bottomFbDocs : args.rocchio_bottomFbDocs) {
+              for (String alpha : args.rocchio_alpha) {
+                for (String beta : args.rocchio_beta) {
+                  for (String gamma : args.rocchio_gamma) {
+                    String tag;
+                    if (this.args.rf_qrels != null){
+                      tag = String.format("rocchioRf(topFbTerms=%s,bottomFbTerms=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, bottomFbTerms, alpha, beta, gamma);
+                    } else{
+                      tag = String.format("rocchio(topFbTerms=%s,topFbDocs=%s,bottomFbTerms=%s,bottomFbDocs=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma);
+                    }
+                    RerankerCascade cascade = new RerankerCascade(tag);
+                    cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
+                        Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms),
+                        Integer.valueOf(bottomFbDocs),Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery));
+                    cascade.add(new ScoreTiesAdjusterReranker());
+                    cascades.add(cascade);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }else {
       RerankerCascade cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.add(cascade);
@@ -560,7 +756,7 @@ public final class SearchCollection implements Closeable {
 
   public <K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade, ScoredDocuments queryQrels,
                                     boolean hasRelDocs) throws IOException {
-    Query query = null;
+    Query query;
 
     if (args.sdm) {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
@@ -573,7 +769,11 @@ public final class SearchCollection implements Closeable {
         e.printStackTrace();
         throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
       }
-      query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
+
+      // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
+      // multiple fields with the associated boosts.
+      query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString) :
+          generator.buildQuery(args.fieldsMap, analyzer, queryString);
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
@@ -586,7 +786,6 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
     if ( isRerank && args.rf_qrels != null) {
@@ -717,11 +916,11 @@ public final class SearchCollection implements Closeable {
     SearchCollection searcher;
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
-    // except messages and display on console.
+    // exception messages and display on console.
     try {
       searcher = new SearchCollection(searchArgs);
-    } catch (IllegalArgumentException e1) {
-      System.err.println(e1.getMessage());
+    } catch (IllegalArgumentException e) {
+      System.err.println(e.getMessage());
       return;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,8 @@
 
 package io.anserini.index;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import com.google.common.hash.Hashing;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
@@ -31,6 +29,7 @@ import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.SkippedDocumentException;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
+import io.anserini.search.similarity.ImpactSimilarity;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.commons.pool2.BasePooledObjectFactory;
@@ -53,10 +52,24 @@ import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.da.DanishAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.hu.HungarianAnalyzer;
+import org.apache.lucene.analysis.id.IndonesianAnalyzer;
+import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.nl.DutchAnalyzer;
+import org.apache.lucene.analysis.no.NorwegianAnalyzer;
+import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
+import org.apache.lucene.analysis.ru.RussianAnalyzer;
+import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.th.ThaiAnalyzer;
+import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.DocValuesType;
@@ -89,6 +102,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -178,15 +192,6 @@ public final class IndexCollection {
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
-          }
-
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(d.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
           }
 
           Document doc;
@@ -287,15 +292,6 @@ public final class IndexCollection {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
-          }
-
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
           }
 
           Document document;
@@ -464,15 +460,6 @@ public final class IndexCollection {
             continue;
           }
 
-          // Used for indexing distinct shardCount of a collection
-          if (args.shardCount > 1) {
-            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
-            if (hash != args.shardCurrent) {
-              counters.skipped.incrementAndGet();
-              continue;
-            }
-          }
-
           Document document;
           try {
             document = generator.createDocument(sourceDocument);
@@ -638,6 +625,8 @@ public final class IndexCollection {
   private ObjectPool<SolrClient> solrPool;
   private ObjectPool<RestHighLevelClient> esPool;
 
+
+
   @SuppressWarnings("unchecked")
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
@@ -661,15 +650,18 @@ public final class IndexCollection {
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
+    LOG.info("Language: " + args.language);
     LOG.info("Stemmer: " + args.stemmer);
     LOG.info("Keep stopwords? " + args.keepStopwords);
-    LOG.info("Stopwords:  " + args.stopwords);
+    LOG.info("Stopwords: " + args.stopwords);
     LOG.info("Store positions? " + args.storePositions);
     LOG.info("Store docvectors? " + args.storeDocvectors);
     LOG.info("Store document \"contents\" field? " + args.storeContents);
     LOG.info("Store document \"raw\" field? " + args.storeRaw);
+    LOG.info("Additional fields to index: " + Arrays.toString(args.fields));
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
+    LOG.info("Pretokenized?: " + args.pretokenized);
 
     if (args.solr) {
       LOG.info("Indexing into Solr...");
@@ -704,7 +696,13 @@ public final class IndexCollection {
       }
     }
 
-    collectionPath = Paths.get(args.input);
+    // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work, we assume
+    // collections/ as the path location.
+    String pathStr = args.input;
+    if (pathStr.startsWith("/path/to")) {
+      pathStr = pathStr.replace("/path/to", "collections");
+    }
+    collectionPath = Paths.get(pathStr);
     if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
       throw new RuntimeException("Document directory " + collectionPath.toString() + " does not exist or is not readable, please check the path");
     }
@@ -749,11 +747,24 @@ public final class IndexCollection {
       final Directory dir = FSDirectory.open(indexPath);
       final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
       final ArabicAnalyzer arabicAnalyzer = new ArabicAnalyzer();
-      final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
-      final HindiAnalyzer hindiAnalyzer = new HindiAnalyzer();
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
+      final DanishAnalyzer danishAnalyzer = new DanishAnalyzer();
+      final DutchAnalyzer dutchAnalyzer = new DutchAnalyzer();
+      final FinnishAnalyzer finnishAnalyzer = new FinnishAnalyzer();
+      final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
+      final HindiAnalyzer hindiAnalyzer = new HindiAnalyzer();
+      final HungarianAnalyzer hungarianAnalyzer = new HungarianAnalyzer();
+      final IndonesianAnalyzer indonesianAnalyzer = new IndonesianAnalyzer();
+      final ItalianAnalyzer italianAnalyzer = new ItalianAnalyzer();
+      final JapaneseAnalyzer japaneseAnalyzer = new JapaneseAnalyzer();
+      final NorwegianAnalyzer norwegianAnalyzer = new NorwegianAnalyzer();
+      final PortugueseAnalyzer portugueseAnalyzer = new PortugueseAnalyzer();
+      final RussianAnalyzer russianAnalyzer = new RussianAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
+      final SwedishAnalyzer swedishAnalyzer = new SwedishAnalyzer();
+      final ThaiAnalyzer thaiAnalyzer = new ThaiAnalyzer();
+      final TurkishAnalyzer turkishAnalyzer = new TurkishAnalyzer();
       final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
 
       final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
@@ -763,27 +774,58 @@ public final class IndexCollection {
       final IndexWriterConfig config;
       if (args.collectionClass.equals("TweetCollection")) {
         config = new IndexWriterConfig(tweetAnalyzer);
-      } else if (args.language.equals("zh")) {
-        config = new IndexWriterConfig(chineseAnalyzer);
       } else if (args.language.equals("ar")) {
         config = new IndexWriterConfig(arabicAnalyzer);
-      } else if (args.language.equals("fr")) {
-        config = new IndexWriterConfig(frenchAnalyzer);
-      } else if (args.language.equals("hi")) {
-        config = new IndexWriterConfig(hindiAnalyzer);
       } else if (args.language.equals("bn")) {
         config = new IndexWriterConfig(bengaliAnalyzer);
+      } else if (args.language.equals("da")) {
+        config = new IndexWriterConfig(danishAnalyzer);
       } else if (args.language.equals("de")) {
         config = new IndexWriterConfig(germanAnalyzer);
       } else if (args.language.equals("es")) {
         config = new IndexWriterConfig(spanishAnalyzer);
-      } else if (args.language.equals("en_ws")) {
+      } else if (args.language.equals("fi")) {
+        config = new IndexWriterConfig(finnishAnalyzer);
+      } else if (args.language.equals("fr")) {
+        config = new IndexWriterConfig(frenchAnalyzer);
+      } else if (args.language.equals("hi")) {
+        config = new IndexWriterConfig(hindiAnalyzer);
+      } else if (args.language.equals("hu")) {
+        config = new IndexWriterConfig(hungarianAnalyzer);
+      } else if (args.language.equals("id")) {
+        config = new IndexWriterConfig(indonesianAnalyzer);
+      } else if (args.language.equals("it")) {
+        config = new IndexWriterConfig(italianAnalyzer);
+      } else if (args.language.equals("ja")) {
+        config = new IndexWriterConfig(japaneseAnalyzer);
+      } else if (args.language.equals("nl")) {
+        config = new IndexWriterConfig(dutchAnalyzer);
+      } else if (args.language.equals("no")) {
+        config = new IndexWriterConfig(norwegianAnalyzer);
+      } else if (args.language.equals("pt")) {
+        config = new IndexWriterConfig(portugueseAnalyzer);
+      } else if (args.language.equals("ru")) {
+        config = new IndexWriterConfig(russianAnalyzer);
+      } else if (args.language.equals("sv")) {
+        config = new IndexWriterConfig(swedishAnalyzer);
+      } else if (args.language.equals("th")) {
+        config = new IndexWriterConfig(thaiAnalyzer);
+      } else if (args.language.equals("tr")) {
+        config = new IndexWriterConfig(turkishAnalyzer);
+      } else if (args.language.equals("zh") || args.language.equals("ko")) {
+        config = new IndexWriterConfig(chineseAnalyzer);
+      } else if (args.language.equals("sw") || args.language.equals("te")) {
+        // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
+        config = new IndexWriterConfig(whitespaceAnalyzer);
+      } else if (args.pretokenized) {
         config = new IndexWriterConfig(whitespaceAnalyzer);
       } else {
         config = new IndexWriterConfig(analyzer);
       }
       if (args.bm25Accurate) {
         config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
+      } if (args.impact ) {
+        config.setSimilarity(new ImpactSimilarity());
       } else {
         config.setSimilarity(new BM25Similarity());
       }
@@ -799,8 +841,14 @@ public final class IndexCollection {
     LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
     LOG.info("Initializing collection in " + collectionPath.toString());
-    final List segmentPaths = collection.getSegmentPaths();
+
+    List<?> segmentPaths = collection.getSegmentPaths();
+    // when we want sharding to be done
+    if (args.shardCount > 1) {
+      segmentPaths = collection.getSegmentPaths(args.shardCount, args.shardCurrent);
+    }
     final int segmentCnt = segmentPaths.size();
+
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");
 

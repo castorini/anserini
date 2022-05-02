@@ -52,35 +52,35 @@ final_runs = {
 }
 
 stored_runs = {
-    'https://www.dropbox.com/s/lbgevu4wiztd9e4/anserini.covid-r5.abstract.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.abstract.qq.bm25.txt':
         cumulative_runs['anserini.covid-r5.abstract.qq.bm25.txt'],
-    'https://www.dropbox.com/s/pdy5o4xyalcnm2n/anserini.covid-r5.abstract.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.abstract.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r5.abstract.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/zhrkqvgbh6mwjdc/anserini.covid-r5.full-text.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.full-text.qq.bm25.txt':
         cumulative_runs['anserini.covid-r5.full-text.qq.bm25.txt'],
-    'https://www.dropbox.com/s/4c3ifc8gt96qiio/anserini.covid-r5.full-text.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.full-text.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r5.full-text.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/xfx3g54map005sy/anserini.covid-r5.paragraph.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.paragraph.qq.bm25.txt':
         cumulative_runs['anserini.covid-r5.paragraph.qq.bm25.txt'],
-    'https://www.dropbox.com/s/nmb11wtx4yde939/anserini.covid-r5.paragraph.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.paragraph.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r5.paragraph.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/mq94s9t7snqlizw/anserini.covid-r5.fusion1.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.fusion1.txt':
         cumulative_runs['anserini.covid-r5.fusion1.txt'],
-    'https://www.dropbox.com/s/4za9i29gxv090ut/anserini.covid-r5.fusion2.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.fusion2.txt':
         cumulative_runs['anserini.covid-r5.fusion2.txt'],
-    'https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt':
         cumulative_runs['anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt'],
-    'https://www.dropbox.com/s/2uyws7fnbpxo8s6/anserini.final-r5.fusion1.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.final-r5.fusion1.txt':
         final_runs['anserini.final-r5.fusion1.txt'],
-    'https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.final-r5.fusion2.txt':
         final_runs['anserini.final-r5.fusion2.txt'],
-    'https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.final-r5.rf.txt':
         final_runs['anserini.final-r5.rf.txt'],
-    'https://www.dropbox.com/s/lycp9x404bp6u1l/anserini.final-r5.fusion1.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.final-r5.fusion1.post-processed.txt':
         final_runs['anserini.final-r5.fusion1.post-processed.txt'],
-    'https://www.dropbox.com/s/qtwny6bd6k3ijzq/anserini.final-r5.fusion2.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.final-r5.fusion2.post-processed.txt':
         final_runs['anserini.final-r5.fusion2.post-processed.txt'],
-    'https://www.dropbox.com/s/1ak8w2280dzrflu/anserini.final-r5.rf.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round5/anserini.final-r5.rf.post-processed.txt':
         final_runs['anserini.final-r5.rf.post-processed.txt'],
 }
 
@@ -93,14 +93,97 @@ def main():
     complete_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-complete.txt'
     round5_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round5.txt'
 
+    # MD5 checksums don't match anymore, see https://github.com/castorini/anserini/issues/1669
+    check_md5_flag = False
+
     verify_stored_runs(stored_runs)
     perform_runs(5, indexes)
-    perform_fusion(5, cumulative_runs, check_md5=True)
-    prepare_final_submissions(5, final_runs, check_md5=True)
+    perform_fusion(5, cumulative_runs, check_md5=check_md5_flag)
+    prepare_final_submissions(5, final_runs, check_md5=check_md5_flag)
 
-    evaluate_runs(round4_cumulative_qrels, cumulative_runs, check_md5=True)
-    evaluate_runs(complete_qrels, cumulative_runs, check_md5=True)
-    evaluate_runs(round5_qrels, final_runs, check_md5=True)
+    expected_metrics = {
+        'anserini.covid-r5.abstract.qq.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.4580, 'judged_cut_10': 0.5880, 'ndcg_cut_20': 0.4379,
+             'judged_cut_20': 0.5940, 'map': 0.1903, 'recall_1000': 0.4525, 'judged_cut_1000': 0.2264},
+        'anserini.covid-r5.abstract.qdel.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.4912, 'judged_cut_10': 0.6240, 'ndcg_cut_20': 0.4596,
+             'judged_cut_20': 0.6040, 'map': 0.2042, 'recall_1000': 0.4714, 'judged_cut_1000': 0.2351},
+        'anserini.covid-r5.full-text.qq.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.3240, 'judged_cut_10': 0.5660, 'ndcg_cut_20': 0.3055,
+             'judged_cut_20': 0.5250, 'map': 0.1324, 'recall_1000': 0.3758, 'judged_cut_1000': 0.2171},
+        'anserini.covid-r5.full-text.qdel.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.4634, 'judged_cut_10': 0.6460, 'ndcg_cut_20': 0.4387,
+             'judged_cut_20': 0.6280, 'map': 0.1793, 'recall_1000': 0.4368, 'judged_cut_1000': 0.2425},
+        'anserini.covid-r5.paragraph.qq.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.4077, 'judged_cut_10': 0.6160, 'ndcg_cut_20': 0.3907,
+             'judged_cut_20': 0.5920, 'map': 0.1981, 'recall_1000': 0.4877, 'judged_cut_1000': 0.2661},
+        'anserini.covid-r5.paragraph.qdel.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.4918, 'judged_cut_10': 0.6440, 'ndcg_cut_20': 0.4569,
+             'judged_cut_20': 0.6250, 'map': 0.2163, 'recall_1000': 0.5101, 'judged_cut_1000': 0.2710},
+        'anserini.covid-r5.fusion1.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.4696, 'judged_cut_10': 0.6520, 'ndcg_cut_20': 0.4539,
+             'judged_cut_20': 0.6490, 'map': 0.2044, 'recall_1000': 0.5027, 'judged_cut_1000': 0.2751},
+        'anserini.covid-r5.fusion2.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.5077, 'judged_cut_10': 0.6800, 'ndcg_cut_20': 0.4956,
+             'judged_cut_20': 0.6690, 'map': 0.2304, 'recall_1000': 0.5378, 'judged_cut_1000': 0.2851},
+        'anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.6177, 'judged_cut_10': 0.6620, 'ndcg_cut_20': 0.5738,
+             'judged_cut_20': 0.6510, 'map': 0.2657, 'recall_1000': 0.5505, 'judged_cut_1000': 0.2562},
+    }
+    evaluate_runs(round4_cumulative_qrels, cumulative_runs, expected=expected_metrics, check_md5=check_md5_flag)
+
+    expected_metrics = {
+        'anserini.covid-r5.abstract.qq.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.6925, 'judged_cut_10': 0.9740, 'ndcg_cut_20': 0.6586,
+             'judged_cut_20': 0.9700, 'map': 0.3010, 'recall_1000': 0.4636, 'judged_cut_1000': 0.4159},
+        'anserini.covid-r5.abstract.qdel.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.7301, 'judged_cut_10': 0.9980, 'ndcg_cut_20': 0.6979,
+             'judged_cut_20': 0.9900, 'map': 0.3230, 'recall_1000': 0.4839, 'judged_cut_1000': 0.4286},
+        'anserini.covid-r5.full-text.qq.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.4709, 'judged_cut_10': 0.8920, 'ndcg_cut_20': 0.4382,
+             'judged_cut_20': 0.8370, 'map': 0.1777, 'recall_1000': 0.3427, 'judged_cut_1000': 0.3397},
+        'anserini.covid-r5.full-text.qdel.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.6286, 'judged_cut_10': 0.9840, 'ndcg_cut_20': 0.5973,
+             'judged_cut_20': 0.9630, 'map': 0.2391, 'recall_1000': 0.4087, 'judged_cut_1000': 0.3875},
+        'anserini.covid-r5.paragraph.qq.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.5832, 'judged_cut_10': 0.9600, 'ndcg_cut_20': 0.5659,
+             'judged_cut_20': 0.9390, 'map': 0.2808, 'recall_1000': 0.4695, 'judged_cut_1000': 0.4412},
+        'anserini.covid-r5.paragraph.qdel.bm25.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.6764, 'judged_cut_10': 0.9840, 'ndcg_cut_20': 0.6368,
+             'judged_cut_20': 0.9740, 'map': 0.3089, 'recall_1000': 0.4949, 'judged_cut_1000': 0.4542},
+        'anserini.covid-r5.fusion1.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.6469, 'judged_cut_10': 0.9860, 'ndcg_cut_20': 0.6184,
+             'judged_cut_20': 0.9800, 'map': 0.2952, 'recall_1000': 0.4967, 'judged_cut_1000': 0.4675},
+        'anserini.covid-r5.fusion2.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.6972, 'judged_cut_10': 1.0000, 'ndcg_cut_20': 0.6785,
+             'judged_cut_20': 1.000, 'map': 0.3329, 'recall_1000': 0.5313, 'judged_cut_1000': 0.4869},
+        'anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.8395, 'judged_cut_10': 1.0000, 'ndcg_cut_20': 0.7955,
+             'judged_cut_20': 0.9990, 'map': 0.3911, 'recall_1000': 0.5536, 'judged_cut_1000': 0.4607},
+    }
+    evaluate_runs(complete_qrels, cumulative_runs, expected=expected_metrics, check_md5=check_md5_flag)
+
+    expected_metrics = {
+        'anserini.final-r5.fusion1.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.5668, 'judged_cut_10': 0.9140, 'ndcg_cut_20': 0.5244,
+             'judged_cut_20': 0.8490, 'map': 0.2302, 'recall_1000': 0.5615, 'judged_cut_1000': 0.2148},
+        'anserini.final-r5.fusion1.post-processed.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.5726, 'judged_cut_10': 0.9240, 'ndcg_cut_20': 0.5313,
+             'judged_cut_20': 0.8570, 'map': 0.2314, 'recall_1000': 0.5615, 'judged_cut_1000': 0.2151},
+        'anserini.final-r5.fusion2.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.6366, 'judged_cut_10': 0.9640, 'ndcg_cut_20': 0.5941,
+             'judged_cut_20': 0.9080, 'map': 0.2716, 'recall_1000': 0.6012, 'judged_cut_1000': 0.2263},
+        'anserini.final-r5.fusion2.post-processed.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.6474, 'judged_cut_10': 0.9780, 'ndcg_cut_20': 0.6007,
+             'judged_cut_20': 0.9150, 'map': 0.2734, 'recall_1000': 0.6012, 'judged_cut_1000': 0.2267},
+        'anserini.final-r5.rf.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.7777, 'judged_cut_10': 0.9680, 'ndcg_cut_20': 0.7193,
+             'judged_cut_20': 0.9270, 'map': 0.3235, 'recall_1000': 0.6378, 'judged_cut_1000': 0.2197},
+        'anserini.final-r5.rf.post-processed.txt':
+            {'topics': 50, 'ndcg_cut_10': 0.7944, 'judged_cut_10': 0.9860, 'ndcg_cut_20': 0.7346,
+             'judged_cut_20': 0.9470, 'map': 0.3280, 'recall_1000': 0.6378, 'judged_cut_1000': 0.2201},
+    }
+    evaluate_runs(round5_qrels, final_runs, expected=expected_metrics, check_md5=check_md5_flag)
 
 
 if __name__ == '__main__':

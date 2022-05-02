@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,14 +45,16 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
-    documents.put("TREC_DOC_1", Map.of(
+    docFieldCount = 3; // id, raw, contents
+
+    referenceDocs.put("TREC_DOC_1", Map.of(
         "contents", "This is head very simple text",
         "raw", "<HEAD>This is head</HEAD>\n" +
             "<TEXT>\n" +
             "very simple\n" +
             "text\n" +
             "</TEXT>"));
-    documents.put("WSJ_1", Map.of(
+    referenceDocs.put("WSJ_1", Map.of(
         "contents", "head text 01/30/03 content",
         "raw", "<HL>\n" +
             "head text\n" +
@@ -65,7 +67,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
             "</LP>\n" +
             "<TEXT>\n" +
             "</TEXT>"));
-    documents.put("DOC222", Map.of(
+    referenceDocs.put("DOC222", Map.of(
         "contents", "HEAD simple enough text text text",
         "raw", "<HEAD>HEAD</HEAD>\n" +
             "<TEXT>\n" +

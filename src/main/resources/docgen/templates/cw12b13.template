@@ -1,8 +1,16 @@
-# Anserini: Regressions for [ClueWeb12-B13](http://lemurproject.org/clueweb12/ClueWeb12-CreateB13.php)
+# Anserini Regressions: ClueWeb12-B13
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the Web Tracks from TREC 2013 and 2014 using the [ClueWeb12-B13 collection](http://lemurproject.org/clueweb12/ClueWeb12-CreateB13.php).
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/cw12b13.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/cw12b13.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
 
 ## Indexing
 
@@ -39,10 +47,10 @@ ${eval_cmds}
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-## Replication Log
+## Reproduction Log[*](reproducibility.md)
 
-* Results replicated by [@matthew-z](https://github.com/matthew-z) on 2019-04-14 (commit [`abaa4c8`](https://github.com/castorini/Anserini/commit/abaa4c8e7cb50e8e4a3677377716f609b7859538))[<sup>*</sup>](https://github.com/castorini/Anserini/pull/590)[<sup>!</sup>](https://github.com/castorini/Anserini/issues/592)
+* Results reproduced by [@matthew-z](https://github.com/matthew-z) on 2019-04-14 (commit [`abaa4c8`](https://github.com/castorini/Anserini/commit/abaa4c8e7cb50e8e4a3677377716f609b7859538))[<sup>*</sup>](https://github.com/castorini/Anserini/pull/590)[<sup>!</sup>](https://github.com/castorini/Anserini/issues/592)

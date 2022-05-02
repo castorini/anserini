@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.10.2-SNAPSHOT</version>
+  <version>0.14.3-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -26,7 +26,7 @@
   </developers>
 
   <properties>
-    <lucene.version>8.3.0</lucene.version>
+    <lucene.version>8.11.0</lucene.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -91,7 +91,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
-        <version>2.0.0</version>
+        <version>2.1.0</version>
         <configuration>
           <extraJvmArguments>-Xms512M -Xmx31G</extraJvmArguments>
           <repositoryLayout>flat</repositoryLayout>
@@ -170,8 +170,21 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.3.1</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -187,7 +200,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.2.4</version>
         <executions>
           <execution>
             <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
@@ -197,13 +210,19 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <!-- This fixes the issue "An SPI class of type org.apache.lucene.codecs.Codec with name ... does not exist."
-                   cf. https://stackoverflow.com/questions/38361533/an-spi-class-of-type-org-apache-lucene-codecs-codec-with-name-lucene54-does-no/38382096 -->
+              <!-- See https://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html
+
+                JAR files providing implementations of some interfaces often ship with a META-INF/services/ directory
+                that maps interfaces to their implementation classes for lookup by the service locator. To relocate
+                the class names of these implementation classes, and to merge multiple implementations of the same
+                interface into one service entry, the ServicesResourceTransformer can be used.
+
+                Lucene needs 'META-INF/services/org.apache.lucene.codecs.Codec' to find the proper codecs.
+
+                cf. https://stackoverflow.com/questions/38361533/an-spi-class-of-type-org-apache-lucene-codecs-codec-with-name-lucene54-does-no/38382096
+              -->
               <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/services/org.apache.lucene.codecs.Codec</resource>
-                  <resource>META-INF/services/org.apache.lucene.codecs.PostingsFormat</resource>
-                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
               </transformers>
               <!-- This fixes the issue "Invalid signature file digest for Manifest main attributes"
                    cf. http://zhentao-li.blogspot.com/2012/06/maven-shade-plugin-invalid-signature.html -->
@@ -226,23 +245,18 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.1.0</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.0.0-M1</version>
+        <version>3.0.0-M2</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.0-M5</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.6</version>
+        <version>3.0.1</version>
         <executions>
           <execution>
             <id>sign-artifacts</id>
@@ -256,7 +270,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.2</version>
+        <version>0.8.7</version>
         <executions>
           <execution>
             <goals>
@@ -281,6 +295,11 @@
       <artifactId>lucene-core</artifactId>
       <version>${lucene.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analyzers-kuromoji</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
     <dependency> <!-- only needed for testing -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>
@@ -290,7 +309,7 @@
     <dependency> <!-- only needed for testing -->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -312,54 +331,59 @@
     <dependency>
       <groupId>org.tukaani</groupId>
       <artifactId>xz</artifactId>
-      <version>1.5</version>
+      <version>1.9</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.10.1</version>
+      <version>2.12.5</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.10.1</version>
+      <version>2.12.5</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.12.5</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jdk8</artifactId>
-      <version>2.10.1</version>
+      <version>2.12.5</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
-      <version>2.10.1</version>
+      <version>2.12.5</version>
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
-      <version>1.8.3</version>
+      <version>1.14.2</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>args4j</groupId>
       <artifactId>args4j</artifactId>
-      <version>2.32</version>
+      <version>2.33</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
-      <version>2.13.3</version>
+      <version>2.17.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.13.3</version>
+      <version>2.17.1</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.29</version>
+      <version>1.7.32</version>
     </dependency>
     <dependency>
       <groupId>io.anserini</groupId>
@@ -380,12 +404,7 @@
     <dependency> <!-- needed for CBZip2InputStream -->
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
-      <version>1.9.15</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openrdf.sesame</groupId>
-      <artifactId>sesame-rio-ntriples</artifactId>
-      <version>4.1.2</version>
+      <version>1.10.11</version>
     </dependency>
     <dependency>
       <groupId>com.twitter.twittertext</groupId>
@@ -395,17 +414,22 @@
     <dependency>
       <groupId>com.github.TREMA-UNH</groupId>
       <artifactId>trec-car-tools-java</artifactId>
-      <version>13</version>
+      <version>19</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-pool2</artifactId>
-      <version>2.6.0</version>
+      <version>2.11.1</version>
     </dependency>
     <dependency>
-      <groupId>org.wikidata.wdtk</groupId>
-      <artifactId>wdtk-dumpfiles</artifactId>
-      <version>0.10.0</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>1.21</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+      <version>1.8</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -415,12 +439,12 @@
     <dependency>
       <groupId>org.jbibtex</groupId>
       <artifactId>jbibtex</artifactId>
-      <version>1.0.17</version>
+      <version>1.0.19</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-csv</artifactId>
-      <version>1.8</version>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>30.1.1-jre</version>
     </dependency>
   </dependencies>
 </project>

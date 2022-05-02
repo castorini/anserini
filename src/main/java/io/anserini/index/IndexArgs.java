@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,10 @@
 package io.anserini.index;
 
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class IndexArgs {
 
@@ -69,6 +73,10 @@ public class IndexArgs {
       usage = "Index path.")
   public String index;
 
+  @Option(name = "-fields", handler = StringArrayOptionHandler.class,
+      usage = "List of fields to index (space separated), in addition to the default 'contents' field.")
+  public String[] fields = new String[]{};
+
   @Option(name = "-storePositions",
       usage = "Boolean switch to index store term positions; needed for phrase queries.")
   public boolean storePositions = false;
@@ -114,6 +122,10 @@ public class IndexArgs {
       usage = "File containing list of docids, one per line; only these docids will be indexed.")
   public String whitelist = null;
 
+  @Option(name = "-impact",
+      usage = "Boolean switch to store impacts (no norms).")
+  public boolean impact = false;
+
   @Option(name = "-bm25.accurate",
       usage = "Boolean switch to use AccurateBM25Similarity (computes accurate document lengths).")
   public boolean bm25Accurate = false;
@@ -121,6 +133,10 @@ public class IndexArgs {
   @Option(name = "-language", metaVar = "[language]",
       usage = "Analyzer language (ISO 3166 two-letter code).")
   public String language= "en";
+
+  @Option(name = "-pretokenized",
+          usage = "index pre-tokenized collections without any additional stemming, stopword processing")
+  public boolean pretokenized = false;
 
   // Tweet options
 

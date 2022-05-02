@@ -16,7 +16,7 @@ python src/main/python/trec-covid/index_cord19.py --date 2020-07-16 --download
 
 ## Solr
 
-From the Solr [archives](https://archive.apache.org/dist/lucene/solr/), download the Solr (non `-src`) version that matches Anserini's [Lucene version](https://github.com/castorini/anserini/blob/master/pom.xml#L36) to the `anserini/` directory.
+Download the latest Solr version (binary release) from [here](https://solr.apache.org/downloads.html) and extract the archive (currently, v8.11.1):
 
 Extract the archive:
 
@@ -51,7 +51,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resource
  http://localhost:8983/solr/cord19/schema
 ```
 
-**Note:** If there are errors from field conflicts, you'll need to reset the configset and recreate the collection (select [All] for the fields to replace):
+**Note:** If there are errors from field conflicts, you'll need to reset the configset and recreate the collection:
 
 ```bash
 solrini/bin/solr delete -c cord19
@@ -62,10 +62,15 @@ solrini/bin/solr create -n anserini -c cord19
 We can now index into Solr:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
- -threads 8 -input collections/cord19-2020-07-16 \
- -solr -solr.index cord19 -solr.zkUrl localhost:9983 \
- -storePositions -storeDocvectors -storeContents -storeRaw
+sh target/appassembler/bin/IndexCollection \
+  -collection Cord19AbstractCollection \
+  -input collections/cord19-2020-07-16 \
+  -generator Cord19Generator \
+  -solr \
+  -solr.index cord19 \
+  -solr.zkUrl localhost:9983 \
+  -threads 8  \
+  -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 
 Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/cord19/query`](http://localhost:8983/solr/#/cord19/query).
@@ -74,8 +79,7 @@ You'll need to make sure your query is searching the `contents` field, so the qu
 
 ## Elasticsearch + Kibana
 
-From the [Elasticsearch](http://elastic.co/start), download the correct distribution for your platform to the `anserini/` directory.
-These instructions below work with version 7.10.0.
+From [here](http://elastic.co/start), download the latest Elasticsearch and Kibanna distributions for you platform to the `anserini/` directory (currently, v8.1.0).
 
 First, unpack and deploy Elasticsearch:
 
@@ -95,8 +99,9 @@ Elasticsearch has a built-in safeguard to disable indexing if you're running low
 The error is something like "flood stage disk watermark [95%] exceeded on ..." with indexes placed into readonly mode.
 Obviously, be careful, but if you're sure things are going to be okay and you won't run out of disk space, disable the safeguard as follows:
 
-```
-curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_cluster/settings -d '{ "transient": { "cluster.routing.allocation.disk.threshold_enabled": false } }'
+```bash
+curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_cluster/settings \
+  -d '{ "transient": { "cluster.routing.allocation.disk.threshold_enabled": false } }'
 ```
 
 Set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.cord19.json):
@@ -109,20 +114,30 @@ cat src/main/resources/elasticsearch/index-config.cord19.json \
 Indexing abstracts:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
- -es -es.index cord19 -threads 8 -input collections/cord19-2020-07-16 -storePositions -storeDocvectors -storeContents -storeRaw
+sh target/appassembler/bin/IndexCollection \
+  -collection Cord19AbstractCollection \
+  -input collections/cord19-2020-07-16 \
+  -generator Cord19Generator \
+  -es \
+  -es.index cord19 \
+  -threads 8 \
+  -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 
 We are now able to access interactive search and visualization capabilities from Kibana at [`http://localhost:5601/`](http://localhost:5601).
 
-Here's an example: in the above webapp, create an "Index Pattern".
-Set the index pattern to `cord19`, and use `publish_time` as the time filter.
-Then navigate to "Discover" in Kibana to run a search.
-If you're not getting any results, be sure you've expanded the date range, next to the search bar.
+Here's an example:
 
-## Replication Log
+1. Click on the hamburger icon, then click "Dashboard" under "Analytics".
+2. Create "Data View": set the name to `cord19`, and use `publish_time` as the timestamp field. (Note, "Data Views" used to be called "Index Patterns".)
+3. Go back to "Discover" under "Analytics"; now run a search, e.g., "incubation period". Be sure to expand the date, which is a dropdown box to the right of the search box; something like "Last 10 years" works well.
+4. You should be able to see search results as well as a histogram of the dates in which those articles are published!
 
-+ Replicated by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) on CORD-19 release of 2020/05/26.
-+ Replicated by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) on CORD-19 release of 2020/06/19.
-+ Replicated by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-07-26 (commit [`fad12be`](https://github.com/castorini/anserini/commit/539f7d43a0183454a633f34aa20b46d2eeec1a19)) on CORD-19 release of 2020/07/25.
-+ Replicated by [@lintool](https://github.com/lintool) on 2020-11-23 (commit [`746447`](https://github.com/castorini/anserini/commit/746447af47db5bb032eb551623c11219467c961e)) on CORD-19 release of 2020/07/16 with Solr v8.3.0 and ES/Kibana v7.10.0.
+## Reproduction Log[*](reproducibility.md)
+
++ Reproduced by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) on CORD-19 release of 2020/05/26.
++ Reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) on CORD-19 release of 2020/06/19.
++ Reproduced by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-07-26 (commit [`fad12be`](https://github.com/castorini/anserini/commit/539f7d43a0183454a633f34aa20b46d2eeec1a19)) on CORD-19 release of 2020/07/25.
++ Reproduced by [@lintool](https://github.com/lintool) on 2020-11-23 (commit [`746447a`](https://github.com/castorini/anserini/commit/746447af47db5bb032eb551623c11219467c961e)) on CORD-19 release of 2020/07/16 with Solr v8.3.0 and ES/Kibana v7.10.0.
++ Reproduced by [@lintool](https://github.com/lintool) on 2021-11-02 (commit [`cb0c44c`](https://github.com/castorini/anserini/commit/cb0c44cd209c4cad3327942216a736aa4bbe21cc)) on CORD-19 release of 2020/07/16 with Solr v8.10.1 and ES/Kibana v7.15.1.
++ Reproduced by [@lintool](https://github.com/lintool) on 2022-03-21 (commit [`3d1fc34`](https://github.com/castorini/anserini/commit/3d1fc3457b993832b4682c0482b26d8271d02ec6) on CORD-19 release of 2020/07/16 with Solr v8.11.1 and ES/Kibana v8.1.0.

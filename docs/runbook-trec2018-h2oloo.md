@@ -3,7 +3,7 @@
 This is the runbook for TREC 2018 submissions by the "h2oloo" group. Note that Anserini (the system) was used by another group ("Anserini") for a completely different set of runs.
 The h2oloo group participated in the Common Core Track.
 
-Note that this document is specifically a **runbook** and does not encode regression experiments. Runbooks are designed to help us (i.e., TREC participants) document the steps taken to generate a run. They are primarily designed to make experiments repeatable (i.e., by ourselves), although they might be helpful for others who wish to replicate our runs.
+Note that this document is specifically a **runbook** and does not encode regression experiments. Runbooks are designed to help us (i.e., TREC participants) document the steps taken to generate a run. They are primarily designed to make experiments repeatable (i.e., by ourselves), although they might be helpful for others who wish to reproduce our runs.
 
 However, we concede that _repeatability_ of the runs (even by us) is challenging, since the codebase is always evolving, and by the time we add proper documentation, it might be several months later... but we try our best...
 

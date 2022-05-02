@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- // Following header retained per conditions specified in license.
+// Following header retained per conditions specified in license.
 
 /*
  * Container for a generic Warc Record
@@ -52,6 +52,9 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -64,9 +67,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * A raw document from a collection. A {@code CommonCrawlBaseDocument} is
@@ -222,6 +222,7 @@ public abstract class WarcBaseDocument implements SourceDocument {
    *
    * @param in the data input stream
    * @param headerBuffer a blank string buffer to contain the WARC header
+   * @param headerEndKey delimiter of the end of the header
    * @return the content bytes (with the headerBuffer populated)
    * @throws IOException if error encountered reading from stream
    */

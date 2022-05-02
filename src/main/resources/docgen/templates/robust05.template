@@ -1,8 +1,16 @@
-# Anserini: Regressions for [AQUAINT](https://tac.nist.gov//data/data_desc.html#AQUAINT) (Robust05)
+# Anserini Regressions: TREC 2005 Robust Track
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the TREC 2005 Robust Track, which uses the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT).
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/robust05.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/robust05.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
 
 ## Indexing
 
@@ -37,6 +45,6 @@ ${eval_cmds}
 
 ## Effectiveness
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}

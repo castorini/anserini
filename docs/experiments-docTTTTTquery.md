@@ -5,4 +5,6 @@ The basic idea is to train a model, that when given an input document, generates
 These predicted questions (or queries) are then appended to the original documents, which are then indexed as before.
 docTTTTTquery gets its name from the use of T5 as the expansion model.
 
-We have [a separate repo](https://github.com/castorini/docTTTTTquery) describing our results in detail and how to replicate them.
+We have [a separate repo](https://github.com/castorini/docTTTTTquery) describing our results in detail and how to reproduce them.
+
+**Update (November 2021)**: See [this page](experiments-msmarco-doc-doc2query-details.md) for detailed notes about reproducibility issues with the MS MARCO document ranking task.

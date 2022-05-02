@@ -1,0 +1,72 @@
+# Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
+
+**Models**: various bag-of-words approaches
+
+This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html).
+
+Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
+[This page](experiments-msmarco-passage.md) explains how to perform this conversion.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the 54 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
+
+Explanation of settings:
+
++ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned using the MS MARCO passage sparse judgments, as described in [this page](experiments-msmarco-passage.md).
+
+Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
+
+Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
+
+Some of these regressions correspond to official TREC 2020 Deep Learning Track submissions by team `anserini`:
+
++ `p_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
++ `p_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
+
+Note this regression was revamped as part of [#1730](https://github.com/castorini/anserini/issues/1730), but the results did not change.

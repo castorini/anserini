@@ -1,0 +1,50 @@
+# Anserini Regressions: FEVER Fact Verification
+
+This page documents BM25 regression experiments for the [FEVER fact verification task](https://fever.ai/), which is integrated into Anserini's regression testing framework.
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The directory `/path/to/fever` should be a directory containing the expanded document collection; see [this link](../docs/experiments-fever.md) for how to prepare this collection.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the 9999 claims as part of the dev set for the original FEVER paper.
+The original data can be found [here](https://fever.ai/resources.html).
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
+
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.9`, `b=0.1`.

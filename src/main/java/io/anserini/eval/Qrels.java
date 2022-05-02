@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 
 package io.anserini.eval;
+
+import io.anserini.search.topicreader.TsvIntTopicReader;
+import io.anserini.search.topicreader.TsvStringTopicReader;
 
 public enum Qrels {
   TREC1_ADHOC("topics-and-qrels/qrels.adhoc.51-100.txt"),
@@ -40,11 +43,19 @@ public enum Qrels {
   CAR17V20_BENCHMARK_Y1_TEST("topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt"),
   TREC2019_DL_DOC("topics-and-qrels/qrels.dl19-doc.txt"),
   TREC2019_DL_PASSAGE("topics-and-qrels/qrels.dl19-passage.txt"),
+  TREC2020_DL_DOC("topics-and-qrels/qrels.dl20-doc.txt"),
+  TREC2020_DL_PASSAGE("topics-and-qrels/qrels.dl20-passage.txt"),
+  TREC2021_DL_DOC("topics-and-qrels/qrels.dl21-doc.txt"),
+  TREC2021_DL_PASSAGE("topics-and-qrels/qrels.dl21-passage.txt"),
   MSMARCO_DOC_DEV("topics-and-qrels/qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("topics-and-qrels/qrels.msmarco-passage.dev-subset.txt"),
-  NTCIR8_ZH("topics-and-qrels/qrels.ntcir8zh.eval.txt"),
-  CLEF2006_FR("topics-and-qrels/qrels.clef06fr.mono.fr.txt"),
-  TREC2002_AR("topics-and-qrels/qrels.trec02ar-ar.txt"),
+  MSMARCO_V2_DOC_DEV("topics-and-qrels/qrels.msmarco-v2-doc.dev.txt"),
+  MSMARCO_V2_DOC_DEV2("topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt"),
+  MSMARCO_V2_PASSAGE_DEV("topics-and-qrels/qrels.msmarco-v2-passage.dev.txt"),
+  MSMARCO_V2_PASSAGE_DEV2("topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt"),
+  NTCIR8_ZH("topics-and-qrels/qrels.ntcir8.eval.txt"),
+  CLEF2006_FR("topics-and-qrels/qrels.clef06fr.txt"),
+  TREC2002_AR("topics-and-qrels/qrels.trec02ar.txt"),
   FIRE2012_BN("topics-and-qrels/qrels.fire12bn.176-225.txt"),
   FIRE2012_HI("topics-and-qrels/qrels.fire12hi.176-225.txt"),
   FIRE2012_EN("topics-and-qrels/qrels.fire12en.176-225.txt"),
@@ -57,7 +68,70 @@ public enum Qrels {
   COVID_ROUND4_CUMULATIVE("topics-and-qrels/qrels.covid-round4-cumulative.txt"),
   COVID_ROUND5("topics-and-qrels/qrels.covid-round5.txt"),
   TREC2018_BL("topics-and-qrels/qrels.backgroundlinking18.txt"),
-  TREC2019_BL("topics-and-qrels/qrels.backgroundlinking19.txt");
+  TREC2019_BL("topics-and-qrels/qrels.backgroundlinking19.txt"),
+  TREC2020_BL("topics-and-qrels/qrels.backgroundlinking20.txt"),
+  MRTYDI_V11_AR_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt"),
+  MRTYDI_V11_AR_DEV("topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt"),
+  MRTYDI_V11_AR_TEST("topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt"),
+  MRTYDI_V11_BN_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt"),
+  MRTYDI_V11_BN_DEV("topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt"),
+  MRTYDI_V11_BN_TEST("topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt"),
+  MRTYDI_V11_EN_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-en.train.txt"),
+  MRTYDI_V11_EN_DEV("topics-and-qrels/qrels.mrtydi-v1.1-en.dev.txt"),
+  MRTYDI_V11_EN_TEST("topics-and-qrels/qrels.mrtydi-v1.1-en.test.txt"),
+  MRTYDI_V11_FI_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-fi.train.txt"),
+  MRTYDI_V11_FI_DEV("topics-and-qrels/qrels.mrtydi-v1.1-fi.dev.txt"),
+  MRTYDI_V11_FI_TEST("topics-and-qrels/qrels.mrtydi-v1.1-fi.test.txt"),
+  MRTYDI_V11_ID_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-id.train.txt"),
+  MRTYDI_V11_ID_DEV("topics-and-qrels/qrels.mrtydi-v1.1-id.dev.txt"),
+  MRTYDI_V11_ID_TEST("topics-and-qrels/qrels.mrtydi-v1.1-id.test.txt"),
+  MRTYDI_V11_JA_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-ja.train.txt"),
+  MRTYDI_V11_JA_DEV("topics-and-qrels/qrels.mrtydi-v1.1-ja.dev.txt"),
+  MRTYDI_V11_JA_TEST("topics-and-qrels/qrels.mrtydi-v1.1-ja.test.txt"),
+  MRTYDI_V11_KO_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-ko.train.txt"),
+  MRTYDI_V11_KO_DEV("topics-and-qrels/qrels.mrtydi-v1.1-ko.dev.txt"),
+  MRTYDI_V11_KO_TEST("topics-and-qrels/qrels.mrtydi-v1.1-ko.test.txt"),
+  MRTYDI_V11_RU_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt"),
+  MRTYDI_V11_RU_DEV("topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt"),
+  MRTYDI_V11_RU_TEST("topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt"),
+  MRTYDI_V11_SW_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-sw.train.txt"),
+  MRTYDI_V11_SW_DEV("topics-and-qrels/qrels.mrtydi-v1.1-sw.dev.txt"),
+  MRTYDI_V11_SW_TEST("topics-and-qrels/qrels.mrtydi-v1.1-sw.test.txt"),
+  MRTYDI_V11_TE_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-te.train.txt"),
+  MRTYDI_V11_TE_DEV("topics-and-qrels/qrels.mrtydi-v1.1-te.dev.txt"),
+  MRTYDI_V11_TE_TEST("topics-and-qrels/qrels.mrtydi-v1.1-te.test.txt"),
+  MRTYDI_V11_TH_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-th.train.txt"),
+  MRTYDI_V11_TH_DEV("topics-and-qrels/qrels.mrtydi-v1.1-th.dev.txt"),
+  MRTYDI_V11_TH_TEST("topics-and-qrels/qrels.mrtydi-v1.1-th.test.txt"),
+  BEIR_V1_0_0_TREC_COVID_TEST("topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt"),
+  BEIR_V1_0_0_BIOASQ_TEST("topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt"),
+  BEIR_V1_0_0_NFCORPUS_TEST("topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt"),
+  BEIR_V1_0_0_NQ_TEST("topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt"),
+  BEIR_V1_0_0_HOTPOTQA_TEST("topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt"),
+  BEIR_V1_0_0_FIQA_TEST("topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt"),
+  BEIR_V1_0_0_SIGNAL1M_TEST("topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt"),
+  BEIR_V1_0_0_TREC_NEWS_TEST("topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt"),
+  BEIR_V1_0_0_ROBUST04_TEST("topics-and-qrels/qrels.beir-v1.0.0-robust04.test.txt"),
+  BEIR_V1_0_0_ARGUANA_TEST("topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt"),
+  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST("topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-english.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-programmers.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-stats.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-unix.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt"),
+  BEIR_V1_0_0_QUORA_TEST("topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt"),
+  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST("topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt"),
+  BEIR_V1_0_0_SCIDOCS_TEST("topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt"),
+  BEIR_V1_0_0_FEVER_TEST("topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt"),
+  BEIR_V1_0_0_CLIMATE_FEVER_TEST("topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt"),
+  BEIR_V1_0_0_SCIFACT_TEST("topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt");
 
   public final String path;
 

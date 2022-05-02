@@ -1,0 +1,59 @@
+# Anserini Regressions: TREC 2021 Deep Learning Track (Passage)
+
+**Models**: various bag-of-words approaches on original passages
+
+This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 passage collection.
+
+Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+For additional instructions on working with MS MARCO V2 passage collection, refer to [this page](experiments-msmarco-v2.md).
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+See [this page](experiments-msmarco-v2.md) for additional details.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the 53 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
+
+Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
+
++ `p_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
++ `p_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`

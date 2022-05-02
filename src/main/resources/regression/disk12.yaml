@@ -1,140 +1,120 @@
 ---
-name: disk12
-index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexReaderUtils
-search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
-ranking_root:
-collection: TrecCollection
-generator: DefaultLuceneDocumentGenerator
-threads: 16
-index_options:
-  - -storePositions
-  - -storeDocvectors
-  - -storeRaw
-topic_reader: Trec
-evals:
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m map
-    separator: "\t"
-    parse_index: 2
-    metric: map
-    metric_precision: 4
-    can_combine: true
-  - command: tools/eval/trec_eval.9.0.4/trec_eval
-    params:
-      - -m P.30
-    separator: "\t"
-    parse_index: 2
-    metric: p30
-    metric_precision: 4
-    can_combine: true
-input_roots:
-  - /tuna1/      # on tuna
-  - /store/      # on orca
-  - /scratch2/   # on damiano
-input: collections/newswire/disk12/
-index_path: indexes/lucene-index.disk12.pos+docvectors+raw
+corpus: disk12
+corpus_path: collections/newswire/disk12/
+
+index_path: indexes/lucene-index.disk12/
+collection_class: TrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 741676
   documents (non-empty): 741675
-  total terms: 217199327
+  total terms: 217199384
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P30
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Trec
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)"
+    id: trec1
     path: topics.adhoc.51-100.txt
     qrel: qrels.adhoc.51-100.txt
   - name: "[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)"
+    id: trec2
     path: topics.adhoc.101-150.txt
     qrel: qrels.adhoc.101-150.txt
   - name: "[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)"
+    id: trec3
     path: topics.adhoc.151-200.txt
     qrel: qrels.adhoc.151-200.txt
+
 models:
   - name: bm25
     display: BM25
-    params:
-      - -bm25
+    params: -bm25
     results:
-      map:
-        - 0.2273
-        - 0.2010
-        - 0.2580
-      p30:
-        - 0.4533
-        - 0.4280
-        - 0.4740
+      MAP:
+        - 0.2277
+        - 0.2003
+        - 0.2634
+      P30:
+        - 0.4540
+        - 0.4253
+        - 0.4860
   - name: bm25+rm3
     display: +RM3
-    params:
-      - -bm25
-      - -rm3
+    params: -bm25 -rm3
     results:
-      map:
-        - 0.2634
-        - 0.2587
-        - 0.3390
-      p30:
-        - 0.4800
-        - 0.4593
-        - 0.5273
+      MAP:
+        - 0.2628
+        - 0.2578
+        - 0.3345
+      P30:
+        - 0.4860
+        - 0.4580
+        - 0.5260
   - name: bm25+ax
     display: +Ax
-    params:
-      - -bm25
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
-        - 0.2640
-        - 0.2722
-        - 0.3318
-      p30:
-        - 0.5067
-        - 0.4753
-        - 0.5100
+      MAP:
+        - 0.2648
+        - 0.2698
+        - 0.3407
+      P30:
+        - 0.5127
+        - 0.4720
+        - 0.5273
   - name: ql
     display: QL
-    params:
-      - -qld
+    params: -qld
     results:
-      map:
-        - 0.2189
-        - 0.2015
-        - 0.2518
-      p30:
-        - 0.4520
-        - 0.4207
-        - 0.4580
+      MAP:
+        - 0.2188
+        - 0.2010
+        - 0.2580
+      P30:
+        - 0.4553
+        - 0.4193
+        - 0.4753
   - name: ql+rm3
     display: +RM3
-    params:
-      - -qld
-      - -rm3
+    params: -qld -rm3
     results:
-      map:
-        - 0.2435
-        - 0.2442
-        - 0.3042
-      p30:
-        - 0.4627
-        - 0.4420
-        - 0.4913
+      MAP:
+        - 0.2465
+        - 0.2429
+        - 0.3037
+      P30:
+        - 0.4680
+        - 0.4400
+        - 0.4967
   - name: ql+ax
     display: +Ax
-    params:
-      - -qld
-      - -axiom
-      - -axiom.deterministic
-      - -rerankCutoff 20
+    params: -qld -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      map:
-        - 0.2501
-        - 0.2593
-        - 0.3103
-      p30:
-        - 0.4953
-        - 0.4740
-        - 0.5167
+      MAP:
+        - 0.2502
+        - 0.2596
+        - 0.3129
+      P30:
+        - 0.4947
+        - 0.4760
+        - 0.5187

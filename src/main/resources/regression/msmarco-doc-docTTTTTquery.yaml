@@ -1,0 +1,102 @@
+---
+corpus: msmarco-doc-docTTTTTquery
+corpus_path: collections/msmarco/msmarco-doc-docTTTTTquery/
+
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 7
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 3213835
+  documents (non-empty): 3213835
+  total terms: 3748333319
+
+metrics:
+  - metric: AP@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: RR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
+    id: dev
+    path: topics.msmarco-doc.dev.txt
+    qrel: qrels.msmarco-doc.dev.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25
+    results:
+      AP@1000:
+        - 0.2886
+      RR@100:
+        - 0.2880
+      R@100:
+        - 0.7993
+      R@1000:
+        - 0.9259
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3
+    results:
+      AP@1000:
+        - 0.1839
+      RR@100:
+        - 0.1831
+      R@100:
+        - 0.7420
+      R@1000:
+        - 0.9128
+  - name: bm25-tuned
+    display: BM25 (tuned)
+    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87
+    results:
+      AP@1000:
+        - 0.3273
+      RR@100:
+        - 0.3269
+      R@100:
+        - 0.8612
+      R@1000:
+        - 0.9553
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3
+    results:
+      AP@1000:
+        - 0.2627
+      RR@100:
+        - 0.2621
+      R@100:
+        - 0.8379
+      R@1000:
+        - 0.9524

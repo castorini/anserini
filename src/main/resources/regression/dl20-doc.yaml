@@ -1,0 +1,162 @@
+---
+corpus: msmacro-doc
+corpus_path: collections/msmarco/msmarco-doc/
+
+index_path: indexes/lucene-index.msmarco-doc/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 7
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 3213835
+  documents (non-empty): 3213835
+  total terms: 2742209690
+
+metrics:
+  - metric: AP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map # Note, this is different DL 2020 passage ranking!
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.txt
+    qrel: qrels.dl20-doc.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25
+    results:
+      AP@100:
+        - 0.3793
+      nDCG@10:
+        - 0.5286
+      R@100:
+        - 0.6110
+      R@1000:
+        - 0.8085
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3
+    results:
+      AP@100:
+        - 0.4014
+      nDCG@10:
+        - 0.5225
+      R@100:
+        - 0.6414
+      R@1000:
+        - 0.8257
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      AP@100:
+        - 0.4089
+      nDCG@10:
+        - 0.5192
+      R@100:
+        - 0.6425
+      R@1000:
+        - 0.8273
+  - name: bm25-tuned
+    display: BM25 (tuned)
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87
+    results:
+      AP@100:
+        - 0.3631
+      nDCG@10:
+        - 0.5070
+      R@100:
+        - 0.5935
+      R@1000:
+        - 0.7876
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3
+    results:
+      AP@100:
+        - 0.3592
+      nDCG@10:
+        - 0.5124
+      R@100:
+        - 0.5977
+      R@1000:
+        - 0.8116
+  - name: bm25-tuned+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio
+    results:
+      AP@100:
+        - 0.3634
+      nDCG@10:
+        - 0.5070
+      R@100:
+        - 0.6057
+      R@1000:
+        - 0.8199
+  - name: bm25-tuned2
+    display: BM25 (tuned2)
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82
+    results:
+      AP@100:
+        - 0.3581
+      nDCG@10:
+        - 0.5061
+      R@100:
+        - 0.5860
+      R@1000:
+        - 0.7776
+  - name: bm25-tuned2+rm3
+    display: +RM3
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3
+    results:
+      AP@100:
+        - 0.3619
+      nDCG@10:
+        - 0.5238
+      R@100:
+        - 0.5995
+      R@1000:
+        - 0.8180
+  - name: bm25-tuned2+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio
+    results:
+      AP@100:
+        - 0.3628
+      nDCG@10:
+        - 0.5199
+      R@100:
+        - 0.6017
+      R@1000:
+        - 0.8217

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.anserini.search;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.ann.ApproximateNearestNeighborSearch;
@@ -37,6 +33,11 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
@@ -73,7 +74,7 @@ public class SimpleNearestNeighborSearcher {
    * @param id the input document identifier
    * @param d  the number of nearest neighbors to retrieve
    * @return an array of nearest neighbors
-   * @throws IOException
+   * @throws IOException if error encountered during search
    */
   public Result[] search(String id, int d) throws IOException {
     Result[][] neighbors = multisearch(id, 1, d);
@@ -86,7 +87,7 @@ public class SimpleNearestNeighborSearcher {
    * @param id documents' identifier
    * @param k  the number of nearest neighbors to retrieve for each document with the given id
    * @return an array of nearest neighbors for each matching document
-   * @throws IOException
+   * @throws IOException if error encountered during search
    */
   public Result[][] multisearch(String id, int k) throws IOException {
     return multisearch(id, Integer.MAX_VALUE, k);

@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,10 +39,10 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
@@ -58,14 +58,16 @@ public class Rm3Reranker implements Reranker {
   private final int fbDocs;
   private final float originalQueryWeight;
   private final boolean outputQuery;
+  private final boolean filterTerms;
 
-  public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
+  public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     this.analyzer = analyzer;
     this.field = field;
     this.fbTerms = fbTerms;
     this.fbDocs = fbDocs;
     this.originalQueryWeight = originalQueryWeight;
     this.outputQuery = outputQuery;
+    this.filterTerms = filterTerms;
   }
 
   @Override
@@ -170,7 +172,7 @@ public class Rm3Reranker implements Reranker {
       for (int i = 0; i < docvectors.size(); i++) {
         // Avoids zero-length feedback documents, which causes division by zero when computing term weights.
         // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
-        // that accents (which are indexed, but not selected for feedback).
+        // that contain accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
           fbWeight += (docvectors.get(i).getFeatureWeight(term) / norms[i]) * docScores.get(i);
         }
@@ -196,7 +198,7 @@ public class Rm3Reranker implements Reranker {
         String term = text.utf8ToString();
 
         if (term.length() < 2 || term.length() > 20) continue;
-        if (!term.matches("[a-z0-9]+")) continue;
+        if (this.filterTerms && !term.matches("[a-z0-9]+")) continue;
 
         // This seemingly arbitrary logic needs some explanation. See following PR for details:
         //   https://github.com/castorini/Anserini/pull/289

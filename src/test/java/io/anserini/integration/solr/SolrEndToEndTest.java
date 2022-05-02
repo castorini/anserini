@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ public abstract class SolrEndToEndTest extends LuceneTestCase {
     FileUtils.copyDirectory(getFile("solr/anserini"), new File(configSetBaseDir + File.separator + "anserini"));
 
     SolrResourceLoader loader = new SolrResourceLoader(solrHome.toPath());
-    NodeConfig config = new NodeConfig.NodeConfigBuilder("embeddedSolrServerNode", loader)
+    NodeConfig config = new NodeConfig.NodeConfigBuilder("embeddedSolrServerNode", loader.getInstancePath())
         .setConfigSetBaseDirectory(configSetBaseDir.getAbsolutePath()).build();
     client = new EmbeddedSolrServer(config, getCollectionName());
     LOG.info("Created Embedded Solr Server");

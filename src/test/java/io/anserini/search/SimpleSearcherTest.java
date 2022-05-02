@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,7 @@ package io.anserini.search;
 import io.anserini.IndexerTestBase;
 import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
-import io.anserini.search.query.PhraseQueryGenerator;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 

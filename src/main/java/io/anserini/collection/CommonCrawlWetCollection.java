@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package io.anserini.collection;
@@ -89,7 +88,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
     /**
      * Reads in a WARC record from a data input stream.
      *
-     * @param in      the input stream
+     * @param in the input stream
      * @return a WARC record (or null if EOF)
      * @throws IOException if error encountered reading from stream
      */
@@ -113,6 +112,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
      *
      * @param in the data input stream
      * @param headerBuffer a blank string buffer to contain the WARC header
+     * @param headerEndKey delimiter of the end of the header
      * @return the content bytes (with the headerBuffer populated)
      * @throws IOException if error encountered reading from stream
      */

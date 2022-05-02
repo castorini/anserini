@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package io.anserini.integration;
 import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexArgs;
 
+import java.util.List;
 import java.util.Map;
 
 public class TrecEndToEndWhitelistTest extends EndToEndTest {
@@ -37,7 +38,9 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 1;
-    documents.put("DOC222", Map.of(
+    docFieldCount = 3; // id, raw, contents
+
+    referenceDocs.put("DOC222", Map.of(
         "contents", "HEAD simple enough text text text",
         "raw", "<HEAD>HEAD</HEAD>\n" +
             "<TEXT>\n" +
@@ -47,6 +50,9 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
             "text\n" +
             "text\n" +
             "</TEXT>"));
+
+    referenceDocTokens.put("DOC222", Map.of(
+        "contents", List.of("head", "simpl", "enough", "text", "text", "text")));
 
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 5;   // Note that standard analyzer ignores stopwords; includes docids.

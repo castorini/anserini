@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package io.anserini.search.query;
 
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
@@ -37,16 +36,13 @@ public class BagOfWordsQueryGeneratorTest {
     QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
     Query query = queryGenerator.buildQuery("contents", analyzer, "sample query");
 
-    assertEquals("contents:sampl contents:queri", query.toString());
+    assertEquals("(contents:queri)^1.0 (contents:sampl)^1.0", query.toString());
     assertTrue(query instanceof BooleanQuery);
 
     BooleanQuery bq = (BooleanQuery) query;
     assertEquals(2, bq.clauses().size());
-    assertEquals("sampl", ((TermQuery) bq.clauses().get(0).getQuery()).getTerm().text());
-    assertEquals("contents", ((TermQuery) bq.clauses().get(0).getQuery()).getTerm().field());
-    assertEquals("queri", ((TermQuery) bq.clauses().get(1).getQuery()).getTerm().text());
-    assertEquals("contents", ((TermQuery) bq.clauses().get(1).getQuery()).getTerm().field());
-  }
+    assertEquals("(contents:queri)^1.0", (bq.clauses().get(0).getQuery().toString()));
+    assertEquals("(contents:sampl)^1.0", (bq.clauses().get(1).getQuery().toString()));  }
 
   @Test
   public void test2() {
@@ -54,19 +50,15 @@ public class BagOfWordsQueryGeneratorTest {
     QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
     Query query = queryGenerator.buildQuery("contents", analyzer, "Mary had a little lamb");
 
-    assertEquals("contents:mari contents:had contents:littl contents:lamb", query.toString());
+    assertEquals("(contents:lamb)^1.0 (contents:mari)^1.0 (contents:had)^1.0 (contents:littl)^1.0", query.toString());
     assertTrue(query instanceof BooleanQuery);
 
     BooleanQuery bq = (BooleanQuery) query;
     assertEquals(4, bq.clauses().size());
-    assertEquals("mari", ((TermQuery) bq.clauses().get(0).getQuery()).getTerm().text());
-    assertEquals("contents", ((TermQuery) bq.clauses().get(0).getQuery()).getTerm().field());
-    assertEquals("had", ((TermQuery) bq.clauses().get(1).getQuery()).getTerm().text());
-    assertEquals("contents", ((TermQuery) bq.clauses().get(1).getQuery()).getTerm().field());
-    assertEquals("littl", ((TermQuery) bq.clauses().get(2).getQuery()).getTerm().text());
-    assertEquals("contents", ((TermQuery) bq.clauses().get(2).getQuery()).getTerm().field());
-    assertEquals("lamb", ((TermQuery) bq.clauses().get(3).getQuery()).getTerm().text());
-    assertEquals("contents", ((TermQuery) bq.clauses().get(3).getQuery()).getTerm().field());
+    assertEquals("(contents:lamb)^1.0", (bq.clauses().get(0).getQuery().toString()));
+    assertEquals("(contents:mari)^1.0", (bq.clauses().get(1).getQuery().toString()));
+    assertEquals("(contents:had)^1.0", (bq.clauses().get(2).getQuery().toString()));
+    assertEquals("(contents:littl)^1.0", (bq.clauses().get(3).getQuery().toString()));
   }
 
   @Test

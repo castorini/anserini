@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,17 +35,29 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.da.DanishAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.hu.HungarianAnalyzer;
+import org.apache.lucene.analysis.id.IndonesianAnalyzer;
+import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.nl.DutchAnalyzer;
+import org.apache.lucene.analysis.no.NorwegianAnalyzer;
+import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
+import org.apache.lucene.analysis.ru.RussianAnalyzer;
+import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.th.ThaiAnalyzer;
+import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
@@ -133,6 +145,9 @@ public class SimpleSearcher implements Closeable {
 
     @Option(name = "-threads", metaVar = "[number]", usage = "Number of threads to use.")
     public int threads = 1;
+
+    @Option(name = "-language", usage = "Analyzer Language")
+    public String language = "en";
   }
 
   protected IndexReader reader;
@@ -227,20 +242,49 @@ public class SimpleSearcher implements Closeable {
    * @param language language
    */
   public void setLanguage(String language) {
-    if (language.equals("zh")) {
-      this.analyzer = new CJKAnalyzer();
-    } else if (language.equals("ar")) {
+    if (language.equals("ar")) {
       this.analyzer = new ArabicAnalyzer();
-    } else if (language.equals("fr")) {
-      this.analyzer = new FrenchAnalyzer();
-    } else if (language.equals("hi")) {
-      this.analyzer = new HindiAnalyzer();
     } else if (language.equals("bn")) {
       this.analyzer = new BengaliAnalyzer();
     } else if (language.equals("de")) {
       this.analyzer = new GermanAnalyzer();
+    } else if (language.equals("da")) {
+      this.analyzer = new DanishAnalyzer();
     } else if (language.equals("es")) {
       this.analyzer = new SpanishAnalyzer();
+    } else if (language.equals("fi")) {
+      this.analyzer = new FinnishAnalyzer();
+    } else if (language.equals("fr")) {
+      this.analyzer = new FrenchAnalyzer();
+    } else if (language.equals("hi")) {
+      this.analyzer = new HindiAnalyzer();
+    } else if (language.equals("hu")) {
+      this.analyzer = new HungarianAnalyzer();
+    } else if (language.equals("id")) {
+      this.analyzer = new IndonesianAnalyzer();
+    } else if (language.equals("it")) {
+      this.analyzer = new ItalianAnalyzer();
+    } else if (language.equals("ja")) {
+      this.analyzer = new JapaneseAnalyzer();
+    } else if (language.equals("nl")) {
+      this.analyzer = new DutchAnalyzer();
+    } else if (language.equals("no")) {
+      this.analyzer = new NorwegianAnalyzer();
+    } else if (language.equals("pt")) {
+      this.analyzer = new PortugueseAnalyzer();
+    } else if (language.equals("ru")) {
+      this.analyzer = new RussianAnalyzer();
+    } else if (language.equals("sv")) {
+      this.analyzer = new SwedishAnalyzer();
+    } else if (language.equals("th")) {
+      this.analyzer = new ThaiAnalyzer();
+    } else if (language.equals("tr")) {
+      this.analyzer = new TurkishAnalyzer();
+    } else if (language.equals("zh") || language.equals("ko")) {
+      this.analyzer = new CJKAnalyzer();
+    } else if (language.equals("sw") || language.equals("te")) {
+      this.analyzer = new WhitespaceAnalyzer();
+      // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
     }
   }
 
@@ -268,7 +312,7 @@ public class SimpleSearcher implements Closeable {
   public void setRM3() {
     SearchArgs defaults = new SearchArgs();
     setRM3(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
-        Float.parseFloat(defaults.rm3_originalQueryWeight[0]), false);
+        Float.parseFloat(defaults.rm3_originalQueryWeight[0]));
   }
 
   /**
@@ -279,7 +323,7 @@ public class SimpleSearcher implements Closeable {
    * @param originalQueryWeight weight to assign to the original query
    */
   public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight) {
-    setRM3(fbTerms, fbDocs, originalQueryWeight, false);
+    setRM3(fbTerms, fbDocs, originalQueryWeight, false, true);
   }
 
   /**
@@ -289,12 +333,13 @@ public class SimpleSearcher implements Closeable {
    * @param fbDocs number of expansion documents
    * @param originalQueryWeight weight to assign to the original query
    * @param outputQuery flag to print original and expanded queries
+   * @param filterTerms whether to filter terms to be English only
    */
-  public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
+  public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     useRM3 = true;
     cascade = new RerankerCascade("rm3");
     cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
-        fbTerms, fbDocs, originalQueryWeight, outputQuery));
+        fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -447,9 +492,11 @@ public class SimpleSearcher implements Closeable {
         } catch (IOException e) {
           throw new CompletionException(e);
         }
-        // logging for speed
+        // Logging to track query latency.
+        // Note that this is potentially noisy because it might interfere with tqdm on the Python side; logging
+        // every 500 queries seems like a reasonable comprise between offering helpful info and not being too noisy.
         Long lineNumber = index.incrementAndGet();
-        if (lineNumber % 100 == 0) {
+        if (lineNumber % 500 == 0) {
           double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
           LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)", timePerQuery));
         }
@@ -728,6 +775,7 @@ public class SimpleSearcher implements Closeable {
 
     final long start = System.nanoTime();
     SimpleSearcher searcher = new SimpleSearcher(searchArgs.index);
+    searcher.setLanguage(searchArgs.language);
     SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));

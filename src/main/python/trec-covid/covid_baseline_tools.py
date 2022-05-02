@@ -14,12 +14,9 @@
 # limitations under the License.
 #
 
-import re
 import os
+import re
 import subprocess
-import sys
-
-sys.path.insert(0, '../pyserini/')
 
 import pyserini.util
 
@@ -121,7 +118,7 @@ def perform_fusion(round_number, run_checksums, check_md5=True):
 
 
 def prepare_final_submissions(round_number, run_checksums, check_md5=True):
-    # Remove teh cumulative qrels from the previous round.
+    # Remove the cumulative qrels from the previous round.
     qrels = f'src/main/resources/topics-and-qrels/qrels.covid-round{round_number - 1}-cumulative.txt'
 
     print('')
@@ -208,7 +205,7 @@ def evaluate_run(run, qrels):
     return metrics
 
 
-def evaluate_runs(qrels, runs, check_md5=True):
+def evaluate_runs(qrels, runs, expected={}, check_md5=True):
     max_length = 0
     for run in runs:
         if len(run) > max_length:
@@ -233,6 +230,13 @@ def evaluate_runs(qrels, runs, check_md5=True):
               f'{metrics["ndcg_cut_20"]:8.4f}{metrics["judged_cut_20"]:7.4f}'
               f'{metrics["map"]:7.4f}{metrics["recall_1000"]:7.4f}{metrics["judged_cut_1000"]:7.4f} ' +
               f'{metrics["md5"]}')
+
+        if run in expected:
+            for key in ['topics', 'ndcg_cut_10', 'judged_cut_10', 'ndcg_cut_20',
+                        'judged_cut_20', 'map', 'recall_1000', 'judged_cut_1000']:
+                if key in expected[run]:
+                    assert metrics[key] == expected[run][key],\
+                        f'\'{key}\' doesn\'t match, expected {expected[run][key]} got {metrics[key]}!'
 
         if check_md5:
             assert metrics['md5'] == runs[run], f'Error in producing {run}!'

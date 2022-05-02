@@ -1,0 +1,144 @@
+---
+corpus: disk45
+corpus_path: collections/newswire/disk45/
+
+index_path: indexes/lucene-index.disk45/
+collection_class: TrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 528030
+  documents (non-empty): 528030
+  total terms: 174540872
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P30
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Trec
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)"
+    id: trec7
+    path: topics.adhoc.351-400.txt
+    qrel: qrels.adhoc.351-400.txt
+  - name: "[TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)"
+    id: trec8
+    path: topics.adhoc.401-450.txt
+    qrel: qrels.adhoc.401-450.txt
+  - name: "[TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)"
+    id: robust04
+    path: topics.robust04.txt
+    qrel: qrels.robust04.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25
+    results:
+      MAP:
+        - 0.1862
+        - 0.2515
+        - 0.2531
+      P30:
+        - 0.3093
+        - 0.3560
+        - 0.3102
+  - name: bm25+rm3
+    display: +RM3
+    params: -bm25 -rm3
+    results:
+      MAP:
+        - 0.2354
+        - 0.2750
+        - 0.2903
+      P30:
+        - 0.3447
+        - 0.3760
+        - 0.3365
+  - name: bm25+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      MAP:
+        - 0.2397
+        - 0.2743
+        - 0.2924
+      P30:
+        - 0.3527
+        - 0.3707
+        - 0.3365
+  - name: bm25+ax
+    display: +Ax
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
+    results:
+      MAP:
+        - 0.2431
+        - 0.2812
+        - 0.2896
+      P30:
+        - 0.3287
+        - 0.3753
+        - 0.3333
+  - name: ql
+    display: QL
+    params: -qld
+    results:
+      MAP:
+        - 0.1843
+        - 0.2460
+        - 0.2467
+      P30:
+        - 0.3073
+        - 0.3480
+        - 0.3079
+  - name: ql+rm3
+    display: +RM3
+    params: -qld -rm3
+    results:
+      MAP:
+        - 0.2168
+        - 0.2702
+        - 0.2747
+      P30:
+        - 0.3307
+        - 0.3680
+        - 0.3232
+  - name: qld+rocchio
+    display: +Rocchio
+    params: -qld -rocchio
+    results:
+      MAP:
+        - 0.2189
+        - 0.2709
+        - 0.2756
+      P30:
+        - 0.3293
+        - 0.3640
+        - 0.3237
+  - name: ql+ax
+    display: +Ax
+    params: -qld -axiom -axiom.deterministic -rerankCutoff 20
+    results:
+      MAP:
+        - 0.2298
+        - 0.2647
+        - 0.2774
+      P30:
+        - 0.3193
+        - 0.3500
+        - 0.3229

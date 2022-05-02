@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for replicable information retrieval research
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  */
 
 package io.anserini.search.topicreader;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,20 +36,18 @@ public class DprNqTopicReader extends TopicReader<Integer> {
     @Override
     public SortedMap<Integer, Map<String, String>> read(BufferedReader reader) throws IOException {
       SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
-  
-      String line;
+      CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
+        .withDelimiter('\t')
+        .withTrim());
       Integer topicID = 0;
-      while ((line = reader.readLine()) != null) {
-        line = line.trim();
-        String[] arr = line.split("\\t");
-  
+      for (CSVRecord csvRecord : csvParser) {
         Map<String,String> fields = new HashMap<>();
-        fields.put("title", arr[0].trim());
-        fields.put("answers", arr[1].trim());
+        fields.put("title", csvRecord.get(0).toString());
+        fields.put("answers", csvRecord.get(1).toString());
         map.put(topicID, fields);
         topicID += 1;
       }
-  
+      csvParser.close();
       return map;
     }
   }
