@@ -25,7 +25,7 @@ Sorted by number of commits:
 + Noam Cohen ([noam1023](https://github.com/noam1023))
 + Ogundepo Odunayo ([ToluClassics](https://github.com/ToluClassics))
 + Ji Xi Yang ([jx3yang](https://github.com/jx3yang))
-+ Alvind ([alvind1](https://github.com/alvind1))
++ Alvin Dai ([alvind1](https://github.com/alvind1))
 
 ## All Contributors
 
