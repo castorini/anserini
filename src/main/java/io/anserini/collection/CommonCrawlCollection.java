@@ -30,14 +30,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
+import org.tukaani.xz.XZInputStream;
 
 public class CommonCrawlCollection extends DocumentCollection<CommonCrawlCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(AfribertaCollection.class);
   
   public CommonCrawlCollection(Path path){
     this.path = path;
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".xz", ".txt"));
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".txt.xz", ".txt"));
   }
   
   @SuppressWarnings("unchecked")
@@ -45,6 +45,10 @@ public class CommonCrawlCollection extends DocumentCollection<CommonCrawlCollect
   public FileSegment<CommonCrawlCollection.Document> createFileSegment(Path p) throws IOException {
     return new CommonCrawlCollection.Segment(p);
   }
+  
+  /**
+   * A file in a Common Crawl collection, typically containing multiple documents.
+   */
   
   public static class Segment<T extends Document> extends AfribertaCollection.Segment<T>{
     private JsonNode node = null;
@@ -55,8 +59,8 @@ public class CommonCrawlCollection extends DocumentCollection<CommonCrawlCollect
       super(path);
   
       if (path.toString().endsWith(".xz")) {
-        InputStream stream = new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
-        bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+        bufferedReader = new BufferedReader(new InputStreamReader(
+            new XZInputStream(new FileInputStream(path.toString()))));
       } else {
         bufferedReader = new BufferedReader(new FileReader(path.toString()));
       }

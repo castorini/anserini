@@ -32,6 +32,7 @@ individual languages as listed above in lower case e.g `igbo`.
       -input /path/to/language_corpus \
       -index indexes/lucene-index.afriberta.lang/ \
       -generator DefaultLuceneDocumentGenerator \
+      -language ${lang_code} \
       -threads 1 -storePositions -storeDocvectors -storeRaw  -pretokenized \
       >& logs/log.afriberta &
     ```
