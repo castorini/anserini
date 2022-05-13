@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; trec-covid
+# Anserini Regressions: BEIR (v1.0.0) &mdash; TREC-COVID
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; trec-covid](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; TREC-COVID](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-trec-covid-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): trec-covid                                                                                    | 0.5947    |
+| BEIR (v1.0.0): TREC-COVID                                                                                    | 0.5947    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): trec-covid                                                                                    | 0.1091    |
+| BEIR (v1.0.0): TREC-COVID                                                                                    | 0.1091    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): trec-covid                                                                                    | 0.3955    |
+| BEIR (v1.0.0): TREC-COVID                                                                                    | 0.3955    |

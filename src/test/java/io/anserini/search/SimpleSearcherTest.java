@@ -20,6 +20,7 @@ import io.anserini.IndexerTestBase;
 import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
@@ -50,6 +51,25 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("more texts", searcher.document("doc2").get("contents"));
     assertEquals("here is a test", searcher.document("doc3").get("contents"));
     assertNull(searcher.document(3));
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatchGetDoc() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+
+    ArrayList<String> docIds = new ArrayList<String>();
+    docIds.add("doc1");
+    docIds.add("doc2");
+    docIds.add("doc3");
+    docIds.add("fake_doc");
+
+    Map<String, Document> results = searcher.batchGetDocument(docIds, 2);
+    assertEquals("here is some text here is some more text. city.", results.get("doc1").get("contents"));
+    assertEquals("more texts", results.get("doc2").get("contents"));
+    assertEquals("here is a test", results.get("doc3").get("contents"));
+    assertNull(results.get("fake_doc"));
 
     searcher.close();
   }

@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; hotpotqa
+# Anserini Regressions: BEIR (v1.0.0) &mdash; HotpotQA
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; hotpotqa](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; HotpotQA](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-hotpotqa-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): hotpotqa                                                                                      | 0.6330    |
+| BEIR (v1.0.0): HotpotQA                                                                                      | 0.6330    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): hotpotqa                                                                                      | 0.7957    |
+| BEIR (v1.0.0): HotpotQA                                                                                      | 0.7957    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): hotpotqa                                                                                      | 0.8820    |
+| BEIR (v1.0.0): HotpotQA                                                                                      | 0.8820    |

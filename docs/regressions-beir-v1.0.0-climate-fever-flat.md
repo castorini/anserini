@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; climate-fever
+# Anserini Regressions: BEIR (v1.0.0) &mdash; Climate-FEVER
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; climate-fever](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; Climate-FEVER](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-climate-fever-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): climate-fever                                                                                 | 0.1651    |
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.1651    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): climate-fever                                                                                 | 0.4249    |
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.4249    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): climate-fever                                                                                 | 0.6324    |
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.6324    |

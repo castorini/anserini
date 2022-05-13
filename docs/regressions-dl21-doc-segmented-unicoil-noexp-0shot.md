@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2021 Deep Learning Track (Document)
 
-**Model**: uniCOIL (without any expansions) zero-shot on segmented documents
+**Model**: uniCOIL (without any expansions) zero-shot on segmented documents (segment-only encoding) - _Deprecated_, see below
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document collection.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, without any expansions.
@@ -8,6 +8,11 @@ Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 pas
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
+
+**NOTE**: As an important detail, there is the question of what text we feed into the encoder to generate document representations.
+Initially, we fed only the segment text, but later we realized that prepending the title of the document improves effectiveness.
+This regression captures segment-only encoding and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
+The version that uses title/segment encoding can be found [here](regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO V2 document collection, refer to [this page](experiments-msmarco-v2.md).
@@ -27,16 +32,16 @@ Download, unpack, and prepare the corpus:
 
 ```
 # Download
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar -P collections/
 
 # Unpack
-tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar -C collections/
+tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar -C collections/
 
 # Rename (indexer is expecting corpus under a slightly different name)
-mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot
+mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2 collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2
 ```
 
-To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar` is 54 GB and has an MD5 checksum of `28261587d6afde56efd8df4f950e7fb4`.
+To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar` is 55 GB and has an MD5 checksum of `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar`.
 
 ## Indexing
 

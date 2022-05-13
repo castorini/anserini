@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; climate-fever
+# Anserini Regressions: BEIR (v1.0.0) &mdash; Climate-FEVER
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; climate-fever](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; Climate-FEVER](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -21,7 +21,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection BeirMultifieldCollection \
   -input /path/to/beir-v1.0.0-climate-fever-multifield \
-  -index indexes/lucene-index.beir-v1.0.0-climate-multifield/ \
+  -index indexes/lucene-index.beir-v1.0.0-climate-fever-multifield/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 1 -storePositions -storeDocvectors -storeRaw -fields title \
   >& logs/log.beir-v1.0.0-climate-fever-multifield &
@@ -35,7 +35,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.beir-v1.0.0-climate-multifield/ \
+  -index indexes/lucene-index.beir-v1.0.0-climate-fever-multifield/ \
   -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.tsv.gz \
   -topicreader TsvString \
   -output runs/run.beir-v1.0.0-climate-fever-multifield.bm25.topics.beir-v1.0.0-climate-fever.test.txt \
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): climate-fever                                                                                 | 0.2129    |
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.2129    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): climate-fever                                                                                 | 0.4357    |
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.4357    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): climate-fever                                                                                 | 0.6099    |
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.6099    |

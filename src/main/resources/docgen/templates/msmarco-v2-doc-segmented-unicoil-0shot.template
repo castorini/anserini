@@ -1,6 +1,6 @@
 # Anserini Regressions: MS MARCO (V2) Document Ranking
 
-**Model**: uniCOIL (with doc2query-T5 expansions) zero-shot on segmented documents
+**Model**: uniCOIL (with doc2query-T5 expansions) zero-shot on segmented documents (segment-only encoding) - _Deprecated_, see below
 
 This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO (V2) document corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with doc2query-T5 expansion.
@@ -8,6 +8,11 @@ Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 pas
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
+
+**NOTE**: As an important detail, there is the question of what text we feed into the encoder to generate document representations.
+Initially, we fed only the segment text, but later we realized that prepending the title of the document improves effectiveness.
+This regression captures segment-only encoding and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
+The version that uses title/segment encoding can be found [here](regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
