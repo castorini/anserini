@@ -70,6 +70,7 @@ import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
@@ -767,6 +768,7 @@ public final class IndexCollection {
       final SwedishAnalyzer swedishAnalyzer = new SwedishAnalyzer();
       final ThaiAnalyzer thaiAnalyzer = new ThaiAnalyzer();
       final TurkishAnalyzer turkishAnalyzer = new TurkishAnalyzer();
+      final UkrainianMorfologikAnalyzer ukrainianAnalyzer = new UkrainianMorfologikAnalyzer();
       final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
 
       final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
@@ -816,6 +818,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(thaiAnalyzer);
       } else if (args.language.equals("tr")) {
         config = new IndexWriterConfig(turkishAnalyzer);
+      } else if (args.language.equals("uk")) {
+        config = new IndexWriterConfig(ukrainianAnalyzer);
       } else if (args.language.equals("zh") || args.language.equals("ko")) {
         config = new IndexWriterConfig(chineseAnalyzer);
       } else if (args.language.equals("sw") || args.language.equals("te")) {
