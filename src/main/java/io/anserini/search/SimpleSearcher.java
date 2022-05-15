@@ -45,6 +45,7 @@ import org.apache.lucene.analysis.hu.HungarianAnalyzer;
 import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.morfologik.MorfologikAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
@@ -52,6 +53,7 @@ import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 
 import org.apache.lucene.document.Document;
@@ -270,6 +272,8 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new DutchAnalyzer();
     } else if (language.equals("no")) {
       this.analyzer = new NorwegianAnalyzer();
+    } else if (language.equals("pl")) {
+      this.analyzer = new MorfologikAnalyzer();
     } else if (language.equals("pt")) {
       this.analyzer = new PortugueseAnalyzer();
     } else if (language.equals("ru")) {
@@ -280,6 +284,8 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new ThaiAnalyzer();
     } else if (language.equals("tr")) {
       this.analyzer = new TurkishAnalyzer();
+    } else if (language.equals("uk")) {
+      this.analyzer = new UkrainianMorfologikAnalyzer();
     } else if (language.equals("zh") || language.equals("ko")) {
       this.analyzer = new CJKAnalyzer();
     } else if (language.equals("sw") || language.equals("te")) {

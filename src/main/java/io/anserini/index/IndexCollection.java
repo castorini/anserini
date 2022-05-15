@@ -63,6 +63,7 @@ import org.apache.lucene.analysis.hu.HungarianAnalyzer;
 import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.morfologik.MorfologikAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
@@ -70,6 +71,7 @@ import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
@@ -760,6 +762,7 @@ public final class IndexCollection {
       final IndonesianAnalyzer indonesianAnalyzer = new IndonesianAnalyzer();
       final ItalianAnalyzer italianAnalyzer = new ItalianAnalyzer();
       final JapaneseAnalyzer japaneseAnalyzer = new JapaneseAnalyzer();
+      final MorfologikAnalyzer polishAnalyzer = new MorfologikAnalyzer();
       final NorwegianAnalyzer norwegianAnalyzer = new NorwegianAnalyzer();
       final PortugueseAnalyzer portugueseAnalyzer = new PortugueseAnalyzer();
       final RussianAnalyzer russianAnalyzer = new RussianAnalyzer();
@@ -767,6 +770,7 @@ public final class IndexCollection {
       final SwedishAnalyzer swedishAnalyzer = new SwedishAnalyzer();
       final ThaiAnalyzer thaiAnalyzer = new ThaiAnalyzer();
       final TurkishAnalyzer turkishAnalyzer = new TurkishAnalyzer();
+      final UkrainianMorfologikAnalyzer ukrainianAnalyzer = new UkrainianMorfologikAnalyzer();
       final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
 
       final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
@@ -806,6 +810,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(dutchAnalyzer);
       } else if (args.language.equals("no")) {
         config = new IndexWriterConfig(norwegianAnalyzer);
+      } else if (args.language.equals("pl")) {
+        config = new IndexWriterConfig(polishAnalyzer);
       } else if (args.language.equals("pt")) {
         config = new IndexWriterConfig(portugueseAnalyzer);
       } else if (args.language.equals("ru")) {
@@ -816,6 +822,8 @@ public final class IndexCollection {
         config = new IndexWriterConfig(thaiAnalyzer);
       } else if (args.language.equals("tr")) {
         config = new IndexWriterConfig(turkishAnalyzer);
+      } else if (args.language.equals("uk")) {
+        config = new IndexWriterConfig(ukrainianAnalyzer);
       } else if (args.language.equals("zh") || args.language.equals("ko")) {
         config = new IndexWriterConfig(chineseAnalyzer);
       } else if (args.language.equals("sw") || args.language.equals("te")) {
