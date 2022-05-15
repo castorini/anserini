@@ -60,6 +60,7 @@ import org.apache.lucene.analysis.hu.HungarianAnalyzer;
 import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.morfologik.MorfologikAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
@@ -67,6 +68,7 @@ import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -452,6 +454,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("no")) {
       analyzer = new NorwegianAnalyzer();
       LOG.info("Language: no");
+    } else if (args.language.equals("pl")) {
+      analyzer = new MorfologikAnalyzer();
+      LOG.info("Language: pl");
     } else if (args.language.equals("pt")) {
       analyzer = new PortugueseAnalyzer();
       LOG.info("Language: pt");
@@ -467,6 +472,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("tr")) {
       analyzer = new TurkishAnalyzer();
       LOG.info("Language: tr");
+    } else if (args.language.equals("uk")) {
+      analyzer = new UkrainianMorfologikAnalyzer();
+      LOG.info("Language: uk");
     } else if (args.language.equals("zh")) {
       analyzer = new CJKAnalyzer();
       LOG.info("Language: zh");

@@ -300,6 +300,11 @@
       <artifactId>lucene-analyzers-kuromoji</artifactId>
       <version>${lucene.version}</version>
     </dependency>
+    <dependency> <!-- polish and ukrainian -->
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analyzers-morfologik</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
     <dependency> <!-- only needed for testing -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>
