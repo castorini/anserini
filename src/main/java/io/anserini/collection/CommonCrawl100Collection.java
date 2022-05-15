@@ -126,10 +126,43 @@ public class CommonCrawl100Collection extends DocumentCollection<CommonCrawl100C
    * A document in a language corpus for CC-100.
    */
 
+
+  public static class Document implements SourceDocument{
+    private String id;
+    private String raw;
+    private String contents;
   
-  public static class Document extends AfribertaCollection.Document{
+  
     public Document(JsonNode json) {
-      super(json);
+      this.raw = json.toPrettyString();
+    
+      json.fields().forEachRemaining( e -> {
+        if ("id".equals(e.getKey())) {
+          this.id = json.get("id").asText();
+        } else if ("contents".equals(e.getKey())) {
+          this.contents = json.get("contents").asText();
+        }
+      });
+    }
+  
+    @Override
+    public String id() {
+      return id;
+    }
+  
+    @Override
+    public String contents() {
+      return contents;
+    }
+  
+    @Override
+    public String raw() {
+      return raw;
+    }
+  
+    @Override
+    public boolean indexable() {
+      return true;
     }
   }
   
