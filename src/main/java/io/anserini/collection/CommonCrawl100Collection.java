@@ -63,7 +63,7 @@ public class CommonCrawl100Collection extends DocumentCollection<CommonCrawl100C
       if (path.toString().endsWith(".xz")) {
         bufferedReader = new BufferedReader(new InputStreamReader(
             new XZInputStream(new FileInputStream(path.toString()))));
-      }else{
+      } else {
         bufferedReader = new BufferedReader(new InputStreamReader(
             new FileInputStream(path.toString())));
       }
