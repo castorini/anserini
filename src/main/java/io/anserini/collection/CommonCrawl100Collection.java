@@ -84,7 +84,7 @@ public class CommonCrawl100Collection extends DocumentCollection<CommonCrawl100C
       String line;
       int i=0;
       while ((line = reader.readLine()) != null) {
-        try{
+        try {
           String json = "{ \"id\" : \"doc_"+i+"\", \"contents\" : \""+line.replaceAll("[-+\"\'^[\\\\p{C}]\\\\]*","").strip()+"\" }";
           JsonNode jsonNode = objectMapper.readTree(json);
           jsonNodeArray.add(jsonNode);
