@@ -89,7 +89,7 @@ public class CommonCrawl100Collection extends DocumentCollection<CommonCrawl100C
           JsonNode jsonNode = objectMapper.readTree(json);
           jsonNodeArray.add(jsonNode);
           i++;
-        }catch (IOException e) {
+        } catch (IOException e) {
           LOG.error("Error: this is not a text file");
           e.printStackTrace();
         }
