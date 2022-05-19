@@ -84,15 +84,12 @@ public class CommonCrawl100Collection extends DocumentCollection<CommonCrawl100C
       String line;
       int i=0;
       while ((line = reader.readLine()) != null) {
-        try {
-          String json = "{ \"id\" : \"doc_"+i+"\", \"contents\" : \""+line.replaceAll("[-+\"\'^[\\\\p{C}]\\\\]*","").strip()+"\" }";
-          JsonNode jsonNode = objectMapper.readTree(json);
-          jsonNodeArray.add(jsonNode);
-          i++;
-        } catch (IOException e) {
-          LOG.error("Error: this is not a text file");
-          e.printStackTrace();
-        }
+        Map<String, String> docMap = new HashMap<String, String>();
+        docMap.put("id", "doc_"+i);
+        docMap.put("contents", line.replaceAll("[-+\"\'^[\\\\p{C}]\\\\]*","").strip());
+        JsonNode jsonNode = objectMapper.convertValue(docMap, JsonNode.class);
+        jsonNodeArray.add(jsonNode);
+        i++;
       }
   
       return jsonNodeArray;
