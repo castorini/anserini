@@ -63,7 +63,6 @@ public class CommonCrawl100Collection extends DocumentCollection<CommonCrawl100C
       } else {
         bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
       }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -85,10 +84,7 @@ public class CommonCrawl100Collection extends DocumentCollection<CommonCrawl100C
         i++;
         break;
       }
-
     }
-
-
   }
 
   /**
