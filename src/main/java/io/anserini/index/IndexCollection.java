@@ -408,8 +408,8 @@ public final class IndexCollection {
     @Override
     public SolrClient create() {
       return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
-          .withConnectionTimeout(TIMEOUT)
-          .withSocketTimeout(TIMEOUT)
+//          .withConnectionTimeout(TIMEOUT)
+//          .withSocketTimeout(TIMEOUT)
           .build();
     }
 

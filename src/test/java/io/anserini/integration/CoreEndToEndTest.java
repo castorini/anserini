@@ -54,7 +54,7 @@ public class CoreEndToEndTest extends EndToEndTest {
     termIndexStatusTotFreq = 43;
     storedFieldStatusTotalDocCounts = 3;
     termIndexStatusTotPos = 45;
-    storedFieldStatusTotFields = 47;
+    storedFieldStatusTotFields = 46;
   }
 
   @Override

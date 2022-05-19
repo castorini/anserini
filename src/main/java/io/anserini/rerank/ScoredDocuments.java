@@ -17,12 +17,12 @@
 package io.anserini.rerank;
 
 import io.anserini.index.IndexArgs;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
@@ -97,7 +97,7 @@ public class ScoredDocuments {
       // Store the collection docid.
       document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
       // This is needed to break score ties by docid.
-      document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+      document.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef(id)));
       scoredDocs.documents[i] = document;
       scoredDocs.scores[i] = score;
       scoredDocs.ids[i] = i; // no internal Lucene ID available, use index as placeholder
@@ -130,7 +130,7 @@ public class ScoredDocuments {
       // Store the collection docid.
       document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
       // This is needed to break score ties by docid.
-      document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+      document.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef(id)));
       scoredDocs.documents[i] = document;
       scoredDocs.scores[i] = score;
       scoredDocs.ids[i] = i; // no internal Lucene ID available, use index as placeholder

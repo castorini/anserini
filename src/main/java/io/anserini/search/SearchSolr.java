@@ -165,8 +165,8 @@ public final class SearchSolr implements Closeable {
     LOG.info("Solr ZooKeeper URL: " + args.zkUrl);
     this.client = new CloudSolrClient.Builder(Splitter.on(',')
             .splitToList(args.zkUrl), Optional.of(args.zkChroot))
-            .withConnectionTimeout(TIMEOUT)
-            .withSocketTimeout(TIMEOUT)
+//            .withConnectionTimeout(TIMEOUT)
+//            .withSocketTimeout(TIMEOUT)
             .build();
   }
 
