@@ -37,130 +37,93 @@ import org.tukaani.xz.XZInputStream;
 
 public class CommonCrawl100Collection extends DocumentCollection<CommonCrawl100Collection.Document> {
   private static final Logger LOG = LogManager.getLogger(CommonCrawl100Collection.class);
-  
+
   public CommonCrawl100Collection(Path path){
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".txt.xz", ".txt"));
   }
-  
+
   @SuppressWarnings("unchecked")
   @Override
   public FileSegment<CommonCrawl100Collection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
-  
+
   /**
    * A file in a Common Crawl collection, typically containing multiple documents.
    */
-  public static class Segment<T extends Document> extends FileSegment<T>{
-    private JsonNode node = null;
-    private List<JsonNode> jsonNodeArray = null;
-    private Iterator<JsonNode> iterator; // iterator for JSON line objects
-  
+  public static class Segment extends FileSegment<Document>{
+    long i = 0;
+
     public Segment(Path path) throws IOException {
       super(path);
-  
+
       if (path.toString().endsWith(".xz")) {
-        bufferedReader = new BufferedReader(new InputStreamReader(
-            new XZInputStream(new FileInputStream(path.toString()))));
+        bufferedReader = new BufferedReader(new InputStreamReader(new XZInputStream(new FileInputStream(path.toString()))));
       } else {
-        bufferedReader = new BufferedReader(new InputStreamReader(
-            new FileInputStream(path.toString())));
+        bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
       }
-      
-      List<JsonNode> jsonNodeArray = getTxtFiles(bufferedReader);
-  
-      iterator = jsonNodeArray.iterator();
-      if (iterator.hasNext()) {
-        node = iterator.next();
-      }
-      
+
     }
-  
-    private List<JsonNode> getTxtFiles(BufferedReader reader) throws IOException {
-      List<JsonNode> jsonNodeArray = new ArrayList<>();
-      ObjectMapper objectMapper = new ObjectMapper();
-    
-      String line;
-      int i=0;
-      while ((line = reader.readLine()) != null) {
-        Map<String, String> docMap = new HashMap<String, String>();
-        docMap.put("id", "doc_"+i);
-        docMap.put("contents", line.replaceAll("[-+\"\'^[\\\\p{C}]\\\\]*","").strip());
-        JsonNode jsonNode = objectMapper.convertValue(docMap, JsonNode.class);
-        jsonNodeArray.add(jsonNode);
-        i++;
-      }
-  
-      return jsonNodeArray;
-    }
-  
+
     @SuppressWarnings("unchecked")
     @Override
-    public void readNext() throws NoSuchElementException {
-      if (node == null) {
-        throw new NoSuchElementException("JsonNode is empty");
-      } else if (node.isObject()) {
-        bufferedRecord = (T) createNewDocument(node);
-        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
-          node = iterator.next();
-        } else {
-          atEOF = true; // there is no more JSON object in the bufferedReader
+    public void readNext() throws NoSuchElementException, IOException {
+      String line;
+      String id = "";
+      String contents = "";
+
+      while ((line = bufferedReader.readLine())!=null){
+        id = "doc_"+i;
+        contents = line;
+        LOG.error(id+"\n"+contents);
+
+        if (contents == "") {
+          throw new NoSuchElementException();
         }
-      } else {
-        LOG.error("Error: invalid JsonNode type");
-        throw new NoSuchElementException("Invalid JsonNode type");
+        this.bufferedRecord = new CommonCrawl100Collection.Document(id, contents);
+        i++;
+        break;
       }
+
     }
-  
-    protected CommonCrawl100Collection.Document createNewDocument(JsonNode node) {
-      return new CommonCrawl100Collection.Document(node);
-    }
-    
+
+
   }
-  
+
   /**
    * A document in a language corpus for CC-100.
    */
 
-
   public static class Document implements SourceDocument{
     private String id;
-    private String raw;
     private String contents;
-  
-  
-    public Document(JsonNode json) {
-      this.raw = json.toPrettyString();
-    
-      json.fields().forEachRemaining( e -> {
-        if ("id".equals(e.getKey())) {
-          this.id = json.get("id").asText();
-        } else if ("contents".equals(e.getKey())) {
-          this.contents = json.get("contents").asText();
-        }
-      });
+
+
+    public Document(String id, String contents) {
+      this.id = id;
+      this.contents = contents;
     }
-  
+
     @Override
     public String id() {
       return id;
     }
-  
+
     @Override
     public String contents() {
       return contents;
     }
-  
+
     @Override
     public String raw() {
-      return raw;
+      return contents;
     }
-  
+
     @Override
     public boolean indexable() {
       return true;
     }
   }
-  
+
 }
