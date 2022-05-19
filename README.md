@@ -114,7 +114,6 @@ See individual pages for details!
 | Corpus | Conditions |
 |--------|------------|
 | TREC-COVID | [[F](docs/regressions-beir-v1.0.0-trec-covid-flat.md)] [[MF](docs/regressions-beir-v1.0.0-trec-covid-multifield.md)] [[SPLADE](docs/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md)] |
-| TREC-COVID | [[F](docs/regressions-beir-v1.0.0-trec-covid-flat.md)] [[MF](docs/regressions-beir-v1.0.0-trec-covid-multifield.md)] [[SPLADE](docs/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md)] |
 | BioASQ | [[F](docs/regressions-beir-v1.0.0-bioasq-flat.md)] [[MF](docs/regressions-beir-v1.0.0-bioasq-multifield.md)] [[SPLADE](docs/regressions-beir-v1.0.0-bioasq-splade-distil-cocodenser-medium.md)] |
 | NFCorpus | [[F](docs/regressions-beir-v1.0.0-nfcorpus-flat.md)] [[MF](docs/regressions-beir-v1.0.0-nfcorpus-multifield.md)] [[SPLADE](docs/regressions-beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.md)] |
 | NQ | [[F](docs/regressions-beir-v1.0.0-nq-flat.md)] [[MF](docs/regressions-beir-v1.0.0-nq-multifield.md)] [[SPLADE](docs/regressions-beir-v1.0.0-nq-splade-distil-cocodenser-medium.md)] |
