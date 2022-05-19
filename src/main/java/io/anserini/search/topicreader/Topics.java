@@ -181,6 +181,7 @@ public enum Topics {
   BEIR_V1_0_0_FEVER_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.tsv.gz"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.tsv.gz"),
   BEIR_V1_0_0_SCIFACT_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.tsv.gz"),
+
   // BEIR (v1.0.0): word piece queries
   BEIR_V1_0_0_TREC_COVID_TEST_WP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-covid.test.wp.tsv.gz"),
   BEIR_V1_0_0_BIOASQ_TEST_WP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-bioasq.test.wp.tsv.gz"),
