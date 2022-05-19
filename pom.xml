@@ -308,7 +308,7 @@
     </dependency>
     <dependency> <!-- polish and ukrainian -->
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-analyzers-morfologik</artifactId>
+      <artifactId>lucene-analysis-morfologik</artifactId>
       <version>${lucene.version}</version>
     </dependency>
     <dependency> <!-- only needed for testing -->

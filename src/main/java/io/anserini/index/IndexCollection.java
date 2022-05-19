@@ -85,6 +85,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -411,8 +412,7 @@ public final class IndexCollection {
     @Override
     public SolrClient create() {
       return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
-//          .withConnectionTimeout(TIMEOUT)
-//          .withSocketTimeout(TIMEOUT)
+          .withInternalClientBuilder(new Http2SolrClient.Builder().connectionTimeout(TIMEOUT))
           .build();
     }
 

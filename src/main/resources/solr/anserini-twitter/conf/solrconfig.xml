@@ -1287,7 +1287,7 @@
     <str name="solr.resource.loader.enabled">${velocity.solr.resource.loader.enabled:true}</str>
     <str name="params.resource.loader.enabled">${velocity.params.resource.loader.enabled:false}</str>
   </queryResponseWriter>
-  
+
   <!-- Query Parsers
 
        https://lucene.apache.org/solr/guide/query-syntax-and-parsing.html
