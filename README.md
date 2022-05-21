@@ -54,7 +54,7 @@ See individual pages for details!
 ### MS MARCO (V1) Passage Corpus
 
 + Regressions for development queries:
-  + Unsupervised lexical: [BoW baselines](docs/regressions-msmarco-passage.md), [WP baselines](docs/regressions-msmarco-passage-wp.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
+  + Unsupervised lexical: [BoW baselines](docs/regressions-msmarco-passage.md), [WP baselines](docs/regressions-msmarco-passage-wp.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md), [quantized BM25](docs/regressions-msmarco-passage-bm25-b8.md)
   + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-msmarco-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
   + Learned sparse lexical (other): [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md), [SPLADE-distill CoCodenser-medium](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md)
 + Regressions for TREC 2019 Deep Learning Track:
