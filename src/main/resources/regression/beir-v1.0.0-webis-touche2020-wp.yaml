@@ -47,7 +47,7 @@ topics:
 models:
   - name: bm25
     display: BM25
-    params: -bm25 -removeQuery -hits 1000
+    params: -bm25 -removeQuery -pretokenized
     results:
       nDCG@10:
         - 0.4661
