@@ -53,18 +53,22 @@ See individual pages for details!
 
 ### MS MARCO (V1) Passage Corpus
 
-+ Regressions for development queries:
-  + Unsupervised lexical: [BoW baselines](docs/regressions-msmarco-passage.md), [quantized BM25](docs/regressions-msmarco-passage-bm25-b8.md), [WP baselines](docs/regressions-msmarco-passage-wp.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
-  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-msmarco-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
-  + Learned sparse lexical (other): [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md), [SPLADE-distill CoCodenser-medium](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md)
-+ Regressions for TREC 2019 Deep Learning Track:
-  + Unsupervised lexical: [BoW baselines](docs/regressions-dl19-passage.md), [WP baselines](docs/regressions-dl19-passage-wp.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
-  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl19-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-passage-unicoil.md)
-  + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md)
-+ Regressions for TREC 2020 Deep Learning Track:
-  + Unsupervised lexical: [BoW baselines](docs/regressions-dl20-passage.md), [WP baselines](docs/regressions-dl20-passage-wp.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
-  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl20-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-passage-unicoil.md)
-  + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md)
+|  | dev | DL19 | DL20 |
+|--|:---:|:----:|:----:|
+| **Unsupervised Lexical** |
+| BoW baselines | [+](docs/regressions-msmarco-passage.md) | [+](docs/regressions-dl19-passage.md) | [+](docs/regressions-dl20-passage.md) |
+| Quantized BM25 | [+](docs/regressions-msmarco-passage-bm25-b8.md)
+| WP baselines | [+](docs/regressions-msmarco-passage-wp.md) | [+](docs/regressions-dl19-passage-wp.md) | [+](docs/regressions-dl20-passage-wp.md) |
+| doc2query | [+](docs/regressions-msmarco-passage-doc2query.md)
+| doc2query-T5 | [+](docs/regressions-msmarco-passage-docTTTTTquery.md) | [+](docs/regressions-dl19-passage-docTTTTTquery.md) | [+](docs/regressions-dl20-passage-docTTTTTquery.md) |
+| **Learned sparse lexical (uniCOIL family)** |
+| uniCOIL noexp | [+](docs/regressions-msmarco-passage-unicoil-noexp.md) | [+](docs/regressions-dl19-passage-unicoil-noexp.md) | [+](docs/regressions-dl20-passage-unicoil-noexp.md)
+| uniCOIL with d2q-T5 | [+](docs/regressions-msmarco-passage-unicoil.md) | [+](docs/regressions-dl19-passage-unicoil.md) | [+](docs/regressions-dl20-passage-unicoil.md)
+| uniCOIL with TILDE | [+](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
+| **Learned sparse lexical (other)** |
+| DeepImpact | [+](docs/regressions-msmarco-passage-deepimpact.md)
+| SPLADEv2 | [+](docs/regressions-msmarco-passage-distill-splade-max.md)
+| SPLADE-distill CoCodenser-medium | [+](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [+](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [+](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md)
 
 ### MS MARCO (V1) Document Corpus
 
