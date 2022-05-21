@@ -21,6 +21,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SimpleSearcher;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexReader;
@@ -538,7 +539,10 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testBatchComputeQueryDocumentScore() throws Exception {
-    SimpleSearcher searcher = new SimpleSearcher(tempDir1.toString());
+    SimpleSearcher searcher1 = new SimpleSearcher(tempDir1.toString());
+    // Using analyzer asides the default for second searcher.
+    Analyzer stemAnalyzer = DefaultEnglishAnalyzer.newStemmingInstance("krovertz");
+    SimpleSearcher searcher2 = new SimpleSearcher(tempDir1.toString(), stemAnalyzer);
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
     Similarity similarity = new BM25Similarity(0.9f, 0.4f);
@@ -547,24 +551,28 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     String[] queries = {"text city", "text", "city"};
 
     for (String query: queries) {
-      SimpleSearcher.Result[] results = searcher.search(query);
+      SimpleSearcher.Result[] results1 = searcher1.search(query);
 
-      // Strategy is to loop over the results, compute query-document score individually, and compare.
       List<String> docids = new ArrayList<String>();
-      for (SimpleSearcher.Result result: results){
+      for (SimpleSearcher.Result result: results1){
         docids.add(result.docid);
       }
 
-      Map<String, Float> batchScore = IndexReaderUtils.batchComputeQueryDocumentScore(reader, docids, query, similarity, 2);
-      for (SimpleSearcher.Result result: results){
-        assertEquals(batchScore.get(result.docid), result.score, 10e-5);
+      Map<String, Float> batchScore1 = IndexReaderUtils.batchComputeQueryDocumentScore(reader, docids, query, similarity, 2);
+      for (SimpleSearcher.Result result: results1){
+        assertEquals(batchScore1.get(result.docid), result.score, 10e-5);
       }
 
+      SimpleSearcher.Result[] results2 = searcher2.search(query);
+      Map<String, Float> batchScore2 = IndexReaderUtils.batchComputeQueryDocumentScore(reader, docids, query, similarity, stemAnalyzer, 2);
+      for (SimpleSearcher.Result result: results2){
+        assertEquals(batchScore2.get(result.docid), result.score, 10e-5);
+      }
 
       // This is hard coded - doc3 isn't retrieved by any of the queries.
       String fakeId = "doc3";
       docids = List.of(fakeId);
-      batchScore = IndexReaderUtils.batchComputeQueryDocumentScore(
+      Map<String, Float> batchScore = IndexReaderUtils.batchComputeQueryDocumentScore(
               reader, docids, query, similarity, 2);
       assertEquals(0.0f, batchScore.get(fakeId), 10e-6);
     }
