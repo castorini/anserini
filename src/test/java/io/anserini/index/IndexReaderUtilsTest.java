@@ -40,6 +40,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -534,6 +535,44 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     reader.close();
     dir.close();
   }
+
+  @Test
+  public void testBatchComputeQueryDocumentScore() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(tempDir1.toString());
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    Similarity similarity = new BM25Similarity(0.9f, 0.4f);
+
+    // A bunch of test queries...
+    String[] queries = {"text city", "text", "city"};
+
+    for (String query: queries) {
+      SimpleSearcher.Result[] results = searcher.search(query);
+
+      // Strategy is to loop over the results, compute query-document score individually, and compare.
+      List<String> docids = new ArrayList<String>();
+      for (SimpleSearcher.Result result: results){
+        docids.add(result.docid);
+      }
+
+      Map<String, Float> batchScore = IndexReaderUtils.batchComputeQueryDocumentScore(reader, docids, query, similarity, 2);
+      for (SimpleSearcher.Result result: results){
+        assertEquals(batchScore.get(result.docid), result.score, 10e-5);
+      }
+
+
+      // This is hard coded - doc3 isn't retrieved by any of the queries.
+      String fakeId = "doc3";
+      docids = List.of(fakeId);
+      batchScore = IndexReaderUtils.batchComputeQueryDocumentScore(
+              reader, docids, query, similarity, 2);
+      assertEquals(0.0f, batchScore.get(fakeId), 10e-6);
+    }
+
+    reader.close();
+    dir.close();
+  }
+
 
   @Test
   public void testGetIndexStats() throws Exception {

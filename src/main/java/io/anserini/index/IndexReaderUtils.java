@@ -20,6 +20,8 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.PhraseQueryGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -59,12 +61,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class containing a bunch of static helper methods for accessing a Lucene inverted index.
  * This class provides a lot of functionality that is exposed in Python via Pyserini.
  */
 public class IndexReaderUtils {
+  private static final Logger LOG = LogManager.getLogger(IndexReaderUtils.class);
 
   /**
    * An individual posting in a postings list. Note that this class is used primarily for inspecting
@@ -726,7 +733,153 @@ public class IndexReaderUtils {
     return rs.scoreDocs.length == 0 ? 0 : rs.scoreDocs[0].score - 1;
   }
 
-  // TODO: Write a variant of computeQueryDocumentScore that takes a set of documents.
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param threads number of threads
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScore(
+          IndexReader reader, List<String> docids, String q, int threads)
+          throws IOException {
+
+    SearchArgs args = new SearchArgs();
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q,
+            new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0])),
+            IndexCollection.DEFAULT_ANALYZER, threads);
+  }
+
+
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param similarity scoring function
+   * @param threads number of threads
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScore(
+          IndexReader reader, List<String> docids, String q, Similarity similarity, int threads)
+          throws IOException {
+
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q, similarity,
+            IndexCollection.DEFAULT_ANALYZER, threads);
+  }
+
+
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param analyzer analyzer to use
+   * @param threads number of threads
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScore(
+          IndexReader reader, List<String> docids, String q, Analyzer analyzer, int threads)
+          throws IOException {
+
+    SearchArgs args = new SearchArgs();
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q,
+            new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0])),
+            analyzer, threads);
+  }
+
+
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param similarity scoring function
+   * @param analyzer analyzer to use
+   * @param threads number of threads
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScore(
+          IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer, int threads)
+          throws IOException {
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q, similarity, analyzer, threads);
+  }
+
+
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param similarity scoring function
+   * @param analyzer analyzer to use
+   * @param threads number of threads
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(
+          IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer, int threads)
+          throws IOException {
+    // We compute the query-document score by issuing the query with an additional filter clause that restricts
+    // consideration to only the docid in question, and then returning the retrieval score.
+    //
+    // This implementation is inefficient, but as the advantage of using the existing Lucene similarity, which means
+    // that we don't need to copy the scoring function and keep it in sync wrt code updates.
+
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
+
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
+    ConcurrentHashMap<String, Float> results = new ConcurrentHashMap<>();
+
+    for (String docid: docids) {
+      executor.execute(() -> {
+        try {
+          Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+
+          Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
+          BooleanQuery.Builder builder = new BooleanQuery.Builder();
+          builder.add(filterQuery, BooleanClause.Occur.MUST);
+          builder.add(query, BooleanClause.Occur.MUST);
+          Query finalQuery = builder.build();
+
+          TopDocs rs = searcher.search(finalQuery, 1);
+
+          // We want the score of the first (and only) hit, but remember to remove 1 for the ConstantScoreQuery.
+          // If we get zero results, indicates that term isn't found in the document.
+          float result = rs.scoreDocs.length == 0 ? 0 : rs.scoreDocs[0].score - 1;
+          results.put(docid, result);
+        } catch (Exception e){}
+      });
+    }
+
+    executor.shutdown();
+
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        LOG.info(String.format("%.2f percent completed",
+                (double) executor.getCompletedTaskCount() / docids.size() * 100.0d));
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+    }
+
+    return results;
+  }
 
   /**
    * Converts a collection docid to a Lucene internal docid.
