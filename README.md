@@ -100,7 +100,7 @@ See individual pages for details!
 | uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-noexp-0shot.md)
 | uniCOIL with d2q-T5 zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-0shot.md)
 
-### MS MARCO V2 Documemt Corpus
+### MS MARCO V2 Document Corpus
 
 |  | dev | DL21 |
 |--|:---:|:----:|
