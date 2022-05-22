@@ -86,27 +86,33 @@ See individual pages for details!
 | uniCOIL noexp | [+](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [+](docs/regressions-dl19-doc-segmented-unicoil-noexp.md) | [+](docs/regressions-dl20-doc-segmented-unicoil-noexp.md)
 | uniCOIL with d2q-T5 | [+](docs/regressions-msmarco-doc-segmented-unicoil.md) | [+](docs/regressions-dl19-doc-segmented-unicoil.md) | [+](docs/regressions-dl20-doc-segmented-unicoil.md)
 
-### MS MARCO (V2) Passage Corpus
+### MS MARCO V2 Passage Corpus
 
-+ Regressions for development queries:
-  + Unsupervised lexical, original corpus: [baselines](docs/regressions-msmarco-v2-passage.md), [doc2query-T5](docs/regressions-msmarco-v2-passage-d2q-t5.md)
-  + Unsupervised lexical, augmented corpus: [baselines](docs/regressions-msmarco-v2-passage-augmented.md), [doc2query-T5](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-msmarco-v2-passage-unicoil-0shot.md)
-+ Regressions for TREC 2021 Deep Learning Track:
-  + Unsupervised lexical, original corpus: [baselines](docs/regressions-dl21-passage.md), [doc2query-T5](docs/regressions-dl21-passage-d2q-t5.md)
-  + Unsupervised lexical, augmented corpus: [baselines](docs/regressions-dl21-passage-augmented.md), [doc2query-T5](docs/regressions-dl21-passage-augmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-dl21-passage-unicoil-noexp-0shot.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-dl21-passage-unicoil-0shot.md)
+|  | dev | DL21 |
+|--|:---:|:----:|
+| **Unsupervised lexical, original corpus**
+| baselines | [+](docs/regressions-msmarco-v2-passage.md) | [+](docs/regressions-dl21-passage.md)
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-d2q-t5.md) | [+](docs/regressions-dl21-passage-d2q-t5.md)
+| **Unsupervised lexical, augmented corpus**
+| baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md)
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md)
+| **Learned sparse lexical**
+| uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-noexp-0shot.md)
+| uniCOIL with d2q-T5 zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-0shot.md)
 
-### MS MARCO (V2) Documemt Corpus
+### MS MARCO V2 Documemt Corpus
 
-+ Regressions for development queries:
-  + Unsupervised lexical, complete doc: [baselines](docs/regressions-msmarco-v2-doc.md), [doc2query-T5](docs/regressions-msmarco-v2-doc-d2q-t5.md)
-  + Unsupervised lexical, segmented doc: [baselines](docs/regressions-msmarco-v2-doc-segmented.md), [doc2query-T5](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md)
-+ Regressions for TREC 2021 Deep Learning Track:
-  + Unsupervised lexical, complete doc: [baselines](docs/regressions-dl21-doc.md), [doc2query-T5](docs/regressions-dl21-doc-d2q-t5.md)
-  + Unsupervised lexical, segmented doc: [baselines](docs/regressions-dl21-doc-segmented.md), [doc2query-T5](docs/regressions-dl21-doc-segmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md)
+|  | dev | DL21 |
+|--|:---:|:----:|
+| **Unsupervised lexical, complete doc**
+| baselines | [+](docs/regressions-msmarco-v2-doc.md) | [+](docs/regressions-dl21-doc.md)
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-d2q-t5.md) | [+](docs/regressions-dl21-doc-d2q-t5.md)
+| **Unsupervised lexical, segmented doc**
+| baselines | [+](docs/regressions-msmarco-v2-doc-segmented.md) | [+](docs/regressions-dl21-doc-segmented.md)
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md) | [+](docs/regressions-dl21-doc-segmented-d2q-t5.md)
+| **Learned sparse lexical**
+| uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [+](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md)
+| uniCOIL with d2q-T5 zero-shot | [+](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md) | [+](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md)
 
 ### Regressions for BEIR (v1.0.0)
 
