@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-cqadupstack-gis-wp
+corpus: beir-v1.0.0-cqadupstack-gis-flat-wp
 corpus_path: collections/beir-v1.0.0/wp/cqadupstack-gis/
 
-index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-gis-wp/
+index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-gis-flat-wp/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

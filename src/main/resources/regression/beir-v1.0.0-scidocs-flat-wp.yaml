@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-scidocs-wp
+corpus: beir-v1.0.0-scidocs-flat-wp
 corpus_path: collections/beir-v1.0.0/wp/scidocs/
 
-index_path: indexes/lucene-index.beir-v1.0.0-scidocs-wp/
+index_path: indexes/lucene-index.beir-v1.0.0-scidocs-flat-wp/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

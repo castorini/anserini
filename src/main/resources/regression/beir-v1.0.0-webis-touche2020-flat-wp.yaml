@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-webis-touche2020-wp
+corpus: beir-v1.0.0-webis-touche2020-flat-wp
 corpus_path: collections/beir-v1.0.0/wp/webis-touche2020/
 
-index_path: indexes/lucene-index.beir-v1.0.0-webis-touche2020-wp/
+index_path: indexes/lucene-index.beir-v1.0.0-webis-touche2020-flat-wp/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

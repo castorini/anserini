@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-cqadupstack-wordpress-wp
+corpus: beir-v1.0.0-cqadupstack-wordpress-flat-wp
 corpus_path: collections/beir-v1.0.0/wp/cqadupstack-wordpress/
 
-index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-wordpress-wp/
+index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-wordpress-flat-wp/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

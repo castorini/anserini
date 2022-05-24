@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-arguana-wp
+corpus: beir-v1.0.0-arguana-flat-wp
 corpus_path: collections/beir-v1.0.0/wp/arguana/
 
-index_path: indexes/lucene-index.beir-v1.0.0-arguana-wp/
+index_path: indexes/lucene-index.beir-v1.0.0-arguana-flat-wp/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

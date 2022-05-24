@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-dbpedia-entity-wp
+corpus: beir-v1.0.0-dbpedia-entity-flat-wp
 corpus_path: collections/beir-v1.0.0/wp/dbpedia-entity/
 
-index_path: indexes/lucene-index.beir-v1.0.0-dbpedia-entity-wp/
+index_path: indexes/lucene-index.beir-v1.0.0-dbpedia-entity-flat-wp/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
