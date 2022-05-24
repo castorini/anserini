@@ -204,17 +204,17 @@ $ python src/main/python/trec-covid/generate_round4_baselines.py
 These are runs that can be easily reproduced with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, the official corpus used in round 3).
 They were prepared _for_ round 3 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the union of round 1 and round 2 qrels.
 
-|    | index     | field(s)                 | nDCG@10 | J@10 | R@1k | run file | checksum |
-|---:|:----------|:-------------------------|--------:|-----:|-----:|:---------|----------|
-|  1 | abstract  | query+question           | 0.2118 | 0.3300 | 0.4398 | [[download](https://www.dropbox.com/s/g80cqdxud1l06wq/anserini.covid-r3.abstract.qq.bm25.txt?dl=1)]    | `d08d85c87e30d6c4abf54799806d282f` |
-|  2 | abstract  | UDel qgen                | 0.2470 | 0.3375 | 0.4537 | [[download](https://www.dropbox.com/s/sjcnxq7h0a3j3xz/anserini.covid-r3.abstract.qdel.bm25.txt?dl=1)]  | `d552dff90995cd860a5727637f0be4d1` |
-|  3 | full-text | query+question           | 0.2337 | 0.4650 | 0.4817 | [[download](https://www.dropbox.com/s/4bjx35sgosu0jz0/anserini.covid-r3.full-text.qq.bm25.txt?dl=1)]   | `6c9f4c09d842b887262ca84d61c61a1f` |
-|  4 | full-text | UDel qgen                | 0.3430 | 0.5025 | 0.5267 | [[download](https://www.dropbox.com/s/mjt7y1ywae784d0/anserini.covid-r3.full-text.qdel.bm25.txt?dl=1)] | `c5f9db7733c72eea78ece2ade44d3d35` |
-|  5 | paragraph | query+question           | 0.2848 | 0.5175 | 0.5527 | [[download](https://www.dropbox.com/s/qwn7jd8vg2chjik/anserini.covid-r3.paragraph.qq.bm25.txt?dl=1)]   | `872673b3e12c661748d8899f24d3ba48` |
-|  6 | paragraph | UDel qgen                | 0.3604 | 0.5050 | 0.5676 | [[download](https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt?dl=1)] | `c1b966e4c3f387b6810211f339b35852` |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3093 | 0.4975 | 0.5566 | [[download](https://www.dropbox.com/s/6vk5iohqf81iy8b/anserini.covid-r3.fusion1.txt?dl=1)]      | `61cbd73c6e60ba44f18ce967b5b0e5b3` |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3568 | 0.5250 | 0.5769 | [[download](https://www.dropbox.com/s/n09595t1eqymkks/anserini.covid-r3.fusion2.txt?dl=1)]      | `d7eabf3dab840104c88de925e918fdab` |
-|  9 | abstract  | UDel qgen + RF           | 0.3633 | 0.3800 | 0.5722 | [[download](https://www.dropbox.com/s/p8fzefgwzkvvbxx/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt?dl=1)] | `e6a44f1f7183de10f892c6d922110934` |
+|     | index     | field(s)                        | nDCG@10 |   J@10 |   R@1k | run file                                                                                                                                   | checksum                           |
+|----:|:----------|:--------------------------------|--------:|-------:|-------:|:-------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+|   1 | abstract  | query+question                  |  0.2118 | 0.3300 | 0.4398 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qq.bm25.txt)]           | `d08d85c87e30d6c4abf54799806d282f` |
+|   2 | abstract  | UDel qgen                       |  0.2470 | 0.3375 | 0.4537 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qdel.bm25.txt)]         | `d552dff90995cd860a5727637f0be4d1` |
+|   3 | full-text | query+question                  |  0.2337 | 0.4650 | 0.4817 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.full-text.qq.bm25.txt)]          | `6c9f4c09d842b887262ca84d61c61a1f` |
+|   4 | full-text | UDel qgen                       |  0.3430 | 0.5025 | 0.5267 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.full-text.qdel.bm25.txt)]        | `c5f9db7733c72eea78ece2ade44d3d35` |
+|   5 | paragraph | query+question                  |  0.2848 | 0.5175 | 0.5527 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.paragraph.qq.bm25.txt)]          | `872673b3e12c661748d8899f24d3ba48` |
+|   6 | paragraph | UDel qgen                       |  0.3604 | 0.5050 | 0.5676 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.paragraph.qdel.bm25.txt)]        | `c1b966e4c3f387b6810211f339b35852` |
+|   7 | -         | reciprocal rank fusion(1, 3, 5) |  0.3093 | 0.4975 | 0.5566 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.fusion1.txt)]                    | `61cbd73c6e60ba44f18ce967b5b0e5b3` |
+|   8 | -         | reciprocal rank fusion(2, 4, 6) |  0.3568 | 0.5250 | 0.5769 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.fusion2.txt)]                    | `d7eabf3dab840104c88de925e918fdab` |
+|   9 | abstract  | UDel qgen + RF                  |  0.3633 | 0.3800 | 0.5722 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt)] | `e6a44f1f7183de10f892c6d922110934` |
 
 **IMPORTANT NOTES!!!**
 
@@ -227,11 +227,11 @@ They were prepared _for_ round 3 (for participants who wish to have a baseline r
 
 The final runs submitted to NIST, after removing judgments from round 1 and round 2, are as follows:
 
-| group | runtag | run file | checksum |
-|:------|:-------|:---------|:---------|
-| `anserini` | `r3.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/ypoe9tgwef17rak/anserini.final-r3.fusion1.txt?dl=1)] | `c1caf63a9c3b02f0b12e233112fc79a6` |
-| `anserini` | `r3.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt?dl=1)] | `12679197846ed77306ecb2ca7895b011` |
-| `anserini` | `r3.rf` = Row 9      | [[download](https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt?dl=1)]      | `7192a08c5275b59d5ef18395917ff694` |
+| group      | runtag               | run file                                                                                                                | checksum                           |
+|:-----------|:---------------------|:------------------------------------------------------------------------------------------------------------------------|:-----------------------------------|
+| `anserini` | `r3.fusion1` = Row 7 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion1.txt)] | `c1caf63a9c3b02f0b12e233112fc79a6` |
+| `anserini` | `r3.fusion2` = Row 8 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion2.txt)] | `12679197846ed77306ecb2ca7895b011` |
+| `anserini` | `r3.rf` = Row 9      | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.rf.txt)]      | `7192a08c5275b59d5ef18395917ff694` |
 
 We resolved the issue from round 2 where the final submitted runs have less than 1000 hits per topic.
 
@@ -246,7 +246,6 @@ Note that these scripts were written _after_ the release of the round 3 qrels (p
 However, we have confirmed that they produce _exactly_ the same output (i.e., identical checksums) as the runs generated previously.
 The history of this file in the repo contains those commands for historical/archival interest.
 
-
 ### Evaluation with Round 3 Qrels
 
 Since the above runs were prepared _for_ round 3, we do not know how well they actually performed until the round 3 judgments from NIST were released.
@@ -259,22 +258,22 @@ NIST provides the following caveat [here](https://ir.nist.gov/covidSubmit/archiv
 Thus, the runs submitted above were _not_ the actual runs evaluated by NIST.
 They are, instead:
 
-| group | runtag | run file | checksum |
-|:------|:-------|:---------|:---------|
-| `anserini` | `r3.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/ilqgky1tti0zvez/anserini.final-r3.fusion1.post-processed.txt?dl=1)] | `f7c69c9bff381a847af86e5a8daf7526` |
-| `anserini` | `r3.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/ue3z6xxxca9krkb/anserini.final-r3.fusion2.post-processed.txt?dl=1)] | `84c5fd2c7de0a0282266033ac4f27c22` |
-| `anserini` | `r3.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/95vk831wp1ldnpm/anserini.final-r3.rf.post-processed.txt?dl=1)]      | `3e79099639a9426cb53afe7066239011` |
+| group      | runtag                             | run file                                                                                                                               | checksum                           |
+|:-----------|:-----------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------|
+| `anserini` | `r3.fusion1` (NIST post-processed) | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion1.post-processed.txt)] | `f7c69c9bff381a847af86e5a8daf7526` |
+| `anserini` | `r3.fusion2` (NIST post-processed) | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion2.post-processed.txt)] | `84c5fd2c7de0a0282266033ac4f27c22` |
+| `anserini` | `r3.rf` (NIST post-processed)      | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.rf.post-processed.txt)]      | `3e79099639a9426cb53afe7066239011` |
 
 Effectiveness results:
 
-| group | runtag | nDCG@10 | J@10 | AP   | R@1k |
-|:------|:-------|--------:|-----:|-----:|-----:|
-| `anserini` | `r3.fusion1`                       | 0.5339 | 0.8400 | 0.2283 | 0.6160
-| `anserini` | `r3.fusion1` (NIST post-processed) | 0.5359 | 0.8475 | 0.2293 | 0.6160
-| `anserini` | `r3.fusion2`                       | 0.6072 | 0.9025 | 0.2631 | 0.6441
-| `anserini` | `r3.fusion2` (NIST post-processed) | 0.6100 | 0.9100 | 0.2641 | 0.6441
-| `anserini` | `r3.rf`                            | 0.6812 | 0.9600 | 0.2787 | 0.6399
-| `anserini` | `r3.rf` (NIST post-processed)      | 0.6883 | 0.9750 | 0.2817 | 0.6399
+| group      | runtag                             | nDCG@10 |   J@10 |     AP |   R@1k |
+|:-----------|:-----------------------------------|--------:|-------:|-------:|-------:|
+| `anserini` | `r3.fusion1`                       |  0.5339 | 0.8400 | 0.2283 | 0.6160 |
+| `anserini` | `r3.fusion1` (NIST post-processed) |  0.5359 | 0.8475 | 0.2293 | 0.6160 |
+| `anserini` | `r3.fusion2`                       |  0.6072 | 0.9025 | 0.2631 | 0.6441 |
+| `anserini` | `r3.fusion2` (NIST post-processed) |  0.6100 | 0.9100 | 0.2641 | 0.6441 |
+| `anserini` | `r3.rf`                            |  0.6812 | 0.9600 | 0.2787 | 0.6399 |
+| `anserini` | `r3.rf` (NIST post-processed)      |  0.6883 | 0.9750 | 0.2817 | 0.6399 |
 
 The scores of the post-processed runs match those reported by NIST.
 We see that NIST post-processing improves scores slightly.
@@ -282,17 +281,17 @@ We see that NIST post-processing improves scores slightly.
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 3.
 This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
 
-|    | index     | field(s)                 | nDCG@10 | J@10 | nDCG@20 | J@20 | AP | R@1k | J@1k |
-|---:|:----------|:-------------------------|--------:|-----:|--------:|-----:|---:|-----:|-----:|
-|  1 | abstract  | query+question                  | 0.5781 | 0.8875 | 0.5359 | 0.8325 | 0.2348 | 0.5040 | 0.2351 |
-|  2 | abstract  | UDel qgen                       | 0.6291 | 0.9300 | 0.5972 | 0.8925 | 0.2525 | 0.5215 | 0.2370 |
-|  3 | full-text | query+question                  | 0.3977 | 0.7500 | 0.3681 | 0.7213 | 0.1646 | 0.4708 | 0.2471 |
-|  4 | full-text | UDel qgen                       | 0.5790 | 0.9050 | 0.5234 | 0.8525 | 0.2236 | 0.5313 | 0.2693 |
-|  5 | paragraph | query+question                  | 0.5396 | 0.9425 | 0.5079 | 0.9050 | 0.2498 | 0.5766 | 0.2978 |
-|  6 | paragraph | UDel qgen                       | 0.6327 | 0.9600 | 0.5793 | 0.9162 | 0.2753 | 0.5923 | 0.2956 |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5563 | 0.9362 | 0.2700 | 0.5956 | 0.3045 |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6200 | 0.9675 | 0.3027 | 0.6194 | 0.3076 |
-|  9 | abstract  | UDel qgen + RF                  | 0.7459 | 0.9875 | 0.7023 | 0.9637 | 0.3190 | 0.6125 | 0.2600 |
+|     | index     | field(s)                        | nDCG@10 |   J@10 | nDCG@20 |   J@20 |     AP |   R@1k |   J@1k |
+|----:|:----------|:--------------------------------|--------:|-------:|--------:|-------:|-------:|-------:|-------:|
+|   1 | abstract  | query+question                  |  0.5781 | 0.8875 |  0.5359 | 0.8325 | 0.2348 | 0.5040 | 0.2351 |
+|   2 | abstract  | UDel qgen                       |  0.6291 | 0.9300 |  0.5972 | 0.8925 | 0.2525 | 0.5215 | 0.2370 |
+|   3 | full-text | query+question                  |  0.3977 | 0.7500 |  0.3681 | 0.7213 | 0.1646 | 0.4708 | 0.2471 |
+|   4 | full-text | UDel qgen                       |  0.5790 | 0.9050 |  0.5234 | 0.8525 | 0.2236 | 0.5313 | 0.2693 |
+|   5 | paragraph | query+question                  |  0.5396 | 0.9425 |  0.5079 | 0.9050 | 0.2498 | 0.5766 | 0.2978 |
+|   6 | paragraph | UDel qgen                       |  0.6327 | 0.9600 |  0.5793 | 0.9162 | 0.2753 | 0.5923 | 0.2956 |
+|   7 | -         | reciprocal rank fusion(1, 3, 5) |  0.5924 | 0.9625 |  0.5563 | 0.9362 | 0.2700 | 0.5956 | 0.3045 |
+|   8 | -         | reciprocal rank fusion(2, 4, 6) |  0.6515 | 0.9875 |  0.6200 | 0.9675 | 0.3027 | 0.6194 | 0.3076 |
+|   9 | abstract  | UDel qgen + RF                  |  0.7459 | 0.9875 |  0.7023 | 0.9637 | 0.3190 | 0.6125 | 0.2600 |
 
 Note that all of the results above can be reproduced with the following scripts:
 
@@ -307,16 +306,16 @@ $ python src/main/python/trec-covid/generate_round3_baselines.py
 These are runs that can be easily reproduced with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/01, the official corpus used in round 2).
 They were prepared _for_ round 2 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with round 1 qrels.
 
-|    | index     | field(s)       | nDCG@10 | J@10 | R@1k | run file | checksum |
-|---:|:----------|:---------------|--------:|-----:|-----:|:---------|----------|
-|  1 | abstract  | query+question |  0.3522 | 0.5371 | 0.6601 | [[download](https://www.dropbox.com/s/duimcackueph2co/anserini.covid-r2.abstract.qq.bm25.txt.gz?dl=1)]    | `9cdea30a3881f9e60d3c61a890b094bd` |
-|  2 | abstract  | UDel qgen      |  0.3781 | 0.5371 | 0.6485 | [[download](https://www.dropbox.com/s/n9yfssge5asez74/anserini.covid-r2.abstract.qdel.bm25.txt.gz?dl=1)]  | `1e1bcdf623f69799a2b1b2982f53c23d` |
-|  3 | full-text | query+question |  0.2070 | 0.4286 | 0.5953 | [[download](https://www.dropbox.com/s/iswpuj9tf5pj5ei/anserini.covid-r2.full-text.qq.bm25.txt.gz?dl=1)]   | `6d704c60cc2cf134430c36ec2a0a3faa` |
-|  4 | full-text | UDel qgen      |  0.3123 | 0.4229 | 0.6517 | [[download](https://www.dropbox.com/s/bj93a4iddpfvp09/anserini.covid-r2.full-text.qdel.bm25.txt.gz?dl=1)] | `352a8b35a0626da21cab284bddb2e4e5` |
-|  5 | paragraph | query+question |  0.2772 | 0.4400 | 0.7248 | [[download](https://www.dropbox.com/s/da7jg1ho5ubl8jt/anserini.covid-r2.paragraph.qq.bm25.txt.gz?dl=1)]   | `b48c9ffb3cf9b35269ca9321ac39e758` |
-|  6 | paragraph | UDel qgen      |  0.3353 | 0.4343 | 0.7196 | [[download](https://www.dropbox.com/s/7hplgsdq7ndn2ql/anserini.covid-r2.paragraph.qdel.bm25.txt.gz?dl=1)] | `580fd34fbbda855dd09e1cb94467cb19` |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3297 | 0.4657 | 0.7561 | [[download](https://www.dropbox.com/s/wqb0vhxp98g7dxh/anserini.covid-r2.fusion1.txt.gz?dl=1)]       | `2a131517308d088c3f55afa0b8d5bb04` |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3679 | 0.4829 | 0.7511 | [[download](https://www.dropbox.com/s/cd1ps4au79wvb8j/anserini.covid-r2.fusion2.txt.gz?dl=1)]       | `9760124d8cfa03a0e3aae3a4c6e32550` |
+|     | index     | field(s)                        | nDCG@10 |   J@10 |   R@1k | run file                                                                                                                               | checksum                           |
+|----:|:----------|:--------------------------------|--------:|-------:|-------:|:---------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+|   1 | abstract  | query+question                  |  0.3522 | 0.5371 | 0.6601 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.covid-r2.abstract.qq.bm25.txt.gz)]    | `9cdea30a3881f9e60d3c61a890b094bd` |
+|   2 | abstract  | UDel qgen                       |  0.3781 | 0.5371 | 0.6485 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.covid-r2.abstract.qdel.bm25.txt.gz)]  | `1e1bcdf623f69799a2b1b2982f53c23d` |
+|   3 | full-text | query+question                  |  0.2070 | 0.4286 | 0.5953 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.covid-r2.full-text.qq.bm25.txt.gz)]   | `6d704c60cc2cf134430c36ec2a0a3faa` |
+|   4 | full-text | UDel qgen                       |  0.3123 | 0.4229 | 0.6517 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.covid-r2.full-text.qdel.bm25.txt.gz)] | `352a8b35a0626da21cab284bddb2e4e5` |
+|   5 | paragraph | query+question                  |  0.2772 | 0.4400 | 0.7248 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.covid-r2.paragraph.qq.bm25.txt.gz)]   | `b48c9ffb3cf9b35269ca9321ac39e758` |
+|   6 | paragraph | UDel qgen                       |  0.3353 | 0.4343 | 0.7196 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.covid-r2.paragraph.qdel.bm25.txt.gz)] | `580fd34fbbda855dd09e1cb94467cb19` |
+|   7 | -         | reciprocal rank fusion(1, 3, 5) |  0.3297 | 0.4657 | 0.7561 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.covid-r2.fusion1.txt.gz)]             | `2a131517308d088c3f55afa0b8d5bb04` |
+|   8 | -         | reciprocal rank fusion(2, 4, 6) |  0.3679 | 0.4829 | 0.7511 | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.covid-r2.fusion2.txt.gz)]             | `9760124d8cfa03a0e3aae3a4c6e32550` |
 
 **IMPORTANT NOTES!!!**
 
@@ -328,10 +327,10 @@ They were prepared _for_ round 2 (for participants who wish to have a baseline r
 
 The final runs submitted to NIST, after removing round 1 judgments, are as follows:
 
-| group | runtag | run file | checksum |
-|:------|:-------|:---------|:---------|
-| `anserini` | `r2.fusion1` | [[download](https://www.dropbox.com/s/s5r6ufa95xeait4/anserini.r2.fusion1.txt?dl=1)] | `89544da0409435c74dd4f3dd5fc9dc62` |
-| `anserini` | `r2.fusion2` | [[download](https://www.dropbox.com/s/6kb14aggemtz6hq/anserini.r2.fusion2.txt?dl=1)] | `774359c157c65bb7142d4f43b614e38f` |
+| group      | runtag       | run file                                                                                                          | checksum                           |
+|:-----------|:-------------|:------------------------------------------------------------------------------------------------------------------|:-----------------------------------|
+| `anserini` | `r2.fusion1` | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.r2.fusion1.txt)] | `89544da0409435c74dd4f3dd5fc9dc62` |
+| `anserini` | `r2.fusion2` | [[download](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round2/anserini.r2.fusion2.txt)] | `774359c157c65bb7142d4f43b614e38f` |
 
 We discovered at the last minute that the package we used to perform reciprocal rank fusion trimmed runs to 1000 hits per topic.
 Thus the final submitted runs have less than 1000 hits per topic after removal of round 1 judgments.
@@ -340,10 +339,10 @@ Exact commands for reproducing these runs are found [further down on this page](
 
 **(Updates 2020/05/26)** The effectiveness of the Anserini baselines according to official round 2 judgments from NIST:
 
-| group | runtag | nDCG@10 | Judged@10 | Recall@1000
-|:------|:-------|:---------|:---------|:---------|
-| `anserini` | `r2.fusion1` | 0.4827 | 0.9543 | 0.6273
-| `anserini` | `r2.fusion2` | 0.5553 | 0.9743 | 0.6630
+| group      | runtag       | nDCG@10 | Judged@10 | Recall@1000 |
+|:-----------|:-------------|:--------|:----------|:------------|
+| `anserini` | `r2.fusion1` | 0.4827  | 0.9543    | 0.6273      |
+| `anserini` | `r2.fusion2` | 0.5553  | 0.9743    | 0.6630      |
 
 
 ## Round 1
@@ -351,28 +350,28 @@ Exact commands for reproducing these runs are found [further down on this page](
 These are runs that can be easily reproduced with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/04/10, the official corpus used in round 1).
 They were prepared _after_ round 1, and so we can report effectiveness results.
 
-|    | index     | field(s)                          | nDCG@10 | Judged@10 | Recall@1000 |
-|---:|:----------|:----------------------------------|--------:|----------:|------------:|
-|  1 | abstract  | query                             |  0.4100 | 0.8267 | 0.5279 |
-|  2 | abstract  | question                          |  0.5179 | 0.9833 | 0.6313 |
-|  3 | abstract  | query+question                    |  0.5514 | 0.9833 | 0.6989 |
-|  4 | abstract  | query+question+narrative          |  0.5294 | 0.9333 | 0.6929 |
-|  5 | abstract  | UDel query generator              |  0.5824 | 0.9567 | 0.6927 |
-|  6 | abstract  | `Covid19QueryGenerator`           |  0.4520 | 0.6500 | 0.5061 |
-|  7 | full-text | query                             |  0.3900 | 0.7433 | 0.6277 |
-|  8 | full-text | question                          |  0.3439 | 0.9267 | 0.6389 |
-|  9 | full-text | query+question                    |  0.4064 | 0.9367 | 0.6714 |
-| 10 | full-text | query+question+narrative          |  0.3280 | 0.7567 | 0.6591 |
-| 11 | full-text | UDel query generator              |  0.5407 | 0.9067 | 0.7214 |
-| 12 | full-text | `Covid19QueryGenerator`           |  0.2434 | 0.5233 | 0.5692 |
-| 13 | paragraph | query                             |  0.4302 | 0.8400 | 0.4327 |
-| 14 | paragraph | question                          |  0.4410 | 0.9167 | 0.5111 |
-| 15 | paragraph | query+question                    |  0.5450 | 0.9733 | 0.5743 |
-| 16 | paragraph | query+question+narrative          |  0.4899 | 0.8967 | 0.5918 |
-| 17 | paragraph | UDel query generator              |  0.5544 | 0.9200 | 0.5640 |
-| 18 | paragraph | `Covid19QueryGenerator`           |  0.3180 | 0.5333 | 0.3552 |
-| 19 | -         | reciprocal rank fusion(3, 9, 15)  |  0.5716 | 0.9867 | 0.8117 |
-| 20 | -         | reciprocal rank fusion(5, 11, 17) |  0.6019 | 0.9733 | 0.8121 |
+|     | index     | field(s)                          | nDCG@10 | Judged@10 | Recall@1000 |
+|----:|:----------|:----------------------------------|--------:|----------:|------------:|
+|   1 | abstract  | query                             |  0.4100 |    0.8267 |      0.5279 |
+|   2 | abstract  | question                          |  0.5179 |    0.9833 |      0.6313 |
+|   3 | abstract  | query+question                    |  0.5514 |    0.9833 |      0.6989 |
+|   4 | abstract  | query+question+narrative          |  0.5294 |    0.9333 |      0.6929 |
+|   5 | abstract  | UDel query generator              |  0.5824 |    0.9567 |      0.6927 |
+|   6 | abstract  | `Covid19QueryGenerator`           |  0.4520 |    0.6500 |      0.5061 |
+|   7 | full-text | query                             |  0.3900 |    0.7433 |      0.6277 |
+|   8 | full-text | question                          |  0.3439 |    0.9267 |      0.6389 |
+|   9 | full-text | query+question                    |  0.4064 |    0.9367 |      0.6714 |
+|  10 | full-text | query+question+narrative          |  0.3280 |    0.7567 |      0.6591 |
+|  11 | full-text | UDel query generator              |  0.5407 |    0.9067 |      0.7214 |
+|  12 | full-text | `Covid19QueryGenerator`           |  0.2434 |    0.5233 |      0.5692 |
+|  13 | paragraph | query                             |  0.4302 |    0.8400 |      0.4327 |
+|  14 | paragraph | question                          |  0.4410 |    0.9167 |      0.5111 |
+|  15 | paragraph | query+question                    |  0.5450 |    0.9733 |      0.5743 |
+|  16 | paragraph | query+question+narrative          |  0.4899 |    0.8967 |      0.5918 |
+|  17 | paragraph | UDel query generator              |  0.5544 |    0.9200 |      0.5640 |
+|  18 | paragraph | `Covid19QueryGenerator`           |  0.3180 |    0.5333 |      0.3552 |
+|  19 | -         | reciprocal rank fusion(3, 9, 15)  |  0.5716 |    0.9867 |      0.8117 |
+|  20 | -         | reciprocal rank fusion(5, 11, 17) |  0.6019 |    0.9733 |      0.8121 |
 
 **IMPORTANT NOTE:** These results **cannot** be reproduced using the indexer at `HEAD` because the indexing code has changed since the time the above indexes were generated.
 The results are only reproducible with the state of the indexer at the time of submission of TREC-COVID round 1 (which were conducted with the above indexes).
