@@ -1,0 +1,57 @@
+---
+corpus: beir-v1.0.0-nfcorpus-flat-wp
+corpus_path: collections/beir-v1.0.0/wp/nfcorpus/
+
+index_path: indexes/lucene-index.beir-v1.0.0-nfcorpus-flat-wp/
+collection_class: BeirFlatCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -pretokenized
+index_stats:
+  documents: 3633
+  documents (non-empty): 3633
+  total terms: 1291082
+
+metrics:
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "BEIR (v1.0.0): NFCorpus"
+    id: test
+    path: topics.beir-v1.0.0-nfcorpus.test.wp.tsv.gz
+    qrel: qrels.beir-v1.0.0-nfcorpus.test.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -removeQuery -pretokenized
+    results:
+      nDCG@10:
+        - 0.3142
+      R@100:
+        - 0.2441
+      R@1000:
+        - 0.4222
