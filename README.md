@@ -121,7 +121,7 @@ See individual pages for details!
 + SPLADE = SPLADE-distill CoCodenser-medium
 
 | Corpus | flat | multifield | flat-wp | SPLADE | 
-|--------|------|------------|---------|--------|
+|--------|:----:|:----------:|:-------:|:------:|
 | TREC-COVID | [+](docs/regressions-beir-v1.0.0-trec-covid-flat.md)     | [+](docs/regressions-beir-v1.0.0-trec-covid-multifield.md)    | [+](docs/regressions-beir-v1.0.0-trec-covid-flat-wp.md) | [+](docs/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md) |
 | BioASQ     | [+](docs/regressions-beir-v1.0.0-bioasq-flat.md)         | [+](docs/regressions-beir-v1.0.0-bioasq-multifield.md)        | [+](docs/regressions-beir-v1.0.0-bioasq-flat-wp.md) | [+](docs/regressions-beir-v1.0.0-bioasq-splade-distil-cocodenser-medium.md) |
 | NFCorpus   | [+](docs/regressions-beir-v1.0.0-nfcorpus-flat.md)       | [+](docs/regressions-beir-v1.0.0-nfcorpus-multifield.md)      | [+](docs/regressions-beir-v1.0.0-nfcorpus-flat-wp.md) | [+](docs/regressions-beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.md) |
