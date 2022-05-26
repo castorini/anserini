@@ -117,7 +117,7 @@ See individual pages for details!
 ### Regressions for BEIR (v1.0.0)
 
 + F = "flat" baseline
-+ MF = "multfield" baseline
++ MF = "multifield" baseline
 + SPLADE = SPLADE-distill CoCodenser-medium
 
 | Corpus | flat | flat-wp | multifield | SPLADE |
