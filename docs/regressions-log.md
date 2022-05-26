@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### May 24, 2022
+
++ commit [`30c997`](https://github.com/castorini/anserini/commit/30c9974f495a06c94d576d0e9c2c5861515e0e19) (05/24/2022)
++ commit [`d457c8`](https://github.com/castorini/anserini/commit/d457c8815d64f8df51b2bebac46bc14aae5153a8) (05/21/2022)
+
+Added regressions for BEIR, flat indexing with WordPiece tokens.
+
 ### April 28, 2022
 
 + commit [`9b2dd5`](https://github.com/castorini/anserini/commit/9b2dd5f5e524ce56e5784cb73404d39926982733) (04/28/2022)
