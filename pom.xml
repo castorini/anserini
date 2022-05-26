@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.14.3-SNAPSHOT</version>
+  <version>0.14.4-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -300,6 +300,11 @@
       <artifactId>lucene-analyzers-kuromoji</artifactId>
       <version>${lucene.version}</version>
     </dependency>
+    <dependency> <!-- polish and ukrainian -->
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analyzers-morfologik</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
     <dependency> <!-- only needed for testing -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>
@@ -341,7 +346,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.12.5</version>
+      <version>2.12.6.1</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>

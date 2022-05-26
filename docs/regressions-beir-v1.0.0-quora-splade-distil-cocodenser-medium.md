@@ -1,8 +1,8 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; quora
+# Anserini Regressions: BEIR (v1.0.0) &mdash; Quora
 
 **Model**: SPLADE-distil CoCodenser Medium
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; quora](http://beir.ai/).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; Quora](http://beir.ai/).
 The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-quora-splade-distil-cocodenser-medium.yaml).
@@ -91,17 +91,17 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): quora                                                                                         | 0.8136    |
+| BEIR (v1.0.0): Quora                                                                                         | 0.8136    |
 
 
 | R@100                                                                                                        | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): quora                                                                                         | 0.9817    |
+| BEIR (v1.0.0): Quora                                                                                         | 0.9817    |
 
 
 | R@1000                                                                                                       | SPLADE-distill CoCodenser Medium|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): quora                                                                                         | 0.9979    |
+| BEIR (v1.0.0): Quora                                                                                         | 0.9979    |
 
 
 ## Reproduction Log[*](reproducibility.md)

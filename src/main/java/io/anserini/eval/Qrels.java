@@ -17,6 +17,7 @@
 package io.anserini.eval;
 
 import io.anserini.search.topicreader.TsvIntTopicReader;
+import io.anserini.search.topicreader.TsvStringTopicReader;
 
 public enum Qrels {
   TREC1_ADHOC("topics-and-qrels/qrels.adhoc.51-100.txt"),
@@ -102,19 +103,36 @@ public enum Qrels {
   MRTYDI_V11_TH_TRAIN("topics-and-qrels/qrels.mrtydi-v1.1-th.train.txt"),
   MRTYDI_V11_TH_DEV("topics-and-qrels/qrels.mrtydi-v1.1-th.dev.txt"),
   MRTYDI_V11_TH_TEST("topics-and-qrels/qrels.mrtydi-v1.1-th.test.txt"),
-  BEIR_V1_0_0_ARGUANA_TEST("topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt"),
-  BEIR_V1_0_0_CLIMATE_FEVER_TEST("topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt"),
-  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST("topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt"),
-  BEIR_V1_0_0_FEVER_TEST("topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt"),
-  BEIR_V1_0_0_FIQA_TEST("topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt"),
-  BEIR_V1_0_0_HOTPOTQA_TEST("topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt"),
+  BEIR_V1_0_0_TREC_COVID_TEST("topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt"),
+  BEIR_V1_0_0_BIOASQ_TEST("topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt"),
   BEIR_V1_0_0_NFCORPUS_TEST("topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt"),
   BEIR_V1_0_0_NQ_TEST("topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt"),
+  BEIR_V1_0_0_HOTPOTQA_TEST("topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt"),
+  BEIR_V1_0_0_FIQA_TEST("topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt"),
+  BEIR_V1_0_0_SIGNAL1M_TEST("topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt"),
+  BEIR_V1_0_0_TREC_NEWS_TEST("topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt"),
+  BEIR_V1_0_0_ROBUST04_TEST("topics-and-qrels/qrels.beir-v1.0.0-robust04.test.txt"),
+  BEIR_V1_0_0_ARGUANA_TEST("topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt"),
+  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST("topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-english.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-programmers.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-stats.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-unix.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt"),
+  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST("topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt"),
   BEIR_V1_0_0_QUORA_TEST("topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt"),
+  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST("topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt"),
   BEIR_V1_0_0_SCIDOCS_TEST("topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt"),
-  BEIR_V1_0_0_SCIFACT_TEST("topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt"),
-  BEIR_V1_0_0_TREC_COVID_TEST("topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt"),
-  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST("topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt");
+  BEIR_V1_0_0_FEVER_TEST("topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt"),
+  BEIR_V1_0_0_CLIMATE_FEVER_TEST("topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt"),
+  BEIR_V1_0_0_SCIFACT_TEST("topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt");
+
   public final String path;
 
   Qrels(String path) {

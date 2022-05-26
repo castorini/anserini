@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Android
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-android
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Android](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-android](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-android-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-android                                                                           | 0.3801    |
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.3801    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-android                                                                           | 0.6829    |
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.6829    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-android                                                                           | 0.8632    |
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.8632    |

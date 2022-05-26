@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-Physics
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-physics
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-Physics](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-physics](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-cqadupstack-physics-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-physics                                                                           | 0.3214    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.3214    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-physics                                                                           | 0.6326    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.6326    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): cqadupstack-physics                                                                           | 0.8340    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.8340    |
