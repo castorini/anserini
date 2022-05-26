@@ -57,7 +57,7 @@ See individual pages for details!
 |--|:---:|:----:|:----:|
 | **Unsupervised Lexical** |
 | BoW baselines | [+](docs/regressions-msmarco-passage.md) | [+](docs/regressions-dl19-passage.md) | [+](docs/regressions-dl20-passage.md) |
-| Quantized BM25 | [+](docs/regressions-msmarco-passage-bm25-b8.md)
+| Quantized BM25 | [+](docs/regressions-msmarco-passage-bm25-b8.md) | [+](docs/regressions-dl19-passage-bm25-b8.md) | [+](docs/regressions-dl20-passage-bm25-b8.md) |
 | WP baselines | [+](docs/regressions-msmarco-passage-wp.md) | [+](docs/regressions-dl19-passage-wp.md) | [+](docs/regressions-dl20-passage-wp.md) |
 | doc2query | [+](docs/regressions-msmarco-passage-doc2query.md)
 | doc2query-T5 | [+](docs/regressions-msmarco-passage-docTTTTTquery.md) | [+](docs/regressions-dl19-passage-docTTTTTquery.md) | [+](docs/regressions-dl20-passage-docTTTTTquery.md) |
