@@ -126,7 +126,7 @@ public class SearchArgs {
   @Option(name = "-weightRange", usage = "range of weights for sparse query encoding")
   public int weightRange = 20;
 
-  @Option(name = "-quantRange", usage = "range of quantization for supervised sparse retrieval tasks")
+  @Option(name = "-quantRange", usage = "range of quantization for sparse query encoding")
   public int quantRange = 5;
 
   // ---------------------------------------------
