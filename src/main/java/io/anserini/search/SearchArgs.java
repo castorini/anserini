@@ -120,6 +120,15 @@ public class SearchArgs {
   @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
   public String format = "trec";
 
+  @Option(name = "-encoder", usage = "Query encoder for supervised sparse retrieval tasks")
+  public String encoder = null;
+
+  @Option(name = "-weightRange", usage = "range of weights for sparse query encoding")
+  public int weightRange = 20;
+
+  @Option(name = "-quantRange", usage = "range of quantization for supervised sparse retrieval tasks")
+  public int quantRange = 5;
+
   // ---------------------------------------------
   // Simple built-in support for passage retrieval
   // ---------------------------------------------
