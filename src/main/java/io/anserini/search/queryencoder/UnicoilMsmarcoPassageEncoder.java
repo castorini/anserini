@@ -11,10 +11,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
     static private final String MODEL_URL = "https://dl.dropboxusercontent.com/s/39jqt27b6efuyry/UnicoilEncoder.onnx?dl=0";
@@ -56,7 +53,7 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
 
             try (OrtSession.Result results = session.run(inputs)) {
                 float[] computedWeights = flatten(results.get(0).getValue());
-                Map<String, Float> tokenWeightMap = generateTokenWeightMap(queryTokens, computedWeights);
+                LinkedHashMap<String, Float> tokenWeightMap = generateTokenWeightMap(queryTokens, computedWeights);
                 encodedQuery = generateEncodedQuery(tokenWeightMap);
             }
         }
@@ -106,8 +103,8 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
         return output;
     }
 
-    private Map<String, Float> generateTokenWeightMap(List<String> tokens, float[] computedWeights) {
-        Map<String, Float> tokenWeightMap = new HashMap<>();
+    private LinkedHashMap<String, Float> generateTokenWeightMap(List<String> tokens, float[] computedWeights) {
+        LinkedHashMap<String, Float> tokenWeightMap = new LinkedHashMap<>();
         for (int i = 0; i < tokens.size(); ++i) {
             String token = tokens.get(i);
             float tokenWeight = computedWeights[i];
@@ -125,7 +122,7 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
         return tokenWeightMap;
     }
 
-    private String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
+    private String generateEncodedQuery(LinkedHashMap<String, Float> tokenWeightMap) {
         List<String> encodedQuery = new ArrayList();
         for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
             String token = entry.getKey();
