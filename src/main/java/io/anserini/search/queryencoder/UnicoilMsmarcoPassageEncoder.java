@@ -22,8 +22,14 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
 
     static private final String VOCAB_NAME = "UnicoilVocab.txt";
 
-    public UnicoilMsmarcoPassageEncoder(int weightRange, int quantRange) {
+    private Path vocabPath;
+
+    private Path modelPath;
+
+    public UnicoilMsmarcoPassageEncoder(int weightRange, int quantRange) throws IOException {
         super(weightRange, quantRange);
+        this.vocabPath = getVocabPath();
+        this.modelPath = getModelPath();
     }
 
     @Override
@@ -31,11 +37,11 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
         String encodedQuery = "";
         try (OrtEnvironment env = OrtEnvironment.getEnvironment();
              OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-             OrtSession session = env.createSession(getModelPath().toString(), options)) {
+             OrtSession session = env.createSession(modelPath.toString(), options)) {
 
             DefaultVocabulary vocabulary =
                     DefaultVocabulary.builder()
-                            .addFromTextFile(getVocabPath())
+                            .addFromTextFile(vocabPath)
                             .optUnknownToken("[UNK]")
                             .build();
             BertFullTokenizer tokenizer = new BertFullTokenizer(vocabulary, true);
