@@ -124,10 +124,10 @@ public class SearchArgs {
   public String encoder = null;
 
   @Option(name = "-weightRange", usage = "range of weights for sparse query encoding")
-  public int weightRange = 20;
+  public int weightRange = 5;
 
   @Option(name = "-quantRange", usage = "range of quantization for sparse query encoding")
-  public int quantRange = 5;
+  public int quantRange = 256;
 
   // ---------------------------------------------
   // Simple built-in support for passage retrieval
