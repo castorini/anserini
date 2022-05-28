@@ -15,6 +15,8 @@ import java.util.List;
 import static org.junit.Assert.assertArrayEquals;
 
 public class UnicoilEncoderQueryTokenizationTest {
+    static private final String VOCAB_URL = "https://dl.dropboxusercontent.com/s/2kgkvw6gm37ghc8/vocab.txt?dl=0RYd";
+
     Object[][] examples = new Object[][] {
         {"which hormone increases calcium levels in the blood?",
                 new long[] {101, 2029, 18714, 7457, 13853, 3798, 1999, 1996, 2668, 1029, 102}},
@@ -58,9 +60,9 @@ public class UnicoilEncoderQueryTokenizationTest {
         return cacheDir.getPath();
     }
 
-    private static Path getVocabPath(String vocabName) throws IOException {
-        File vocabFile = new File(getCacheDir(), vocabName);
-        FileUtils.copyURLToFile(new URL("https://dl.dropboxusercontent.com/s/2kgkvw6gm37ghc8/vocab.txt?dl=0RYd"), vocabFile);
+    private static Path getVocabPath() throws IOException {
+        File vocabFile = new File(getCacheDir(), "UnicoilVocab.txt");
+        FileUtils.copyURLToFile(new URL(VOCAB_URL), vocabFile);
         return vocabFile.toPath();
     }
 
@@ -68,7 +70,7 @@ public class UnicoilEncoderQueryTokenizationTest {
     public void basic() throws Exception {
         DefaultVocabulary vocabulary =
                 DefaultVocabulary.builder()
-                        .addFromTextFile(getVocabPath("vocab.txt"))
+                        .addFromTextFile(getVocabPath())
                         .optUnknownToken("[UNK]")
                         .build();
         BertFullTokenizer tokenizer = new BertFullTokenizer(vocabulary, true);

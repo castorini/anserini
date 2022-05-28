@@ -17,6 +17,8 @@ import java.util.Map;
 import static org.junit.Assert.assertArrayEquals;
 
 public class UnicoilEncoderQueryInferenceTest {
+    static private final String MODEL_URL = "https://dl.dropboxusercontent.com/s/39jqt27b6efuyry/UnicoilEncoder.onnx?dl=0";
+
     Object[][] examples = new Object[][] {
             {new long[] {101, 2029, 18714, 7457, 13853, 3798, 1999, 1996, 2668, 1029, 102},
                     new float[] {1.429669f, 0.36941767f, 2.2388394f, 1.39695f, 3.4305687f, 0.72433805f, 0.26170823f, 0.6414263f, 2.0127833f, 0.9524705f, 0.0f}},
@@ -60,15 +62,15 @@ public class UnicoilEncoderQueryInferenceTest {
         return cacheDir.getPath();
     }
 
-    private static Path getUnicoilEncoderModelPath(String modelName) throws IOException {
-        File modelFile = new File(getCacheDir(), modelName);
-        FileUtils.copyURLToFile(new URL("https://dl.dropboxusercontent.com/s/39jqt27b6efuyry/UnicoilEncoder.onnx?dl=0"), modelFile);
+    private static Path getUnicoilEncoderModelPath() throws IOException {
+        File modelFile = new File(getCacheDir(), "UnicoilEncoder.onnx");
+        FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
         return modelFile.toPath();
     }
 
     @Test
     public void basic() throws OrtException, IOException {
-        String modelPath = getUnicoilEncoderModelPath("UnicoilEncoder.onnx").toString();
+        String modelPath = getUnicoilEncoderModelPath().toString();
         try (OrtEnvironment env = OrtEnvironment.getEnvironment();
              OrtSession.SessionOptions options = new OrtSession.SessionOptions();
              OrtSession session = env.createSession(modelPath, options)) {
