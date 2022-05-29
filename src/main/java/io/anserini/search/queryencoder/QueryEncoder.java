@@ -1,17 +1,14 @@
 package io.anserini.search.queryencoder;
 
 import ai.onnxruntime.OrtException;
-
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
 
 public abstract class QueryEncoder {
     protected int weightRange;
     protected int quantRange;
-    static private final String CACHE_DIR = "~/.cache/anserini";
+    static private final String CACHE_DIR = "~/.cache/anserini/main";
 
-    public static String getCacheDir() {
+    protected static String getCacheDir() {
         File cacheDir = new File(CACHE_DIR);
         if (!cacheDir.exists()) {
             cacheDir.mkdir();
@@ -24,9 +21,5 @@ public abstract class QueryEncoder {
         this.quantRange = quantRange;
     }
 
-    public abstract String encode(String query) throws IOException, OrtException;
-
-    public abstract Path getModelPath() throws IOException;
-
-    public abstract Path getVocabPath() throws IOException;
+    public abstract String encode(String query) throws OrtException;
 }

@@ -22,67 +22,60 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
 
     static private final String VOCAB_NAME = "UnicoilVocab.txt";
 
-    private Path vocabPath;
-
-    private Path modelPath;
-
-    public UnicoilMsmarcoPassageEncoder(int weightRange, int quantRange) throws IOException {
-        super(weightRange, quantRange);
-        this.vocabPath = getVocabPath();
-        this.modelPath = getModelPath();
-    }
-
-    @Override
-    public String encode(String query) throws IOException, OrtException {
-        String encodedQuery = "";
-        try (OrtEnvironment env = OrtEnvironment.getEnvironment();
-             OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-             OrtSession session = env.createSession(modelPath.toString(), options)) {
-
-            DefaultVocabulary vocabulary =
-                    DefaultVocabulary.builder()
-                            .addFromTextFile(vocabPath)
-                            .optUnknownToken("[UNK]")
-                            .build();
-            BertFullTokenizer tokenizer = new BertFullTokenizer(vocabulary, true);
-
-            List<String> queryTokens = new ArrayList();
-            queryTokens.add("[CLS]");
-            queryTokens.addAll(tokenizer.tokenize(query));
-            queryTokens.add("[SEP]");
-
-            Map<String, OnnxTensor> inputs = new HashMap<>();
-            long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens);
-            long [][] inputTokenIds = new long[1][queryTokenIds.length];
-            inputTokenIds[0] = queryTokenIds;
-            inputs.put("inputIds", OnnxTensor.createTensor(env, inputTokenIds));
-
-            try (OrtSession.Result results = session.run(inputs)) {
-                float[] computedWeights = flatten(results.get(0).getValue());
-                LinkedHashMap<String, Float> tokenWeightMap = generateTokenWeightMap(queryTokens, computedWeights);
-                encodedQuery = generateEncodedQuery(tokenWeightMap);
-            }
-        }
-        return encodedQuery;
-    }
-
-    @Override
-    public Path getModelPath() throws IOException {
+    private static Path getModelPath() throws IOException {
         File modelFile = new File(getCacheDir(), MODEL_NAME);
         FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
         return modelFile.toPath();
     }
 
-    @Override
-    public Path getVocabPath() throws IOException {
+    private static Path getVocabPath() throws IOException {
         File vocabFile = new File(getCacheDir(), VOCAB_NAME);
         FileUtils.copyURLToFile(new URL(VOCAB_URL), vocabFile);
         return vocabFile.toPath();
     }
 
+    private final BertFullTokenizer tokenizer;
+
+    private final OrtEnvironment environment;
+
+    private final OrtSession session;
+
+    public UnicoilMsmarcoPassageEncoder(int weightRange, int quantRange) throws IOException, OrtException {
+        super(weightRange, quantRange);
+        DefaultVocabulary vocabulary = DefaultVocabulary.builder()
+                .addFromTextFile(getVocabPath())
+                .optUnknownToken("[UNK]")
+                .build();
+        this.tokenizer = new BertFullTokenizer(vocabulary, true);
+        this.environment = OrtEnvironment.getEnvironment();
+        this.session = environment.createSession(getModelPath().toString(), new OrtSession.SessionOptions());
+    }
+
+    @Override
+    public String encode(String query) throws OrtException {
+        String encodedQuery = "";
+        List<String> queryTokens = new ArrayList();
+        queryTokens.add("[CLS]");
+        queryTokens.addAll(tokenizer.tokenize(query));
+        queryTokens.add("[SEP]");
+
+        Map<String, OnnxTensor> inputs = new HashMap<>();
+        long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens);
+        long [][] inputTokenIds = new long[1][queryTokenIds.length];
+        inputTokenIds[0] = queryTokenIds;
+        inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
+
+        try (OrtSession.Result results = session.run(inputs)) {
+            float[] computedWeights = flatten(results.get(0).getValue());
+            LinkedHashMap<String, Float> tokenWeightMap = generateTokenWeightMap(queryTokens, computedWeights);
+            encodedQuery = generateEncodedQuery(tokenWeightMap);
+        }
+        return encodedQuery;
+    }
+
     private long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens) {
         int numTokens = tokens.size();
-        long tokenIds[] = new long[numTokens];
+        long[] tokenIds = new long[numTokens];
         for(int i = 0; i < numTokens; ++i) {
             tokenIds[i] = tokenizer.getVocabulary().getIndex(tokens.get(i));
         }

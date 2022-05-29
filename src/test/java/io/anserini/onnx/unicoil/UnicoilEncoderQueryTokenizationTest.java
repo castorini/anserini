@@ -53,7 +53,7 @@ public class UnicoilEncoderQueryTokenizationTest {
     };
 
     private static String getCacheDir() {
-        File cacheDir = new File("~/.cache/anserini");
+        File cacheDir = new File("~/.cache/anserini/test");
         if (!cacheDir.exists()) {
             cacheDir.mkdir();
         }
@@ -88,7 +88,7 @@ public class UnicoilEncoderQueryTokenizationTest {
 
     private long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens) {
         int numTokens = tokens.size();
-        long tokenIds[] = new long[numTokens];
+        long[] tokenIds = new long[numTokens];
         for(int i = 0; i < numTokens; ++i) {
             tokenIds[i] = tokenizer.getVocabulary().getIndex(tokens.get(i));
         }

@@ -55,7 +55,7 @@ public class UnicoilEncoderQueryInferenceTest {
     };
 
     private static String getCacheDir() {
-        File cacheDir = new File("~/.cache/anserini");
+        File cacheDir = new File("~/.cache/anserini/test");
         if (!cacheDir.exists()) {
             cacheDir.mkdir();
         }
