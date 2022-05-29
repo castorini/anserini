@@ -54,7 +54,7 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
     @Override
     public String encode(String query) throws OrtException {
         String encodedQuery = "";
-        List<String> queryTokens = new ArrayList();
+        List<String> queryTokens = new ArrayList<>();
         queryTokens.add("[CLS]");
         queryTokens.addAll(tokenizer.tokenize(query));
         queryTokens.add("[SEP]");
@@ -122,7 +122,7 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
     }
 
     private String generateEncodedQuery(LinkedHashMap<String, Float> tokenWeightMap) {
-        List<String> encodedQuery = new ArrayList();
+        List<String> encodedQuery = new ArrayList<>();
         for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
             String token = entry.getKey();
             Float tokenWeight = entry.getValue();

@@ -78,7 +78,7 @@ public class UnicoilEncoderQueryTokenizationTest {
         for (Object[] example : examples) {
             String query = (String) example[0];
             long[] expectedTokenIds = (long[]) example[1];
-            List<String> tokens = new ArrayList();
+            List<String> tokens = new ArrayList<>();
             tokens.add("[CLS]");
             tokens.addAll(tokenizer.tokenize(query));
             tokens.add("[SEP]");
