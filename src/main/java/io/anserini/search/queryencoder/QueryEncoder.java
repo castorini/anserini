@@ -4,11 +4,13 @@ import ai.onnxruntime.OrtException;
 import java.io.File;
 
 public abstract class QueryEncoder {
-    protected int weightRange;
-    protected int quantRange;
     static private final String CACHE_DIR = "~/.cache/anserini/main";
 
-    protected static String getCacheDir() {
+    protected int weightRange;
+
+    protected int quantRange;
+
+    static protected String getCacheDir() {
         File cacheDir = new File(CACHE_DIR);
         if (!cacheDir.exists()) {
             cacheDir.mkdir();

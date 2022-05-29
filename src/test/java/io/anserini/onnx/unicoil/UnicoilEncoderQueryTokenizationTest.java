@@ -52,7 +52,7 @@ public class UnicoilEncoderQueryTokenizationTest {
                 new long[] {101, 2029, 18672, 8844, 26450, 6740, 16896, 2006, 1996, 4942, 15782, 14289, 8017, 1042, 21842, 1997, 1996, 8040, 9331, 7068, 1998, 19274, 2015, 2006, 1996, 8276, 7270, 21769, 1997, 1996, 20368, 7946, 1029, 102}},
     };
 
-    private static String getCacheDir() {
+    static private String getCacheDir() {
         File cacheDir = new File("~/.cache/anserini/test");
         if (!cacheDir.exists()) {
             cacheDir.mkdir();
@@ -60,7 +60,7 @@ public class UnicoilEncoderQueryTokenizationTest {
         return cacheDir.getPath();
     }
 
-    private static Path getVocabPath() throws IOException {
+    static private Path getVocabPath() throws IOException {
         File vocabFile = new File(getCacheDir(), "UnicoilVocab.txt");
         FileUtils.copyURLToFile(new URL(VOCAB_URL), vocabFile);
         return vocabFile.toPath();

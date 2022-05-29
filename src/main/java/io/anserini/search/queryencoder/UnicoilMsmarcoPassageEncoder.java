@@ -22,23 +22,23 @@ public class UnicoilMsmarcoPassageEncoder extends QueryEncoder{
 
     static private final String VOCAB_NAME = "UnicoilVocab.txt";
 
-    private static Path getModelPath() throws IOException {
-        File modelFile = new File(getCacheDir(), MODEL_NAME);
-        FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
-        return modelFile.toPath();
-    }
-
-    private static Path getVocabPath() throws IOException {
-        File vocabFile = new File(getCacheDir(), VOCAB_NAME);
-        FileUtils.copyURLToFile(new URL(VOCAB_URL), vocabFile);
-        return vocabFile.toPath();
-    }
-
     private final BertFullTokenizer tokenizer;
 
     private final OrtEnvironment environment;
 
     private final OrtSession session;
+
+    static private Path getModelPath() throws IOException {
+        File modelFile = new File(getCacheDir(), MODEL_NAME);
+        FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
+        return modelFile.toPath();
+    }
+
+    static private Path getVocabPath() throws IOException {
+        File vocabFile = new File(getCacheDir(), VOCAB_NAME);
+        FileUtils.copyURLToFile(new URL(VOCAB_URL), vocabFile);
+        return vocabFile.toPath();
+    }
 
     public UnicoilMsmarcoPassageEncoder(int weightRange, int quantRange) throws IOException, OrtException {
         super(weightRange, quantRange);

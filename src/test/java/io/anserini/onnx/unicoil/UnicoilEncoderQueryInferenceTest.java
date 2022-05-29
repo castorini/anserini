@@ -54,7 +54,7 @@ public class UnicoilEncoderQueryInferenceTest {
                     new float[] {1.2975391f, 0.41514271f, 1.5634528f, 1.0063248f, 1.7381638f, 1.0919806f, 1.5582242f, 0.43482706f, 0.33785614f, 1.0224074f, 0.79580104f, 0.5206254f, 0.36112663f, 0.5333182f, 1.075079f, 0.20146157f, 0.36403617f, 1.2272573f, 1.0263921f, 0.699825f, 0.297133f, 1.2347529f, 0.0f, 0.46168548f, 0.3573556f, 1.3769448f, 1.0224242f, 1.0108802f, 0.11389083f, 0.41117048f, 1.5779594f, 0.4974613f, 0.7945211f, 0.0f}},
     };
 
-    private static String getCacheDir() {
+    static private String getCacheDir() {
         File cacheDir = new File("~/.cache/anserini/test");
         if (!cacheDir.exists()) {
             cacheDir.mkdir();
@@ -62,7 +62,7 @@ public class UnicoilEncoderQueryInferenceTest {
         return cacheDir.getPath();
     }
 
-    private static Path getUnicoilEncoderModelPath() throws IOException {
+    static private Path getUnicoilEncoderModelPath() throws IOException {
         File modelFile = new File(getCacheDir(), "UnicoilEncoder.onnx");
         FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
         return modelFile.toPath();
