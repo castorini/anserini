@@ -145,3 +145,4 @@ To add to this reproduction log, modify [this template](../src/main/resources/do
 + Results reproduced by [@yuki617](https://github.com/yuki617) on 2022-02-16 (commit [`c7614d2`](https://github.com/castorini/anserini/commit/c7614d212a8f7744b2e7071fd5819c058ab6a09c))
 + Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2022-02-23 (commit [`6a70804`](https://github.com/castorini/anserini/commit/6a708047f71528f7d516c0dd45485204a36e6b1d))
 + Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
++ Results reproduced by [@jh8liang](https://github.com/jh8liang) on 2022-05-29 (commit [`055eb2e`](https://github.com/castorini/anserini/commit/055eb2e53fb3c370e4b377f3656c585822e56ca6))
