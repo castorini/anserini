@@ -238,7 +238,7 @@ public final class SearchCollection implements Closeable {
                 queryString = queryEncoder.encode(queryString);
               } catch (Exception e) {
                 e.printStackTrace();
-                LOG.error(e.toString());
+                throw new CompletionException(e);
               }
             }
 
