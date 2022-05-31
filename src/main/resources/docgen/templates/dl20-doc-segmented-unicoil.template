@@ -99,8 +99,7 @@ The reasonable settings are:
 + `-hits 10000 -selectMaxPassage.hits 100`
 + `-hits 1000 -selectMaxPassage.hits 100`
 
-Due to tie-breaking effects, we get slightly different results on the dev queries.
-However, for these topics, we get the same results (that is, the tie-breaking affects do not manifest in different scores).
+However, for these topics, we get the same results; that is, the tie-breaking affects do not manifest in different scores.
 
 ## Reproduction Log[*](reproducibility.md)
 

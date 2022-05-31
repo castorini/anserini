@@ -148,7 +148,7 @@ QueriesRanked: 5193
 ```
 
 Note that due to MaxP and the need to generate runs to different depths, we can set `-hits` and `-selectMaxPassage.hits` differently.
-Due to tie-breaking effects, we get slightly different results:
+Because of tie-breaking effects, we get slightly different results:
 
 | Condition                                            | AP@1000 | RR@100 | R@100  | R@1000 | MS MARCO MRR @100  |
 |:-----------------------------------------------------|:--------|:-------|:-------|:-------|:-------------------|
