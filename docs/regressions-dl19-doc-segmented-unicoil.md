@@ -121,6 +121,18 @@ Remember that we keep qrels of _all_ relevance grades, unlike the case for passa
 Here, we retrieve 1000 hits per query, but measure AP at cutoff 100 (e.g., AP@100).
 Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
+## Additional Notes
+
+Note that due to MaxP and the need to generate runs to different depths, we can set `-hits` and `-selectMaxPassage.hits` differently.
+The reasonable settings are:
+
++ `-hits 10000 -selectMaxPassage.hits 1000` (as above)
++ `-hits 10000 -selectMaxPassage.hits 100`
++ `-hits 1000 -selectMaxPassage.hits 100`
+
+Due to tie-breaking effects, we get slightly different results on the dev queries.
+However, for these topics, we get the same results (that is, the tie-breaking affects do not manifest in different scores).
+
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl19-doc-segmented-unicoil.template) and run `bin/build.sh` to rebuild the documentation.

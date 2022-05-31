@@ -34,7 +34,7 @@ wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-uni
 tar xvf collections/msmarco-doc-segmented-unicoil.tar -C collections/
 ```
 
-To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
+To confirm, `msmarco-doc-segmented-unicoil.tar` is 19 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
@@ -114,6 +114,8 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9546    |
 
+## Additional Notes
+
 This model corresponds to the run named "uniCOIL-d2q" on the official MS MARCO Document Ranking Leaderboard, submitted 2021/09/16.
 The following command generates a comparable run:
 
@@ -144,6 +146,16 @@ MRR @100: 0.352997702662614
 QueriesRanked: 5193
 #####################
 ```
+
+Note that due to MaxP and the need to generate runs to different depths, we can set `-hits` and `-selectMaxPassage.hits` differently.
+Due to tie-breaking effects, we get slightly different results:
+
+| Condition                                            | AP@1000 | RR@100 | R@100  | R@1000 | MS MARCO MRR @100  |
+|:-----------------------------------------------------|:--------|:-------|:-------|:-------|:-------------------|
+| `-hits 10000 -selectMaxPassage.hits 1000` (as above) | 0.3535  | 0.3531 | 0.8858 | 0.9546 | 0.3533301973179882 |
+| `-hits 10000 -selectMaxPassage.hits 100`             | 0.3531  | 0.3531 | 0.8860 | -      | 0.352997702662614  |
+| `-hits 1000 -selectMaxPassage.hits 100`              | 0.3531  | 0.3531 | 0.8860 | -      | 0.352997702662614  |
+
 
 ## Reproduction Log[*](reproducibility.md)
 
