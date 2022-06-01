@@ -84,37 +84,6 @@ ${effectiveness}
 
 ## Additional Notes
 
-This model corresponds to the run named "uniCOIL-d2q" on the official MS MARCO Document Ranking Leaderboard, submitted 2021/09/16.
-The following command generates a comparable run:
-
-```bash
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-segmented-unicoil.msmarco-doc.dev.txt \
-  -format msmarco \
-  -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
-```
-
-Note that the above command uses `-format msmarco` to directly generate a run in the MS MARCO output format.
-And to evaluate:
-
-```bash
-python tools/scripts/msmarco/msmarco_doc_eval.py \
-  --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
-  --run runs/run.msmarco-doc-segmented-unicoil.msmarco-doc.dev.txt
-```
-
-The results should be as follows:
-
-```
-#####################
-MRR @100: 0.352997702662614
-QueriesRanked: 5193
-#####################
-```
-
 Note that due to MaxP and the need to generate runs to different depths, we can set `-hits` and `-selectMaxPassage.hits` differently.
 Because of tie-breaking effects, we get slightly different results:
 
