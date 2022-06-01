@@ -16,11 +16,11 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp
 ```
 
-## Corpus
+## Corpus Download
 
 We make available a version of the MS MARCO segmented document corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
@@ -28,9 +28,8 @@ For details on how to train uniCOIL and perform inference, please see [this guid
 
 Download the corpus and unpack into `collections/`:
 
-```
+```bash
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar -P collections/
-
 tar xvf collections/msmarco-doc-segmented-unicoil-noexp.tar -C collections/
 ```
 
@@ -38,7 +37,7 @@ To confirm, `msmarco-doc-segmented-unicoil-noexp.tar` is 11 GB and has MD5 check
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp \
   --corpus-path collections/msmarco-doc-segmented-unicoil-noexp
 ```
@@ -49,7 +48,7 @@ Alternatively, you can simply copy/paste from the commands below and obtain the 
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-doc-segmented-unicoil-noexp \
@@ -73,7 +72,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil-noexp.tsv.gz \
@@ -84,7 +83,7 @@ target/appassembler/bin/SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
@@ -114,36 +113,16 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9420    |
 
-This model corresponds to the run named "uniCOIL-d2q" on the official MS MARCO Document Ranking Leaderboard, submitted 2021/09/16.
-The following command generates a comparable run:
+## Additional Notes
 
-```
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-segmented-unicoil.msmarco-doc.dev.txt \
-  -format msmarco \
-  -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100
-```
+Note that due to MaxP and the need to generate runs to different depths, we can set `-hits` and `-selectMaxPassage.hits` differently.
+Because of tie-breaking effects, we get slightly different results:
 
-Note that the above command uses `-format msmarco` to directly generate a run in the MS MARCO output format.
-And to evaluate:
-
-```bash
-python tools/scripts/msmarco/msmarco_doc_eval.py \
-  --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
-  --run runs/run.msmarco-doc-segmented-unicoil.msmarco-doc.dev.txt
-```
-
-The results should be as follows:
-
-```
-#####################
-MRR @100: 0.352997702662614
-QueriesRanked: 5193
-#####################
-```
+| Condition                                            | AP@1000 | RR@100 | R@100  | R@1000 | MS MARCO MRR @100   |
+|:-----------------------------------------------------|:--------|:-------|:-------|:-------|:--------------------|
+| `-hits 10000 -selectMaxPassage.hits 1000` (as above) | 0.3413  | 0.3409 | 0.8639 | 0.9420 | 0.34138671941993426 |
+| `-hits 10000 -selectMaxPassage.hits 100`             | 0.3409  | 0.3409 | 0.8639 | -      | 0.3410112121151749  |
+| `-hits 1000 -selectMaxPassage.hits 100`              | 0.3409  | 0.3409 | 0.8639 | -      | 0.3410112121151749  |
 
 ## Reproduction Log[*](reproducibility.md)
 
