@@ -21,7 +21,7 @@ Thus, no neural inference is involved.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-unicoil
 ```
 

@@ -20,11 +20,18 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp
 ```
 
-## Corpus Download
-
-We make available a version of the MS MARCO segmented document corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+We make available a version of the MS MARCO document corpus that has already been processed with uniCOIL, i.e., we have performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is involved.
-For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
 
 Download the corpus and unpack into `collections/`:
 
@@ -34,15 +41,12 @@ tar xvf collections/msmarco-doc-segmented-unicoil-noexp.tar -C collections/
 ```
 
 To confirm, `msmarco-doc-segmented-unicoil-noexp.tar` is 11 GB and has MD5 checksum `11b226e1cacd9c8ae0a660fd14cdd710`.
-
-With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
+With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp \
   --corpus-path collections/msmarco-doc-segmented-unicoil-noexp
 ```
-
-Alternatively, you can simply copy/paste from the commands below and obtain the same results.
 
 ## Indexing
 

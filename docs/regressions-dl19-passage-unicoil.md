@@ -27,7 +27,7 @@ Thus, no neural inference is involved.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --download --index --verify --search --regression dl19-passage-unicoil
 ```
 
@@ -49,8 +49,6 @@ With the corpus downloaded, the following command will perform the remaining ste
 python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil \
   --corpus-path collections/msmarco-passage-unicoil
 ```
-
-Alternatively, you can simply copy/paste from the commands below and obtain the same results.
 
 ## Indexing
 
