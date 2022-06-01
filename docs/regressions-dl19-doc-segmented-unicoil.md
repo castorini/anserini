@@ -16,11 +16,11 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-unicoil
 ```
 
-## Corpus
+## Corpus Download
 
 We make available a version of the MS MARCO segmented document corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
@@ -28,17 +28,16 @@ For details on how to train uniCOIL and perform inference, please see [this guid
 
 Download the corpus and unpack into `collections/`:
 
-```
+```bash
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar -P collections/
-
 tar xvf collections/msmarco-doc-segmented-unicoil.tar -C collections/
 ```
 
-To confirm, `msmarco-doc-segmented-unicoil.tar` is 18 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
+To confirm, `msmarco-doc-segmented-unicoil.tar` is 19 GB and has MD5 checksum `6a00e2c0c375cb1e52c83ae5ac377ebb`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-unicoil \
   --corpus-path collections/msmarco-doc-segmented-unicoil
 ```
@@ -49,7 +48,7 @@ Alternatively, you can simply copy/paste from the commands below and obtain the 
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-doc-segmented-unicoil \
@@ -74,7 +73,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.unicoil.0shot.tsv.gz \
@@ -85,7 +84,7 @@ target/appassembler/bin/SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
@@ -120,6 +119,17 @@ Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains
 Remember that we keep qrels of _all_ relevance grades, unlike the case for passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 Here, we retrieve 1000 hits per query, but measure AP at cutoff 100 (e.g., AP@100).
 Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+
+## Additional Notes
+
+Note that due to MaxP and the need to generate runs to different depths, we can set `-hits` and `-selectMaxPassage.hits` differently.
+The reasonable settings are:
+
++ `-hits 10000 -selectMaxPassage.hits 1000` (as above)
++ `-hits 10000 -selectMaxPassage.hits 100`
++ `-hits 1000 -selectMaxPassage.hits 100`
+
+However, for these topics, we get the same effectiveness results; that is, the tie-breaking affects do not manifest in different scores.
 
 ## Reproduction Log[*](reproducibility.md)
 

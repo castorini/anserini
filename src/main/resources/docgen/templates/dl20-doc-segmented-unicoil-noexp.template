@@ -16,11 +16,11 @@ Note that this page is automatically generated from [this template](${template})
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
-## Corpus
+## Corpus Download
 
 We make available a version of the MS MARCO segmented document corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
@@ -28,9 +28,8 @@ For details on how to train uniCOIL and perform inference, please see [this guid
 
 Download the corpus and unpack into `collections/`:
 
-```
+```bash
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar -P collections/
-
 tar xvf collections/msmarco-doc-segmented-unicoil-noexp.tar -C collections/
 ```
 
@@ -38,7 +37,7 @@ To confirm, `msmarco-doc-segmented-unicoil-noexp.tar` is 11 GB and has MD5 check
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
   --corpus-path collections/${corpus}
 ```
@@ -49,7 +48,7 @@ Alternatively, you can simply copy/paste from the commands below and obtain the 
 
 Sample indexing command:
 
-```
+```bash
 ${index_cmds}
 ```
 
@@ -68,13 +67,13 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 ${ranking_cmds}
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 ${eval_cmds}
 ```
 
@@ -89,6 +88,17 @@ Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains
 Remember that we keep qrels of _all_ relevance grades, unlike the case for passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 Here, we retrieve 1000 hits per query, but measure AP at cutoff 100 (e.g., AP@100).
 Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
+
+## Additional Notes
+
+Note that due to MaxP and the need to generate runs to different depths, we can set `-hits` and `-selectMaxPassage.hits` differently.
+The reasonable settings are:
+
++ `-hits 10000 -selectMaxPassage.hits 1000` (as above)
++ `-hits 10000 -selectMaxPassage.hits 100`
++ `-hits 1000 -selectMaxPassage.hits 100`
+
+However, for these topics, we get the same effectiveness results; that is, the tie-breaking affects do not manifest in different scores.
 
 ## Reproduction Log[*](reproducibility.md)
 
