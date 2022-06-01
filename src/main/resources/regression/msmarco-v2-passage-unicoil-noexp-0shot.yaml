@@ -2,6 +2,10 @@
 corpus: msmarco-v2-passage-unicoil-noexp-0shot
 corpus_path: collections/msmarco/msmarco_v2_passage_unicoil_noexp_0shot/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar
+download_checksum: d9cc1ed3049746e68a2c91bf90e5212d
+download_corpus: msmarco_v2_passage_unicoil_noexp_0shot
+
 index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
