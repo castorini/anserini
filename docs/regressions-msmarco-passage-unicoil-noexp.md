@@ -15,11 +15,11 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-noexp
 ```
 
-## Corpus
+## Corpus Download
 
 We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
@@ -27,17 +27,16 @@ For details on how to train uniCOIL and perform inference, please see [this guid
 
 Download the corpus and unpack into `collections/`:
 
+```bash
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar -P collections/
+tar xvf collections/msmarco-passage-unicoil-noexp.tar -C collections/
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar -P collections/
 
-tar xvf collections/msmarco-passage-unicoil.tar -C collections/
-```
-
-To confirm, `msmarco-passage-unicoil.tar` is 3.3 GB and has MD5 checksum `78eef752c78c8691f7d61600ceed306f`.
+To confirm, `msmarco-passage-unicoil-noexp.tar` is 2.7 GB and has MD5 checksum `f17ddd8c7c00ff121c3c3b147d2e17d8`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-noexp \
   --corpus-path collections/msmarco-passage-unicoil-noexp
 ```
@@ -48,7 +47,7 @@ Alternatively, you can simply copy/paste from the commands below and obtain the 
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-unicoil-noexp \
@@ -72,7 +71,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
@@ -83,7 +82,7 @@ target/appassembler/bin/SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
@@ -112,30 +111,6 @@ With the above commands, you should be able to reproduce the following results:
 | R@1000                                                                                                       | uniCOIL (no expansions)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9239    |
-
-The above runs are in TREC output format and evaluated with `trec_eval`.
-In order to reproduce results reported in the paper, we need to convert to MS MARCO output format and then evaluate:
-
-```bash
-python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt \
-   --output runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.tsv --quiet
-
-python tools/scripts/msmarco/msmarco_passage_eval.py \
-   tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-   runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.tsv
-```
-
-The results should be as follows:
-
-```
-#####################
-MRR @10: 0.35155222404147896
-QueriesRanked: 6980
-#####################
-```
-
-This corresponds to the effectiveness reported in the paper and also the run named "uniCOIL-d2q" on the official MS MARCO Passage Ranking Leaderboard, submitted 2021/09/22.
 
 ## Reproduction Log[*](reproducibility.md)
 

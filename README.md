@@ -53,66 +53,66 @@ See individual pages for details!
 
 ### MS MARCO V1 Passage Corpus
 
-|  | dev | DL19 | DL20 |
-|--|:---:|:----:|:----:|
+|   | dev | DL19 | DL20 |
+|---|:---:|:----:|:----:|
 | **Unsupervised Lexical** |
 | BoW baselines | [+](docs/regressions-msmarco-passage.md) | [+](docs/regressions-dl19-passage.md) | [+](docs/regressions-dl20-passage.md) |
 | Quantized BM25 | [+](docs/regressions-msmarco-passage-bm25-b8.md) | [+](docs/regressions-dl19-passage-bm25-b8.md) | [+](docs/regressions-dl20-passage-bm25-b8.md) |
 | WP baselines | [+](docs/regressions-msmarco-passage-wp.md) | [+](docs/regressions-dl19-passage-wp.md) | [+](docs/regressions-dl20-passage-wp.md) |
-| doc2query | [+](docs/regressions-msmarco-passage-doc2query.md)
+| doc2query | [+](docs/regressions-msmarco-passage-doc2query.md) |
 | doc2query-T5 | [+](docs/regressions-msmarco-passage-docTTTTTquery.md) | [+](docs/regressions-dl19-passage-docTTTTTquery.md) | [+](docs/regressions-dl20-passage-docTTTTTquery.md) |
 | **Learned sparse lexical (uniCOIL family)** |
-| uniCOIL noexp | [+](docs/regressions-msmarco-passage-unicoil-noexp.md) | [+](docs/regressions-dl19-passage-unicoil-noexp.md) | [+](docs/regressions-dl20-passage-unicoil-noexp.md)
-| uniCOIL with d2q-T5 | [+](docs/regressions-msmarco-passage-unicoil.md) | [+](docs/regressions-dl19-passage-unicoil.md) | [+](docs/regressions-dl20-passage-unicoil.md)
-| uniCOIL with TILDE | [+](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
+| uniCOIL noexp | [+](docs/regressions-msmarco-passage-unicoil-noexp.md) | [+](docs/regressions-dl19-passage-unicoil-noexp.md) | [+](docs/regressions-dl20-passage-unicoil-noexp.md) |
+| uniCOIL with doc2query-T5 | [+](docs/regressions-msmarco-passage-unicoil.md) | [+](docs/regressions-dl19-passage-unicoil.md) | [+](docs/regressions-dl20-passage-unicoil.md) |
+| uniCOIL with TILDE | [+](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md) |
 | **Learned sparse lexical (other)** |
-| DeepImpact | [+](docs/regressions-msmarco-passage-deepimpact.md)
-| SPLADEv2 | [+](docs/regressions-msmarco-passage-distill-splade-max.md)
-| SPLADE-distill CoCodenser-medium | [+](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [+](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [+](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md)
+| DeepImpact | [+](docs/regressions-msmarco-passage-deepimpact.md) |
+| SPLADEv2 | [+](docs/regressions-msmarco-passage-distill-splade-max.md) |
+| SPLADE-distill CoCodenser-medium | [+](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [+](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [+](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
 
 ### MS MARCO V1 Document Corpus
 
-|  | dev | DL19 | DL20 |
-|--|:---:|:----:|:----:|
+|   | dev | DL19 | DL20 |
+|---|:---:|:----:|:----:|
 | **Unsupervised lexical, complete doc**[*](docs/experiments-msmarco-doc-doc2query-details.md) |
-| BoW baselines | [+](docs/regressions-msmarco-doc.md) | [+](docs/regressions-dl19-doc.md) | [+](docs/regressions-dl20-doc.md)
-| WP baselines | [+](docs/regressions-msmarco-doc-wp.md) | [+](docs/regressions-dl19-doc-wp.md) | [+](docs/regressions-dl20-doc-wp.md)
-| doc2query-T5 | [+](docs/regressions-msmarco-doc-docTTTTTquery.md) | [+](docs/regressions-dl19-doc-docTTTTTquery.md) | [+](docs/regressions-dl20-doc-docTTTTTquery.md)
-| **Unsupervised lexical, segmented doc**[*](docs/experiments-msmarco-doc-doc2query-details.md)
-| BoW baselines | [+](docs/regressions-msmarco-doc-segmented.md) | [+](docs/regressions-dl19-doc-segmented.md) | [+](docs/regressions-dl20-doc-segmented.md)
-| WP baselines | [+](docs/regressions-msmarco-doc-segmented-wp.md) | [+](docs/regressions-dl19-doc-segmented-wp.md) | [+](docs/regressions-dl20-doc-segmented-wp.md)
-| doc2query-T5 | [+](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md) | [+](docs/regressions-dl19-doc-segmented-docTTTTTquery.md) | [+](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
-| **Learned sparse lexical**
-| uniCOIL noexp | [+](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [+](docs/regressions-dl19-doc-segmented-unicoil-noexp.md) | [+](docs/regressions-dl20-doc-segmented-unicoil-noexp.md)
-| uniCOIL with d2q-T5 | [+](docs/regressions-msmarco-doc-segmented-unicoil.md) | [+](docs/regressions-dl19-doc-segmented-unicoil.md) | [+](docs/regressions-dl20-doc-segmented-unicoil.md)
+| BoW baselines | [+](docs/regressions-msmarco-doc.md) | [+](docs/regressions-dl19-doc.md) | [+](docs/regressions-dl20-doc.md) |
+| WP baselines | [+](docs/regressions-msmarco-doc-wp.md) | [+](docs/regressions-dl19-doc-wp.md) | [+](docs/regressions-dl20-doc-wp.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-doc-docTTTTTquery.md) | [+](docs/regressions-dl19-doc-docTTTTTquery.md) | [+](docs/regressions-dl20-doc-docTTTTTquery.md) |
+| **Unsupervised lexical, segmented doc**[*](docs/experiments-msmarco-doc-doc2query-details.md) |
+| BoW baselines | [+](docs/regressions-msmarco-doc-segmented.md) | [+](docs/regressions-dl19-doc-segmented.md) | [+](docs/regressions-dl20-doc-segmented.md) |
+| WP baselines | [+](docs/regressions-msmarco-doc-segmented-wp.md) | [+](docs/regressions-dl19-doc-segmented-wp.md) | [+](docs/regressions-dl20-doc-segmented-wp.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md) | [+](docs/regressions-dl19-doc-segmented-docTTTTTquery.md) | [+](docs/regressions-dl20-doc-segmented-docTTTTTquery.md) |
+| **Learned sparse lexical** |
+| uniCOIL noexp | [+](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [+](docs/regressions-dl19-doc-segmented-unicoil-noexp.md) | [+](docs/regressions-dl20-doc-segmented-unicoil-noexp.md) |
+| uniCOIL with doc2query-T5 | [+](docs/regressions-msmarco-doc-segmented-unicoil.md) | [+](docs/regressions-dl19-doc-segmented-unicoil.md) | [+](docs/regressions-dl20-doc-segmented-unicoil.md) |
 
 ### MS MARCO V2 Passage Corpus
 
-|  | dev | DL21 |
-|--|:---:|:----:|
-| **Unsupervised lexical, original corpus**
-| baselines | [+](docs/regressions-msmarco-v2-passage.md) | [+](docs/regressions-dl21-passage.md)
-| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-d2q-t5.md) | [+](docs/regressions-dl21-passage-d2q-t5.md)
-| **Unsupervised lexical, augmented corpus**
-| baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md)
-| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md)
-| **Learned sparse lexical**
-| uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-noexp-0shot.md)
-| uniCOIL with d2q-T5 zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-0shot.md)
+|   | dev | DL21 |
+|---|:---:|:----:|
+| **Unsupervised lexical, original corpus** |
+| baselines | [+](docs/regressions-msmarco-v2-passage.md) | [+](docs/regressions-dl21-passage.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-d2q-t5.md) | [+](docs/regressions-dl21-passage-d2q-t5.md) |
+| **Unsupervised lexical, augmented corpus** |
+| baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md) |
+| **Learned sparse lexical** |
+| uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) |
+| uniCOIL with doc2query-T5 zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-0shot.md) |
 
 ### MS MARCO V2 Document Corpus
 
-|  | dev | DL21 |
-|--|:---:|:----:|
-| **Unsupervised lexical, complete doc**
-| baselines | [+](docs/regressions-msmarco-v2-doc.md) | [+](docs/regressions-dl21-doc.md)
-| doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-d2q-t5.md) | [+](docs/regressions-dl21-doc-d2q-t5.md)
-| **Unsupervised lexical, segmented doc**
-| baselines | [+](docs/regressions-msmarco-v2-doc-segmented.md) | [+](docs/regressions-dl21-doc-segmented.md)
-| doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md) | [+](docs/regressions-dl21-doc-segmented-d2q-t5.md)
-| **Learned sparse lexical**
-| uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [+](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md)
-| uniCOIL with d2q-T5 zero-shot | [+](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md) | [+](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md)
+|   | dev | DL21 |
+|---|:---:|:----:|
+| **Unsupervised lexical, complete doc** |
+| baselines | [+](docs/regressions-msmarco-v2-doc.md) | [+](docs/regressions-dl21-doc.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-d2q-t5.md) | [+](docs/regressions-dl21-doc-d2q-t5.md) |
+| **Unsupervised lexical, segmented doc** |
+| baselines | [+](docs/regressions-msmarco-v2-doc-segmented.md) | [+](docs/regressions-dl21-doc-segmented.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md) | [+](docs/regressions-dl21-doc-segmented-d2q-t5.md) |
+| **Learned sparse lexical** |
+| uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [+](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md) |
+| uniCOIL with doc2query-T5 zero-shot | [+](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md) | [+](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md) |
 
 ### Regressions for BEIR (v1.0.0)
 
@@ -167,6 +167,19 @@ See individual pages for details!
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
 + Regressions for Mr. TyDi (v1.1) baselines : [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
+
+### Available Corpora
+
+| Corpora | Size | Checksum |
+|:--------|-----:|:---------|
+| [MS MARCO V1 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar) | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
+| [MS MARCO V1 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar) | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
+| [MS MARCO V1 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar) | 11 GB | `11b226e1cacd9c8ae0a660fd14cdd710` |
+| [MS MARCO V1 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar) | 19 GB | `6a00e2c0c375cb1e52c83ae5ac377ebb` |
+| [MS MARCO V2 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar) | 24 GB | `d9cc1ed3049746e68a2c91bf90e5212d` |
+| [MS MARCO V2 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar) | 41 GB | `1949a00bfd5e1f1a230a04bbc1f01539` |
+| [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar) | 55 GB | `97ba262c497164de1054f357caea0c63` |
+| [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar) | 72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
 
 ## Additional Documentation
 
