@@ -16,9 +16,8 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil
 ```
 
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., we have applied model inference on every document and stored the output sparse vectors.
+We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., we have applied doc2query-T5 expansions, performed model inference on every document, and stored the output sparse vectors.
 Thus, no neural inference is involved.
-For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -26,7 +25,7 @@ From any machine, the following command will download the corpus and perform the
 python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-unicoil
 ```
 
-The above scripts automate the following, but if you want to step through each step, you can simply copy/paste from the commands below and obtain the same regression results.
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
 
 ## Corpus Download
 
@@ -38,8 +37,7 @@ tar xvf collections/msmarco-passage-unicoil.tar -C collections/
 ```
 
 To confirm, `msmarco-passage-unicoil.tar` is 3.4 GB and has MD5 checksum `78eef752c78c8691f7d61600ceed306f`.
-
-With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
+With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil \
