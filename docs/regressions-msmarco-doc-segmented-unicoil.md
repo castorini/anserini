@@ -16,11 +16,11 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil
 ```
 
-## Corpus
+## Corpus Download
 
 We make available a version of the MS MARCO segmented document corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
@@ -28,9 +28,8 @@ For details on how to train uniCOIL and perform inference, please see [this guid
 
 Download the corpus and unpack into `collections/`:
 
-```
+```bash
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar -P collections/
-
 tar xvf collections/msmarco-doc-segmented-unicoil.tar -C collections/
 ```
 
@@ -38,7 +37,7 @@ To confirm, `msmarco-doc-segmented-unicoil.tar` is 19 GB and has MD5 checksum `6
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil \
   --corpus-path collections/msmarco-doc-segmented-unicoil
 ```
@@ -49,7 +48,7 @@ Alternatively, you can simply copy/paste from the commands below and obtain the 
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-doc-segmented-unicoil \
@@ -73,7 +72,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
@@ -84,7 +83,7 @@ target/appassembler/bin/SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.txt
@@ -119,7 +118,7 @@ With the above commands, you should be able to reproduce the following results:
 This model corresponds to the run named "uniCOIL-d2q" on the official MS MARCO Document Ranking Leaderboard, submitted 2021/09/16.
 The following command generates a comparable run:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
@@ -155,7 +154,6 @@ Because of tie-breaking effects, we get slightly different results:
 | `-hits 10000 -selectMaxPassage.hits 1000` (as above) | 0.3535  | 0.3531 | 0.8858 | 0.9546 | 0.3533301973179882 |
 | `-hits 10000 -selectMaxPassage.hits 100`             | 0.3531  | 0.3531 | 0.8860 | -      | 0.352997702662614  |
 | `-hits 1000 -selectMaxPassage.hits 100`              | 0.3531  | 0.3531 | 0.8860 | -      | 0.352997702662614  |
-
 
 ## Reproduction Log[*](reproducibility.md)
 
