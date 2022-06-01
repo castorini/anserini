@@ -18,11 +18,11 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil-noexp
 ```
 
-## Corpus
+## Corpus Download
 
 We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
 Thus, no neural inference is involved.
@@ -30,17 +30,16 @@ For details on how to train uniCOIL and perform inference, please see [this guid
 
 Download the corpus and unpack into `collections/`:
 
+```bash
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar -P collections/
+tar xvf collections/msmarco-passage-unicoil-noexp.tar -C collections/
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar -P collections/
 
-tar xvf collections/msmarco-passage-unicoil.tar -C collections/
-```
-
-To confirm, `msmarco-passage-unicoil.tar` is 3.3 GB and has MD5 checksum `78eef752c78c8691f7d61600ceed306f`.
+To confirm, `msmarco-passage-unicoil-noexp.tar` is 2.7 GB and has MD5 checksum `f17ddd8c7c00ff121c3c3b147d2e17d8`.
 
 With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil-noexp \
   --corpus-path collections/msmarco-passage-unicoil-noexp
 ```
@@ -51,7 +50,7 @@ Alternatively, you can simply copy/paste from the commands below and obtain the 
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-unicoil-noexp \
@@ -76,7 +75,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-passage.unicoil-noexp.0shot.tsv.gz \
@@ -87,7 +86,7 @@ target/appassembler/bin/SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl19-passage.unicoil-noexp.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl19-passage.unicoil-noexp.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl19-passage.unicoil-noexp.0shot.txt
