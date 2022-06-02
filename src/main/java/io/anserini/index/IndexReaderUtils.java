@@ -61,10 +61,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class containing a bunch of static helper methods for accessing a Lucene inverted index.
@@ -830,52 +826,33 @@ public class IndexReaderUtils {
   public static Map<String, Float> batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(
           IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer, int threads)
           throws IOException {
-    // We compute the query-document score by issuing the query with an additional filter clause that restricts
-    // consideration to only the docid in question, and then returning the retrieval score.
-    //
-    // This implementation is inefficient, but as the advantage of using the existing Lucene similarity, which means
-    // that we don't need to copy the scoring function and keep it in sync wrt code updates.
+    // We compute the query-document score by issuing the query with additional filters that restricts
+    // consideration to the set of docids provided, and then returning the retrieval score.
 
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
-    ConcurrentHashMap<String, Float> results = new ConcurrentHashMap<>();
+    HashMap<String, Float> results = new HashMap<>();
 
-    for (String docid: docids) {
-      executor.execute(() -> {
-        try {
-          Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
 
-          Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
-          BooleanQuery.Builder builder = new BooleanQuery.Builder();
-          builder.add(filterQuery, BooleanClause.Occur.MUST);
-          builder.add(query, BooleanClause.Occur.MUST);
-          Query finalQuery = builder.build();
-
-          TopDocs rs = searcher.search(finalQuery, 1);
-
-          // We want the score of the first (and only) hit, but remember to remove 1 for the ConstantScoreQuery.
-          // If we get zero results, indicates that term isn't found in the document.
-          float result = rs.scoreDocs.length == 0 ? 0 : rs.scoreDocs[0].score - 1;
-          results.put(docid, result);
-        } catch (Exception e){}
-      });
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (String docid: docids){
+      // Setting default result value for all docids.
+      results.put(docid, 0.0f);
+      Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
+      builder.add(filterQuery, BooleanClause.Occur.SHOULD);
     }
+    builder.add(query, BooleanClause.Occur.MUST);
+    Query finalQuery = builder.build();
 
-    executor.shutdown();
+    TopDocs rs = searcher.search(finalQuery, docids.size());
 
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        LOG.info(String.format("%.2f percent completed",
-                (double) executor.getCompletedTaskCount() / docids.size() * 100.0d));
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
-      Thread.currentThread().interrupt();
+    for (int i=0; i < rs.scoreDocs.length; i++){
+      String docid = convertLuceneDocidToDocid(reader, rs.scoreDocs[i].doc);
+      // Removing 1 for the ConstantScoreQuery.
+      float result = rs.scoreDocs[i].score -1;
+      results.put(docid, result);
     }
 
     return results;
