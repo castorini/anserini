@@ -36,7 +36,7 @@ The `run_regression.py` script automates the following steps, but if you want to
 
 Download, unpack, and prepare the corpus:
 
-```
+```bash
 # Download
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar -P collections/
 
