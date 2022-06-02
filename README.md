@@ -62,8 +62,8 @@ See individual pages for details!
 | doc2query | [+](docs/regressions-msmarco-passage-doc2query.md) |
 | doc2query-T5 | [+](docs/regressions-msmarco-passage-docTTTTTquery.md) | [+](docs/regressions-dl19-passage-docTTTTTquery.md) | [+](docs/regressions-dl20-passage-docTTTTTquery.md) |
 | **Learned sparse lexical (uniCOIL family)** |
-| uniCOIL noexp | [+](docs/regressions-msmarco-passage-unicoil-noexp.md) | [+](docs/regressions-dl19-passage-unicoil-noexp.md) | [+](docs/regressions-dl20-passage-unicoil-noexp.md) |
-| uniCOIL with doc2query-T5 | [+](docs/regressions-msmarco-passage-unicoil.md) | [+](docs/regressions-dl19-passage-unicoil.md) | [+](docs/regressions-dl20-passage-unicoil.md) |
+| uniCOIL noexp | [✓](docs/regressions-msmarco-passage-unicoil-noexp.md) | [✓](docs/regressions-dl19-passage-unicoil-noexp.md) | [✓](docs/regressions-dl20-passage-unicoil-noexp.md) |
+| uniCOIL with doc2query-T5 | [✓](docs/regressions-msmarco-passage-unicoil.md) | [✓](docs/regressions-dl19-passage-unicoil.md) | [✓](docs/regressions-dl20-passage-unicoil.md) |
 | uniCOIL with TILDE | [+](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md) |
 | **Learned sparse lexical (other)** |
 | DeepImpact | [+](docs/regressions-msmarco-passage-deepimpact.md) |
@@ -83,8 +83,8 @@ See individual pages for details!
 | WP baselines | [+](docs/regressions-msmarco-doc-segmented-wp.md) | [+](docs/regressions-dl19-doc-segmented-wp.md) | [+](docs/regressions-dl20-doc-segmented-wp.md) |
 | doc2query-T5 | [+](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md) | [+](docs/regressions-dl19-doc-segmented-docTTTTTquery.md) | [+](docs/regressions-dl20-doc-segmented-docTTTTTquery.md) |
 | **Learned sparse lexical** |
-| uniCOIL noexp | [+](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [+](docs/regressions-dl19-doc-segmented-unicoil-noexp.md) | [+](docs/regressions-dl20-doc-segmented-unicoil-noexp.md) |
-| uniCOIL with doc2query-T5 | [+](docs/regressions-msmarco-doc-segmented-unicoil.md) | [+](docs/regressions-dl19-doc-segmented-unicoil.md) | [+](docs/regressions-dl20-doc-segmented-unicoil.md) |
+| uniCOIL noexp | [✓](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions-dl19-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions-dl20-doc-segmented-unicoil-noexp.md) |
+| uniCOIL with doc2query-T5 | [✓](docs/regressions-msmarco-doc-segmented-unicoil.md) | [✓](docs/regressions-dl19-doc-segmented-unicoil.md) | [✓](docs/regressions-dl20-doc-segmented-unicoil.md) |
 
 ### MS MARCO V2 Passage Corpus
 
@@ -97,8 +97,8 @@ See individual pages for details!
 | baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md) |
 | doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md) |
 | **Learned sparse lexical** |
-| uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) |
-| uniCOIL with doc2query-T5 zero-shot | [+](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [+](docs/regressions-dl21-passage-unicoil-0shot.md) |
+| uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) |
+| uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-0shot.md) |
 
 ### MS MARCO V2 Document Corpus
 
@@ -111,8 +111,8 @@ See individual pages for details!
 | baselines | [+](docs/regressions-msmarco-v2-doc-segmented.md) | [+](docs/regressions-dl21-doc-segmented.md) |
 | doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md) | [+](docs/regressions-dl21-doc-segmented-d2q-t5.md) |
 | **Learned sparse lexical** |
-| uniCOIL noexp zero-shot | [+](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [+](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md) |
-| uniCOIL with doc2query-T5 zero-shot | [+](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md) | [+](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md) |
+| uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [✓](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md) |
+| uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md) | [✓](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md) |
 
 ### Regressions for BEIR (v1.0.0)
 
