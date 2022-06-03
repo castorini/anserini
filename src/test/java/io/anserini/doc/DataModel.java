@@ -47,6 +47,34 @@ public class DataModel {
     this.corpus_path = corpus_path;
   }
 
+  private String download_url;
+  private String download_checksum;
+  private String download_corpus;
+
+  public String getDownload_url() {
+    return download_url;
+  }
+
+  public void setDownload_url(String download_url) {
+    this.download_url = download_url;
+  }
+
+  public String getDownload_checksum() {
+    return download_checksum;
+  }
+
+  public void setDownload_checksum(String download_checksum) {
+    this.download_checksum = download_checksum;
+  }
+
+  public String getDownload_corpus() {
+    return download_corpus;
+  }
+
+  public void setDownload_corpus(String download_corpus) {
+    this.download_corpus = download_corpus;
+  }
+
   private String index_path;
   private String collection_class;
   private String generator_class;

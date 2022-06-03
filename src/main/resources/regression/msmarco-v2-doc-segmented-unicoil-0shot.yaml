@@ -2,6 +2,10 @@
 corpus: msmarco-v2-doc-segmented-unicoil-0shot
 corpus_path: collections/msmarco/msmarco_v2_doc_segmented_unicoil_0shot/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot.tar
+download_checksum: 889db095113cc4fe152382ccff73304a
+download_corpus: msmarco_v2_doc_segmented_unicoil_0shot
+
 index_path: indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator

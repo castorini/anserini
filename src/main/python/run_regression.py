@@ -16,16 +16,21 @@
 
 from __future__ import print_function
 
-import itertools
-import sys
-
 import argparse
+import hashlib
+import itertools
 import logging
 import os
-import yaml
+import re
+import stat
+import tarfile
+
 from multiprocessing import Pool
 from subprocess import call, Popen, PIPE
+from urllib.request import urlretrieve
 
+import yaml
+from tqdm import tqdm
 
 logger = logging.getLogger('regression_test')
 logger.setLevel(logging.INFO)
@@ -177,10 +182,77 @@ def run_search(cmd):
     call(' '.join(cmd), shell=True)
 
 
+# https://gist.github.com/leimao/37ff6e990b3226c2c9670a2cd1e4a6f5
+class TqdmUpTo(tqdm):
+    def update_to(self, b=1, bsize=1, tsize=None):
+        """
+        b  : int, optional
+            Number of blocks transferred so far [default: 1].
+        bsize  : int, optional
+            Size of each block (in tqdm units) [default: 1].
+        tsize  : int, optional
+            Total size (in tqdm units). If [default: None] remains unchanged.
+        """
+        if tsize is not None:
+            self.total = tsize
+        self.update(b * bsize - self.n)  # will also set self.n = b * bsize
+
+
+# For large files, we need to compute MD5 block by block. See:
+# https://stackoverflow.com/questions/1131220/get-md5-hash-of-big-files-in-python
+def compute_md5(file, block_size=2**20):
+    m = hashlib.md5()
+    with open(file, 'rb') as f:
+        while True:
+            buf = f.read(block_size)
+            if not buf:
+                break
+            m.update(buf)
+    return m.hexdigest()
+
+
+def download_url(url, save_dir, local_filename=None, md5=None, force=False, verbose=True):
+    # If caller does not specify local filename, figure it out from the download URL:
+    if not local_filename:
+        filename = url.split('/')[-1]
+        filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
+    else:
+        # Otherwise, use the specified local_filename:
+        filename = local_filename
+
+    destination_path = os.path.join(save_dir, filename)
+
+    if verbose:
+        logger.info(f'Downloading {url} to {destination_path}...')
+
+    # Check to see if file already exists, if so, simply return (quietly) unless force=True, in which case we remove
+    # destination file and download fresh copy.
+    if os.path.exists(destination_path):
+        if verbose:
+            logger.info(f'{destination_path} already exists!')
+        if not force:
+            if verbose:
+                logger.info(f'Skipping download.')
+            return destination_path
+        if verbose:
+            logger.info(f'force=True, removing {destination_path}; fetching fresh copy...')
+        os.remove(destination_path)
+
+    with TqdmUpTo(unit='B', unit_scale=True, unit_divisor=1024, miniters=1, desc=filename) as t:
+        urlretrieve(url, filename=destination_path, reporthook=t.update_to)
+
+    if md5:
+        md5_computed = compute_md5(destination_path)
+        assert md5_computed == md5, f'{destination_path} does not match checksum! Expecting {md5} got {md5_computed}.'
+
+    return destination_path
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run Anserini regression tests.')
     parser.add_argument('--regression', required=True, help='Name of the regression test.')
     parser.add_argument('--corpus-path', dest='corpus_path', default='', help='Override corpus path from YAML')
+    parser.add_argument('--download', dest='download', action='store_true', help='Build index.')
     parser.add_argument('--index', dest='index', action='store_true', help='Build index.')
     parser.add_argument('--index-threads', type=int, default=-1, help='Override number of indexing threads from YAML')
     parser.add_argument('--verify', dest='verify', action='store_true', help='Verify index statistics.')
@@ -193,6 +265,32 @@ if __name__ == '__main__':
 
     with open('src/main/resources/regression/{}.yaml'.format(args.regression)) as f:
         yaml_data = yaml.safe_load(f)
+
+    if args.download:
+        logger.info('='*10 + ' Downloading Corpus ' + '='*10)
+        if not yaml_data['download_url']:
+            raise ValueError('Corpus download URL known!')
+        url = yaml_data['download_url']
+        download_url(url, 'collections', md5=yaml_data['download_checksum'])
+
+        filename = url.split('/')[-1]
+        local_tarball = os.path.join('collections', filename)
+        logger.info(f'Extracting {local_tarball}...')
+        tarball = tarfile.open(local_tarball)
+        tarball.extractall('collections')
+        tarball.close()
+
+        # e.g., MS MARCO V2: need to rename the corpus
+        if 'download_corpus' in yaml_data:
+            src = os.path.join('collections', yaml_data['download_corpus'])
+            dest = os.path.join('collections', yaml_data['corpus'])
+            logger.info(f'Renaming {src} to {dest}')
+            os.chmod(src, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+            os.rename(src, dest)
+
+        path = os.path.join('collections', yaml_data['corpus'])
+        logger.info(f'Corpus path is {path}')
+        args.corpus_path = path
 
     # Build indexes.
     if args.index:

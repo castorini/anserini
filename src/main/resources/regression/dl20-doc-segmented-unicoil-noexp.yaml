@@ -2,6 +2,9 @@
 corpus: msmarco-doc-segmented-unicoil-noexp
 corpus_path: collections/msmarco/msmarco-doc-segmented-unicoil-noexp/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar
+download_checksum: 11b226e1cacd9c8ae0a660fd14cdd710
+
 index_path: indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
