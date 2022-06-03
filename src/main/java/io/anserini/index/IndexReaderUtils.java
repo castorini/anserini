@@ -735,18 +735,17 @@ public class IndexReaderUtils {
    * @param reader index reader
    * @param docids A list of docids of the documents to score
    * @param q query
-   * @param threads number of threads
    * @return a map of document ids to their scores with respect to the query
    * @throws IOException if error encountered during query
    */
   public static Map<String, Float> batchComputeQueryDocumentScore(
-          IndexReader reader, List<String> docids, String q, int threads)
+          IndexReader reader, List<String> docids, String q)
           throws IOException {
 
     SearchArgs args = new SearchArgs();
     return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q,
             new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0])),
-            IndexCollection.DEFAULT_ANALYZER, threads);
+            IndexCollection.DEFAULT_ANALYZER);
   }
 
 
@@ -757,16 +756,15 @@ public class IndexReaderUtils {
    * @param docids A list of docids of the documents to score
    * @param q query
    * @param similarity scoring function
-   * @param threads number of threads
    * @return a map of document ids to their scores with respect to the query
    * @throws IOException if error encountered during query
    */
   public static Map<String, Float> batchComputeQueryDocumentScore(
-          IndexReader reader, List<String> docids, String q, Similarity similarity, int threads)
+          IndexReader reader, List<String> docids, String q, Similarity similarity)
           throws IOException {
 
     return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q, similarity,
-            IndexCollection.DEFAULT_ANALYZER, threads);
+            IndexCollection.DEFAULT_ANALYZER);
   }
 
 
@@ -777,18 +775,17 @@ public class IndexReaderUtils {
    * @param docids A list of docids of the documents to score
    * @param q query
    * @param analyzer analyzer to use
-   * @param threads number of threads
    * @return a map of document ids to their scores with respect to the query
    * @throws IOException if error encountered during query
    */
   public static Map<String, Float> batchComputeQueryDocumentScore(
-          IndexReader reader, List<String> docids, String q, Analyzer analyzer, int threads)
+          IndexReader reader, List<String> docids, String q, Analyzer analyzer)
           throws IOException {
 
     SearchArgs args = new SearchArgs();
     return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q,
             new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0])),
-            analyzer, threads);
+            analyzer);
   }
 
 
@@ -800,14 +797,13 @@ public class IndexReaderUtils {
    * @param q query
    * @param similarity scoring function
    * @param analyzer analyzer to use
-   * @param threads number of threads
    * @return a map of document ids to their scores with respect to the query
    * @throws IOException if error encountered during query
    */
   public static Map<String, Float> batchComputeQueryDocumentScore(
-          IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer, int threads)
+          IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer)
           throws IOException {
-    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q, similarity, analyzer, threads);
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q, similarity, analyzer);
   }
 
 
@@ -819,12 +815,11 @@ public class IndexReaderUtils {
    * @param q query
    * @param similarity scoring function
    * @param analyzer analyzer to use
-   * @param threads number of threads
    * @return a map of document ids to their scores with respect to the query
    * @throws IOException if error encountered during query
    */
   public static Map<String, Float> batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(
-          IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer, int threads)
+          IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer)
           throws IOException {
     // We compute the query-document score by issuing the query with additional filters that restricts
     // consideration to the set of docids provided, and then returning the retrieval score.

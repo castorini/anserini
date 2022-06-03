@@ -558,13 +558,13 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
         docids.add(result.docid);
       }
 
-      Map<String, Float> batchScore1 = IndexReaderUtils.batchComputeQueryDocumentScore(reader, docids, query, similarity, 2);
+      Map<String, Float> batchScore1 = IndexReaderUtils.batchComputeQueryDocumentScore(reader, docids, query, similarity);
       for (SimpleSearcher.Result result: results1){
         assertEquals(batchScore1.get(result.docid), result.score, 10e-5);
       }
 
       SimpleSearcher.Result[] results2 = searcher2.search(query);
-      Map<String, Float> batchScore2 = IndexReaderUtils.batchComputeQueryDocumentScore(reader, docids, query, similarity, stemAnalyzer, 2);
+      Map<String, Float> batchScore2 = IndexReaderUtils.batchComputeQueryDocumentScore(reader, docids, query, similarity, stemAnalyzer);
       for (SimpleSearcher.Result result: results2){
         assertEquals(batchScore2.get(result.docid), result.score, 10e-5);
       }
@@ -573,14 +573,13 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
       String fakeId = "doc3";
       docids = List.of(fakeId);
       Map<String, Float> batchScore = IndexReaderUtils.batchComputeQueryDocumentScore(
-              reader, docids, query, similarity, 2);
+              reader, docids, query, similarity);
       assertEquals(0.0f, batchScore.get(fakeId), 10e-6);
     }
 
     reader.close();
     dir.close();
   }
-
 
   @Test
   public void testGetIndexStats() throws Exception {
