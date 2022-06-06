@@ -140,3 +140,4 @@ However, for these topics, we get the same effectiveness results; that is, the t
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-doc-segmented-unicoil-noexp.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

@@ -43,16 +43,16 @@ Download, unpack, and prepare the corpus:
 
 ```bash
 # Download
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar -P collections/
 
 # Unpack
-tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar -C collections/
+tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar -C collections/
 
 # Rename (indexer is expecting corpus under a slightly different name)
-mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2 collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2
+mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot
 ```
 
-To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar` is 55 GB and has an MD5 checksum of `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar`.
+To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar` is 54 GB and has an MD5 checksum of `28261587d6afde56efd8df4f950e7fb4`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
@@ -141,3 +141,5 @@ The difference is that here we are using pre-encoded queries, whereas the offici
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-noexp-0shot.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))
