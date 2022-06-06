@@ -64,7 +64,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.msmarco-passage-unicoil-noexp &
 ```
 
-The path `/path/to/msmarco-passage-unicoil/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-passage-unicoil-noexp/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
 Upon completion, we should have an index with 8,841,823 documents.
@@ -129,3 +129,4 @@ The experimental results reported here are directly comparable to the results re
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-unicoil-noexp.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))
