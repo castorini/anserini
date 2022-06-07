@@ -22,14 +22,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class NeuCLIRCollectionTest extends DocumentCollectionTest<NeuCLIRCollection.Document> {
+public class NeuClirCollectionTest extends DocumentCollectionTest<NeuClirCollection.Document> {
   
   @Before
   public void setUp() throws Exception {
     super.setUp();
     
     collectionPath = Paths.get("src/test/resources/sample_docs/neuclir/collection");
-    collection = new NeuCLIRCollection(collectionPath);
+    collection = new NeuClirCollection(collectionPath);
     
     Path segment1 = Paths.get("src/test/resources/sample_docs/neuclir/collection/sample_rus_collection.jsonl");
     

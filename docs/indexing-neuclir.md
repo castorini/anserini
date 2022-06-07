@@ -17,7 +17,7 @@ Anserini. The collection contains data in 3 languages (Chinese, Persian, and Rus
 
     ```
     target/appassembler/bin/IndexCollection \
-      -collection NeuCLIRCollection \
+      -collection NeuClirCollection \
       -input /path/to/language_corpus \
       -index indexes/lucene-index.neuclir.${lang}/ \
       -generator DefaultLuceneDocumentGenerator \

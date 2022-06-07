@@ -39,17 +39,17 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.zip.GZIPInputStream;
 
-public class NeuCLIRCollection extends DocumentCollection<NeuCLIRCollection.Document> {
+public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
   
-  public NeuCLIRCollection(Path path){
+  public NeuClirCollection(Path path){
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
   }
   
   @SuppressWarnings("unchecked")
   @Override
-  public FileSegment<NeuCLIRCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<NeuClirCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
   
@@ -81,18 +81,11 @@ public class NeuCLIRCollection extends DocumentCollection<NeuCLIRCollection.Docu
     @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws NoSuchElementException {
-      if (node == null) {
-        throw new NoSuchElementException("JsonNode is empty");
-      } else if (node.isObject()) {
-        bufferedRecord = (T) createNewDocument(node);
-        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
-          node = iterator.next();
-        } else {
-          atEOF = true; // there is no more JSON object in the bufferedReader
-        }
+      bufferedRecord = (T) createNewDocument(node);
+      if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+        node = iterator.next();
       } else {
-        LOG.error("Error: invalid JsonNode type");
-        throw new NoSuchElementException("Invalid JsonNode type");
+        atEOF = true; // there is no more JSON object in the bufferedReader
       }
     }
     
@@ -132,11 +125,11 @@ public class NeuCLIRCollection extends DocumentCollection<NeuCLIRCollection.Docu
     
     @Override
     public String contents() {
-      if (!fields.containsKey("cc_file") || !fields.containsKey("time") || !fields.containsKey("title") || !fields.containsKey("text") || !fields.containsKey("url") ) {
+      if (!fields.containsKey("title") || !fields.containsKey("text")) {
         throw new RuntimeException("Document is missing required fields!");
       }
       
-      return fields.get("cc_file") + "\n" + fields.get("time") + "\n" + fields.get("title") + "\n" + fields.get("text") + "\n" + fields.get("url");
+      return fields.get("title") + "\n" + fields.get("text");
     }
     
     @Override
