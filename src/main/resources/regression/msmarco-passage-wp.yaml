@@ -1,5 +1,5 @@
 ---
-corpus: msmarco-passage
+corpus: msmarco-passage-wp
 corpus_path: collections/msmarco/msmarco-passage-wp
 
 index_path: indexes/lucene-index.msmarco-passage-wp/

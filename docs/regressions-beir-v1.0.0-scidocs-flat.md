@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; scidocs
+# Anserini Regressions: BEIR (v1.0.0) &mdash; SCIDOCS
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; scidocs](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; SCIDOCS](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-scidocs-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): scidocs                                                                                       | 0.1490    |
+| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.1490    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): scidocs                                                                                       | 0.3477    |
+| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.3477    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): scidocs                                                                                       | 0.5638    |
+| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.5638    |

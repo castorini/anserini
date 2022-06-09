@@ -3,6 +3,44 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### May 26, 2022
+
++ commit [`fc542b`](https://github.com/castorini/anserini/commit/fc542b5fa5dd67fe53e6110d8933b2d403f8e80e) (05/26/2022)
++ commit [`fc050d`](https://github.com/castorini/anserini/commit/fc050dedb16f37f9d17f2fb03f5958a350daea42) (05/21/2022)
+
+Added regressions for MS MARCO V1 passage, 8-bit quantized BM25 (dev, DL19, DL20).
+
+### May 24, 2022
+
++ commit [`30c997`](https://github.com/castorini/anserini/commit/30c9974f495a06c94d576d0e9c2c5861515e0e19) (05/24/2022)
++ commit [`d457c8`](https://github.com/castorini/anserini/commit/d457c8815d64f8df51b2bebac46bc14aae5153a8) (05/21/2022)
+
+Added regressions for BEIR, flat indexing with WordPiece tokens.
+
+### April 28, 2022
+
++ commit [`9b2dd5`](https://github.com/castorini/anserini/commit/9b2dd5f5e524ce56e5784cb73404d39926982733) (04/28/2022)
+
+Above is the final commit of work stretching back approximately a month that added a complete set of regressions for BEIR, covering "flat" indexing, multifield indexing, and the SPLADE-distil CoCodenser Medium model.
+
+### April 21, 2022
+
++ commit [`5e0437`](https://github.com/castorini/anserini/commit/5e0437b6d5fc6e7119aafe8f6bad923be3d3a0ec) (04/21/2022)
+
+Added regressions for "v2" of doc segmented uniCOIL on MS MARCO V2; cf [#1853](https://github.com/castorini/anserini/issues/1853).
+
+### April 8, 2022
+
++ commit [`3624dc`](https://github.com/castorini/anserini/commit/3624dc875e90e87661ca22b80d5a687a0c173354) (04/08/2022)
+
+Added MS MARCO V1 passage/document regressions based BERT WordPiece tokenization.
+
+### March 2, 2022
+
++ commit [`41b65d`](https://github.com/castorini/anserini/commit/41b65d9fcb82d787faf4ca937f81faca82ead8c2) (03/02/2022)
+
+Added regressions for uniCOIL noexp on MS MARCO v1 corpora.
+
 ### February 7, 2022
 
 + commit [`51c386`](https://github.com/castorini/anserini/commit/51c386a22f5ca8b749ccb0eb200c3ee135e504eb) (02/07/2022)

@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; dbpedia-entity
+# Anserini Regressions: BEIR (v1.0.0) &mdash; DBPedia
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; dbpedia-entity](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; DBPedia](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-dbpedia-entity-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): dbpedia-entity                                                                                | 0.3180    |
+| BEIR (v1.0.0): DBPedia                                                                                       | 0.3180    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): dbpedia-entity                                                                                | 0.4682    |
+| BEIR (v1.0.0): DBPedia                                                                                       | 0.4682    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): dbpedia-entity                                                                                | 0.6760    |
+| BEIR (v1.0.0): DBPedia                                                                                       | 0.6760    |

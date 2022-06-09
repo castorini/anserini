@@ -17,15 +17,26 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-unicoil-noexp-0shot
 ```
 
-## Corpus
+We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., we have performed model inference on every document and stored the output sparse vectors.
+Thus, no neural inference is involved.
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression dl21-passage-unicoil-noexp-0shot
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
 
 Download, unpack, and prepare the corpus:
 
-```
+```bash
 # Download
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar -P collections/
 
@@ -37,6 +48,12 @@ mv collections/msmarco_v2_passage_unicoil_noexp_0shot collections/msmarco-v2-pas
 ```
 
 To confirm, `msmarco_v2_passage_unicoil_noexp_0shot.tar` is 24 GB and has an MD5 checksum of `d9cc1ed3049746e68a2c91bf90e5212d`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-unicoil-noexp-0shot \
+  --corpus-path collections/msmarco-v2-passage-unicoil-noexp-0shot
+```
 
 ## Indexing
 
@@ -120,3 +137,5 @@ The difference is that here we are using pre-encoded queries, whereas the offici
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl21-passage-unicoil-noexp-0shot.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

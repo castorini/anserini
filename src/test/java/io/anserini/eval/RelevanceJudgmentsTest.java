@@ -969,4 +969,153 @@ public class RelevanceJudgmentsTest {
     assertEquals(1368, getQrelsCount(qrels));
   }
 
+  @Test
+  public void testBEIR() {
+    RelevanceJudgments qrels;
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_TREC_COVID_TEST);
+    assertNotNull(qrels);
+    assertEquals(50, qrels.getQids().size());
+    assertEquals(66334, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_BIOASQ_TEST);
+    assertNotNull(qrels);
+    assertEquals(500, qrels.getQids().size());
+    assertEquals(2359, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_NFCORPUS_TEST);
+    assertNotNull(qrels);
+    assertEquals(323, qrels.getQids().size());
+    assertEquals(12334, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_NQ_TEST);
+    assertNotNull(qrels);
+    assertEquals(3452, qrels.getQids().size());
+    assertEquals(4201, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_HOTPOTQA_TEST);
+    assertNotNull(qrels);
+    assertEquals(7405, qrels.getQids().size());
+    assertEquals(14810, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_FIQA_TEST);
+    assertNotNull(qrels);
+    assertEquals(648, qrels.getQids().size());
+    assertEquals(1706, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_SIGNAL1M_TEST);
+    assertNotNull(qrels);
+    assertEquals(97, qrels.getQids().size());
+    assertEquals(1899, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_TREC_NEWS_TEST);
+    assertNotNull(qrels);
+    assertEquals(57, qrels.getQids().size());
+    assertEquals(15655, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_ROBUST04_TEST);
+    assertNotNull(qrels);
+    assertEquals(249, qrels.getQids().size());
+    assertEquals(311410, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_ARGUANA_TEST);
+    assertNotNull(qrels);
+    assertEquals(1406, qrels.getQids().size());
+    assertEquals(1406, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST);
+    assertNotNull(qrels);
+    assertEquals(49, qrels.getQids().size());
+    assertEquals(932, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST);
+    assertNotNull(qrels);
+    assertEquals(699, qrels.getQids().size());
+    assertEquals(1696, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST);
+    assertNotNull(qrels);
+    assertEquals(1570, qrels.getQids().size());
+    assertEquals(3765, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST);
+    assertNotNull(qrels);
+    assertEquals(1595, qrels.getQids().size());
+    assertEquals(2263, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_GIS_TEST);
+    assertNotNull(qrels);
+    assertEquals(885, qrels.getQids().size());
+    assertEquals(1114, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST);
+    assertNotNull(qrels);
+    assertEquals(804, qrels.getQids().size());
+    assertEquals(1358, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST);
+    assertNotNull(qrels);
+    assertEquals(1039, qrels.getQids().size());
+    assertEquals(1933, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST);
+    assertNotNull(qrels);
+    assertEquals(876, qrels.getQids().size());
+    assertEquals(1675, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_STATS_TEST);
+    assertNotNull(qrels);
+    assertEquals(652, qrels.getQids().size());
+    assertEquals(913, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_TEX_TEST);
+    assertNotNull(qrels);
+    assertEquals(2906, qrels.getQids().size());
+    assertEquals(5154, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST);
+    assertNotNull(qrels);
+    assertEquals(1072, qrels.getQids().size());
+    assertEquals(1693, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST);
+    assertNotNull(qrels);
+    assertEquals(506, qrels.getQids().size());
+    assertEquals(1395, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST);
+    assertNotNull(qrels);
+    assertEquals(541, qrels.getQids().size());
+    assertEquals(744, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_QUORA_TEST);
+    assertNotNull(qrels);
+    assertEquals(10000, qrels.getQids().size());
+    assertEquals(15675, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_DBPEDIA_ENTITY_TEST);
+    assertNotNull(qrels);
+    assertEquals(400, qrels.getQids().size());
+    assertEquals(43515, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_SCIDOCS_TEST);
+    assertNotNull(qrels);
+    assertEquals(1000, qrels.getQids().size());
+    assertEquals(29928, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_FEVER_TEST);
+    assertNotNull(qrels);
+    assertEquals(6666, qrels.getQids().size());
+    assertEquals(7937, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_CLIMATE_FEVER_TEST);
+    assertNotNull(qrels);
+    assertEquals(1535, qrels.getQids().size());
+    assertEquals(4681, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_SCIFACT_TEST);
+    assertNotNull(qrels);
+    assertEquals(300, qrels.getQids().size());
+    assertEquals(339, getQrelsCount(qrels));
+  }
 }

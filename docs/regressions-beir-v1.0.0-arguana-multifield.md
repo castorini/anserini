@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; arguana
+# Anserini Regressions: BEIR (v1.0.0) &mdash; ArguAna
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; arguana](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; ArguAna](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
 
@@ -56,14 +56,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): arguana                                                                                       | 0.4142    |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.4142    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): arguana                                                                                       | 0.9431    |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.9431    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): arguana                                                                                       | 0.9893    |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.9893    |

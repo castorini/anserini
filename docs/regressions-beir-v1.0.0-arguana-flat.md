@@ -1,6 +1,6 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; arguana
+# Anserini Regressions: BEIR (v1.0.0) &mdash; ArguAna
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; arguana](http://beir.ai/).
+This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; ArguAna](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-arguana-flat.yaml).
@@ -55,14 +55,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | nDCG@10                                                                                                      | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): arguana                                                                                       | 0.3970    |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.3970    |
 
 
 | R@100                                                                                                        | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): arguana                                                                                       | 0.9324    |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.9324    |
 
 
 | R@1000                                                                                                       | BM25      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): arguana                                                                                       | 0.9872    |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.9872    |
