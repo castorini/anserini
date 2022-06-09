@@ -402,10 +402,10 @@ public class SimpleSearcher implements Closeable {
   /**
    * Enables Rocchio query expansion with default parameters.
    *
-   * @param topFbTerms number of positive expansion terms
-   * @param topFbDocs number of positive expansion documents
-   * @param bottomFbTerms number of negative expansion terms
-   * @param bottomFbDocs number of negative expansion documents
+   * @param topFbTerms number of relevant expansion terms
+   * @param topFbDocs number of relevant expansion documents
+   * @param bottomFbTerms number of nonrelevant expansion terms
+   * @param bottomFbDocs number of nonrelevant expansion documents
    * @param alpha weight to assign to the original query
    * @param beta weight to assign to the relevant document vectors
    * @param gamma weight to assign to the nonrelevant document vectors
