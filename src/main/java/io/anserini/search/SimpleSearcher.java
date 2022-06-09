@@ -381,6 +381,15 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
+   * Disables Rocchio query expansion.
+   */
+  public void unsetRocchio() {
+    this.useRocchio = false;
+    cascade = new RerankerCascade();
+    cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
+  /**
    * Enables Rocchio query expansion with default parameters.
    */
   public void setRocchio() {
