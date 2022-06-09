@@ -24,6 +24,7 @@ import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
@@ -142,6 +143,30 @@ public class SimpleSearcher implements Closeable {
     @Option(name = "-rm3.originalQueryWeight", usage = "RM3 parameter: weight to assign to the original query")
     public float rm3_originalQueryWeight = 0.5f;
 
+    @Option(name = "-rocchio", usage = "Flag to use Rocchio.")
+    public Boolean useRocchio = false;
+
+    @Option(name = "-rocchio.topFbTerms", usage = "Rocchio parameter: number of relevant expansion terms")
+    public int rocchio_topFbTerms = 10;
+
+    @Option(name = "-rocchio.topFbDocs", usage = "Rocchio parameter: number of relevant documents")
+    public int rocchio_topFbDocs = 10;
+
+    @Option(name = "-rocchio.bottomFbTerms", usage = "Rocchio parameter: number of nonrelevant expansion terms")
+    public int rocchio_bottomFbTerms = 10;
+
+    @Option(name = "-rocchio.bottomFbDocs", usage = "Rocchio parameter: number of nonrelevant documents")
+    public int rocchio_bottomFbDocs = 10;
+
+    @Option(name = "-rocchio.alpha", usage = "Rocchio parameter: weight to assign to the original query")
+    public float rocchio_alpha = 1.0f;
+
+    @Option(name = "-rocchio.beta", usage = "Rocchio parameter: weight to assign to the relevant document vectors")
+    public float rocchio_beta = 0.75f;
+
+    @Option(name = "-rocchio.gamma", usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
+    public float rocchio_gamma = 0.0f;
+
     @Option(name = "-hits", metaVar = "[number]", usage = "Max number of hits to return.")
     public int hits = 1000;
 
@@ -157,6 +182,7 @@ public class SimpleSearcher implements Closeable {
   protected Analyzer analyzer;
   protected RerankerCascade cascade;
   protected boolean useRM3;
+  protected boolean useRocchio;
 
   protected IndexSearcher searcher = null;
 
@@ -216,6 +242,7 @@ public class SimpleSearcher implements Closeable {
     this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));
     this.analyzer = analyzer;
     this.useRM3 = false;
+    this.useRocchio = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -303,6 +330,10 @@ public class SimpleSearcher implements Closeable {
     return useRM3;
   }
 
+  public boolean useRocchio() {
+    return useRocchio;
+  }
+
   /**
    * Disables RM3 query expansion.
    */
@@ -346,6 +377,36 @@ public class SimpleSearcher implements Closeable {
     cascade = new RerankerCascade("rm3");
     cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
         fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
+    cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
+  /**
+   * Enables Rocchio query expansion with default parameters.
+   */
+  public void setRocchio() {
+    SearchArgs defaults = new SearchArgs();
+    setRocchio(Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
+        Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
+        Float.parseFloat(defaults.rocchio_alpha[0]),Float.parseFloat(defaults.rocchio_beta[0]), Float.parseFloat(defaults.rocchio_gamma[0]),false);
+  }
+
+  /**
+   * Enables Rocchio query expansion with default parameters.
+   *
+   * @param topFbTerms number of positive expansion terms
+   * @param topFbDocs number of positive expansion documents
+   * @param bottomFbTerms number of negative expansion terms
+   * @param bottomFbDocs number of negative expansion documents
+   * @param alpha weight to assign to the original query
+   * @param beta weight to assign to the relevant document vectors
+   * @param gamma weight to assign to the nonrelevant document vectors
+   * @param outputQuery flag to print original and expanded queries
+   */
+  public void setRocchio(int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery) {
+    useRocchio = true;
+    cascade = new RerankerCascade("rocchio");
+    cascade.add(new RocchioReranker(this.analyzer, IndexArgs.CONTENTS,
+        topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -841,7 +902,18 @@ public class SimpleSearcher implements Closeable {
         searcher.setRM3(searchArgs.rm3_fbTerms, searchArgs.rm3_fbDocs, searchArgs.rm3_originalQueryWeight);
       } else {
         LOG.info("Testing code path of default RM3 parameters.");
-        searcher.setRM3();
+         searcher.setRM3();
+      }
+    } else if (searchArgs.useRocchio) {
+      if (argsAsList.contains("-rocchio.topFbTerms") || argsAsList.contains("-rocchio.topFbDocs") ||
+          argsAsList.contains("-rocchio.bottomFbTerms") || argsAsList.contains("-rocchio.bottomFbDocs") ||
+          argsAsList.contains("-rocchio.alpha") || argsAsList.contains("-rocchio.beta") || argsAsList.contains("-rocchio.gamma")) {
+        LOG.info("Testing code path of explicitly setting Rocchio parameters.");
+        searcher.setRocchio(searchArgs.rocchio_topFbTerms, searchArgs.rocchio_topFbDocs, searchArgs.rocchio_bottomFbTerms, searchArgs.rocchio_bottomFbDocs, 
+        searchArgs.rocchio_alpha, searchArgs.rocchio_beta, searchArgs.rocchio_gamma, false);
+      } else {
+        LOG.info("Testing code path of default Rocchio parameters.");
+        searcher.setRocchio();
       }
     }
 
