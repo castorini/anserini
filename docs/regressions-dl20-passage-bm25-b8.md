@@ -55,7 +55,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.msmarco-passage-bm25-b8 &
 ```
 
-The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files containing quantized BM25 vectors for every document
+The directory `/path/to/msmarco-passage-bm25-b8/` should be a directory containing `jsonl` files containing quantized BM25 vectors for every document
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

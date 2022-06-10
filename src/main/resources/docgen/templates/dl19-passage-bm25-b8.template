@@ -49,7 +49,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files containing quantized BM25 vectors for every document
+The directory `/path/to/${corpus}/` should be a directory containing `jsonl` files containing quantized BM25 vectors for every document
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
