@@ -1,5 +1,5 @@
 ---
-corpus: msmarco-passage
+corpus: msmarco-passage-bm25-b8
 corpus_path: collections/msmarco/msmarco-passage-bm25-b8/
 
 download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar

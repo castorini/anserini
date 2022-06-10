@@ -14,7 +14,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bm25-b8
 ```
 
-From any machine, the following command will download the corpus and perform the complete regression, end to end:
+From any machine, the following command will download the corpus (as quantized BM25 weights) and perform the complete regression, end to end:
 
 ```bash
 python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-bm25-b8
@@ -36,7 +36,7 @@ With the corpus downloaded, the following command will perform the remaining ste
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bm25-b8 \
-  --corpus-path collections/msmarco-passage
+  --corpus-path collections/msmarco-passage-bm25-b8
 ```
 
 ## Indexing
@@ -46,14 +46,14 @@ Typical indexing command:
 ```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
-  -input /path/to/msmarco-passage \
+  -input /path/to/msmarco-passage-bm25-b8 \
   -index indexes/lucene-index.msmarco-passage-bm25-b8/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -impact -pretokenized \
-  >& logs/log.msmarco-passage &
+  >& logs/log.msmarco-passage-bm25-b8 &
 ```
 
-The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files containing quantized BM25 vectors for every document
+The directory `/path/to/msmarco-passage-bm25-b8/` should be a directory containing `jsonl` files containing quantized BM25 vectors for every document
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -69,17 +69,17 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-bm25-b8/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage.bm25-b8.topics.msmarco-passage.dev-subset.txt \
+  -output runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt \
   -impact &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-b8.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-b8.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-b8.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-b8.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness
@@ -104,3 +104,7 @@ With the above commands, you should be able to reproduce the following results:
 | R@1000                                                                                                       | BM25 (default parameters, quantized 8 bits)|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8562    |
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-bm25-b8.template) and run `bin/build.sh` to rebuild the documentation.

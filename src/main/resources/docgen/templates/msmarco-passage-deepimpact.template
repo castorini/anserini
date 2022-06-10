@@ -35,7 +35,7 @@ wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpac
 tar xvf collections/msmarco-passage-deepimpact.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-deepimpact.tar` is 3.4 GB and has MD5 checksum `73843885b503af3c8b3ee62e5f5a9900`.
+To confirm, `msmarco-passage-deepimpact.tar` is 3.6 GB and has MD5 checksum `73843885b503af3c8b3ee62e5f5a9900`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

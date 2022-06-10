@@ -12,15 +12,40 @@ Note that this page is automatically generated from [this template](${template})
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
+From any machine, the following command will download the corpus (as quantized BM25 weights) and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression ${test_name}
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
+
+Download the corpus and unpack into `collections/`:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar -P collections/
+tar xvf collections/msmarco-passage-bm25-b8.tar -C collections/
+```
+
+To confirm, `msmarco-passage-bm25-b8.tar` is 1.2 GB and has MD5 checksum `0a623e2c97ac6b7e814bf1323a97b435`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
+  --corpus-path collections/${corpus}
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 ${index_cmds}
 ```
 
@@ -36,13 +61,13 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 ${ranking_cmds}
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 ${eval_cmds}
 ```
 
@@ -51,3 +76,7 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
