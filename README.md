@@ -57,18 +57,18 @@ See individual pages for details!
 |---|:---:|:----:|:----:|
 | **Unsupervised Lexical** |
 | BoW baselines | [+](docs/regressions-msmarco-passage.md) | [+](docs/regressions-dl19-passage.md) | [+](docs/regressions-dl20-passage.md) |
-| Quantized BM25 | [+](docs/regressions-msmarco-passage-bm25-b8.md) | [+](docs/regressions-dl19-passage-bm25-b8.md) | [+](docs/regressions-dl20-passage-bm25-b8.md) |
+| Quantized BM25 | [✓](docs/regressions-msmarco-passage-bm25-b8.md) | [✓](docs/regressions-dl19-passage-bm25-b8.md) | [✓](docs/regressions-dl20-passage-bm25-b8.md) |
 | WP baselines | [+](docs/regressions-msmarco-passage-wp.md) | [+](docs/regressions-dl19-passage-wp.md) | [+](docs/regressions-dl20-passage-wp.md) |
 | doc2query | [+](docs/regressions-msmarco-passage-doc2query.md) |
 | doc2query-T5 | [+](docs/regressions-msmarco-passage-docTTTTTquery.md) | [+](docs/regressions-dl19-passage-docTTTTTquery.md) | [+](docs/regressions-dl20-passage-docTTTTTquery.md) |
 | **Learned sparse lexical (uniCOIL family)** |
 | uniCOIL noexp | [✓](docs/regressions-msmarco-passage-unicoil-noexp.md) | [✓](docs/regressions-dl19-passage-unicoil-noexp.md) | [✓](docs/regressions-dl20-passage-unicoil-noexp.md) |
 | uniCOIL with doc2query-T5 | [✓](docs/regressions-msmarco-passage-unicoil.md) | [✓](docs/regressions-dl19-passage-unicoil.md) | [✓](docs/regressions-dl20-passage-unicoil.md) |
-| uniCOIL with TILDE | [+](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md) |
+| uniCOIL with TILDE | [✓](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md) |
 | **Learned sparse lexical (other)** |
-| DeepImpact | [+](docs/regressions-msmarco-passage-deepimpact.md) |
-| SPLADEv2 | [+](docs/regressions-msmarco-passage-distill-splade-max.md) |
-| SPLADE-distill CoCodenser-medium | [+](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [+](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [+](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
+| DeepImpact | [✓](docs/regressions-msmarco-passage-deepimpact.md) |
+| SPLADEv2 | [✓](docs/regressions-msmarco-passage-distill-splade-max.md) |
+| SPLADE-distill CoCodenser-medium | [✓](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
 
 ### MS MARCO V1 Document Corpus
 

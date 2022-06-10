@@ -2,6 +2,9 @@
 corpus: msmarco-passage
 corpus_path: collections/msmarco/msmarco-passage-bm25-b8/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar
+download_checksum: 0a623e2c97ac6b7e814bf1323a97b435
+
 index_path: indexes/lucene-index.msmarco-passage-bm25-b8/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
