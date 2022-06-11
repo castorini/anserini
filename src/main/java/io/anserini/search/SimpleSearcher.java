@@ -911,7 +911,7 @@ public class SimpleSearcher implements Closeable {
         searcher.setRM3(searchArgs.rm3_fbTerms, searchArgs.rm3_fbDocs, searchArgs.rm3_originalQueryWeight);
       } else {
         LOG.info("Testing code path of default RM3 parameters.");
-         searcher.setRM3();
+        searcher.setRM3();
       }
     } else if (searchArgs.useRocchio) {
       if (argsAsList.contains("-rocchio.topFbTerms") || argsAsList.contains("-rocchio.topFbDocs") ||
