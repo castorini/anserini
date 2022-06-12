@@ -69,3 +69,27 @@ models:
         - 0.6658
       R@1000:
         - 0.7861
+  - name: rm3
+    display: +Rocchio
+    params: -impact -pretokenized -rm3
+    results:
+      AP@1000:
+        - 0.4234
+      nDCG@10:
+        - 0.6606
+      R@100:
+        - 0.6629
+      R@1000:
+        - 0.8092
+  - name: rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio
+    results:
+      AP@1000:
+        - 0.4319
+      nDCG@10:
+        - 0.6519
+      R@100:
+        - 0.6807
+      R@1000:
+        - 0.8196

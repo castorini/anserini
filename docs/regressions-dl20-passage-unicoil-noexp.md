@@ -86,6 +86,20 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt \
   -impact -pretokenized &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt \
+  -impact -pretokenized -rm3 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt \
+  -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -95,30 +109,40 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-an
 tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4021    |
+| AP@1000                                                                                                      | uniCOIL (no expansions)| +Rocchio  | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4021    | 0.4234    | 0.4319    |
 
 
-| nDCG@10                                                                                                      | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6523    |
+| nDCG@10                                                                                                      | uniCOIL (no expansions)| +Rocchio  | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6523    | 0.6606    | 0.6519    |
 
 
-| R@100                                                                                                        | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6658    |
+| R@100                                                                                                        | uniCOIL (no expansions)| +Rocchio  | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6658    | 0.6629    | 0.6807    |
 
 
-| R@1000                                                                                                       | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7861    |
+| R@1000                                                                                                       | uniCOIL (no expansions)| +Rocchio  | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7861    | 0.8092    | 0.8196    |
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
