@@ -643,6 +643,9 @@ public final class SearchCollection implements Closeable {
                 for (String beta : args.rocchio_beta) {
                   for (String gamma : args.rocchio_gamma) {
                     String tag;
+                    if (args.rocchio_useNegative == false){
+                      gamma = "0";
+                    }
                     if (this.args.rf_qrels != null){
                       tag = String.format("rocchioRf(topFbTerms=%s,bottomFbTerms=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, bottomFbTerms, alpha, beta, gamma);
                     } else{

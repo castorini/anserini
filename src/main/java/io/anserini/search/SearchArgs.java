@@ -338,7 +338,11 @@ public class SearchArgs {
 
   @Option(name = "-rocchio.gamma", handler = StringArrayOptionHandler.class,
   usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
-public String[] rocchio_gamma = new String[]{"0"};
+  public String[] rocchio_gamma = new String[]{"0.15"};
+
+  @Option(name = "-rocchio.useNegative", handler = StringArrayOptionHandler.class,
+  usage = "Rocchio parameter: flag to use nonrelevant document vectors")
+  public boolean rocchio_useNegative = false;
 
   @Option(name = "-rocchio.outputQuery",
       usage = "Rocchio parameter: flag to print original and expanded queries")
