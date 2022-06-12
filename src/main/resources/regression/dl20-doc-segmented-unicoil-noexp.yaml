@@ -67,3 +67,27 @@ models:
         - 0.5872
       R@1000:
         - 0.7623
+  - name: rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@100:
+        - 0.4136
+      nDCG@10:
+        - 0.6147
+      R@100:
+        - 0.6377
+      R@1000:
+        - 0.8113
+  - name: rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@100:
+        - 0.4222
+      nDCG@10:
+        - 0.6181
+      R@100:
+        - 0.6437
+      R@1000:
+        - 0.8151

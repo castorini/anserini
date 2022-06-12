@@ -53,7 +53,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-passage-splade_distil_cocodenser_medium \
   -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 16 -impact -pretokenized \
+  -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade_distil_cocodenser_medium &
 ```
 
