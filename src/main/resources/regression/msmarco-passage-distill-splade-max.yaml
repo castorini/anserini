@@ -2,6 +2,9 @@
 corpus: msmarco-passage-distill-splade-max
 corpus_path: collections/msmarco/msmarco-passage-distill-splade-max/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar
+download_checksum: b5d126f5d9a8e1b3ef3f5cb0ba651725
+
 index_path: indexes/lucene-index.msmarco-passage-distill-splade-max/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator

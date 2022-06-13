@@ -2,6 +2,9 @@
 corpus: msmarco-passage-unicoil-tilde-expansion
 corpus_path: collections/msmarco/msmarco-passage-unicoil-tilde-expansion/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar
+download_checksum: 12a9c289d94e32fd63a7d39c9677d75c
+
 index_path: indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator

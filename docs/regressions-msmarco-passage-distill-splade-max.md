@@ -12,42 +12,43 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-distill-splade-max
 ```
 
-## Corpus
-
-We make available a version of the MS MARCO passage corpus that has already been processed with the model (i.e., with inference applied to generate the lexical representations).
+We make available a version of the MS MARCO passage corpus that has already been processed with DistilSPLADE-max, i.e., performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is involved.
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-distill-splade-max
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
 
 Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar -P collections/
-
-# Alternate mirror:
-# wget https://vault.cs.uwaterloo.ca/s/poCLbJDMm7JxwPk/download -O collections/msmarco-passage-distill-splade-max.tar
-
-tar xvf collections/msmarco-passage-distill-splade-max.tar -C collections/
+tar xvf collections/msmarco-passage-splade_distil_cocodenser_medium.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-distill-splade-max.tar` is 9.9 GB and has MD5 checksum `95b89a7dfd88f3685edcc2d1ffb120d1`.
+To confirm, `msmarco-passage-distill-splade-max.tar` is 9.9 GB and has MD5 checksum `b5d126f5d9a8e1b3ef3f5cb0ba651725`.
+With the corpus downloaded, the following command will perform the remaining steps below:
 
-With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
-
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-distill-splade-max \
   --corpus-path collections/msmarco-passage-distill-splade-max
 ```
-
-Alternatively, you can simply copy/paste from the commands below and obtain the same results.
 
 ## Indexing
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-distill-splade-max \
@@ -71,7 +72,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-distill-splade-max/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz \
@@ -82,7 +83,7 @@ target/appassembler/bin/SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-distill-splade-max.distill-splade-max.topics.msmarco-passage.dev-subset.distill-splade-max.txt

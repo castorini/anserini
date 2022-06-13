@@ -2,6 +2,9 @@
 corpus: msmarco-passage-splade_distil_cocodenser_medium
 corpus_path: collections/msmarco/msmarco-passage-splade_distil_cocodenser_medium
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar
+download_checksum: f77239a26d08856e6491a34062893b0c
+
 index_path: indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
