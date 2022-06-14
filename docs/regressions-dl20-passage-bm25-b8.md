@@ -111,3 +111,5 @@ With the above commands, you should be able to reproduce the following results:
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-bm25-b8.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-14 (commit [`dc07344`](https://github.com/castorini/anserini/commit/dc073447c8a0c07b53d979c49bf1e2e018200508))
