@@ -303,6 +303,13 @@ public class SimpleSearcherTest extends IndexerTestBase {
     contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
     assertEquals("620 Q0 doc3 1 0.095000 Anserini\n", contents);
 
+    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-rocchio",
+        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
+        "-output", tmpFile});
+
+    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
+    assertEquals("620 Q0 doc3 1 0.329200 Anserini\n", contents);
+
     SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-qld",
         "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
         "-output", tmpFile});
