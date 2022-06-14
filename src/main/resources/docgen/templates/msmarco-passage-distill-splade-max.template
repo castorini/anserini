@@ -33,7 +33,7 @@ Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar -P collections/
-tar xvf collections/msmarco-passage-splade_distil_cocodenser_medium.tar -C collections/
+tar xvf collections/msmarco-passage-distill-splade-max.tar -C collections/
 ```
 
 To confirm, `msmarco-passage-distill-splade-max.tar` is 9.9 GB and has MD5 checksum `b5d126f5d9a8e1b3ef3f5cb0ba651725`.
