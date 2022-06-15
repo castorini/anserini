@@ -121,16 +121,19 @@ With the above commands, you should be able to reproduce the following dev score
 | Russian                                                                                  | BM25(MAP)    |
 |:-----------------------------------------------------------------------------------------|-----------|
 | [Topic Title](https://github.com/hltcoe/HC4)                                             | 0.2767    |
+| [Topic Description](https://github.com/hltcoe/HC4)                                       | 0.2321    |
 
 
 
 | Persian                                                                                  | BM25(MAP) |
 |:-----------------------------------------------------------------------------------------|-----------|
 | [Topic Title](https://github.com/hltcoe/HC4)                                             | 0.2919    |
+| [Topic Description](https://github.com/hltcoe/HC4)                                       | 0.3188    |
 
 
 | Chinese                                                                                  | BM25(MAP) |
 |:-----------------------------------------------------------------------------------------|-----------|
 | [Topic Title](https://github.com/hltcoe/HC4)                                             | 0.2914    |
+| [Topic Description](https://github.com/hltcoe/HC4)                                       | 0.1983    |
 
 
