@@ -83,6 +83,20 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil-noexp.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-doc-segmented-unicoil-noexp.rm3.topics.msmarco-doc.dev.unicoil-noexp.txt \
+  -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil-noexp.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-doc-segmented-unicoil-noexp.rocchio.topics.msmarco-doc.dev.unicoil-noexp.txt \
+  -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -92,30 +106,40 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qre
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.rm3.topics.msmarco-doc.dev.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.rm3.topics.msmarco-doc.dev.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.rm3.topics.msmarco-doc.dev.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.rm3.topics.msmarco-doc.dev.unicoil-noexp.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.rocchio.topics.msmarco-doc.dev.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.rocchio.topics.msmarco-doc.dev.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.rocchio.topics.msmarco-doc.dev.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.rocchio.topics.msmarco-doc.dev.unicoil-noexp.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3413    |
+| AP@1000                                                                                                      | uniCOIL (no expansions)| +RM3      | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3413    | 0.3051    | 0.3092    |
 
 
-| RR@100                                                                                                       | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3409    |
+| RR@100                                                                                                       | uniCOIL (no expansions)| +RM3      | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3409    | 0.3046    | 0.3088    |
 
 
-| R@100                                                                                                        | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8639    |
+| R@100                                                                                                        | uniCOIL (no expansions)| +RM3      | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8639    | 0.8604    | 0.8667    |
 
 
-| R@1000                                                                                                       | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9420    |
+| R@1000                                                                                                       | uniCOIL (no expansions)| +RM3      | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9420    | 0.9497    | 0.9521    |
 
 ## Additional Notes
 
