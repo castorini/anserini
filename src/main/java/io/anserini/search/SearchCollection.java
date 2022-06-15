@@ -654,7 +654,7 @@ public final class SearchCollection implements Closeable {
                     RerankerCascade cascade = new RerankerCascade(tag);
                     cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
                         Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms),
-                        Integer.valueOf(bottomFbDocs),Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery));
+                        Integer.valueOf(bottomFbDocs),Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
                     cascade.add(new ScoreTiesAdjusterReranker());
                     cascades.add(cascade);
                   }
