@@ -82,7 +82,7 @@ models:
         - 0.3527
         - 0.3707
         - 0.3365
-  - name: bm25+rocchio*
+  - name: bm25+rocchio-neg
     display: +Rocchio*
     params: -bm25 -rocchio -rocchio.useNegative
     results:
@@ -142,7 +142,7 @@ models:
         - 0.3293
         - 0.3640
         - 0.3237
-  - name: qld+rocchio*
+  - name: qld+rocchio-neg
     display: +Rocchio*
     params: -qld -rocchio -rocchio.useNegative
     results:
