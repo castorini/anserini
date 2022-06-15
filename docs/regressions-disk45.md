@@ -104,31 +104,19 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
   -topicreader Trec \
-<<<<<<< HEAD
   -output runs/run.disk45.bm25+rocchio-neg.topics.adhoc.351-400.txt \
-=======
-  -output runs/run.disk45.bm25+rocchio*.topics.adhoc.351-400.txt \
->>>>>>> 94bbb44a558c9badd9495e466e6cac4b862e8e70
   -bm25 -rocchio -rocchio.useNegative &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
   -topicreader Trec \
-<<<<<<< HEAD
   -output runs/run.disk45.bm25+rocchio-neg.topics.adhoc.401-450.txt \
-=======
-  -output runs/run.disk45.bm25+rocchio*.topics.adhoc.401-450.txt \
->>>>>>> 94bbb44a558c9badd9495e466e6cac4b862e8e70
   -bm25 -rocchio -rocchio.useNegative &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
   -topicreader Trec \
-<<<<<<< HEAD
   -output runs/run.disk45.bm25+rocchio-neg.topics.robust04.txt \
-=======
-  -output runs/run.disk45.bm25+rocchio*.topics.robust04.txt \
->>>>>>> 94bbb44a558c9badd9495e466e6cac4b862e8e70
   -bm25 -rocchio -rocchio.useNegative &
 
 target/appassembler/bin/SearchCollection \
@@ -211,31 +199,19 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt \
   -topicreader Trec \
-<<<<<<< HEAD
   -output runs/run.disk45.qld+rocchio-neg.topics.adhoc.351-400.txt \
-=======
-  -output runs/run.disk45.qld+rocchio*.topics.adhoc.351-400.txt \
->>>>>>> 94bbb44a558c9badd9495e466e6cac4b862e8e70
   -qld -rocchio -rocchio.useNegative &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt \
   -topicreader Trec \
-<<<<<<< HEAD
   -output runs/run.disk45.qld+rocchio-neg.topics.adhoc.401-450.txt \
-=======
-  -output runs/run.disk45.qld+rocchio*.topics.adhoc.401-450.txt \
->>>>>>> 94bbb44a558c9badd9495e466e6cac4b862e8e70
   -qld -rocchio -rocchio.useNegative &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
   -topicreader Trec \
-<<<<<<< HEAD
   -output runs/run.disk45.qld+rocchio-neg.topics.robust04.txt \
-=======
-  -output runs/run.disk45.qld+rocchio*.topics.robust04.txt \
->>>>>>> 94bbb44a558c9badd9495e466e6cac4b862e8e70
   -qld -rocchio -rocchio.useNegative &
 
 target/appassembler/bin/SearchCollection \
@@ -273,15 +249,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio.topics.adhoc.401-450.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio.topics.robust04.txt
 
-<<<<<<< HEAD
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio-neg.topics.adhoc.351-400.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio-neg.topics.adhoc.401-450.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio-neg.topics.robust04.txt
-=======
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio*.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio*.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio*.topics.robust04.txt
->>>>>>> 94bbb44a558c9badd9495e466e6cac4b862e8e70
 
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+ax.topics.adhoc.351-400.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+ax.topics.adhoc.401-450.txt
@@ -299,15 +269,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio.topics.adhoc.401-450.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio.topics.robust04.txt
 
-<<<<<<< HEAD
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.qld+rocchio-neg.topics.adhoc.351-400.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio-neg.topics.adhoc.401-450.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio-neg.topics.robust04.txt
-=======
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.qld+rocchio*.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio*.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio*.topics.robust04.txt
->>>>>>> 94bbb44a558c9badd9495e466e6cac4b862e8e70
 
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql+ax.topics.adhoc.351-400.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql+ax.topics.adhoc.401-450.txt
