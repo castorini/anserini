@@ -9,7 +9,7 @@ index_path: indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
-index_options: -impact -pretokenized
+index_options: -impact -pretokenized -storeDocvectors
 index_stats:
   documents: 20545677
   documents (non-empty): 20545677
