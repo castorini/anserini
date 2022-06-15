@@ -53,6 +53,13 @@ After indexing has completed, you should be able to perform retrieval using huma
       -topicreader TsvInt \
       -output runs/run.hc4-v1.0-ru.bm25.topics.dev.title.txt \
       -bm25 -hits 100 -language ru &
+    
+    target/appassembler/bin/SearchCollection \
+      -index indexes/lucene-index.hc4-v1.0-russian/ \
+      -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-ru.dev.desc.tsv.gz \
+      -topicreader TsvInt \
+      -output runs/run.hc4-v1.0-ru.bm25.topics.dev.desc.txt \
+      -bm25 -hits 100 -language ru &
     ```
 - Persian
     ```
@@ -61,6 +68,13 @@ After indexing has completed, you should be able to perform retrieval using huma
       -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv.gz \
       -topicreader TsvInt \
       -output runs/run.hc4-v1.0-fa.bm25.topics.dev.title.txt \
+      -bm25 -hits 100 -language fa &
+
+    target/appassembler/bin/SearchCollection \
+      -index indexes/lucene-index.hc4-v1.0-persian/ \
+      -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv.gz \
+      -topicreader TsvInt \
+      -output runs/run.hc4-v1.0-fa.bm25.topics.dev.desc.txt \
       -bm25 -hits 100 -language fa &
     ```
 - Chinese
@@ -71,14 +85,33 @@ After indexing has completed, you should be able to perform retrieval using huma
       -topicreader TsvInt \
       -output runs/run.hc4-v1.0-zh.bm25.topics.dev.title.txt \
       -bm25 -hits 100 -language zh &
+    
+    target/appassembler/bin/SearchCollection \
+      -index indexes/lucene-index.hc4-v1.0-chinese/ \
+      -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv.gz \
+      -topicreader TsvInt \
+      -output runs/run.hc4-v1.0-zh.bm25.topics.dev.desc.txt \
+      -bm25 -hits 100 -language zh &
   ```
 
 Evaluation can be performed using `trec_eval`:
 
+- Russian
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt runs/run.hc4-v1.0-ru.bm25.topics.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt runs/run.hc4-v1.0-ru.bm25.topics.dev.desc.txt
+```
+
+- Persian
+```
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25.topics.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25.topics.dev.desc.txt
+```
+
+- Chinese
+```
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25.topics.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25.topics.dev.desc.txt
 ```
 
 ## Effectiveness
