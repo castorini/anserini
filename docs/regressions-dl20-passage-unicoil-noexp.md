@@ -60,7 +60,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-passage-unicoil-noexp \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 16 -impact -pretokenized \
+  -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-unicoil-noexp &
 ```
 
