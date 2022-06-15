@@ -103,7 +103,7 @@ public class RocchioReranker implements Reranker {
 
     // Compute mean(tail k nonrelevant document vectors):
     FeatureVector meanNonRelevantDocumentVector;
-    if (useNegative != false){
+    if (useNegative != false) {
       try {
         relevantFlag = false; 
         meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
@@ -112,7 +112,7 @@ public class RocchioReranker implements Reranker {
         e.printStackTrace();
         return docs;
       }
-    }else{
+    } else {
       meanNonRelevantDocumentVector = new FeatureVector();
     }
 
