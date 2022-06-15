@@ -1,6 +1,6 @@
 ---
-corpus: hc4-v1.0-rus
-corpus_path: collections/hc4-corpus/hc4-v1.0-rus/
+corpus: hc4-v1.0-ru
+corpus_path: collections/multilingual/hc4-v1.0-ru/
 
 index_path: indexes/lucene-index.hc4-v1.0-russian/
 collection_class: NeuClirCollection

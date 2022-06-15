@@ -1,6 +1,6 @@
 ---
-corpus: hc4-v1.0-fas
-corpus_path: collections/hc4-corpus/hc4-v1.0-fas/
+corpus: hc4-v1.0-fa
+corpus_path: collections/multilingual/hc4-v1.0-fa/
 
 index_path: indexes/lucene-index.hc4-v1.0-persian/
 collection_class: NeuClirCollection

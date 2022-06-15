@@ -1,6 +1,6 @@
 ---
-corpus: hc4-v1.0-zho
-corpus_path: collections/hc4-corpus/hc4-v1.0-zho/
+corpus: hc4-v1.0-zh
+corpus_path: collections/multilingual/hc4-v1.0-zh/
 
 index_path: indexes/lucene-index.hc4-v1.0-chinese/
 collection_class: NeuClirCollection
