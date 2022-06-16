@@ -9,7 +9,7 @@ index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw -language ru
 index_stats:
   documents: 4721064
-  documents (non-empty): 4721064
+  documents (non-empty): 4721055
 
 metrics:
   - metric: MAP
