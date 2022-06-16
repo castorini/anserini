@@ -396,7 +396,7 @@ public class SimpleSearcher implements Closeable {
     SearchArgs defaults = new SearchArgs();
     setRocchio(Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
         Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
-        Float.parseFloat(defaults.rocchio_alpha[0]),Float.parseFloat(defaults.rocchio_beta[0]), Float.parseFloat(defaults.rocchio_gamma[0]),false);
+        Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]), Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
   }
 
   /**
@@ -411,11 +411,11 @@ public class SimpleSearcher implements Closeable {
    * @param gamma weight to assign to the nonrelevant document vectors
    * @param outputQuery flag to print original and expanded queries
    */
-  public void setRocchio(int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery) {
+  public void setRocchio(int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     useRocchio = true;
     cascade = new RerankerCascade("rocchio");
     cascade.add(new RocchioReranker(this.analyzer, IndexArgs.CONTENTS,
-        topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery));
+        topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -919,7 +919,7 @@ public class SimpleSearcher implements Closeable {
           argsAsList.contains("-rocchio.alpha") || argsAsList.contains("-rocchio.beta") || argsAsList.contains("-rocchio.gamma")) {
         LOG.info("Testing code path of explicitly setting Rocchio parameters.");
         searcher.setRocchio(searchArgs.rocchio_topFbTerms, searchArgs.rocchio_topFbDocs, searchArgs.rocchio_bottomFbTerms, searchArgs.rocchio_bottomFbDocs, 
-        searchArgs.rocchio_alpha, searchArgs.rocchio_beta, searchArgs.rocchio_gamma, false);
+        searchArgs.rocchio_alpha, searchArgs.rocchio_beta, searchArgs.rocchio_gamma, false, false);
       } else {
         LOG.info("Testing code path of default Rocchio parameters.");
         searcher.setRocchio();

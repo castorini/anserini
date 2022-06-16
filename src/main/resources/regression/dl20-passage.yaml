@@ -88,7 +88,7 @@ models:
         - 0.5891
       R@1000:
         - 0.8156
-  - name: bm25-default+rocchio*
+  - name: bm25-default+rocchio-neg
     display: +Rocchio*
     params: -bm25 -rocchio -rocchio.useNegative
     results:
@@ -160,7 +160,7 @@ models:
         - 0.6043
       R@1000:
         - 0.8327
-  - name: bm25-tuned+rocchio*
+  - name: bm25-tuned+rocchio-neg
     display: +Rocchio*
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative
     results:
