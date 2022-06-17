@@ -241,7 +241,14 @@ public enum Topics {
   BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scidocs.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_FEVER_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.splade_distil_cocodenser_medium.tsv.gz"),
-  BEIR_V1_0_0_SCIFACT_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.splade_distil_cocodenser_medium.tsv.gz");
+  BEIR_V1_0_0_SCIFACT_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.splade_distil_cocodenser_medium.tsv.gz"),
+  //HC4 V1.0 Topics
+  HC4_V1_0_RU_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.dev.title.tsv.gz"),
+  HC4_V1_0_RU_DEV_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.dev.desc.tsv.gz"),
+  HC4_V1_0_FA_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv.gz"),
+  HC4_V1_0_FA_DEV_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv.gz"),
+  HC4_V1_0_ZH_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv.gz"),
+  HC4_V1_0_ZH_DEV_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv.gz");
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;

@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(218, cnt);
+    assertEquals(224, cnt);
   }
 
   @Test
@@ -1572,5 +1572,17 @@ public class TopicReaderTest {
     assertEquals(5193, topics.size());
     assertEquals("androgen receptor define", topics.get("2").get("title"));
     assertEquals("why do bears hibernate", topics.get("1102400").get("title"));
+  }
+  
+  @Test
+  public void testHC4Topics() {
+    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_TITLE).keySet().size());
+    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_DESCRIPTION).keySet().size());
+    
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_TITLE).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_DESCRIPTION).keySet().size());
+  
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_TITLE).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_DESCRIPTION).keySet().size());
   }
 }
