@@ -21,7 +21,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/hc4-v1.0-zho \
   -index indexes/lucene-index.hc4-v1.0-chinese/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -language zh \
+  -threads 8 -storePositions -storeDocvectors -storeRaw -language zh \
   >& logs/log.hc4-v1.0-zho &
 ```
 
