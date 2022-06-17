@@ -167,10 +167,8 @@ See individual pages for details!
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
 + Regressions for Mr. TyDi (v1.1) baselines : [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
-<<<<<<< HEAD
-=======
 + Regressions for HC4 (v1.0) baselines : [Russian](docs/regressions-hc4-v1.0-ru.md), [Persian](docs/regressions-hc4-v1.0-fa.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
->>>>>>> 302b5e2b ( Add test cases for HC4 Regressions and Fix broken Link in Readme)
+
 
 ### Available Corpora
 
