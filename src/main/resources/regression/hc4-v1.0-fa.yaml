@@ -5,7 +5,7 @@ corpus_path: collections/multilingual/hc4-v1.0-fa/
 index_path: indexes/lucene-index.hc4-v1.0-persian/
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 8
 index_options: -storePositions -storeDocvectors -storeRaw -language fa
 index_stats:
   documents: 486486
