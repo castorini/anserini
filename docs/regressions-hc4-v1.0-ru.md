@@ -21,7 +21,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/hc4-v1.0-rus \
   -index indexes/lucene-index.hc4-v1.0-russian/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -language ru \
+  -threads 8 -storePositions -storeDocvectors -storeRaw -language ru \
   >& logs/log.hc4-v1.0-rus &
 ```
 
