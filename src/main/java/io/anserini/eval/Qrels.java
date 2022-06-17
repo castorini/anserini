@@ -131,7 +131,10 @@ public enum Qrels {
   BEIR_V1_0_0_SCIDOCS_TEST("topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt"),
   BEIR_V1_0_0_FEVER_TEST("topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST("topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt"),
-  BEIR_V1_0_0_SCIFACT_TEST("topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt");
+  BEIR_V1_0_0_SCIFACT_TEST("topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt"),
+  HC4_V10_FA_DEV("topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt"),
+  HC4_V10_RU_DEV("topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt"),
+  HC4_V10_ZH_DEV("topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt");
 
   public final String path;
 

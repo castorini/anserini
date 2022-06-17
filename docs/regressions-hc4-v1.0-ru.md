@@ -18,11 +18,11 @@ Typical indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection NeuClirCollection \
-  -input /path/to/hc4-v1.0-rus \
+  -input /path/to/hc4-v1.0-ru \
   -index indexes/lucene-index.hc4-v1.0-russian/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -language ru \
-  >& logs/log.hc4-v1.0-rus &
+  -threads 8 -storePositions -storeDocvectors -storeRaw -language ru \
+  >& logs/log.hc4-v1.0-ru &
 ```
 
 See [this page](https://github.com/hltcoe/HC4) for more details about the HC4 corpus.
@@ -37,21 +37,21 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-russian/ \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-ru.dev.title.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.hc4-v1.0-rus.bm25.topics.hc4-v1.0-ru.dev.title.txt \
+  -output runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.dev.title.txt \
   -bm25 -hits 100 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-russian/ \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-ru.dev.desc.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.hc4-v1.0-rus.bm25.topics.hc4-v1.0-ru.dev.desc.txt \
+  -output runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.dev.desc.txt \
   -bm25 -hits 100 -language ru &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt runs/run.hc4-v1.0-rus.bm25.topics.hc4-v1.0-ru.dev.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt runs/run.hc4-v1.0-rus.bm25.topics.hc4-v1.0-ru.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.dev.desc.txt
 ```
 
 ## Effectiveness
