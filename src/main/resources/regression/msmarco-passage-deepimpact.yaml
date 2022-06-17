@@ -2,6 +2,9 @@
 corpus: msmarco-passage-deepimpact
 corpus_path: collections/msmarco/msmarco-passage-deepimpact/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar
+download_checksum: 73843885b503af3c8b3ee62e5f5a9900
+
 index_path: indexes/lucene-index.msmarco-passage-deepimpact/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator

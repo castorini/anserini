@@ -60,8 +60,9 @@ public class RocchioReranker implements Reranker {
   private final float beta;
   private final float gamma;
   private final boolean outputQuery;
+  private final boolean useNegative;
 
-  public RocchioReranker(Analyzer analyzer, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery) {
+  public RocchioReranker(Analyzer analyzer, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     this.analyzer = analyzer;
     this.field = field;
     this.topFbTerms = topFbTerms;
@@ -72,6 +73,7 @@ public class RocchioReranker implements Reranker {
     this.beta = beta;
     this.gamma = gamma;
     this.outputQuery = outputQuery;
+    this.useNegative = useNegative;
   }
 
   @Override
@@ -101,13 +103,17 @@ public class RocchioReranker implements Reranker {
 
     // Compute mean(tail k nonrelevant document vectors):
     FeatureVector meanNonRelevantDocumentVector;
-    try {
-      relevantFlag = false; 
-      meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
-    } catch (IOException e) {
-      // If we run into any issues, just return the original results - as if we never performed feedback.
-      e.printStackTrace();
-      return docs;
+    if (useNegative != false) {
+      try {
+        relevantFlag = false; 
+        meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
+      } catch (IOException e) {
+        // If we run into any issues, just return the original results - as if we never performed feedback.
+        e.printStackTrace();
+        return docs;
+      }
+    } else {
+      meanNonRelevantDocumentVector = new FeatureVector();
     }
 
     // Compute q_new based on alpha, beta and gamma weights:

@@ -88,6 +88,18 @@ models:
         - 0.6291
       R@1000:
         - 0.8102
+  - name: bm25-default+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -rocchio -rocchio.useNegative -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@100:
+        - 0.3827
+      nDCG@10:
+        - 0.5263
+      R@100:
+        - 0.6282
+      R@1000:
+        - 0.8093
   - name: bm25-default+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
@@ -148,6 +160,18 @@ models:
         - 0.5995
       R@1000:
         - 0.8042
+  - name: bm25-tuned+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rocchio -rocchio.useNegative -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@100:
+        - 0.3526
+      nDCG@10:
+        - 0.4996
+      R@100:
+        - 0.5975
+      R@1000:
+        - 0.8063
   - name: bm25-tuned+ax
     display: +Ax
     params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
