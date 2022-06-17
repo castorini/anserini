@@ -1118,4 +1118,24 @@ public class RelevanceJudgmentsTest {
     assertEquals(300, qrels.getQids().size());
     assertEquals(339, getQrelsCount(qrels));
   }
+  
+  @Test
+  public void testHC4() {
+    RelevanceJudgments qrels;
+    
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V10_RU_DEV);
+    assertNotNull(qrels);
+    assertEquals(4, qrels.getQids().size());
+    assertEquals(265, getQrelsCount(qrels));
+  
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V10_FA_DEV);
+    assertNotNull(qrels);
+    assertEquals(10, qrels.getQids().size());
+    assertEquals(565, getQrelsCount(qrels));
+  
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V10_ZH_DEV);
+    assertNotNull(qrels);
+    assertEquals(10, qrels.getQids().size());
+    assertEquals(466, getQrelsCount(qrels));
+  }
 }
