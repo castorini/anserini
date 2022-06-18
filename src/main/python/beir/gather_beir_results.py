@@ -50,7 +50,7 @@ beir_keys = ['trec-covid',
              'scifact'
              ]
 
-models = ['flat', 'multifield', 'splade-distil-cocodenser-medium']
+models = ['flat', 'multifield', 'unicoil-noexp', 'splade-distil-cocodenser-medium']
 metrics = ['nDCG@10', 'R@100', 'R@1000']
 
 table = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: 0.0)))
@@ -86,15 +86,17 @@ for model in models:
         final_scores[model][metric] = final_score
 
 for metric in metrics:
-    print(f'{metric:25}flat    multi   SPLADE')
-    print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6)
+    print(f'{metric:25}flat    multi   UCx     SPLADE')
+    print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6)
     for key in beir_keys:
         print(f'{key:25}{table[key]["flat"][metric]:.4f}  ' +
               f'{table[key]["multifield"][metric]:.4f}  ' +
+              f'{table[key]["unicoil-noexp"][metric]:.4f}  ' +
               f'{table[key]["splade-distil-cocodenser-medium"][metric]:.4f}')
 
-    print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6)
+    print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6)
     print(' ' * 25 + f'{final_scores["flat"][metric]:0.4f}  ' +
           f'{final_scores["multifield"][metric]:0.4f}  ' +
+          f'{final_scores["unicoil-noexp"][metric]:0.4f}  ' +
           f'{final_scores["splade-distil-cocodenser-medium"][metric]:0.4f}')
     print('\n')

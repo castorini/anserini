@@ -3,6 +3,19 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### June 17, 2022
+
++ commit [`f59283`](https://github.com/castorini/anserini/commit/f59283297e79045a81d6ff84eebb116ce842736c) (06/17/2022)
+
+Added regressions for BEIR, uniCOIL (noexp).
+
+### June 16, 2022
+
++ commit [`d71a11`](https://github.com/castorini/anserini/commit/d71a118faa17a29d34431e1d5c1cfae2d567e64c) (06/16/2022)
++ commit [`d2fbe6`](https://github.com/castorini/anserini/commit/d2fbe67b0f17545c0dd2edc4a445b8df9dcf80fc) (06/15/2022)
+
+Added regressions for HC4 corpora.
+
 ### May 26, 2022
 
 + commit [`fc542b`](https://github.com/castorini/anserini/commit/fc542b5fa5dd67fe53e6110d8933b2d403f8e80e) (05/26/2022)
