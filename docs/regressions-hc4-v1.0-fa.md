@@ -1,6 +1,6 @@
 # Anserini Regressions: HC4 (v1.0) &mdash; Persian
 
-This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Persian](https://github.com/hltcoe/HC4).
+This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Persian](https://arxiv.org/pdf/2201.09992.pdf).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/hc4-v1.0-fa.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/hc4-v1.0-fa.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -9,6 +9,19 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 
 ```
 python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-fa
+```
+
+## Corpus Download
+
+The HC4 corpus can be downloaded following the instructions [here](https://github.com/hltcoe/HC4).
+
+After download, verify that all and only specified documents have been downloaded by running the code [provided here](https://github.com/hltcoe/HC4#postprocessing-of-the-downloaded-documents).
+
+With the corpus downloaded, unpack into `collections/` and run the following command to perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-fa \
+  --corpus-path collections/hc4-v1.0-fa
 ```
 
 ## Indexing
@@ -62,3 +75,5 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [HC4 (Persian): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2919    |
 | [HC4 (Persian): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3188    |
+
+The Above results are reproduction of the BM25 title queries run in [table 7 of this paper](https://arxiv.org/pdf/2201.08471.pdf)
