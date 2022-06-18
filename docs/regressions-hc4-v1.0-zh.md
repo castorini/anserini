@@ -11,6 +11,19 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-zh
 ```
 
+## Corpus Download
+
+The HC4 corpus can be downloaded following the instructions [here](https://github.com/hltcoe/HC4).
+
+After download, verify that all and only specified documents have been downloaded by running the code [provided here](https://github.com/hltcoe/HC4#postprocessing-of-the-downloaded-documents).
+
+With the corpus downloaded, unpack into `collections/` and run the following command to perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-zh \
+  --corpus-path collections/hc4-v1.0-zh
+```
+
 ## Indexing
 
 Typical indexing command:
@@ -62,3 +75,5 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2914    |
 | [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.1983    |
+
+The Above results are reproduction of the BM25 title queries run in [table 7 of this paper](https://arxiv.org/pdf/2201.08471.pdf)
