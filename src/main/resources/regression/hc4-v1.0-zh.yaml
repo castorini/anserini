@@ -1,0 +1,45 @@
+---
+corpus: hc4-v1.0-zh
+corpus_path: collections/multilingual/hc4-v1.0-zh/
+
+index_path: indexes/lucene-index.hc4-v1.0-chinese/
+collection_class: NeuClirCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -storePositions -storeDocvectors -storeRaw -language zh
+index_stats:
+  documents: 646302
+  documents (non-empty): 646302
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)"
+    id: dev_title
+    path: topics.hc4-v1.0-zh.dev.title.tsv.gz
+    qrel: qrels.hc4-v1.0-zh.dev.txt
+  - name: "[HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)"
+    id: dev_description
+    path: topics.hc4-v1.0-zh.dev.desc.tsv.gz
+    qrel: qrels.hc4-v1.0-zh.dev.txt
+
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -hits 100 -language zh
+    results:
+      MAP:
+        - 0.2914
+        - 0.1983
+

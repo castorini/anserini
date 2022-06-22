@@ -55,7 +55,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-passage-splade_distil_cocodenser_medium \
   -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 16 -impact -pretokenized \
+  -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade_distil_cocodenser_medium &
 ```
 
@@ -81,6 +81,20 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.splade_distil_cocodenser_medium.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt \
+  -impact -pretokenized -rm3 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.splade_distil_cocodenser_medium.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt \
+  -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -90,30 +104,40 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-an
 tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | SPLADE-distill CoCodenser Medium|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5019    |
+| AP@1000                                                                                                      | SPLADE-distill CoCodenser Medium| +RM3      | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5019    | 0.5158    | 0.5133    |
 
 
-| nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7179    |
+| nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium| +RM3      | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7179    | 0.7126    | 0.7033    |
 
 
-| R@100                                                                                                        | SPLADE-distill CoCodenser Medium|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7619    |
+| R@100                                                                                                        | SPLADE-distill CoCodenser Medium| +RM3      | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7619    | 0.7551    | 0.7575    |
 
 
-| R@1000                                                                                                       | SPLADE-distill CoCodenser Medium|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8901    |
+| R@1000                                                                                                       | SPLADE-distill CoCodenser Medium| +RM3      | +Rocchio  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8901    | 0.9080    | 0.8937    |
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
