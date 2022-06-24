@@ -84,16 +84,16 @@ models:
         - 0.3365
   - name: bm25+rocchio-neg
     display: +Rocchio*
-    params: -bm25 -rocchio -rocchio.useNegative
+    params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
     results:
       MAP:
-        - 0.2385
-        - 0.2753
-        - 0.2931
+        - 0.2392
+        - 0.2751
+        - 0.2932
       P30:
-        - 0.3467
-        - 0.3687
-        - 0.3365
+        - 0.3500
+        - 0.3713
+        - 0.3378
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
@@ -144,16 +144,16 @@ models:
         - 0.3237
   - name: qld+rocchio-neg
     display: +Rocchio*
-    params: -qld -rocchio -rocchio.useNegative
+    params: -qld -rocchio -rocchio.useNegative -rerankCutoff 1000
     results:
       MAP:
-        - 0.2178
+        - 0.2202
         - 0.2708
-        - 0.2754
+        - 0.2773
       P30:
-        - 0.3320
-        - 0.3667
-        - 0.3249
+        - 0.3300
+        - 0.3660
+        - 0.3246
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.deterministic -rerankCutoff 20
