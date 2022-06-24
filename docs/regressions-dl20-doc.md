@@ -81,7 +81,7 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt \
-  -bm25 -rocchio -rocchio.useNegative &
+  -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
@@ -109,7 +109,7 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt \
-  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio -rocchio.useNegative &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
@@ -137,7 +137,7 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt \
-  -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio -rocchio.useNegative &
+  -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio -rocchio.useNegative - &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -210,22 +210,22 @@ With the above commands, you should be able to reproduce the following results:
 
 | AP@100                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned2)| +RM3      | +Rocchio  | +Rocchio* |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3793    | 0.4014    | 0.4089    | 0.4125    | 0.3631    | 0.3592    | 0.3634    | 0.3669    | 0.3581    | 0.3619    | 0.3628    | 0.3643    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3793    | 0.4014    | 0.4089    | 0.4096    | 0.3631    | 0.3592    | 0.3634    | 0.3628    | 0.3581    | 0.3619    | 0.3628    | 0.3627    |
 
 
 | nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned2)| +RM3      | +Rocchio  | +Rocchio* |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5286    | 0.5225    | 0.5192    | 0.5233    | 0.5070    | 0.5124    | 0.5070    | 0.5117    | 0.5061    | 0.5238    | 0.5199    | 0.5189    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5286    | 0.5225    | 0.5192    | 0.5212    | 0.5070    | 0.5124    | 0.5070    | 0.5127    | 0.5061    | 0.5238    | 0.5199    | 0.5189    |
 
 
 | R@100                                                                                                        | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned2)| +RM3      | +Rocchio  | +Rocchio* |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6110    | 0.6414    | 0.6425    | 0.6470    | 0.5935    | 0.5977    | 0.6057    | 0.6067    | 0.5860    | 0.5995    | 0.6017    | 0.6075    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6110    | 0.6414    | 0.6425    | 0.6431    | 0.5935    | 0.5977    | 0.6057    | 0.6045    | 0.5860    | 0.5995    | 0.6017    | 0.6013    |
 
 
 | R@1000                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned2)| +RM3      | +Rocchio  | +Rocchio* |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.8085    | 0.8257    | 0.8273    | 0.8339    | 0.7876    | 0.8116    | 0.8199    | 0.8219    | 0.7776    | 0.8180    | 0.8217    | 0.8226    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.8085    | 0.8257    | 0.8273    | 0.8270    | 0.7876    | 0.8116    | 0.8199    | 0.8238    | 0.7776    | 0.8180    | 0.8217    | 0.8267    |
 
 Explanation of settings:
 

@@ -70,7 +70,7 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+rocchio-neg.topics.dl19-passage.txt \
-  -bm25 -rocchio -rocchio.useNegative &
+  -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
@@ -112,7 +112,7 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+rocchio-neg.topics.dl19-passage.txt \
-  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative &
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage/ \
@@ -199,22 +199,22 @@ With the above commands, you should be able to reproduce the following results:
 
 | AP@1000                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | +Ax       | +PRF      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.3013    | 0.3390    | 0.3474    | 0.3464    | 0.3745    | 0.3561    | 0.2903    | 0.3377    | 0.3394    | 0.3402    | 0.3632    | 0.3684    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.3013    | 0.3390    | 0.3474    | 0.3463    | 0.3745    | 0.3561    | 0.2903    | 0.3377    | 0.3394    | 0.3400    | 0.3632    | 0.3684    |
 
 
 | nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | +Ax       | +PRF      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.5058    | 0.5180    | 0.5275    | 0.5278    | 0.5511    | 0.5372    | 0.4973    | 0.5231    | 0.5271    | 0.5303    | 0.5461    | 0.5536    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.5058    | 0.5180    | 0.5275    | 0.5269    | 0.5511    | 0.5372    | 0.4973    | 0.5231    | 0.5271    | 0.5266    | 0.5461    | 0.5536    |
 
 
 | R@100                                                                                                        | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | +Ax       | +PRF      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.4910    | 0.5216    | 0.5256    | 0.5276    | 0.5351    | 0.5404    | 0.4974    | 0.5143    | 0.5263    | 0.5272    | 0.5404    | 0.5420    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.4910    | 0.5216    | 0.5256    | 0.5265    | 0.5351    | 0.5404    | 0.4974    | 0.5143    | 0.5263    | 0.5289    | 0.5404    | 0.5420    |
 
 
 | R@1000                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | +Ax       | +PRF      |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.7501    | 0.7998    | 0.8007    | 0.8050    | 0.8241    | 0.7929    | 0.7450    | 0.7792    | 0.7969    | 0.7983    | 0.8138    | 0.7988    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.7501    | 0.7998    | 0.8007    | 0.8027    | 0.8241    | 0.7929    | 0.7450    | 0.7792    | 0.7969    | 0.7987    | 0.8138    | 0.7988    |
 
 Explanation of settings:
 
