@@ -81,7 +81,7 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+rocchio-neg.topics.dl19-doc.txt \
-  -bm25 -rocchio -rocchio.useNegative &
+  -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
@@ -123,7 +123,7 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+rocchio-neg.topics.dl19-doc.txt \
-  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio -rocchio.useNegative &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
