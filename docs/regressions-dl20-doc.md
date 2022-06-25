@@ -137,7 +137,7 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt \
-  -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio -rocchio.useNegative - &
+  -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
