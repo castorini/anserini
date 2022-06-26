@@ -343,7 +343,8 @@ public class DataModel {
         }
       }
       builder.append("\n");
-      if (cnt==0) {
+      // Only print for the first "block" of the table.
+      if (cnt == 0) {
         builder.append("|:").append(StringUtils.repeat("-", 109)).append("|");
         for (Model model : getModels()) {
           builder.append(StringUtils.repeat("-", 11)).append("|");
@@ -358,7 +359,6 @@ public class DataModel {
         }
         builder.append("\n");
       }
-      //builder.append("\n\n");
       cnt++;
     }
 
