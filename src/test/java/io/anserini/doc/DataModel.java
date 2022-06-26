@@ -331,22 +331,25 @@ public class DataModel {
   }
 
   public String generateEffectiveness(String collection) {
+    int cnt = 0;
     StringBuilder builder = new StringBuilder();
     for (Metric eval : getMetrics()) {
-      builder.append(String.format("| %1$-109s|", eval.getMetric()));
+      builder.append(String.format("| %1$-109s|", String.format("**%s**", eval.getMetric())));
       for (Model model : getModels()) {
         if (model.getDisplay() == null) {
-          builder.append(String.format(" %1$-10s|", model.getName()));
+          builder.append(String.format(" %1$-10s|", String.format("**%s**", model.getName())));
         } else {
-          builder.append(String.format(" %1$-10s|", model.getDisplay()));
+          builder.append(String.format(" %1$-10s|", String.format("**%s**", model.getDisplay())));
         }
       }
       builder.append("\n");
-      builder.append("|:").append(StringUtils.repeat("-", 109)).append("|");
-      for (Model model : getModels()) {
-        builder.append(StringUtils.repeat("-", 11)).append("|");
+      if (cnt==0) {
+        builder.append("|:").append(StringUtils.repeat("-", 109)).append("|");
+        for (Model model : getModels()) {
+          builder.append(StringUtils.repeat("-", 11)).append("|");
+        }
+        builder.append("\n");
       }
-      builder.append("\n");
       for (int i = 0; i < topics.size(); i++) {
         Topic topic = getTopics().get(i);
         builder.append(String.format("| %1$-109s|", topic.getName()));
@@ -355,7 +358,8 @@ public class DataModel {
         }
         builder.append("\n");
       }
-      builder.append("\n\n");
+      //builder.append("\n\n");
+      cnt++;
     }
 
     return builder.toString().trim();

@@ -197,23 +197,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned2)| +RM3      | +Rocchio  | +Rocchio* |
+| **AP@1000**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned2)**| **+RM3**  | **+Rocchio**| **+Rocchio***|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2805    | 0.2243    | 0.2260    | 0.2255    | 0.2850    | 0.2266    | 0.2278    | 0.2280    | 0.2893    | 0.2464    | 0.2489    | 0.2492    |
-
-
-| RR@10                                                                                                        | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned2)| +RM3      | +Rocchio  | +Rocchio* |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| **RR@10**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned2)**| **+RM3**  | **+Rocchio**| **+Rocchio***|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2723    | 0.2140    | 0.2158    | 0.2155    | 0.2768    | 0.2162    | 0.2174    | 0.2176    | 0.2816    | 0.2374    | 0.2396    | 0.2400    |
-
-
-| R@100                                                                                                        | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned2)| +RM3      | +Rocchio  | +Rocchio* |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned2)**| **+RM3**  | **+Rocchio**| **+Rocchio***|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8192    | 0.7995    | 0.8017    | 0.8054    | 0.8190    | 0.8033    | 0.8052    | 0.8079    | 0.8277    | 0.8228    | 0.8238    | 0.8265    |
-
-
-| R@1000                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned)| +RM3      | +Rocchio  | +Rocchio* | BM25 (tuned2)| +RM3      | +Rocchio  | +Rocchio* |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned2)**| **+RM3**  | **+Rocchio**| **+Rocchio***|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9470    | 0.9463    | 0.9467    | 0.9474    | 0.9471    | 0.9479    | 0.9496    | 0.9497    | 0.9506    | 0.9528    | 0.9535    | 0.9534    |
 
 Explanation of settings:

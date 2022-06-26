@@ -123,25 +123,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | BM25      | +RM3      | QL        | +RM3      |
+| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **QL**    | **+RM3**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
 | [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.1695    | 0.1465    | 0.1493    | 0.1290    |
 | [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.2470    | 0.2330    | 0.2467    | 0.2178    |
-
-
-| P30                                                                                                          | BM25      | +RM3      | QL        | +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| **P30**                                                                                                      | **BM25**  | **+RM3**  | **QL**    | **+RM3**  |
 | [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.2767    | 0.2393    | 0.2607    | 0.2347    |
 | [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.4547    | 0.4080    | 0.4380    | 0.3813    |
-
-
-| nDCG@20                                                                                                      | BM25      | +RM3      | QL        | +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| **nDCG@20**                                                                                                  | **BM25**  | **+RM3**  | **QL**    | **+RM3**  |
 | [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.2085    | 0.2033    | 0.1993    | 0.1725    |
 | [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.2572    | 0.2516    | 0.2220    | 0.2093    |
-
-
-| ERR@20                                                                                                       | BM25      | +RM3      | QL        | +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
+| **ERR@20**                                                                                                   | **BM25**  | **+RM3**  | **QL**    | **+RM3**  |
 | [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.1283    | 0.1265    | 0.1233    | 0.1007    |
 | [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.1616    | 0.1652    | 0.1323    | 0.1249    |

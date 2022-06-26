@@ -103,11 +103,8 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 | [TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)                  | 0.2032    | 0.2602    | 0.2587    | 0.2028    | 0.2491    | 0.2476    |
-
-
-| P30                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 | [TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)                  | 0.3693    | 0.4187    | 0.4120    | 0.3653    | 0.4067    | 0.4113    |

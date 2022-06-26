@@ -120,23 +120,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | SPLADE-distill CoCodenser Medium| +RM3      | +Rocchio  |
+| **AP@1000**                                                                                                  | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5019    | 0.5158    | 0.5133    |
-
-
-| nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **nDCG@10**                                                                                                  | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7179    | 0.7126    | 0.7033    |
-
-
-| R@100                                                                                                        | SPLADE-distill CoCodenser Medium| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **R@100**                                                                                                    | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7619    | 0.7551    | 0.7575    |
-
-
-| R@1000                                                                                                       | SPLADE-distill CoCodenser Medium| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **R@1000**                                                                                                   | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8901    | 0.9080    | 0.8937    |
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).

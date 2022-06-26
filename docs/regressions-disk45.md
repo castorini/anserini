@@ -282,15 +282,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | BM25      | +RM3      | +Rocchio  | +Rocchio* | +Ax       | QL        | +RM3      | +Rocchio  | +Rocchio* | +Ax       |
+| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **QL**    | **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.1862    | 0.2354    | 0.2397    | 0.2392    | 0.2431    | 0.1843    | 0.2168    | 0.2189    | 0.2202    | 0.2298    |
 | [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.2515    | 0.2750    | 0.2743    | 0.2751    | 0.2812    | 0.2460    | 0.2702    | 0.2709    | 0.2708    | 0.2647    |
 | [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.2531    | 0.2903    | 0.2924    | 0.2932    | 0.2896    | 0.2467    | 0.2747    | 0.2756    | 0.2773    | 0.2774    |
-
-
-| P30                                                                                                          | BM25      | +RM3      | +Rocchio  | +Rocchio* | +Ax       | QL        | +RM3      | +Rocchio  | +Rocchio* | +Ax       |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **QL**    | **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   |
 | [TREC-7 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.351-400.txt)                      | 0.3093    | 0.3447    | 0.3527    | 0.3500    | 0.3287    | 0.3073    | 0.3307    | 0.3293    | 0.3300    | 0.3193    |
 | [TREC-8 Ad Hoc Topics](../src/main/resources/topics-and-qrels/topics.adhoc.401-450.txt)                      | 0.3560    | 0.3760    | 0.3707    | 0.3713    | 0.3753    | 0.3480    | 0.3680    | 0.3640    | 0.3660    | 0.3500    |
 | [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)                  | 0.3102    | 0.3365    | 0.3365    | 0.3378    | 0.3333    | 0.3079    | 0.3232    | 0.3237    | 0.3246    | 0.3229    |
