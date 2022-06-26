@@ -112,28 +112,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 s
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP@100                                                                                                      | uniCOIL (with doc2query-T5) zero-shot|
+| **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2718    |
-
-
-| MRR@100                                                                                                      | uniCOIL (with doc2query-T5) zero-shot|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.9684    |
-
-
-| nDCG@10                                                                                                      | uniCOIL (with doc2query-T5) zero-shot|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6783    |
-
-
-| R@100                                                                                                        | uniCOIL (with doc2query-T5) zero-shot|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3700    |
-
-
-| R@1000                                                                                                       | uniCOIL (with doc2query-T5) zero-shot|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.7069    |
 
 This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.

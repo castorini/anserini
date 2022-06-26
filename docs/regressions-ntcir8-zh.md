@@ -61,16 +61,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | BM25      |
+| **MAP**                                                                                                      | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4014    |
-
-
-| P20                                                                                                          | BM25      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **P20**                                                                                                      | **BM25**  |
 | [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
-
-
-| nDCG@20                                                                                                      | BM25      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **nDCG@20**                                                                                                  | **BM25**  |
 | [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |

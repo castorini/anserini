@@ -79,26 +79,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP@100                                                                                                      | BM25 (default)| +RM3      |
+| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1874    | 0.2271    |
-
-
-| MRR@100                                                                                                      | BM25 (default)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  |
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6848    | 0.6651    |
-
-
-| nDCG@10                                                                                                      | BM25 (default)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  |
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4816    | 0.5099    |
-
-
-| R@100                                                                                                        | BM25 (default)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  |
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4076    | 0.4444    |
-
-
-| R@1000                                                                                                       | BM25 (default)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  |
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.7078    | 0.7512    |

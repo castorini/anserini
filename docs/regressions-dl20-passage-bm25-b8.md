@@ -89,23 +89,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | BM25 (default parameters, quantized 8 bits)|
+| **AP@1000**                                                                                                  | **BM25 (default parameters, quantized 8 bits)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.2911    |
-
-
-| nDCG@10                                                                                                      | BM25 (default parameters, quantized 8 bits)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **nDCG@10**                                                                                                  | **BM25 (default parameters, quantized 8 bits)**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4852    |
-
-
-| R@100                                                                                                        | BM25 (default parameters, quantized 8 bits)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **BM25 (default parameters, quantized 8 bits)**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5673    |
-
-
-| R@1000                                                                                                       | BM25 (default parameters, quantized 8 bits)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **BM25 (default parameters, quantized 8 bits)**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8119    |
 
 ## Reproduction Log[*](reproducibility.md)

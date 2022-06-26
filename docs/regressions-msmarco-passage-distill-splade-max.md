@@ -94,23 +94,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | DistilSPLADE-max|
+| **AP@1000**                                                                                                  | **DistilSPLADE-max**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3746    |
-
-
-| RR@10                                                                                                        | DistilSPLADE-max|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **RR@10**                                                                                                    | **DistilSPLADE-max**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3686    |
-
-
-| R@100                                                                                                        | DistilSPLADE-max|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **DistilSPLADE-max**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8984    |
-
-
-| R@1000                                                                                                       | DistilSPLADE-max|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **DistilSPLADE-max**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9787    |
 
 The above runs are in TREC output format and evaluated with `trec_eval`.
