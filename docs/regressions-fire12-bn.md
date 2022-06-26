@@ -59,16 +59,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | BM25      |
+| **MAP**                                                                                                      | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)        | 0.2881    |
-
-
-| P20                                                                                                          | BM25      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **P20**                                                                                                      | **BM25**  |
 | [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)        | 0.3740    |
-
-
-| nDCG@20                                                                                                      | BM25      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **nDCG@20**                                                                                                  | **BM25**  |
 | [FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)        | 0.4261    |

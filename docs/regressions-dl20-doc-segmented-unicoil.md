@@ -123,23 +123,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@100                                                                                                       | uniCOIL w/ doc2query-T5 expansion| +RM3      | +Rocchio  |
+| **AP@100**                                                                                                   | **uniCOIL w/ doc2query-T5 expansion**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
 | [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3882    | 0.4274    | 0.4342    |
-
-
-| nDCG@10                                                                                                      | uniCOIL w/ doc2query-T5 expansion| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **nDCG@10**                                                                                                  | **uniCOIL w/ doc2query-T5 expansion**| **+RM3**  | **+Rocchio**|
 | [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6033    | 0.6220    | 0.6219    |
-
-
-| R@100                                                                                                        | uniCOIL w/ doc2query-T5 expansion| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **R@100**                                                                                                    | **uniCOIL w/ doc2query-T5 expansion**| **+RM3**  | **+Rocchio**|
 | [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6210    | 0.6511    | 0.6624    |
-
-
-| R@1000                                                                                                       | uniCOIL w/ doc2query-T5 expansion| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **R@1000**                                                                                                   | **uniCOIL w/ doc2query-T5 expansion**| **+RM3**  | **+Rocchio**|
 | [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7869    | 0.8229    | 0.8290    |
 
 Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).

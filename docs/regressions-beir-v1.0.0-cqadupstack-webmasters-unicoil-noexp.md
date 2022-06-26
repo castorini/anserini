@@ -57,16 +57,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| nDCG@10                                                                                                      | uniCOIL no expansion|
+| **nDCG@10**                                                                                                  | **uniCOIL no expansion**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.2974    |
-
-
-| R@100                                                                                                        | uniCOIL no expansion|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **uniCOIL no expansion**|
 | BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.5396    |
-
-
-| R@1000                                                                                                       | uniCOIL no expansion|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **uniCOIL no expansion**|
 | BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.7789    |

@@ -94,23 +94,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | uniCOIL (with TILDE expansions)|
+| **AP@1000**                                                                                                  | **uniCOIL (with TILDE expansions)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3561    |
-
-
-| RR@10                                                                                                        | uniCOIL (with TILDE expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **RR@10**                                                                                                    | **uniCOIL (with TILDE expansions)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3496    |
-
-
-| R@100                                                                                                        | uniCOIL (with TILDE expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **uniCOIL (with TILDE expansions)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8678    |
-
-
-| R@1000                                                                                                       | uniCOIL (with TILDE expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **uniCOIL (with TILDE expansions)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9646    |
 
 The above runs are in TREC output format and evaluated with `trec_eval`.

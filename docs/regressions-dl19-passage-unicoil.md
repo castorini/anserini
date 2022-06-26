@@ -125,23 +125,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | uniCOIL (with doc2query-T5 expansions)| +RM3      | +Rocchio  |
+| **AP@1000**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.4612    | 0.4644    | 0.4603    |
-
-
-| nDCG@10                                                                                                      | uniCOIL (with doc2query-T5 expansions)| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.7024    | 0.6768    | 0.6658    |
-
-
-| R@100                                                                                                        | uniCOIL (with doc2query-T5 expansions)| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.6054    | 0.6205    | 0.6211    |
-
-
-| R@1000                                                                                                       | uniCOIL (with doc2query-T5 expansions)| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.8292    | 0.8598    | 0.8515    |
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).

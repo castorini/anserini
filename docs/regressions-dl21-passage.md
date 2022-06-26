@@ -118,28 +118,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/t
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP@100                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      |
+| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Ax**   | **+PRF**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1357    | 0.1632    | 0.1708    | 0.1907    | 0.1821    |
-
-
-| MRR@100                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|
+| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Ax**   | **+PRF**  |
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5060    | 0.4925    | 0.5432    | 0.5733    | 0.5532    |
-
-
-| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|
+| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Ax**   | **+PRF**  |
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4458    | 0.4480    | 0.4560    | 0.4851    | 0.4740    |
-
-
-| R@100                                                                                                        | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Ax**   | **+PRF**  |
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3261    | 0.3498    | 0.3600    | 0.3803    | 0.3745    |
-
-
-| R@1000                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Ax**   | **+PRF**  |
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6149    | 0.6619    | 0.6710    | 0.6882    | 0.6643    |
 
 Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:

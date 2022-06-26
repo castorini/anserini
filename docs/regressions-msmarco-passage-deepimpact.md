@@ -93,23 +93,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | DeepImpact|
+| **AP@1000**                                                                                                  | **DeepImpact**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3334    |
-
-
-| RR@10                                                                                                        | DeepImpact|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **RR@10**                                                                                                    | **DeepImpact**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3274    |
-
-
-| R@100                                                                                                        | DeepImpact|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **DeepImpact**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8421    |
-
-
-| R@1000                                                                                                       | DeepImpact|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **DeepImpact**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9476    |
 
 The above runs are in TREC output format and evaluated with `trec_eval`.

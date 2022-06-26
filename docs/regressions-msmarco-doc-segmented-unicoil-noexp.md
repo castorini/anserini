@@ -122,23 +122,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | uniCOIL (no expansions)| +RM3      | +Rocchio  |
+| **AP@1000**                                                                                                  | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3413    | 0.3051    | 0.3092    |
-
-
-| RR@100                                                                                                       | uniCOIL (no expansions)| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **RR@100**                                                                                                   | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3409    | 0.3046    | 0.3088    |
-
-
-| R@100                                                                                                        | uniCOIL (no expansions)| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **R@100**                                                                                                    | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8639    | 0.8604    | 0.8667    |
-
-
-| R@1000                                                                                                       | uniCOIL (no expansions)| +RM3      | +Rocchio  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| **R@1000**                                                                                                   | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
 | [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9420    | 0.9497    | 0.9521    |
 
 ## Additional Notes

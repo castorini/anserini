@@ -72,7 +72,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | BM25      |
+| **MAP**                                                                                                      | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [HC4 (Russian): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2767    |
 | [HC4 (Russian): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.2321    |
