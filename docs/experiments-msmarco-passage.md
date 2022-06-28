@@ -2,9 +2,8 @@
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
-We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (doc2query) for this task.
 
-**Setup Note:** If you're instantiating an Ubuntu VM on your system or on cloud (AWS and GCP) for this particular task, try to provision enough resources as the tasks could take some time to finish such as RAM > 6GB and storage ~ 100 GB (SSD). This will prevent going back and fixing machine configuration again and again.
+This exercise will require a machine with >8 GB RAM and at least 15 GB free disk space .
 
 If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
 In particular, you'll want to pay attention to the "What's going on here?" sections.
@@ -58,8 +57,8 @@ Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files
 
 ```bash
 python tools/scripts/msmarco/convert_collection_to_jsonl.py \
- --collection-path collections/msmarco-passage/collection.tsv \
- --output-folder collections/msmarco-passage/collection_jsonl
+  --collection-path collections/msmarco-passage/collection.tsv \
+  --output-folder collections/msmarco-passage/collection_jsonl
 ```
 
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
@@ -70,9 +69,12 @@ The above script should generate 9 jsonl files in `collections/msmarco-passage/c
 We can now index these docs as a `JsonCollection` using Anserini:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -threads 9 -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -input collections/msmarco-passage/collection_jsonl \
- -index indexes/msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw 
+target/appassembler/bin/IndexCollection \
+  -collection JsonCollection \
+  -input collections/msmarco-passage/collection_jsonl \
+  -index indexes/msmarco-passage/lucene-index-msmarco \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 9 -storePositions -storeDocvectors -storeRaw 
 ```
 
 Upon completion, we should have an index with 8,841,823 documents.
@@ -85,9 +87,9 @@ Since queries of the set are too many (+100k), it would take a long time to retr
 
 ```bash
 python tools/scripts/msmarco/filter_queries.py \
- --qrels collections/msmarco-passage/qrels.dev.small.tsv \
- --queries collections/msmarco-passage/queries.dev.tsv \
- --output collections/msmarco-passage/queries.dev.small.tsv
+  --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+  --queries collections/msmarco-passage/queries.dev.tsv \
+  --output collections/msmarco-passage/queries.dev.small.tsv
 ```
 
 The output queries file should contain 6980 lines.
@@ -119,11 +121,13 @@ These queries are taken from Bing search logs, so they're "realistic" web querie
 We can now perform a retrieval run using this smaller set of queries:
 
 ```bash
-sh target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
- -index indexes/msmarco-passage/lucene-index-msmarco \
- -topicreader TsvInt -topics collections/msmarco-passage/queries.dev.small.tsv \
- -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68
+target/appassembler/bin/SearchCollection \
+  -index indexes/msmarco-passage/lucene-index-msmarco \
+  -topics collections/msmarco-passage/queries.dev.small.tsv \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
+  -parallelism 4 \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
 ```
 
 The above command uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
@@ -244,19 +248,19 @@ For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
 python tools/scripts/msmarco/convert_msmarco_to_trec_run.py \
- --input runs/run.msmarco-passage.dev.small.tsv \
- --output runs/run.msmarco-passage.dev.small.trec
+  --input runs/run.msmarco-passage.dev.small.tsv \
+  --output runs/run.msmarco-passage.dev.small.trec
 
 python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
- --input collections/msmarco-passage/qrels.dev.small.tsv \
- --output collections/msmarco-passage/qrels.dev.small.trec
+  --input collections/msmarco-passage/qrels.dev.small.tsv \
+  --output collections/msmarco-passage/qrels.dev.small.trec
 ```
 
 And run the `trec_eval` tool:
 
 ```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
- collections/msmarco-passage/qrels.dev.small.trec runs/run.msmarco-passage.dev.small.trec
+  collections/msmarco-passage/qrels.dev.small.trec runs/run.msmarco-passage.dev.small.trec
 ```
 
 The output should be:
@@ -296,13 +300,11 @@ It turns out that optimizing for MRR@10 and MAP yields the same settings.
 
 Here's the comparison between the Anserini default and optimized parameters:
 
-Setting                     | MRR@10 | MAP    | Recall@1000 |
-:---------------------------|-------:|-------:|------------:|
-Default (`k1=0.9`, `b=0.4`) | 0.1840 | 0.1926 | 0.8526
-Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
-Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 | 0.8555
-
-To reproduce these results, the `SearchMsmarco` class above takes `k1` and `b` parameters as command-line arguments, e.g., `-k1 0.60 -b 0.62` (note that the default setting is `k1=0.82` and `b=0.68`).
+| Setting                                         | MRR@10 |    MAP | Recall@1000 |
+|:------------------------------------------------|-------:|-------:|------------:|
+| Default (`k1=0.9`, `b=0.4`)                     | 0.1840 | 0.1926 |      0.8526 |
+| Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 |      0.8573 |
+| Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 |      0.8555 |
 
 As mentioned above, the BM25 run with `k1=0.82`, `b=0.68` corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/).
 The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 (but Anserini was using Lucene 7.6 at the time).
