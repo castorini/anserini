@@ -2,7 +2,8 @@
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
-We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (doc2query) for this task.
+
+This exercise will require a machine with >8 GB RAM and at least 15 GB free disk space .
 
 If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
 In particular, you'll want to pay attention to the "What's going on here?" sections.
