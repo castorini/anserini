@@ -45,7 +45,7 @@ runs/
 logs/
 
 # default directory where collections go
-collections/
+# collections/
 
 # default directory where indexes go
 indexes/
