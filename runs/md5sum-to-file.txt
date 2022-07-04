@@ -1,0 +1,7 @@
+8032d6b8b6b4661acddb5a326440aedf  run.msmarco-doc.dev.bm25.txt
+c9a1b9b65242fdaf80a6d9495740c62d  run.msmarco-doc.dev.opt-mrr.txt
+b4caa01de216834465e9273903ff2a02  run.msmarco-doc.leaderboard-dev.bm25base.txt
+8f35bd6630ab8670a0b771da45a1bc6c  run.msmarco-doc.leaderboard-dev.bm25tuned.txt
+c7b99af0d619a656335267e97c56b872  run.msmarco-doc.leaderboard-dev.opt-mrr.txt
+96c4c9a9acb37abd85d73cdd63b68c25  run.msmarco-passage.dev.small.trec
+9175797b10765be73a1ea27136649e4f  run.msmarco-passage.dev.small.tsv
