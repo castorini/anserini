@@ -39,7 +39,7 @@ solrini/
 elastirini/
 
 # default directory where runs go
-runs/
+# runs/
 
 # default directory where logs go
 logs/
