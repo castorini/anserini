@@ -55,4 +55,4 @@ With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-The Above results are reproduction of the BM25 title queries run in [table 7 of this paper](https://arxiv.org/pdf/2201.08471.pdf)
+The Above results are reproduction of the BM25 title queries run in [table 2 of this paper](https://arxiv.org/pdf/2201.08471.pdf)
