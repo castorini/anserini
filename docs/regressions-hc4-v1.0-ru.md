@@ -59,6 +59,18 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.dev.desc.txt \
   -bm25 -hits 100 -language ru &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-russian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-ru.test.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.test.title.txt \
+  -bm25 -hits 100 -language ru &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-russian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-ru.test.desc.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.test.desc.txt \
+  -bm25 -hits 100 -language ru &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -66,6 +78,8 @@ Evaluation can be performed using `trec_eval`:
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.dev.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.test.txt runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-ru.test.txt runs/run.hc4-v1.0-ru.bm25.topics.hc4-v1.0-ru.test.desc.txt
 ```
 
 ## Effectiveness
@@ -76,3 +90,5 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [HC4 (Russian): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2767    |
 | [HC4 (Russian): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.2321    |
+| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2105    |
+| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1779    |
