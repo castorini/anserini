@@ -1,6 +1,6 @@
 # Anserini Regressions: HC4 (v1.0) &mdash; Chinese
 
-This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Chinese](https://github.com/hltcoe/HC4).
+This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Chinese](https://github.com/hltcoe/HC4), ([paper](https://arxiv.org/pdf/2201.09992.pdf)).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -55,4 +55,4 @@ With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-The Above results are reproduction of the BM25 title queries run in [table 7 of this paper](https://arxiv.org/pdf/2201.08471.pdf)
+The Above results are reproduction of the BM25 title queries run in [table 2 of this paper](https://arxiv.org/pdf/2201.08471.pdf)
