@@ -161,6 +161,7 @@ public class DataModel {
   private List<Metric> metrics;
   private List<Model> models;
   private List<Topic> topics;
+  private List<Conversion> conversions;
 
   public List<Metric> getMetrics() {
     return metrics;
@@ -186,11 +187,20 @@ public class DataModel {
     this.models = models;
   }
 
+  public List<Conversion> getConversions() {
+    return conversions;
+  }
+
+  public void setConversions(List<Conversion> conversions) {
+    this.conversions = conversions;
+  }
+
   static class Topic {
     private String name;
     private String id;
     private String path;
     private String qrel;
+    private String topic_reader;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -200,6 +210,8 @@ public class DataModel {
     public void setPath(String path) { this.path = path; }
     public String getQrel() { return qrel; }
     public void setQrel(String qrel) { this.qrel = qrel; }
+    public String getTopic_reader() { return topic_reader; }
+    public void setTopic_reader(String topic_reader) { this.topic_reader = topic_reader; }
   }
 
   static class Model {
@@ -214,6 +226,22 @@ public class DataModel {
     public void setDisplay(String display) { this.display = display; }
     public String getDisplay() { return display; }
     public void setResults(Map<String, List<Float>> results) { this.results = results; }
+    public String getParams() { return params; }
+    public void setParams(String params) { this.params = params; }
+  }
+
+  static class Conversion {
+    private String command;
+    private String in_file_ext;
+    private String out_file_ext;
+    private String params;
+
+    public String getCommand() { return command; }
+    public void setCommand(String command) { this.command = command; }
+    public String getIn_file_ext() { return in_file_ext; }
+    public void setIn_file_ext(String in_file_ext) { this.in_file_ext = in_file_ext; }
+    public String getOut_file_ext() { return out_file_ext; }
+    public void setOut_file_ext(String out_file_ext) { this.out_file_ext = out_file_ext; }
     public String getParams() { return params; }
     public void setParams(String params) { this.params = params; }
   }
@@ -281,7 +309,7 @@ public class DataModel {
         builder.append(SEARCH_COMMAND).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
         builder.append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
-        builder.append("  -topicreader").append(" ").append(getTopic_reader()).append(" \\\n");
+        builder.append("  -topicreader").append(" ").append((topic.getTopic_reader() == null) ? getTopic_reader() : topic.getTopic_reader()).append(" \\\n");
         builder.append("  -output").append(" ").append(generateRunFile(collection, model, topic)).append(" \\\n");
         if (model.getParams() != null) {
           builder.append("  ").append(model.getParams());
@@ -290,6 +318,31 @@ public class DataModel {
         builder.append("\n");
       }
       builder.append("\n");
+    }
+
+    return builder.toString().trim();
+  }
+
+  public String generateConvertingCommand(String collection) {
+    StringBuilder builder = new StringBuilder();
+    if(getConversions() != null){
+      for(Conversion conversion : getConversions()) {
+        for (Model model : getModels()) {
+          for (Topic topic : getTopics()) {
+            builder.append(conversion.getCommand()).append(" \\\n");
+            builder.append("  --index").append(" ").append(getIndex_path()).append(" \\\n");
+            builder.append("  --topics").append(" ").append(topic.getId()).append(" \\\n");
+            builder.append("  --input").append(" ").append(generateRunFile(collection, model, topic) + ((conversion.getIn_file_ext() == null) ? "" : conversion.getIn_file_ext())).append(" \\\n");
+            builder.append("  --output").append(" ").append(generateRunFile(collection, model, topic) + conversion.getOut_file_ext()).append(" \\\n");
+            if (conversion.getParams() != null) {
+              builder.append("  ").append(conversion.getParams());
+            }
+            builder.append(" &"); // nohup
+            builder.append("\n");
+          }
+          builder.append("\n");
+        }
+      }
     }
 
     return builder.toString().trim();
@@ -307,8 +360,15 @@ public class DataModel {
             evalCmdOption += " " + eval.getParams();
           }
           String evalCmdResidual = "";
-          evalCmdResidual += " " + Paths.get(getQrels_root(), topic.getQrel());
+          if(topic.getQrel() != null){
+            evalCmdResidual += " " + Paths.get(getQrels_root(), topic.getQrel());
+          }
           evalCmdResidual += " " + generateRunFile(collection, model, topic);
+          List<Conversion> conversions = getConversions();
+          if(conversions != null){
+            Conversion lastConversion = conversions.get(conversions.size() - 1);
+            evalCmdResidual += lastConversion.getOut_file_ext();
+          }
           evalCmdResidual += "\n";
           if (eval.isCan_combine() || evalCmdOption.isEmpty()) {
             combinedEvalCmd.putIfAbsent(evalCmd, new HashMap<>());
