@@ -71,7 +71,7 @@ target/appassembler/bin/SearchCollection \
   -bm25 &
 ```
 
-The trec format will need to be converted to DPR's .json format for evaluation:
+The trec format will need to be converted to DPR's JSON format for evaluation:
 ```bash
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
   --index indexes/lucene-index.odqa-wiki-corpus-100w-splits/ \
