@@ -1,6 +1,6 @@
 # Anserini Regressions: HC4 (v1.0) &mdash; Persian
 
-This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Persian](https://arxiv.org/pdf/2201.09992.pdf).
+This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Persian](https://github.com/hltcoe/HC4), [Paper](https://arxiv.org/pdf/2201.09992.pdf).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/hc4-v1.0-fa.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/hc4-v1.0-fa.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
