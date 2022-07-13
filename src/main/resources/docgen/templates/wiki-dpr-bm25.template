@@ -36,7 +36,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ${ranking_cmds}
 ```
 
-The trec format will need to be converted to DPR's .json format for evaluation:
+The trec format will need to be converted to DPR's JSON format for evaluation:
 ```bash
 ${converting_cmds}
 ```
