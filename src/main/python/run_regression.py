@@ -128,14 +128,27 @@ def construct_search_commands(yaml_data):
             SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join(yaml_data['topic_root'], topic_set['path']),
-            '-topicreader', yaml_data['topic_reader'],
+            '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
             '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
-            model['params']
+            model['params'],
         ]
         for (model, topic_set) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
     return ranking_commands
 
+def construct_convert_commands(yaml_data):
+    converting_commands = [
+        [
+            conversion['command'],
+            '--index', construct_index_path(yaml_data),
+            '--topics', topic_set['id'],
+            '--input', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['in_file_ext'],
+            '--output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['out_file_ext'],
+            conversion['params'] if 'params' in conversion and conversion['params'] else '',
+        ]
+        for (model, topic_set, conversion) in list(itertools.product(yaml_data['models'], yaml_data['topics'], yaml_data['conversions']))
+    ]
+    return converting_commands
 
 def evaluate_and_verify(yaml_data, dry_run):
     fail_str = '\033[91m[FAIL]\033[0m '
@@ -148,8 +161,8 @@ def evaluate_and_verify(yaml_data, dry_run):
             for metric in yaml_data['metrics']:
                 eval_cmd = [
                   os.path.join(metric['command']), metric['params'] if 'params' in metric and metric['params'] else '',
-                  os.path.join(yaml_data['qrels_root'], topic_set['qrel']),
-                  construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name'])
+                  os.path.join(yaml_data['qrels_root'], topic_set['qrel']) if 'qrel' in topic_set and topic_set['qrel'] else '',
+                  construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else '')
                 ]
                 if dry_run:
                     logger.info(' '.join(eval_cmd))
@@ -181,6 +194,9 @@ def run_search(cmd):
     logger.info(' '.join(cmd))
     call(' '.join(cmd), shell=True)
 
+def run_convert(cmd):
+    logger.info(' '.join(cmd))
+    call(' '.join(cmd), shell=True)
 
 # https://gist.github.com/leimao/37ff6e990b3226c2c9670a2cd1e4a6f5
 class TqdmUpTo(tqdm):
@@ -259,6 +275,10 @@ if __name__ == '__main__':
     parser.add_argument('--search', dest='search', action='store_true', help='Search and verify results.')
     parser.add_argument('--search-pool', dest='search_pool', type=int, default=4,
                         help='Number of ranking runs to execute in parallel.')
+    parser.add_argument('--convert', dest='convert', action='store_true',
+                        help='convert TREC output format to DPR\'s json format for QA.')
+    parser.add_argument('--convert-pool', dest='convert_pool', type=int, default=4,
+                        help='Number of converting runs to execute in parallel.')
     parser.add_argument('--dry-run', dest='dry_run', action='store_true',
                         help='Output commands without actual execution.')
     args = parser.parse_args()
@@ -328,5 +348,15 @@ if __name__ == '__main__':
         else:
             with Pool(args.search_pool) as p:
                 p.map(run_search, search_cmds)
+
+        if args.convert:
+            logger.info('='*10 + ' Converting ' + '='*10)
+            convert_cmds = construct_convert_commands(yaml_data)
+            if args.dry_run:
+                for cmd in convert_cmds:
+                    logger.info(' '.join(cmd))
+            else:
+                with Pool(args.convert_pool) as p:
+                    p.map(run_convert, convert_cmds)
 
         evaluate_and_verify(yaml_data, args.dry_run)
