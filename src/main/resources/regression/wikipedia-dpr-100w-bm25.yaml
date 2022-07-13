@@ -1,8 +1,8 @@
 ---
-corpus: odqa-wiki-corpus-100w-splits
-corpus_path: /store/collections/wikipedia/odqa-wiki-corpus-100w-splits
+corpus: wikipedia-dpr-100w
+corpus_path: /store/collections/wikipedia/wikipedia-dpr-100w
 
-index_path: indexes/lucene-index.odqa-wiki-corpus-100w-splits/
+index_path: indexes/lucene-index.wikipedia-dpr-100w/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 43

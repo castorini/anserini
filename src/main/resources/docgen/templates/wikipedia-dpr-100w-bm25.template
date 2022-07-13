@@ -1,8 +1,8 @@
-# Anserini Regressions: QA with Wikipedia-DPR Corpus
+# Anserini Regressions: QA with wikipedia-dpr-100w Corpus
 
 **Models**: BM25
 
-This page documents QA regression experiments on the wikipedia-dpr corpus, which is integrated into Anserini's regression testing framework.
+This page documents QA regression experiments on the wikipedia-dpr-100w corpus, which is integrated into Anserini's regression testing framework.
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -21,7 +21,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/${corpus}/`should be a directory containing the wikipedia-dpr passages collection retrieved from [here](https://dl.fbaipublicfiles.com/dpr/wikipedia_split/psgs_w100.tsv.gz).
+The directory `/path/to/${corpus}/`should be a directory containing the wikipedia-dpr-100w passages collection retrieved from [here](https://dl.fbaipublicfiles.com/dpr/wikipedia_split/psgs_w100.tsv.gz).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
