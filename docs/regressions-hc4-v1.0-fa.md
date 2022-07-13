@@ -1,6 +1,6 @@
 # Anserini Regressions: HC4 (v1.0) &mdash; Persian
 
-This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Persian](https://arxiv.org/pdf/2201.09992.pdf).
+This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Persian](https://github.com/hltcoe/HC4), ([paper](https://arxiv.org/pdf/2201.09992.pdf)).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/hc4-v1.0-fa.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/hc4-v1.0-fa.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -58,6 +58,18 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.dev.desc.txt \
   -bm25 -hits 100 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.test.title.txt \
+  -bm25 -hits 100 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.test.desc.txt \
+  -bm25 -hits 100 -language fa &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -65,6 +77,8 @@ Evaluation can be performed using `trec_eval`:
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.dev.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.test.desc.txt
 ```
 
 ## Effectiveness
@@ -75,5 +89,7 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [HC4 (Persian): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2919    |
 | [HC4 (Persian): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3188    |
+| [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2837    |
+| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2882    |
 
-The Above results are reproduction of the BM25 title queries run in [table 7 of this paper](https://arxiv.org/pdf/2201.08471.pdf)
+The Above results are reproduction of the BM25 title queries run in [table 2 of this paper](https://arxiv.org/pdf/2201.08471.pdf)

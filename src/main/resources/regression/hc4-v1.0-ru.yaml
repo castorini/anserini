@@ -32,6 +32,14 @@ topics:
     id: dev_description
     path: topics.hc4-v1.0-ru.dev.desc.tsv.gz
     qrel: qrels.hc4-v1.0-ru.dev.txt
+  - name: "[HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)"
+    id: test_title
+    path: topics.hc4-v1.0-ru.test.title.tsv.gz
+    qrel: qrels.hc4-v1.0-ru.test.txt
+  - name: "[HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)"
+    id: test_description
+    path: topics.hc4-v1.0-ru.test.desc.tsv.gz
+    qrel: qrels.hc4-v1.0-ru.test.txt
 
 
 models:
@@ -42,4 +50,6 @@ models:
       MAP:
         - 0.2767
         - 0.2321
+        - 0.2105
+        - 0.1779
 

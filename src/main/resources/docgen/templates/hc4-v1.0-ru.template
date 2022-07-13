@@ -1,6 +1,6 @@
 # Anserini Regressions: HC4 (v1.0) &mdash; Russian
 
-This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Russian](https://github.com/hltcoe/HC4).
+This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Russian](https://github.com/hltcoe/HC4), ([paper](https://arxiv.org/pdf/2201.09992.pdf)).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
