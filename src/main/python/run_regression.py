@@ -133,7 +133,7 @@ def construct_search_commands(yaml_data):
             model['params'],
         ]
         for (model, topic_set) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
-    ]    
+    ]
     return ranking_commands
 
 def construct_convert_commands(yaml_data):
@@ -142,7 +142,7 @@ def construct_convert_commands(yaml_data):
             conversion['command'],
             '--index', construct_index_path(yaml_data),
             '--topics', topic_set['id'],
-            '--input', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
+            '--input', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['in_file_ext'],
             '--output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['out_file_ext'],
             conversion['params'] if 'params' in conversion and conversion['params'] else '',
         ]
