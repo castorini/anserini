@@ -1,6 +1,6 @@
 # Anserini Regressions: HC4 (v1.0) &mdash; Russian
 
-This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Russian](https://github.com/hltcoe/HC4), ([paper](https://arxiv.org/pdf/2201.09992.pdf)).
+This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Russian](https://github.com/hltcoe/HC4) ([paper](https://arxiv.org/pdf/2201.09992.pdf)).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/hc4-v1.0-ru.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/hc4-v1.0-ru.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -92,3 +92,9 @@ With the above commands, you should be able to reproduce the following results:
 | [HC4 (Russian): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.2321    |
 | [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2105    |
 | [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1779    |
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/hc4-v1.0-ru.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-07-13 (commit [`500e87`](https://github.com/castorini/anserini/commit/500e872d594a86cbf01adae644479f74a4b4af2d))
