@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### July 13, 2022
+
++ commit [`500e87`](https://github.com/castorini/anserini/commit/500e872d594a86cbf01adae644479f74a4b4af2d) (07/13/2022)
+
+Added regression for Wikipedia retrieval for QA (from DPR).
+
 ### June 17, 2022
 
 + commit [`f59283`](https://github.com/castorini/anserini/commit/f59283297e79045a81d6ff84eebb116ce842736c) (06/17/2022)
