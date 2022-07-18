@@ -145,6 +145,7 @@ def construct_convert_commands(yaml_data):
             '--input', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['in_file_ext'],
             '--output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['out_file_ext'],
             conversion['params'] if 'params' in conversion and conversion['params'] else '',
+            topic_set['convert_params'] if 'convert_params' in topic_set and topic_set['convert_params'] else '',
         ]
         for (model, topic_set, conversion) in list(itertools.product(yaml_data['models'], yaml_data['topics'], yaml_data['conversions']))
     ]
@@ -275,8 +276,6 @@ if __name__ == '__main__':
     parser.add_argument('--search', dest='search', action='store_true', help='Search and verify results.')
     parser.add_argument('--search-pool', dest='search_pool', type=int, default=4,
                         help='Number of ranking runs to execute in parallel.')
-    parser.add_argument('--convert', dest='convert', action='store_true',
-                        help='convert TREC output format to DPR\'s json format for QA.')
     parser.add_argument('--convert-pool', dest='convert_pool', type=int, default=4,
                         help='Number of converting runs to execute in parallel.')
     parser.add_argument('--dry-run', dest='dry_run', action='store_true',
@@ -349,7 +348,7 @@ if __name__ == '__main__':
             with Pool(args.search_pool) as p:
                 p.map(run_search, search_cmds)
 
-        if args.convert:
+        if 'conversions' in yaml_data and yaml_data['conversions']:
             logger.info('='*10 + ' Converting ' + '='*10)
             convert_cmds = construct_convert_commands(yaml_data)
             if args.dry_run:
