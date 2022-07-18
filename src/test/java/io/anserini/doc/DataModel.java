@@ -201,6 +201,7 @@ public class DataModel {
     private String path;
     private String qrel;
     private String topic_reader;
+    private String convert_params;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -212,6 +213,8 @@ public class DataModel {
     public void setQrel(String qrel) { this.qrel = qrel; }
     public String getTopic_reader() { return topic_reader; }
     public void setTopic_reader(String topic_reader) { this.topic_reader = topic_reader; }
+    public String getConvert_params() { return convert_params; }
+    public void setConvert_params(String convert_params) { this.convert_params = convert_params; }
   }
 
   static class Model {
@@ -336,6 +339,9 @@ public class DataModel {
             builder.append("  --output").append(" ").append(generateRunFile(collection, model, topic) + conversion.getOut_file_ext()).append(" \\\n");
             if (conversion.getParams() != null) {
               builder.append("  ").append(conversion.getParams());
+            }
+            if (topic.getConvert_params() != null) {
+              builder.append("  ").append(topic.getConvert_params());
             }
             builder.append(" &"); // nohup
             builder.append("\n");
