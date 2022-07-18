@@ -369,6 +369,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw09b >& logs/log.cw09b &
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw12b13 >& logs/log.cw12b13 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw12 >& logs/log.cw12 &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 >& logs/log.wikipedia-dpr-100w-bm25 &
 ```
 </details>
 

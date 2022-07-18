@@ -53,6 +53,11 @@ topics:
     id: dpr-wq-test
     path: topics.dpr.wq.test.txt
     topic_reader: DprJsonl
+  - name: "DPR: CuratedTREC Test"
+    id: dpr-curated-test
+    path: topics.dpr.curated.test.txt
+    topic_reader: DprJsonl
+    convert_params: --regex
   - name: "[EfficientQA: Natural Questions Test](https://efficientqa.github.io/)"
     id: nq-test
     path: topics.nq.test.txt
@@ -68,10 +73,12 @@ models:
         - 0.7641
         - 0.7109
         - 0.6240
+        - 0.8069
         - 0.6399
       top_100_accuracy:
         - 0.7825
         - 0.8315
         - 0.8184
         - 0.7549
+        - 0.8991
         - 0.7922

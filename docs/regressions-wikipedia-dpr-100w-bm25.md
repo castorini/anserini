@@ -10,7 +10,7 @@ Note that this page is automatically generated from [this template](../src/main/
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --convert --regression wikipedia-dpr-100w-bm25
+python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25
 ```
 
 ## Indexing
@@ -65,6 +65,12 @@ target/appassembler/bin/SearchCollection \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
+  -topics src/main/resources/topics-and-qrels/topics.dpr.curated.test.txt \
+  -topicreader DprJsonl \
+  -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.curated.test.txt \
+  -bm25 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics src/main/resources/topics-and-qrels/topics.nq.test.txt \
   -topicreader DprNq \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.nq.test.txt \
@@ -99,6 +105,12 @@ python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
  &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
   --index indexes/lucene-index.wikipedia-dpr-100w/ \
+  --topics dpr-curated-test \
+  --input runs/run.wikipedia-dpr-100w.bm25.topics.dpr.curated.test.txt \
+  --output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.curated.test.txt.json \
+  --regex &
+python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
+  --index indexes/lucene-index.wikipedia-dpr-100w/ \
   --topics nq-test \
   --input runs/run.wikipedia-dpr-100w.bm25.topics.nq.test.txt \
   --output runs/run.wikipedia-dpr-100w.bm25.topics.nq.test.txt.json \
@@ -116,6 +128,8 @@ python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wi
 python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wikipedia-dpr-100w.bm25.topics.dpr.squad.test.txt.json
 python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wikipedia-dpr-100w.bm25.topics.dpr.wq.test.txt.json
 python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wikipedia-dpr-100w.bm25.topics.dpr.wq.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wikipedia-dpr-100w.bm25.topics.dpr.curated.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wikipedia-dpr-100w.bm25.topics.dpr.curated.test.txt.json
 python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wikipedia-dpr-100w.bm25.topics.nq.test.txt.json
 python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wikipedia-dpr-100w.bm25.topics.nq.test.txt.json
 ```
@@ -130,12 +144,14 @@ With the above commands, you should be able to reproduce the following results:
 | [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.7641    |
 | [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.7109    |
 | [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.6240    |
+| DPR: CuratedTREC Test                                                                                        | 0.8069    |
 | [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.6399    |
 | **top_100_accuracy**                                                                                         | **BM25 (default parameters)**|
 | [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)                                       | 0.7825    |
 | [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.8315    |
 | [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.8184    |
 | [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.7549    |
+| DPR: CuratedTREC Test                                                                                        | 0.8991    |
 | [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.7922    |
 
 ## Reproduction Log[*](reproducibility.md)
