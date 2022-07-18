@@ -144,14 +144,14 @@ With the above commands, you should be able to reproduce the following results:
 | [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.7641    |
 | [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.7109    |
 | [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.6240    |
-| DPR: CuratedTREC Test                                                                                        | 0.8069    |
+| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.8069    |
 | [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.6399    |
 | **top_100_accuracy**                                                                                         | **BM25 (default parameters)**|
 | [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)                                       | 0.7825    |
 | [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.8315    |
 | [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.8184    |
 | [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.7549    |
-| DPR: CuratedTREC Test                                                                                        | 0.8991    |
+| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.8991    |
 | [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.7922    |
 
 ## Reproduction Log[*](reproducibility.md)
