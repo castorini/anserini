@@ -170,7 +170,7 @@ See individual pages for details!
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
 + Regressions for Mr. TyDi (v1.1) baselines : [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
 + Regressions for HC4 (v1.0) baselines : [Russian](docs/regressions-hc4-v1.0-ru.md), [Persian](docs/regressions-hc4-v1.0-fa.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
-+ Regressions for QA BM25 baselines : [Wikipedia DPR 100-words](docs/regressions-wikipedia-dpr-100w-bm25.md)
++ Regressions for QA BM25 baseline : [Wikipedia DPR 100-words](docs/regressions-wikipedia-dpr-100w-bm25.md)
 
 ### Available Corpora
 

@@ -53,7 +53,7 @@ topics:
     id: dpr-wq-test
     path: topics.dpr.wq.test.txt
     topic_reader: DprJsonl
-  - name: "DPR: CuratedTREC Test"
+  - name: "[DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)"
     id: dpr-curated-test
     path: topics.dpr.curated.test.txt
     topic_reader: DprJsonl
