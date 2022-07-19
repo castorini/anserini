@@ -60,6 +60,12 @@ target/appassembler/bin/SearchCollection \
   -bm25 -hits 100 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.dev.desc.title.txt \
+  -bm25 -hits 100 -language zh &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-chinese/ \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.test.title.txt \
@@ -70,6 +76,12 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -hits 100 -language zh &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.test.desc.title.txt \
+  -bm25 -hits 100 -language zh &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -77,8 +89,10 @@ Evaluation can be performed using `trec_eval`:
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.dev.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.dev.desc.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.test.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25.topics.hc4-v1.0-zh.test.desc.title.txt
 ```
 
 ## Effectiveness
@@ -89,8 +103,10 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2914    |
 | [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.1983    |
+| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.2408    |
 | [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1749    |
 | [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1404    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1854    |
 
 ## Reproduction Log[*](reproducibility.md)
 
