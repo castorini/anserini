@@ -50,47 +50,151 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-persian/ \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.dev.title.txt \
-  -bm25 -hits 100 -language fa &
+  -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt \
+  -bm25 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-persian/ \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.dev.desc.txt \
-  -bm25 -hits 100 -language fa &
+  -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt \
+  -bm25 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt \
+  -bm25 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-persian/ \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.test.title.txt \
-  -bm25 -hits 100 -language fa &
+  -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt \
+  -bm25 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-persian/ \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.test.desc.txt \
-  -bm25 -hits 100 -language fa &
+  -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt \
+  -bm25 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt \
+  -bm25 -language fa &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt \
+  -bm25 -rm3 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt \
+  -bm25 -rm3 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt \
+  -bm25 -rm3 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt \
+  -bm25 -rm3 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt \
+  -bm25 -rm3 -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt \
+  -bm25 -rm3 -language fa &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt \
+  -bm25 -rocchio -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt \
+  -bm25 -rocchio -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt \
+  -bm25 -rocchio -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt \
+  -bm25 -rocchio -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt \
+  -bm25 -rocchio -language fa &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.hc4-v1.0-persian/ \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt \
+  -bm25 -rocchio -language fa &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.dev.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.dev.desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.test.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25.topics.hc4-v1.0-fa.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [HC4 (Persian): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2919    |
-| [HC4 (Persian): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3188    |
-| [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2837    |
-| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2882    |
+| **MAP**                                                                                                      | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [HC4 (Persian): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2919    | 0.2815    | 0.2967    |
+| [HC4 (Persian): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3188    | 0.3344    | 0.3671    |
+| [HC4 (Persian): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.3302    | 0.2859    | 0.3822    |
+| [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2837    | 0.2920    | 0.2911    |
+| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2882    | 0.2770    | 0.2878    |
+| [HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.3244    | 0.3032    | 0.3230    |
 
 The above results reproduce the BM25 title queries run in Table 2 of [this paper](https://arxiv.org/pdf/2201.08471.pdf).
 

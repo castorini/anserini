@@ -32,6 +32,10 @@ topics:
     id: dev_description
     path: topics.hc4-v1.0-fa.dev.desc.tsv.gz
     qrel: qrels.hc4-v1.0-fa.dev.txt
+  - name: "[HC4 (Persian): dev-topic description+title](https://github.com/hltcoe/HC4)"
+    id: dev_description_title
+    path: topics.hc4-v1.0-fa.dev.desc.title.tsv.gz
+    qrel: qrels.hc4-v1.0-fa.dev.txt
   - name: "[HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)"
     id: test_title
     path: topics.hc4-v1.0-fa.test.title.tsv.gz
@@ -40,16 +44,43 @@ topics:
     id: test_description
     path: topics.hc4-v1.0-fa.test.desc.tsv.gz
     qrel: qrels.hc4-v1.0-fa.test.txt
+  - name: "[HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)"
+    id: test_description_title
+    path: topics.hc4-v1.0-fa.test.desc.title.tsv.gz
+    qrel: qrels.hc4-v1.0-fa.test.txt
 
 
 models:
-  - name: bm25
-    display: BM25
-    params: -bm25 -hits 100 -language fa
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -language fa
     results:
       MAP:
         - 0.2919
         - 0.3188
+        - 0.3302
         - 0.2837
         - 0.2882
-
+        - 0.3244
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -language fa
+    results:
+      MAP:
+        - 0.2815
+        - 0.3344
+        - 0.2859
+        - 0.2920
+        - 0.2770
+        - 0.3032
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -language fa
+    results:
+      MAP:
+        - 0.2967
+        - 0.3671
+        - 0.3822
+        - 0.2911
+        - 0.2878
+        - 0.3230
