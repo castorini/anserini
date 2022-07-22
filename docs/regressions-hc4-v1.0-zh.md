@@ -32,7 +32,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection NeuClirCollection \
   -input /path/to/hc4-v1.0-zh \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -generator DefaultLuceneDocumentGenerator \
   -threads 8 -storePositions -storeDocvectors -storeRaw -language zh \
   >& logs/log.hc4-v1.0-zh &
@@ -47,111 +47,111 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.title.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.title.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt \
   -bm25 -language zh &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.title.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.title.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt \
   -bm25 -rm3 -language zh &
 
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.title.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.title.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.hc4-v1.0-chinese/ \
+  -index indexes/lucene-index.hc4-v1.0-zh \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt \
