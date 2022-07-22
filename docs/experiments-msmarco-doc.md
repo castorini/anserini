@@ -277,4 +277,4 @@ That's it!
 + Results reproduced by [@AreelKhan](https://github.com/AreelKhan) on 2022-04-27 (commit [`7adee1d`](https://github.com/castorini/anserini/commit/7adee1d9596f052a87b0427e654c4b95e2cd5e89))
 + Results reproduced by [@alvind1](https://github.com/alvind1) on 2022-05-05 (commit [`9b2dd5f5`](https://github.com/castorini/anserini/commit/9b2dd5f5e524ce56e5784cb73404d39926982733))
 + Results reproduced by [@Pie31415](https://github.com/Pie31415) on 2022-06-22 (commit [`6aef2eb`](https://github.com/castorini/anserini/commit/6aef2eb0681f34387bf04077465f04343c338cf4))
-+ Results reproduced by [@aivan6842](https://github.com/aivan6842) on 2022-07-11 (commit [`388573c`](https://github.com/aivan6842/anserini/commit/388573cf44e1595cc1f2fed644bd4a5ae4de2976))
++ Results reproduced by [@aivan6842](https://github.com/aivan6842) on 2022-07-11 (commit [`8010d5c`](https://github.com/castorini/anserini/commit/8010d5c0b066f0316c6c506170274f8f7d558f73))
