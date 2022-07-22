@@ -2,7 +2,7 @@
 corpus: hc4-v1.0-fa
 corpus_path: collections/multilingual/hc4-v1.0-fa/
 
-index_path: indexes/lucene-index.hc4-v1.0-persian/
+index_path: indexes/lucene-index.hc4-v1.0-fa
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8
