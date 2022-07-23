@@ -1,8 +1,8 @@
-# Anserini Regressions: HC4 (v1.0) on NeuCLIR22 &mdash; Chinese
+# Anserini Regressions: HC4 (v1.0) on translated NeuCLIR22 &mdash; Persian
 
-This page documents BM25 regression experiments for [HC4 (v1.0) Chinese topics](https://github.com/hltcoe/HC4) on the [NeuCLIR22 Chinese corpus](https://neuclir.github.io/).
+This page documents BM25 regression experiments for [HC4 (v1.0) Persian topics](https://github.com/hltcoe/HC4) on the [NeuCLIR22 translated Persian corpus](https://neuclir.github.io/).
 The HC4 qrels have been filtered down to include only those in the intersection of the HC4 and NeuCLIR22 corpora.
-To be clear, the queries are in Chinese (human translations) and the corpus is in Chinese.
+To be clear, the queries are in English and the corpus is in English (automatically translated by the organizers using Sockeye).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -56,6 +56,8 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
+
+The above results reproduce the BM25 title queries run in Table 2 of [this paper](https://arxiv.org/pdf/2201.08471.pdf).
 
 ## Reproduction Log[*](reproducibility.md)
 
