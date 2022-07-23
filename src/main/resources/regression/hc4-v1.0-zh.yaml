@@ -14,11 +14,25 @@ index_stats:
 metrics:
   - metric: MAP
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -M 100 -m map
+    params: -c -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: true
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: J@10
+    command: python -m pyserini.eval.trec_eval
+    params: -c -m judged.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
@@ -56,31 +70,73 @@ models:
     params: -bm25 -language zh
     results:
       MAP:
-        - 0.2914
-        - 0.1983
-        - 0.2408
-        - 0.1749
-        - 0.1404
-        - 0.1854
+        - 0.2969
+        - 0.2030
+        - 0.2458
+        - 0.1801
+        - 0.1455
+        - 0.1907
+      nDCG@10:
+        - 0.3688
+        - 0.2623
+        - 0.3445
+        - 0.2197
+        - 0.1874
+        - 0.2374
+      J@10:
+        - 0.5600
+        - 0.4700
+        - 0.6100
+        - 0.3500
+        - 0.3160
+        - 0.3820
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3 -language zh
     results:
       MAP:
-        - 0.3088
-        - 0.2210
-        - 0.2951
-        - 0.1562
-        - 0.1014
-        - 0.1442
+        - 0.3126
+        - 0.2239
+        - 0.2971
+        - 0.1613
+        - 0.1051
+        - 0.1485
+      nDCG@10:
+        - 0.3451
+        - 0.2660
+        - 0.3704
+        - 0.1953
+        - 0.1429
+        - 0.2026
+      J@10:
+        - 0.5500
+        - 0.4100
+        - 0.5200
+        - 0.3520
+        - 0.2680
+        - 0.3260
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -language zh
     results:
       MAP:
-        - 0.2574
-        - 0.2176
-        - 0.2558
-        - 0.1618
-        - 0.1386
-        - 0.1883
+        - 0.2641
+        - 0.2211
+        - 0.2641
+        - 0.1671
+        - 0.1442
+        - 0.1929
+      nDCG@10:
+        - 0.3220
+        - 0.2577
+        - 0.3082
+        - 0.1966
+        - 0.1685
+        - 0.2266
+      J@10:
+        - 0.5900
+        - 0.4700
+        - 0.5800
+        - 0.3800
+        - 0.3420
+        - 0.4100
