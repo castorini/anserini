@@ -1,6 +1,7 @@
 # Anserini Regressions: HC4 (v1.0) &mdash; Chinese
 
 This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Chinese](https://github.com/hltcoe/HC4) ([paper](https://arxiv.org/pdf/2201.09992.pdf)).
+To be clear, the queries are in Chinese (human translations) and the corpus is in Chinese.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/hc4-v1.0-zh.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/hc4-v1.0-zh.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
