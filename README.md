@@ -169,9 +169,9 @@ See individual pages for details!
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
 + Regressions for Mr. TyDi (v1.1) baselines: [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
-+ Regressions for HC4 (v1.0) baselines: [Persian](docs/regressions-hc4-v1.0-fa.md), [Russian](docs/regressions-hc4-v1.0-ru.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
-+ Regressions for HC4 (v1.0) on original NeuCLIR22 baselines: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
-+ Regressions for HC4 (v1.0) on translated NeuCLIR22 baselines: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
++ Regressions for HC4 (v1.0) baselines on HC4 corpora: [Persian](docs/regressions-hc4-v1.0-fa.md), [Russian](docs/regressions-hc4-v1.0-ru.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
++ Regressions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
++ Regressions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
 + Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions-wikipedia-dpr-100w-bm25.md)
 
 ### Available Corpora
