@@ -1,3 +1,4 @@
+
 Anserini
 ========
 [![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
@@ -51,89 +52,145 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 These pages can also serve as guides to reproduce our results.
 See individual pages for details!
 
+### MS MARCO V1 Passage Corpus
+
+|   | dev | DL19 | DL20 |
+|---|:---:|:----:|:----:|
+| **Unsupervised Lexical** |
+| BoW baselines | [+](docs/regressions-msmarco-passage.md) | [+](docs/regressions-dl19-passage.md) | [+](docs/regressions-dl20-passage.md) |
+| Quantized BM25 | [✓](docs/regressions-msmarco-passage-bm25-b8.md) | [✓](docs/regressions-dl19-passage-bm25-b8.md) | [✓](docs/regressions-dl20-passage-bm25-b8.md) |
+| WP baselines | [+](docs/regressions-msmarco-passage-wp.md) | [+](docs/regressions-dl19-passage-wp.md) | [+](docs/regressions-dl20-passage-wp.md) |
+| doc2query | [+](docs/regressions-msmarco-passage-doc2query.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-passage-docTTTTTquery.md) | [+](docs/regressions-dl19-passage-docTTTTTquery.md) | [+](docs/regressions-dl20-passage-docTTTTTquery.md) |
+| **Learned sparse lexical (uniCOIL family)** |
+| uniCOIL noexp | [✓](docs/regressions-msmarco-passage-unicoil-noexp.md) | [✓](docs/regressions-dl19-passage-unicoil-noexp.md) | [✓](docs/regressions-dl20-passage-unicoil-noexp.md) |
+| uniCOIL with doc2query-T5 | [✓](docs/regressions-msmarco-passage-unicoil.md) | [✓](docs/regressions-dl19-passage-unicoil.md) | [✓](docs/regressions-dl20-passage-unicoil.md) |
+| uniCOIL with TILDE | [✓](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md) |
+| **Learned sparse lexical (other)** |
+| DeepImpact | [✓](docs/regressions-msmarco-passage-deepimpact.md) |
+| SPLADEv2 | [✓](docs/regressions-msmarco-passage-distill-splade-max.md) |
+| SPLADE-distill CoCodenser-medium | [✓](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
+
+### MS MARCO V1 Document Corpus
+
+|   | dev | DL19 | DL20 |
+|---|:---:|:----:|:----:|
+| **Unsupervised lexical, complete doc**[*](docs/experiments-msmarco-doc-doc2query-details.md) |
+| BoW baselines | [+](docs/regressions-msmarco-doc.md) | [+](docs/regressions-dl19-doc.md) | [+](docs/regressions-dl20-doc.md) |
+| WP baselines | [+](docs/regressions-msmarco-doc-wp.md) | [+](docs/regressions-dl19-doc-wp.md) | [+](docs/regressions-dl20-doc-wp.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-doc-docTTTTTquery.md) | [+](docs/regressions-dl19-doc-docTTTTTquery.md) | [+](docs/regressions-dl20-doc-docTTTTTquery.md) |
+| **Unsupervised lexical, segmented doc**[*](docs/experiments-msmarco-doc-doc2query-details.md) |
+| BoW baselines | [+](docs/regressions-msmarco-doc-segmented.md) | [+](docs/regressions-dl19-doc-segmented.md) | [+](docs/regressions-dl20-doc-segmented.md) |
+| WP baselines | [+](docs/regressions-msmarco-doc-segmented-wp.md) | [+](docs/regressions-dl19-doc-segmented-wp.md) | [+](docs/regressions-dl20-doc-segmented-wp.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md) | [+](docs/regressions-dl19-doc-segmented-docTTTTTquery.md) | [+](docs/regressions-dl20-doc-segmented-docTTTTTquery.md) |
+| **Learned sparse lexical** |
+| uniCOIL noexp | [✓](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions-dl19-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions-dl20-doc-segmented-unicoil-noexp.md) |
+| uniCOIL with doc2query-T5 | [✓](docs/regressions-msmarco-doc-segmented-unicoil.md) | [✓](docs/regressions-dl19-doc-segmented-unicoil.md) | [✓](docs/regressions-dl20-doc-segmented-unicoil.md) |
+
+### MS MARCO V2 Passage Corpus
+
+|   | dev | DL21 |
+|---|:---:|:----:|
+| **Unsupervised lexical, original corpus** |
+| baselines | [+](docs/regressions-msmarco-v2-passage.md) | [+](docs/regressions-dl21-passage.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-d2q-t5.md) | [+](docs/regressions-dl21-passage-d2q-t5.md) |
+| **Unsupervised lexical, augmented corpus** |
+| baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md) |
+| **Learned sparse lexical** |
+| uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) |
+| uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-0shot.md) |
+
+### MS MARCO V2 Document Corpus
+
+|   | dev | DL21 |
+|---|:---:|:----:|
+| **Unsupervised lexical, complete doc** |
+| baselines | [+](docs/regressions-msmarco-v2-doc.md) | [+](docs/regressions-dl21-doc.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-d2q-t5.md) | [+](docs/regressions-dl21-doc-d2q-t5.md) |
+| **Unsupervised lexical, segmented doc** |
+| baselines | [+](docs/regressions-msmarco-v2-doc-segmented.md) | [+](docs/regressions-dl21-doc-segmented.md) |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md) | [+](docs/regressions-dl21-doc-segmented-d2q-t5.md) |
+| **Learned sparse lexical** |
+| uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [✓](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md) |
+| uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md) | [✓](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md) |
+
+### Regressions for BEIR (v1.0.0)
+
++ F = "flat" baseline
++ MF = "multifield" baseline
++ UCx = uniCOIL (noexp)
++ SPLADE = SPLADE-distill CoCodenser-medium
+
+| Corpus | flat | flat-wp | multifield | UCx | SPLADE |
+|--------|:----:|:-------:|:----------:|:------:|:------:|
+| TREC-COVID | [+](docs/regressions-beir-v1.0.0-trec-covid-flat.md)     | [+](docs/regressions-beir-v1.0.0-trec-covid-flat-wp.md)   | [+](docs/regressions-beir-v1.0.0-trec-covid-multifield.md)     | [+](docs/regressions-beir-v1.0.0-trec-covid-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md) |
+| BioASQ     | [+](docs/regressions-beir-v1.0.0-bioasq-flat.md)         | [+](docs/regressions-beir-v1.0.0-bioasq-flat-wp.md)       | [+](docs/regressions-beir-v1.0.0-bioasq-multifield.md)         | [+](docs/regressions-beir-v1.0.0-bioasq-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-bioasq-splade-distil-cocodenser-medium.md) |
+| NFCorpus   | [+](docs/regressions-beir-v1.0.0-nfcorpus-flat.md)       | [+](docs/regressions-beir-v1.0.0-nfcorpus-flat-wp.md)     | [+](docs/regressions-beir-v1.0.0-nfcorpus-multifield.md)       | [+](docs/regressions-beir-v1.0.0-nfcorpus-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.md) |
+| NQ         | [+](docs/regressions-beir-v1.0.0-nq-flat.md)             | [+](docs/regressions-beir-v1.0.0-nq-flat-wp.md)           | [+](docs/regressions-beir-v1.0.0-nq-multifield.md)             | [+](docs/regressions-beir-v1.0.0-nq-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-nq-splade-distil-cocodenser-medium.md) |
+| HotpotQA   | [+](docs/regressions-beir-v1.0.0-hotpotqa-flat.md)       | [+](docs/regressions-beir-v1.0.0-hotpotqa-flat-wp.md)     | [+](docs/regressions-beir-v1.0.0-hotpotqa-multifield.md)       | [+](docs/regressions-beir-v1.0.0-hotpotqa-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium.md) |
+| FiQA-2018  | [+](docs/regressions-beir-v1.0.0-fiqa-flat.md)           | [+](docs/regressions-beir-v1.0.0-fiqa-flat-wp.md)         | [+](docs/regressions-beir-v1.0.0-fiqa-multifield.md)           | [+](docs/regressions-beir-v1.0.0-fiqa-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-fiqa-splade-distil-cocodenser-medium.md) |
+| Signal-1M(RT) | [+](docs/regressions-beir-v1.0.0-signal1m-flat.md)    | [+](docs/regressions-beir-v1.0.0-signal1m-flat-wp.md)     | [+](docs/regressions-beir-v1.0.0-signal1m-multifield.md)       | [+](docs/regressions-beir-v1.0.0-signal1m-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-signal1m-splade-distil-cocodenser-medium.md) |
+| TREC-NEWS     | [+](docs/regressions-beir-v1.0.0-trec-news-flat.md)   | [+](docs/regressions-beir-v1.0.0-trec-news-flat-wp.md)    | [+](docs/regressions-beir-v1.0.0-trec-news-multifield.md)      | [+](docs/regressions-beir-v1.0.0-trec-news-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-trec-news-splade-distil-cocodenser-medium.md) |
+| Robust04      | [+](docs/regressions-beir-v1.0.0-robust04-flat.md)    | [+](docs/regressions-beir-v1.0.0-robust04-flat-wp.md)     | [+](docs/regressions-beir-v1.0.0-robust04-multifield.md)       | [+](docs/regressions-beir-v1.0.0-robust04-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-robust04-splade-distil-cocodenser-medium.md) |
+| ArguAna       | [+](docs/regressions-beir-v1.0.0-arguana-flat.md)     | [+](docs/regressions-beir-v1.0.0-arguana-flat-wp.md)      | [+](docs/regressions-beir-v1.0.0-arguana-multifield.md)        | [+](docs/regressions-beir-v1.0.0-arguana-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-arguana-splade-distil-cocodenser-medium.md) |
+| Touche2020    | [+](docs/regressions-beir-v1.0.0-webis-touche2020-flat.md)                    | [+](docs/regressions-beir-v1.0.0-webis-touche2020-flat-wp.md)         | [+](docs/regressions-beir-v1.0.0-webis-touche2020-multifield.md)               | [+](docs/regressions-beir-v1.0.0-webis-touche2020-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-webis-touche2020-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Android       | [+](docs/regressions-beir-v1.0.0-cqadupstack-android-flat.md)     | [+](docs/regressions-beir-v1.0.0-cqadupstack-android-flat-wp.md)      | [+](docs/regressions-beir-v1.0.0-cqadupstack-android-multifield.md)   | [+](docs/regressions-beir-v1.0.0-cqadupstack-android-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-android-splade-distil-cocodenser-medium.md) |
+| CQADupStack-English       | [+](docs/regressions-beir-v1.0.0-cqadupstack-english-flat.md)     | [+](docs/regressions-beir-v1.0.0-cqadupstack-english-flat-wp.md)      | [+](docs/regressions-beir-v1.0.0-cqadupstack-english-multifield.md)   | [+](docs/regressions-beir-v1.0.0-cqadupstack-english-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-english-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Gaming        | [+](docs/regressions-beir-v1.0.0-cqadupstack-gaming-flat.md)      | [+](docs/regressions-beir-v1.0.0-cqadupstack-gaming-flat-wp.md)       | [+](docs/regressions-beir-v1.0.0-cqadupstack-gaming-multifield.md)    | [+](docs/regressions-beir-v1.0.0-cqadupstack-gaming-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-gaming-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Gis           | [+](docs/regressions-beir-v1.0.0-cqadupstack-gis-flat.md)         | [+](docs/regressions-beir-v1.0.0-cqadupstack-gis-flat-wp.md)          | [+](docs/regressions-beir-v1.0.0-cqadupstack-gis-multifield.md)       | [+](docs/regressions-beir-v1.0.0-cqadupstack-gis-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-gis-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Mathematica   | [+](docs/regressions-beir-v1.0.0-cqadupstack-mathematica-flat.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-mathematica-flat-wp.md)  | [+](docs/regressions-beir-v1.0.0-cqadupstack-mathematica-multifield.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-mathematica-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Physics       | [+](docs/regressions-beir-v1.0.0-cqadupstack-physics-flat.md)     | [+](docs/regressions-beir-v1.0.0-cqadupstack-physics-flat-wp.md)      | [+](docs/regressions-beir-v1.0.0-cqadupstack-physics-multifield.md)   | [+](docs/regressions-beir-v1.0.0-cqadupstack-physics-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-physics-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Programmers   | [+](docs/regressions-beir-v1.0.0-cqadupstack-programmers-flat.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-programmers-flat-wp.md)  | [+](docs/regressions-beir-v1.0.0-cqadupstack-programmers-multifield.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-programmers-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-programmers-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Stats         | [+](docs/regressions-beir-v1.0.0-cqadupstack-stats-flat.md)       | [+](docs/regressions-beir-v1.0.0-cqadupstack-stats-flat-wp.md)        | [+](docs/regressions-beir-v1.0.0-cqadupstack-stats-multifield.md)     | [+](docs/regressions-beir-v1.0.0-cqadupstack-stats-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-stats-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Tex           | [+](docs/regressions-beir-v1.0.0-cqadupstack-tex-flat.md)         | [+](docs/regressions-beir-v1.0.0-cqadupstack-tex-flat-wp.md)          | [+](docs/regressions-beir-v1.0.0-cqadupstack-tex-multifield.md)       | [+](docs/regressions-beir-v1.0.0-cqadupstack-tex-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-tex-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Unix          | [+](docs/regressions-beir-v1.0.0-cqadupstack-unix-flat.md)        | [+](docs/regressions-beir-v1.0.0-cqadupstack-unix-flat-wp.md)         | [+](docs/regressions-beir-v1.0.0-cqadupstack-unix-multifield.md)      | [+](docs/regressions-beir-v1.0.0-cqadupstack-unix-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-unix-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Webmasters    | [+](docs/regressions-beir-v1.0.0-cqadupstack-webmasters-flat.md)  | [+](docs/regressions-beir-v1.0.0-cqadupstack-webmasters-flat-wp.md)   | [+](docs/regressions-beir-v1.0.0-cqadupstack-webmasters-multifield.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-webmasters-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-webmasters-splade-distil-cocodenser-medium.md) |
+| CQADupStack-Wordpress     | [+](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-flat.md)   | [+](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-flat-wp.md)    | [+](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-multifield.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-splade-distil-cocodenser-medium.md) |
+| Quora         | [+](docs/regressions-beir-v1.0.0-quora-flat.md)           | [+](docs/regressions-beir-v1.0.0-quora-flat-wp.md)            | [+](docs/regressions-beir-v1.0.0-quora-multifield.md)             | [+](docs/regressions-beir-v1.0.0-quora-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-quora-splade-distil-cocodenser-medium.md) |
+| DBPedia       | [+](docs/regressions-beir-v1.0.0-dbpedia-entity-flat.md)  | [+](docs/regressions-beir-v1.0.0-dbpedia-entity-flat-wp.md)   | [+](docs/regressions-beir-v1.0.0-dbpedia-entity-multifield.md)    | [+](docs/regressions-beir-v1.0.0-dbpedia-entity-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium.md) |
+| SCIDOCS       | [+](docs/regressions-beir-v1.0.0-scidocs-flat.md)         | [+](docs/regressions-beir-v1.0.0-scidocs-flat-wp.md)          | [+](docs/regressions-beir-v1.0.0-scidocs-multifield.md)              | [+](docs/regressions-beir-v1.0.0-scidocs-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-scidocs-splade-distil-cocodenser-medium.md) |
+| FEVER         | [+](docs/regressions-beir-v1.0.0-fever-flat.md)           | [+](docs/regressions-beir-v1.0.0-fever-flat-wp.md)            | [+](docs/regressions-beir-v1.0.0-fever-multifield.md)             | [+](docs/regressions-beir-v1.0.0-fever-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-fever-splade-distil-cocodenser-medium.md) |
+| Climate-FEVER | [+](docs/regressions-beir-v1.0.0-climate-fever-flat.md)   | [+](docs/regressions-beir-v1.0.0-climate-fever-flat-wp.md)    | [+](docs/regressions-beir-v1.0.0-climate-fever-multifield.md)     | [+](docs/regressions-beir-v1.0.0-climate-fever-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium.md) |
+| SciFact       | [+](docs/regressions-beir-v1.0.0-scifact-flat.md)         | [+](docs/regressions-beir-v1.0.0-scifact-flat-wp.md)          | [+](docs/regressions-beir-v1.0.0-scifact-multifield.md)          | [+](docs/regressions-beir-v1.0.0-scifact-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md) |
+
+### Other Regressions
+
 + Regressions for [Disks 1 &amp; 2 (TREC 1-3)](docs/regressions-disk12.md), [Disks 4 &amp; 5 (TREC 7-8, Robust04)](docs/regressions-disk45.md), [AQUAINT (Robust05)](docs/regressions-robust05.md)
 + Regressions for [the New York Times Corpus (Core17)](docs/regressions-core17.md), [the Washington Post Corpus (Core18)](docs/regressions-core18.md)
 + Regressions for [Wt10g](docs/regressions-wt10g.md), [Gov2](docs/regressions-gov2.md)
 + Regressions for [ClueWeb09 (Category B)](docs/regressions-cw09b.md), [ClueWeb12-B13](docs/regressions-cw12b13.md), [ClueWeb12](docs/regressions-cw12.md)
 + Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions-car17v1.5.md), [v2.0](docs/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)
-+ Regressions for MS MARCO (V1) Passage Ranking:
-  + Unsupervised lexical: [BoW baselines](docs/regressions-msmarco-passage.md), [WP baselines](docs/regressions-msmarco-passage-wp.md), [doc2query](docs/regressions-msmarco-passage-doc2query.md), [doc2query-T5](docs/regressions-msmarco-passage-docTTTTTquery.md)
-  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-msmarco-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-passage-unicoil.md), [uniCOIL with TILDE](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)
-  + Learned sparse lexical (other): [DeepImpact](docs/regressions-msmarco-passage-deepimpact.md), [SPLADEv2](docs/regressions-msmarco-passage-distill-splade-max.md), [SPLADE-distill CoCodenser-medium](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md)
-+ Regressions for MS MARCO (V1) Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-msmarco-doc.md), [WP baselines](docs/regressions-msmarco-doc-wp.md), [doc2query-T5](docs/regressions-msmarco-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-msmarco-doc-segmented.md), [WP baselines](docs/regressions-msmarco-doc-segmented-wp.md), [doc2query-T5](docs/regressions-msmarco-doc-segmented-docTTTTTquery.md)
-  + Learned sparse lexical: [uniCOIL noexp](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-msmarco-doc-segmented-unicoil.md)
-+ Regressions for TREC 2019 Deep Learning Track, Passage Ranking:
-  + Unsupervised lexical: [BoW baselines](docs/regressions-dl19-passage.md), [WP baselines](docs/regressions-dl19-passage-wp.md), [doc2query-T5](docs/regressions-dl19-passage-docTTTTTquery.md)
-  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl19-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-passage-unicoil.md)
-  + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md)
-+ Regressions for TREC 2019 Deep Learning Track, Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl19-doc.md), [WP baselines](docs/regressions-dl19-doc-wp.md), [doc2query-T5](docs/regressions-dl19-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl19-doc-segmented.md), [WP baselines](docs/regressions-dl19-doc-segmented-wp.md), [doc2query-T5](docs/regressions-dl19-doc-segmented-docTTTTTquery.md)
-  + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl19-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl19-doc-segmented-unicoil.md)
-+ Regressions for TREC 2020 Deep Learning Track, Passage Ranking:
-  + Unsupervised lexical: [BoW baselines](docs/regressions-dl20-passage.md), [WP baselines](docs/regressions-dl20-passage-wp.md), [doc2query-T5](docs/regressions-dl20-passage-docTTTTTquery.md)
-  + Learned sparse lexical (uniCOIL family): [uniCOIL noexp](docs/regressions-dl20-passage-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-passage-unicoil.md)
-  + Learned sparse lexical (other): [SPLADE-distill CoCodenser-medium](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md)
-+ Regressions for TREC 2020 Deep Learning Track, Document Ranking:
-  + Unsupervised lexical, complete doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl20-doc.md), [WP baselines](docs/regressions-dl20-doc-wp.md), [doc2query-T5](docs/regressions-dl20-doc-docTTTTTquery.md)
-  + Unsupervised lexical, segmented doc[*](docs/experiments-msmarco-doc-doc2query-details.md): [BoW baselines](docs/regressions-dl20-doc-segmented.md), [WP baselines](docs/regressions-dl20-doc-segmented-wp.md), [doc2query-T5](docs/regressions-dl20-doc-segmented-docTTTTTquery.md)
-  + Learned sparse lexical: [uniCOIL noexp](docs/regressions-dl20-doc-segmented-unicoil-noexp.md), [uniCOIL with d2q-T5](docs/regressions-dl20-doc-segmented-unicoil.md)
-+ Regressions for MS MARCO (V2) Passage Ranking:
-  + Unsupervised lexical, original corpus: [baselines](docs/regressions-msmarco-v2-passage.md), [doc2query-T5](docs/regressions-msmarco-v2-passage-d2q-t5.md)
-  + Unsupervised lexical, augmented corpus: [baselines](docs/regressions-msmarco-v2-passage-augmented.md), [doc2query-T5](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-msmarco-v2-passage-unicoil-0shot.md)
-+ Regressions for MS MARCO (V2) Document Ranking:
-  + Unsupervised lexical, complete doc: [baselines](docs/regressions-msmarco-v2-doc.md), [doc2query-T5](docs/regressions-msmarco-v2-doc-d2q-t5.md)
-  + Unsupervised lexical, segmented doc: [baselines](docs/regressions-msmarco-v2-doc-segmented.md), [doc2query-T5](docs/regressions-msmarco-v2-doc-segmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md)
-+ Regressions for TREC 2021 Deep Learning Track, Passage Ranking:
-  + Unsupervised lexical, original corpus: [baselines](docs/regressions-dl21-passage.md), [doc2query-T5](docs/regressions-dl21-passage-d2q-t5.md)
-  + Unsupervised lexical, augmented corpus: [baselines](docs/regressions-dl21-passage-augmented.md), [doc2query-T5](docs/regressions-dl21-passage-augmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-dl21-passage-unicoil-noexp-0shot.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-dl21-passage-unicoil-0shot.md)
-+ Regressions for TREC 2021 Deep Learning Track, Document Ranking:
-  + Unsupervised lexical, complete doc: [baselines](docs/regressions-dl21-doc.md), [doc2query-T5](docs/regressions-dl21-doc-d2q-t5.md)
-  + Unsupervised lexical, segmented doc: [baselines](docs/regressions-dl21-doc-segmented.md), [doc2query-T5](docs/regressions-dl21-doc-segmented-d2q-t5.md)
-  + Learned sparse lexical: [uniCOIL noexp zero-shot](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md), [uniCOIL with d2q-T5 zero-shot](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md)
 + Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions-backgroundlinking18.md), [2019](docs/regressions-backgroundlinking19.md), [2020](docs/regressions-backgroundlinking20.md)
 + Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
-+ Regressions for Mr. TyDi (v1.1) baselines : [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
-+ Regressions for BEIR (v1.0.0):
-  + TREC-COVID: ["flat" baseline](docs/regressions-beir-v1.0.0-trec-covid-flat.md), ["multfield" baseline](docs/regressions-beir-v1.0.0-trec-covid-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md)
-  + BioASQ: ["flat" baseline](docs/regressions-beir-v1.0.0-bioasq-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-bioasq-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-bioasq-splade-distil-cocodenser-medium.md)
-  + NFCorpus: ["flat" baseline](docs/regressions-beir-v1.0.0-nfcorpus-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-nfcorpus-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.md)
-  + NQ: ["flat" baseline](docs/regressions-beir-v1.0.0-nq-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-nq-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-nq-splade-distil-cocodenser-medium.md)
-  + HotpotQA: ["flat" baseline](docs/regressions-beir-v1.0.0-hotpotqa-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-hotpotqa-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium.md)
-  + FiQA-2018: ["flat" baseline](docs/regressions-beir-v1.0.0-fiqa-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-fiqa-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fiqa-splade-distil-cocodenser-medium.md)
-  + Signal-1M(RT): ["flat" baseline](docs/regressions-beir-v1.0.0-signal1m-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-signal1m-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-signal1m-splade-distil-cocodenser-medium.md)
-  + TREC-NEWS: ["flat" baseline](docs/regressions-beir-v1.0.0-trec-news-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-trec-news-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-trec-news-splade-distil-cocodenser-medium.md)
-  + Robust04: ["flat" baseline](docs/regressions-beir-v1.0.0-robust04-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-robust04-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-robust04-splade-distil-cocodenser-medium.md)
-  + ArguAna: ["flat" baseline](docs/regressions-beir-v1.0.0-arguana-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-arguana-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-arguana-splade-distil-cocodenser-medium.md)
-  + Touche2020: ["flat" baseline](docs/regressions-beir-v1.0.0-webis-touche2020-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-arguana-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-webis-touche2020-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Android: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-android-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-android-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-android-splade-distil-cocodenser-medium.md)
-  + CQADupStack-English: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-english-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-english-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-english-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Gaming: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-gaming-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-gaming-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-gaming-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Gis: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-gis-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-gis-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-gis-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Mathematica: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-mathematica-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-mathematica-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-mathematica-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Physics: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-physics-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-physics-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-physics-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Programmers: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-programmers-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-programmers-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-programmers-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Stats: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-stats-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-stats-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-stats-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Tex: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-tex-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-tex-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-tex-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Unix: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-unix-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-unix-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-unix-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Webmasters: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-webmasters-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-webmasters-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-webmasters-splade-distil-cocodenser-medium.md)
-  + CQADupStack-Wordpress: ["flat" baseline](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-cqadupstack-wordpress-splade-distil-cocodenser-medium.md)
-  + Quora: ["flat" baseline](docs/regressions-beir-v1.0.0-quora-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-quora-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-quora-splade-distil-cocodenser-medium.md)
-  + DBPedia: ["flat" baseline](docs/regressions-beir-v1.0.0-dbpedia-entity-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-dbpedia-entity-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium.md)
-  + SCIDOCS: ["flat" baseline](docs/regressions-beir-v1.0.0-scidocs-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-multifield-flat.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scidocs-splade-distil-cocodenser-medium.md)
-  + FEVER: ["flat" baseline](docs/regressions-beir-v1.0.0-fever-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-fever-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-fever-splade-distil-cocodenser-medium.md)
-  + Climate-FEVER: ["flat" baseline](docs/regressions-beir-v1.0.0-climate-fever-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-climate-fever-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium.md)
-  + SciFact: ["flat" baseline](docs/regressions-beir-v1.0.0-scifact-flat.md), ["multifield" baseline](docs/regressions-beir-v1.0.0-scifact-multifield.md), [SPLADE-distill CoCodenser-medium](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md) 
++ Regressions for Mr. TyDi (v1.1) baselines: [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
++ Regressions for HC4 (v1.0) baselines on HC4 corpora: [Persian](docs/regressions-hc4-v1.0-fa.md), [Russian](docs/regressions-hc4-v1.0-ru.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
++ Regressions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
++ Regressions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
++ Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions-wikipedia-dpr-100w-bm25.md)
+
+### Available Corpora
+
+| Corpora                                                                                                                                         |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [MS MARCO V1 passage: Quantized BM25](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar)                            | 1.2 GB | `0a623e2c97ac6b7e814bf1323a97b435` |
+| [MS MARCO V1 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar)                     | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
+| [MS MARCO V1 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar)                          | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
+| [MS MARCO V1 passage: uniCOIL (TILDE)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar)           | 3.9 GB | `12a9c289d94e32fd63a7d39c9677d75c` |
+| [MS MARCO V1 passage: DeepImpact](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar)                             | 3.6 GB | `73843885b503af3c8b3ee62e5f5a9900` |
+| [MS MARCO V1 passage: SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                       | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
+| [MS MARCO V1 passage: SPLADE CoCodenser](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar) | 4.9 GB | `f77239a26d08856e6491a34062893b0c` |
+| [MS MARCO V1 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar)                   |  11 GB | `11b226e1cacd9c8ae0a660fd14cdd710` |
+| [MS MARCO V1 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar)                        |  19 GB | `6a00e2c0c375cb1e52c83ae5ac377ebb` |
+| [MS MARCO V2 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar)            |  24 GB | `d9cc1ed3049746e68a2c91bf90e5212d` |
+| [MS MARCO V2 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar)                 |  41 GB | `1949a00bfd5e1f1a230a04bbc1f01539` |
+| [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar)       |  55 GB | `97ba262c497164de1054f357caea0c63` |
+| [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)            |  72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
 
 ## Additional Documentation
 

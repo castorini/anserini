@@ -22,32 +22,49 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-noexp-0shot
 ```
 
-## Corpus
+We make available a version of the MS MARCO document corpus that has already been processed with uniCOIL (per above), i.e., we have performed model inference on every document and stored the output sparse vectors.
+Thus, no neural inference is involved.
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression dl21-doc-segmented-unicoil-noexp-0shot
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
 
 Download, unpack, and prepare the corpus:
 
-```
+```bash
 # Download
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar -P collections/
 
 # Unpack
-tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar -C collections/
+tar -xvf collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar -C collections/
 
 # Rename (indexer is expecting corpus under a slightly different name)
-mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2 collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2
+mv collections/msmarco_v2_doc_segmented_unicoil_noexp_0shot collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot
 ```
 
-To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar` is 55 GB and has an MD5 checksum of `msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar`.
+To confirm, `msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar` is 54 GB and has an MD5 checksum of `28261587d6afde56efd8df4f950e7fb4`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-noexp-0shot \
+  --corpus-path collections/msmarco-v2-doc-segmented-unicoil-noexp-0shot
+```
 
 ## Indexing
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot \
@@ -72,7 +89,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
@@ -83,7 +100,7 @@ target/appassembler/bin/SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt
@@ -94,28 +111,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 s
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP@100                                                                                                      | uniCOIL (noexp) zero-shot|
+| **MAP@100**                                                                                                  | **uniCOIL (noexp) zero-shot**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2475    |
-
-
-| MRR@100                                                                                                      | uniCOIL (noexp) zero-shot|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **MRR@100**                                                                                                  | **uniCOIL (noexp) zero-shot**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.9122    |
-
-
-| nDCG@10                                                                                                      | uniCOIL (noexp) zero-shot|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **nDCG@10**                                                                                                  | **uniCOIL (noexp) zero-shot**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6282    |
-
-
-| R@100                                                                                                        | uniCOIL (noexp) zero-shot|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **uniCOIL (noexp) zero-shot**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3497    |
-
-
-| R@1000                                                                                                       | uniCOIL (noexp) zero-shot|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **uniCOIL (noexp) zero-shot**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6767    |
 
 This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
@@ -124,3 +129,5 @@ The difference is that here we are using pre-encoded queries, whereas the offici
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-noexp-0shot.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

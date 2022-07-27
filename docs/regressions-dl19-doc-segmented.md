@@ -81,6 +81,13 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
+  -output runs/run.msmarco-doc-segmented.bm25-default+rocchio-neg.topics.dl19-doc.txt \
+  -bm25 -rocchio -rocchio.useNegative -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-default+ax.topics.dl19-doc.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
@@ -116,6 +123,13 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
+  -output runs/run.msmarco-doc-segmented.bm25-tuned+rocchio-neg.topics.dl19-doc.txt \
+  -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rocchio -rocchio.useNegative -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-segmented/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-tuned+ax.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
@@ -145,6 +159,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+rocchio.topics.dl19-doc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+rocchio.topics.dl19-doc.txt
 
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+rocchio-neg.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+rocchio-neg.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+rocchio-neg.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+rocchio-neg.topics.dl19-doc.txt
+
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+ax.topics.dl19-doc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+ax.topics.dl19-doc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default+ax.topics.dl19-doc.txt
@@ -170,6 +189,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+rocchio.topics.dl19-doc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+rocchio.topics.dl19-doc.txt
 
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+rocchio-neg.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+rocchio-neg.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+rocchio-neg.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+rocchio-neg.topics.dl19-doc.txt
+
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+ax.topics.dl19-doc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+ax.topics.dl19-doc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-tuned+ax.topics.dl19-doc.txt
@@ -185,29 +209,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@100                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2449    | 0.2884    | 0.2889    | 0.2981    | 0.2827    | 0.2398    | 0.2658    | 0.2677    | 0.2975    | 0.2828    |
-
-
-| nDCG@10                                                                                                      | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5302    | 0.5764    | 0.5570    | 0.5556    | 0.5599    | 0.5389    | 0.5405    | 0.5424    | 0.5574    | 0.5476    |
-
-
-| R@100                                                                                                        | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3840    | 0.4355    | 0.4415    | 0.4490    | 0.4476    | 0.3903    | 0.4133    | 0.4107    | 0.4491    | 0.4361    |
-
-
-| R@1000                                                                                                       | BM25 (default)| +RM3      | +Rocchio  | +Ax       | +PRF      | BM25 (tuned)| +RM3      | +Rocchio  | +Ax       | +PRF      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6871    | 0.7384    | 0.7423    | 0.7764    | 0.7311    | 0.6565    | 0.7030    | 0.7115    | 0.7526    | 0.7361    |
+| **AP@100**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  | **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2449    | 0.2884    | 0.2889    | 0.2899    | 0.2981    | 0.2827    | 0.2398    | 0.2658    | 0.2677    | 0.2678    | 0.2975    | 0.2828    |
+| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  | **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5302    | 0.5764    | 0.5570    | 0.5626    | 0.5556    | 0.5599    | 0.5389    | 0.5405    | 0.5424    | 0.5432    | 0.5574    | 0.5476    |
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  | **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3840    | 0.4355    | 0.4415    | 0.4400    | 0.4490    | 0.4476    | 0.3903    | 0.4133    | 0.4107    | 0.4133    | 0.4491    | 0.4361    |
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  | **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6871    | 0.7384    | 0.7423    | 0.7395    | 0.7764    | 0.7311    | 0.6565    | 0.7030    | 0.7115    | 0.7093    | 0.7526    | 0.7361    |
 
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=2.16`, `b=0.61`, tuned using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval) on 2020/12.
++ The setting "tuned" refers to `k1=2.16`, `b=0.61`, tuned in 2020/12 using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval).
 
 Settings tuned on the MS MARCO document sparse judgments _may not_ work well on the TREC dense judgments.
 

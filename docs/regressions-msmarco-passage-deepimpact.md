@@ -12,39 +12,42 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-deepimpact
 ```
 
-## Corpus
+We make available a version of the MS MARCO passage corpus that has already been processed with DeepImpact, i.e., we have applied neural inference and stored the output sparse vectors.
 
-We make available a version of the MS MARCO passage corpus that has already been processed with the model (i.e., with inference applied to generate the lexical representations).
-Thus, no neural inference is involved.
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-deepimpact
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
 
 Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar -P collections/
-
 tar xvf collections/msmarco-passage-deepimpact.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-deepimpact.tar` is 3.6 GB and has MD5 checksum `fe827eb13ca3270bebe26b3f6b99f550`.
+To confirm, `msmarco-passage-deepimpact.tar` is 3.6 GB and has MD5 checksum `73843885b503af3c8b3ee62e5f5a9900`.
+With the corpus downloaded, the following command will perform the remaining steps below:
 
-With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
-
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-deepimpact \
   --corpus-path collections/msmarco-passage-deepimpact
 ```
-
-Alternatively, you can simply copy/paste from the commands below and obtain the same results.
 
 ## Indexing
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-deepimpact \
@@ -68,7 +71,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-deepimpact/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
@@ -79,7 +82,7 @@ target/appassembler/bin/SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.txt
@@ -90,23 +93,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | DeepImpact|
+| **AP@1000**                                                                                                  | **DeepImpact**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3334    |
-
-
-| RR@10                                                                                                        | DeepImpact|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **RR@10**                                                                                                    | **DeepImpact**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3274    |
-
-
-| R@100                                                                                                        | DeepImpact|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **DeepImpact**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8421    |
-
-
-| R@1000                                                                                                       | DeepImpact|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **DeepImpact**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9476    |
 
 The above runs are in TREC output format and evaluated with `trec_eval`.
@@ -138,5 +132,6 @@ The final evaluation metric is very close to the one reported in the paper (0.32
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-deepimpact.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@MXueguang](https://github.com/MXueguang) on 2021-06-17 (commit [`ff618db`](https://github.com/castorini/anserini/commit/ff618dbf87feee0ad75dc42c72a361c05984097d))
-+ Results reproduced by [@JMMackenzie](https://github.com/jmmackenzie) on 2021-06-22 (commit [`490434`](https://github.com/castorini/anserini/commit/490434172a035b6eade8c17771aed83cc7f5d996))
-+ Results reproduced by [@amyxie361](https://github.com/amyxie361) on 2021-06-22 (commit [`6f9352`](https://github.com/castorini/anserini/commit/6f9352fc5d6a4938fadc2bda9d0c428056eec5f0))
++ Results reproduced by [@JMMackenzie](https://github.com/jmmackenzie) on 2021-06-22 (commit [`4904341`](https://github.com/castorini/anserini/commit/490434172a035b6eade8c17771aed83cc7f5d996))
++ Results reproduced by [@amyxie361](https://github.com/amyxie361) on 2021-06-22 (commit [`6f9352f`](https://github.com/castorini/anserini/commit/6f9352fc5d6a4938fadc2bda9d0c428056eec5f0))
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-14 (commit [`dc07344`](https://github.com/castorini/anserini/commit/dc073447c8a0c07b53d979c49bf1e2e018200508))

@@ -89,18 +89,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| nDCG@10                                                                                                      | SPLADE-distill CoCodenser Medium|
+| **nDCG@10**                                                                                                  | **SPLADE-distill CoCodenser Medium**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): Robust04                                                                                      | 0.4581    |
-
-
-| R@100                                                                                                        | SPLADE-distill CoCodenser Medium|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **SPLADE-distill CoCodenser Medium**|
 | BEIR (v1.0.0): Robust04                                                                                      | 0.3773    |
-
-
-| R@1000                                                                                                       | SPLADE-distill CoCodenser Medium|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **SPLADE-distill CoCodenser Medium**|
 | BEIR (v1.0.0): Robust04                                                                                      | 0.6099    |
 
 

@@ -66,21 +66,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@100                                                                                                       | BM25 (default)|
+| **AP@100**                                                                                                   | **BM25 (default)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.1947    |
-
-
-| nDCG@10                                                                                                      | BM25 (default)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **nDCG@10**                                                                                                  | **BM25 (default)**|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4672    |
-
-
-| R@100                                                                                                        | BM25 (default)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **BM25 (default)**|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3400    |
-
-
-| R@1000                                                                                                       | BM25 (default)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **BM25 (default)**|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6421    |

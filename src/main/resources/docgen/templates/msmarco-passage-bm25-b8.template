@@ -1,0 +1,81 @@
+# Anserini Regressions: MS MARCO Passage Ranking
+
+**Models**: BM25 with quantized weights (8 bits)
+
+This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
+For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage.md).
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
+From any machine, the following command will download the corpus (as quantized BM25 weights) and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression ${test_name}
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
+
+Download the corpus and unpack into `collections/`:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar -P collections/
+tar xvf collections/msmarco-passage-bm25-b8.tar -C collections/
+```
+
+To confirm, `msmarco-passage-bm25-b8.tar` is 1.2 GB and has MD5 checksum `0a623e2c97ac6b7e814bf1323a97b435`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
+  --corpus-path collections/${corpus}
+```
+
+## Indexing
+
+Typical indexing command:
+
+```bash
+${index_cmds}
+```
+
+The directory `/path/to/${corpus}/` should be a directory containing `jsonl` files containing quantized BM25 vectors for every document
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```bash
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```bash
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-14 (commit [`dc07344`](https://github.com/castorini/anserini/commit/dc073447c8a0c07b53d979c49bf1e2e018200508))

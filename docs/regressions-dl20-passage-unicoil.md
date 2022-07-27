@@ -18,46 +18,49 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-unicoil
 ```
 
-## Corpus
-
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., we have applied doc2query-T5 expansions, performed model inference on every document, and stored the output sparse vectors.
 Thus, no neural inference is involved.
-For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage-unicoil
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
 
 Download the corpus and unpack into `collections/`:
 
-```
+```bash
 wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar -P collections/
-
 tar xvf collections/msmarco-passage-unicoil.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-unicoil.tar` is 3.3 GB and has MD5 checksum `78eef752c78c8691f7d61600ceed306f`.
+To confirm, `msmarco-passage-unicoil.tar` is 3.4 GB and has MD5 checksum `78eef752c78c8691f7d61600ceed306f`.
+With the corpus downloaded, the following command will perform the remaining steps below:
 
-With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
-
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-unicoil \
   --corpus-path collections/msmarco-passage-unicoil
 ```
-
-Alternatively, you can simply copy/paste from the commands below and obtain the same results.
 
 ## Indexing
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-unicoil \
   -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 16 -impact -pretokenized \
+  -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-unicoil &
 ```
 
@@ -76,46 +79,61 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-unicoil/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-unicoil.rm3.topics.dl20.unicoil.0shot.txt \
+  -impact -pretokenized -rm3 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-unicoil/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-unicoil.rocchio.topics.dl20.unicoil.0shot.txt \
+  -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.rm3.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.rm3.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.rm3.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.rm3.topics.dl20.unicoil.0shot.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.rocchio.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.rocchio.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.rocchio.topics.dl20.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil.rocchio.topics.dl20.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | uniCOIL (with doc2query-T5 expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4430    |
-
-
-| nDCG@10                                                                                                      | uniCOIL (with doc2query-T5 expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6745    |
-
-
-| R@100                                                                                                        | uniCOIL (with doc2query-T5 expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7006    |
-
-
-| R@1000                                                                                                       | uniCOIL (with doc2query-T5 expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8430    |
+| **AP@1000**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4430    | 0.4475    | 0.4539    |
+| **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6745    | 0.6479    | 0.6599    |
+| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7006    | 0.6822    | 0.7096    |
+| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8430    | 0.8417    | 0.8610    |
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
@@ -126,3 +144,4 @@ The experimental results reported here are directly comparable to the results re
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

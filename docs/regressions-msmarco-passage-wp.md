@@ -62,21 +62,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | BM25 (default)|
+| **AP@1000**                                                                                                  | **BM25 (default)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1836    |
-
-
-| RR@10                                                                                                        | BM25 (default)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **RR@10**                                                                                                    | **BM25 (default)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1752    |
-
-
-| R@100                                                                                                        | BM25 (default)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **BM25 (default)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.6231    |
-
-
-| R@1000                                                                                                       | BM25 (default)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@1000**                                                                                                   | **BM25 (default)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8263    |

@@ -76,6 +76,18 @@ models:
         - 0.6443
       R@1000:
         - 0.8270
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@100:
+        - 0.4297
+      nDCG@10:
+        - 0.5873
+      R@100:
+        - 0.6475
+      R@1000:
+        - 0.8365
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
@@ -100,3 +112,15 @@ models:
         - 0.6394
       R@1000:
         - 0.8172
+  - name: bm25-tuned+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@100:
+        - 0.4084
+      nDCG@10:
+        - 0.5809
+      R@100:
+        - 0.6432
+      R@1000:
+        - 0.8233

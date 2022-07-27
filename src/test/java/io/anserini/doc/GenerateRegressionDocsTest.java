@@ -51,6 +51,7 @@ public class GenerateRegressionDocsTest {
       valuesMap.put("corpus", corpus);
       valuesMap.put("index_cmds", data.generateIndexingCommand(corpus));
       valuesMap.put("ranking_cmds", data.generateRankingCommand(corpus));
+      valuesMap.put("converting_cmds", data.generateConvertingCommand(corpus));
       valuesMap.put("eval_cmds", data.generateEvalCommand(corpus));
       valuesMap.put("effectiveness", data.generateEffectiveness(corpus));
 

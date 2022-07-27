@@ -74,6 +74,13 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
+  -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt \
+  -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
@@ -83,6 +90,13 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt \
+  -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -98,6 +112,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
 
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
+
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl20.txt
@@ -107,35 +126,31 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@100                                                                                                       | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.4150    | 0.4268    | 0.4047    | 0.4025    |
-
-
-| nDCG@10                                                                                                      | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5957    | 0.5850    | 0.5943    | 0.5724    |
-
-
-| R@100                                                                                                        | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6201    | 0.6443    | 0.6195    | 0.6394    |
-
-
-| R@1000                                                                                                       | BM25 (default)| +RM3      | BM25 (tuned)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.8046    | 0.8270    | 0.7968    | 0.8172    |
+| **AP@100**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.4150    | 0.4268    | 0.4297    | 0.4047    | 0.4025    | 0.4084    |
+| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5957    | 0.5850    | 0.5873    | 0.5943    | 0.5724    | 0.5809    |
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6201    | 0.6443    | 0.6475    | 0.6195    | 0.6394    | 0.6432    |
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.8046    | 0.8270    | 0.8365    | 0.7968    | 0.8172    | 0.8233    |
 
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=2.56`, `b=0.59`, tuned using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval) on 2019/12.
++ The setting "tuned" refers to `k1=2.56`, `b=0.59`, tuned in 2020/12 using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval).
 
 Settings tuned on the MS MARCO document sparse judgments _may not_ work well on the TREC dense judgments.
 

@@ -643,6 +643,9 @@ public final class SearchCollection implements Closeable {
                 for (String beta : args.rocchio_beta) {
                   for (String gamma : args.rocchio_gamma) {
                     String tag;
+                    if (args.rocchio_useNegative == false){
+                      gamma = "0";
+                    }
                     if (this.args.rf_qrels != null){
                       tag = String.format("rocchioRf(topFbTerms=%s,bottomFbTerms=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, bottomFbTerms, alpha, beta, gamma);
                     } else{
@@ -650,8 +653,8 @@ public final class SearchCollection implements Closeable {
                     }
                     RerankerCascade cascade = new RerankerCascade(tag);
                     cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
-                        Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms),
-                        Integer.valueOf(bottomFbDocs),Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery));
+                        Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms), Integer.valueOf(bottomFbDocs),
+                        Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
                     cascade.add(new ScoreTiesAdjusterReranker());
                     cascades.add(cascade);
                   }

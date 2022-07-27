@@ -90,25 +90,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank sr
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP@100                                                                                                      | BM25 (default)| +RM3      |
+| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
 | [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2203    | 0.1955    |
 | [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2205    | 0.1939    |
-
-
-| MRR@100                                                                                                      | BM25 (default)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  |
 | [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2226    | 0.1974    |
 | [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2234    | 0.1966    |
-
-
-| R@100                                                                                                        | BM25 (default)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  |
 | [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.7297    | 0.7104    |
 | [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.7316    | 0.7164    |
-
-
-| R@1000                                                                                                       | BM25 (default)| +RM3      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  |
 | [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.8982    | 0.9000    |
 | [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.8952    | 0.8967    |

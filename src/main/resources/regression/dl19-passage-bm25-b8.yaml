@@ -1,0 +1,69 @@
+---
+corpus: msmarco-passage-bm25-b8
+corpus_path: collections/msmarco/msmarco-passage-bm25-b8/
+
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar
+download_checksum: 0a623e2c97ac6b7e814bf1323a97b435
+
+index_path: indexes/lucene-index.msmarco-passage-bm25-b8/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 9
+index_options: -impact -pretokenized
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 11778323673
+
+metrics:
+  - metric: AP@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.100 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.1000 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)"
+    id: dl19
+    path: topics.dl19-passage.txt
+    qrel: qrels.dl19-passage.txt
+
+models:
+  - name: bm25-b8
+    display: BM25 (default parameters, quantized 8 bits)
+    params: -impact
+    results:
+      AP@1000:
+        - 0.3046
+      nDCG@10:
+        - 0.4993
+      R@100:
+        - 0.4949
+      R@1000:
+        - 0.7639
