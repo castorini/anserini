@@ -49,111 +49,111 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.title.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.title.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt \
   -bm25 -language zh &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.title.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.title.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt \
   -bm25 -rm3 -language zh &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.title.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.title.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-zh \
-  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv.gz \
+  -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt \
   -bm25 -rocchio -language zh &
@@ -162,61 +162,79 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.dev.desc.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.dev.desc.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.dev.desc.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.10 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.hc4-v1.0-zh.test.txt runs/run.hc4-v1.0-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt
 ```
 
@@ -232,20 +250,27 @@ With the above commands, you should be able to reproduce the following results:
 | [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1801    | 0.1613    | 0.1671    |
 | [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1455    | 0.1051    | 0.1442    |
 | [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1907    | 0.1485    | 0.1929    |
-| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.3688    | 0.3451    | 0.3220    |
-| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.2623    | 0.2660    | 0.2577    |
-| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.3445    | 0.3704    | 0.3082    |
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2197    | 0.1953    | 0.1966    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1874    | 0.1429    | 0.1685    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.2374    | 0.2026    | 0.2266    |
-| **J@10**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.5600    | 0.5500    | 0.5900    |
-| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.4700    | 0.4100    | 0.4700    |
-| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.6100    | 0.5200    | 0.5800    |
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.3500    | 0.3520    | 0.3800    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.3160    | 0.2680    | 0.3420    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.3820    | 0.3260    | 0.4100    |
+| **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.3908    | 0.4296    | 0.3474    |
+| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3023    | 0.3327    | 0.2963    |
+| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.3474    | 0.4094    | 0.3502    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2526    | 0.2132    | 0.2236    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2048    | 0.1597    | 0.1916    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.2596    | 0.2211    | 0.2644    |
+| **J@20**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.4250    | 0.4200    | 0.4250    |
+| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3800    | 0.3250    | 0.3550    |
+| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.4150    | 0.3650    | 0.4250    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.3000    | 0.2760    | 0.3070    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2470    | 0.1960    | 0.2740    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.3070    | 0.2460    | 0.3350    |
+| **Recall@1000**                                                                                              | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.7964    | 0.7589    | 0.8365    |
+| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.7255    | 0.6730    | 0.7570    |
+| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.7663    | 0.7229    | 0.8241    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.6963    | 0.6764    | 0.6652    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.6358    | 0.4933    | 0.6481    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.7100    | 0.5903    | 0.7074    |
 
 ## Reproduction Log[*](reproducibility.md)
 

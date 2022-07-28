@@ -19,16 +19,23 @@ metrics:
     parse_index: 2
     metric_precision: 4
     can_combine: true
-  - metric: nDCG@10
+  - metric: nDCG@20
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m ndcg_cut.10
+    params: -c -m ndcg_cut.20
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
-  - metric: J@10
+  - metric: J@20
     command: python -m pyserini.eval.trec_eval
-    params: -c -m judged.10
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -40,27 +47,27 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[HC4 (Persian): dev-topic title](https://github.com/hltcoe/HC4)"
     id: dev_title
-    path: topics.hc4-v1.0-fa.dev.title.tsv.gz
+    path: topics.hc4-v1.0-fa.dev.title.tsv
     qrel: qrels.hc4-v1.0-fa.dev.txt
   - name: "[HC4 (Persian): dev-topic description](https://github.com/hltcoe/HC4)"
     id: dev_description
-    path: topics.hc4-v1.0-fa.dev.desc.tsv.gz
+    path: topics.hc4-v1.0-fa.dev.desc.tsv
     qrel: qrels.hc4-v1.0-fa.dev.txt
   - name: "[HC4 (Persian): dev-topic description+title](https://github.com/hltcoe/HC4)"
     id: dev_description_title
-    path: topics.hc4-v1.0-fa.dev.desc.title.tsv.gz
+    path: topics.hc4-v1.0-fa.dev.desc.title.tsv
     qrel: qrels.hc4-v1.0-fa.dev.txt
   - name: "[HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)"
     id: test_title
-    path: topics.hc4-v1.0-fa.test.title.tsv.gz
+    path: topics.hc4-v1.0-fa.test.title.tsv
     qrel: qrels.hc4-v1.0-fa.test.txt
   - name: "[HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)"
     id: test_description
-    path: topics.hc4-v1.0-fa.test.desc.tsv.gz
+    path: topics.hc4-v1.0-fa.test.desc.tsv
     qrel: qrels.hc4-v1.0-fa.test.txt
   - name: "[HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)"
     id: test_description_title
-    path: topics.hc4-v1.0-fa.test.desc.title.tsv.gz
+    path: topics.hc4-v1.0-fa.test.desc.title.tsv
     qrel: qrels.hc4-v1.0-fa.test.txt
 
 
@@ -76,20 +83,27 @@ models:
         - 0.2877
         - 0.2928
         - 0.3285
-      nDCG@10:
-        - 0.3027
-        - 0.3135
-        - 0.3392
-        - 0.3470
-        - 0.3696
-        - 0.4099
-      J@10:
-        - 0.4900
-        - 0.5900
-        - 0.5700
-        - 0.4900
-        - 0.4960
-        - 0.5400
+      nDCG@20:
+        - 0.3445
+        - 0.3475
+        - 0.3665
+        - 0.3846
+        - 0.4039
+        - 0.4489
+      J@20:
+        - 0.4100
+        - 0.4750
+        - 0.4700
+        - 0.4010
+        - 0.3890
+        - 0.4420
+      Recall@1000:
+        - 0.7794
+        - 0.8491
+        - 0.9129
+        - 0.8223
+        - 0.8402
+        - 0.8651
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3 -language fa
@@ -101,20 +115,27 @@ models:
         - 0.2962
         - 0.2805
         - 0.3067
-      nDCG@10:
-        - 0.2840
-        - 0.3711
-        - 0.3126
-        - 0.3444
-        - 0.3341
-        - 0.3673
-      J@10:
-        - 0.4100
-        - 0.5100
-        - 0.4400
-        - 0.4840
-        - 0.4720
-        - 0.5120
+      nDCG@20:
+        - 0.3450
+        - 0.3862
+        - 0.3454
+        - 0.3818
+        - 0.3732
+        - 0.4064
+      J@20:
+        - 0.3250
+        - 0.3500
+        - 0.3500
+        - 0.3800
+        - 0.3590
+        - 0.3820
+      Recall@1000:
+        - 0.7683
+        - 0.7737
+        - 0.8102
+        - 0.7755
+        - 0.7487
+        - 0.8069
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -language fa
@@ -126,17 +147,24 @@ models:
         - 0.2954
         - 0.2928
         - 0.3274
-      nDCG@10:
-        - 0.2723
-        - 0.3213
-        - 0.3330
-        - 0.3215
-        - 0.3282
-        - 0.3901
-      J@10:
-        - 0.4800
-        - 0.6000
-        - 0.6100
-        - 0.5180
-        - 0.5140
-        - 0.5780
+      nDCG@20:
+        - 0.3161
+        - 0.3895
+        - 0.3962
+        - 0.3861
+        - 0.3811
+        - 0.4256
+      J@20:
+        - 0.3950
+        - 0.5100
+        - 0.5250
+        - 0.4350
+        - 0.4300
+        - 0.4580
+      Recall@1000:
+        - 0.8039
+        - 0.8838
+        - 0.9154
+        - 0.8560
+        - 0.8738
+        - 0.8883
