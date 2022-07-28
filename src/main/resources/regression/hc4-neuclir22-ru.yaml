@@ -19,16 +19,23 @@ metrics:
     parse_index: 2
     metric_precision: 4
     can_combine: true
-  - metric: nDCG@10
+  - metric: nDCG@20
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m ndcg_cut.10
+    params: -c -m ndcg_cut.20
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
-  - metric: J@10
+  - metric: J@20
     command: python -m pyserini.eval.trec_eval
-    params: -c -m judged.10
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -40,15 +47,15 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)"
     id: test_title
-    path: topics.hc4-v1.0-ru.test.title.tsv.gz
+    path: topics.hc4-v1.0-ru.test.title.tsv
     qrel: qrels.hc4-neuclir22-ru.test.txt
   - name: "[HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)"
     id: test_description
-    path: topics.hc4-v1.0-ru.test.desc.tsv.gz
+    path: topics.hc4-v1.0-ru.test.desc.tsv
     qrel: qrels.hc4-neuclir22-ru.test.txt
   - name: "[HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)"
     id: test_description_title
-    path: topics.hc4-v1.0-ru.test.desc.title.tsv.gz
+    path: topics.hc4-v1.0-ru.test.desc.title.tsv
     qrel: qrels.hc4-neuclir22-ru.test.txt
 
 models:
@@ -60,14 +67,18 @@ models:
         - 0.0964
         - 0.0926
         - 0.1113
-      nDCG@10:
-        - 0.1225
-        - 0.1078
-        - 0.1423
-      J@10:
-        - 0.1060
-        - 0.1000
-        - 0.1140
+      nDCG@20:
+        - 0.1380
+        - 0.1459
+        - 0.1640
+      J@20:
+        - 0.0860
+        - 0.0790
+        - 0.0900
+      Recall@1000:
+        - 0.6319
+        - 0.6640
+        - 0.6667
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3 -language ru
@@ -76,14 +87,18 @@ models:
         - 0.0811
         - 0.0605
         - 0.0771
-      nDCG@10:
-        - 0.1093
-        - 0.0758
-        - 0.1099
-      J@10:
-        - 0.1000
-        - 0.0840
-        - 0.1040
+      nDCG@20:
+        - 0.1257
+        - 0.0963
+        - 0.1318
+      J@20:
+        - 0.0730
+        - 0.0610
+        - 0.0750
+      Recall@1000:
+        - 0.6154
+        - 0.5408
+        - 0.6221
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -language ru
@@ -92,11 +107,15 @@ models:
         - 0.1245
         - 0.1064
         - 0.1341
-      nDCG@10:
-        - 0.1455
-        - 0.1382
-        - 0.1682
-      J@10:
-        - 0.1200
-        - 0.1120
-        - 0.1120
+      nDCG@20:
+        - 0.1668
+        - 0.1643
+        - 0.1899
+      J@20:
+        - 0.0940
+        - 0.0890
+        - 0.0980
+      Recall@1000:
+        - 0.6887
+        - 0.6407
+        - 0.6743
