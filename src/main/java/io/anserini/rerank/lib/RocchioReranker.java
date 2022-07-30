@@ -122,7 +122,7 @@ public class RocchioReranker implements Reranker {
     // Use the weights as boosts to a second-round Lucene query:
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
     weightedVector.iterator().forEachRemaining(term -> {
-      float boost = weightedVector.getFeatureWeight(term);
+      float boost = weightedVector.getValue(term);
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), boost), BooleanClause.Occur.SHOULD);
     });
     Query feedbackQuery = feedbackQueryBuilder.build();
@@ -192,10 +192,10 @@ public class RocchioReranker implements Reranker {
         // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
         // that contain accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
-          termWeight += (docvectors.get(i).getFeatureWeight(term) / norms[i]);
+          termWeight += (docvectors.get(i).getValue(term) / norms[i]);
         }
       }
-      f.addFeatureWeight(term, termWeight / docvectors.size());
+      f.addFeatureValue(term, termWeight / docvectors.size());
     }
 
     f.pruneToSize(fbTerms);
@@ -225,7 +225,7 @@ public class RocchioReranker implements Reranker {
         }
       } else if (ratio > 0.1f) continue;
 
-      f.addFeatureWeight(term, (float) termsEnum.totalTermFreq());
+      f.addFeatureValue(term, (float) termsEnum.totalTermFreq());
     }
 
     return f;
@@ -239,9 +239,9 @@ public class RocchioReranker implements Reranker {
     vocab.addAll(c.getFeatures());
 
     vocab.iterator().forEachRemaining(feature -> {
-      float weighted_score = alpha * a.getFeatureWeight(feature) + beta * b.getFeatureWeight(feature) - gamma *  c.getFeatureWeight(feature);
+      float weighted_score = alpha * a.getValue(feature) + beta * b.getValue(feature) - gamma *  c.getValue(feature);
       if (weighted_score > 0){
-        z.addFeatureWeight(feature, weighted_score);
+        z.addFeatureValue(feature, weighted_score);
       }
     });
 

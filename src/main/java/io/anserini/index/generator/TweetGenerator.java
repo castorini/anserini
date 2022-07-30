@@ -133,7 +133,7 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
     }
 
     // Skip deletes tweetids.
-    if (deletes != null && deletes.contains(id)) {
+    if (deletes != null && deletes.contains(Long.parseLong(id))) {
       throw new SkippedDocumentException();
     }
 
