@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### July 23, 2022
+
++ commit [`d25495`](https://github.com/castorini/anserini/commit/d25495b6a5982ee9e64c99e7bbe9979774bfc284) (07/23/2022)
++ commit [`a1608a`](https://github.com/castorini/anserini/commit/a1608aca4063de6b34f0b9b96a3639a3ed5b13c8) (07/23/2022)
+
+Added regressions for HC4 test topics on NeuCLIR22 corpora, both query translation and document translation variants.
+
 ### July 13, 2022
 
 + commit [`500e87`](https://github.com/castorini/anserini/commit/500e872d594a86cbf01adae644479f74a4b4af2d) (07/13/2022)
