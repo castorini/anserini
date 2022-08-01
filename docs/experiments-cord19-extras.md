@@ -79,7 +79,7 @@ You'll need to make sure your query is searching the `contents` field, so the qu
 
 ## Elasticsearch + Kibana
 
-From [here](http://elastic.co/start), download the latest Elasticsearch and Kibanna distributions for you platform to the `anserini/` directory (which as of 7/31/2022, is v8.3.3).
+From [here](http://elastic.co/start), download the latest Elasticsearch and Kibanna distributions for you platform to the `anserini/` directory (which as of 7/31/2022 is v8.3.3).
 
 First, unpack Elasticsearch:
 
