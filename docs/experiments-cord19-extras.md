@@ -16,18 +16,18 @@ python src/main/python/trec-covid/index_cord19.py --date 2020-07-16 --download
 
 ## Solr
 
-Download the latest Solr version (binary release) from [here](https://solr.apache.org/downloads.html) and extract the archive (currently, v8.11.1):
-
-Extract the archive:
+Download Solr version 8.11.2 (binary release) from [here](https://solr.apache.org/downloads.html) and extract the archive:
 
 ```bash
 mkdir solrini && tar -zxvf solr*.tgz -C solrini --strip-components=1
 ```
 
-Start Solr (adjust memory usage with `-m` as appropriate):
+Solr 8.11.2 is the last release in the 8.x series, and unfortunately, these instructions do not work for Solr 9.x.
+
+Start Solr:
 
 ```bash
-solrini/bin/solr start -c -m 8G
+solrini/bin/solr start -c -m 16G
 ```
 
 Run the Solr bootstrap script to copy the Anserini JAR into Solr's classpath and upload the configsets to Solr's internal ZooKeeper:
@@ -79,12 +79,24 @@ You'll need to make sure your query is searching the `contents` field, so the qu
 
 ## Elasticsearch + Kibana
 
-From [here](http://elastic.co/start), download the latest Elasticsearch and Kibanna distributions for you platform to the `anserini/` directory (currently, v8.1.0).
+From [here](http://elastic.co/start), download the latest Elasticsearch and Kibanna distributions for you platform to the `anserini/` directory (which as of 7/31/2022 is v8.3.3).
 
-First, unpack and deploy Elasticsearch:
+First, unpack Elasticsearch:
 
 ```bash
 mkdir elastirini && tar -zxvf elasticsearch*.tar.gz -C elastirini --strip-components=1
+```
+
+To make life easier, disable Elasticsearch's built-in security features.
+In the file `elastirini/config/elasticsearch.yml`, add the following line:
+
+```
+xpack.security.enabled: false
+```
+
+Start running:
+
+```bash
 elastirini/bin/elasticsearch
 ```
 
@@ -141,3 +153,4 @@ Here's an example:
 + Reproduced by [@lintool](https://github.com/lintool) on 2020-11-23 (commit [`746447a`](https://github.com/castorini/anserini/commit/746447af47db5bb032eb551623c11219467c961e)) on CORD-19 release of 2020/07/16 with Solr v8.3.0 and ES/Kibana v7.10.0.
 + Reproduced by [@lintool](https://github.com/lintool) on 2021-11-02 (commit [`cb0c44c`](https://github.com/castorini/anserini/commit/cb0c44cd209c4cad3327942216a736aa4bbe21cc)) on CORD-19 release of 2020/07/16 with Solr v8.10.1 and ES/Kibana v7.15.1.
 + Reproduced by [@lintool](https://github.com/lintool) on 2022-03-21 (commit [`3d1fc34`](https://github.com/castorini/anserini/commit/3d1fc3457b993832b4682c0482b26d8271d02ec6) on CORD-19 release of 2020/07/16 with Solr v8.11.1 and ES/Kibana v8.1.0.
++ Reproduced by [@lintool](https://github.com/lintool) on 2022-07-31 (commit [`2a0cb16`](https://github.com/castorini/anserini/commit/2a0cb16829b347e38801b9972b349de498dadf03)) (v0.14.4) on CORD-19 release of 2020/07/16 with Solr v8.11.2 and ES/Kibana v8.3.3.
