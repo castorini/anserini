@@ -16,10 +16,19 @@
 
 package io.anserini.search.query;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.DisjunctionMaxQuery;
+import org.apache.lucene.search.PhraseQuery;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,27 +46,46 @@ public class Covid19QueryGeneratorTest {
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "incubation period");
     assertEquals("(contents:incub)^1.0 (contents:period)^1.0", query.toString());
 
+    Query targetQuery = getTargetQuery("incub", "period");
+
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "incubation period covid-19");
-    assertEquals("contents:incub contents:period (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")", query.toString());
+    assertEquals(targetQuery, query);
 
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "covid-19 incubation period");
-    assertEquals("contents:incub contents:period (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")", query.toString());
+    assertEquals(targetQuery, query);
 
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "incubation period COVID19");
-    assertEquals("contents:incub contents:period (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")", query.toString());
+    assertEquals(targetQuery, query);
 
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "SARS-cov-2 incubation period");
-    assertEquals("contents:incub contents:period (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")", query.toString());
+    assertEquals(targetQuery, query);
 
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "the 2019nCov incubation period");
-    assertEquals("contents:incub contents:period (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")", query.toString());
+    assertEquals(targetQuery, query);
 
     // no mention of covid-19, just pass through
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "drugs");
     assertEquals("(contents:drug)^1.0", query.toString());
 
+    Query targetQuery2 = getTargetQuery("drug");
+
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "coronavirus drugs");
-    assertEquals("contents:drug (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")", query.toString());
+    assertEquals(targetQuery2, query);
+  }
+
+  private Query getTargetQuery(String... terms) {
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (String term : terms) {
+      builder.add(new TermQuery(new Term("contents", term)), BooleanClause.Occur.SHOULD);
+    }
+
+    List<Query> disjuncts = new ArrayList<>();
+    disjuncts.add(new PhraseQuery("contents", "covid", "19"));
+    disjuncts.add(new PhraseQuery("contents", "2019", "ncov"));
+    disjuncts.add(new PhraseQuery("contents", "sar", "cov", "2"));
+    builder.add(new DisjunctionMaxQuery(disjuncts, 0.0f), BooleanClause.Occur.SHOULD);
+
+    return builder.build();
   }
 
   @Test
@@ -97,9 +125,7 @@ public class Covid19QueryGeneratorTest {
 
     query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer,
         "I'm looking for information about the incubation period of COVID-19?");
-    assertEquals(
-        "contents:incub contents:period (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")",
-        query.toString());
+    assertEquals(getTargetQuery("incub", "period"), query);
 
     assertEquals("the incubation period of COVID-19?",
         queryGenerator.removeBoilerplate("I'm looking for information about the incubation period of COVID-19?"));

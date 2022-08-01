@@ -21,10 +21,10 @@ import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexArgs;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
@@ -74,7 +74,7 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
     // Store the collection docid.
     document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    document.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
       document.add(new StoredField(IndexArgs.RAW, src.raw()));
