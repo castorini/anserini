@@ -1,7 +1,7 @@
 # Elastirini: Anserini Integration with Elasticsearch
 
 Anserini provides code for indexing into an [ELK stack](https://www.elastic.co/what-is/elk-stack) (i.e., the stack built on top of Elasticsearch), thus providing interoperable support for existing test collections.
-This is the same idea as discussed in the following paper:
+This is the same idea discussed in the following paper:
 
 > Ryan Clancy, Toke Eskildsen, Nick Ruest, and Jimmy Lin. [Solr Integration in the Anserini Information Retrieval Toolkit.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019a.pdf) _Proceedings of the 42nd Annual International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2019)_, July 2019, Paris, France.
 
@@ -9,7 +9,7 @@ Except we use Elasticsearch instead of Solr.
 
 ## Deploying Elasticsearch Locally
 
-From [here](http://elastic.co/start), download the latest Elasticsearch distribution for you platform to the `anserini/` directory (which as of 7/31/2022, is v8.3.3). 
+From [here](http://elastic.co/start), download the latest Elasticsearch distribution for you platform to the `anserini/` directory (which as of 7/31/2022 is v8.3.3). 
 
 Unpacking:
 
