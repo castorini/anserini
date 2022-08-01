@@ -1,10 +1,15 @@
 # Elastirini: Anserini Integration with Elasticsearch
 
-Anserini provides code for indexing into an ELK stack, thus providing interoperable support existing test collections.
+Anserini provides code for indexing into an [ELK stack](https://www.elastic.co/what-is/elk-stack) (i.e., the stack built on top of Elasticsearch), thus providing interoperable support for existing test collections.
+This is the same idea as discussed in the following paper:
+
+> Ryan Clancy, Toke Eskildsen, Nick Ruest, and Jimmy Lin. [Solr Integration in the Anserini Information Retrieval Toolkit.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019a.pdf) _Proceedings of the 42nd Annual International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2019)_, July 2019, Paris, France.
+
+Except we use Elasticsearch instead of Solr.
 
 ## Deploying Elasticsearch Locally
 
-From [here](http://elastic.co/start), download the latest Elasticsearch distribution for you platform to the `anserini/` directory (currently, v8.1.0). 
+From [here](http://elastic.co/start), download the latest Elasticsearch distribution for you platform to the `anserini/` directory (which as of 7/31/2022, is v8.3.3). 
 
 Unpacking:
 
@@ -260,3 +265,4 @@ For the `collection` meta-parameter, use `robust04`, `core18`, `msmarco-passage`
 + Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2022-01-13 (commit [`06fb4f9`](https://github.com/castorini/anserini/commit/06fb4f9947ff2167c276d8893287453af7680786)) for [MS MARCO Passage](regressions-msmarco-passage.md) and [MS MARCO Document](regressions-msmarco-doc.md)
 + Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2022-01-21 (commit [`a81299e`](https://github.com/castorini/anserini/commit/a81299e59eff24512d635e0d49fba6e373286469)) for [MS MARCO Document](regressions-msmarco-doc.md) using end-to-end [`run_es_regression`](../src/main/python/run_es_regression.py)
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-03-21 (commit [`3d1fc34`](https://github.com/castorini/anserini/commit/3d1fc3457b993832b4682c0482b26d8271d02ec6)) for all collections
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-07-31 (commit [`2a0cb16`](https://github.com/castorini/anserini/commit/2a0cb16829b347e38801b9972b349de498dadf03)) (v0.14.4) for all collections
