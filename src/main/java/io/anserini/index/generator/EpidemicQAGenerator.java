@@ -22,10 +22,10 @@ import io.anserini.index.IndexArgs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
@@ -76,7 +76,7 @@ public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACo
     // Store the collection docid.
     doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    doc.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
       doc.add(new StoredField(IndexArgs.RAW, raw));

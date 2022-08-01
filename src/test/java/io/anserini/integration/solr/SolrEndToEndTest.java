@@ -35,6 +35,7 @@ import org.apache.solr.client.solrj.request.CoreAdminRequest;
 import org.apache.solr.client.solrj.request.json.DirectJsonQueryRequest;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.CommonParams;
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.core.NodeConfig;
 import org.apache.solr.core.SolrResourceLoader;
 import org.junit.After;
@@ -48,7 +49,6 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.file.Files;
 
-import static org.apache.solr.SolrTestCaseJ4.params;
 
 @LuceneTestCase.SuppressSysoutChecks(bugUrl = "None")
 public abstract class SolrEndToEndTest extends LuceneTestCase {
@@ -193,7 +193,9 @@ public abstract class SolrEndToEndTest extends LuceneTestCase {
     if (schemaAdjustmentFile != null) {
       // update schema, much like curl -X POST -H 'Content-type:application/json' --data-binary SCHEMA_NAME.json http://localhost:8983/solr/COLLECTION_NAME/schema
       String schemaJson = Files.readString(getFile(schemaAdjustmentFile).toPath());
-      DirectJsonQueryRequest schemaRequest = new DirectJsonQueryRequest(schemaJson, params(CommonParams.QT, "/schema"));
+      ModifiableSolrParams params = new ModifiableSolrParams();
+      params.add(CommonParams.QT, "/schema");
+      DirectJsonQueryRequest schemaRequest = new DirectJsonQueryRequest(schemaJson, params);
       QueryResponse response = schemaRequest.process(client, getCollectionName());
       assertEquals(0, response.getStatus());
     }

@@ -31,6 +31,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.kohsuke.args4j.CmdLineException;
@@ -165,8 +166,7 @@ public final class SearchSolr implements Closeable {
     LOG.info("Solr ZooKeeper URL: " + args.zkUrl);
     this.client = new CloudSolrClient.Builder(Splitter.on(',')
             .splitToList(args.zkUrl), Optional.of(args.zkChroot))
-            .withConnectionTimeout(TIMEOUT)
-            .withSocketTimeout(TIMEOUT)
+            .withInternalClientBuilder(new Http2SolrClient.Builder().connectionTimeout(TIMEOUT))
             .build();
   }
 
