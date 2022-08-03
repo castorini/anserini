@@ -351,6 +351,14 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-ru >& logs/log.hc4-v1.0-ru &
 nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-zh >& logs/log.hc4-v1.0-zh &
 
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa >& logs/log.hc4-neuclir22-fa &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru >& logs/log.hc4-neuclir22-ru &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh >& logs/log.hc4-neuclir22-zh &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa-en >& logs/log.hc4-neuclir22-fa-en &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru-en >& logs/log.hc4-neuclir22-ru-en &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh-en >& logs/log.hc4-neuclir22-zh-en &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression disk12 >& logs/log.disk12 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression disk45 >& logs/log.disk45 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression robust05 >& logs/log.robust05 &
