@@ -494,6 +494,12 @@ public final class SearchCollection implements Closeable {
       loadQrels(args.rf_qrels);      
     }
 
+    // See https://github.com/castorini/anserini/issues/1952
+    // The solution to the issue described above is to turn off deterministic tie-breaking.
+    if (args.lucene8) {
+      args.arbitraryScoreTieBreak = true;
+      args.axiom_deterministic = false;
+    }
   }
 
   @Override
