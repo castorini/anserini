@@ -61,6 +61,10 @@ def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 
+def is_close_lucene8(a, b):
+    return abs(a-b) <= 0.001
+
+
 def check_output(command):
     # Python 2.6 compatible subprocess.check_output
     process = Popen(command, shell=True, stdout=PIPE)
@@ -131,6 +135,7 @@ def construct_search_commands(yaml_data):
             '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
             '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
             model['params'],
+            '-lucene8' if args.lucene8 else ''
         ]
         for (model, topic_set) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
@@ -154,6 +159,7 @@ def construct_convert_commands(yaml_data):
 def evaluate_and_verify(yaml_data, dry_run):
     fail_str = '\033[91m[FAIL]\033[0m '
     ok_str = '   [OK] '
+    okish_str = '  \033[94m[OK*]\033[0m '
     failures = False
 
     logger.info('='*10 + ' Verifying Results: ' + yaml_data['corpus'] + ' ' + '='*10)
@@ -181,8 +187,11 @@ def evaluate_and_verify(yaml_data, dry_run):
                 if is_close(expected, actual):
                     logger.info(ok_str + result_str)
                 else:
-                    logger.error(fail_str + result_str)
-                    failures = True
+                    if args.lucene8 and is_close_lucene8(expected, actual):
+                        logger.info(okish_str + result_str)
+                    else:
+                        logger.error(fail_str + result_str)
+                        failures = True
 
     if not dry_run:
         if failures:
@@ -280,6 +289,7 @@ if __name__ == '__main__':
                         help='Number of converting runs to execute in parallel.')
     parser.add_argument('--dry-run', dest='dry_run', action='store_true',
                         help='Output commands without actual execution.')
+    parser.add_argument('--lucene8', dest='lucene8', action='store_true', help='Enable Lucene 8 index compatibility.')
     args = parser.parse_args()
 
     with open('src/main/resources/regression/{}.yaml'.format(args.regression)) as f:
@@ -340,6 +350,8 @@ if __name__ == '__main__':
     # Search and verify results.
     if args.search:
         logger.info('='*10 + ' Ranking ' + '='*10)
+        if args.lucene8:
+            logger.info('Enabling Lucene 8 index compatibility.')
         search_cmds = construct_search_commands(yaml_data)
         if args.dry_run:
             for cmd in search_cmds:
