@@ -137,7 +137,10 @@ public enum Qrels {
   HC4_V1_0_RU_DEV("topics-and-qrels/qrels.hc4-v1.0-ru.dev.txt"),
   HC4_V1_0_RU_TEST("topics-and-qrels/qrels.hc4-v1.0-ru.test.txt"),
   HC4_V1_0_ZH_DEV("topics-and-qrels/qrels.hc4-v1.0-zh.dev.txt"),
-  HC4_V1_0_ZH_TEST("topics-and-qrels/qrels.hc4-v1.0-zh.test.txt");
+  HC4_V1_0_ZH_TEST("topics-and-qrels/qrels.hc4-v1.0-zh.test.txt"),
+  HC4_NEUCLIR22_FA_TEST("topics-and-qrels/qrels.hc4-neuclir22-fa.test.txt"),
+  HC4_NEUCLIR22_RU_TEST("topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt"),
+  HC4_NEUCLIR22_ZH_TEST("topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt");
 
   public final String path;
 
