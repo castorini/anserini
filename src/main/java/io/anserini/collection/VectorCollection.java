@@ -57,7 +57,6 @@ public class VectorCollection extends DocumentCollection<VectorCollection.Docume
 
     public Document(JsonNode json) {
       super();
-
       this.raw = json.toPrettyString();
       this.id = json.get("docid").asText();
       this.contents = json.get("vector").toString();

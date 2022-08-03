@@ -20,6 +20,7 @@ import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexArgs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -84,7 +85,6 @@ public class VectorLuceneDocumentGenerator<T extends SourceDocument> implements 
     document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
     document.add(new KnnVectorField(IndexArgs.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
-
     if (args.storeRaw) {
       document.add(new StoredField(IndexArgs.RAW, src.raw()));
     }

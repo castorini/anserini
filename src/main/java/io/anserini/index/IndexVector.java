@@ -54,8 +54,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-public final class IndexVectors {
-  private static final Logger LOG = LogManager.getLogger(IndexVectors.class);
+public final class IndexVector {
+  private static final Logger LOG = LogManager.getLogger(IndexVector.class);
 
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
   public final class Counters {
@@ -199,7 +199,7 @@ public final class IndexVectors {
   private Path indexPath;
 
   @SuppressWarnings("unchecked")
-  public IndexVectors(IndexArgs args) throws Exception {
+  public IndexVector(IndexArgs args) throws Exception {
     this.args = args;
 
     if (args.verbose) {
@@ -372,11 +372,11 @@ public final class IndexVectors {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: " + IndexVectors.class.getSimpleName() +
+      System.err.println("Example: " + IndexVector.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new IndexVectors(indexCollectionArgs).run();
+    new IndexVector(indexCollectionArgs).run();
   }
 }

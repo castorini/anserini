@@ -106,6 +106,10 @@
               <id>IndexCollection</id>
             </program>
             <program>
+              <mainClass>io.anserini.index.IndexVector</mainClass>
+              <id>IndexVector</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
