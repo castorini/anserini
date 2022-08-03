@@ -36,8 +36,11 @@ public class IndexArgs {
   // This is the name of the field in the Lucene document where the entity document is stored.
   public static final String ENTITY = "entity";
 
+  // This is the name of the field in the Lucene document where the vector document is stored.
+  public static final String VECTOR = "vector";
 
   private static final int TIMEOUT = 600 * 1000;
+
 
   // required arguments
 
