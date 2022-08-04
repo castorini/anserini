@@ -114,6 +114,10 @@
               <id>SearchCollection</id>
             </program>
             <program>
+              <mainClass>io.anserini.search.SearchVector</mainClass>
+              <id>SearchVector</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SearchMsmarco</mainClass>
               <id>SearchMsmarco</id>
             </program>
