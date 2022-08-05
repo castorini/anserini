@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw -language ru
 index_stats:
   documents: 9597504
   documents (non-empty): 9597504
-  total terms: 346329152
+  total terms: 346329117
 
 metrics:
   - metric: MRR@100
