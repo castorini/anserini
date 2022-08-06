@@ -106,7 +106,7 @@ public final class SearchVector implements Closeable {
         // A short descriptor of the ranking setup.
         final String desc = String.format("ranker: kNN");
         // ThreadPool for parallelizing the execution of individual queries:
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
         // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
         // will go into the final run file) as the value.
         ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
