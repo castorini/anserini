@@ -40,10 +40,10 @@ import org.apache.lucene.index.VectorSimilarityFunction;
  *
  * @param <T> type of the source document
  */
-public class VectorLuceneDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
+public class LuceneVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
   protected IndexArgs args;
 
-  protected VectorLuceneDocumentGenerator() {
+  protected LuceneVectorDocumentGenerator() {
   }
 
   /**
@@ -51,7 +51,7 @@ public class VectorLuceneDocumentGenerator<T extends SourceDocument> implements 
    *
    * @param args configuration arguments
    */
-  public VectorLuceneDocumentGenerator(IndexArgs args) {
+  public LuceneVectorDocumentGenerator(IndexArgs args) {
     this.args = args;
   }
 
