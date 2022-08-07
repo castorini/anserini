@@ -50,8 +50,8 @@ models:
     params: -bm25 -language fr
     results:
       MAP:
-        - 0.3111
+        - 0.3115
       P20:
         - 0.3184
       nDCG@20:
-        - 0.4458
+        - 0.4457
