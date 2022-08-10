@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(265, cnt);
+    assertEquals(268, cnt);
   }
 
   @Test
@@ -773,6 +773,36 @@ public class TopicReaderTest {
     assertEquals(624, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1136769, (int) topics.lastKey());
     assertEquals(633, topics.get(topics.lastKey()).get("title").split(" ").length);
+  }
+
+  @Test
+  public void testTREC22DL() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals("1099 b cost basis i sell specific shares", topics.get(topics.firstKey()).get("title"));
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals("is a dairy farm considered as an agriculture", topics.get(topics.lastKey()).get("title"));
+    assertEquals("how does magic leap optics work", topics.get(2056323).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL_UNICOIL);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals(1016, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals(720, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL_UNICOIL_NOEXP);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals(900, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals(726, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
