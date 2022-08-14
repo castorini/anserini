@@ -605,6 +605,27 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
+  public Result[] search_Lucene8(String q) throws IOException {
+    return search_Lucene8(q, 10);
+  }
+
+  public Result[] search_Lucene8(String q, int k) throws IOException {
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
+
+    return search(query, queryTokens, q, k, true);
+  }
+
+  public Result[] search_Lucene8(Query query, int k) throws IOException {
+    return search(query, null, null, k, true);
+  }
+
+  public Result[] search_Lucene8(QueryGenerator generator, String q, int k) throws IOException {
+    Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
+
+    return search(query, null, null, k, true);
+  }
+
   /**
    * Searches the collection, returning 10 hits by default.
    *
@@ -628,7 +649,7 @@ public class SimpleSearcher implements Closeable {
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k);
+    return search(query, queryTokens, q, k, false);
   }
 
   /**
@@ -640,7 +661,7 @@ public class SimpleSearcher implements Closeable {
    * @throws IOException if error encountered during search
    */
   public Result[] search(Query query, int k) throws IOException {
-    return search(query, null, null, k);
+    return search(query, null, null, k, false);
   }
 
   /**
@@ -655,11 +676,12 @@ public class SimpleSearcher implements Closeable {
   public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
     Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
 
-    return search(query, null, null, k);
+    return search(query, null, null, k, false);
   }
 
   // internal implementation
-  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
+  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k,
+                            boolean backwardsCompatibilityLucene8) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
@@ -672,7 +694,11 @@ public class SimpleSearcher implements Closeable {
 
     TopDocs rs;
     RerankerContext context;
-    rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    if (backwardsCompatibilityLucene8) {
+      rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k);
+    } else {
+      rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    }
     context = new RerankerContext<>(searcher, null, query, null,
           queryString, queryTokens, null, searchArgs);
 
@@ -728,7 +754,7 @@ public class SimpleSearcher implements Closeable {
     Query query = generator.buildQuery(fields, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k);
+    return search(query, queryTokens, q, k, false);
   }
 
   /**
