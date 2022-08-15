@@ -137,11 +137,11 @@ public class SearchMsmarco {
     }
 
     SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index, analyzer);
-    searcher.setBM25(retrieveArgs.k1, retrieveArgs.b);
+    searcher.set_bm25(retrieveArgs.k1, retrieveArgs.b);
     System.out.println("Initializing BM25, setting k1=" + retrieveArgs.k1 + " and b=" + retrieveArgs.b + "");
 
     if (retrieveArgs.rm3) {
-      searcher.setRM3(retrieveArgs.fbTerms, retrieveArgs.fbDocs, retrieveArgs.originalQueryWeight);
+      searcher.set_rm3(retrieveArgs.fbTerms, retrieveArgs.fbDocs, retrieveArgs.originalQueryWeight);
       System.out.println("Initializing RM3, setting fbTerms=" + retrieveArgs.fbTerms + ", fbDocs=" + retrieveArgs.fbDocs
               + " and originalQueryWeight=" + retrieveArgs.originalQueryWeight);
     }
@@ -176,7 +176,7 @@ public class SearchMsmarco {
 
         SimpleSearcher.Result[] hits;
         if (retrieveArgs.fields.size() > 0) {
-          hits = searcher.searchFields(queryGenerator, query, fields, retrieveArgs.hits);
+          hits = searcher.search_fields(queryGenerator, query, fields, retrieveArgs.hits);
         } else {
           hits = searcher.search(queryGenerator, query, retrieveArgs.hits);
         }
@@ -199,9 +199,9 @@ public class SearchMsmarco {
 
       Map<String, SimpleSearcher.Result[]> results;
       if (retrieveArgs.fields.size() > 0) {
-        results = searcher.batchSearchFields(queryGenerator, queries, qids, retrieveArgs.hits, retrieveArgs.threads, fields);
+        results = searcher.batch_search_fields(queryGenerator, queries, qids, retrieveArgs.hits, retrieveArgs.threads, fields);
       } else {
-        results = searcher.batchSearch(queryGenerator, queries, qids, retrieveArgs.hits, retrieveArgs.threads);
+        results = searcher.batch_search(queryGenerator, queries, qids, retrieveArgs.hits, retrieveArgs.threads);
       }
 
       for (String qid : qids) {

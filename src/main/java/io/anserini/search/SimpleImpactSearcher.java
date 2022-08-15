@@ -54,10 +54,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
- * via pyjnius.
+ * via pyjnius. Note that methods are named according to Python conventions (e.g., snake case instead of camel case).
  */
 public class SimpleImpactSearcher implements Closeable {
-    public static final Sort BREAK_SCORE_TIES_BY_DOCID =
+    private static final Sort BREAK_SCORE_TIES_BY_DOCID =
         new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
     private static final Logger LOG = LogManager.getLogger(SimpleImpactSearcher.class);
   
@@ -66,6 +66,7 @@ public class SimpleImpactSearcher implements Closeable {
     protected BagOfWordsQueryGenerator generator;
     protected RerankerCascade cascade;
     protected IndexSearcher searcher = null;
+    protected boolean backwardsCompatibilityLucene8;
   
     /**
      * This class is meant to serve as the bridge between Anserini and Pyserini.
@@ -106,20 +107,25 @@ public class SimpleImpactSearcher implements Closeable {
       }
     
       this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+      if (reader.toString().contains("Lucene9")) {
+        this.backwardsCompatibilityLucene8 = false;
+      } else{
+        this.backwardsCompatibilityLucene8 = true;
+      }
+
       // Default to using ImpactSimilarity.
       this.similarity = new ImpactSimilarity();
       this.generator = new BagOfWordsQueryGenerator();
       cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
     }
-  
-  
+
     /**
      * Returns the number of documents in the index.
      *
      * @return the number of documents in the index
      */
-     public int getTotalNumDocuments(){
+     public int get_total_num_docs(){
        // Create an IndexSearch only once. Note that the object is thread safe.
        if (searcher == null) {
          searcher = new IndexSearcher(reader);
@@ -143,7 +149,7 @@ public class SimpleImpactSearcher implements Closeable {
     }
   
     /**
-     * Searches in batch
+     * Searches in batch using multiple threads.
      *
      * @param queries list of queries
      * @param qids list of unique query ids
@@ -151,26 +157,10 @@ public class SimpleImpactSearcher implements Closeable {
      * @param threads number of threads
      * @return a map of query id to search results
      */
-    public Map<String, Result[]> batchSearch(List<Map<String, Float>> queries,
-                                             List<String> qids,
-                                             int k,
-                                             int threads) {
-      return _batchSearch(queries, qids, k, threads, false);
-    }
-
-    public Map<String, Result[]> batchSearch_Lucene8(List<Map<String, Float>> queries,
-                                                     List<String> qids,
-                                                     int k,
-                                                     int threads) {
-      return _batchSearch(queries, qids, k, threads, true);
-    }
-
-    // internal implementation
-    private Map<String, Result[]> _batchSearch(List<Map<String, Float>> queries,
-                                               List<String> qids,
-                                               int k,
-                                               int threads,
-                                               boolean backwardsCompatibilityLucene8) {
+    public Map<String, Result[]> batch_search(List<Map<String, Float>> queries,
+                                              List<String> qids,
+                                              int k,
+                                              int threads) {
       // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
       // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
       if (searcher == null) {
@@ -189,11 +179,7 @@ public class SimpleImpactSearcher implements Closeable {
         String qid = qids.get(q);
         executor.execute(() -> {
           try {
-            if (backwardsCompatibilityLucene8) {
-              results.put(qid, search_Lucene8(query, k));
-            } else {
-              results.put(qid, search(query, k));
-            }
+            results.put(qid, search(query, k));
           } catch (IOException e) {
             throw new CompletionException(e);
           }
@@ -254,21 +240,11 @@ public class SimpleImpactSearcher implements Closeable {
     public Result[] search(Map<String, Float> q, int k) throws IOException {
       Query query = generator.buildQuery(IndexArgs.CONTENTS, q);
   
-      return _search(query, k, false);
-    }
-
-    public Result[] search_Lucene8(Map<String, Float> q) throws IOException {
-      return search_Lucene8(q, 10);
-    }
-
-    public Result[] search_Lucene8(Map<String, Float> q, int k) throws IOException {
-      Query query = generator.buildQuery(IndexArgs.CONTENTS, q);
-
-      return _search(query, k, true);
+      return _search(query, k);
     }
 
     // internal implementation
-    protected Result[] _search(Query query, int k, boolean backwardsCompatibilityLucene8) throws IOException {
+    protected Result[] _search(Query query, int k) throws IOException {
       // Create an IndexSearch only once. Note that the object is thread safe.
       if (searcher == null) {
         searcher = new IndexSearcher(reader);
@@ -276,7 +252,7 @@ public class SimpleImpactSearcher implements Closeable {
       }
   
       SearchArgs searchArgs = new SearchArgs();
-      if (backwardsCompatibilityLucene8) {
+      if (this.backwardsCompatibilityLucene8) {
         searchArgs.arbitraryScoreTieBreak = false;
       } else{
         searchArgs.arbitraryScoreTieBreak = true;
@@ -285,7 +261,7 @@ public class SimpleImpactSearcher implements Closeable {
   
       TopDocs rs;
       RerankerContext context;
-      if (backwardsCompatibilityLucene8) {
+      if (this.backwardsCompatibilityLucene8) {
         rs = searcher.search(query, k);
       } else {
         rs = searcher.search(query, k, BREAK_SCORE_TIES_BY_DOCID, true);
@@ -315,15 +291,13 @@ public class SimpleImpactSearcher implements Closeable {
   
     /**
      * Fetches the Lucene {@link Document} based on an internal Lucene docid.
-     * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-     * method naming conventions.
      *
-     * @param ldocid internal Lucene docid
+     * @param lucene_docid internal Lucene docid
      * @return corresponding Lucene {@link Document}
      */
-    public Document document(int ldocid) {
+    public Document doc(int lucene_docid) {
       try {
-        return reader.document(ldocid);
+        return reader.document(lucene_docid);
       } catch (Exception e) {
         // Eat any exceptions and just return null.
         return null;
@@ -332,41 +306,35 @@ public class SimpleImpactSearcher implements Closeable {
   
     /**
      * Returns the Lucene {@link Document} based on a collection docid.
-     * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-     * method naming conventions.
      *
      * @param docid collection docid
      * @return corresponding Lucene {@link Document}
      */
-    public Document document(String docid) {
+    public Document doc(String docid) {
       return IndexReaderUtils.document(reader, docid);
     }
   
     /**
      * Fetches the Lucene {@link Document} based on some field other than its unique collection docid.
      * For example, scientific articles might have DOIs.
-     * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-     * method naming conventions.
      *
      * @param field field
      * @param id unique id
      * @return corresponding Lucene {@link Document} based on the value of a specific field
      */
-    public Document documentByField(String field, String id) {
+    public Document doc_by_field(String field, String id) {
       return IndexReaderUtils.documentByField(reader, field, id);
     }
   
     /**
      * Returns the "contents" field of a document based on an internal Lucene docid.
-     * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-     * method naming conventions.
      *
-     * @param ldocid internal Lucene docid
+     * @param lucene_docid internal Lucene docid
      * @return the "contents" field the document
      */
-    public String documentContents(int ldocid) {
+    public String doc_contents(int lucene_docid) {
       try {
-        return reader.document(ldocid).get(IndexArgs.CONTENTS);
+        return reader.document(lucene_docid).get(IndexArgs.CONTENTS);
       } catch (Exception e) {
         // Eat any exceptions and just return null.
         return null;
@@ -375,27 +343,23 @@ public class SimpleImpactSearcher implements Closeable {
   
     /**
      * Returns the "contents" field of a document based on a collection docid.
-     * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-     * method naming conventions.
      *
      * @param docid collection docid
      * @return the "contents" field the document
      */
-    public String documentContents(String docid) {
+    public String doc_contents(String docid) {
       return IndexReaderUtils.documentContents(reader, docid);
     }
   
     /**
      * Returns the "raw" field of a document based on an internal Lucene docid.
-     * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-     * method naming conventions.
      *
-     * @param ldocid internal Lucene docid
+     * @param lucene_docid internal Lucene docid
      * @return the "raw" field the document
      */
-    public String documentRaw(int ldocid) {
+    public String doc_raw(int lucene_docid) {
       try {
-        return reader.document(ldocid).get(IndexArgs.RAW);
+        return reader.document(lucene_docid).get(IndexArgs.RAW);
       } catch (Exception e) {
         // Eat any exceptions and just return null.
         return null;
@@ -404,13 +368,11 @@ public class SimpleImpactSearcher implements Closeable {
   
     /**
      * Returns the "raw" field of a document based on a collection docid.
-     * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-     * method naming conventions.
      *
      * @param docid collection docid
      * @return the "raw" field the document
      */
-    public String documentRaw(String docid) {
+    public String doc_raw(String docid) {
       return IndexReaderUtils.documentRaw(reader, docid);
     }
   }

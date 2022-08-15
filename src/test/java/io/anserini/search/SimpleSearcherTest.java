@@ -41,16 +41,16 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.document(0).get("contents"));
-    assertEquals("more texts", searcher.document(1).get("contents"));
-    assertEquals("here is a test", searcher.document(2).get("contents"));
-    assertNull(searcher.document(3));
+        searcher.doc(0).get("contents"));
+    assertEquals("more texts", searcher.doc(1).get("contents"));
+    assertEquals("here is a test", searcher.doc(2).get("contents"));
+    assertNull(searcher.doc(3));
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.document("doc1").get("contents"));
-    assertEquals("more texts", searcher.document("doc2").get("contents"));
-    assertEquals("here is a test", searcher.document("doc3").get("contents"));
-    assertNull(searcher.document(3));
+        searcher.doc("doc1").get("contents"));
+    assertEquals("more texts", searcher.doc("doc2").get("contents"));
+    assertEquals("here is a test", searcher.doc("doc3").get("contents"));
+    assertNull(searcher.doc(3));
 
     searcher.close();
   }
@@ -65,7 +65,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
     docIds.add("doc3");
     docIds.add("fake_doc");
 
-    Map<String, Document> results = searcher.batchGetDocument(docIds, 2);
+    Map<String, Document> results = searcher.batch_get_docs(docIds, 2);
     assertEquals("here is some text here is some more text. city.", results.get("doc1").get("contents"));
     assertEquals("more texts", results.get("doc2").get("contents"));
     assertEquals("here is a test", results.get("doc3").get("contents"));
@@ -79,9 +79,9 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.documentByField("id", "doc1").get("contents"));
-    assertEquals("more texts", searcher.documentByField("id", "doc2").get("contents"));
-    assertEquals("here is a test", searcher.documentByField("id", "doc3").get("contents"));
+        searcher.doc_by_field("id", "doc1").get("contents"));
+    assertEquals("more texts", searcher.doc_by_field("id", "doc2").get("contents"));
+    assertEquals("here is a test", searcher.doc_by_field("id", "doc3").get("contents"));
 
     searcher.close();
   }
@@ -91,20 +91,20 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.documentContents(0));
+        searcher.doc_contents(0));
     assertEquals("more texts",
-        searcher.documentContents(1));
+        searcher.doc_contents(1));
     assertEquals("here is a test",
-        searcher.documentContents(2));
-    assertNull(searcher.document(3));
+        searcher.doc_contents(2));
+    assertNull(searcher.doc(3));
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.documentContents("doc1"));
+        searcher.doc_contents("doc1"));
     assertEquals("more texts",
-        searcher.documentContents("doc2"));
+        searcher.doc_contents("doc2"));
     assertEquals("here is a test",
-        searcher.documentContents("doc3"));
-    assertNull(searcher.documentContents("doc42"));
+        searcher.doc_contents("doc3"));
+    assertNull(searcher.doc_contents("doc42"));
 
     searcher.close();
   }
@@ -114,20 +114,20 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
-        searcher.documentRaw(0));
+        searcher.doc_raw(0));
     assertEquals("{\"contents\": \"more texts\"}",
-        searcher.documentRaw(1));
+        searcher.doc_raw(1));
     assertEquals("{\"contents\": \"here is a test\"}",
-        searcher.documentRaw(2));
-    assertNull(searcher.document(3));
+        searcher.doc_raw(2));
+    assertNull(searcher.doc(3));
 
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
-        searcher.documentRaw("doc1"));
+        searcher.doc_raw("doc1"));
     assertEquals("{\"contents\": \"more texts\"}",
-        searcher.documentRaw("doc2"));
+        searcher.doc_raw("doc2"));
     assertEquals("{\"contents\": \"here is a test\"}",
-        searcher.documentRaw("doc3"));
-    assertNull(searcher.documentContents("doc42"));
+        searcher.doc_raw("doc3"));
+    assertNull(searcher.doc_contents("doc42"));
 
     searcher.close();
   }
@@ -213,7 +213,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
     qids.add("query_test");
     qids.add("query_more");
 
-    Map<String, SimpleSearcher.Result[]> hits = searcher.batchSearch(queries, qids, 10, 2);
+    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
     assertEquals(2, hits.size());
 
     assertEquals(1, hits.get("query_test").length);
@@ -234,15 +234,15 @@ public class SimpleSearcherTest extends IndexerTestBase {
     fields.put("id", 1.0f);
     fields.put("contents", 1.0f);
 
-    SimpleSearcher.Result[] hits = searcher.searchFields("doc1", fields, 10);
+    SimpleSearcher.Result[] hits = searcher.search_fields("doc1", fields, 10);
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
 
-    hits = searcher.searchFields("test", fields, 10);
+    hits = searcher.search_fields("test", fields, 10);
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
 
-    hits = searcher.searchFields("test", Map.of("id", 1.0f), 10);
+    hits = searcher.search_fields("test", Map.of("id", 1.0f), 10);
     assertEquals(0, hits.length);
 
     searcher.close();
@@ -264,7 +264,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
     fields.put("id", 1.0f);
     fields.put("contents", 1.0f);
 
-    Map<String, SimpleSearcher.Result[]> hits = searcher.batchSearchFields(queries, qids, 10, 2, fields);
+    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search_fields(queries, qids, 10, 2, fields);
     assertEquals(2, hits.size());
 
     assertEquals(1, hits.get("query_id").length);
@@ -323,6 +323,6 @@ public class SimpleSearcherTest extends IndexerTestBase {
   @Test
   public void testTotalNumDocuments() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
-    assertEquals(3 ,searcher.getTotalNumDocuments());
+    assertEquals(3 ,searcher.get_total_num_docs());
   }
 }
