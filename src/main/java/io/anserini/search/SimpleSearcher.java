@@ -569,7 +569,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   // internal implementation
-  public Map<String, Result[]> _batchSearchFields(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads,
+  private Map<String, Result[]> _batchSearchFields(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads,
                                                  Map<String, Float> fields, boolean backwardsCompatibilityLucene8) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.

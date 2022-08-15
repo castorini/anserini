@@ -151,7 +151,26 @@ public class SimpleImpactSearcher implements Closeable {
      * @param threads number of threads
      * @return a map of query id to search results
      */
-    public Map<String, Result[]> batchSearch(List<Map<String, Float>> queries, List<String> qids, int k, int threads) {
+    public Map<String, Result[]> batchSearch(List<Map<String, Float>> queries,
+                                             List<String> qids,
+                                             int k,
+                                             int threads) {
+      return _batchSearch(queries, qids, k, threads, false);
+    }
+
+    public Map<String, Result[]> batchSearch_Lucene8(List<Map<String, Float>> queries,
+                                                     List<String> qids,
+                                                     int k,
+                                                     int threads) {
+      return _batchSearch(queries, qids, k, threads, true);
+    }
+
+    // internal implementation
+    private Map<String, Result[]> _batchSearch(List<Map<String, Float>> queries,
+                                               List<String> qids,
+                                               int k,
+                                               int threads,
+                                               boolean backwardsCompatibilityLucene8) {
       // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
       // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
       if (searcher == null) {
@@ -170,18 +189,23 @@ public class SimpleImpactSearcher implements Closeable {
         String qid = qids.get(q);
         executor.execute(() -> {
           try {
-            results.put(qid, search(query, k));
+            if (backwardsCompatibilityLucene8) {
+              results.put(qid, search_Lucene8(query, k));
+            } else {
+              results.put(qid, search(query, k));
+            }
           } catch (IOException e) {
             throw new CompletionException(e);
           }
           // Logging to track query latency.
-          // Note that this is potentially noisy because it might interfere with tqdm on the Python side; logging
-          // every 500 queries seems like a reasonable comprise between offering helpful info and not being too noisy.
-          Long lineNumber = index.incrementAndGet();
-          if (lineNumber % 500 == 0) {
-            double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
-            LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)", timePerQuery));
-          }
+          // Note that this is potentially noisy because it might interfere with tqdm on the Python side;
+          // disabled for now but commenting out for easy enabling later.
+          //
+          // Long lineNumber = index.incrementAndGet();
+          // if (lineNumber % 500 == 0) {
+          //   double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
+          //   LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)", timePerQuery));
+          // }
         });
       }
   
@@ -230,11 +254,21 @@ public class SimpleImpactSearcher implements Closeable {
     public Result[] search(Map<String, Float> q, int k) throws IOException {
       Query query = generator.buildQuery(IndexArgs.CONTENTS, q);
   
-      return _search(query, k);
+      return _search(query, k, false);
     }
-  
+
+    public Result[] search_Lucene8(Map<String, Float> q) throws IOException {
+      return search_Lucene8(q, 10);
+    }
+
+    public Result[] search_Lucene8(Map<String, Float> q, int k) throws IOException {
+      Query query = generator.buildQuery(IndexArgs.CONTENTS, q);
+
+      return _search(query, k, true);
+    }
+
     // internal implementation
-    protected Result[] _search(Query query, int k) throws IOException {
+    protected Result[] _search(Query query, int k, boolean backwardsCompatibilityLucene8) throws IOException {
       // Create an IndexSearch only once. Note that the object is thread safe.
       if (searcher == null) {
         searcher = new IndexSearcher(reader);
@@ -242,12 +276,20 @@ public class SimpleImpactSearcher implements Closeable {
       }
   
       SearchArgs searchArgs = new SearchArgs();
-      searchArgs.arbitraryScoreTieBreak = false;
+      if (backwardsCompatibilityLucene8) {
+        searchArgs.arbitraryScoreTieBreak = false;
+      } else{
+        searchArgs.arbitraryScoreTieBreak = true;
+      }
       searchArgs.hits = k;
   
       TopDocs rs;
       RerankerContext context;
-      rs = searcher.search(query, k, BREAK_SCORE_TIES_BY_DOCID, true);
+      if (backwardsCompatibilityLucene8) {
+        rs = searcher.search(query, k);
+      } else {
+        rs = searcher.search(query, k, BREAK_SCORE_TIES_BY_DOCID, true);
+      }
       context = new RerankerContext<>(searcher, null, query, null,
             null, null, null, searchArgs);
   
