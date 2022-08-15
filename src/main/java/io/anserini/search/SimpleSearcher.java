@@ -544,7 +544,33 @@ public class SimpleSearcher implements Closeable {
    * @return a map of query id to search results
    */
   public Map<String, Result[]> batchSearchFields(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads,
+                                                  Map<String, Float> fields) {
+    return _batchSearchFields(generator, queries, qids, k, threads, fields, false);
+  }
+
+  public Map<String, Result[]> batchSearch_Lucene8(List<String> queries, List<String> qids, int k, int threads) {
+    QueryGenerator generator = new BagOfWordsQueryGenerator();
+    return batchSearchFields_Lucene8(generator, queries, qids, k, threads, new HashMap<>());
+  }
+
+  public Map<String, Result[]> batchSearch_Lucene8(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads) {
+    return batchSearchFields_Lucene8(generator, queries, qids, k, threads, new HashMap<>());
+  }
+
+  public Map<String, Result[]> batchSearchFields_Lucene8(List<String> queries, List<String> qids, int k, int threads,
                                                  Map<String, Float> fields) {
+    QueryGenerator generator = new BagOfWordsQueryGenerator();
+    return batchSearchFields_Lucene8(generator, queries, qids, k, threads, fields);
+  }
+
+  public Map<String, Result[]> batchSearchFields_Lucene8(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads,
+                                                 Map<String, Float> fields) {
+    return _batchSearchFields(generator, queries, qids, k, threads, fields, true);
+  }
+
+  // internal implementation
+  public Map<String, Result[]> _batchSearchFields(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads,
+                                                 Map<String, Float> fields, boolean backwardsCompatibilityLucene8) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
     if (searcher == null) {
@@ -564,9 +590,18 @@ public class SimpleSearcher implements Closeable {
       executor.execute(() -> {
         try {
           if (fields.size() > 0) {
-            results.put(qid, searchFields(generator, query, fields, k));
+            if (backwardsCompatibilityLucene8) {
+              results.put(qid, searchFields_Lucene8(generator, query, fields, k));
+            } else {
+              results.put(qid, searchFields(generator, query, fields, k));
+            }
           } else {
-            results.put(qid, search(generator, query, k));
+            if (backwardsCompatibilityLucene8) {
+              results.put(qid, search_Lucene8(generator, query, k));
+            } else {
+              results.put(qid, search(generator, query, k));
+
+            }
           }
         } catch (IOException e) {
           throw new CompletionException(e);
@@ -613,17 +648,17 @@ public class SimpleSearcher implements Closeable {
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k, true);
+    return _search(query, queryTokens, q, k, true);
   }
 
   public Result[] search_Lucene8(Query query, int k) throws IOException {
-    return search(query, null, null, k, true);
+    return _search(query, null, null, k, true);
   }
 
   public Result[] search_Lucene8(QueryGenerator generator, String q, int k) throws IOException {
     Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
 
-    return search(query, null, null, k, true);
+    return _search(query, null, null, k, true);
   }
 
   /**
@@ -649,7 +684,7 @@ public class SimpleSearcher implements Closeable {
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k, false);
+    return _search(query, queryTokens, q, k, false);
   }
 
   /**
@@ -661,7 +696,7 @@ public class SimpleSearcher implements Closeable {
    * @throws IOException if error encountered during search
    */
   public Result[] search(Query query, int k) throws IOException {
-    return search(query, null, null, k, false);
+    return _search(query, null, null, k, false);
   }
 
   /**
@@ -676,11 +711,11 @@ public class SimpleSearcher implements Closeable {
   public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
     Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
 
-    return search(query, null, null, k, false);
+    return _search(query, null, null, k, false);
   }
 
   // internal implementation
-  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k,
+  protected Result[] _search(Query query, List<String> queryTokens, String queryString, int k,
                             boolean backwardsCompatibilityLucene8) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
@@ -689,7 +724,12 @@ public class SimpleSearcher implements Closeable {
     }
 
     SearchArgs searchArgs = new SearchArgs();
-    searchArgs.arbitraryScoreTieBreak = false;
+    if (backwardsCompatibilityLucene8) {
+      searchArgs.arbitraryScoreTieBreak = true;
+    } else {
+      searchArgs.arbitraryScoreTieBreak = false;
+    }
+
     searchArgs.hits = k;
 
     TopDocs rs;
@@ -754,7 +794,23 @@ public class SimpleSearcher implements Closeable {
     Query query = generator.buildQuery(fields, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k, false);
+    return _search(query, queryTokens, q, k, false);
+  }
+
+  public Result[] searchFields_Lucene8(String q, Map<String, Float> fields, int k) throws IOException {
+    // Note that this is used for MS MARCO experiments with document expansion.
+    QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
+    return searchFields_Lucene8(queryGenerator, q, fields, k);
+  }
+
+  public Result[] searchFields_Lucene8(QueryGenerator generator, String q, Map<String, Float> fields, int k) throws IOException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
+
+    Query query = generator.buildQuery(fields, analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
+
+    return _search(query, queryTokens, q, k, true);
   }
 
   /**
