@@ -18,10 +18,8 @@ package io.anserini.search;
 
 import io.anserini.index.IndexVectorArgs;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.VectorQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
-import io.anserini.search.topicreader.Topics;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +27,6 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.KnnVectorQuery;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
@@ -42,12 +39,9 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -73,16 +67,14 @@ public final class SearchVectorCollection implements Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
   // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
-  // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchArgs.
+  // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchVectorArgs.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(IndexVectorArgs.ID, SortField.Type.STRING_VAL));
 
   private static final Logger LOG = LogManager.getLogger(SearchVectorCollection.class);
 
-  private final SearchArgs args;
+  private final SearchVectorArgs args;
   private final IndexReader reader;
-  private Map<String, ScoredDocuments> qrels;
-  private Set<String> queriesWithRel;
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -91,7 +83,7 @@ public final class SearchVectorCollection implements Closeable {
     final private String outputPath;
     final private String runTag;
 
-    private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, Map<String, ScoredDocuments> qrels, String outputPath, String runTag) {
+    private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, String outputPath, String runTag) {
       this.reader = reader;
       this.topics = topics;
       this.runTag = runTag;
@@ -121,18 +113,9 @@ public final class SearchVectorCollection implements Closeable {
             // This is for holding the results.
             StringBuilder out = new StringBuilder();
             String queryString = entry.getValue().get(args.topicfield);
-            ScoredDocuments queryQrels = null;
-            boolean hasRelDocs = false;
-            String qidString = qid.toString();
-            if (qrels != null) {
-              queryQrels = qrels.get(qidString);
-              if (queriesWithRel.contains(qidString)) {
-                hasRelDocs = true;
-              }
-            }
             ScoredDocuments docs;
             try {
-              docs = search(this.searcher, qid, queryString, queryQrels, hasRelDocs);
+              docs = search(this.searcher, queryString);
             } catch (IOException e) {
               throw new CompletionException(e);
             }
@@ -227,7 +210,7 @@ public final class SearchVectorCollection implements Closeable {
     }
   }
 
-  public SearchVectorCollection(SearchArgs args) throws IOException {
+  public SearchVectorCollection(SearchVectorArgs args) throws IOException {
     this.args = args;
     Path indexPath = Paths.get(args.index);
 
@@ -279,7 +262,7 @@ public final class SearchVectorCollection implements Closeable {
     if (args.skipexists && new File(outputPath).exists()) {
       LOG.info("Run already exists, skipping: " + outputPath);
     } else {
-      executor.execute(new SearcherThread<>(reader, topics, this.qrels, outputPath, runTag));
+      executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag));
       executor.shutdown();
     }
 
@@ -295,8 +278,7 @@ public final class SearchVectorCollection implements Closeable {
     }
   }
 
-  public <K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, ScoredDocuments queryQrels,
-                                    boolean hasRelDocs) throws IOException {
+  public ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
     KnnVectorQuery query;
     VectorQueryGenerator generator;
     try {
@@ -309,7 +291,7 @@ public final class SearchVectorCollection implements Closeable {
 
     // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
     // multiple fields with the associated boosts.
-    query = generator.buildQuery(IndexVectorArgs.VECTOR, queryString, args.hits);
+    query = generator.buildQuery(IndexVectorArgs.VECTOR, queryString, args.efSearch);
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     rs = searcher.search(query, args.hits);
@@ -321,7 +303,7 @@ public final class SearchVectorCollection implements Closeable {
 
 
   public static void main(String[] args) throws Exception {
-    SearchArgs searchArgs = new SearchArgs();
+    SearchVectorArgs searchArgs = new SearchVectorArgs();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
 
     try {
