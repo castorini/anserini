@@ -104,20 +104,14 @@ public class SimpleSearcherTest extends IndexerTestBase {
   public void testGetContents() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
-    assertEquals("here is some text here is some more text. city.",
-        searcher.doc_contents(0));
-    assertEquals("more texts",
-        searcher.doc_contents(1));
-    assertEquals("here is a test",
-        searcher.doc_contents(2));
+    assertEquals("here is some text here is some more text. city.", searcher.doc_contents(0));
+    assertEquals("more texts", searcher.doc_contents(1));
+    assertEquals("here is a test", searcher.doc_contents(2));
     assertNull(searcher.doc(3));
 
-    assertEquals("here is some text here is some more text. city.",
-        searcher.doc_contents("doc1"));
-    assertEquals("more texts",
-        searcher.doc_contents("doc2"));
-    assertEquals("here is a test",
-        searcher.doc_contents("doc3"));
+    assertEquals("here is some text here is some more text. city.", searcher.doc_contents("doc1"));
+    assertEquals("more texts", searcher.doc_contents("doc2"));
+    assertEquals("here is a test", searcher.doc_contents("doc3"));
     assertNull(searcher.doc_contents("doc42"));
 
     searcher.close();
@@ -159,10 +153,8 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
 
     // We can fetch the exact same information from the raw Lucene document also.
-    assertEquals("doc3",
-        hits[0].lucene_document.getField(IndexArgs.ID).stringValue());
-    assertEquals("here is a test",
-        hits[0].lucene_document.getField(IndexArgs.CONTENTS).stringValue());
+    assertEquals("doc3", hits[0].lucene_document.getField(IndexArgs.ID).stringValue());
+    assertEquals("here is a test", hits[0].lucene_document.getField(IndexArgs.CONTENTS).stringValue());
     assertEquals("{\"contents\": \"here is a test\"}",
         hits[0].lucene_document.getField(IndexArgs.RAW).stringValue());
 
