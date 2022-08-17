@@ -82,7 +82,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
@@ -706,8 +705,7 @@ public class SimpleSearcher implements Closeable {
     for (String docid: docids) {
       executor.execute(() -> {
         try {
-          Document result = IndexReaderUtils.document(reader, docid);
-          results.put(docid, result);
+          results.put(docid, IndexReaderUtils.document(reader, docid));
         } catch (Exception e) {
           // Do nothing, just eat the exception.
         }
