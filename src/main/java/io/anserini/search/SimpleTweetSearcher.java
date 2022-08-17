@@ -177,7 +177,7 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
 
     if (searchArgs.useRM3) {
-      searcher.setRM3();
+      searcher.set_rm3();
     }
 
     for (Object id : topics.keySet()) {
