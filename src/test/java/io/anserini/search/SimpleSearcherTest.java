@@ -277,50 +277,6 @@ public class SimpleSearcherTest extends IndexerTestBase {
   }
 
   @Test
-  public void testMain() throws Exception {
-    Random random = new Random();
-    String tmpFile = "tmp" + random.nextInt() + ".txt";
-    String contents;
-
-    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(),
-        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
-        "-output", tmpFile});
-
-    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
-    assertEquals("620 Q0 doc3 1 0.570200 Anserini\n", contents);
-
-    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-threads", "2",
-        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
-        "-output", tmpFile});
-
-    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
-    assertEquals("620 Q0 doc3 1 0.570200 Anserini\n", contents);
-
-    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-rm3",
-        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
-        "-output", tmpFile});
-
-    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
-    assertEquals("620 Q0 doc3 1 0.095000 Anserini\n", contents);
-
-    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-rocchio",
-        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
-        "-output", tmpFile});
-
-    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
-    assertEquals("620 Q0 doc3 1 0.329200 Anserini\n", contents);
-
-    SimpleSearcher.main(new String[] {"-index", super.tempDir1.toString(), "-qld",
-        "-topics", "src/main/resources/topics-and-qrels/topics.robust04.txt",
-        "-output", tmpFile});
-
-    contents = Files.readString(Paths.get(tmpFile), StandardCharsets.US_ASCII);
-    assertEquals("620 Q0 doc3 1 0.004500 Anserini\n", contents);
-
-    new File(tmpFile).delete();
-  }
-
-  @Test
   public void testTotalNumDocuments() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
     assertEquals(3 ,searcher.get_total_num_docs());
