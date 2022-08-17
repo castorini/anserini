@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 public class SimpleImpactSearcherTest extends IndexerTestBase {
-
   @Test
   public void testGetDoc() throws Exception {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());

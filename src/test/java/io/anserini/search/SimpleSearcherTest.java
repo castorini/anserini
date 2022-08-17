@@ -17,24 +17,38 @@
 package io.anserini.search;
 
 import io.anserini.IndexerTestBase;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.junit.Test;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class SimpleSearcherTest extends IndexerTestBase {
+  @Test
+  public void testGettersAndSetters() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    assertTrue(searcher.get_analyzer() instanceof DefaultEnglishAnalyzer);
+
+    searcher.set_language("ar");
+    assertTrue(searcher.get_analyzer() instanceof ArabicAnalyzer);
+
+    assertTrue(searcher.get_similarity() instanceof BM25Similarity);
+
+    searcher.set_qld(100.0f);
+    assertTrue(searcher.get_similarity() instanceof LMDirichletSimilarity);
+
+    searcher.close();
+  }
 
   @Test
   public void testGetDoc() throws Exception {
@@ -172,9 +186,9 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
+    assertEquals(0.28830000f, results[0].score, 10e-6);
     assertEquals("doc2", results[1].docid);
     assertEquals(1, results[1].lucene_docid);
-    assertEquals(0.28830000f, results[0].score, 10e-6);
     assertEquals(0.27329999f, results[1].score, 10e-6);
 
     results = searcher.search("test");
@@ -182,6 +196,118 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
     assertEquals(0.5702000f, results[0].score, 10e-6);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearch3() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_bm25(3.5f, 0.9f);
+    Result[] results;
+
+    results = searcher.search("text", 1);
+    assertEquals(1, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.16070f, results[0].score, 10e-5);
+
+    results = searcher.search("text");
+    assertEquals(2, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.16070f, results[0].score, 10e-5);
+    assertEquals("doc1", results[1].docid);
+    assertEquals(0, results[1].lucene_docid);
+    assertEquals(0.10870f, results[1].score, 10e-5);
+
+    results = searcher.search("test");
+    assertEquals(1, results.length);
+    assertEquals("doc3", results[0].docid);
+    assertEquals(2, results[0].lucene_docid);
+    assertEquals(0.33530f, results[0].score, 10e-5);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearch4() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_qld(10);
+    Result[] results;
+
+    results = searcher.search("text", 1);
+    assertEquals(1, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.09910f, results[0].score, 10e-5);
+
+    results = searcher.search("text");
+    assertEquals(2, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.09910f, results[0].score, 10e-5);
+    assertEquals("doc1", results[1].docid);
+    assertEquals(0, results[1].lucene_docid);
+    assertEquals(0.0f, results[1].score, 10e-5);
+
+    results = searcher.search("test");
+    assertEquals(1, results.length);
+    assertEquals("doc3", results[0].docid);
+    assertEquals(2, results[0].lucene_docid);
+    assertEquals(0.31850f, results[0].score, 10e-5);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearch5() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_rm3();
+    assertTrue(searcher.use_rm3());
+
+    Result[] results;
+
+    results = searcher.search("text", 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(0.14417f, results[0].score, 10e-5);
+
+    searcher.unset_rm3();
+    assertFalse(searcher.use_rm3());
+
+    results = searcher.search("text", 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(0.28830f, results[0].score, 10e-5);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearch6() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_rocchio();
+    assertTrue(searcher.use_rocchio());
+
+    Result[] results;
+
+    results = searcher.search("text", 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(0.28830f, results[0].score, 10e-5);
+
+    searcher.unset_rocchio();
+    assertFalse(searcher.use_rocchio());
+
+    results = searcher.search("text", 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(0.28830f, results[0].score, 10e-5);
 
     searcher.close();
   }

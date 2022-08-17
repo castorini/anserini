@@ -28,14 +28,13 @@ import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
-import io.anserini.search.topicreader.TopicReader;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.da.DanishAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
@@ -56,8 +55,6 @@ import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
 import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -71,26 +68,15 @@ import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -122,7 +108,7 @@ public class SimpleSearcher implements Closeable {
    * This class is meant to serve as the bridge between Anserini and Pyserini.
    * Note that we are adopting Python naming conventions here on purpose.
    */
-  public class Result {
+  public static class Result {
     public String docid;
     public int lucene_docid;
     public float score;
@@ -161,20 +147,19 @@ public class SimpleSearcher implements Closeable {
    * @throws IOException if errors encountered during initialization
    */
   public SimpleSearcher(String indexDir, Analyzer analyzer) throws IOException {
+    SearchArgs defaults = new SearchArgs();
     Path indexPath = Paths.get(indexDir);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
       throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
     }
 
-    SearchArgs defaults = new SearchArgs();
-
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    if (reader.toString().contains("Lucene9")) {
-      this.backwardsCompatibilityLucene8 = false;
-    } else{
-      this.backwardsCompatibilityLucene8 = true;
-    }
+
+    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
+    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
+    // which is the source of the incompatibility.
+    this.backwardsCompatibilityLucene8 = !reader.toString().contains("Lucene9");
 
     // Default to using BM25.
     this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));
@@ -262,16 +247,12 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Returns whether or not RM3 query expansion is being performed.
+   * Determines if RM3 query expansion is enabled.
    *
-   * @return whether or not RM3 query expansion is being performed
+   * @return true if RM query expansion is enabled; false otherwise.
    */
   public boolean use_rm3() {
     return useRM3;
-  }
-
-  public boolean use_rocchio() {
-    return useRocchio;
   }
 
   /**
@@ -293,7 +274,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Enables RM3 query expansion with default parameters.
+   * Enables RM3 query expansion with specified parameters.
    *
    * @param fbTerms number of expansion terms
    * @param fbDocs number of expansion documents
@@ -304,7 +285,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Enables RM3 query expansion with default parameters.
+   * Enables RM3 query expansion with specified parameters.
    *
    * @param fbTerms number of expansion terms
    * @param fbDocs number of expansion documents
@@ -318,6 +299,15 @@ public class SimpleSearcher implements Closeable {
     cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
         fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
     cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
+  /**
+   * Determines if Rocchio query expansion is enabled.
+   *
+   * @return true if Rocchio query expansion is enabled; false otherwise.
+   */
+  public boolean use_rocchio() {
+    return useRocchio;
   }
 
   /**
@@ -336,11 +326,12 @@ public class SimpleSearcher implements Closeable {
     SearchArgs defaults = new SearchArgs();
     set_rocchio(Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
         Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
-        Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]), Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
+        Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]),
+        Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
   }
 
   /**
-   * Enables Rocchio query expansion with default parameters.
+   * Enables Rocchio query expansion with specified parameters.
    *
    * @param topFbTerms number of relevant expansion terms
    * @param topFbDocs number of relevant expansion documents
@@ -419,12 +410,11 @@ public class SimpleSearcher implements Closeable {
       reader.close();
     } catch (Exception e) {
       // Eat any exceptions.
-      return;
     }
   }
 
   /**
-   * Searches the collection using multiple threads.
+   * Searches the collection in batch using multiple threads.
    *
    * @param queries list of queries
    * @param qids list of unique query ids
@@ -440,7 +430,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Searches the collection using multiple threads.
+   * Searches the collection in batch using multiple threads.
    *
    * @param generator the method for generating queries
    * @param queries list of queries
@@ -454,11 +444,11 @@ public class SimpleSearcher implements Closeable {
                                             List<String> qids,
                                             int k,
                                             int threads) {
-    return batch_search_fields(this.generator, queries, qids, k, threads, new HashMap<>());
+    return batch_search_fields(generator, queries, qids, k, threads, new HashMap<>());
   }
 
   /**
-   * Searches the provided fields weighted by their boosts, using multiple threads.
+   * Searches the provided fields weighted by their boosts, in batch using multiple threads.
    *
    * @param queries list of queries
    * @param qids list of unique query ids
@@ -476,7 +466,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Searches the provided fields weighted by their boosts, using multiple threads.
+   * Searches the provided fields weighted by their boosts, in batch using multiple threads.
    *
    * @param generator the method for generating queries
    * @param queries list of queries
@@ -502,8 +492,6 @@ public class SimpleSearcher implements Closeable {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 
-    long startTime = System.nanoTime();
-    AtomicLong index = new AtomicLong();
     int queryCnt = queries.size();
     for (int q = 0; q < queryCnt; ++q) {
       String query = queries.get(q);
@@ -517,14 +505,6 @@ public class SimpleSearcher implements Closeable {
           }
         } catch (IOException e) {
           throw new CompletionException(e);
-        }
-        // Logging to track query latency.
-        // Note that this is potentially noisy because it might interfere with tqdm on the Python side; logging
-        // every 500 queries seems like a reasonable comprise between offering helpful info and not being too noisy.
-        Long lineNumber = index.incrementAndGet();
-        if (lineNumber % 500 == 0) {
-          double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
-          LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)", timePerQuery));
         }
       });
     }
@@ -614,12 +594,7 @@ public class SimpleSearcher implements Closeable {
     }
 
     SearchArgs searchArgs = new SearchArgs();
-    if (this.backwardsCompatibilityLucene8) {
-      searchArgs.arbitraryScoreTieBreak = true;
-    } else {
-      searchArgs.arbitraryScoreTieBreak = false;
-    }
-
+    searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
     searchArgs.hits = k;
 
     TopDocs rs;
@@ -695,12 +670,12 @@ public class SimpleSearcher implements Closeable {
   /**
    * Fetches the Lucene {@link Document} based on an internal Lucene docid.
    *
-   * @param ldocid internal Lucene docid
+   * @param lucene_docid internal Lucene docid
    * @return corresponding Lucene {@link Document}
    */
-  public Document doc(int ldocid) {
+  public Document doc(int lucene_docid) {
     try {
-      return reader.document(ldocid);
+      return reader.document(lucene_docid);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -709,8 +684,6 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Returns the Lucene {@link Document} based on a collection docid.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
    *
    * @param docid collection docid
    * @return corresponding Lucene {@link Document}
@@ -735,7 +708,9 @@ public class SimpleSearcher implements Closeable {
         try {
           Document result = IndexReaderUtils.document(reader, docid);
           results.put(docid, result);
-        } catch (Exception e){}
+        } catch (Exception e) {
+          // Do nothing, just eat the exception.
+        }
       });
     }
 
@@ -760,8 +735,6 @@ public class SimpleSearcher implements Closeable {
   /**
    * Fetches the Lucene {@link Document} based on some field other than its unique collection docid.
    * For example, scientific articles might have DOIs.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
    *
    * @param field field
    * @param id unique id
@@ -773,15 +746,13 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Returns the "contents" field of a document based on an internal Lucene docid.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
    *
-   * @param ldocid internal Lucene docid
+   * @param lucene_docid internal Lucene docid
    * @return the "contents" field the document
    */
-  public String doc_contents(int ldocid) {
+  public String doc_contents(int lucene_docid) {
     try {
-      return reader.document(ldocid).get(IndexArgs.CONTENTS);
+      return reader.document(lucene_docid).get(IndexArgs.CONTENTS);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -790,8 +761,6 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Returns the "contents" field of a document based on a collection docid.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
    *
    * @param docid collection docid
    * @return the "contents" field the document
@@ -802,15 +771,13 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Returns the "raw" field of a document based on an internal Lucene docid.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
    *
-   * @param ldocid internal Lucene docid
+   * @param lucene_docid internal Lucene docid
    * @return the "raw" field the document
    */
-  public String doc_raw(int ldocid) {
+  public String doc_raw(int lucene_docid) {
     try {
-      return reader.document(ldocid).get(IndexArgs.RAW);
+      return reader.document(lucene_docid).get(IndexArgs.RAW);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
