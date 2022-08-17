@@ -19,10 +19,8 @@ package io.anserini.index;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
-import java.util.HashSet;
-import java.util.Set;
 
-public class IndexArgs {
+public class IndexVectorArgs {
 
   // This is the name of the field in the Lucene document where the docid is stored.
   public static final String ID = "id";
@@ -32,9 +30,6 @@ public class IndexArgs {
 
   // This is the name of the field in the Lucene document where the raw document is stored.
   public static final String RAW = "raw";
-
-  // This is the name of the field in the Lucene document where the entity document is stored.
-  public static final String ENTITY = "entity";
 
   // This is the name of the field in the Lucene document where the vector document is stored.
   public static final String VECTOR = "vector";
@@ -99,18 +94,6 @@ public class IndexArgs {
       usage = "Boolean switch to optimize index (i.e., force merge) into a single segment; costly for large collections.")
   public boolean optimize = false;
 
-  @Option(name = "-keepStopwords",
-      usage = "Boolean switch to keep stopwords.")
-  public boolean keepStopwords = false;
-
-  @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
-      usage = "Path to file with stopwords.")
-  public String stopwords = null;
-
-  @Option(name = "-stemmer", metaVar = "[stemmer]",
-      usage = "Stemmer: one of the following {porter, krovetz, none}; defaults to 'porter'.")
-  public String stemmer = "porter";
-
   @Option(name = "-uniqueDocid",
       usage = "Removes duplicate documents with the same docid during indexing. This significantly slows indexing throughput " +
               "but may be needed for tweet collections since the streaming API might deliver a tweet multiple times.")
@@ -124,43 +107,6 @@ public class IndexArgs {
       usage = "File containing list of docids, one per line; only these docids will be indexed.")
   public String whitelist = null;
 
-  @Option(name = "-impact",
-      usage = "Boolean switch to store impacts (no norms).")
-  public boolean impact = false;
-
-  @Option(name = "-bm25.accurate",
-      usage = "Boolean switch to use AccurateBM25Similarity (computes accurate document lengths).")
-  public boolean bm25Accurate = false;
-
-  @Option(name = "-language", metaVar = "[language]",
-      usage = "Analyzer language (ISO 3166 two-letter code).")
-  public String language= "en";
-
-  @Option(name = "-pretokenized",
-          usage = "index pre-tokenized collections without any additional stemming, stopword processing")
-  public boolean pretokenized = false;
-
-  // Tweet options
-
-  @Option(name = "-tweet.keepRetweets",
-      usage = "Boolean switch to index retweets.")
-  public boolean tweetKeepRetweets = false;
-
-  @Option(name = "-tweet.keepUrls",
-      usage = "Boolean switch to keep URLs.")
-  public boolean tweetKeepUrls = false;
-
-  @Option(name = "-tweet.stemming",
-      usage = "Boolean switch to apply Porter stemming while indexing tweets.")
-  public boolean tweetStemming = false;
-
-  @Option(name = "-tweet.maxId", metaVar = "[id]",
-      usage = "Max tweet id to index (long); all tweets with larger tweet ids will be skipped.")
-  public long tweetMaxId = Long.MAX_VALUE;
-
-  @Option(name = "-tweet.deletedIdsFile", metaVar = "[file]",
-      usage = "File that contains deleted tweet ids (longs), one per line; these tweets will be skipped during indexing.")
-  public String tweetDeletedIdsFile = "";
 
   // Sharding options
 

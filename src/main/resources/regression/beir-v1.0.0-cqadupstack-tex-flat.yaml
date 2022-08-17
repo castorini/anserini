@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 68184
   documents (non-empty): 68184
-  total terms: 9556422
+  total terms: 9556423
 
 metrics:
   - metric: nDCG@10
