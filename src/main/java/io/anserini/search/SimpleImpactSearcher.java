@@ -77,7 +77,7 @@ public class SimpleImpactSearcher implements Closeable {
     public float score;
     public String contents;
     public String raw;
-    public Document lucene_document; // Since this is for Python access, we're using Python naming conventions.
+    public Document lucene_document;
 
     public Result(String docid, int lucene_docid, float score, String contents, String raw, Document lucene_document) {
       this.docid = docid;
@@ -187,8 +187,7 @@ public class SimpleImpactSearcher implements Closeable {
     try {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        LOG.info(String.format("%.2f percent completed",
-            (double) executor.getCompletedTaskCount() / queries.size() * 100.0d));
+        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
       }
     } catch (InterruptedException ie) {
       // (Re-)Cancel if current thread also interrupted
