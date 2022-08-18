@@ -14,7 +14,8 @@ Among other goals, our effort aims to be [the opposite of this](http://phdcomics
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
 
-**NOTE**: Anserini was recently upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/24/2022): this upgrade creates backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952). Pyserini *has not* be similarly upgraded.
+**NOTE**: Anserini was recently upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/24/2022): this upgrade creates backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952).
+Pyserini *has not* been similarly upgraded.
 
 ## Getting Started
 
