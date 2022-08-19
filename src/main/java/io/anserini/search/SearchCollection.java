@@ -494,9 +494,10 @@ public final class SearchCollection implements Closeable {
       loadQrels(args.rf_qrels);      
     }
 
-    // See https://github.com/castorini/anserini/issues/1952
-    // The solution to the issue described above is to turn off deterministic tie-breaking.
-    if (args.lucene8) {
+    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
+    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
+    // which is the source of the incompatibility.
+    if (!reader.toString().contains("Lucene9")) {
       args.arbitraryScoreTieBreak = true;
       args.axiom_deterministic = false;
     }
