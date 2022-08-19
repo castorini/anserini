@@ -497,7 +497,7 @@ public final class SearchCollection implements Closeable {
     // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
     // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
     // which is the source of the incompatibility.
-    if (!reader.toString().contains("Lucene9")) {
+    if (!reader.toString().contains("lucene.version=9")) {
       args.arbitraryScoreTieBreak = true;
       args.axiom_deterministic = false;
     }
