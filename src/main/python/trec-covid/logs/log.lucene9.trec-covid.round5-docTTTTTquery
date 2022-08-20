@@ -1,0 +1,35 @@
+## Evaluation results w/ src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt
+
+                                                     topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5
+expanded.anserini.covid-r5.abstract.qq.bm25.txt          50  0.4635 0.5300  0.4326 0.5120 0.1728 0.4462 0.2059 87ffb3a3a5f269f45590f7f9d188b93c
+expanded.anserini.covid-r5.abstract.qdel.bm25.txt        50  0.4548 0.5000  0.4260 0.4880 0.1742 0.4528 0.2051 432b70ac9a62835f77f6c3e5e9594af6
+expanded.anserini.covid-r5.full-text.qq.bm25.txt         50  0.4450 0.6020  0.4208 0.5820 0.1801 0.4473 0.2393 b6d6a174e0d24f0857cb3659bb1e1665
+expanded.anserini.covid-r5.full-text.qdel.bm25.txt       50  0.4817 0.6040  0.4598 0.5920 0.1970 0.4711 0.2439 411eeaaad21af204d44848be6eab45b2
+expanded.anserini.covid-r5.paragraph.qq.bm25.txt         50  0.4904 0.5820  0.4622 0.5630 0.2107 0.5004 0.2511 4d3f73d296cb9fa0b8a203a64b9a8add
+expanded.anserini.covid-r5.paragraph.qdel.bm25.txt       50  0.4940 0.5700  0.4542 0.5420 0.2107 0.5070 0.2486 3f0e407d950212a696315f9d0360c0a3
+expanded.anserini.covid-r5.fusion1.txt                   50  0.4908 0.5880  0.4753 0.5800 0.2017 0.5119 0.2599 f9a8869c9d0a115ff273d7fd0f5b69a8
+expanded.anserini.covid-r5.fusion2.txt                   50  0.4846 0.5740  0.4565 0.5400 0.2045 0.5218 0.2578 2ceabd1feb0d60708b03887fb9eeb598
+expanded.anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt  50  0.6095 0.6320  0.5693 0.5990 0.2344 0.5280 0.2257 76aa9b860bd3eb3a878405fe6f8fc319
+
+## Evaluation results w/ src/main/resources/topics-and-qrels/qrels.covid-complete.txt
+
+                                                     topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5
+expanded.anserini.covid-r5.abstract.qq.bm25.txt          50  0.6808 0.9980  0.6375 0.9600 0.2718 0.4550 0.3845 87ffb3a3a5f269f45590f7f9d188b93c
+expanded.anserini.covid-r5.abstract.qdel.bm25.txt        50  0.6939 0.9920  0.6524 0.9610 0.2752 0.4596 0.3825 432b70ac9a62835f77f6c3e5e9594af6
+expanded.anserini.covid-r5.full-text.qq.bm25.txt         50  0.6300 0.9680  0.5843 0.9260 0.2475 0.4201 0.3921 b6d6a174e0d24f0857cb3659bb1e1665
+expanded.anserini.covid-r5.full-text.qdel.bm25.txt       50  0.6611 0.9800  0.6360 0.9610 0.2746 0.4496 0.4073 411eeaaad21af204d44848be6eab45b2
+expanded.anserini.covid-r5.paragraph.qq.bm25.txt         50  0.6827 0.9800  0.6477 0.9670 0.3080 0.4936 0.4360 4d3f73d296cb9fa0b8a203a64b9a8add
+expanded.anserini.covid-r5.paragraph.qdel.bm25.txt       50  0.7067 0.9960  0.6614 0.9760 0.3127 0.4985 0.4328 3f0e407d950212a696315f9d0360c0a3
+expanded.anserini.covid-r5.fusion1.txt                   50  0.7072 1.0000  0.6731 0.9920 0.2964 0.5063 0.4528 f9a8869c9d0a115ff273d7fd0f5b69a8
+expanded.anserini.covid-r5.fusion2.txt                   50  0.7131 1.0000  0.6755 0.9910 0.3036 0.5166 0.4518 2ceabd1feb0d60708b03887fb9eeb598
+expanded.anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt  50  0.8160 1.0000  0.7787 0.9960 0.3421 0.5249 0.4107 76aa9b860bd3eb3a878405fe6f8fc319
+
+## Evaluation results w/ src/main/resources/topics-and-qrels/qrels.covid-round5.txt
+
+                                                   topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5
+expanded.anserini.final-r5.fusion1.txt                 50  0.5789 0.9520  0.5374 0.8530 0.2236 0.5798 0.2132 7aca42d4613527d622ca71560bfb201d
+expanded.anserini.final-r5.fusion1.post-processed.txt  50  0.5817 0.9580  0.5414 0.8610 0.2246 0.5798 0.2135 03ad001d94c772649e17f4d164d4b2e2
+expanded.anserini.final-r5.fusion2.txt                 50  0.5801 0.9620  0.5393 0.8650 0.2310 0.5861 0.2135 28b10a84eddcfc899dd5fdc1a2d9ba77
+expanded.anserini.final-r5.fusion2.post-processed.txt  50  0.5825 0.9680  0.5436 0.8700 0.2319 0.5861 0.2138 4137c93e76970616e0eff2803501cd08
+expanded.anserini.final-r5.rf.txt                      50  0.6628 0.9460  0.6040 0.8370 0.2410 0.6039 0.1995 149d89472827ae78e838d459322f2511
+expanded.anserini.final-r5.rf.post-processed.txt       50  0.6757 0.9620  0.6124 0.8470 0.2433 0.6039 0.1998 3dfba85c0630865a7b581c4358cf4587
