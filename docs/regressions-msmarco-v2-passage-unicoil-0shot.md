@@ -62,7 +62,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-passage-unicoil-0shot \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -impact -pretokenized \
+  -threads 18 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-v2-passage-unicoil-0shot &
 ```
 
@@ -93,6 +93,32 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt \
   -impact -pretokenized &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-passage-unicoil-0shot.rm3.topics.msmarco-v2-passage.dev.unicoil.0shot.txt \
+  -impact -pretokenized -rm3 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-passage-unicoil-0shot.rm3.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt \
+  -impact -pretokenized -rm3 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-passage-unicoil-0shot.rocchio.topics.msmarco-v2-passage.dev.unicoil.0shot.txt \
+  -impact -pretokenized -rocchio &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-passage-unicoil-0shot.rocchio.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt \
+  -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -104,25 +130,39 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank sr
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-unicoil-0shot.rm3.topics.msmarco-v2-passage.dev.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-unicoil-0shot.rm3.topics.msmarco-v2-passage.dev.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-unicoil-0shot.rm3.topics.msmarco-v2-passage.dev.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.rm3.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.rm3.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.rm3.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-unicoil-0shot.rocchio.topics.msmarco-v2-passage.dev.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-unicoil-0shot.rocchio.topics.msmarco-v2-passage.dev.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-unicoil-0shot.rocchio.topics.msmarco-v2-passage.dev.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.rocchio.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.rocchio.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-unicoil-0shot.rocchio.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.1485    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.1561    |
-| **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
-| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.1499    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.1577    |
-| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**|
-| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.5518    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.5661    |
-| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**|
-| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.7616    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.7671    |
+| **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.1485    | 0.1320    | 0.1319    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.1561    | 0.1339    | 0.1371    |
+| **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.1499    | 0.1332    | 0.1334    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.1577    | 0.1348    | 0.1380    |
+| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.5518    | 0.5534    | 0.5557    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.5661    | 0.5550    | 0.5696    |
+| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.7616    | 0.7731    | 0.7800    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.7671    | 0.7698    | 0.7849    |
 
 ## Reproduction Log[*](reproducibility.md)
 
