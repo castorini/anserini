@@ -37,6 +37,7 @@ import org.junit.Before;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Locale;
 
 public class IndexerTestBase extends LuceneTestCase {
   protected Path tempDir1;
@@ -96,6 +97,8 @@ public class IndexerTestBase extends LuceneTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
+
+    Locale.setDefault(Locale.US);
 
     tempDir1 = createTempDir();
     buildTestIndex();

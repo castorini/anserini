@@ -36,9 +36,6 @@ public class SearchArgs {
   @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
   public String topicReader;
 
-  @Option(name = "-lucene8", usage = "Enable Lucene 8 index compatibility.")
-  public Boolean lucene8 = false;
-
   // optional arguments
   @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
   public String queryGenerator = "BagOfWordsQueryGenerator";
