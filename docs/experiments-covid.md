@@ -2,10 +2,10 @@
 
 **Important Note (Lucene 8 to Lucene 9 Upgrade):**
 Anserini was upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/2/2022).
-This upgrade created backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952), which means that the runs here cannot be _exactly_ reproduced, with Lucene 9 code running on Lucene 8 indexes (since we need to disable consistent tie-breaking).
+This upgrade created backward compatibility issues (see [#1952](https://github.com/castorini/anserini/issues/1952)), which means that the runs described on this page cannot be _exactly_ reproduced with Lucene 9 code running on Lucene 8 indexes (since we need to disable consistent tie-breaking).
 
-Thus, this page has no longer being maintained.
-For reproducibility purposes, however, runs with Lucene 8 (at v0.14.4) and Lucene 9 (at [`5480dc`](https://github.com/castorini/anserini/commit/5480dc88d0bfdd2cb67ef0ca4271223ed13c1ea5)) are captured [here](../src/main/python/trec-covid/logs).
+Thus, this page is no longer being maintained.
+For reproducibility purposes, however, runs with Lucene 8 (at v0.14.4) and Lucene 9 (at [`5480dc`](https://github.com/castorini/anserini/commit/5480dc88d0bfdd2cb67ef0ca4271223ed13c1ea5)) are captured and stored [here](../src/main/python/trec-covid/logs).
 There are only minor differences in effectiveness between the two sets of runs.
 
 ---
