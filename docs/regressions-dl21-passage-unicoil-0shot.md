@@ -65,7 +65,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-passage-unicoil-0shot \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -impact -pretokenized \
+  -threads 18 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-v2-passage-unicoil-0shot &
 ```
 
@@ -91,6 +91,20 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt \
   -impact -pretokenized &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt \
+  -impact -pretokenized -rm3 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt \
+  -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -101,23 +115,35 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 src/main/resou
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2538    |
-| **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.7311    |
-| **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6159    |
-| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4731    |
-| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.7551    |
+| **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2538    | 0.2864    | 0.2890    |
+| **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.7311    | 0.7493    | 0.7749    |
+| **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6159    | 0.6150    | 0.6383    |
+| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4731    | 0.5141    | 0.5147    |
+| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.7551    | 0.7906    | 0.8096    |
 
 This run roughly corresponds to run `d_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
 The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
