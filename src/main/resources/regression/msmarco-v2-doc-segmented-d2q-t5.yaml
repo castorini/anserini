@@ -89,7 +89,7 @@ models:
         - 0.9000
         - 0.8967
   - name: bm25-default+rocchio
-    display: +RM3
+    display: +Rocchio
     params: -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP@100:
