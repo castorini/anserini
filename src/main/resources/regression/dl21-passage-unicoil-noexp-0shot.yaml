@@ -92,7 +92,7 @@ models:
       R@1000:
         - 0.7310
   - name: unicoil-noexp-0shot-rocchio
-    display: +RM3
+    display: +Rocchio
     params: -impact -pretokenized -rocchio
     results:
       MAP@100:
