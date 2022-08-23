@@ -92,7 +92,7 @@ models:
       R@1000:
         - 0.7510
   - name: unicoil-noexp-0shot-rocchio
-    display: +RM3
+    display: +Rocchio
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio
     results:
       MAP@100:

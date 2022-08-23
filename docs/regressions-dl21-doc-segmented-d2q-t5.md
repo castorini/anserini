@@ -94,16 +94,16 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 s
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+RM3**  |
+| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2683    | 0.3192    | 0.3218    |
-| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+RM3**  |
+| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.9454    | 0.8960    | 0.9049    |
-| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+RM3**  |
+| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6289    | 0.6555    | 0.6462    |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+RM3**  |
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3656    | 0.4119    | 0.4172    |
-| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+RM3**  |
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.7202    | 0.7941    | 0.7969    |
 
 Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
