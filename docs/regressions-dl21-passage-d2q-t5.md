@@ -57,6 +57,13 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rm3.topics.dl21.txt \
   -bm25 -rm3 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-passage-d2q-t5/ \
+  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rocchio.topics.dl21.txt \
+  -bm25 -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -73,20 +80,26 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 src/main/resou
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rm3.topics.dl21.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rm3.topics.dl21.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rm3.topics.dl21.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rocchio.topics.dl21.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1874    | 0.2271    |
-| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  |
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6848    | 0.6651    |
-| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  |
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4816    | 0.5099    |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  |
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4076    | 0.4444    |
-| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  |
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.7078    | 0.7512    |
+| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1874    | 0.2271    | 0.2282    |
+| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6848    | 0.6651    | 0.6780    |
+| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4816    | 0.5099    | 0.5159    |
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4076    | 0.4444    | 0.4444    |
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.7078    | 0.7512    | 0.7548    |
