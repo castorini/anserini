@@ -77,7 +77,7 @@ models:
         - 0.4246
       R@1000:
         - 0.6897
-  - name: unicoil-noexp-0shot-rm3
+  - name: unicoil-noexp-0shot+rm3
     display: +RM3
     params: -impact -pretokenized -rm3
     results:
@@ -91,7 +91,7 @@ models:
         - 0.4809
       R@1000:
         - 0.7310
-  - name: unicoil-noexp-0shot-rocchio
+  - name: unicoil-noexp-0shot+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio
     results:

@@ -102,14 +102,14 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
   -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt \
+  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
   -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt \
+  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio &
 ```
 
@@ -121,15 +121,15 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.dl21.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.dl21.unicoil.0shot.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rm3.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-rocchio.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
 ```
 
 ## Effectiveness

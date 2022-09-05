@@ -77,7 +77,7 @@ models:
         - 0.3700
       R@1000:
         - 0.7069
-  - name: unicoil-0shot-rm3
+  - name: unicoil-0shot+rm3
     display: +RM3
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3
     results:
@@ -91,7 +91,7 @@ models:
         - 0.4237
       R@1000:
         - 0.7608
-  - name: unicoil-0shot-rocchio
+  - name: unicoil-0shot+rocchio
     display: +Rocchio
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio
     results:
