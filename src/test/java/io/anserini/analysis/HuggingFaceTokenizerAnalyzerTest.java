@@ -13,15 +13,16 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class BertAnalyzerTest {
+public class HuggingFaceTokenizerAnalyzerTest {
   Object[][] examples = new Object[][]{
       {"Ṣé Wàá Fọkàn sí Àwọn Ohun Tá A Ti Kọ Sílẹ̀?",
       new String[] {"se", "wa", "##a", "fo", "##kan", "si", "awon", "oh", "##un", "ta", "a", "ti", "ko", "sile", "?"} }
   };
+  String huggingFaceModelId = "bert-base-multilingual-uncased";
   
   @Test
   public void basic() throws Exception {
-    Analyzer analyzer = new BertAnalyzer();
+    Analyzer analyzer = new HuggingFaceTokenizerAnalyzer(huggingFaceModelId);
     
     for (int i = 0; i < examples.length; i++) {
       verify((String[]) examples[i][1], parseKeywords(analyzer, (String) examples[i][0]));

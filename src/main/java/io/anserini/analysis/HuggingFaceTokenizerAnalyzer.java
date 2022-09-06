@@ -16,16 +16,16 @@ import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 
 
-public class BertAnalyzer extends Analyzer {
+public class HuggingFaceTokenizerAnalyzer extends Analyzer {
   
   private final HuggingFaceTokenizer tokenizer;
-  private static String huggingFaceModelId = "bert-base-multilingual-uncased";
   
-  public BertAnalyzer(){
+  public HuggingFaceTokenizerAnalyzer(String huggingFaceModelId){
     Map<String, String> options = new ConcurrentHashMap<>();
     options.put("addSpecialTokens", "false");
-    this.tokenizer = HuggingFaceTokenizer.newInstance(this.huggingFaceModelId, options);
+    this.tokenizer = HuggingFaceTokenizer.newInstance(huggingFaceModelId, options);
   }
+  
   
   @Override
   protected Reader initReader(String fieldName, Reader reader) {
