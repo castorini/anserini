@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.BertAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
@@ -402,6 +403,9 @@ public final class SearchCollection implements Closeable {
     if (args.searchtweets) {
       LOG.info("Searching tweets? true");
       analyzer = new TweetAnalyzer();
+    } else if (args.analyzewithbert){
+      analyzer = new BertAnalyzer();
+      LOG.info("Bert Tokenizer");
     } else if (args.language.equals("ar")) {
       analyzer = new ArabicAnalyzer();
       LOG.info("Language: ar");

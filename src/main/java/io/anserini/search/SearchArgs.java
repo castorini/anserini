@@ -52,6 +52,10 @@ public class SearchArgs {
 
   @Option(name = "-language", usage = "Analyzer Language")
   public String language = "en";
+  
+  @Option(name = "-analyzewithbert",
+      usage = "search a collection by tokenizing query with pretrained mbert tokenizer")
+  public boolean analyzewithbert = false;
 
   @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
   public Boolean inmem = false;

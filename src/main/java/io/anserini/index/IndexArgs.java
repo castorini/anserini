@@ -139,6 +139,10 @@ public class IndexArgs {
   @Option(name = "-pretokenized",
           usage = "index pre-tokenized collections without any additional stemming, stopword processing")
   public boolean pretokenized = false;
+  
+  @Option(name = "-analyzewithbert",
+      usage = "index a collection by tokenizing text with pretrained mbert tokenizer")
+  public boolean analyzewithbert = false;
 
   // Tweet options
 
