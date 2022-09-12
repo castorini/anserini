@@ -134,8 +134,7 @@ def construct_search_commands(yaml_data):
             '-topics', os.path.join(yaml_data['topic_root'], topic_set['path']),
             '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
             '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
-            model['params'],
-            '-lucene8' if args.lucene8 else ''
+            model['params']
         ]
         for (model, topic_set) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
@@ -289,7 +288,7 @@ if __name__ == '__main__':
                         help='Number of converting runs to execute in parallel.')
     parser.add_argument('--dry-run', dest='dry_run', action='store_true',
                         help='Output commands without actual execution.')
-    parser.add_argument('--lucene8', dest='lucene8', action='store_true', help='Enable Lucene 8 index compatibility.')
+    parser.add_argument('--lucene8', dest='lucene8', action='store_true', help='Enable more lenient score matching for Lucene 8 index compatibility.')
     args = parser.parse_args()
 
     with open('src/main/resources/regression/{}.yaml'.format(args.regression)) as f:
