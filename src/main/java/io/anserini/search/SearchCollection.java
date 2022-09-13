@@ -69,7 +69,6 @@ import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
 import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
-
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -114,7 +113,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -130,13 +128,11 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.zip.GZIPInputStream;
 
 /**
  * Main entry point for search.
@@ -498,6 +494,13 @@ public final class SearchCollection implements Closeable {
       loadQrels(args.rf_qrels);      
     }
 
+    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
+    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
+    // which is the source of the incompatibility.
+    if (!reader.toString().contains("lucene.version=9")) {
+      args.arbitraryScoreTieBreak = true;
+      args.axiom_deterministic = false;
+    }
   }
 
   @Override

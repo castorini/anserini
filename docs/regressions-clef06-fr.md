@@ -62,8 +62,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3111    |
+| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3115    |
 | **P20**                                                                                                      | **BM25**  |
 | [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3184    |
 | **nDCG@20**                                                                                                  | **BM25**  |
-| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.4458    |
+| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.4457    |

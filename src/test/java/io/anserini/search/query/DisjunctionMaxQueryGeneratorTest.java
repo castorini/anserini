@@ -21,7 +21,7 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.DisjunctionMaxQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.util.LuceneTestCase;
+import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.Test;
 
 import java.util.Map;
@@ -51,9 +51,9 @@ public class DisjunctionMaxQueryGeneratorTest extends LuceneTestCase {
     DisjunctionMaxQuery combinedQuery = (DisjunctionMaxQuery) query;
     assertEquals(tiebreaker, combinedQuery.getTieBreakerMultiplier(), 1e-6);
     assertEquals(3, combinedQuery.getDisjuncts().size());
-    assertTrue(combinedQuery.getDisjuncts().get(0) instanceof BoostQuery);
+    assertTrue(combinedQuery.getDisjuncts().iterator().next() instanceof BoostQuery);
 
-    BoostQuery boostQuery = (BoostQuery) combinedQuery.getDisjuncts().get(0);
+    BoostQuery boostQuery = (BoostQuery) combinedQuery.getDisjuncts().iterator().next();
     assertTrue(boostQuery.getBoost() > 1.0f);
     assertTrue(boostQuery.getQuery() instanceof BooleanQuery);
 

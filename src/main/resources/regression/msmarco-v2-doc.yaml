@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 11959635
   documents (non-empty): 11959635
-  total terms: 14165661202
+  total terms: 14165667143
 
 metrics:
   - metric: MAP@100
@@ -104,35 +104,3 @@ models:
       R@1000:
         - 0.7697
         - 0.7762
-  - name: bm25-default+ax
-    display: +Ax
-    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
-    results:
-      MAP@100:
-        - 0.0665
-        - 0.0722
-      MRR@100:
-        - 0.0675
-        - 0.0733
-      R@100:
-        - 0.4075
-        - 0.4192
-      R@1000:
-        - 0.6852
-        - 0.6960
-  - name: bm25-default+prf
-    display: +PRF
-    params: -bm25 -bm25prf
-    results:
-      MAP@100:
-        - 0.0834
-        - 0.0876
-      MRR@100:
-        - 0.0845
-        - 0.0892
-      R@100:
-        - 0.4681
-        - 0.4831
-      R@1000:
-        - 0.7385
-        - 0.7482

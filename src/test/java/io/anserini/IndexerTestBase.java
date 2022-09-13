@@ -19,10 +19,10 @@ package io.anserini;
 import io.anserini.index.IndexArgs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
@@ -30,13 +30,14 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.tests.util.LuceneTestCase;
 import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.util.LuceneTestCase;
 import org.junit.After;
 import org.junit.Before;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Locale;
 
 public class IndexerTestBase extends LuceneTestCase {
   protected Path tempDir1;
@@ -61,7 +62,7 @@ public class IndexerTestBase extends LuceneTestCase {
     Document doc1 = new Document();
     String doc1Text = "here is some text here is some more text. city.";
     doc1.add(new StringField(IndexArgs.ID, "doc1", Field.Store.YES));
-    doc1.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef("doc1".getBytes())));
+    doc1.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef("doc1".getBytes())));
     doc1.add(new Field(IndexArgs.CONTENTS, doc1Text , textOptions));
     // specifically demonstrate how "contents" and "raw" might diverge:
     doc1.add(new StoredField(IndexArgs.RAW, String.format("{\"contents\": \"%s\"}", doc1Text)));
@@ -70,7 +71,7 @@ public class IndexerTestBase extends LuceneTestCase {
     Document doc2 = new Document();
     String doc2Text = "more texts";
     doc2.add(new StringField(IndexArgs.ID, "doc2", Field.Store.YES));
-    doc2.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef("doc2".getBytes())));
+    doc2.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef("doc2".getBytes())));
     doc2.add(new Field(IndexArgs.CONTENTS, doc2Text, textOptions));  // Note plural, to test stemming
     // specifically demonstrate how "contents" and "raw" might diverge:
     doc2.add(new StoredField(IndexArgs.RAW, String.format("{\"contents\": \"%s\"}", doc2Text)));
@@ -79,7 +80,7 @@ public class IndexerTestBase extends LuceneTestCase {
     Document doc3 = new Document();
     String doc3Text = "here is a test";
     doc3.add(new StringField(IndexArgs.ID, "doc3", Field.Store.YES));
-    doc3.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef("doc3".getBytes())));
+    doc3.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef("doc3".getBytes())));
     doc3.add(new Field(IndexArgs.CONTENTS, doc3Text, textOptions));
     // specifically demonstrate how "contents" and "raw" might diverge:
     doc3.add(new StoredField(IndexArgs.RAW, String.format("{\"contents\": \"%s\"}", doc3Text)));
@@ -96,6 +97,8 @@ public class IndexerTestBase extends LuceneTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
+
+    Locale.setDefault(Locale.US);
 
     tempDir1 = createTempDir();
     buildTestIndex();

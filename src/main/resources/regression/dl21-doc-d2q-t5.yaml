@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 11959635
   documents (non-empty): 11959635
-  total terms: 19760777295
+  total terms: 19760783236
 
 metrics:
   - metric: MAP@100
@@ -87,3 +87,17 @@ models:
         - 0.3580
       R@1000:
         - 0.7572
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -hits 1000 -bm25 -rocchio
+    results:
+      MAP@100:
+        - 0.2610
+      MRR@100:
+        - 0.8459
+      nDCG@10:
+        - 0.5509
+      R@100:
+        - 0.3616
+      R@1000:
+        - 0.7583

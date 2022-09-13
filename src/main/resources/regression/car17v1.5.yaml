@@ -9,8 +9,8 @@ index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 29678360
-  documents (non-empty): 29674425
-  total terms: 1257909884
+  documents (non-empty): 29674431
+  total terms: 1257909856
 
 metrics:
   - metric: MAP

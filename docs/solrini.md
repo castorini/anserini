@@ -9,11 +9,13 @@ Instructions for setting up SolrCloud clusters can be found by searching the web
 
 ## Setting up a Single-Node SolrCloud Instance
 
-Download the latest Solr version (binary release) from [here](https://solr.apache.org/downloads.html) and extract the archive (currently, v8.11.1):
+Download Solr version 8.11.2 (binary release) from [here](https://solr.apache.org/downloads.html) and extract the archive:
 
 ```bash
 mkdir solrini && tar -zxvf solr*.tgz -C solrini --strip-components=1
 ```
+
+Solr 8.11.2 is the last release in the 8.x series, and unfortunately, these instructions do not work for Solr 9.x.
 
 Start Solr:
 
@@ -208,3 +210,4 @@ The regression script has been verified to work for [`robust04`](regressions-dis
 + Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2021-01-13 (commit [`a62aca0`](https://github.com/castorini/anserini/commit/a62aca06c1603617207c1c148133de0f90f24738)) for [MS MARCO Passage](regressions-msmarco-passage.md) and [MS MARCO Document](regressions-msmarco-doc.md)
 + Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2022-01-21 (commit [`a81299e`](https://github.com/castorini/anserini/commit/a81299e59eff24512d635e0d49fba6e373286469)) for [MS MARCO Document](regressions-msmarco-doc.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-03-21 (commit [`3d1fc34`](https://github.com/castorini/anserini/commit/3d1fc3457b993832b4682c0482b26d8271d02ec6)) for all collections
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-07-31 (commit [`2a0cb16`](https://github.com/castorini/anserini/commit/2a0cb16829b347e38801b9972b349de498dadf03)) (v0.14.4) for all collections

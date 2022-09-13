@@ -66,6 +66,19 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.msmarco-v2-doc.dev.txt \
+  -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.msmarco-v2-doc.dev2.txt \
+  -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -84,22 +97,29 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank sr
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.msmarco-v2-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.msmarco-v2-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.msmarco-v2-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.msmarco-v2-doc.dev2.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.msmarco-v2-doc.dev2.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.msmarco-v2-doc.dev2.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
-| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2203    | 0.1955    |
-| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2205    | 0.1939    |
-| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  |
-| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2226    | 0.1974    |
-| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2234    | 0.1966    |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  |
-| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.7297    | 0.7104    |
-| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.7316    | 0.7164    |
-| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  |
-| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.8982    | 0.9000    |
-| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.8952    | 0.8967    |
+| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2203    | 0.1955    | 0.1959    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2205    | 0.1939    | 0.1938    |
+| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2226    | 0.1974    | 0.1980    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2234    | 0.1966    | 0.1965    |
+| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.7297    | 0.7104    | 0.7136    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.7316    | 0.7164    | 0.7197    |
+| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.8982    | 0.9000    | 0.9028    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.8952    | 0.8967    | 0.8976    |
