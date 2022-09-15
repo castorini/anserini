@@ -122,13 +122,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4970    | 0.5196    | 0.5224    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4970    | 0.5194    | 0.5224    |
 | **nDCG@10**                                                                                                  | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7425    | 0.7260    | 0.7316    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7425    | 0.7261    | 0.7316    |
 | **R@100**                                                                                                    | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6344    | 0.6487    | 0.6533    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6344    | 0.6485    | 0.6533    |
 | **R@1000**                                                                                                   | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8756    | 0.8732    | 0.8774    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8756    | 0.8736    | 0.8774    |
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

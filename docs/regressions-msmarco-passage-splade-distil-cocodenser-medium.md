@@ -118,13 +118,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3943    | 0.3018    | 0.3345    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3943    | 0.3020    | 0.3345    |
 | **RR@10**                                                                                                    | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3892    | 0.2935    | 0.3279    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3892    | 0.2936    | 0.3279    |
 | **R@100**                                                                                                    | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9111    | 0.8754    | 0.8911    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9111    | 0.8750    | 0.8911    |
 | **R@1000**                                                                                                   | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9817    | 0.9749    | 0.9804    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9817    | 0.9750    | 0.9804    |
 
 ## Reproduction Log[*](reproducibility.md)
 

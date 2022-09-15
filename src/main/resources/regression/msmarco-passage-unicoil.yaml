@@ -74,11 +74,11 @@ models:
       AP@1000:
         - 0.2918
       RR@10:
-        - 0.2837
+        - 0.2836
       R@100:
-        - 0.8424
+        - 0.8425
       R@1000:
-        - 0.9595
+        - 0.9603
   - name: rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio

@@ -72,9 +72,9 @@ models:
     params: -impact -pretokenized -rm3
     results:
       AP@1000:
-        - 0.4475
+        - 0.4478
       nDCG@10:
-        - 0.6479
+        - 0.6497
       R@100:
         - 0.6822
       R@1000:

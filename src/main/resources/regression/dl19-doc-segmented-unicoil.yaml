@@ -72,13 +72,13 @@ models:
     params: -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       AP@100:
-        - 0.3142
+        - 0.3136
       nDCG@10:
-        - 0.6785
+        - 0.6781
       R@100:
         - 0.4501
       R@1000:
-        - 0.7271
+        - 0.7275
   - name: rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000

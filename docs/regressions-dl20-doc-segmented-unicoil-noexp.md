@@ -125,13 +125,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **uniCOIL w/ doc2query-T5 expansion**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3698    | 0.4136    | 0.4222    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3698    | 0.4140    | 0.4222    |
 | **nDCG@10**                                                                                                  | **uniCOIL w/ doc2query-T5 expansion**| **+RM3**  | **+Rocchio**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5893    | 0.6147    | 0.6181    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5893    | 0.6174    | 0.6181    |
 | **R@100**                                                                                                    | **uniCOIL w/ doc2query-T5 expansion**| **+RM3**  | **+Rocchio**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5872    | 0.6377    | 0.6437    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5872    | 0.6381    | 0.6437    |
 | **R@1000**                                                                                                   | **uniCOIL w/ doc2query-T5 expansion**| **+RM3**  | **+Rocchio**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7623    | 0.8113    | 0.8151    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7623    | 0.8117    | 0.8151    |
 
 Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
 Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.

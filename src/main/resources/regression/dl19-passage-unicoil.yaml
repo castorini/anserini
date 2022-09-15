@@ -72,11 +72,11 @@ models:
     params: -impact -pretokenized -rm3
     results:
       AP@1000:
-        - 0.4644
+        - 0.4641
       nDCG@10:
-        - 0.6768
+        - 0.6761
       R@100:
-        - 0.6205
+        - 0.6207
       R@1000:
         - 0.8598
   - name: rocchio

@@ -125,13 +125,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2789    | 0.3142    | 0.3199    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2789    | 0.3136    | 0.3199    |
 | **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6396    | 0.6785    | 0.6839    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6396    | 0.6781    | 0.6839    |
 | **R@100**                                                                                                    | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4099    | 0.4501    | 0.4539    |
 | **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6652    | 0.7271    | 0.7305    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6652    | 0.7275    | 0.7305    |
 
 Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
 Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.

@@ -72,13 +72,13 @@ models:
     params: -impact -pretokenized -rm3
     results:
       AP@1000:
-        - 0.2619
+        - 0.2621
       RR@10:
-        - 0.2536
+        - 0.2537
       R@100:
         - 0.7953
       R@1000:
-        - 0.9299
+        - 0.9296
   - name: rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio
