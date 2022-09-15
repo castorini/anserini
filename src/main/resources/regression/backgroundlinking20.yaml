@@ -51,14 +51,14 @@ models:
     params: -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
       MAP:
-        - 0.4519
+        - 0.4529
       nDCG@5:
-        - 0.5673
+        - 0.5684
   - name: bm25+rm3+df
     display: +RM3+DF
     params: -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
       MAP:
-        - 0.3438
+        - 0.3443
       nDCG@5:
         - 0.5316
