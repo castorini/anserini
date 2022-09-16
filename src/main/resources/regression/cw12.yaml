@@ -8,9 +8,9 @@ generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 731645141
-  documents (non-empty): 731542315
-  total terms: 429236660701
+  documents: 731645161
+  documents (non-empty): 731542335
+  total terms: 429254658750
 
 metrics:
   - metric: MAP
@@ -31,12 +31,12 @@ metrics:
     command: tools/eval/gdeval.pl
     separator: ","
     parse_index: -2
-    metric_precision: 5
+    metric_precision: 4
   - metric: ERR@20
     command: tools/eval/gdeval.pl
     separator: ","
     parse_index: -1
-    metric_precision: 5
+    metric_precision: 4
 
 topic_reader: Webxml
 topic_root: src/main/resources/topics-and-qrels/
@@ -58,16 +58,16 @@ models:
     results:
       MAP:
         - 0.1695
-        - 0.2470
+        - 0.2469
       P30:
         - 0.2767
         - 0.4547
       nDCG@20:
-        - 0.20848
-        - 0.25720
+        - 0.2083
+        - 0.2572
       ERR@20:
-        - 0.12829
-        - 0.16163
+        - 0.1283
+        - 0.1616
   - name: bm25+rm3
     display: +RM3
     params: -bm25 -rm3
@@ -79,27 +79,27 @@ models:
         - 0.2393
         - 0.4080
       nDCG@20:
-        - 0.20325
-        - 0.25163
+        - 0.2032
+        - 0.2516
       ERR@20:
-        - 0.12645
-        - 0.16518
+        - 0.1265
+        - 0.1652
   - name: ql
     display: QL
     params: -qld
     results:
       MAP:
-        - 0.1493
+        - 0.1494
         - 0.2467
       P30:
         - 0.2607
         - 0.4380
       nDCG@20:
-        - 0.19935
-        - 0.22201
+        - 0.1993
+        - 0.2220
       ERR@20:
-        - 0.12325
-        - 0.13234
+        - 0.1232
+        - 0.1323
   - name: ql+rm3
     display: +RM3
     params: -qld -rm3
@@ -111,8 +111,8 @@ models:
         - 0.2347
         - 0.3813
       nDCG@20:
-        - 0.17248
-        - 0.20926
+        - 0.1725
+        - 0.2092
       ERR@20:
-        - 0.10073
-        - 0.12492
+        - 0.1007
+        - 0.1249
