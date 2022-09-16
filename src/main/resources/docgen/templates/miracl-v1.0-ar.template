@@ -1,6 +1,6 @@
-# Anserini Regressions: Mr. TyDi (v1.1) Topics on MIRACL corpus &mdash; Arabic
+# Anserini Regressions: MIRACL-v1.0 &mdash; Arabic
 
-This page documents BM25 regression experiments for [Mr. TyDi (v1.1) &mdash; Arabic Topics](https://github.com/castorini/mr.tydi) on the MIRACL.
+This page documents BM25 regression experiments for [MIRACL (v1.0) &mdash; Arabic](https://github.com/project-miracl/miracl).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -19,7 +19,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-See [this page](https://github.com/castorini/mr.tydi) for more details about the Mr. TyDi corpus.
+See [this page](https://github.com/project-miracl/miracl) for more details about the MIRACL corpus.
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
 ## Retrieval
