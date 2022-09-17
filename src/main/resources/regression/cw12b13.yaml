@@ -73,17 +73,17 @@ models:
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.0408
-        - 0.0210
+        - 0.0407
+        - 0.0211
       P30:
-        - 0.1673
+        - 0.1640
         - 0.1207
       nDCG@20:
-        - 0.1114
-        - 0.1075
+        - 0.1109
+        - 0.1078
       ERR@20:
-        - 0.0752
-        - 0.1055
+        - 0.0745
+        - 0.1064
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20
@@ -121,17 +121,17 @@ models:
     params: -qld -rm3
     results:
       MAP:
-        - 0.0322
-        - 0.0203
+        - 0.0321
+        - 0.0200
       P30:
         - 0.1513
         - 0.1173
       nDCG@20:
-        - 0.0921
-        - 0.1004
+        - 0.0933
+        - 0.1003
       ERR@20:
-        - 0.0552
-        - 0.0928
+        - 0.0548
+        - 0.0926
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20
