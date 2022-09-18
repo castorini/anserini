@@ -78,15 +78,15 @@ models:
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -rm3
     results:
       MAP@100:
-        - 0.2933
+        - 0.2936
       MRR@100:
-        - 0.9018
+        - 0.9076
       nDCG@10:
-        - 0.6185
+        - 0.6189
       R@100:
-        - 0.3892
+        - 0.3890
       R@1000:
-        - 0.7694
+        - 0.7678
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 -rocchio
