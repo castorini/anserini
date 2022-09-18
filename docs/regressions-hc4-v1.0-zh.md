@@ -244,33 +244,33 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2969    | 0.3126    | 0.2641    |
-| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.2030    | 0.2239    | 0.2211    |
-| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.2458    | 0.2971    | 0.2641    |
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1801    | 0.1613    | 0.1671    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1455    | 0.1051    | 0.1442    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1907    | 0.1485    | 0.1929    |
+| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.2969    | 0.3202    | 0.2641    |
+| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.2030    | 0.2134    | 0.2211    |
+| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.2458    | 0.2871    | 0.2641    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1801    | 0.1625    | 0.1671    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1455    | 0.1114    | 0.1442    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1907    | 0.1566    | 0.1929    |
 | **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.3908    | 0.4296    | 0.3474    |
-| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3023    | 0.3327    | 0.2963    |
-| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.3474    | 0.4094    | 0.3502    |
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2526    | 0.2132    | 0.2236    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2048    | 0.1597    | 0.1916    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.2596    | 0.2211    | 0.2644    |
+| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.3908    | 0.4262    | 0.3474    |
+| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3023    | 0.3244    | 0.2963    |
+| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.3474    | 0.3747    | 0.3502    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.2526    | 0.2149    | 0.2236    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2048    | 0.1658    | 0.1916    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.2596    | 0.2322    | 0.2644    |
 | **J@20**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.4250    | 0.4200    | 0.4250    |
-| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3800    | 0.3250    | 0.3550    |
-| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.4150    | 0.3650    | 0.4250    |
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.3000    | 0.2760    | 0.3070    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2470    | 0.1960    | 0.2740    |
+| [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.4250    | 0.4000    | 0.4250    |
+| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.3800    | 0.3150    | 0.3550    |
+| [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.4150    | 0.3400    | 0.4250    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.3000    | 0.2790    | 0.3070    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2470    | 0.1950    | 0.2740    |
 | [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.3070    | 0.2460    | 0.3350    |
 | **Recall@1000**                                                                                              | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)                                              | 0.7964    | 0.7589    | 0.8365    |
-| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.7255    | 0.6730    | 0.7570    |
+| [HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)                                        | 0.7255    | 0.6605    | 0.7570    |
 | [HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)                                  | 0.7663    | 0.7229    | 0.8241    |
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.6963    | 0.6764    | 0.6652    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.6358    | 0.4933    | 0.6481    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.7100    | 0.5903    | 0.7074    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.6963    | 0.6814    | 0.6652    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.6358    | 0.4914    | 0.6481    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.7100    | 0.5979    | 0.7074    |
 
 ## Reproduction Log[*](reproducibility.md)
 

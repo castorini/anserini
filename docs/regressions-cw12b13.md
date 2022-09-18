@@ -161,17 +161,17 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.0468    | 0.0408    | 0.0424    | 0.0397    | 0.0322    | 0.0354    |
-| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.0224    | 0.0210    | 0.0179    | 0.0235    | 0.0203    | 0.0186    |
+| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.0468    | 0.0407    | 0.0424    | 0.0397    | 0.0321    | 0.0354    |
+| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.0224    | 0.0211    | 0.0179    | 0.0235    | 0.0200    | 0.0186    |
 | **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.2107    | 0.1673    | 0.1733    | 0.1773    | 0.1513    | 0.1553    |
+| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.2107    | 0.1640    | 0.1733    | 0.1773    | 0.1513    | 0.1553    |
 | [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.1273    | 0.1207    | 0.1140    | 0.1373    | 0.1173    | 0.1180    |
 | **nDCG@20**                                                                                                  | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.1289    | 0.1114    | 0.1253    | 0.1104    | 0.0921    | 0.1116    |
-| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.1183    | 0.1075    | 0.0992    | 0.1176    | 0.1004    | 0.0975    |
+| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.1289    | 0.1109    | 0.1253    | 0.1104    | 0.0933    | 0.1116    |
+| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.1183    | 0.1078    | 0.0992    | 0.1176    | 0.1003    | 0.0975    |
 | **ERR@20**                                                                                                   | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.0838    | 0.0752    | 0.0951    | 0.0767    | 0.0552    | 0.0761    |
-| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.1198    | 0.1055    | 0.0936    | 0.1091    | 0.0928    | 0.0911    |
+| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.0838    | 0.0745    | 0.0951    | 0.0767    | 0.0548    | 0.0761    |
+| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.1198    | 0.1064    | 0.0936    | 0.1091    | 0.0926    | 0.0911    |
 
 ## Reproduction Log[*](reproducibility.md)
 

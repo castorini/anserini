@@ -51,9 +51,9 @@ models:
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.1521
+        - 0.1529
       MRR:
-        - 0.2275
+        - 0.2289
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
@@ -75,9 +75,9 @@ models:
     params: -qld -rm3
     results:
       MAP:
-        - 0.1453
+        - 0.1447
       MRR:
-        - 0.2156
+        - 0.2144
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.deterministic -rerankCutoff 20

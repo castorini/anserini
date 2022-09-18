@@ -57,10 +57,10 @@ models:
     params: -searchtweets -bm25 -rm3
     results:
       MAP:
-        - 0.3650
-        - 0.2193
+        - 0.3658
+        - 0.2209
       P30:
-        - 0.4170
+        - 0.4177
         - 0.3463
   - name: bm25+ax
     display: +Ax
@@ -87,11 +87,11 @@ models:
     params: -searchtweets -qld -rm3
     results:
       MAP:
-        - 0.3923
-        - 0.2389
+        - 0.3961
+        - 0.2400
       P30:
-        - 0.4435
-        - 0.3514
+        - 0.4408
+        - 0.3520
   - name: ql+ax
     display: +Ax
     params: -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20

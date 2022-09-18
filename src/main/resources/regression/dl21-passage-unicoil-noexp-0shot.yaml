@@ -82,15 +82,15 @@ models:
     params: -impact -pretokenized -rm3
     results:
       MAP@100:
-        - 0.2598
+        - 0.2599
       MRR@100:
-        - 0.7143
+        - 0.7144
       nDCG@10:
-        - 0.5937
+        - 0.5933
       R@100:
-        - 0.4809
+        - 0.4811
       R@1000:
-        - 0.7310
+        - 0.7309
   - name: unicoil-noexp-0shot+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio

@@ -155,20 +155,20 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1198    | 0.1050    | 0.1221    |
-| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1435    | 0.0845    | 0.1254    |
-| [HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1438    | 0.1079    | 0.1351    |
+| [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1198    | 0.1064    | 0.1221    |
+| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1435    | 0.0833    | 0.1254    |
+| [HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1438    | 0.1075    | 0.1351    |
 | **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1806    | 0.1549    | 0.1794    |
-| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2288    | 0.1323    | 0.1968    |
-| [HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.2233    | 0.1760    | 0.2001    |
+| [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1806    | 0.1564    | 0.1794    |
+| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.2288    | 0.1285    | 0.1968    |
+| [HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.2233    | 0.1706    | 0.2001    |
 | **J@20**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1430    | 0.1220    | 0.1520    |
-| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1480    | 0.1100    | 0.1480    |
+| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1480    | 0.1110    | 0.1480    |
 | [HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1570    | 0.1210    | 0.1530    |
 | **Recall@1000**                                                                                              | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.7234    | 0.6742    | 0.7929    |
-| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.7431    | 0.6107    | 0.7768    |
+| [HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.7431    | 0.6132    | 0.7768    |
 | [HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.7652    | 0.6436    | 0.8058    |
 
 The above results reproduce the BM25 title queries run in Table 2 of [this paper](https://arxiv.org/pdf/2201.08471.pdf).

@@ -78,15 +78,15 @@ models:
     params: -bm25 -rm3
     results:
       MAP@100:
-        - 0.1932
+        - 0.1930
       MRR@100:
-        - 0.5882
+        - 0.5958
       nDCG@10:
-        - 0.4834
+        - 0.4812
       R@100:
-        - 0.4295
+        - 0.4321
       R@1000:
-        - 0.7668
+        - 0.7672
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio
