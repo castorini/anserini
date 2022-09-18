@@ -139,13 +139,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2798    | 0.3021    | 0.3074    | 0.2658    | 0.2893    | 0.2913    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2798    | 0.3030    | 0.3071    | 0.2658    | 0.2892    | 0.2913    |
 | **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6119    | 0.6297    | 0.6295    | 0.6273    | 0.6239    | 0.6244    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6119    | 0.6290    | 0.6294    | 0.6273    | 0.6247    | 0.6244    |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4093    | 0.4392    | 0.4483    | 0.4026    | 0.4237    | 0.4271    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4093    | 0.4402    | 0.4483    | 0.4026    | 0.4242    | 0.4271    |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.7165    | 0.7481    | 0.7520    | 0.6707    | 0.7066    | 0.7189    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.7165    | 0.7483    | 0.7503    | 0.6707    | 0.7069    | 0.7189    |
 
 Explanation of settings:
 

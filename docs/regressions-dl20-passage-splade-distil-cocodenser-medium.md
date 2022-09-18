@@ -122,11 +122,11 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5019    | 0.5158    | 0.5133    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5019    | 0.5155    | 0.5133    |
 | **nDCG@10**                                                                                                  | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7179    | 0.7126    | 0.7033    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7179    | 0.7132    | 0.7033    |
 | **R@100**                                                                                                    | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7619    | 0.7551    | 0.7575    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7619    | 0.7553    | 0.7575    |
 | **R@1000**                                                                                                   | **SPLADE-distill CoCodenser Medium**| **+RM3**  | **+Rocchio**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8901    | 0.9080    | 0.8937    |
 

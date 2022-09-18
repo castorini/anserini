@@ -127,9 +127,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4430    | 0.4475    | 0.4539    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4430    | 0.4478    | 0.4539    |
 | **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6745    | 0.6479    | 0.6599    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6745    | 0.6497    | 0.6599    |
 | **R@100**                                                                                                    | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7006    | 0.6822    | 0.7096    |
 | **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|

@@ -81,16 +81,16 @@ models:
     params: -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP@100:
-        - 0.1963
-        - 0.2067
+        - 0.1967
+        - 0.2066
       MRR@100:
-        - 0.1982
-        - 0.2092
+        - 0.1986
+        - 0.2091
       R@100:
-        - 0.7453
-        - 0.7466
+        - 0.7447
+        - 0.7468
       R@1000:
-        - 0.9026
+        - 0.9030
         - 0.9082
   - name: unicoil-noexp-0shot+rocchio
     display: +Rocchio
