@@ -39,8 +39,7 @@ public class HuggingFaceTokenizerAnalyzer extends Analyzer {
   @Override
   protected TokenStreamComponents createComponents(String fieldName) {
     Tokenizer tokenizer = new WhitespaceTokenizer();
-    TokenStream stream = new LowerCaseFilter(tokenizer);
-    return new TokenStreamComponents(tokenizer, stream);
+    return new TokenStreamComponents(tokenizer);
   }
   
   /**
