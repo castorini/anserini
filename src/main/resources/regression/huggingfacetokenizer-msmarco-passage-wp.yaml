@@ -1,6 +1,6 @@
 ---
-corpus: passage
-corpus_path: collections/msmarco/msmarco-passage-wp
+corpus: msmarco-wp
+corpus_path: collections/msmarco/passage
 
 index_path: indexes/lucene-index.msmarco-passage-wp/
 collection_class: JsonCollection
@@ -48,13 +48,13 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
-    path: topics.msmarco-passage.dev-subset.wp.tsv.gz
+    path: topics.msmarco-passage.dev-subset.txt
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25 -pretokenized
+    params: -bm25  -analyzeWithHuggingFaceTokenizer  bert-base-uncased
     results:
       AP@1000:
         - 0.1836
