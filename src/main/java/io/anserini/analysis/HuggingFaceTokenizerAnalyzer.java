@@ -19,6 +19,9 @@ package io.anserini.analysis;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,9 +29,7 @@ import ai.djl.huggingface.tokenizers.Encoding;
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
 import org.apache.commons.io.IOUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 
 
@@ -36,10 +37,17 @@ public class HuggingFaceTokenizerAnalyzer extends Analyzer {
   
   private final HuggingFaceTokenizer tokenizer;
   
-  public HuggingFaceTokenizerAnalyzer(String huggingFaceModelId){
+  public HuggingFaceTokenizerAnalyzer(String huggingFaceModelId) throws IOException {
     Map<String, String> options = new ConcurrentHashMap<>();
     options.put("addSpecialTokens", "false");
-    this.tokenizer = HuggingFaceTokenizer.newInstance(huggingFaceModelId, options);
+    Path path = Paths.get(huggingFaceModelId);
+    
+    if(Files.exists(path) == true){
+      this.tokenizer = HuggingFaceTokenizer.newInstance(path, options);
+    } else {
+      this.tokenizer = HuggingFaceTokenizer.newInstance(huggingFaceModelId, options);
+    }
+    
   }
   
   
