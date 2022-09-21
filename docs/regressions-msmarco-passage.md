@@ -196,13 +196,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  | **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1926    | 0.1661    | 0.1692    | 0.1677    | 0.1625    | 0.1520    | 0.1958    | 0.1762    | 0.1777    | 0.1762    | 0.1699    | 0.1582    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1926    | 0.1663    | 0.1690    | 0.1676    | 0.1625    | 0.1520    | 0.1958    | 0.1741    | 0.1777    | 0.1762    | 0.1699    | 0.1582    |
 | **RR@10**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  | **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1840    | 0.1564    | 0.1597    | 0.1578    | 0.1517    | 0.1421    | 0.1875    | 0.1668    | 0.1685    | 0.1669    | 0.1594    | 0.1484    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1840    | 0.1566    | 0.1595    | 0.1576    | 0.1517    | 0.1421    | 0.1875    | 0.1646    | 0.1684    | 0.1669    | 0.1594    | 0.1484    |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  | **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.6578    | 0.6494    | 0.6552    | 0.6561    | 0.6556    | 0.6535    | 0.6701    | 0.6655    | 0.6702    | 0.6744    | 0.6721    | 0.6589    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.6578    | 0.6538    | 0.6553    | 0.6559    | 0.6556    | 0.6535    | 0.6701    | 0.6674    | 0.6706    | 0.6748    | 0.6721    | 0.6589    |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  | **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **+PRF**  |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8526    | 0.8606    | 0.8620    | 0.8649    | 0.8747    | 0.8537    | 0.8573    | 0.8687    | 0.8726    | 0.8756    | 0.8809    | 0.8561    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8526    | 0.8606    | 0.8620    | 0.8652    | 0.8747    | 0.8537    | 0.8573    | 0.8704    | 0.8726    | 0.8757    | 0.8809    | 0.8561    |
 
 Explanation of settings:
 

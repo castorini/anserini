@@ -127,13 +127,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4021    | 0.4234    | 0.4319    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4021    | 0.4231    | 0.4319    |
 | **nDCG@10**                                                                                                  | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6523    | 0.6606    | 0.6519    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6523    | 0.6587    | 0.6519    |
 | **R@100**                                                                                                    | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6658    | 0.6629    | 0.6807    |
 | **R@1000**                                                                                                   | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7861    | 0.8092    | 0.8196    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7861    | 0.8091    | 0.8196    |
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

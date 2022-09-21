@@ -69,13 +69,13 @@ models:
     params: -bm25 -rm3
     results:
       AP@100:
-        - 0.4229
+        - 0.4230
       nDCG@10:
-        - 0.5407
+        - 0.5427
       R@100:
-        - 0.6555
+        - 0.6554
       R@1000:
-        - 0.8596
+        - 0.8631
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio
@@ -105,13 +105,13 @@ models:
     params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3
     results:
       AP@100:
-        - 0.4104
+        - 0.4100
       nDCG@10:
-        - 0.5743
+        - 0.5745
       R@100:
-        - 0.6127
+        - 0.6132
       R@1000:
-        - 0.8240
+        - 0.8238
   - name: bm25-tuned+rocchio
     display: +Rocchio
     params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rocchio

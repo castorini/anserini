@@ -1,0 +1,19 @@
+## Evaluation results w/ src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt
+
+                                                     topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5
+expanded.anserini.covid-r4.abstract.qq.bm25.txt          45  0.6115 0.8022  0.5823 0.7900 0.2499 0.5038 0.2676 3e7ae8aefd9624d11cb9e410f906b110
+expanded.anserini.covid-r4.abstract.qdel.bm25.txt        45  0.6321 0.8022  0.5922 0.7678 0.2528 0.5098 0.2672 66bf42c66e16239cb4e8cb2eb5937dbd
+expanded.anserini.covid-r4.full-text.qq.bm25.txt         45  0.6045 0.9044  0.5640 0.8522 0.2420 0.4996 0.3037 da1dd7101a457df3c3892ab2a8877791
+expanded.anserini.covid-r4.full-text.qdel.bm25.txt       45  0.6514 0.9289  0.5991 0.8711 0.2665 0.5240 0.3114 47814c5355998d9ff5e1dd0b93e3c054
+expanded.anserini.covid-r4.paragraph.qq.bm25.txt         45  0.6429 0.8622  0.6080 0.8333 0.2932 0.5635 0.3256 87c68022b1baba4d81a1d27bbba62693
+expanded.anserini.covid-r4.paragraph.qdel.bm25.txt       45  0.6694 0.8622  0.6229 0.8411 0.2953 0.5677 0.3232 51f9e81e01936b8389768003c7f36112
+expanded.anserini.covid-r4.fusion1.txt                   45  0.6739 0.8778  0.6188 0.8533 0.2914 0.5750 0.3362 b427d7173bdf22c5ad4f0cea19f08118
+expanded.anserini.covid-r4.fusion2.txt                   45  0.6618 0.8622  0.6331 0.8444 0.2974 0.5847 0.3344 721a52cda6d9b2d1f1faf2932eb00c0c
+expanded.anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt  45  0.7447 0.8933  0.7067 0.8589 0.3182 0.5812 0.2904 733b3d17583a5e3445f1d25f2b54c109
+
+## Evaluation results w/ src/main/resources/topics-and-qrels/qrels.covid-round4.txt
+
+                                    topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5
+expanded.anserini.final-r4.fusion1.txt  45  0.5395 0.7222  0.5115 0.6944 0.2497 0.6717 0.1424 0e76cda677aa58e91bfb064d0474f790
+expanded.anserini.final-r4.fusion2.txt  45  0.5630 0.7444  0.5175 0.6911 0.2550 0.6800 0.1434 84fbfd7397674853e89d0954f3b3f9bc
+expanded.anserini.final-r4.rf.txt       45  0.6062 0.7378  0.5606 0.6833 0.2658 0.6759 0.1284 1a603d4cc9f73879e72533600fd4cb77

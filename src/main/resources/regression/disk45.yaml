@@ -64,12 +64,12 @@ models:
     results:
       MAP:
         - 0.2354
-        - 0.2750
-        - 0.2903
+        - 0.2746
+        - 0.2908
       P30:
-        - 0.3447
-        - 0.3760
-        - 0.3365
+        - 0.3407
+        - 0.3753
+        - 0.3349
   - name: bm25+rocchio
     display: +Rocchio
     params: -bm25 -rocchio
@@ -81,13 +81,13 @@ models:
       P30:
         - 0.3527
         - 0.3707
-        - 0.3365
+        - 0.3364
   - name: bm25+rocchio-neg
     display: +Rocchio*
     params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
     results:
       MAP:
-        - 0.2392
+        - 0.2391
         - 0.2751
         - 0.2932
       P30:
@@ -123,13 +123,13 @@ models:
     params: -qld -rm3
     results:
       MAP:
-        - 0.2168
-        - 0.2702
-        - 0.2747
+        - 0.2146
+        - 0.2686
+        - 0.2744
       P30:
         - 0.3307
-        - 0.3680
-        - 0.3232
+        - 0.3713
+        - 0.3244
   - name: qld+rocchio
     display: +Rocchio
     params: -qld -rocchio

@@ -8,9 +8,9 @@ generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 52244809
-  documents (non-empty): 52237521
-  total terms: 30660169333
+  documents: 52244810
+  documents (non-empty): 52237522
+  total terms: 30661298245
 
 metrics:
   - metric: MAP
@@ -31,12 +31,12 @@ metrics:
     command: tools/eval/gdeval.pl
     separator: ","
     parse_index: -2
-    metric_precision: 5
+    metric_precision: 4
   - metric: ERR@20
     command: tools/eval/gdeval.pl
     separator: ","
     parse_index: -1
-    metric_precision: 5
+    metric_precision: 4
 
 topic_reader: Webxml
 topic_root: src/main/resources/topics-and-qrels/
@@ -63,43 +63,43 @@ models:
         - 0.2107
         - 0.1273
       nDCG@20:
-        - 0.12887
-        - 0.11831
+        - 0.1289
+        - 0.1183
       ERR@20:
-        - 0.08377
-        - 0.11980
+        - 0.0838
+        - 0.1198
   - name: bm25+rm3
     display: +RM3
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.0408
-        - 0.0210
+        - 0.0407
+        - 0.0211
       P30:
-        - 0.1673
+        - 0.1640
         - 0.1207
       nDCG@20:
-        - 0.11139
-        - 0.10754
+        - 0.1109
+        - 0.1078
       ERR@20:
-        - 0.07525
-        - 0.10551
+        - 0.0745
+        - 0.1064
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20
     results:
       MAP:
-        - 0.0432
-        - 0.0181
+        - 0.0424
+        - 0.0179
       P30:
-        - 0.1780
-        - 0.1107
+        - 0.1733
+        - 0.1140
       nDCG@20:
-        - 0.13111
-        - 0.09735
+        - 0.1253
+        - 0.0992
       ERR@20:
-        - 0.09489
-        - 0.09246
+        - 0.0951
+        - 0.0936
   - name: ql
     display: QL
     params: -qld
@@ -111,40 +111,40 @@ models:
         - 0.1773
         - 0.1373
       nDCG@20:
-        - 0.11038
-        - 0.11762
+        - 0.1104
+        - 0.1176
       ERR@20:
-        - 0.07674
-        - 0.10909
+        - 0.0767
+        - 0.1091
   - name: ql+rm3
     display: +RM3
     params: -qld -rm3
     results:
       MAP:
-        - 0.0322
-        - 0.0203
+        - 0.0321
+        - 0.0200
       P30:
         - 0.1513
         - 0.1173
       nDCG@20:
-        - 0.09211
-        - 0.10036
+        - 0.0933
+        - 0.1003
       ERR@20:
-        - 0.05522
-        - 0.09284
+        - 0.0548
+        - 0.0926
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20
     results:
       MAP:
-        - 0.0356
-        - 0.0179
+        - 0.0354
+        - 0.0186
       P30:
-        - 0.1567
-        - 0.1147
+        - 0.1553
+        - 0.1180
       nDCG@20:
-        - 0.11128
-        - 0.09844
+        - 0.1116
+        - 0.0975
       ERR@20:
-        - 0.07195
-        - 0.08795
+        - 0.0761
+        - 0.0911

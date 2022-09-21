@@ -134,13 +134,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3184    | 0.2823    | 0.2846    | 0.3213    | 0.2989    | 0.2998    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3184    | 0.2808    | 0.2846    | 0.3213    | 0.2978    | 0.2998    |
 | **RR@100**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3179    | 0.2818    | 0.2841    | 0.3209    | 0.2985    | 0.2994    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3179    | 0.2803    | 0.2841    | 0.3209    | 0.2973    | 0.2994    |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8479    | 0.8479    | 0.8479    | 0.8627    | 0.8556    | 0.8600    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8479    | 0.8477    | 0.8479    | 0.8627    | 0.8573    | 0.8600    |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9490    | 0.9547    | 0.9551    | 0.9530    | 0.9567    | 0.9571    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9490    | 0.9551    | 0.9551    | 0.9530    | 0.9563    | 0.9571    |
 
 Explanation of settings:
 

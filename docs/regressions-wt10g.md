@@ -105,6 +105,6 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)                    | 0.1991    | 0.2270    | 0.2196    | 0.2021    | 0.2188    | 0.2268    |
+| [Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)                    | 0.1991    | 0.2243    | 0.2134    | 0.2021    | 0.2190    | 0.2266    |
 | **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)                    | 0.2211    | 0.2401    | 0.2466    | 0.2180    | 0.2306    | 0.2469    |
+| [Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)                    | 0.2211    | 0.2381    | 0.2463    | 0.2180    | 0.2310    | 0.2459    |

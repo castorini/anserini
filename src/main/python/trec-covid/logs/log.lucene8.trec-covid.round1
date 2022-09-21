@@ -1,0 +1,23 @@
+## Evaluation results w/ src/main/resources/topics-and-qrels/qrels.covid-round1.txt
+
+                                                           topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5
+anserini.covid-r1.abstract.query.bm25.txt                      30  0.4100 0.8267  0.3679 0.7267 0.1856 0.5279 0.0888 dc66272b1b941181928205cc2c482684
+anserini.covid-r1.abstract.question.bm25.txt                   30  0.5179 0.9833  0.4558 0.9550 0.2424 0.6313 0.1230 60f2158cef4912dc76906fa0cc969592
+anserini.covid-r1.abstract.query+question.bm25.txt             30  0.5514 0.9833  0.5037 0.9300 0.2855 0.6989 0.1349 9bdee3fed0c1d85bc208f5f54ba25632
+anserini.covid-r1.abstract.query+question+narrative.bm25.txt   30  0.5294 0.9333  0.4867 0.8550 0.2736 0.6929 0.1325 c1545b488e4e0aa0599c29880464e911
+anserini.covid-r1.abstract.query-udel.bm25.txt                 30  0.5824 0.9567  0.5120 0.8667 0.2888 0.6927 0.1296 62f7d14ec6007717bb8aaa6892e56bf7
+anserini.covid-r1.abstract.query-covid19.bm25.txt              30  0.4520 0.6500  0.4151 0.5633 0.1916 0.5061 0.0876 9e2b2f19839a8abf201808d61fa6e1c5
+anserini.covid-r1.full-text.query.bm25.txt                     30  0.3900 0.7433  0.3597 0.6917 0.2048 0.6277 0.1135 0ecd9d15b6926a98546a7eef4fd537e2
+anserini.covid-r1.full-text.question.bm25.txt                  30  0.3439 0.9267  0.3282 0.8933 0.1957 0.6389 0.1351 72bc208fbf743449374847bfbcb95925
+anserini.covid-r1.full-text.query+question.bm25.txt            30  0.4064 0.9367  0.3705 0.8750 0.2258 0.6714 0.1386 b47f2b7b0c474149bcf303fa044113b8
+anserini.covid-r1.full-text.query+question+narrative.bm25.txt  30  0.3280 0.7567  0.2907 0.6800 0.1738 0.6591 0.1334 7309150966853fe98a7f0a0fd2655d23
+anserini.covid-r1.full-text.query-udel.bm25.txt                30  0.5407 0.9067  0.4747 0.8467 0.2868 0.7214 0.1413 aba7d4d606c0c82d32324ba4b89fc813
+anserini.covid-r1.full-text.query-covid19.bm25.txt             30  0.2434 0.5233  0.2202 0.4583 0.1239 0.5692 0.1020 31354a2cfc0a043d2ac24d7080e08204
+anserini.covid-r1.paragraph.query.bm25.txt                     30  0.4302 0.8400  0.3931 0.7650 0.1923 0.4327 0.3182 ef9a94ef55d5836ccfa22942d1d1a4c5
+anserini.covid-r1.paragraph.question.bm25.txt                  30  0.4410 0.9167  0.4095 0.9167 0.2297 0.5111 0.4256 c3f379e9146ff27265daf6201b04c3d4
+anserini.covid-r1.paragraph.query+question.bm25.txt            30  0.5450 0.9733  0.4743 0.9217 0.2716 0.5743 0.4645 645c979ae724ee166462700bbf88e693
+anserini.covid-r1.paragraph.query+question+narrative.bm25.txt  30  0.4899 0.8967  0.4497 0.8233 0.2661 0.5918 0.4328 a68dfe48b5249c30c62c5552ab637c70
+anserini.covid-r1.paragraph.query-udel.bm25.txt                30  0.5544 0.9200  0.4889 0.8517 0.2841 0.5640 0.4311 ddf2c7030feb27a5149eb640704fb147
+anserini.covid-r1.paragraph.query-covid19.bm25.txt             30  0.3180 0.5333  0.2870 0.4700 0.1385 0.3552 0.2603 560dccfa4dc82ca52e1e3c930bb6cf7e
+anserini.covid-r1.fusion1.txt                                  30  0.5716 0.9867  0.5085 0.9533 0.3486 0.8122 0.1735 07beda231289ce4deca492a8d0784a04
+anserini.covid-r1.fusion2.txt                                  30  0.6019 0.9733  0.5400 0.9200 0.3705 0.8121 0.1633 6989b5cbd56f83d0b85791ae217b88a2

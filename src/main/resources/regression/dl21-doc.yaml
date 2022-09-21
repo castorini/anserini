@@ -78,15 +78,15 @@ models:
     params: -hits 1000 -bm25 -rm3
     results:
       MAP@100:
-        - 0.2453
+        - 0.2452
       MRR@100:
-        - 0.7994
+        - 0.7914
       nDCG@10:
-        - 0.5339
+        - 0.5304
       R@100:
-        - 0.3374
+        - 0.3376
       R@1000:
-        - 0.7335
+        - 0.7341
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -hits 1000 -bm25 -rocchio
@@ -101,31 +101,3 @@ models:
         - 0.3456
       R@1000:
         - 0.7367
-  - name: bm25-default+ax
-    display: +Ax
-    params: -hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20
-    results:
-      MAP@100:
-        - 0.2034
-      MRR@100:
-        - 0.7434
-      nDCG@10:
-        - 0.4804
-      R@100:
-        - 0.3002
-      R@1000:
-        - 0.7089
-  - name: bm25-default+prf
-    display: +PRF
-    params: -hits 1000 -bm25 -bm25prf
-    results:
-      MAP@100:
-        - 0.2079
-      MRR@100:
-        - 0.7869
-      nDCG@10:
-        - 0.4850
-      R@100:
-        - 0.3096
-      R@1000:
-        - 0.7040

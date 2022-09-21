@@ -10,7 +10,7 @@ index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18
-index_options: -impact -pretokenized
+index_options: -impact -pretokenized -storeDocvectors
 index_stats:
   documents: 138364198
   documents (non-empty): 138364198
@@ -76,3 +76,35 @@ models:
       R@1000:
         - 0.7010
         - 0.7114
+  - name: unicoil-noexp-0shot+rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3
+    results:
+      MAP@100:
+        - 0.1115
+        - 0.1190
+      MRR@100:
+        - 0.1124
+        - 0.1197
+      R@100:
+        - 0.5006
+        - 0.5129
+      R@1000:
+        - 0.7258
+        - 0.7346
+  - name: unicoil-noexp-0shot+rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio
+    results:
+      MAP@100:
+        - 0.1163
+        - 0.1179
+      MRR@100:
+        - 0.1172
+        - 0.1186
+      R@100:
+        - 0.5082
+        - 0.5218
+      R@1000:
+        - 0.7299
+        - 0.7387

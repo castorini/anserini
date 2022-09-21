@@ -89,7 +89,7 @@ public class Rm3Reranker implements Reranker {
     Iterator<String> terms = rm.iterator();
     while (terms.hasNext()) {
       String term = terms.next();
-      float prob = rm.getFeatureWeight(term);
+      float prob = rm.getValue(term);
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), prob), BooleanClause.Occur.SHOULD);
     }
 
@@ -174,10 +174,10 @@ public class Rm3Reranker implements Reranker {
         // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
         // that contain accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
-          fbWeight += (docvectors.get(i).getFeatureWeight(term) / norms[i]) * docScores.get(i);
+          fbWeight += (docvectors.get(i).getValue(term) / norms[i]) * docScores.get(i);
         }
       }
-      f.addFeatureWeight(term, fbWeight);
+      f.addFeatureValue(term, fbWeight);
     }
 
     f.pruneToSize(fbTerms);
@@ -245,7 +245,7 @@ public class Rm3Reranker implements Reranker {
         } else if (ratio > 0.1f) continue;
 
         int freq = (int) termsEnum.totalTermFreq();
-        f.addFeatureWeight(term, (float) freq);
+        f.addFeatureValue(term, (float) freq);
       }
     } catch (Exception e) {
       e.printStackTrace();
