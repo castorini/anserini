@@ -125,9 +125,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2665    | 0.2935    | 0.2959    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2665    | 0.2936    | 0.2959    |
 | **nDCG@10**                                                                                                  | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6349    | 0.6162    | 0.6175    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6349    | 0.6166    | 0.6175    |
 | **R@100**                                                                                                    | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
 | [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3943    | 0.4347    | 0.4362    |
 | **R@1000**                                                                                                   | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|

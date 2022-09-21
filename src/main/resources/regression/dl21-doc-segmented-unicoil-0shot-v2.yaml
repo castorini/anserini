@@ -82,15 +82,15 @@ models:
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3
     results:
       MAP@100:
-        - 0.3297
+        - 0.3293
       MRR@100:
         - 0.9357
       nDCG@10:
-        - 0.6979
+        - 0.6980
       R@100:
-        - 0.4237
+        - 0.4233
       R@1000:
-        - 0.7608
+        - 0.7611
   - name: unicoil-0shot+rocchio
     display: +Rocchio
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio
