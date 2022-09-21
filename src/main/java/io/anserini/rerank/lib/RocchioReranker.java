@@ -39,10 +39,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 
@@ -231,6 +228,29 @@ public class RocchioReranker implements Reranker {
     return f;
   }
 
+  private FeatureVector createDocumentVectorOnTheFly(Map<String, Integer> terms, IndexReader reader, boolean tweetsearch) throws IOException {
+    FeatureVector f = new FeatureVector();
+
+    int numDocs = reader.numDocs();
+    for (String term : terms.keySet()) {
+      // We're using similar heuristics as in the RM3 implementation. See comments there.
+      if (term.length() < 2 || term.length() > 20) continue;
+      int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+      float ratio = (float) df / numDocs;
+      if (tweetsearch) {
+        if (numDocs > 100000000) {
+          if (ratio > 0.007f) continue;
+        } else {
+          if (ratio > 0.01f) continue;
+        }
+      } else if (ratio > 0.1f) continue;
+
+      f.addFeatureValue(term, (float) terms.get(term));
+    }
+
+    return f;
+  }
+
   private FeatureVector computeWeightedVector(FeatureVector a, FeatureVector b, FeatureVector c, float alpha, float beta, float gamma) {
     FeatureVector z = new FeatureVector();
     Set<String> vocab = new HashSet<>();
@@ -239,7 +259,7 @@ public class RocchioReranker implements Reranker {
     vocab.addAll(c.getFeatures());
 
     vocab.iterator().forEachRemaining(feature -> {
-      float weighted_score = alpha * a.getValue(feature) + beta * b.getValue(feature) - gamma *  c.getValue(feature);
+      float weighted_score = alpha * a.getValue(feature) + beta * b.getValue(feature) - gamma * c.getValue(feature);
       if (weighted_score > 0){
         z.addFeatureValue(feature, weighted_score);
       }

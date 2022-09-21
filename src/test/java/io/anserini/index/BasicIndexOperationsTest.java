@@ -17,6 +17,11 @@
 package io.anserini.index;
 
 import io.anserini.IndexerTestBase;
+import io.anserini.analysis.AnalyzerUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
@@ -43,6 +48,7 @@ import org.apache.lucene.util.SmallFloat;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -192,6 +198,32 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
         long tf = te.totalTermFreq();
         // Print out the term and its term frequency
         System.out.println(term.bytes().utf8ToString() + " " + tf);
+      }
+    }
+  }
+
+  // This test case iterates through all documents in the index and gets all the document vector:
+  // For each term, we compare the on-the-fly frequency verses stored(golden).
+  @Test
+  public void testOnTheFlyDocumentVector() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    Analyzer analyzer = new EnglishAnalyzer();
+
+    int numDocs = reader.numDocs();
+    // Iterate through the document vectors
+    for (int i = 0; i < numDocs; i++) {
+      Terms terms = reader.getTermVector(i, "contents");
+      // Compute Doc Vector without using stored vector
+      Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
+              reader.document(i).getField("contents").stringValue());
+      TermsEnum te = terms.iterator();
+      // For this document, iterate through the terms.
+      Term term;
+      while (te.next() != null) {
+        term = new Term("contents", te.term());
+        long tf = te.totalTermFreq();
+        assertEquals(tf, (long) termFreqMap.get(term.bytes().utf8ToString()));
       }
     }
   }

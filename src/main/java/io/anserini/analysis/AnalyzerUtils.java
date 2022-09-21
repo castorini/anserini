@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AnalyzerUtils {
 
@@ -52,5 +54,27 @@ public class AnalyzerUtils {
     }
 
     return list;
+  }
+
+  static public Map<String, Long> computeDocumentVector(Analyzer analyzer, String s) {
+    Map<String, Long> termFreqMap = new HashMap<>();
+
+    try {
+      TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s));
+      CharTermAttribute cattr = tokenStream.addAttribute(CharTermAttribute.class);
+      tokenStream.reset();
+      while (tokenStream.incrementToken()) {
+        String termString = cattr.toString();
+        if (termString.length() == 0) {
+          continue;
+        }
+        termFreqMap.merge(termString, (long) 1, Long::sum);
+      }
+      tokenStream.end();
+      tokenStream.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return termFreqMap;
   }
 }
