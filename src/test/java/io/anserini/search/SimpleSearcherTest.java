@@ -266,6 +266,10 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(0, results[0].lucene_docid);
     assertEquals(0.14417f, results[0].score, 10e-5);
 
+    Map<String, Float> feedbackTerms = searcher.get_feedback_terms("text");
+    assertEquals(1, feedbackTerms.size());
+    assertEquals(0.5f, feedbackTerms.get("text"), 10e-5);
+
     searcher.unset_rm3();
     assertFalse(searcher.use_rm3());
 
@@ -274,6 +278,9 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
     assertEquals(0.28830f, results[0].score, 10e-5);
+
+    feedbackTerms = searcher.get_feedback_terms("text");
+    assertNull(feedbackTerms);
 
     searcher.close();
   }

@@ -40,9 +40,11 @@ import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
@@ -85,20 +87,24 @@ public class Rm3Reranker implements Reranker {
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
-
+    Map<String, Float> feedbackTerms = new HashMap<>();
     Iterator<String> terms = rm.iterator();
     while (terms.hasNext()) {
       String term = terms.next();
       float prob = rm.getValue(term);
+
+      feedbackTerms.put(term, prob);
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), prob), BooleanClause.Occur.SHOULD);
     }
 
     Query feedbackQuery = feedbackQueryBuilder.build();
+    context.feedbackTerms = feedbackTerms;
 
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());
       LOG.info("Original Query: " + context.getQuery().toString(this.field));
       LOG.info("Running new query: " + feedbackQuery.toString(this.field));
+      feedbackTerms.forEach((k, v) -> LOG.info("Feedback term: " + k + " -> " + v));
     }
 
     TopDocs rs;
