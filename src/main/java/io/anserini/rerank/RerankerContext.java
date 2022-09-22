@@ -22,6 +22,7 @@ import org.apache.lucene.search.Query;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class RerankerContext<K> {
   private final IndexSearcher searcher;
@@ -32,6 +33,8 @@ public class RerankerContext<K> {
   private final List<String> queryTokens;
   private final Query filter;
   private final SearchArgs searchArgs;
+
+  public Map<String, Float> feedbackTerms;
 
   public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
       List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
