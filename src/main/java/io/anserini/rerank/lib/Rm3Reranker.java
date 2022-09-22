@@ -103,7 +103,7 @@ public class Rm3Reranker implements Reranker {
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());
       LOG.info("Original Query: " + context.getQuery().toString(this.field));
-      LOG.info("Running new query: " + feedbackQuery.toString(this.field));
+      LOG.info("Feedback Query: " + feedbackQuery.toString(this.field));
       feedbackTerms.forEach((k, v) -> LOG.info("Feedback term: " + k + " -> " + v));
     }
 
