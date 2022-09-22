@@ -16,6 +16,7 @@
 
 package io.anserini.index;
 
+import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
@@ -344,6 +345,8 @@ public final class IndexCollection {
       final IndexWriterConfig config;
       if (args.collectionClass.equals("TweetCollection")) {
         config = new IndexWriterConfig(tweetAnalyzer);
+      } else if (args.analyzeWithHuggingFaceTokenizer!= null) {
+        config = new IndexWriterConfig(new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer));
       } else if (args.language.equals("ar")) {
         config = new IndexWriterConfig(arabicAnalyzer);
       } else if (args.language.equals("bn")) {
