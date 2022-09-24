@@ -6,6 +6,7 @@ This page describes regression experiments, integrated into Anserini's regressio
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
+
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-unicoil.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
@@ -78,12 +79,14 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt \
   -impact -pretokenized &
+
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-unicoil.rm3.topics.msmarco-passage.dev-subset.unicoil.txt \
   -impact -pretokenized -rm3 &
+
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil.tsv.gz \
@@ -99,10 +102,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qre
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt
+
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.rm3.topics.msmarco-passage.dev-subset.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.rm3.topics.msmarco-passage.dev-subset.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.rm3.topics.msmarco-passage.dev-subset.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.rm3.topics.msmarco-passage.dev-subset.unicoil.txt
+
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.rocchio.topics.msmarco-passage.dev-subset.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.rocchio.topics.msmarco-passage.dev-subset.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil.rocchio.topics.msmarco-passage.dev-subset.unicoil.txt
@@ -130,6 +135,7 @@ In order to reproduce results reported in the paper, we need to convert to MS MA
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
    --input runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt \
    --output runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.tsv --quiet
+
 python tools/scripts/msmarco/msmarco_passage_eval.py \
    tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
    runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.tsv
