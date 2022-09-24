@@ -48,7 +48,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
     id: dl19
-    path: topics.dl19-doc.wp.tsv.gz
+    path: topics.dl19-doc.txt
     qrel: qrels.dl19-doc.txt
 
 models:
