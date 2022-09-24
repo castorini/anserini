@@ -104,14 +104,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-| MAP                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
+| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)               | 0.2087    | 0.2823    | 0.2739    | 0.2032    | 0.2606    | 0.2579    |
-
-
-| P30                                                                                                          | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)               | 0.4293    | 0.5093    | 0.4940    | 0.4467    | 0.4827    | 0.4893    |
+| [TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)               | 0.2087    | 0.2798    | 0.2739    | 0.2032    | 0.2593    | 0.2579    |
+| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
+| [TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)               | 0.4293    | 0.5027    | 0.4940    | 0.4467    | 0.4827    | 0.4893    |
 
 ## Reproduction Log[*](reproducibility.md)
 

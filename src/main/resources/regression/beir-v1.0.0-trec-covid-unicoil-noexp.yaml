@@ -1,0 +1,57 @@
+---
+corpus: beir-v1.0.0-trec-covid-unicoil-noexp
+corpus_path: collections/beir-v1.0.0/unicoil-noexp/trec-covid
+
+index_path: indexes/lucene-index.beir-v1.0.0-trec-covid-unicoil-noexp/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized
+index_stats:
+  documents: 171331
+  documents (non-empty): 171331
+  total terms: 1167503174
+
+metrics:
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "BEIR (v1.0.0): TREC-COVID"
+    id: test
+    path: topics.beir-v1.0.0-trec-covid.test.unicoil-noexp.tsv.gz
+    qrel: qrels.beir-v1.0.0-trec-covid.test.txt
+
+models:
+  - name: unicoil-noexp
+    display: uniCOIL no expansion
+    params: -impact -pretokenized -removeQuery -hits 1000
+    results:
+      nDCG@10:
+        - 0.6403
+      R@100:
+        - 0.1110
+      R@1000:
+        - 0.3786

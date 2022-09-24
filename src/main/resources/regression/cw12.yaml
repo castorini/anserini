@@ -8,9 +8,9 @@ generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 731645141
-  documents (non-empty): 731542236
-  total terms: 429234508918
+  documents: 731645161
+  documents (non-empty): 731542335
+  total terms: 429254658750
 
 metrics:
   - metric: MAP
@@ -31,12 +31,12 @@ metrics:
     command: tools/eval/gdeval.pl
     separator: ","
     parse_index: -2
-    metric_precision: 5
+    metric_precision: 4
   - metric: ERR@20
     command: tools/eval/gdeval.pl
     separator: ","
     parse_index: -1
-    metric_precision: 5
+    metric_precision: 4
 
 topic_reader: Webxml
 topic_root: src/main/resources/topics-and-qrels/
@@ -58,61 +58,61 @@ models:
     results:
       MAP:
         - 0.1695
-        - 0.2470
+        - 0.2469
       P30:
         - 0.2767
         - 0.4547
       nDCG@20:
-        - 0.20848
-        - 0.25720
+        - 0.2083
+        - 0.2572
       ERR@20:
-        - 0.12829
-        - 0.16163
+        - 0.1283
+        - 0.1616
   - name: bm25+rm3
     display: +RM3
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.1465
-        - 0.2330
+        - 0.1477
+        - 0.2342
       P30:
-        - 0.2393
-        - 0.4080
+        - 0.2400
+        - 0.4140
       nDCG@20:
-        - 0.20325
-        - 0.25163
+        - 0.2058
+        - 0.2548
       ERR@20:
-        - 0.12645
-        - 0.16518
+        - 0.1304
+        - 0.1655
   - name: ql
     display: QL
     params: -qld
     results:
       MAP:
-        - 0.1493
+        - 0.1494
         - 0.2467
       P30:
         - 0.2607
         - 0.4380
       nDCG@20:
-        - 0.19935
-        - 0.22201
+        - 0.1993
+        - 0.2220
       ERR@20:
-        - 0.12325
-        - 0.13234
+        - 0.1232
+        - 0.1323
   - name: ql+rm3
     display: +RM3
     params: -qld -rm3
     results:
       MAP:
-        - 0.1290
-        - 0.2178
+        - 0.1284
+        - 0.2185
       P30:
-        - 0.2347
-        - 0.3813
+        - 0.2373
+        - 0.3800
       nDCG@20:
-        - 0.17248
-        - 0.20926
+        - 0.1701
+        - 0.2076
       ERR@20:
-        - 0.10073
-        - 0.12492
+        - 0.0995
+        - 0.1242

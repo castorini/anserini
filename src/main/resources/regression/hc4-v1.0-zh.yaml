@@ -1,0 +1,170 @@
+---
+corpus: hc4-v1.0-zh
+corpus_path: collections/multilingual/hc4-v1.0-zh/
+
+index_path: indexes/lucene-index.hc4-v1.0-zh
+collection_class: NeuClirCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -storePositions -storeDocvectors -storeRaw -language zh
+index_stats:
+  documents: 646302
+  documents (non-empty): 646302
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: J@20
+    command: python -m pyserini.eval.trec_eval
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)"
+    id: dev_title
+    path: topics.hc4-v1.0-zh.dev.title.tsv
+    qrel: qrels.hc4-v1.0-zh.dev.txt
+  - name: "[HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)"
+    id: dev_description
+    path: topics.hc4-v1.0-zh.dev.desc.tsv
+    qrel: qrels.hc4-v1.0-zh.dev.txt
+  - name: "[HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)"
+    id: dev_description_title_
+    path: topics.hc4-v1.0-zh.dev.desc.title.tsv
+    qrel: qrels.hc4-v1.0-zh.dev.txt
+  - name: "[HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)"
+    id: test_title
+    path: topics.hc4-v1.0-zh.test.title.tsv
+    qrel: qrels.hc4-v1.0-zh.test.txt
+  - name: "[HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)"
+    id: test_description
+    path: topics.hc4-v1.0-zh.test.desc.tsv
+    qrel: qrels.hc4-v1.0-zh.test.txt
+  - name: "[HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)"
+    id: test_description_title
+    path: topics.hc4-v1.0-zh.test.desc.title.tsv
+    qrel: qrels.hc4-v1.0-zh.test.txt
+
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -language zh
+    results:
+      MAP:
+        - 0.2969
+        - 0.2030
+        - 0.2458
+        - 0.1801
+        - 0.1455
+        - 0.1907
+      nDCG@20:
+        - 0.3908
+        - 0.3023
+        - 0.3474
+        - 0.2526
+        - 0.2048
+        - 0.2596
+      J@20:
+        - 0.4250
+        - 0.3800
+        - 0.4150
+        - 0.3000
+        - 0.2470
+        - 0.3070
+      Recall@1000:
+        - 0.7964
+        - 0.7255
+        - 0.7663
+        - 0.6963
+        - 0.6358
+        - 0.7100
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -language zh
+    results:
+      MAP:
+        - 0.3202
+        - 0.2134
+        - 0.2871
+        - 0.1625
+        - 0.1114
+        - 0.1566
+      nDCG@20:
+        - 0.4262
+        - 0.3244
+        - 0.3747
+        - 0.2149
+        - 0.1658
+        - 0.2322
+      J@20:
+        - 0.4000
+        - 0.3150
+        - 0.3400
+        - 0.2790
+        - 0.1950
+        - 0.2460
+      Recall@1000:
+        - 0.7589
+        - 0.6605
+        - 0.7229
+        - 0.6814
+        - 0.4914
+        - 0.5979
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -language zh
+    results:
+      MAP:
+        - 0.2641
+        - 0.2211
+        - 0.2641
+        - 0.1671
+        - 0.1442
+        - 0.1929
+      nDCG@20:
+        - 0.3474
+        - 0.2963
+        - 0.3502
+        - 0.2236
+        - 0.1916
+        - 0.2644
+      J@20:
+        - 0.4250
+        - 0.3550
+        - 0.4250
+        - 0.3070
+        - 0.2740
+        - 0.3350
+      Recall@1000:
+        - 0.8365
+        - 0.7570
+        - 0.8241
+        - 0.6652
+        - 0.6481
+        - 0.7074

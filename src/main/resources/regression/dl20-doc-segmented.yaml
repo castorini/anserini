@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 20545677
   documents (non-empty): 20545677
-  total terms: 3200515914
+  total terms: 3200522554
 
 metrics:
   - metric: AP@100
@@ -69,13 +69,13 @@ models:
     params: -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       AP@100:
-        - 0.3774
+        - 0.3792
       nDCG@10:
-        - 0.5179
+        - 0.5202
       R@100:
-        - 0.6224
+        - 0.6201
       R@1000:
-        - 0.8041
+        - 0.8023
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
@@ -88,6 +88,18 @@ models:
         - 0.6291
       R@1000:
         - 0.8102
+  - name: bm25-default+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -rocchio -rocchio.useNegative -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@100:
+        - 0.3827
+      nDCG@10:
+        - 0.5263
+      R@100:
+        - 0.6282
+      R@1000:
+        - 0.8093
   - name: bm25-default+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
@@ -129,13 +141,13 @@ models:
     params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       AP@100:
-        - 0.3472
+        - 0.3471
       nDCG@10:
-        - 0.4979
+        - 0.5030
       R@100:
-        - 0.6025
+        - 0.6003
       R@1000:
-        - 0.8049
+        - 0.8056
   - name: bm25-tuned+rocchio
     display: +Rocchio
     params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
@@ -148,6 +160,18 @@ models:
         - 0.5995
       R@1000:
         - 0.8042
+  - name: bm25-tuned+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -rocchio -rocchio.useNegative -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@100:
+        - 0.3526
+      nDCG@10:
+        - 0.4996
+      R@100:
+        - 0.5975
+      R@1000:
+        - 0.8063
   - name: bm25-tuned+ax
     display: +Ax
     params: -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000

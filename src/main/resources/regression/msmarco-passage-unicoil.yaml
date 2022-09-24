@@ -2,11 +2,14 @@
 corpus: msmarco-passage-unicoil
 corpus_path: collections/msmarco/msmarco-passage-unicoil/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar
+download_checksum: 78eef752c78c8691f7d61600ceed306f
+
 index_path: indexes/lucene-index.msmarco-passage-unicoil/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
-index_options: -impact -pretokenized
+index_options: -impact -pretokenized -storeDocvectors
 index_stats:
   documents: 8841823
   documents (non-empty): 8841823
@@ -64,4 +67,27 @@ models:
         - 0.8609
       R@1000:
         - 0.9582
-
+  - name: rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3
+    results:
+      AP@1000:
+        - 0.2918
+      RR@10:
+        - 0.2836
+      R@100:
+        - 0.8425
+      R@1000:
+        - 0.9603
+  - name: rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio
+    results:
+      AP@1000:
+        - 0.2950
+      RR@10:
+        - 0.2869
+      R@100:
+        - 0.8525
+      R@1000:
+        - 0.9630

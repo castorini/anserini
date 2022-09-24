@@ -16,16 +16,21 @@
 
 from __future__ import print_function
 
-import itertools
-import sys
-
 import argparse
+import hashlib
+import itertools
 import logging
 import os
-import yaml
+import re
+import stat
+import tarfile
+
 from multiprocessing import Pool
 from subprocess import call, Popen, PIPE
+from urllib.request import urlretrieve
 
+import yaml
+from tqdm import tqdm
 
 logger = logging.getLogger('regression_test')
 logger.setLevel(logging.INFO)
@@ -54,6 +59,10 @@ SEARCH_COMMAND = 'target/appassembler/bin/SearchCollection'
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
+
+
+def is_close_lucene8(a, b):
+    return abs(a-b) <= 0.001
 
 
 def check_output(command):
@@ -123,7 +132,7 @@ def construct_search_commands(yaml_data):
             SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join(yaml_data['topic_root'], topic_set['path']),
-            '-topicreader', yaml_data['topic_reader'],
+            '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
             '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
             model['params']
         ]
@@ -131,10 +140,25 @@ def construct_search_commands(yaml_data):
     ]
     return ranking_commands
 
+def construct_convert_commands(yaml_data):
+    converting_commands = [
+        [
+            conversion['command'],
+            '--index', construct_index_path(yaml_data),
+            '--topics', topic_set['id'],
+            '--input', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['in_file_ext'],
+            '--output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['out_file_ext'],
+            conversion['params'] if 'params' in conversion and conversion['params'] else '',
+            topic_set['convert_params'] if 'convert_params' in topic_set and topic_set['convert_params'] else '',
+        ]
+        for (model, topic_set, conversion) in list(itertools.product(yaml_data['models'], yaml_data['topics'], yaml_data['conversions']))
+    ]
+    return converting_commands
 
 def evaluate_and_verify(yaml_data, dry_run):
     fail_str = '\033[91m[FAIL]\033[0m '
     ok_str = '   [OK] '
+    okish_str = '  \033[94m[OK*]\033[0m '
     failures = False
 
     logger.info('='*10 + ' Verifying Results: ' + yaml_data['corpus'] + ' ' + '='*10)
@@ -143,8 +167,8 @@ def evaluate_and_verify(yaml_data, dry_run):
             for metric in yaml_data['metrics']:
                 eval_cmd = [
                   os.path.join(metric['command']), metric['params'] if 'params' in metric and metric['params'] else '',
-                  os.path.join(yaml_data['qrels_root'], topic_set['qrel']),
-                  construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name'])
+                  os.path.join(yaml_data['qrels_root'], topic_set['qrel']) if 'qrel' in topic_set and topic_set['qrel'] else '',
+                  construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else '')
                 ]
                 if dry_run:
                     logger.info(' '.join(eval_cmd))
@@ -162,8 +186,11 @@ def evaluate_and_verify(yaml_data, dry_run):
                 if is_close(expected, actual):
                     logger.info(ok_str + result_str)
                 else:
-                    logger.error(fail_str + result_str)
-                    failures = True
+                    if args.lucene8 and is_close_lucene8(expected, actual):
+                        logger.info(okish_str + result_str)
+                    else:
+                        logger.error(fail_str + result_str)
+                        failures = True
 
     if not dry_run:
         if failures:
@@ -176,23 +203,122 @@ def run_search(cmd):
     logger.info(' '.join(cmd))
     call(' '.join(cmd), shell=True)
 
+def run_convert(cmd):
+    logger.info(' '.join(cmd))
+    call(' '.join(cmd), shell=True)
+
+# https://gist.github.com/leimao/37ff6e990b3226c2c9670a2cd1e4a6f5
+class TqdmUpTo(tqdm):
+    def update_to(self, b=1, bsize=1, tsize=None):
+        """
+        b  : int, optional
+            Number of blocks transferred so far [default: 1].
+        bsize  : int, optional
+            Size of each block (in tqdm units) [default: 1].
+        tsize  : int, optional
+            Total size (in tqdm units). If [default: None] remains unchanged.
+        """
+        if tsize is not None:
+            self.total = tsize
+        self.update(b * bsize - self.n)  # will also set self.n = b * bsize
+
+
+# For large files, we need to compute MD5 block by block. See:
+# https://stackoverflow.com/questions/1131220/get-md5-hash-of-big-files-in-python
+def compute_md5(file, block_size=2**20):
+    m = hashlib.md5()
+    with open(file, 'rb') as f:
+        while True:
+            buf = f.read(block_size)
+            if not buf:
+                break
+            m.update(buf)
+    return m.hexdigest()
+
+
+def download_url(url, save_dir, local_filename=None, md5=None, force=False, verbose=True):
+    # If caller does not specify local filename, figure it out from the download URL:
+    if not local_filename:
+        filename = url.split('/')[-1]
+        filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
+    else:
+        # Otherwise, use the specified local_filename:
+        filename = local_filename
+
+    destination_path = os.path.join(save_dir, filename)
+
+    if verbose:
+        logger.info(f'Downloading {url} to {destination_path}...')
+
+    # Check to see if file already exists, if so, simply return (quietly) unless force=True, in which case we remove
+    # destination file and download fresh copy.
+    if os.path.exists(destination_path):
+        if verbose:
+            logger.info(f'{destination_path} already exists!')
+        if not force:
+            if verbose:
+                logger.info(f'Skipping download.')
+            return destination_path
+        if verbose:
+            logger.info(f'force=True, removing {destination_path}; fetching fresh copy...')
+        os.remove(destination_path)
+
+    with TqdmUpTo(unit='B', unit_scale=True, unit_divisor=1024, miniters=1, desc=filename) as t:
+        urlretrieve(url, filename=destination_path, reporthook=t.update_to)
+
+    if md5:
+        md5_computed = compute_md5(destination_path)
+        assert md5_computed == md5, f'{destination_path} does not match checksum! Expecting {md5} got {md5_computed}.'
+
+    return destination_path
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run Anserini regression tests.')
     parser.add_argument('--regression', required=True, help='Name of the regression test.')
     parser.add_argument('--corpus-path', dest='corpus_path', default='', help='Override corpus path from YAML')
+    parser.add_argument('--download', dest='download', action='store_true', help='Build index.')
     parser.add_argument('--index', dest='index', action='store_true', help='Build index.')
     parser.add_argument('--index-threads', type=int, default=-1, help='Override number of indexing threads from YAML')
     parser.add_argument('--verify', dest='verify', action='store_true', help='Verify index statistics.')
     parser.add_argument('--search', dest='search', action='store_true', help='Search and verify results.')
     parser.add_argument('--search-pool', dest='search_pool', type=int, default=4,
                         help='Number of ranking runs to execute in parallel.')
+    parser.add_argument('--convert-pool', dest='convert_pool', type=int, default=4,
+                        help='Number of converting runs to execute in parallel.')
     parser.add_argument('--dry-run', dest='dry_run', action='store_true',
                         help='Output commands without actual execution.')
+    parser.add_argument('--lucene8', dest='lucene8', action='store_true', help='Enable more lenient score matching for Lucene 8 index compatibility.')
     args = parser.parse_args()
 
     with open('src/main/resources/regression/{}.yaml'.format(args.regression)) as f:
         yaml_data = yaml.safe_load(f)
+
+    if args.download:
+        logger.info('='*10 + ' Downloading Corpus ' + '='*10)
+        if not yaml_data['download_url']:
+            raise ValueError('Corpus download URL known!')
+        url = yaml_data['download_url']
+        download_url(url, 'collections', md5=yaml_data['download_checksum'])
+
+        filename = url.split('/')[-1]
+        local_tarball = os.path.join('collections', filename)
+        logger.info(f'Extracting {local_tarball}...')
+        tarball = tarfile.open(local_tarball)
+        tarball.extractall('collections')
+        tarball.close()
+
+        # e.g., MS MARCO V2: need to rename the corpus
+        if 'download_corpus' in yaml_data:
+            src = os.path.join('collections', yaml_data['download_corpus'])
+            dest = os.path.join('collections', yaml_data['corpus'])
+            logger.info(f'Renaming {src} to {dest}')
+            os.chmod(src, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+            os.rename(src, dest)
+
+        path = os.path.join('collections', yaml_data['corpus'])
+        logger.info(f'Corpus path is {path}')
+        args.corpus_path = path
 
     # Build indexes.
     if args.index:
@@ -223,6 +349,8 @@ if __name__ == '__main__':
     # Search and verify results.
     if args.search:
         logger.info('='*10 + ' Ranking ' + '='*10)
+        if args.lucene8:
+            logger.info('Enabling Lucene 8 index compatibility.')
         search_cmds = construct_search_commands(yaml_data)
         if args.dry_run:
             for cmd in search_cmds:
@@ -230,5 +358,15 @@ if __name__ == '__main__':
         else:
             with Pool(args.search_pool) as p:
                 p.map(run_search, search_cmds)
+
+        if 'conversions' in yaml_data and yaml_data['conversions']:
+            logger.info('='*10 + ' Converting ' + '='*10)
+            convert_cmds = construct_convert_commands(yaml_data)
+            if args.dry_run:
+                for cmd in convert_cmds:
+                    logger.info(' '.join(cmd))
+            else:
+                with Pool(args.convert_pool) as p:
+                    p.map(run_convert, convert_cmds)
 
         evaluate_and_verify(yaml_data, args.dry_run)

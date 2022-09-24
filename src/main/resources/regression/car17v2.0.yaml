@@ -9,8 +9,8 @@ index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 29794689
-  documents (non-empty): 29791059
-  total terms: 1249754054
+  documents (non-empty): 29791065
+  total terms: 1249754017
 
 metrics:
   - metric: MAP
@@ -51,9 +51,9 @@ models:
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.1286
+        - 0.1308
       MRR:
-        - 0.1927
+        - 0.1940
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
@@ -75,9 +75,9 @@ models:
     params: -qld -rm3
     results:
       MAP:
-        - 0.1080
+        - 0.1083
       MRR:
-        - 0.1598
+        - 0.1608
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.deterministic -rerankCutoff 20

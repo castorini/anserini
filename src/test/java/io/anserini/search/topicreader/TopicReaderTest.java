@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(218, cnt);
+    assertEquals(268, cnt);
   }
 
   @Test
@@ -773,6 +773,36 @@ public class TopicReaderTest {
     assertEquals(624, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1136769, (int) topics.lastKey());
     assertEquals(633, topics.get(topics.lastKey()).get("title").split(" ").length);
+  }
+
+  @Test
+  public void testTREC22DL() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals("1099 b cost basis i sell specific shares", topics.get(topics.firstKey()).get("title"));
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals("is a dairy farm considered as an agriculture", topics.get(topics.lastKey()).get("title"));
+    assertEquals("how does magic leap optics work", topics.get(2056323).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL_UNICOIL);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals(1016, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals(720, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL_UNICOIL_NOEXP);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals(900, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals(726, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
@@ -1555,6 +1585,39 @@ public class TopicReaderTest {
     assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_WP).keySet().size());
   }
 
+  @Test
+  public void testBeirUnicoilNoexpTopics() {
+    assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(500,   TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(3452,  TopicReader.getTopics(Topics.BEIR_V1_0_0_NQ_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(7405,  TopicReader.getTopics(Topics.BEIR_V1_0_0_HOTPOTQA_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(648,   TopicReader.getTopics(Topics.BEIR_V1_0_0_FIQA_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(97,    TopicReader.getTopics(Topics.BEIR_V1_0_0_SIGNAL1M_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(57,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_NEWS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(249,   TopicReader.getTopics(Topics.BEIR_V1_0_0_ROBUST04_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(1406,  TopicReader.getTopics(Topics.BEIR_V1_0_0_ARGUANA_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(49,    TopicReader.getTopics(Topics.BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(699,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(1570,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(1595,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(885,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(804,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(1039,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(876,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(652,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(2906,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(1072,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(506,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(541,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(10000, TopicReader.getTopics(Topics.BEIR_V1_0_0_QUORA_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(400,   TopicReader.getTopics(Topics.BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(1000,  TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIDOCS_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(6666,  TopicReader.getTopics(Topics.BEIR_V1_0_0_FEVER_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(1535,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CLIMATE_FEVER_TEST_UNCOIL_NOEXP).keySet().size());
+    assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_UNCOIL_NOEXP).keySet().size());
+  }
+
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
     Map<String, Map<String, String>> topics;
 
@@ -1572,5 +1635,32 @@ public class TopicReaderTest {
     assertEquals(5193, topics.size());
     assertEquals("androgen receptor define", topics.get("2").get("title"));
     assertEquals("why do bears hibernate", topics.get("1102400").get("title"));
+  }
+  
+  @Test
+  public void testHC4Topics() {
+    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_TITLE).keySet().size());
+    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_DESCRIPTION).keySet().size());
+    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_DESC_TITLE).keySet().size());
+
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_TITLE).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_DESCRIPTION).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_DESC_TITLE).keySet().size());
+    
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_TITLE).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_DESCRIPTION).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_DESC_TITLE).keySet().size());
+
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_TEST_TITLE).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_TEST_DESCRIPTION).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_TEST_DESC_TITLE).keySet().size());
+  
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_TITLE).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_DESCRIPTION).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_DESC_TITLE).keySet().size());
+
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_TEST_TITLE).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_TEST_DESCRIPTION).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_TEST_DESC_TITLE).keySet().size());
   }
 }

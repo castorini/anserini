@@ -52,6 +52,10 @@ public class SearchArgs {
 
   @Option(name = "-language", usage = "Analyzer Language")
   public String language = "en";
+  
+  @Option(name = "-analyzeWithHuggingFaceTokenizer",
+      usage = "search a collection by tokenizing query with pretrained mbert tokenizer")
+  public String analyzeWithHuggingFaceTokenizer = null;
 
   @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
   public Boolean inmem = false;
@@ -346,8 +350,12 @@ public class SearchArgs {
   public String[] rocchio_beta = new String[]{"0.75"};
 
   @Option(name = "-rocchio.gamma", handler = StringArrayOptionHandler.class,
-  usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
-public String[] rocchio_gamma = new String[]{"0"};
+      usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
+  public String[] rocchio_gamma = new String[]{"0.15"};
+
+  @Option(name = "-rocchio.useNegative", 
+      usage = "Rocchio parameter: flag to use nonrelevant document vectors")
+  public boolean rocchio_useNegative = false;
 
   @Option(name = "-rocchio.outputQuery",
       usage = "Rocchio parameter: flag to print original and expanded queries")

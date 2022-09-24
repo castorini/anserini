@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
@@ -70,7 +71,6 @@ import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
 import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
-
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -115,7 +115,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -131,13 +130,11 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.zip.GZIPInputStream;
 
 /**
  * Main entry point for search.
@@ -425,6 +422,9 @@ public final class SearchCollection implements Closeable {
     if (args.searchtweets) {
       LOG.info("Searching tweets? true");
       analyzer = new TweetAnalyzer();
+    } else if (args.analyzeWithHuggingFaceTokenizer != null){
+      analyzer = new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
+      LOG.info("Bert Tokenizer");
     } else if (args.language.equals("ar")) {
       analyzer = new ArabicAnalyzer();
       LOG.info("Language: ar");
@@ -517,6 +517,13 @@ public final class SearchCollection implements Closeable {
       loadQrels(args.rf_qrels);      
     }
 
+    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
+    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
+    // which is the source of the incompatibility.
+    if (!reader.toString().contains("lucene.version=9")) {
+      args.arbitraryScoreTieBreak = true;
+      args.axiom_deterministic = false;
+    }
   }
 
   @Override
@@ -662,6 +669,9 @@ public final class SearchCollection implements Closeable {
                 for (String beta : args.rocchio_beta) {
                   for (String gamma : args.rocchio_gamma) {
                     String tag;
+                    if (args.rocchio_useNegative == false){
+                      gamma = "0";
+                    }
                     if (this.args.rf_qrels != null){
                       tag = String.format("rocchioRf(topFbTerms=%s,bottomFbTerms=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, bottomFbTerms, alpha, beta, gamma);
                     } else{
@@ -669,8 +679,8 @@ public final class SearchCollection implements Closeable {
                     }
                     RerankerCascade cascade = new RerankerCascade(tag);
                     cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
-                        Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms),
-                        Integer.valueOf(bottomFbDocs),Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery));
+                        Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms), Integer.valueOf(bottomFbDocs),
+                        Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
                     cascade.add(new ScoreTiesAdjusterReranker());
                     cascades.add(cascade);
                   }

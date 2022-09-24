@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 2742209690
+  total terms: 2742219865
 
 metrics:
   - metric: AP@100
@@ -69,13 +69,13 @@ models:
     params: -bm25 -rm3
     results:
       AP@100:
-        - 0.2774
+        - 0.2773
       nDCG@10:
-        - 0.5170
+        - 0.5174
       R@100:
-        - 0.4189
+        - 0.4191
       R@1000:
-        - 0.7503
+        - 0.7507
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio
@@ -88,6 +88,18 @@ models:
         - 0.4261
       R@1000:
         - 0.7546
+  - name: bm25-default+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@100:
+        - 0.2813
+      nDCG@10:
+        - 0.5279
+      R@100:
+        - 0.4259
+      R@1000:
+        - 0.7530
   - name: bm25-default+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
@@ -129,13 +141,13 @@ models:
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3
     results:
       AP@100:
-        - 0.2684
+        - 0.2682
       nDCG@10:
-        - 0.5445
+        - 0.5453
       R@100:
-        - 0.4186
+        - 0.4192
       R@1000:
-        - 0.7288
+        - 0.7276
   - name: bm25-tuned+rocchio
     display: +Rocchio
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio
@@ -148,6 +160,18 @@ models:
         - 0.4254
       R@1000:
         - 0.7371
+  - name: bm25-tuned+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@100:
+        - 0.2670
+      nDCG@10:
+        - 0.5419
+      R@100:
+        - 0.4224
+      R@1000:
+        - 0.7376
   - name: bm25-tuned+ax
     display: +Ax
     params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20
@@ -172,3 +196,75 @@ models:
         - 0.4295
       R@1000:
         - 0.7559
+  - name: bm25-tuned2
+    display: BM25 (tuned2)
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82
+    results:
+      AP@100:
+        - 0.2336
+      nDCG@10:
+        - 0.5233
+      R@100:
+        - 0.3849
+      R@1000:
+        - 0.6757
+  - name: bm25-tuned2+rm3
+    display: +RM3
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3
+    results:
+      AP@100:
+        - 0.2638
+      nDCG@10:
+        - 0.5526
+      R@100:
+        - 0.4125
+      R@1000:
+        - 0.7188
+  - name: bm25-tuned2+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio
+    results:
+      AP@100:
+        - 0.2657
+      nDCG@10:
+        - 0.5584
+      R@100:
+        - 0.4164
+      R@1000:
+        - 0.7299
+  - name: bm25-tuned2+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@100:
+        - 0.2670
+      nDCG@10:
+        - 0.5567
+      R@100:
+        - 0.4172
+      R@1000:
+        - 0.7312
+  - name: bm25-tuned2+ax
+    display: +Ax
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -axiom -axiom.deterministic -rerankCutoff 20
+    results:
+      AP@100:
+        - 0.2724
+      nDCG@10:
+        - 0.5093
+      R@100:
+        - 0.4332
+      R@1000:
+        - 0.7474
+  - name: bm25-tuned2+prf
+    display: +PRF
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -bm25prf
+    results:
+      AP@100:
+        - 0.2815
+      nDCG@10:
+        - 0.5360
+      R@100:
+        - 0.4310
+      R@1000:
+        - 0.7577

@@ -15,46 +15,49 @@ Note that this page is automatically generated from [this template](../src/main/
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-noexp
 ```
 
-## Corpus
-
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., gone through document expansion and term reweighting.
+We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., we have performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is involved.
-For details on how to train uniCOIL and perform inference, please see [this guide](https://github.com/luyug/COIL/tree/main/uniCOIL).
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-unicoil-noexp
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
 
 Download the corpus and unpack into `collections/`:
 
+```bash
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar -P collections/
+tar xvf collections/msmarco-passage-unicoil-noexp.tar -C collections/
 ```
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar -P collections/
 
-tar xvf collections/msmarco-passage-unicoil.tar -C collections/
-```
+To confirm, `msmarco-passage-unicoil-noexp.tar` is 2.7 GB and has MD5 checksum `f17ddd8c7c00ff121c3c3b147d2e17d8`.
+With the corpus downloaded, the following command will perform the remaining steps below:
 
-To confirm, `msmarco-passage-unicoil.tar` is 3.3 GB and has MD5 checksum `78eef752c78c8691f7d61600ceed306f`.
-
-With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
-
-```
+```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-noexp \
   --corpus-path collections/msmarco-passage-unicoil-noexp
 ```
-
-Alternatively, you can simply copy/paste from the commands below and obtain the same results.
 
 ## Indexing
 
 Sample indexing command:
 
-```
+```bash
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-unicoil-noexp \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 16 -impact -pretokenized \
+  -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-unicoil-noexp &
 ```
 
@@ -72,70 +75,61 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt \
+  -output runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt \
   -impact -pretokenized &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt \
+  -impact -pretokenized -rm3 &
+
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt \
+  -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+```bash
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| AP@1000                                                                                                      | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3215    |
-
-
-| RR@10                                                                                                        | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3153    |
-
-
-| R@100                                                                                                        | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8070    |
-
-
-| R@1000                                                                                                       | uniCOIL (no expansions)|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9239    |
-
-The above runs are in TREC output format and evaluated with `trec_eval`.
-In order to reproduce results reported in the paper, we need to convert to MS MARCO output format and then evaluate:
-
-```bash
-python tools/scripts/msmarco/convert_trec_to_msmarco_run.py \
-   --input runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.txt \
-   --output runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.tsv --quiet
-
-python tools/scripts/msmarco/msmarco_passage_eval.py \
-   tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-   runs/run.msmarco-passage-unicoil.unicoil.topics.msmarco-passage.dev-subset.unicoil.tsv
-```
-
-The results should be as follows:
-
-```
-#####################
-MRR @10: 0.35155222404147896
-QueriesRanked: 6980
-#####################
-```
-
-This corresponds to the effectiveness reported in the paper and also the run named "uniCOIL-d2q" on the official MS MARCO Passage Ranking Leaderboard, submitted 2021/09/22.
+| **AP@1000**                                                                                                  | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3215    | 0.2621    | 0.2643    |
+| **RR@10**                                                                                                    | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3153    | 0.2537    | 0.2565    |
+| **R@100**                                                                                                    | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8070    | 0.7953    | 0.7971    |
+| **R@1000**                                                                                                   | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9239    | 0.9296    | 0.9326    |
 
 ## Reproduction Log[*](reproducibility.md)
 
@@ -148,3 +142,4 @@ To add to this reproduction log, modify [this template](../src/main/resources/do
 + Results reproduced by [@yuki617](https://github.com/yuki617) on 2022-02-16 (commit [`c7614d2`](https://github.com/castorini/anserini/commit/c7614d212a8f7744b2e7071fd5819c058ab6a09c))
 + Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2022-02-23 (commit [`6a70804`](https://github.com/castorini/anserini/commit/6a708047f71528f7d516c0dd45485204a36e6b1d))
 + Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
++ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

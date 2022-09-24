@@ -17,7 +17,11 @@
 package io.anserini;
 
 import io.anserini.index.IndexArgs;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.LatLonDocValuesField;
+import org.apache.lucene.document.LatLonShape;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.geo.Line;
 import org.apache.lucene.geo.Polygon;
 import org.apache.lucene.geo.SimpleWKTShapeParser;
@@ -25,9 +29,10 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.LuceneTestCase;
-import org.junit.Before;
+import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.After;
+import org.junit.Before;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

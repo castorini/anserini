@@ -3,6 +3,60 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### September 22, 2022
+
++ commit [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f) (09/18/2022)
++ commit [`3dfce5`](https://github.com/castorini/anserini/commit/3dfce53e6985a9c05eea30a4350da165824fa7f2) (09/15/2022)
+
+Two major changes with regression impact:
+
++ Upgraded to `fastutil` 8.5.8 and fixed longstanding `FeatureVector` issue ([#840](https://github.com/castorini/anserini/issues/840)).
++ Upgraded to `jsoup` 1.15.3 to fix security vulnerability.
+
+### August 15, 2022
+
++ commit [`cc6337`](https://github.com/castorini/anserini/commit/cc6337c582a9f3e8bdf6e4512f7fa56b45a50de2) (08/15/2022)
+
+Updated all regressions to pass with Lucene 9.
+Effectiveness figures changed for the following:
+
++ `clef06-fr`
++ `hc4-neuclir22-ru`
++ `hc4-v1.0-ru`
++ `mrtydi-v1.1-fi`
++ `mrtydi-v1.1-ja`
++ `mrtydi-v1.1-ru`
++ `msmarco-doc`
+
+Index statistics for many other regressions changed (e.g., total terms), but these changes did not alter effectiveness figures (other than those identified above).
+Note that after updating Pyserini to Lucene 9, `wikipedia-dpr-100w-bm25` passed also.
+
+### July 23, 2022
+
++ commit [`d25495`](https://github.com/castorini/anserini/commit/d25495b6a5982ee9e64c99e7bbe9979774bfc284) (07/23/2022)
++ commit [`a1608a`](https://github.com/castorini/anserini/commit/a1608aca4063de6b34f0b9b96a3639a3ed5b13c8) (07/23/2022)
+
+Added regressions for HC4 test topics on NeuCLIR22 corpora, both query translation and document translation variants.
+
+### July 13, 2022
+
++ commit [`500e87`](https://github.com/castorini/anserini/commit/500e872d594a86cbf01adae644479f74a4b4af2d) (07/13/2022)
+
+Added regression for Wikipedia retrieval for QA (from DPR).
+
+### June 17, 2022
+
++ commit [`f59283`](https://github.com/castorini/anserini/commit/f59283297e79045a81d6ff84eebb116ce842736c) (06/17/2022)
+
+Added regressions for BEIR, uniCOIL (noexp).
+
+### June 16, 2022
+
++ commit [`d71a11`](https://github.com/castorini/anserini/commit/d71a118faa17a29d34431e1d5c1cfae2d567e64c) (06/16/2022)
++ commit [`d2fbe6`](https://github.com/castorini/anserini/commit/d2fbe67b0f17545c0dd2edc4a445b8df9dcf80fc) (06/15/2022)
+
+Added regressions for HC4 corpora.
+
 ### May 26, 2022
 
 + commit [`fc542b`](https://github.com/castorini/anserini/commit/fc542b5fa5dd67fe53e6110d8933b2d403f8e80e) (05/26/2022)

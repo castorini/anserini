@@ -40,9 +40,11 @@ import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
@@ -85,20 +87,24 @@ public class Rm3Reranker implements Reranker {
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
-
+    Map<String, Float> feedbackTerms = new HashMap<>();
     Iterator<String> terms = rm.iterator();
     while (terms.hasNext()) {
       String term = terms.next();
-      float prob = rm.getFeatureWeight(term);
+      float prob = rm.getValue(term);
+
+      feedbackTerms.put(term, prob);
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), prob), BooleanClause.Occur.SHOULD);
     }
 
     Query feedbackQuery = feedbackQueryBuilder.build();
+    context.feedbackTerms = feedbackTerms;
 
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());
       LOG.info("Original Query: " + context.getQuery().toString(this.field));
-      LOG.info("Running new query: " + feedbackQuery.toString(this.field));
+      LOG.info("Feedback Query: " + feedbackQuery.toString(this.field));
+      feedbackTerms.forEach((k, v) -> LOG.info("Feedback term: " + k + " -> " + v));
     }
 
     TopDocs rs;
@@ -174,10 +180,10 @@ public class Rm3Reranker implements Reranker {
         // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
         // that contain accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
-          fbWeight += (docvectors.get(i).getFeatureWeight(term) / norms[i]) * docScores.get(i);
+          fbWeight += (docvectors.get(i).getValue(term) / norms[i]) * docScores.get(i);
         }
       }
-      f.addFeatureWeight(term, fbWeight);
+      f.addFeatureValue(term, fbWeight);
     }
 
     f.pruneToSize(fbTerms);
@@ -245,7 +251,7 @@ public class Rm3Reranker implements Reranker {
         } else if (ratio > 0.1f) continue;
 
         int freq = (int) termsEnum.totalTermFreq();
-        f.addFeatureWeight(term, (float) freq);
+        f.addFeatureValue(term, (float) freq);
       }
     } catch (Exception e) {
       e.printStackTrace();

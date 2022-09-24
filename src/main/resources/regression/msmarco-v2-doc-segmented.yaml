@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 124131414
   documents (non-empty): 124131414
-  total terms: 24780915974
+  total terms: 24780918039
 
 metrics:
   - metric: MAP@100
@@ -77,62 +77,30 @@ models:
     params: -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP@100:
-        - 0.1648
-        - 0.1679
+        - 0.1644
+        - 0.1681
       MRR@100:
-        - 0.1664
-        - 0.1701
+        - 0.1660
+        - 0.1702
       R@100:
-        - 0.6558
-        - 0.6561
+        - 0.6556
+        - 0.6566
       R@1000:
-        - 0.8605
-        - 0.8633
+        - 0.8608
+        - 0.8639
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP@100:
-        - 0.1660
-        - 0.1689
+        - 0.1663
+        - 0.1690
       MRR@100:
-        - 0.1679
+        - 0.1681
         - 0.1710
       R@100:
         - 0.6535
         - 0.6618
       R@1000:
-        - 0.8659
+        - 0.8657
         - 0.8642
-  - name: bm25-default+ax
-    display: +Ax
-    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
-    results:
-      MAP@100:
-        - 0.1344
-        - 0.1345
-      MRR@100:
-        - 0.1360
-        - 0.1366
-      R@100:
-        - 0.5593
-        - 0.5800
-      R@1000:
-        - 0.8161
-        - 0.8210
-  - name: bm25-default+prf
-    display: +PRF
-    params: -bm25 -bm25prf -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
-    results:
-      MAP@100:
-        - 0.1528
-        - 0.1565
-      MRR@100:
-        - 0.1547
-        - 0.1587
-      R@100:
-        - 0.5945
-        - 0.6134
-      R@1000:
-        - 0.8270
-        - 0.8280

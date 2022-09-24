@@ -2,11 +2,15 @@
 corpus: msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2
 corpus_path: collections/msmarco/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar
+download_checksum: 97ba262c497164de1054f357caea0c63
+download_corpus: msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2
+
 index_path: indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18
-index_options: -impact -pretokenized
+index_options: -impact -pretokenized -storeDocvectors
 index_stats:
   documents: 124131404
   documents (non-empty): 124131404
@@ -73,3 +77,31 @@ models:
         - 0.3563
       R@1000:
         - 0.6787
+  - name: unicoil-noexp-0shot+rm3
+    display: +RM3
+    params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3
+    results:
+      MAP@100:
+        - 0.3138
+      MRR@100:
+        - 0.9358
+      nDCG@10:
+        - 0.6692
+      R@100:
+        - 0.4048
+      R@1000:
+        - 0.7506
+  - name: unicoil-noexp-0shot+rocchio
+    display: +Rocchio
+    params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio
+    results:
+      MAP@100:
+        - 0.3223
+      MRR@100:
+        - 0.9448
+      nDCG@10:
+        - 0.6718
+      R@100:
+        - 0.4147
+      R@1000:
+        - 0.7589

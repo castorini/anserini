@@ -40,8 +40,10 @@ import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
@@ -60,8 +62,9 @@ public class RocchioReranker implements Reranker {
   private final float beta;
   private final float gamma;
   private final boolean outputQuery;
+  private final boolean useNegative;
 
-  public RocchioReranker(Analyzer analyzer, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery) {
+  public RocchioReranker(Analyzer analyzer, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     this.analyzer = analyzer;
     this.field = field;
     this.topFbTerms = topFbTerms;
@@ -72,6 +75,7 @@ public class RocchioReranker implements Reranker {
     this.beta = beta;
     this.gamma = gamma;
     this.outputQuery = outputQuery;
+    this.useNegative = useNegative;
   }
 
   @Override
@@ -101,30 +105,39 @@ public class RocchioReranker implements Reranker {
 
     // Compute mean(tail k nonrelevant document vectors):
     FeatureVector meanNonRelevantDocumentVector;
-    try {
-      relevantFlag = false; 
-      meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
-    } catch (IOException e) {
-      // If we run into any issues, just return the original results - as if we never performed feedback.
-      e.printStackTrace();
-      return docs;
+    if (useNegative != false) {
+      try {
+        relevantFlag = false; 
+        meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
+      } catch (IOException e) {
+        // If we run into any issues, just return the original results - as if we never performed feedback.
+        e.printStackTrace();
+        return docs;
+      }
+    } else {
+      meanNonRelevantDocumentVector = new FeatureVector();
     }
 
     // Compute q_new based on alpha, beta and gamma weights:
     FeatureVector weightedVector = computeWeightedVector(queryVector, meanRelevantDocumentVector, meanNonRelevantDocumentVector, alpha, beta, gamma);
 
     // Use the weights as boosts to a second-round Lucene query:
+    Map<String, Float> feedbackTerms = new HashMap<>();
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
     weightedVector.iterator().forEachRemaining(term -> {
-      float boost = weightedVector.getFeatureWeight(term);
+      float boost = weightedVector.getValue(term);
+      feedbackTerms.put(term, boost);
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), boost), BooleanClause.Occur.SHOULD);
     });
+
     Query feedbackQuery = feedbackQueryBuilder.build();
+    context.feedbackTerms = feedbackTerms;
 
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());
       LOG.info("Original Query: " + context.getQuery().toString(this.field));
-      LOG.info("Running new query: " + feedbackQuery.toString(this.field));
+      LOG.info("Feedback Query: " + feedbackQuery.toString(this.field));
+      feedbackTerms.forEach((k, v) -> LOG.info("Feedback term: " + k + " -> " + v));
     }
 
     TopDocs results;
@@ -186,10 +199,10 @@ public class RocchioReranker implements Reranker {
         // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
         // that contain accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
-          termWeight += (docvectors.get(i).getFeatureWeight(term) / norms[i]);
+          termWeight += (docvectors.get(i).getValue(term) / norms[i]);
         }
       }
-      f.addFeatureWeight(term, termWeight / docvectors.size());
+      f.addFeatureValue(term, termWeight / docvectors.size());
     }
 
     f.pruneToSize(fbTerms);
@@ -219,7 +232,7 @@ public class RocchioReranker implements Reranker {
         }
       } else if (ratio > 0.1f) continue;
 
-      f.addFeatureWeight(term, (float) termsEnum.totalTermFreq());
+      f.addFeatureValue(term, (float) termsEnum.totalTermFreq());
     }
 
     return f;
@@ -233,9 +246,9 @@ public class RocchioReranker implements Reranker {
     vocab.addAll(c.getFeatures());
 
     vocab.iterator().forEachRemaining(feature -> {
-      float weighted_score = alpha * a.getFeatureWeight(feature) + beta * b.getFeatureWeight(feature) - gamma *  c.getFeatureWeight(feature);
+      float weighted_score = alpha * a.getValue(feature) + beta * b.getValue(feature) - gamma *  c.getValue(feature);
       if (weighted_score > 0){
-        z.addFeatureWeight(feature, weighted_score);
+        z.addFeatureValue(feature, weighted_score);
       }
     });
 

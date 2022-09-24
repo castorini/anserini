@@ -23,11 +23,11 @@ import io.anserini.index.IndexArgs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
@@ -106,7 +106,7 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
     // Store the collection docid.
     doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    doc.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
       doc.add(new StoredField(IndexArgs.RAW, coreDoc.raw()));
@@ -165,10 +165,10 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
       // index as numeric value to allow range queries
       try {
         doc.add(new IntPoint(key, Integer.parseInt(valueText)));
+        doc.add(new StoredField(key, valueText));
       } catch(Exception e) {
         // year is not numeric value
       }
-      doc.add(new StoredField(key, valueText));
     } else {
       doc.add(new Field(key, valueText, fieldType));
     }

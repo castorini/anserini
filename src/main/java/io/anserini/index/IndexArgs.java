@@ -36,8 +36,11 @@ public class IndexArgs {
   // This is the name of the field in the Lucene document where the entity document is stored.
   public static final String ENTITY = "entity";
 
+  // This is the name of the field in the Lucene document where the vector document is stored.
+  public static final String VECTOR = "vector";
 
   private static final int TIMEOUT = 600 * 1000;
+
 
   // required arguments
 
@@ -69,8 +72,7 @@ public class IndexArgs {
 
   // optional arguments
 
-  @Option(name = "-index", metaVar = "[path]", forbids = {"-solr", "-es"},
-      usage = "Index path.")
+  @Option(name = "-index", metaVar = "[path]", usage = "Index path.")
   public String index;
 
   @Option(name = "-fields", handler = StringArrayOptionHandler.class,
@@ -137,6 +139,10 @@ public class IndexArgs {
   @Option(name = "-pretokenized",
           usage = "index pre-tokenized collections without any additional stemming, stopword processing")
   public boolean pretokenized = false;
+  
+  @Option(name = "-analyzeWithHuggingFaceTokenizer",
+      usage = "index a collection by tokenizing text with pretrained huggingface tokenizers")
+  public String analyzeWithHuggingFaceTokenizer = null;
 
   // Tweet options
 
@@ -159,82 +165,6 @@ public class IndexArgs {
   @Option(name = "-tweet.deletedIdsFile", metaVar = "[file]",
       usage = "File that contains deleted tweet ids (longs), one per line; these tweets will be skipped during indexing.")
   public String tweetDeletedIdsFile = "";
-
-  // Solr options
-
-  @Option(name = "-solr", forbids = {"-index", "-es"},
-      usage = "Indexes into Solr.")
-  public boolean solr = false;
-
-  @Option(name = "-solr.batch", metaVar = "[n]",
-      usage = "Solr indexing batch size.")
-  public int solrBatch = 1000;
-
-  @Option(name = "-solr.commitWithin", metaVar = "[s]",
-      usage = "Solr commitWithin setting (in seconds).")
-  public int solrCommitWithin = 60;
-
-  @Option(name = "-solr.index", metaVar = "[name]",
-      usage = "Solr index name.")
-  public String solrIndex = null;
-
-  @Option(name = "-solr.zkUrl", metaVar = "[urls]",
-      usage = "Solr ZooKeeper URLs (comma separated list).")
-  public String zkUrl = null;
-
-  @Option(name = "-solr.zkChroot", metaVar = "[path]",
-      usage = "Solr ZooKeeper chroot")
-  public String zkChroot = "/";
-
-  @Option(name = "-solr.poolSize", metaVar = "[n]",
-      usage = "Solr client pool size.")
-  public int solrPoolSize = 16;
-
-  // Elasticsearch options
-
-  @Option(name = "-es", forbids = {"-index", "-solr"},
-      usage = "Indexes into Elasticsearch.")
-  public boolean es = false;
-
-  @Option(name = "-es.index", metaVar = "[name]",
-      usage = "Elasticsearch index name.")
-  public String esIndex = null;
-
-  @Option(name = "-es.batch", metaVar = "[n]",
-      usage = "Elasticsearch batch index requests size.")
-  public int esBatch = 1000;
-
-  @Option(name = "-es.bulk", metaVar = "[n]",
-      usage = "Elasticsearch max bulk requests size in bytes.")
-  public int esBulk = 80000000;
-
-  @Option(name = "-es.hostname", metaVar = "[host]",
-      usage = "Elasticsearch host.")
-  public String esHostname = "localhost";
-
-  @Option(name = "-es.port", metaVar = "[port]",
-      usage = "Elasticsearch port number.")
-  public int esPort = 9200;
-
-  @Option(name = "-es.user", metaVar = "[username]",
-      usage = "Elasticsearch user name.")
-  public String esUser = "elastic";
-
-  @Option(name = "-es.password", metaVar = "[password]",
-      usage = "Elasticsearch password.")
-  public String esPassword = "changeme";
-
-  @Option(name = "-es.poolSize", metaVar = "[num]",
-      usage = "Elasticsearch client pool size.")
-  public int esPoolSize = 10;
-
-  @Option(name = "-es.connectTimeout", metaVar = "[ms]",
-      usage = "Elasticsearch (low level) REST client connect timeout (in ms).")
-  public int esConnectTimeout = TIMEOUT;
-
-  @Option(name = "-es.socketTimeout", metaVar = "[ms]",
-      usage = "Elasticsearch (low level) REST client socket timeout (in ms).")
-  public int esSocketTimeout = TIMEOUT;
 
   // Sharding options
 

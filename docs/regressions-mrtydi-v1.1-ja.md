@@ -65,15 +65,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 sr
 
 With the above commands, you should be able to reproduce the following results:
 
-| MRR@100                                                                                                      | BM25      |
+| **MRR@100**                                                                                                  | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.2236    |
-| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.2241    |
-| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.2112    |
-
-
-| R@100                                                                                                        | BM25      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.7282    |
-| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.7274    |
-| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.6451    |
+| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.2262    |
+| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.2250    |
+| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.2125    |
+| **R@100**                                                                                                    | **BM25**  |
+| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.7290    |
+| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.7252    |
+| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.6431    |

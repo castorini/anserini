@@ -1118,4 +1118,39 @@ public class RelevanceJudgmentsTest {
     assertEquals(300, qrels.getQids().size());
     assertEquals(339, getQrelsCount(qrels));
   }
+  
+  @Test
+  public void testHC4() {
+    RelevanceJudgments qrels;
+    
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_RU_DEV);
+    assertNotNull(qrels);
+    assertEquals(4, qrels.getQids().size());
+    assertEquals(265, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_RU_TEST);
+    assertNotNull(qrels);
+    assertEquals(50, qrels.getQids().size());
+    assertEquals(2970, getQrelsCount(qrels));
+  
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_FA_DEV);
+    assertNotNull(qrels);
+    assertEquals(10, qrels.getQids().size());
+    assertEquals(565, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_FA_TEST);
+    assertNotNull(qrels);
+    assertEquals(50, qrels.getQids().size());
+    assertEquals(2522, getQrelsCount(qrels));
+  
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_ZH_DEV);
+    assertNotNull(qrels);
+    assertEquals(10, qrels.getQids().size());
+    assertEquals(466, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_ZH_TEST);
+    assertNotNull(qrels);
+    assertEquals(50, qrels.getQids().size());
+    assertEquals(2751, getQrelsCount(qrels));
+  }
 }

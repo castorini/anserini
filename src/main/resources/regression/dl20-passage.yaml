@@ -69,25 +69,37 @@ models:
     params: -bm25 -rm3
     results:
       AP@1000:
-        - 0.3019
+        - 0.3006
       nDCG@10:
-        - 0.4821
+        - 0.4896
       R@100:
-        - 0.6046
+        - 0.6182
       R@1000:
-        - 0.8217
+        - 0.8236
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio
     results:
       AP@1000:
-        - 0.3102
+        - 0.3115
       nDCG@10:
-        - 0.4893
+        - 0.4910
       R@100:
         - 0.5891
       R@1000:
         - 0.8156
+  - name: bm25-default+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@1000:
+        - 0.3109
+      nDCG@10:
+        - 0.4817
+      R@100:
+        - 0.6056
+      R@1000:
+        - 0.8229
   - name: bm25-default+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
@@ -129,25 +141,37 @@ models:
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3
     results:
       AP@1000:
-        - 0.3056
+        - 0.3017
       nDCG@10:
-        - 0.4808
+        - 0.4924
       R@100:
-        - 0.6333
+        - 0.6286
       R@1000:
-        - 0.8286
+        - 0.8292
   - name: bm25-tuned+rocchio
     display: +Rocchio
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio
     results:
       AP@1000:
-        - 0.3110
+        - 0.3120
       nDCG@10:
-        - 0.4901
+        - 0.4908
       R@100:
         - 0.6043
       R@1000:
         - 0.8327
+  - name: bm25-tuned+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@1000:
+        - 0.3119
+      nDCG@10:
+        - 0.4922
+      R@100:
+        - 0.6176
+      R@1000:
+        - 0.8354
   - name: bm25-tuned+ax
     display: +Ax
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20

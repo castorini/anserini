@@ -18,7 +18,6 @@ package io.anserini.util;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,22 +29,26 @@ import java.util.Set;
 public class FeatureVector {
   private Object2FloatOpenHashMap<String> features = new Object2FloatOpenHashMap<String>();
 
+  public enum Order {
+    FEATURE_DESCENDING, FEATURE_ASCENDING, VALUE_DESCENDING, VALUE_ASCENDING
+  }
+
   public FeatureVector() {}
 
-  public void addFeatureWeight(String term, float weight) {
-    if (!features.containsKey(term)) {
-      features.put(term, weight);
+  public void addFeatureValue(String feature, float value) {
+    if (!features.containsKey(feature)) {
+      features.put(feature, value);
     } else {
-      features.put(term, features.get(term) + weight);
+      features.put(feature, features.getFloat(feature) + value);
     }
   }
 
   public FeatureVector pruneToSize(int k) {
-    List<KeyValuePair> pairs = getOrderedFeatures();
-    Object2FloatOpenHashMap<String> pruned = new Object2FloatOpenHashMap<String>();
-    
-    for (KeyValuePair pair : pairs) {
-      pruned.put((String) pair.getKey(), pair.getValue());
+    List<FeatureValuePair> pairs = getOrderedFeatures();
+    Object2FloatOpenHashMap<String> pruned = new Object2FloatOpenHashMap<>();
+
+    for (FeatureValuePair pair : pairs) {
+      pruned.put(pair.getFeature(), pair.getValue());
       if (pruned.size() >= k) {
         break;
       }
@@ -58,7 +61,7 @@ public class FeatureVector {
   public FeatureVector scaleToUnitL2Norm() {
     double norm = computeL2Norm();
     for (String f : features.keySet()) {
-      features.put(f, (float) (features.get(f) / norm));
+      features.put(f, (float) (features.getFloat(f) / norm));
     }
 
     return this;
@@ -67,7 +70,7 @@ public class FeatureVector {
   public FeatureVector scaleToUnitL1Norm() {
     double norm = computeL1Norm();
     for (String f : features.keySet()) {
-      features.put(f, (float) (features.get(f) / norm));
+      features.put(f, (float) (features.getFloat(f) / norm));
     }
 
     return this;
@@ -77,8 +80,8 @@ public class FeatureVector {
     return features.keySet();
   }
 
-  public float getFeatureWeight(String feature) {
-    return features.containsKey(feature) ? features.get(feature) : 0.0f;
+  public float getValue(String feature) {
+    return features.containsKey(feature) ? features.getFloat(feature) : 0.0f;
   }
 
   public Iterator<String> iterator() {
@@ -92,7 +95,7 @@ public class FeatureVector {
   public double computeL2Norm() {
     double norm = 0.0;
     for (String term : features.keySet()) {
-      norm += Math.pow(features.get(term), 2.0);
+      norm += Math.pow(features.getFloat(term), 2.0);
     }
     return Math.sqrt(norm);
   }
@@ -100,60 +103,79 @@ public class FeatureVector {
   public double computeL1Norm() {
     double norm = 0.0;
     for (String term : features.keySet()) {
-      norm += Math.abs(features.get(term));
+      norm += Math.abs(features.getFloat(term));
     }
     return norm;
   }
 
-  public static FeatureVector fromTerms(List<String> terms) {
+  public static FeatureVector fromTerms(List<String> features) {
     FeatureVector f = new FeatureVector();
-    for (String t : terms) {
-      f.addFeatureWeight(t, 1.0f);
+    for (String t : features) {
+      f.addFeatureValue(t, 1.0f);
     }
     return f;
   }
 
-  // VIEWING
-
-  @Override
-  public String toString() {
-    return this.toString(features.size());
+  private List<FeatureValuePair> getOrderedFeatures() {
+    return getOrderedFeatures(Order.VALUE_DESCENDING);
   }
 
-  private List<KeyValuePair> getOrderedFeatures() {
-    List<KeyValuePair> kvpList = new ArrayList<KeyValuePair>(features.size());
+  private List<FeatureValuePair> getOrderedFeatures(Order order) {
+    List<FeatureValuePair> pairs = new ArrayList<>(features.size());
     Iterator<String> featureIterator = features.keySet().iterator();
     while (featureIterator.hasNext()) {
       String feature = featureIterator.next();
-      float value = features.get(feature);
-      KeyValuePair keyValuePair = new KeyValuePair(feature, value);
-      kvpList.add(keyValuePair);
+      float value = features.getFloat(feature);
+      FeatureValuePair featureValuePair = new FeatureValuePair(feature, value);
+      pairs.add(featureValuePair);
     }
 
-    Collections.sort(kvpList, new Comparator<KeyValuePair>() {
-      public int compare(KeyValuePair x, KeyValuePair y) {
-        double xVal = x.getValue();
-        double yVal = y.getValue();
+    if (order.equals(Order.VALUE_DESCENDING)) {
+      Collections.sort(pairs, (FeatureValuePair x, FeatureValuePair y) -> {
+        if (x.getValue() == y.getValue()) return x.getFeature().compareTo(y.getFeature());
+        return x.getValue() > y.getValue() ? -1 : 1;
+      });
+    } else if (order.equals(Order.VALUE_ASCENDING)) {
+      Collections.sort(pairs, (FeatureValuePair x, FeatureValuePair y) -> {
+        if (x.getValue() == y.getValue()) return x.getFeature().compareTo(y.getFeature());
+        return x.getValue() > y.getValue() ? 1 : -1;
+      });
+    } else if (order.equals(Order.FEATURE_ASCENDING)) {
+      Collections.sort(pairs, Comparator.comparing(FeatureValuePair::getFeature));
+    } else if (order.equals(Order.FEATURE_DESCENDING)) {
+      Collections.sort(pairs, Comparator.comparing(FeatureValuePair::getFeature).reversed());
+    }
 
-        return (xVal > yVal ? -1 : (xVal == yVal ? 0 : 1));
-      }
-    });
+    return pairs;
+  }
 
-    return kvpList;
+  @Override
+  public String toString() {
+    return this.toString(Order.VALUE_DESCENDING, features.size());
   }
 
   public String toString(int k) {
-    DecimalFormat format = new DecimalFormat("#.#########");
-    StringBuilder b = new StringBuilder();
-    List<KeyValuePair> kvpList = getOrderedFeatures();
-    Iterator<KeyValuePair> it = kvpList.iterator();
+    return this.toString(Order.VALUE_DESCENDING, k);
+  }
+
+  public String toString(Order order) {
+    return this.toString(order, features.size());
+  }
+
+  public String toString(Order order, int k) {
+    StringBuilder builder = new StringBuilder();
+    List<FeatureValuePair> features = getOrderedFeatures(order);
+    Iterator<FeatureValuePair> it = features.iterator();
+    builder.append("[");
     int i = 0;
     while (it.hasNext() && i++ < k) {
-      KeyValuePair pair = it.next();
-      b.append(format.format(pair.getValue()) + " " + pair.getKey() + "\n");
+      FeatureValuePair pair = it.next();
+      if (i != 1)
+        builder.append(", ");
+      builder.append(pair.getFeature() + "=" + pair.getValue());
     }
-    return b.toString();
-
+    builder.append("]");
+    return builder.toString();
   }
 
   public static FeatureVector interpolate(FeatureVector x, FeatureVector y, float xWeight) {
@@ -164,34 +186,32 @@ public class FeatureVector {
     Iterator<String> features = vocab.iterator();
     while (features.hasNext()) {
       String feature = features.next();
-      float weight = (float) (xWeight * x.getFeatureWeight(feature) + (1.0 - xWeight)
-          * y.getFeatureWeight(feature));
-      z.addFeatureWeight(feature, weight);
+      float weight = (float) (xWeight * x.getValue(feature) + (1.0 - xWeight) * y.getValue(feature));
+      z.addFeatureValue(feature, weight);
     }
     return z;
   }
 
-  private class KeyValuePair {
-    private String key;
+  public class FeatureValuePair {
+    private String feature;
     private float value;
 
-    public KeyValuePair(String key, float value) {
-      this.key = key;
+    public FeatureValuePair(String key, float value) {
+      this.feature = key;
       this.value = value;
     }
 
-    public String getKey() {
-      return key;
-    }
-
-    @Override
-    public String toString() {
-      StringBuilder b = new StringBuilder(value + "\t" + key);
-      return b.toString();
+    public String getFeature() {
+      return feature;
     }
 
     public float getValue() {
       return value;
+    }
+
+    @Override
+    public String toString() {
+      return new StringBuilder(feature + "=" + value).toString();
     }
   }
 }

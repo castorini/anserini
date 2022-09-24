@@ -65,15 +65,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 sr
 
 With the above commands, you should be able to reproduce the following results:
 
-| MRR@100                                                                                                      | BM25      |
+| **MRR@100**                                                                                                  | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [Mr. TyDi (Indonesian): train](https://github.com/castorini/mr.tydi)                                         | 0.2972    |
 | [Mr. TyDi (Indonesian): dev](https://github.com/castorini/mr.tydi)                                           | 0.2937    |
 | [Mr. TyDi (Indonesian): test](https://github.com/castorini/mr.tydi)                                          | 0.3762    |
-
-
-| R@100                                                                                                        | BM25      |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
+| **R@100**                                                                                                    | **BM25**  |
 | [Mr. TyDi (Indonesian): train](https://github.com/castorini/mr.tydi)                                         | 0.7948    |
 | [Mr. TyDi (Indonesian): dev](https://github.com/castorini/mr.tydi)                                           | 0.7827    |
 | [Mr. TyDi (Indonesian): test](https://github.com/castorini/mr.tydi)                                          | 0.8426    |

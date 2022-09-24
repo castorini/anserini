@@ -187,6 +187,42 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 </details>
 
 <details>
+<summary>BEIR (v1.0.0): uniCOIL (noexp)</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-unicoil-noexp >& logs/log.beir-v1.0.0-trec-covid-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-unicoil-noexp >& logs/log.beir-v1.0.0-bioasq-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-unicoil-noexp >& logs/log.beir-v1.0.0-nfcorpus-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-unicoil-noexp >& logs/log.beir-v1.0.0-nq-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-unicoil-noexp >& logs/log.beir-v1.0.0-hotpotqa-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-unicoil-noexp >& logs/log.beir-v1.0.0-fiqa-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-unicoil-noexp >& logs/log.beir-v1.0.0-signal1m-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-unicoil-noexp >& logs/log.beir-v1.0.0-trec-news-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-unicoil-noexp >& logs/log.beir-v1.0.0-robust04-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-unicoil-noexp >& logs/log.beir-v1.0.0-arguana-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-unicoil-noexp >& logs/log.beir-v1.0.0-webis-touche2020-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-android-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-english-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-gaming-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-gis-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-physics-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-programmers-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-stats-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-tex-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-unix-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-webmasters-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-wordpress-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-unicoil-noexp >& logs/log.beir-v1.0.0-quora-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-unicoil-noexp >& logs/log.beir-v1.0.0-dbpedia-entity-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-unicoil-noexp >& logs/log.beir-v1.0.0-scidocs-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-unicoil-noexp >& logs/log.beir-v1.0.0-fever-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-unicoil-noexp >& logs/log.beir-v1.0.0-climate-fever-unicoil-noexp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-unicoil-noexp >& logs/log.beir-v1.0.0-scifact-unicoil-noexp &
+```
+</details>
+
+<details>
 <summary>BEIR (v1.0.0): "flat" baseline</summary>
 
 ```bash
@@ -311,6 +347,18 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression fire12-hi >& logs/log.fire12-hi &
 nohup python src/main/python/run_regression.py --index --verify --search --regression fire12-en >& logs/log.fire12-en &
 
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-fa >& logs/log.hc4-v1.0-fa &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-ru >& logs/log.hc4-v1.0-ru &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-zh >& logs/log.hc4-v1.0-zh &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa >& logs/log.hc4-neuclir22-fa &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru >& logs/log.hc4-neuclir22-ru &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh >& logs/log.hc4-neuclir22-zh &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa-en >& logs/log.hc4-neuclir22-fa-en &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru-en >& logs/log.hc4-neuclir22-ru-en &
+nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh-en >& logs/log.hc4-neuclir22-zh-en &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression disk12 >& logs/log.disk12 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression disk45 >& logs/log.disk45 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression robust05 >& logs/log.robust05 &
@@ -329,6 +377,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw09b >& logs/log.cw09b &
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw12b13 >& logs/log.cw12b13 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw12 >& logs/log.cw12 &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 >& logs/log.wikipedia-dpr-100w-bm25 &
 ```
 </details>
 

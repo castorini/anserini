@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.14.4-SNAPSHOT</version>
+  <version>0.15.1-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -26,7 +26,7 @@
   </developers>
 
   <properties>
-    <lucene.version>8.11.0</lucene.version>
+    <lucene.version>9.3.0</lucene.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -106,16 +106,16 @@
               <id>IndexCollection</id>
             </program>
             <program>
+              <mainClass>io.anserini.index.IndexVectorCollection</mainClass>
+              <id>IndexVectorCollection</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchSolr</mainClass>
-              <id>SearchSolr</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchElastic</mainClass>
-              <id>SearchElastic</id>
+              <mainClass>io.anserini.search.SearchVectorCollection</mainClass>
+              <id>SearchVectorCollection</id>
             </program>
             <program>
               <mainClass>io.anserini.search.SearchMsmarco</mainClass>
@@ -297,12 +297,37 @@
     </dependency>
     <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-analyzers-kuromoji</artifactId>
+      <artifactId>lucene-codecs</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-backward-codecs</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-queries</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-queryparser</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analysis-common</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analysis-kuromoji</artifactId>
       <version>${lucene.version}</version>
     </dependency>
     <dependency> <!-- polish and ukrainian -->
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-analyzers-morfologik</artifactId>
+      <artifactId>lucene-analysis-morfologik</artifactId>
       <version>${lucene.version}</version>
     </dependency>
     <dependency> <!-- only needed for testing -->
@@ -316,22 +341,6 @@
       <artifactId>junit</artifactId>
       <version>4.13.2</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-solrj</artifactId>
-      <version>${lucene.version}</version>
-    </dependency>
-    <dependency> <!-- only needed for testing -->
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-test-framework</artifactId>
-      <version>${lucene.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.elasticsearch.client</groupId>
-      <artifactId>elasticsearch-rest-high-level-client</artifactId>
-      <version>7.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.tukaani</groupId>
@@ -366,7 +375,7 @@
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
-      <version>1.14.2</version>
+      <version>1.15.3</version>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -391,9 +400,9 @@
       <version>1.7.32</version>
     </dependency>
     <dependency>
-      <groupId>io.anserini</groupId>
-      <artifactId>anserini-fastutil</artifactId>
-      <version>6.5.6</version>
+      <groupId>it.unimi.dsi</groupId>
+      <artifactId>fastutil</artifactId>
+      <version>8.5.8</version>
     </dependency>
     <dependency>
       <groupId>org.wikiclean</groupId>
@@ -437,6 +446,11 @@
       <version>1.8</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>1.9</version>
+    </dependency>
+    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>1.10.19</version>
@@ -460,6 +474,9 @@
       <groupId>ai.djl</groupId>
       <artifactId>api</artifactId>
       <version>0.16.0</version>
+      <groupId>ai.djl.huggingface</groupId>
+      <artifactId>tokenizers</artifactId>
+      <version>0.18.0</version>
     </dependency>
   </dependencies>
 </project>
