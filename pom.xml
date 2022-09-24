@@ -473,7 +473,7 @@
     <dependency>
       <groupId>ai.djl</groupId>
       <artifactId>api</artifactId>
-      <version>0.16.0</version>
+      <version>0.18.0</version>
     </dependency>
     <dependency>
       <groupId>ai.djl.huggingface</groupId>
