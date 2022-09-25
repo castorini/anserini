@@ -67,6 +67,7 @@ import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
 import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.te.TeluguAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
 import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
@@ -466,6 +467,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("sv")) {
       analyzer = new SwedishAnalyzer();
       LOG.info("Language: sv");
+    } else if (args.language.equals("te")) {
+      analyzer = new TeluguAnalyzer();
+      LOG.info("Language: te");
     } else if (args.language.equals("th")) {
       analyzer = new ThaiAnalyzer();
       LOG.info("Language: th");
