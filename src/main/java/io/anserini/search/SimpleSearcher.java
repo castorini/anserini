@@ -52,6 +52,7 @@ import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
 import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.te.TeluguAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
 import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
@@ -231,6 +232,8 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new RussianAnalyzer();
     } else if (language.equals("sv")) {
       this.analyzer = new SwedishAnalyzer();
+    } else if (language.equals("te")) {
+      this.analyzer = new TeluguAnalyzer();
     } else if (language.equals("th")) {
       this.analyzer = new ThaiAnalyzer();
     } else if (language.equals("tr")) {
