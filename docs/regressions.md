@@ -38,6 +38,7 @@ Copy and paste the following lines into console to run the regressions from the 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage >& logs/log.msmarco-passage &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bm25-b8 >& logs/log.msmarco-passage-bm25-b8 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-wp >& logs/log.msmarco-passage-wp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-hgf-wp >& logs/log.msmarco-passage-hgf-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-doc2query >& logs/log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-docTTTTTquery >& logs/log.msmarco-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-deepimpact >& logs/log.msmarco-passage-deepimpact &
@@ -49,6 +50,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp >& logs/log.msmarco-doc-wp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-hgf-wp >& logs/log.msmarco-doc-hgf-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-docTTTTTquery >& logs/log.msmarco-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented >& logs/log.msmarco-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-wp >& logs/log.msmarco-doc-segmented-wp &
@@ -59,6 +61,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage >& logs/log.dl19-passage &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-bm25-b8 >& logs/log.dl19-passage-bm25-b8 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-wp >& logs/log.dl19-passage-wp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-hgf-wp >& logs/log.dl19-passage-hgf-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-docTTTTTquery >& logs/log.dl19-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil >& logs/log.dl19-passage-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil-noexp >& logs/log.dl19-passage-unicoil-noexp &
@@ -66,6 +69,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc >& logs/log.dl19-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-wp >& logs/log.dl19-doc-wp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-hgf-wp >& logs/log.dl19-doc-hgf-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-docTTTTTquery >& logs/log.dl19-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented >& logs/log.dl19-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-wp >& logs/log.dl19-doc-segmented-wp &
@@ -76,6 +80,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage >& logs/log.dl20-passage &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-bm25-b8 >& logs/log.dl20-passage-bm25-b8 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-wp >& logs/log.dl20-passage-wp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-hgf-wp >& logs/log.dl20-passage-hgf-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-docTTTTTquery >& logs/log.dl20-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-unicoil >& logs/log.dl20-passage-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-unicoil-noexp >& logs/log.dl20-passage-unicoil-noexp &
@@ -83,6 +88,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-wp >& logs/log.dl20-doc-wp &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-hgf-wp >& logs/log.dl20-doc-hgf-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-docTTTTTquery >& logs/log.dl20-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented >& logs/log.dl20-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-wp >& logs/log.dl20-doc-segmented-wp &
