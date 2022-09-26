@@ -167,9 +167,29 @@ public class RocchioReranker implements Reranker {
     List<FeatureVector> docvectors = new ArrayList<>();
     for (int i = 0; i < numdocs; i++) {
       if (relevantFlag){
-        docVector = createDocumentVector(reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
-      }else{
-        docVector = createDocumentVector(reader.getTermVector(docs.ids[docs.ids.length-i-1], field), reader, tweetsearch);
+        Terms terms = reader.getTermVector(docs.ids[i], field);
+        if (terms != null) {
+          docVector = createDocumentVector(terms, reader, tweetsearch);
+        } else {
+//          System.out.println(reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+          System.out.println(docs.documents[i].getField(IndexArgs.RAW).stringValue());
+          System.out.println(docs.documents[i].getField(IndexArgs.CONTENTS).stringValue());
+
+          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
+                  reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+          docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
+        }
+      }else {
+        Terms terms = reader.getTermVector(docs.ids[docs.ids.length - i - 1], field);
+        if (terms != null) {
+          docVector = createDocumentVector(terms, reader, tweetsearch);
+        } else {
+          System.out.println(docs.documents[i].getField(IndexArgs.RAW).stringValue());
+          System.out.println(docs.documents[i].getField(IndexArgs.CONTENTS).stringValue());
+          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
+                  reader.document(docs.ids[docs.ids.length - i - 1]).getField(IndexArgs.RAW).stringValue());
+          docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
+        }
       }
       vocab.addAll(docVector.getFeatures());
       docvectors.add(docVector);
@@ -228,7 +248,7 @@ public class RocchioReranker implements Reranker {
     return f;
   }
 
-  private FeatureVector createDocumentVectorOnTheFly(Map<String, Integer> terms, IndexReader reader, boolean tweetsearch) throws IOException {
+  private FeatureVector createDocumentVectorOnTheFly(Map<String, Long> terms, IndexReader reader, boolean tweetsearch) throws IOException {
     FeatureVector f = new FeatureVector();
 
     int numDocs = reader.numDocs();

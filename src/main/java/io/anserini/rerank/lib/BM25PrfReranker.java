@@ -144,13 +144,20 @@ public class BM25PrfReranker implements Reranker {
 
     for (int i = 0; i < numFbDocs; i++) {
       try {
-        if (useRf && docs.scores[i] <= 0){
-          continue;
-        }
-        Terms terms = reader.getTermVector(docs.ids[i], field);
-        Set<String> termsStr = getTermsStr(terms);
-        docToTermsMap.put(docs.ids[i], termsStr);
-        vocab.addAll(termsStr);
+          if (useRf && docs.scores[i] <= 0) {
+              continue;
+          }
+          Terms terms = reader.getTermVector(docs.ids[i], field);
+          if (terms != null) {
+              Set<String> termsStr = getTermsStr(terms);
+              docToTermsMap.put(docs.ids[i], termsStr);
+              vocab.addAll(termsStr);
+          } else {
+              Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
+                      reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+              docToTermsMap.put(docs.ids[i], termFreqMap.keySet());
+              vocab.addAll(termFreqMap.keySet());
+          }
       } catch (IOException e) {
         e.printStackTrace();
       }

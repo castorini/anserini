@@ -16,6 +16,7 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.Reranker;
@@ -29,6 +30,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
@@ -124,18 +126,20 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final int M; // number of expansion terms
   private final float beta; // scaling parameter
   private final boolean outputQuery;
-  private final boolean searchTweets;
+    private final boolean searchTweets;
+    private final Analyzer analyzer;
 
-  public AxiomReranker(String originalIndexPath, String externalIndexPath, String field, boolean deterministic,
-                       long seed, int r, int n, float beta, int top, String docidsCachePath,
-                       boolean outputQuery, boolean searchTweets) throws IOException {
-    this.field = field;
-    this.deterministic = deterministic;
-    this.seed = seed;
-    this.R = r;
-    this.N = n;
-    this.M = top;
-    this.beta = beta;
+    public AxiomReranker(Analyzer analyzer, String originalIndexPath, String externalIndexPath, String field, boolean deterministic,
+                         long seed, int r, int n, float beta, int top, String docidsCachePath,
+                         boolean outputQuery, boolean searchTweets) throws IOException {
+        this.analyzer = analyzer;
+        this.field = field;
+        this.deterministic = deterministic;
+        this.seed = seed;
+        this.R = r;
+        this.N = n;
+        this.M = top;
+        this.beta = beta;
     this.originalIndexPath = originalIndexPath;
     this.externalIndexPath = externalIndexPath;
     this.outputQuery = outputQuery;
@@ -407,27 +411,41 @@ public class AxiomReranker<T> implements Reranker<T> {
     Map<String, Set<Integer>> termDocidSets = new HashMap<>();
     for (int docid : docIds) {
       Terms terms = reader.getTermVector(docid, IndexArgs.CONTENTS);
-      if (terms == null) {
-        LOG.warn("Document vector not stored for docid: " + docid);
-        continue;
-      }
-      TermsEnum te = terms.iterator();
-      if (te == null) {
-        LOG.warn("Document vector not stored for docid: " + docid);
-        continue;
-      }
-      while ((te.next()) != null) {
-        String term = te.term().utf8ToString();
-        // We do some noisy filtering here ... pure empirical heuristic
-        if (term.length() < 2) continue;
-        if (!term.matches("[a-z]+")) continue;
-        if (filterPattern == null || filterPattern.matcher(term).matches()) {
-          if (!termDocidSets.containsKey(term)) {
-            termDocidSets.put(term, new HashSet<>());
-          }
-          termDocidSets.get(term).add(docid);
+        if (terms == null) {
+            LOG.warn("Document vector not stored for docid: " + docid +
+                    "\nUse computed Document vector instead");
+            Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
+                    reader.document(docid).getField(IndexArgs.RAW).stringValue());
+            for (String term : termFreqMap.keySet()) {
+                // We do some noisy filtering here ... pure empirical heuristic
+                if (term.length() < 2) continue;
+                if (!term.matches("[a-z]+")) continue;
+                if (filterPattern == null || filterPattern.matcher(term).matches()) {
+                    if (!termDocidSets.containsKey(term)) {
+                        termDocidSets.put(term, new HashSet<>());
+                    }
+                    termDocidSets.get(term).add(docid);
+                }
+            }
+        } else {
+            TermsEnum te = terms.iterator();
+            if (te == null) {
+                LOG.warn("Document vector not stored for docid: " + docid);
+                continue;
+            }
+            while ((te.next()) != null) {
+                String term = te.term().utf8ToString();
+                // We do some noisy filtering here ... pure empirical heuristic
+                if (term.length() < 2) continue;
+                if (!term.matches("[a-z]+")) continue;
+                if (filterPattern == null || filterPattern.matcher(term).matches()) {
+                    if (!termDocidSets.containsKey(term)) {
+                        termDocidSets.put(term, new HashSet<>());
+                    }
+                    termDocidSets.get(term).add(docid);
+                }
+            }
         }
-      }
     }
     return termDocidSets;
   }

@@ -39,11 +39,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
@@ -148,8 +144,17 @@ public class Rm3Reranker implements Reranker {
         continue;
       }
       try {
-        FeatureVector docVector = createdFeatureVector(
-            reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
+        FeatureVector docVector;
+        Terms terms = reader.getTermVector(docs.ids[i], field);
+        if (terms != null) {
+          docVector = createdFeatureVector(terms, reader, tweetsearch);
+        } else {
+          System.out.println(reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
+                  reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+          docVector = createdFeatureVectorOnTheFly(termFreqMap, reader, tweetsearch);
+        }
+
         docVector.pruneToSize(fbTerms);
         vocab.addAll(docVector.getFeatures());
         docvectors.add(docVector);
@@ -255,9 +260,72 @@ public class Rm3Reranker implements Reranker {
 
     return f;
   }
-  
+
+  private FeatureVector createdFeatureVectorOnTheFly(Map<String, Long> terms, IndexReader reader, boolean tweetsearch) {
+    FeatureVector f = new FeatureVector();
+
+    try {
+      int numDocs = reader.numDocs();
+      for (String term : terms.keySet()) {
+        if (term.length() < 2 || term.length() > 20) continue;
+        if (this.filterTerms && !term.matches("[a-z0-9]+")) continue;
+
+        // This seemingly arbitrary logic needs some explanation. See following PR for details:
+        //   https://github.com/castorini/Anserini/pull/289
+        //
+        // We have long known that stopwords have a big impact in RM3. If we include stopwords
+        // in feedback, effectiveness is affected negatively. In the previous implementation, we
+        // built custom stopwords lists by selecting top k terms from the collection. We only
+        // had two stopwords lists, for gov2 and for Twitter. The gov2 list is used on all
+        // collections other than Twitter.
+        //
+        // The logic below instead uses a df threshold: If a term appears in more than n percent
+        // of the documents, then it is discarded as a feedback term. This heuristic has the
+        // advantage of getting rid of collection-specific stopwords lists, but at the cost of
+        // introducing an additional tuning parameter.
+        //
+        // Cognizant of the dangers of (essentially) tuning on test data, here's what I
+        // (@lintool) did:
+        //
+        // + For newswire collections, I picked a number, 10%, that seemed right. This value
+        //   actually increased effectiveness in most conditions across all newswire collections.
+        //
+        // + This 10% value worked fine on web collections; effectiveness didn't change much.
+        //
+        // Since this was the first and only heuristic value I selected, we're not really tuning
+        // parameters.
+        //
+        // The 10% threshold, however, doesn't work well on tweets because tweets are much
+        // shorter. Based on a list terms in the collection by df: For the Tweets2011 collection,
+        // I found a threshold close to a nice round number that approximated the length of the
+        // current stopwords list, by eyeballing the df values. This turned out to be 1%. I did
+        // this again for the Tweets2013 collection, using the same approach, and obtained a value
+        // of 0.7%.
+        //
+        // With both values, we obtained effectiveness pretty close to the old values with the
+        // custom stopwords list.
+        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+        float ratio = (float) df / numDocs;
+        if (tweetsearch) {
+          if (numDocs > 100000000) { // Probably Tweets2013
+            if (ratio > 0.007f) continue;
+          } else {
+            if (ratio > 0.01f) continue;
+          }
+        } else if (ratio > 0.1f) continue;
+        f.addFeatureValue(term, (float) terms.get(term));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Return empty feature vector
+      return f;
+    }
+
+    return f;
+  }
+
   @Override
   public String tag() {
-    return "Rm3(fbDocs="+fbDocs+",fbTerms="+fbTerms+",originalQueryWeight:"+originalQueryWeight+")";
+    return "Rm3(fbDocs=" + fbDocs + ",fbTerms=" + fbTerms + ",originalQueryWeight:" + originalQueryWeight + ")";
   }
 }

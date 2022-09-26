@@ -16,10 +16,12 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
@@ -32,25 +34,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.anserini.index.IndexArgs.CONTENTS;
-import static io.anserini.index.IndexArgs.ID;
+import static io.anserini.index.IndexArgs.*;
 import static io.anserini.index.generator.WashingtonPostGenerator.WashingtonPostField.PUBLISHED_DATE;
 
 /*
-* TREC News Track Background Linking task postprocessing.
-* Near-duplicate documents (similar/same with the query docid) will be removed by comparing
-* their cosine similarity with the query docid.
-*/
+ * TREC News Track Background Linking task postprocessing.
+ * Near-duplicate documents (similar/same with the query docid) will be removed by comparing
+ * their cosine similarity with the query docid.
+ */
 public class NewsBackgroundLinkingReranker implements Reranker {
-  @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    IndexReader reader = context.getIndexSearcher().getIndexReader();
-    String queryDocId = context.getQueryDocId();
-    final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
-    
-    List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
-    for (int i = 0; i < docs.documents.length; i++) {
-      String docid = docs.documents[i].getField(ID).stringValue();
+    private final Analyzer analyzer;
+
+    public NewsBackgroundLinkingReranker(Analyzer analyzer) {
+        this.analyzer = analyzer;
+    }
+
+    @Override
+    public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+        IndexReader reader = context.getIndexSearcher().getIndexReader();
+        String queryDocId = context.getQueryDocId();
+        final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
+
+        List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
+        for (int i = 0; i < docs.documents.length; i++) {
+            String docid = docs.documents[i].getField(ID).stringValue();
       docsVectorsMap.add(convertDocVectorToMap(reader, docid));
     }
     
@@ -106,14 +113,20 @@ public class NewsBackgroundLinkingReranker implements Reranker {
   private Map<String, Long> convertDocVectorToMap(IndexReader reader, String docid) {
     Map<String, Long> m = new HashMap<>();
     try {
-      Terms terms = reader.getTermVector(
-          IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), CONTENTS);
-      TermsEnum it = terms.iterator();
-      while (it.next() != null) {
-        String term = it.term().utf8ToString();
-        long tf = it.totalTermFreq();
-        m.put(term, tf);
-      }
+        Terms terms = reader.getTermVector(
+                IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), CONTENTS);
+        if (terms != null) {
+            TermsEnum it = terms.iterator();
+            while (it.next() != null) {
+                String term = it.term().utf8ToString();
+                long tf = it.totalTermFreq();
+                m.put(term, tf);
+            }
+        } else {
+            Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
+                    reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(RAW).stringValue());
+            return termFreqMap;
+        }
     } catch (Exception e) {
       e.printStackTrace();
     }

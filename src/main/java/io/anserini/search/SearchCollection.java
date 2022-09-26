@@ -601,10 +601,10 @@ public final class SearchCollection implements Closeable {
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 }
                 RerankerCascade cascade = new RerankerCascade(tag);
-                cascade.add(new AxiomReranker(args.index, args.axiom_index, IndexArgs.CONTENTS,
-                    args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
-                    Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
-                    args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
+                cascade.add(new AxiomReranker(analyzer, args.index, args.axiom_index, IndexArgs.CONTENTS,
+                        args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
+                        Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
+                        args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
                 cascade.add(new ScoreTiesAdjusterReranker());
                 cascades.add(cascade);
               }
@@ -860,7 +860,7 @@ public final class SearchCollection implements Closeable {
     ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
     // Perform post-processing (e.g., date filter, dedupping, etc.) as a final step.
-    return new NewsBackgroundLinkingReranker().rerank(docs, context);
+    return new NewsBackgroundLinkingReranker(analyzer).rerank(docs, context);
   }
 
   public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade, 
