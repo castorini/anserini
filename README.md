@@ -3,7 +3,7 @@ Anserini
 ========
 [![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
 [![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
-[![Generic badge](https://img.shields.io/badge/Lucene-v8.11.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/8.11.0/)
+[![Generic badge](https://img.shields.io/badge/Lucene-v9.3.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/9.3.0/)
 [![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini?color=brightgreen)](https://search.maven.org/search?q=a:anserini)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
@@ -63,6 +63,7 @@ See individual pages for details!
 | BoW baselines | [+](docs/regressions-msmarco-passage.md) | [+](docs/regressions-dl19-passage.md) | [+](docs/regressions-dl20-passage.md) |
 | Quantized BM25 | [✓](docs/regressions-msmarco-passage-bm25-b8.md) | [✓](docs/regressions-dl19-passage-bm25-b8.md) | [✓](docs/regressions-dl20-passage-bm25-b8.md) |
 | WP baselines | [+](docs/regressions-msmarco-passage-wp.md) | [+](docs/regressions-dl19-passage-wp.md) | [+](docs/regressions-dl20-passage-wp.md) |
+| Huggingface WP baselines | [+](docs/regressions-msmarco-passage-hgf-wp.md) | [+](docs/regressions-dl19-passage-hgf-wp.md) | [+](docs/regressions-dl20-passage-hgf-wp.md) |
 | doc2query | [+](docs/regressions-msmarco-passage-doc2query.md) |
 | doc2query-T5 | [+](docs/regressions-msmarco-passage-docTTTTTquery.md) | [+](docs/regressions-dl19-passage-docTTTTTquery.md) | [+](docs/regressions-dl20-passage-docTTTTTquery.md) |
 | **Learned sparse lexical (uniCOIL family)** |
@@ -81,6 +82,7 @@ See individual pages for details!
 | **Unsupervised lexical, complete doc**[*](docs/experiments-msmarco-doc-doc2query-details.md) |
 | BoW baselines | [+](docs/regressions-msmarco-doc.md) | [+](docs/regressions-dl19-doc.md) | [+](docs/regressions-dl20-doc.md) |
 | WP baselines | [+](docs/regressions-msmarco-doc-wp.md) | [+](docs/regressions-dl19-doc-wp.md) | [+](docs/regressions-dl20-doc-wp.md) |
+| Huggingface WP baselines | [+](docs/regressions-msmarco-doc-hgf-wp.md) | [+](docs/regressions-dl19-doc-hgf-wp.md) | [+](docs/regressions-dl20-doc-hgf-wp.md) |
 | doc2query-T5 | [+](docs/regressions-msmarco-doc-docTTTTTquery.md) | [+](docs/regressions-dl19-doc-docTTTTTquery.md) | [+](docs/regressions-dl20-doc-docTTTTTquery.md) |
 | **Unsupervised lexical, segmented doc**[*](docs/experiments-msmarco-doc-doc2query-details.md) |
 | BoW baselines | [+](docs/regressions-msmarco-doc-segmented.md) | [+](docs/regressions-dl19-doc-segmented.md) | [+](docs/regressions-dl20-doc-segmented.md) |
@@ -251,6 +253,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.15.0: September 22, 2022 [[Release Notes](docs/release-notes/release-notes-v0.15.0.md)]
 + v0.14.4: July 31, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.4.md)]
 + v0.14.3: May 9, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.3.md)]
 + v0.14.2: March 24, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.2.md)]

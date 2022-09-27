@@ -3,6 +3,16 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### September 22, 2022
+
++ commit [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f) (09/18/2022)
++ commit [`3dfce5`](https://github.com/castorini/anserini/commit/3dfce53e6985a9c05eea30a4350da165824fa7f2) (09/15/2022)
+
+Two major changes with regression impact:
+
++ Upgraded to `fastutil` 8.5.8 and fixed longstanding `FeatureVector` issue ([#840](https://github.com/castorini/anserini/issues/840)).
++ Upgraded to `jsoup` 1.15.3 to fix security vulnerability.
+
 ### August 15, 2022
 
 + commit [`cc6337`](https://github.com/castorini/anserini/commit/cc6337c582a9f3e8bdf6e4512f7fa56b45a50de2) (08/15/2022)

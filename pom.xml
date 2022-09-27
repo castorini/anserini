@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.15.0-SNAPSHOT</version>
+  <version>0.15.1-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -464,6 +464,11 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>30.1.1-jre</version>
+    </dependency>
+    <dependency>
+      <groupId>ai.djl.huggingface</groupId>
+      <artifactId>tokenizers</artifactId>
+      <version>0.18.0</version>
     </dependency>
   </dependencies>
 </project>
