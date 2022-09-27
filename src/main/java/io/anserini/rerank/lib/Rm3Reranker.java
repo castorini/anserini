@@ -48,6 +48,7 @@ public class Rm3Reranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
 
   private final Analyzer analyzer;
+  private final Class parser;
   private final String field;
 
   private final int fbTerms;
@@ -56,8 +57,9 @@ public class Rm3Reranker implements Reranker {
   private final boolean outputQuery;
   private final boolean filterTerms;
 
-  public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
+  public Rm3Reranker(Analyzer analyzer, Class parser, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     this.analyzer = analyzer;
+    this.parser = parser;
     this.field = field;
     this.fbTerms = fbTerms;
     this.fbDocs = fbDocs;
@@ -68,7 +70,7 @@ public class Rm3Reranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    assert(docs.documents.length == docs.scores.length);
+    assert (docs.documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
@@ -132,8 +134,7 @@ public class Rm3Reranker implements Reranker {
     int numdocs;
     if (useRf) {
       numdocs = docs.documents.length;
-    }
-    else {
+    } else {
       numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
     }
 
@@ -149,9 +150,11 @@ public class Rm3Reranker implements Reranker {
         if (terms != null) {
           docVector = createdFeatureVector(terms, reader, tweetsearch);
         } else {
-          System.out.println(reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
-          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
-                  reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+          if (parser == null) {
+            throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
+          }
+          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
+              reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
           docVector = createdFeatureVectorOnTheFly(termFreqMap, reader, tweetsearch);
         }
 

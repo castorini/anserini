@@ -69,6 +69,7 @@ public class BM25PrfReranker implements Reranker {
 
   private final int fbDocs;
   private final Analyzer analyzer;
+  private final Class parser;
   private final String field;
   private final boolean outputQuery;
   private final int fbTerms;
@@ -76,8 +77,9 @@ public class BM25PrfReranker implements Reranker {
   private final float b;
   private final float newTermWeight;
 
-  public BM25PrfReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float k1, float b, float newTermWeight, boolean outputQuery) {
+  public BM25PrfReranker(Analyzer analyzer, Class parser, String field, int fbTerms, int fbDocs, float k1, float b, float newTermWeight, boolean outputQuery) {
     this.analyzer = analyzer;
+    this.parser = parser;
     this.outputQuery = outputQuery;
     this.field = field;
     this.fbTerms = fbTerms;
@@ -135,7 +137,7 @@ public class BM25PrfReranker implements Reranker {
 
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
     int numFbDocs;
-    if (useRf){
+    if (useRf) {
       numFbDocs = docs.documents.length;
     } else {
       numFbDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
@@ -144,20 +146,23 @@ public class BM25PrfReranker implements Reranker {
 
     for (int i = 0; i < numFbDocs; i++) {
       try {
-          if (useRf && docs.scores[i] <= 0) {
-              continue;
+        if (useRf && docs.scores[i] <= 0) {
+          continue;
+        }
+        Terms terms = reader.getTermVector(docs.ids[i], field);
+        if (terms != null) {
+          Set<String> termsStr = getTermsStr(terms);
+          docToTermsMap.put(docs.ids[i], termsStr);
+          vocab.addAll(termsStr);
+        } else {
+          if (parser == null) {
+            throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
-          Terms terms = reader.getTermVector(docs.ids[i], field);
-          if (terms != null) {
-              Set<String> termsStr = getTermsStr(terms);
-              docToTermsMap.put(docs.ids[i], termsStr);
-              vocab.addAll(termsStr);
-          } else {
-              Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
-                      reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
-              docToTermsMap.put(docs.ids[i], termFreqMap.keySet());
-              vocab.addAll(termFreqMap.keySet());
-          }
+          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
+              reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+          docToTermsMap.put(docs.ids[i], termFreqMap.keySet());
+          vocab.addAll(termFreqMap.keySet());
+        }
       } catch (IOException e) {
         e.printStackTrace();
       }

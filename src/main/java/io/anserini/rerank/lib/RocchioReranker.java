@@ -47,6 +47,7 @@ public class RocchioReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(RocchioReranker.class);
 
   private final Analyzer analyzer;
+  private final Class parser;
   private final String field;
 
   private final int topFbTerms;
@@ -59,8 +60,9 @@ public class RocchioReranker implements Reranker {
   private final boolean outputQuery;
   private final boolean useNegative;
 
-  public RocchioReranker(Analyzer analyzer, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+  public RocchioReranker(Analyzer analyzer, Class parser, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     this.analyzer = analyzer;
+    this.parser = parser;
     this.field = field;
     this.topFbTerms = topFbTerms;
     this.topFbDocs = topFbDocs;
@@ -75,7 +77,7 @@ public class RocchioReranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    assert(docs.documents.length == docs.scores.length);
+    assert (docs.documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
@@ -85,12 +87,11 @@ public class RocchioReranker implements Reranker {
 
     // Compute q_original:
     FeatureVector queryVector = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL2Norm();
-
     // Compute mean(top k relevant document vectors):
     FeatureVector meanRelevantDocumentVector;
     boolean relevantFlag;
     try {
-      relevantFlag = true; 
+      relevantFlag = true;
       meanRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, topFbTerms, topFbDocs, relevantFlag);
     } catch (IOException e) {
       // If we run into any issues, just return the original results - as if we never performed feedback.
@@ -102,7 +103,7 @@ public class RocchioReranker implements Reranker {
     FeatureVector meanNonRelevantDocumentVector;
     if (useNegative != false) {
       try {
-        relevantFlag = false; 
+        relevantFlag = false;
         meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
       } catch (IOException e) {
         // If we run into any issues, just return the original results - as if we never performed feedback.
@@ -123,6 +124,7 @@ public class RocchioReranker implements Reranker {
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), boost), BooleanClause.Occur.SHOULD);
     });
     Query feedbackQuery = feedbackQueryBuilder.build();
+
 
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());
@@ -156,7 +158,7 @@ public class RocchioReranker implements Reranker {
     return ScoredDocuments.fromTopDocs(results, searcher);
   }
 
-  private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, int fbTerms, int fbDocs, boolean relevantFlag) throws IOException {
+  private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, int fbTerms, int fbDocs, boolean relevantFlag) throws IOException, NullPointerException {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();
@@ -166,35 +168,26 @@ public class RocchioReranker implements Reranker {
 
     List<FeatureVector> docvectors = new ArrayList<>();
     for (int i = 0; i < numdocs; i++) {
-      if (relevantFlag){
-        Terms terms = reader.getTermVector(docs.ids[i], field);
-        if (terms != null) {
-          docVector = createDocumentVector(terms, reader, tweetsearch);
-        } else {
-//          System.out.println(reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
-          System.out.println(docs.documents[i].getField(IndexArgs.RAW).stringValue());
-          System.out.println(docs.documents[i].getField(IndexArgs.CONTENTS).stringValue());
-
-          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
-                  reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
-          docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
+      int docid;
+      if (relevantFlag) {
+        docid = docs.ids[i];
+      } else {
+        docid = docs.ids[docs.ids.length - i - 1];
+      }
+      Terms terms = reader.getTermVector(docid, field);
+      if (terms != null) {
+        docVector = createDocumentVector(terms, reader, tweetsearch);
+      } else {
+        if (parser == null) {
+          throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
         }
-      }else {
-        Terms terms = reader.getTermVector(docs.ids[docs.ids.length - i - 1], field);
-        if (terms != null) {
-          docVector = createDocumentVector(terms, reader, tweetsearch);
-        } else {
-          System.out.println(docs.documents[i].getField(IndexArgs.RAW).stringValue());
-          System.out.println(docs.documents[i].getField(IndexArgs.CONTENTS).stringValue());
-          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
-                  reader.document(docs.ids[docs.ids.length - i - 1]).getField(IndexArgs.RAW).stringValue());
-          docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
-        }
+        Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
+            reader.document(docid).getField(IndexArgs.RAW).stringValue());
+        docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
       }
       vocab.addAll(docVector.getFeatures());
       docvectors.add(docVector);
     }
-
     // Precompute the norms once and cache results.
     float[] norms = new float[docvectors.size()];
     for (int i = 0; i < docvectors.size(); i++) {
@@ -206,7 +199,7 @@ public class RocchioReranker implements Reranker {
       float termWeight = 0.0f;
       for (int i = 0; i < docvectors.size(); i++) {
         // Avoids zero-length feedback documents, which causes division by zero when computing term weights.
-        // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
+        // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms
         // that contain accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
           termWeight += (docvectors.get(i).getValue(term) / norms[i]);
@@ -217,7 +210,6 @@ public class RocchioReranker implements Reranker {
 
     f.pruneToSize(fbTerms);
     f.scaleToUnitL2Norm();
-
     return f;
   }
 
@@ -280,16 +272,16 @@ public class RocchioReranker implements Reranker {
 
     vocab.iterator().forEachRemaining(feature -> {
       float weighted_score = alpha * a.getValue(feature) + beta * b.getValue(feature) - gamma * c.getValue(feature);
-      if (weighted_score > 0){
+      if (weighted_score > 0) {
         z.addFeatureValue(feature, weighted_score);
       }
     });
 
     return z;
   }
-  
+
   @Override
   public String tag() {
-    return "Rocchio(topFbDocs="+topFbDocs+",topFbTerms="+topFbTerms+"bottomFbDocs="+bottomFbDocs+",bottomFbTerms="+bottomFbTerms+",alpha:"+alpha+",beta:"+beta+",gamma:"+gamma+")";
+    return "Rocchio(topFbDocs=" + topFbDocs + ",topFbTerms=" + topFbTerms + "bottomFbDocs=" + bottomFbDocs + ",bottomFbTerms=" + bottomFbTerms + ",alpha:" + alpha + ",beta:" + beta + ",gamma:" + gamma + ")";
   }
 }

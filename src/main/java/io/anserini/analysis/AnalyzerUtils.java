@@ -16,6 +16,9 @@
 
 package io.anserini.analysis;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -78,4 +81,20 @@ public class AnalyzerUtils {
     return termFreqMap;
   }
 
+  static public Map<String, Long> computeDocumentVector(Analyzer analyzer, Class parser, String s) {
+    ObjectMapper mapper = new ObjectMapper();
+    String content;
+    SourceDocument sDoc;
+
+    // TODO: analyze each collection case more carefully to catch as many case as possible
+    try {
+      JsonNode actualObj = mapper.readTree(s);
+      sDoc = (SourceDocument) parser.getConstructor(JsonNode.class).newInstance(actualObj);
+      content = sDoc.contents();
+//      System.out.println("computeDocumentVector: " + content);
+    } catch (Exception e) {
+      return computeDocumentVector(analyzer, s);
+    }
+    return computeDocumentVector(analyzer, content);
+  }
 }

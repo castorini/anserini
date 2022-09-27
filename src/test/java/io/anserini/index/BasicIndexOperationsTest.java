@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import io.anserini.IndexerTestBase;
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.JsonCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
@@ -69,7 +70,7 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
       while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
         System.out.print(String.format(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq()));
         System.out.print(" [");
-        for (int j=0; j<postingsEnum.freq(); j++) {
+        for (int j = 0; j < postingsEnum.freq(); j++) {
           System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
         }
         System.out.print("]");
@@ -184,7 +185,7 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
-    for (int i=0; i<numDocs; i++) {
+    for (int i = 0; i < numDocs; i++) {
       System.out.println(reader.document(i));
       Terms terms = reader.getTermVector(i, "contents");
       TermsEnum te = terms.iterator();
@@ -207,14 +208,15 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
     Analyzer analyzer = new EnglishAnalyzer();
+    Class parser = Class.forName("io.anserini.collection.JsonCollection$Document");
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
     for (int i = 0; i < numDocs; i++) {
       Terms terms = reader.getTermVector(i, "contents");
       // Compute Doc Vector without using stored vector
-      Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer,
-              reader.document(i).getField("contents").stringValue());
+      Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
+          reader.document(i).getField("raw").stringValue());
       TermsEnum te = terms.iterator();
       // For this document, iterate through the terms.
       Term term;
@@ -237,10 +239,10 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
-    for (int i=0; i<numDocs; i++) {
+    for (int i = 0; i < numDocs; i++) {
       String docid = reader.document(i).getField("id").stringValue();
       System.out.println(reader.document(i));
-      System.out.println(i+ ": " + docid);
+      System.out.println(i + ": " + docid);
       Terms terms = reader.getTermVector(i, "contents");
       TermsEnum te = terms.iterator();
 

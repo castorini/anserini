@@ -153,6 +153,8 @@ public final class SearchCollection implements Closeable {
   private final SearchArgs args;
   private final IndexReader reader;
   private final Analyzer analyzer;
+  private final Class collectionClass;
+  private final Class documentClass;
   private List<TaggedSimilarity> similarities;
   private List<RerankerCascade> cascades;
   private final boolean isRerank;
@@ -303,7 +305,7 @@ public final class SearchCollection implements Closeable {
 
         try {
           // Wait for existing tasks to terminate.
-          while (!executor.awaitTermination(1, TimeUnit.MINUTES));
+          while (!executor.awaitTermination(1, TimeUnit.MINUTES)) ;
         } catch (InterruptedException ie) {
           // (Re-)Cancel if current thread also interrupted.
           executor.shutdownNow();
@@ -314,7 +316,7 @@ public final class SearchCollection implements Closeable {
 
         LOG.info(desc + ": " + topics.size() + " queries processed in " +
             DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-            String.format(" = ~%.2f q/s", topics.size()/(durationMillis/1000.0)));
+            String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
 
         // Now we write the results to a run file.
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
@@ -396,6 +398,30 @@ public final class SearchCollection implements Closeable {
       } catch (Exception e) {
         throw new IllegalArgumentException("Error parsing -fields parameter: " + Arrays.toString(args.fields));
       }
+    }
+
+    // get collection class if available
+    if (args.collectionClass != null) {
+      Class getCollectionClass;
+      Class getDocumentClass;
+      try {
+        getCollectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
+      } catch (ClassNotFoundException e) {
+        getCollectionClass = null;
+        System.out.println("collectionClass: " + args.collectionClass + " NOT FOUND!");
+      }
+      try {
+        getDocumentClass = Class.forName("io.anserini.collection." + args.collectionClass + "$Document");
+      } catch (ClassNotFoundException e) {
+        getDocumentClass = null;
+        LOG.info("getDocumentClass: " + args.collectionClass + ".Document NOT FOUND!");
+        System.out.println("getDocumentClass: " + args.collectionClass + ".Document NOT FOUND!");
+      }
+      this.collectionClass = getCollectionClass;
+      this.documentClass = getDocumentClass;
+    } else {
+      this.collectionClass = null;
+      this.documentClass = null;
     }
 
     // Are we searching tweets?
@@ -490,8 +516,8 @@ public final class SearchCollection implements Closeable {
 
     isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
 
-    if (this.isRerank && args.rf_qrels != null){
-      loadQrels(args.rf_qrels);      
+    if (this.isRerank && args.rf_qrels != null) {
+      loadQrels(args.rf_qrels);
     }
 
     // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
@@ -571,16 +597,16 @@ public final class SearchCollection implements Closeable {
         for (String fbDocs : args.rm3_fbDocs) {
           for (String originalQueryWeight : args.rm3_originalQueryWeight) {
             String tag;
-            if (this.args.rf_qrels != null){
+            if (this.args.rf_qrels != null) {
               tag = String.format("rm3Rf(fbTerms=%s,originalQueryWeight=%s)",
-                fbTerms, originalQueryWeight);
-            } else{
+                  fbTerms, originalQueryWeight);
+            } else {
               tag = String.format("rm3(fbTerms=%s,fbDocs=%s,originalQueryWeight=%s)",
-                fbTerms, fbDocs, originalQueryWeight);
+                  fbTerms, fbDocs, originalQueryWeight);
             }
 
             RerankerCascade cascade = new RerankerCascade(tag);
-            cascade.add(new Rm3Reranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
+            cascade.add(new Rm3Reranker(analyzer, documentClass, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                 Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery,
                 !args.rm3_noTermFilter));
             cascade.add(new ScoreTiesAdjusterReranker());
@@ -595,16 +621,16 @@ public final class SearchCollection implements Closeable {
             for (String top : args.axiom_top) {
               for (String seed : args.axiom_seed) {
                 String tag;
-                if (this.args.rf_qrels != null){
+                if (this.args.rf_qrels != null) {
                   tag = String.format("axRf(seed=%s,n=%s,beta=%s,top=%s)", seed, n, beta, top);
-                } else{
+                } else {
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 }
                 RerankerCascade cascade = new RerankerCascade(tag);
-                cascade.add(new AxiomReranker(analyzer, args.index, args.axiom_index, IndexArgs.CONTENTS,
-                        args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
-                        Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
-                        args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
+                cascade.add(new AxiomReranker(analyzer, documentClass, args.index, args.axiom_index, IndexArgs.CONTENTS,
+                    args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
+                    Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
+                    args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
                 cascade.add(new ScoreTiesAdjusterReranker());
                 cascades.add(cascade);
               }
@@ -619,15 +645,15 @@ public final class SearchCollection implements Closeable {
             for (String b : args.bm25prf_b) {
               for (String newTermWeight : args.bm25prf_newTermWeight) {
                 String tag;
-                if (this.args.rf_qrels != null){
+                if (this.args.rf_qrels != null) {
                   tag = String.format("bm25Rf(fbTerms=%s,k1=%s,b=%s,newTermWeight=%s)",
-                    fbTerms, k1, b, newTermWeight);
-                } else{
+                      fbTerms, k1, b, newTermWeight);
+                } else {
                   tag = String.format("bm25prf(fbTerms=%s,fbDocs=%s,k1=%s,b=%s,newTermWeight=%s)",
-                    fbTerms, fbDocs, k1, b, newTermWeight);
+                      fbTerms, fbDocs, k1, b, newTermWeight);
                 }
                 RerankerCascade cascade = new RerankerCascade(tag);
-                cascade.add(new BM25PrfReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
+                cascade.add(new BM25PrfReranker(analyzer, documentClass, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                     Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
                     args.bm25prf_outputQuery));
                 cascade.add(new ScoreTiesAdjusterReranker());
@@ -646,16 +672,16 @@ public final class SearchCollection implements Closeable {
                 for (String beta : args.rocchio_beta) {
                   for (String gamma : args.rocchio_gamma) {
                     String tag;
-                    if (args.rocchio_useNegative == false){
+                    if (args.rocchio_useNegative == false) {
                       gamma = "0";
                     }
-                    if (this.args.rf_qrels != null){
+                    if (this.args.rf_qrels != null) {
                       tag = String.format("rocchioRf(topFbTerms=%s,bottomFbTerms=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, bottomFbTerms, alpha, beta, gamma);
-                    } else{
+                    } else {
                       tag = String.format("rocchio(topFbTerms=%s,topFbDocs=%s,bottomFbTerms=%s,bottomFbDocs=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma);
                     }
                     RerankerCascade cascade = new RerankerCascade(tag);
-                    cascade.add(new RocchioReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
+                    cascade.add(new RocchioReranker(analyzer, documentClass, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
                         Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms), Integer.valueOf(bottomFbDocs),
                         Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
                     cascade.add(new ScoreTiesAdjusterReranker());
@@ -667,7 +693,7 @@ public final class SearchCollection implements Closeable {
           }
         }
       }
-    }else {
+    } else {
       RerankerCascade cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.add(cascade);
@@ -681,7 +707,7 @@ public final class SearchCollection implements Closeable {
     LOG.info("rf_qrels: " + rf_qrels);
     Path rfQrelsFilePath = Paths.get(rf_qrels);
     if (!Files.exists(rfQrelsFilePath) || !Files.isRegularFile(rfQrelsFilePath) || !Files.isReadable(rfQrelsFilePath)) {
-        throw new IllegalArgumentException("Qrels file : " + rfQrelsFilePath + " does not exist or is not a (readable) file.");
+      throw new IllegalArgumentException("Qrels file : " + rfQrelsFilePath + " does not exist or is not a (readable) file.");
     }
     Map<String, Map<String, Integer>> qrelsDocs = new HashMap<>();
     this.queriesWithRel = new HashSet<>();
@@ -689,7 +715,7 @@ public final class SearchCollection implements Closeable {
     BufferedInputStream in = new BufferedInputStream(fin);
     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
     for (String line : IOUtils.readLines(reader)) {
-      String[] cols = line.split("\\s+"); 
+      String[] cols = line.split("\\s+");
       int rel = Integer.valueOf(cols[3]);
       String qid = cols[0];
       if (rel > 0) {
@@ -697,7 +723,7 @@ public final class SearchCollection implements Closeable {
       }
       String fbDocid = cols[2];
       Map<String, Integer> queryQrelsDocs = qrelsDocs.get(qid);
-      if (queryQrelsDocs == null){
+      if (queryQrelsDocs == null) {
         queryQrelsDocs = new HashMap<>();
         qrelsDocs.put(qid, queryQrelsDocs);
       }
@@ -711,7 +737,7 @@ public final class SearchCollection implements Closeable {
       this.qrels.put(qid, ScoredDocuments.fromQrels(queryQrelsDocs, this.reader));
     }
 
-  } 
+  }
 
   @SuppressWarnings("unchecked")
   public <K> void runTopics() throws IOException {
@@ -805,11 +831,11 @@ public final class SearchCollection implements Closeable {
 
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
-    ScoredDocuments scoredFbDocs; 
-    if ( isRerank && args.rf_qrels != null) {
-      if (hasRelDocs){
+    ScoredDocuments scoredFbDocs;
+    if (isRerank && args.rf_qrels != null) {
+      if (hasRelDocs) {
         scoredFbDocs = queryQrels;
-      } else{//if no relevant documents, only perform score based tie breaking next
+      } else {//if no relevant documents, only perform score based tie breaking next
         LOG.info("No relevant documents for " + qid.toString());
         scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
         cascade = new RerankerCascade();
@@ -860,10 +886,10 @@ public final class SearchCollection implements Closeable {
     ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
     // Perform post-processing (e.g., date filter, dedupping, etc.) as a final step.
-    return new NewsBackgroundLinkingReranker(analyzer).rerank(docs, context);
+    return new NewsBackgroundLinkingReranker(analyzer, documentClass).rerank(docs, context);
   }
 
-  public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade, 
+  public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade,
                                           ScoredDocuments queryQrels, boolean hasRelDocs) throws IOException {
     Query keywordQuery;
     if (args.sdm) {
@@ -895,17 +921,17 @@ public final class SearchCollection implements Closeable {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, 
-                             BREAK_SCORE_TIES_BY_TWEETID, true);
+        rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
+            BREAK_SCORE_TIES_BY_TWEETID, true);
       }
     }
 
     RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
-    ScoredDocuments scoredFbDocs; 
-    if ( isRerank && args.rf_qrels != null) {
+    ScoredDocuments scoredFbDocs;
+    if (isRerank && args.rf_qrels != null) {
       if (hasRelDocs) {
         scoredFbDocs = queryQrels;
-      } else{//if no relevant documents, only perform score based tie breaking next
+      } else {//if no relevant documents, only perform score based tie breaking next
         scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
         cascade = new RerankerCascade();
         cascade.add(new ScoreTiesAdjusterReranker());
@@ -914,7 +940,7 @@ public final class SearchCollection implements Closeable {
       scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
     }
 
-    return cascade.run(scoredFbDocs,  context);
+    return cascade.run(scoredFbDocs, context);
   }
 
   public static void main(String[] args) throws Exception {
