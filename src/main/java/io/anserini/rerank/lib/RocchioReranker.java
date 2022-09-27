@@ -39,7 +39,12 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 
@@ -118,18 +123,23 @@ public class RocchioReranker implements Reranker {
     FeatureVector weightedVector = computeWeightedVector(queryVector, meanRelevantDocumentVector, meanNonRelevantDocumentVector, alpha, beta, gamma);
 
     // Use the weights as boosts to a second-round Lucene query:
+    Map<String, Float> feedbackTerms = new HashMap<>();
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
     weightedVector.iterator().forEachRemaining(term -> {
       float boost = weightedVector.getValue(term);
+      feedbackTerms.put(term, boost);
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), boost), BooleanClause.Occur.SHOULD);
     });
+
     Query feedbackQuery = feedbackQueryBuilder.build();
+    context.feedbackTerms = feedbackTerms;
 
 
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());
       LOG.info("Original Query: " + context.getQuery().toString(this.field));
-      LOG.info("Running new query: " + feedbackQuery.toString(this.field));
+      LOG.info("Feedback Query: " + feedbackQuery.toString(this.field));
+      feedbackTerms.forEach((k, v) -> LOG.info("Feedback term: " + k + " -> " + v));
     }
 
     TopDocs results;

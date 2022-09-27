@@ -52,6 +52,7 @@ import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
 import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.te.TeluguAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
 import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
@@ -231,6 +232,8 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new RussianAnalyzer();
     } else if (language.equals("sv")) {
       this.analyzer = new SwedishAnalyzer();
+    } else if (language.equals("te")) {
+      this.analyzer = new TeluguAnalyzer();
     } else if (language.equals("th")) {
       this.analyzer = new ThaiAnalyzer();
     } else if (language.equals("tr")) {
@@ -623,6 +626,48 @@ public class SimpleSearcher implements Closeable {
     }
 
     return results;
+  }
+
+  /**
+   * Returns a map of the feedback terms.
+   *
+   * @param q query
+   * @return map of the feedback terms and their weights
+   * @throws IOException if error encountered during search
+   */
+  public Map<String, Float> get_feedback_terms(String q) throws IOException {
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
+
+    return _get_feedback_terms(query, queryTokens, q, 10);
+  }
+
+  // internal implementation:
+  // This initial implementation is very janky. We basically still perform retrieval, but just throw away the results.
+  protected Map<String, Float> _get_feedback_terms(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
+    // Create an IndexSearch only once. Note that the object is thread safe.
+    if (searcher == null) {
+      searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(similarity);
+    }
+
+    SearchArgs searchArgs = new SearchArgs();
+    searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
+    searchArgs.hits = k;
+
+    TopDocs rs;
+    RerankerContext context;
+    if (this.backwardsCompatibilityLucene8) {
+      rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k);
+    } else {
+      rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    }
+    context = new RerankerContext<>(searcher, null, query, null,
+        queryString, queryTokens, null, searchArgs);
+
+    cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+
+    return context.feedbackTerms;
   }
 
   /**

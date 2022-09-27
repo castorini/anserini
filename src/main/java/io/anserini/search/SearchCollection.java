@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
@@ -66,6 +67,7 @@ import org.apache.lucene.analysis.no.NorwegianAnalyzer;
 import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
 import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.te.TeluguAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
 import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
@@ -428,6 +430,9 @@ public final class SearchCollection implements Closeable {
     if (args.searchtweets) {
       LOG.info("Searching tweets? true");
       analyzer = new TweetAnalyzer();
+    } else if (args.analyzeWithHuggingFaceTokenizer != null){
+      analyzer = new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
+      LOG.info("Bert Tokenizer");
     } else if (args.language.equals("ar")) {
       analyzer = new ArabicAnalyzer();
       LOG.info("Language: ar");
@@ -488,6 +493,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.language.equals("sv")) {
       analyzer = new SwedishAnalyzer();
       LOG.info("Language: sv");
+    } else if (args.language.equals("te")) {
+      analyzer = new TeluguAnalyzer();
+      LOG.info("Language: te");
     } else if (args.language.equals("th")) {
       analyzer = new ThaiAnalyzer();
       LOG.info("Language: th");
