@@ -48,7 +48,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
     id: dev
-    path: topics.msmarco-doc.dev.wp.tsv.gz
+    path: topics.msmarco-doc.dev.txt
     qrel: qrels.msmarco-doc.dev.txt
 
 models:
