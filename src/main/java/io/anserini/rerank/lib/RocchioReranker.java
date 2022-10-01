@@ -92,6 +92,7 @@ public class RocchioReranker implements Reranker {
 
     // Compute q_original:
     FeatureVector queryVector = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL2Norm();
+
     // Compute mean(top k relevant document vectors):
     FeatureVector meanRelevantDocumentVector;
     boolean relevantFlag;
@@ -198,6 +199,7 @@ public class RocchioReranker implements Reranker {
       vocab.addAll(docVector.getFeatures());
       docvectors.add(docVector);
     }
+
     // Precompute the norms once and cache results.
     float[] norms = new float[docvectors.size()];
     for (int i = 0; i < docvectors.size(); i++) {
@@ -220,6 +222,7 @@ public class RocchioReranker implements Reranker {
 
     f.pruneToSize(fbTerms);
     f.scaleToUnitL2Norm();
+
     return f;
   }
 

@@ -294,6 +294,7 @@ public class AxiomReranker<T> implements Reranker<T> {
    *
    * @param docs The initial ranking results against target index. We will return them if external
    *             index is null.
+   *
    * @return Top ranked ScoredDocuments from searching external index
    */
   private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext<T> context) throws IOException {
