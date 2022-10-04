@@ -3,6 +3,17 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### October 4, 2022
+
++ commit [`c7addf`](https://github.com/castorini/anserini/commit/c7addf4528c817baebbf8c2d9be27c38d041e066) (10/03/2022)
++ commit [`4a9a97`](https://github.com/castorini/anserini/commit/4a9a97c9666da69db54ccdf308f17ebc606dd1e0) (10/01/2022)
++ commit [`b5ecc5`](https://github.com/castorini/anserini/commit/b5ecc5aff79ddfc82b175f6bd3048f5039f0480f) (09/26/2022)
+
+The two changes referenced here are:
+
++ Added MS MARCO V1/ DL19/ DL20 passage/document regressions based BERT WordPiece tokenization using `HuggingFaceTokenizerAnalyzer` added in [#1969](https://github.com/castorini/anserini/pull/1969). ref issue [#1978](https://github.com/castorini/anserini/issues/1978)
++ Updated MrTydi Te regressions following the addition of an Analyzer for Telugu in Lucene 9 referenced by this issue [#1982](https://github.com/castorini/anserini/issues/1982)
+
 ### September 22, 2022
 
 + commit [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f) (09/18/2022)
