@@ -6,6 +6,7 @@ This documentation is useful for figuring why results may have changed over time
 ### October 4, 2022
 
 + commit [`c7addf`](https://github.com/castorini/anserini/commit/c7addf4528c817baebbf8c2d9be27c38d041e066) (10/03/2022)
++ commit [`4a9a97`](https://github.com/castorini/anserini/commit/4a9a97c9666da69db54ccdf308f17ebc606dd1e0) (10/01/2022)
 + commit [`b5ecc5`](https://github.com/castorini/anserini/commit/b5ecc5aff79ddfc82b175f6bd3048f5039f0480f) (09/26/2022)
 
 The two changes referenced here are:
