@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 /**
  * A BibTex document collection.
@@ -44,14 +45,22 @@ import java.util.NoSuchElementException;
 public class BibtexCollection extends DocumentCollection<BibtexCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(BibtexCollection.class);
 
-  public BibtexCollection(Path path){
+  public BibtexCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".bib"));
+  }
+
+  public BibtexCollection() {
   }
 
   @Override
   public FileSegment<BibtexCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<BibtexCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -60,6 +69,7 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
   public static class Segment extends FileSegment<BibtexCollection.Document> {
     private Iterator<Map.Entry<Key, BibTeXEntry>> iterator = null; // iterator for JSON document array
     private BibTeXDatabase database;
+    private String rawContent = null; // raw content from buffered string
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -72,22 +82,32 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
         throw new IOException(e);
       }
       try {
-       database = bibtexParser.parse(bufferedReader);
+        database = bibtexParser.parse(bufferedReader);
       } catch (ParseException | TokenMgrException | ObjectResolutionException e) {
-        LOG.error("Error: Could not parse BibTeX" + e.getMessage()); 
+        LOG.error("Error: Could not parse BibTeX" + e.getMessage());
         throw new IOException(e);
       }
       Map<Key, BibTeXEntry> entryMap = database.getEntries();
       iterator = entryMap.entrySet().iterator();
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      rawContent = bufferedReader.lines().collect(Collectors.joining("\n"));
+    }
+
     @Override
     public void readNext() throws NoSuchElementException {
-      if (iterator.hasNext()) {
-        Map.Entry<Key, BibTeXEntry> entry = iterator.next();
-        bufferedRecord = new BibtexCollection.Document(entry);
+      if (rawContent != null) {
+        bufferedRecord = new BibtexCollection.Document(rawContent);
+        rawContent = null;
       } else {
-        throw new NoSuchElementException("Reached end of BibtexDatabase Entries iterator");
+        if (iterator.hasNext()) {
+          Map.Entry<Key, BibTeXEntry> entry = iterator.next();
+          bufferedRecord = new BibtexCollection.Document(entry);
+        } else {
+          throw new NoSuchElementException("Reached end of BibtexDatabase Entries iterator");
+        }
       }
     }
   }
@@ -109,6 +129,10 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
       contents = doctitle + ". " + docAbstract;
       type = entry.getValue().getType().toString();
       bibtexEntry = entry.getValue();
+    }
+
+    public Document(String rawContent) {
+      contents = rawContent;
     }
 
     @Override

@@ -32,6 +32,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
@@ -39,14 +40,22 @@ import java.util.Set;
 public class Cord19FullTextCollection extends DocumentCollection<Cord19FullTextCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(Cord19FullTextCollection.class);
 
-  public Cord19FullTextCollection(Path path){
+  public Cord19FullTextCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
+  }
+
+  public Cord19FullTextCollection() {
   }
 
   @Override
   public FileSegment<Cord19FullTextCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<Cord19FullTextCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -56,6 +65,7 @@ public class Cord19FullTextCollection extends DocumentCollection<Cord19FullTextC
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
+    private JsonNode node = null;
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -63,9 +73,9 @@ public class Cord19FullTextCollection extends DocumentCollection<Cord19FullTextC
           new FileInputStream(path.toString())));
 
       csvParser = new CSVParser(bufferedReader, CSVFormat.DEFAULT
-        .withFirstRecordAsHeader()
-        .withIgnoreHeaderCase()
-        .withTrim());
+          .withFirstRecordAsHeader()
+          .withIgnoreHeaderCase()
+          .withTrim());
 
       iterator = csvParser.iterator();
       if (iterator.hasNext()) {
@@ -73,16 +83,31 @@ public class Cord19FullTextCollection extends DocumentCollection<Cord19FullTextC
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.readTree(jsonString);
+    }
+
     @Override
     public void readNext() throws NoSuchElementException {
-      if (record == null) {
+      if (record == null && node == null) {
         throw new NoSuchElementException("Record is empty");
       } else {
-        bufferedRecord = new Cord19FullTextCollection.Document(record);
-        if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
-          record = iterator.next();
+        if (record != null) {
+          bufferedRecord = new Cord19FullTextCollection.Document(record);
+          if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
+            record = iterator.next();
+          } else {
+            atEOF = true; // there is no more JSON object in the bufferedReader
+          }
         } else {
+          bufferedRecord = new Cord19FullTextCollection.Document(node);
           atEOF = true; // there is no more JSON object in the bufferedReader
+          node = null;
         }
       }
     }
@@ -126,6 +151,28 @@ public class Cord19FullTextCollection extends DocumentCollection<Cord19FullTextC
             content += "\n" + node.get("text").asText();
           }
         } catch (IOException e) {
+          LOG.error("Error parsing file at " + Cord19FullTextCollection.this.path.toString() + "\n" + e.getMessage());
+        }
+      }
+    }
+
+    public Document(JsonNode jnode) {
+      id = jnode.get("csv_metadata").get("cord_uid").asText();
+      content = jnode.get("csv_metadata").get("title").asText().replace("\n", " ");
+      content += jnode.get("csv_metadata").get("abstract").asText("").equals("") ? "" : "\n" + jnode.get("csv_metadata").get("abstract").asText();
+      String fullTextJson = jnode.toPrettyString();
+      raw = fullTextJson;
+
+      if (fullTextJson != null) {
+        // For the contents(), we're going to gather up all the text in body_text
+        try {
+          Iterator<JsonNode> paragraphIterator = jnode.get("body_text").elements();
+
+          while (paragraphIterator.hasNext()) {
+            JsonNode node = paragraphIterator.next();
+            content += "\n" + node.get("text").asText();
+          }
+        } catch (Exception e) {
           LOG.error("Error parsing file at " + Cord19FullTextCollection.this.path.toString() + "\n" + e.getMessage());
         }
       }

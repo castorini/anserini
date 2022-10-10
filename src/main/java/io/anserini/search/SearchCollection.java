@@ -156,7 +156,6 @@ public final class SearchCollection implements Closeable {
   private final IndexReader reader;
   private final Analyzer analyzer;
   private final Class collectionClass;
-  private final Class documentClass;
   private List<TaggedSimilarity> similarities;
   private List<RerankerCascade> cascades;
   private final boolean isRerank;
@@ -405,25 +404,15 @@ public final class SearchCollection implements Closeable {
     // get collection class if available
     if (args.collectionClass != null) {
       Class getCollectionClass;
-      Class getDocumentClass;
       try {
         getCollectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
       } catch (ClassNotFoundException e) {
         getCollectionClass = null;
         System.out.println("collectionClass: " + args.collectionClass + " NOT FOUND!");
       }
-      try {
-        getDocumentClass = Class.forName("io.anserini.collection." + args.collectionClass + "$Document");
-      } catch (ClassNotFoundException e) {
-        getDocumentClass = null;
-        LOG.info("getDocumentClass: " + args.collectionClass + ".Document NOT FOUND!");
-        System.out.println("getDocumentClass: " + args.collectionClass + ".Document NOT FOUND!");
-      }
       this.collectionClass = getCollectionClass;
-      this.documentClass = getDocumentClass;
     } else {
       this.collectionClass = null;
-      this.documentClass = null;
     }
 
     // Are we searching tweets?
@@ -614,7 +603,7 @@ public final class SearchCollection implements Closeable {
             }
 
             RerankerCascade cascade = new RerankerCascade(tag);
-            cascade.add(new Rm3Reranker(analyzer, documentClass, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
+            cascade.add(new Rm3Reranker(analyzer, collectionClass, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                 Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery,
                 !args.rm3_noTermFilter));
             cascade.add(new ScoreTiesAdjusterReranker());
@@ -635,7 +624,7 @@ public final class SearchCollection implements Closeable {
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 }
                 RerankerCascade cascade = new RerankerCascade(tag);
-                cascade.add(new AxiomReranker(analyzer, documentClass, args.index, args.axiom_index, IndexArgs.CONTENTS,
+                cascade.add(new AxiomReranker(analyzer, collectionClass, args.index, args.axiom_index, IndexArgs.CONTENTS,
                     args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
                     Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
                     args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
@@ -661,7 +650,7 @@ public final class SearchCollection implements Closeable {
                       fbTerms, fbDocs, k1, b, newTermWeight);
                 }
                 RerankerCascade cascade = new RerankerCascade(tag);
-                cascade.add(new BM25PrfReranker(analyzer, documentClass, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
+                cascade.add(new BM25PrfReranker(analyzer, collectionClass, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                     Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
                     args.bm25prf_outputQuery));
                 cascade.add(new ScoreTiesAdjusterReranker());
@@ -689,7 +678,7 @@ public final class SearchCollection implements Closeable {
                       tag = String.format("rocchio(topFbTerms=%s,topFbDocs=%s,bottomFbTerms=%s,bottomFbDocs=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma);
                     }
                     RerankerCascade cascade = new RerankerCascade(tag);
-                    cascade.add(new RocchioReranker(analyzer, documentClass, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
+                    cascade.add(new RocchioReranker(analyzer, collectionClass, IndexArgs.CONTENTS, Integer.valueOf(topFbTerms),
                         Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms), Integer.valueOf(bottomFbDocs),
                         Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
                     cascade.add(new ScoreTiesAdjusterReranker());
@@ -894,7 +883,7 @@ public final class SearchCollection implements Closeable {
     ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
     // Perform post-processing (e.g., date filter, dedupping, etc.) as a final step.
-    return new NewsBackgroundLinkingReranker(analyzer, documentClass).rerank(docs, context);
+    return new NewsBackgroundLinkingReranker(analyzer, collectionClass).rerank(docs, context);
   }
 
   public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade,

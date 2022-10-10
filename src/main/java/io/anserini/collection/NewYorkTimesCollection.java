@@ -19,6 +19,7 @@ package io.anserini.collection;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
@@ -67,9 +68,17 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".xml", ".tgz"));
   }
 
+  public NewYorkTimesCollection() {
+  }
+
   @Override
   public FileSegment<NewYorkTimesCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<NewYorkTimesCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -78,7 +87,7 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
    * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
    * files.
    */
-  public static class Segment extends FileSegment<NewYorkTimesCollection.Document>{
+  public static class Segment extends FileSegment<NewYorkTimesCollection.Document> {
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();
     private TarArchiveInputStream tarInput = null;
     private ArchiveEntry nextEntry = null;
@@ -90,24 +99,35 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      tarInput = new TarArchiveInputStream(new ReaderInputStream(bufferedReader));
+    }
+
     @Override
     protected void readNext() throws IOException, NoSuchElementException {
-      try {
-        if (path.toString().endsWith(".tgz")) {
-          getNextEntry();
-          bufferedReader = new BufferedReader(new InputStreamReader(tarInput, "UTF-8"));
-          File file = new File(nextEntry.getName()); // this is actually not a real file, only to match the method in Parser
-          bufferedRecord = parser.parseFile(bufferedReader, file);
-        } else {
-          bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), "UTF-8"));
-          bufferedRecord = parser.parseFile(bufferedReader, path.toFile());
-          atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
+      if (bufferedReader != null) {
+        bufferedRecord = parser.parseRaw(bufferedReader);
+        bufferedReader = null;
+        atEOF = true;
+      } else {
+        try {
+          if (tarInput != null || (path != null && path.toString().endsWith(".tgz"))) {
+            getNextEntry();
+            bufferedReader = new BufferedReader(new InputStreamReader(tarInput, "UTF-8"));
+            File file = new File(nextEntry.getName()); // this is actually not a real file, only to match the method in Parser
+            bufferedRecord = parser.parseFile(bufferedReader, file);
+          } else {
+            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), "UTF-8"));
+            bufferedRecord = parser.parseFile(bufferedReader, path.toFile());
+            atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
+          }
+        } catch (IOException e1) {
+          if (path.toString().endsWith(".xml")) {
+            atEOF = true;
+          }
+          throw e1;
         }
-      } catch (IOException e1) {
-        if (path.toString().endsWith(".xml")) {
-          atEOF = true;
-        }
-        throw e1;
       }
     }
 
@@ -136,6 +156,10 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
     // No public constructor; must use parser to create document.
     private Document(RawDocument raw) {
       this.raw = raw;
+    }
+
+    private Document() {
+      this.raw = null;
     }
 
     @Override
@@ -1841,8 +1865,15 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
       Document d = new Document(raw);
       d.id = String.valueOf(raw.getGuid());
       d.contents = Stream.of(raw.getHeadline(), raw.getArticleAbstract(), raw.getBody())
-        .filter(text -> text != null)
-        .collect(Collectors.joining("\n"));
+          .filter(text -> text != null)
+          .collect(Collectors.joining("\n"));
+
+      return d;
+    }
+
+    public Document parseRaw(BufferedReader bufferedReader) {
+      Document d = new Document();
+      d.contents = bufferedReader.lines().collect(Collectors.joining("\n"));
 
       return d;
     }

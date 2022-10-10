@@ -18,6 +18,7 @@ package io.anserini.collection;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -29,14 +30,26 @@ public class JsonVectorCollection extends DocumentCollection<JsonVectorCollectio
     this.path = path;
   }
 
+  public JsonVectorCollection() {
+  }
+
   @Override
   public FileSegment<JsonVectorCollection.Document> createFileSegment(Path p) throws IOException {
     return new JsonVectorCollection.Segment<>(p);
   }
 
+  @Override
+  public FileSegment<JsonVectorCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new JsonVectorCollection.Segment<>(bufferedReader);
+  }
+
   public static class Segment<T extends JsonVectorCollection.Document> extends JsonCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
     }
 
     @Override

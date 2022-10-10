@@ -40,8 +40,11 @@ import java.util.zip.GZIPInputStream;
 public class MsMarcoV2PassageCollection extends DocumentCollection<MsMarcoV2PassageCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
-  public MsMarcoV2PassageCollection(Path path){
+  public MsMarcoV2PassageCollection(Path path) {
     this.path = path;
+  }
+
+  public MsMarcoV2PassageCollection() {
   }
 
   @SuppressWarnings("unchecked")
@@ -50,10 +53,15 @@ public class MsMarcoV2PassageCollection extends DocumentCollection<MsMarcoV2Pass
     return new Segment(p);
   }
 
+  @Override
+  public FileSegment<MsMarcoV2PassageCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
+  }
+
   /**
    * A file in a JSON collection, typically containing multiple documents.
    */
-  public static class Segment<T extends Document> extends FileSegment<T>{
+  public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
@@ -67,6 +75,16 @@ public class MsMarcoV2PassageCollection extends DocumentCollection<MsMarcoV2Pass
       } else {
         bufferedReader = new BufferedReader(new FileReader(path.toString()));
       }
+
+      ObjectMapper mapper = new ObjectMapper();
+      iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
+      if (iterator.hasNext()) {
+        node = iterator.next();
+      }
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
 
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);

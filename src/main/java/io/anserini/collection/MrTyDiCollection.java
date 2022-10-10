@@ -35,19 +35,28 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 public class MrTyDiCollection extends DocumentCollection<MrTyDiCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(MrTyDiCollection.class);
 
-  public MrTyDiCollection(Path path){
+  public MrTyDiCollection(Path path) {
     this.path = path;
+  }
+
+  public MrTyDiCollection() {
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MrTyDiCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<MrTyDiCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -75,6 +84,15 @@ public class MrTyDiCollection extends DocumentCollection<MrTyDiCollection.Docume
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.readTree(jsonString);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws NoSuchElementException {
@@ -82,7 +100,7 @@ public class MrTyDiCollection extends DocumentCollection<MrTyDiCollection.Docume
         throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {
         bufferedRecord = (T) createNewDocument(node);
-        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+        if (iterator != null && iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
         } else {
           atEOF = true; // there is no more JSON object in the bufferedReader

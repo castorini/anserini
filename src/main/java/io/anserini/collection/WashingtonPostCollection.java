@@ -54,14 +54,22 @@ import java.util.Optional;
  */
 public class WashingtonPostCollection extends DocumentCollection<WashingtonPostCollection.Document> {
 
-  public WashingtonPostCollection(Path path){
+  public WashingtonPostCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".txt", ".jl"));
+  }
+
+  public WashingtonPostCollection() {
   }
 
   @Override
   public FileSegment<WashingtonPostCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<WashingtonPostCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -75,6 +83,10 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
       super(path);
       this.fileName = path.toString();
       this.bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(this.fileName), "utf-8"));
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
     }
 
     @Override

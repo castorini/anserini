@@ -18,7 +18,6 @@ package io.anserini.index;
 
 import io.anserini.IndexerTestBase;
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.collection.JsonCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
@@ -47,7 +46,6 @@ import org.apache.lucene.util.SmallFloat;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -208,14 +206,14 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
     Analyzer analyzer = new EnglishAnalyzer();
-    Class parser = Class.forName("io.anserini.collection.JsonCollection$Document");
+    Class collectionClass = Class.forName("io.anserini.collection.JsonCollection");
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
     for (int i = 0; i < numDocs; i++) {
       Terms terms = reader.getTermVector(i, "contents");
       // Compute Doc Vector without using stored vector
-      Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
+      Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, collectionClass,
           reader.document(i).getField("raw").stringValue());
       TermsEnum te = terms.iterator();
       // For this document, iterate through the terms.
