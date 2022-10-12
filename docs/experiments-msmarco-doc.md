@@ -68,7 +68,7 @@ After the run completes, we can evaluate with `trec_eval`:
 ```bash
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
     src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
-map                   	all	0.2310
+map                   	all	0.2309
 recall_1000           	all	0.8856
 ```
 
@@ -90,7 +90,7 @@ map                   	all	0.2219
 
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
     src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
-map                   	all	0.2303
+map                   	all	0.2302
 ```
 
 We see that "out of the box" Anserini is already better!
