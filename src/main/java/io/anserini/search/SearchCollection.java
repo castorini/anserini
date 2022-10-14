@@ -191,10 +191,6 @@ public final class SearchCollection implements Closeable {
 
         // This is the number of threads that we're going to devote to running the queries in parallel.
         int parallelism = args.parallelism;
-        // BM25 PRF is not thread safe, so we can't run in parallel.
-        if (args.bm25prf) {
-          parallelism = 1;
-        }
 
         // ThreadPool for parallelizing the execution of individual queries:
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(parallelism);

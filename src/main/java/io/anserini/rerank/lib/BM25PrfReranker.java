@@ -89,16 +89,17 @@ public class BM25PrfReranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+    IndexSearcher existingSearcher = context.getIndexSearcher();
+    IndexReader reader = existingSearcher.getIndexReader();
 
-    // set similarity to BM25PRF
-    IndexSearcher searcher = context.getIndexSearcher();
-    BM25Similarity originalSimilarity = (BM25Similarity) searcher.getSimilarity();
+    // Set similarity to BM25Prf. We want to get a new searcher for a different similarity, as opposed to using the
+    // existing searcher. Naively using the existing searcher makes the reranker not thread-safe, since interleaved
+    // execution would leave the searcher in some weird state wrt what similarity it's using.
+    IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(new BM25PrfSimilarity(k1, b));
-    IndexReader reader = searcher.getIndexReader();
-    List<String> originalQueryTerms = AnalyzerUtils.analyze(analyzer, context.getQueryText());
 
     boolean useRf = (context.getSearchArgs().rf_qrels != null);
-    PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader, useRf);
+    PrfFeatures fv = expandQuery(context.getQueryTokens(), docs, reader, useRf);
     Query newQuery = fv.toQuery();
 
     if (this.outputQuery) {
@@ -123,8 +124,7 @@ public class BM25PrfReranker implements Reranker {
       e.printStackTrace();
       return docs;
     }
-    // set similarity back
-    searcher.setSimilarity(originalSimilarity);
+
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
