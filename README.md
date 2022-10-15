@@ -15,7 +15,10 @@ Anserini grew out of [a reproducibility study of various open-source retrieval e
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
 
 **NOTE**: Anserini was recently upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/2/2022): this upgrade creates backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952).
-Pyserini *has not* been similarly upgraded.
+Anserini will automatically detect Lucene 8 indexes and disable consistent tie-breaking to avoid runtime errors.
+However, Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
+Lucene 8 code will _not_ run on Lucene 9 indexes.
+Pyserini has been upgraded, but similar issues apply: Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
 
 ## Getting Started
 
