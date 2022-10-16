@@ -24,7 +24,7 @@ import os
 import re
 import stat
 import tarfile
-
+import time
 from multiprocessing import Pool
 from subprocess import call, Popen, PIPE
 from urllib.request import urlretrieve
@@ -192,11 +192,13 @@ def evaluate_and_verify(yaml_data, dry_run):
                         logger.error(fail_str + result_str)
                         failures = True
 
+    end = time.time()
+
     if not dry_run:
         if failures:
-            logger.info('\033[91mFailed tests!\033[0m')
+            logger.info(f'\033[91mFailed tests!\033[0m Total elapsed time: {end - start:.0f}s')
         else:
-            logger.info("All Tests Passed!")
+            logger.info(f'All Tests Passed! Total elapsed time: {end - start:.0f}s')
 
 
 def run_search(cmd):
@@ -291,6 +293,7 @@ if __name__ == '__main__':
     parser.add_argument('--lucene8', dest='lucene8', action='store_true', help='Enable more lenient score matching for Lucene 8 index compatibility.')
     args = parser.parse_args()
 
+    start = time.time()
     with open('src/main/resources/regression/{}.yaml'.format(args.regression)) as f:
         yaml_data = yaml.safe_load(f)
 
