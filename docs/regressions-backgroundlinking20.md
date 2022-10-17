@@ -79,7 +79,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+RM3+DF**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)                    | 0.3286    | 0.4529    | 0.3443    |
+| [TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)                    | 0.3286    | 0.4528    | 0.3438    |
 | **nDCG@5**                                                                                                   | **BM25**  | **+RM3**  | **+RM3+DF**|
-| [TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)                    | 0.5231    | 0.5684    | 0.5316    |
+| [TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)                    | 0.5231    | 0.5696    | 0.5304    |
 

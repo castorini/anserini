@@ -582,8 +582,9 @@ public class SimpleSearcher implements Closeable {
    */
   public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
     Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return _search(query, null, null, k);
+    return _search(query, queryTokens, q, k);
   }
 
   // internal implementation
