@@ -334,9 +334,35 @@ public class SimpleSearcherTest extends IndexerTestBase {
   }
 
   @Test
-  public void testBatchSearch() throws Exception {
+  public void testBatchSearch1() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
       
+    List<String> queries = new ArrayList<>();
+    queries.add("test");
+    queries.add("more");
+
+    List<String> qids = new ArrayList<>();
+    qids.add("query_test");
+    qids.add("query_more");
+
+    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
+    assertEquals(2, hits.size());
+
+    assertEquals(1, hits.get("query_test").length);
+    assertEquals("doc3", hits.get("query_test")[0].docid);
+
+    assertEquals(2, hits.get("query_more").length);
+    assertEquals("doc2", hits.get("query_more")[0].docid);
+    assertEquals("doc1", hits.get("query_more")[1].docid);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatchSearch2() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_rm3();
+
     List<String> queries = new ArrayList<>();
     queries.add("test");
     queries.add("more");
