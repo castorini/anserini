@@ -3,6 +3,15 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### October 17, 2022
+
++ commit [`7b244e`](https://github.com/castorini/anserini/commit/7b244eeb10cdd6b215519e15131c01cc1e3b4328) (10/17/2022)
+
+Fixed broken `batch_search` implementation for RM3 (or any feedback approach), originally reported in [castorini/pyserini#831](https://github.com/castorini/pyserini/issues/831).
+Also fixed `BM25prf` to be thread-safe.
+Incidentally, these changes fixed a bug in `backgroundlinking18`, `backgroundlinking19`, `backgroundlinking20`.
+Regression scores updated.
+
 ### October 4, 2022
 
 + commit [`c7addf`](https://github.com/castorini/anserini/commit/c7addf4528c817baebbf8c2d9be27c38d041e066) (10/03/2022)
@@ -11,8 +20,8 @@ This documentation is useful for figuring why results may have changed over time
 
 The two changes referenced here are:
 
-+ Added MS MARCO V1/ DL19/ DL20 passage/document regressions based BERT WordPiece tokenization using `HuggingFaceTokenizerAnalyzer` added in [#1969](https://github.com/castorini/anserini/pull/1969). ref issue [#1978](https://github.com/castorini/anserini/issues/1978)
-+ Updated MrTydi Te regressions following the addition of an Analyzer for Telugu in Lucene 9 referenced by this issue [#1982](https://github.com/castorini/anserini/issues/1982)
++ Added regressions for MS MARCO V1 passage/document (including DL19 and DL20) based on BERT WordPiece tokenization using `HuggingFaceTokenizerAnalyzer`; added in [#1969](https://github.com/castorini/anserini/pull/1969), ref issue [#1978](https://github.com/castorini/anserini/issues/1978).
++ Updated Mr. Tydi Telugu regressions following the addition of an Analyzer for Telugu in Lucene 9; ref issue [#1982](https://github.com/castorini/anserini/issues/1982).
 
 ### September 22, 2022
 
