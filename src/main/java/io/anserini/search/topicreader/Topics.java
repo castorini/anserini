@@ -293,7 +293,7 @@ public enum Topics {
   BEIR_V1_0_0_SCIDOCS_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scidocs.test.unicoil-noexp.tsv.gz"),
   BEIR_V1_0_0_FEVER_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.unicoil-noexp.tsv.gz"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.unicoil-noexp.tsv.gz"),
-  BEIR_V1_0_0_SCIFACT_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.unicoil-noexp.tsv.gz");
+  BEIR_V1_0_0_SCIFACT_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.unicoil-noexp.tsv.gz"),
   // MIRACL (v1.0.0): original queries
   MIRACL_V10_AR_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ar-dev.tsv"),
   MIRACL_V10_BN_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-bn-dev.tsv"),
@@ -310,7 +310,7 @@ public enum Topics {
   MIRACL_V10_SW_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-sw-dev.tsv"),
   MIRACL_V10_TE_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-te-dev.tsv"),
   MIRACL_V10_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-th-dev.tsv"),
-  MIRACL_V10_ZH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv"),
+  MIRACL_V10_ZH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv");
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;
