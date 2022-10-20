@@ -62,7 +62,7 @@ topics:
 models:
   - name: unicoil-0shot
     display: uniCOIL (with doc2query-T5) zero-shot
-    params: -impact -pretokenized
+    params: -impact -pretokenized -parallelism 16
     results:
       MAP@100:
         - 0.1485
@@ -78,7 +78,7 @@ models:
         - 0.7671
   - name: unicoil-0shot+rm3
     display: +RM3
-    params: -impact -pretokenized -rm3
+    params: -impact -pretokenized -rm3 -parallelism 16
     results:
       MAP@100:
         - 0.1319
@@ -94,7 +94,7 @@ models:
         - 0.7700
   - name: unicoil-0shot+rocchio
     display: +Rocchio
-    params: -impact -pretokenized -rocchio
+    params: -impact -pretokenized -rocchio -parallelism 16
     results:
       MAP@100:
         - 0.1319
