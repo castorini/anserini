@@ -293,7 +293,24 @@ public enum Topics {
   BEIR_V1_0_0_SCIDOCS_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scidocs.test.unicoil-noexp.tsv.gz"),
   BEIR_V1_0_0_FEVER_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.unicoil-noexp.tsv.gz"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.unicoil-noexp.tsv.gz"),
-  BEIR_V1_0_0_SCIFACT_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.unicoil-noexp.tsv.gz");
+  BEIR_V1_0_0_SCIFACT_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.unicoil-noexp.tsv.gz"),
+  // MIRACL (v1.0.0): original queries
+  MIRACL_V10_AR_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ar-dev.tsv"),
+  MIRACL_V10_BN_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-bn-dev.tsv"),
+  MIRACL_V10_EN_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-en-dev.tsv"),
+  MIRACL_V10_ES_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-es-dev.tsv"),
+  MIRACL_V10_FA_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-fa-dev.tsv"),
+  MIRACL_V10_FI_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-fi-dev.tsv"),
+  MIRACL_V10_FR_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-fr-dev.tsv"),
+  MIRACL_V10_HI_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-hi-dev.tsv"),
+  MIRACL_V10_ID_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-id-dev.tsv"),
+  MIRACL_V10_JA_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ja-dev.tsv"),
+  MIRACL_V10_KO_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ko-dev.tsv"),
+  MIRACL_V10_RU_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ru-dev.tsv"),
+  MIRACL_V10_SW_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-sw-dev.tsv"),
+  MIRACL_V10_TE_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-te-dev.tsv"),
+  MIRACL_V10_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-th-dev.tsv"),
+  MIRACL_V10_ZH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv");
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;
