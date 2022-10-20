@@ -141,6 +141,22 @@ public enum Qrels {
   HC4_NEUCLIR22_FA_TEST("topics-and-qrels/qrels.hc4-neuclir22-fa.test.txt"),
   HC4_NEUCLIR22_RU_TEST("topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt"),
   HC4_NEUCLIR22_ZH_TEST("topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt");
+  MIRACL_V10_AR_DEV("topics-and-qrels/qrels.miracl-v1.0-ar-dev.tsv"),
+  MIRACL_V10_BN_DEV("topics-and-qrels/qrels.miracl-v1.0-bn-dev.tsv"),
+  MIRACL_V10_EN_DEV("topics-and-qrels/qrels.miracl-v1.0-en-dev.tsv"),
+  MIRACL_V10_ES_DEV("topics-and-qrels/qrels.miracl-v1.0-es-dev.tsv"),
+  MIRACL_V10_FA_DEV("topics-and-qrels/qrels.miracl-v1.0-fa-dev.tsv"),
+  MIRACL_V10_FI_DEV("topics-and-qrels/qrels.miracl-v1.0-fi-dev.tsv"),
+  MIRACL_V10_FR_DEV("topics-and-qrels/qrels.miracl-v1.0-fr-dev.tsv"),
+  MIRACL_V10_HI_DEV("topics-and-qrels/qrels.miracl-v1.0-hi-dev.tsv"),
+  MIRACL_V10_ID_DEV("topics-and-qrels/qrels.miracl-v1.0-id-dev.tsv"),
+  MIRACL_V10_JA_DEV("topics-and-qrels/qrels.miracl-v1.0-ja-dev.tsv"),
+  MIRACL_V10_KO_DEV("topics-and-qrels/qrels.miracl-v1.0-ko-dev.tsv"),
+  MIRACL_V10_RU_DEV("topics-and-qrels/qrels.miracl-v1.0-ru-dev.tsv"),
+  MIRACL_V10_SW_DEV("topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv"),
+  MIRACL_V10_TE_DEV("topics-and-qrels/qrels.miracl-v1.0-te-dev.tsv"),
+  MIRACL_V10_TH_DEV("topics-and-qrels/qrels.miracl-v1.0-th-dev.tsv"),
+  MIRACL_V10_ZH_DEV("topics-and-qrels/qrels.miracl-v1.0-zh-dev.tsv"),
 
   public final String path;
 
