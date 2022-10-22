@@ -2,7 +2,7 @@
 corpus: miracl-v1.0-fa
 corpus_path: collections/miracl-corpus/miracl-corpus-v1.0-fa
 
-index_path: indexes/lucene-index.miracl-v1.0-farsi/
+index_path: indexes/lucene-index.miracl-v1.0-persian/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -32,7 +32,7 @@ topic_reader: TsvString
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[MIRACL (Farsi): dev](https://github.com/project-miracl/miracl"
+  - name: "[MIRACL (Persian): dev](https://github.com/project-miracl/miracl)"
     id: dev
     path: topics.miracl-v1.0-fa-dev.tsv
     qrel: qrels.miracl-v1.0-fa-dev.tsv
