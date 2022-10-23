@@ -341,9 +341,9 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 ```bash
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar >& logs/log.miracl-v1.0-ar &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn >& logs/log.mrtydi-v1.1-bn &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en >& logs/log.miracl-v1.0-en &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-es >& logs/log.miracl-v1.0-es &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn >& logs/log.miracl-v1.0-bn &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-en >& logs/log.miracl-v1.0-en &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-es >& logs/log.miracl-v1.0-es &
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa >& logs/log.miracl-v1.0-fa &
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi >& logs/log.miracl-v1.0-fi &
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr >& logs/log.miracl-v1.0-fr &
