@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### October 23, 2022
+
++ commit [`f94285`](https://github.com/castorini/anserini/commit/f94285abf322a4ec982d9eccacece97a2a65dba4) (10/23/2022)
++ commit [`7cb701`](https://github.com/castorini/anserini/commit/7cb7016d91b7e002ab4f9f47edc389832a427e4a) (10/20/2022)
+
+Added regressions for MIRACL dev set
+
 ### October 17, 2022
 
 + commit [`7b244e`](https://github.com/castorini/anserini/commit/7b244eeb10cdd6b215519e15131c01cc1e3b4328) (10/17/2022)
