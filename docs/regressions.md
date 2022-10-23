@@ -337,6 +337,29 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 </details>
 
 <details>
+<summary>MIRACL (v1.0): BM25 regressions</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar >& logs/log.miracl-v1.0-ar &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn >& logs/log.mrtydi-v1.1-bn &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en >& logs/log.miracl-v1.0-en &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-es >& logs/log.miracl-v1.0-es &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa >& logs/log.miracl-v1.0-fa &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi >& logs/log.miracl-v1.0-fi &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr >& logs/log.miracl-v1.0-fr &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-hi >& logs/log.miracl-v1.0-hi &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-id >& logs/log.miracl-v1.0-id &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ja >& logs/log.miracl-v1.0-ja &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ko >& logs/log.miracl-v1.0-ko &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ru >& logs/log.miracl-v1.0-ru &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-sw >& logs/log.miracl-v1.0-sw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te >& logs/log.miracl-v1.0-te &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th >& logs/log.miracl-v1.0-th &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh >& logs/log.miracl-v1.0-zh &
+```
+</details>
+
+<details>
 <summary>Other regressions</summary>
 
 ```bash
