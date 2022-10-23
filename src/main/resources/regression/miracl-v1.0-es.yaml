@@ -2,7 +2,7 @@
 corpus: miracl-v1.0-es
 corpus_path: collections/miracl-corpus/miracl-corpus-v1.0-es
 
-index_path: indexes/lucene-index.miracl-v1.0-spanish/
+index_path: indexes/lucene-index.miracl-v1.0-es/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

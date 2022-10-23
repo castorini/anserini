@@ -162,6 +162,29 @@ See individual pages for details!
 | Climate-FEVER | [+](docs/regressions-beir-v1.0.0-climate-fever-flat.md)   | [+](docs/regressions-beir-v1.0.0-climate-fever-flat-wp.md)    | [+](docs/regressions-beir-v1.0.0-climate-fever-multifield.md)     | [+](docs/regressions-beir-v1.0.0-climate-fever-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium.md) |
 | SciFact       | [+](docs/regressions-beir-v1.0.0-scifact-flat.md)         | [+](docs/regressions-beir-v1.0.0-scifact-flat-wp.md)          | [+](docs/regressions-beir-v1.0.0-scifact-multifield.md)          | [+](docs/regressions-beir-v1.0.0-scifact-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md) |
 
+
+### Regressions for MIRACL
+
+|   | dev |
+|---|:---:|
+| Arabic | [+](docs/regressions-miracl-v1.0-ar.md) | 
+| Bengali | [+](docs/regressions-miracl-v1.0-bn.md) | 
+| English | [+](docs/regressions-miracl-v1.0-en.md) | 
+| Spanish | [+](docs/regressions-miracl-v1.0-es.md) | 
+| Persian | [+](docs/regressions-miracl-v1.0-fa.md) | 
+| Finnish | [+](docs/regressions-miracl-v1.0-fi.md) | 
+| French | [+](docs/regressions-miracl-v1.0-fr.md) | 
+| Hindi | [+](docs/regressions-miracl-v1.0-hi.md) | 
+| Indonesian | [+](docs/regressions-miracl-v1.0-id.md) | 
+| Japanese | [+](docs/regressions-miracl-v1.0-ja.md) | 
+| Korean | [+](docs/regressions-miracl-v1.0-ko.md) | 
+| Russian | [+](docs/regressions-miracl-v1.0-ru.md) | 
+| Swahili | [+](docs/regressions-miracl-v1.0-sw.md) | 
+| Telugu | [+](docs/regressions-miracl-v1.0-te.md) | 
+| Thai | [+](docs/regressions-miracl-v1.0-th.md) | 
+| Chinese | [+](docs/regressions-miracl-v1.0-zh.md) | 
+
+
 ### Other Regressions
 
 + Regressions for [Disks 1 &amp; 2 (TREC 1-3)](docs/regressions-disk12.md), [Disks 4 &amp; 5 (TREC 7-8, Robust04)](docs/regressions-disk45.md), [AQUAINT (Robust05)](docs/regressions-robust05.md)
@@ -181,6 +204,7 @@ See individual pages for details!
 + Regressions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
 + Regressions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
 + Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions-wikipedia-dpr-100w-bm25.md)
+
 
 ### Available Corpora
 
