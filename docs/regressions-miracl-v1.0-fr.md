@@ -18,11 +18,11 @@ Typical indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
-  -input /path/to/miracl-v1.0-en \
-  -index indexes/lucene-index.miracl-v1.0-english/ \
+  -input /path/to/miracl-v1.0-fr \
+  -index indexes/lucene-index.miracl-v1.0-fr/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -language en \
-  >& logs/log.miracl-v1.0-en &
+  -threads 1 -storePositions -storeDocvectors -storeRaw -language fr \
+  >& logs/log.miracl-v1.0-fr &
 ```
 
 See [this page](https://github.com/project-miracl/miracl) for more details about the MIRACL corpus.
@@ -34,18 +34,18 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.miracl-v1.0-english/ \
-  -topics src/main/resources/topics-and-qrels/topics.miracl-v1.0-en-dev.tsv \
+  -index indexes/lucene-index.miracl-v1.0-fr/ \
+  -topics src/main/resources/topics-and-qrels/topics.miracl-v1.0-fr-dev.tsv \
   -topicreader TsvString \
-  -output runs/run.miracl-v1.0-en.bm25.topics.miracl-v1.0-en-dev.txt \
-  -bm25 -hits 100 -language en &
+  -output runs/run.miracl-v1.0-fr.bm25.topics.miracl-v1.0-fr-dev.txt \
+  -bm25 -hits 100 -language fr &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.miracl-v1.0-en-dev.tsv runs/run.miracl-v1.0-en.bm25.topics.miracl-v1.0-en-dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.miracl-v1.0-en-dev.tsv runs/run.miracl-v1.0-en.bm25.topics.miracl-v1.0-en-dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.miracl-v1.0-fr-dev.tsv runs/run.miracl-v1.0-fr.bm25.topics.miracl-v1.0-fr-dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.miracl-v1.0-fr-dev.tsv runs/run.miracl-v1.0-fr.bm25.topics.miracl-v1.0-fr-dev.txt
 ```
 
 ## Effectiveness
@@ -54,6 +54,6 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MIRACL (English): dev](https://github.com/project-miracl/miracl)                                            | 0.3506    |
+| [MIRACL (French): dev](https://github.com/project-miracl/miracl)                                             | 0.1832    |
 | **R@100**                                                                                                    | **BM25**  |
-| [MIRACL (English): dev](https://github.com/project-miracl/miracl)                                            | 0.8190    |
+| [MIRACL (French): dev](https://github.com/project-miracl/miracl)                                             | 0.6528    |
