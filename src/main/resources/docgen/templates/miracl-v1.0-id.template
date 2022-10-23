@@ -1,6 +1,6 @@
-# Anserini Regressions: MIRACL (v1.0) &mdash; Indonesia
+# Anserini Regressions: MIRACL (v1.0) &mdash; Indonesian
 
-This page documents BM25 regression experiments for [MIRACL (v1.0) &mdash; Indonesia](https://github.com/project-miracl/miracl).
+This page documents BM25 regression experiments for [MIRACL (v1.0) &mdash; Indonesian](https://github.com/project-miracl/miracl).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
