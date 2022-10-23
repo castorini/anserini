@@ -1,0 +1,48 @@
+---
+corpus: miracl-v1.0-ar
+corpus_path: collections/miracl-corpus/miracl-corpus-v1.0-ar
+
+index_path: indexes/lucene-index.miracl-v1.0-ar/
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language ar
+index_stats:
+  documents: 2061414
+  documents (non-empty): 2061414
+  total terms: 90223450
+
+metrics:
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[MIRACL (Arabic): dev](https://github.com/project-miracl/miracl)"
+    id: dev
+    path: topics.miracl-v1.0-ar-dev.tsv
+    qrel: qrels.miracl-v1.0-ar-dev.tsv
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -hits 100 -language ar
+    results:
+      nDCG@10:
+        - 0.4809
+      R@100:
+        - 0.8885
