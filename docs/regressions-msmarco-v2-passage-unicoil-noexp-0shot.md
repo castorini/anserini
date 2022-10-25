@@ -62,7 +62,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-passage-unicoil-noexp-0shot \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -impact -pretokenized -storeDocvectors \
+  -threads 32 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-v2-passage-unicoil-noexp-0shot &
 ```
 
@@ -86,39 +86,39 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.txt \
-  -impact -pretokenized &
+  -parallelism 16 -impact -pretokenized &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.txt \
-  -impact -pretokenized &
+  -parallelism 16 -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot+rm3.topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.txt \
-  -impact -pretokenized -rm3 &
+  -parallelism 16 -impact -pretokenized -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot+rm3.topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.txt \
-  -impact -pretokenized -rm3 &
+  -parallelism 16 -impact -pretokenized -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot+rocchio.topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.txt \
-  -impact -pretokenized -rocchio &
+  -parallelism 16 -impact -pretokenized -rocchio &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot+rocchio.topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.txt \
-  -impact -pretokenized -rocchio &
+  -parallelism 16 -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
