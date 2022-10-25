@@ -9,7 +9,7 @@ download_corpus: msmarco_v2_passage_unicoil_0shot
 index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 18
+index_threads: 32
 index_options: -impact -pretokenized -storeDocvectors
 index_stats:
   documents: 138364198
@@ -62,7 +62,7 @@ topics:
 models:
   - name: unicoil-0shot
     display: uniCOIL (with doc2query-T5) zero-shot
-    params: -impact -pretokenized -parallelism 16
+    params: -parallelism 16 -impact -pretokenized
     results:
       MAP@100:
         - 0.1485
@@ -78,7 +78,7 @@ models:
         - 0.7671
   - name: unicoil-0shot+rm3
     display: +RM3
-    params: -impact -pretokenized -rm3 -parallelism 16
+    params: -parallelism 16 -impact -pretokenized -rm3
     results:
       MAP@100:
         - 0.1319
@@ -94,7 +94,7 @@ models:
         - 0.7700
   - name: unicoil-0shot+rocchio
     display: +Rocchio
-    params: -impact -pretokenized -rocchio -parallelism 16
+    params: -parallelism 16 -impact -pretokenized -rocchio
     results:
       MAP@100:
         - 0.1319
