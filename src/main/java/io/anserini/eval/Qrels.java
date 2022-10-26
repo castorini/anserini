@@ -140,7 +140,7 @@ public enum Qrels {
   HC4_V1_0_ZH_TEST("topics-and-qrels/qrels.hc4-v1.0-zh.test.txt"),
   HC4_NEUCLIR22_FA_TEST("topics-and-qrels/qrels.hc4-neuclir22-fa.test.txt"),
   HC4_NEUCLIR22_RU_TEST("topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt"),
-  HC4_NEUCLIR22_ZH_TEST("topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt"),
+  HC4_NEUCLIR22_ZH_TEST("topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt"),
   MIRACL_V10_AR_DEV("topics-and-qrels/qrels.miracl-v1.0-ar-dev.tsv"),
   MIRACL_V10_BN_DEV("topics-and-qrels/qrels.miracl-v1.0-bn-dev.tsv"),
   MIRACL_V10_EN_DEV("topics-and-qrels/qrels.miracl-v1.0-en-dev.tsv"),
