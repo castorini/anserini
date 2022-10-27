@@ -203,6 +203,8 @@ See individual pages for details!
 + Regressions for HC4 (v1.0) baselines on HC4 corpora: [Persian](docs/regressions-hc4-v1.0-fa.md), [Russian](docs/regressions-hc4-v1.0-ru.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
 + Regressions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
 + Regressions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
++ Regressions for TREC 2022 NeuCLIR Track (query translation): [Persian](docs/regressions-neuclir22-fa-qt.md), [Russian](docs/regressions-neuclir22-ru-qt.md), [Chinese](docs/regressions-neuclir22-zh-qt.md)
++ Regressions for TREC 2022 NeuCLIR Track (document translation): [Persian](docs/regressions-neuclir22-fa-dt.md), [Russian](docs/regressions-neuclir22-ru-dt.md), [Chinese](docs/regressions-neuclir22-zh-dt.md)
 + Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions-wikipedia-dpr-100w-bm25.md)
 
 

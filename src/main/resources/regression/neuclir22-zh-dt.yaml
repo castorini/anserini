@@ -1,0 +1,121 @@
+---
+corpus: neuclir22-zh-en
+corpus_path: collections/multilingual/neuclir22-zh-en/
+
+index_path: indexes/lucene-index.neuclir22-zh-en
+collection_class: NeuClirCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 3179206
+  documents (non-empty): 3179203
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: J@20
+    command: python -m pyserini.eval.trec_eval
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)"
+    id: title
+    path: topics.neuclir22.en.title.tsv
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)"
+    id: desc
+    path: topics.neuclir22.en.desc.tsv
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)"
+    id: desc_title
+    path: topics.neuclir22.en.desc.title.tsv
+    qrel: qrels.neuclir22-zh.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25
+    results:
+      MAP:
+        - 0.3472
+        - 0.2499
+        - 0.3480
+      nDCG@20:
+        - 0.4774
+        - 0.3665
+        - 0.4725
+      J@20:
+        - 0.3908
+        - 0.3412
+        - 0.3899
+      Recall@1000:
+        - 0.7423
+        - 0.6509
+        - 0.7607
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3
+    results:
+      MAP:
+        - 0.3801
+        - 0.3052
+        - 0.3610
+      nDCG@20:
+        - 0.4828
+        - 0.3974
+        - 0.4588
+      J@20:
+        - 0.4211
+        - 0.3978
+        - 0.4154
+      Recall@1000:
+        - 0.8143
+        - 0.7556
+        - 0.8113
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      MAP:
+        - 0.3818
+        - 0.3021
+        - 0.3702
+      nDCG@20:
+        - 0.4879
+        - 0.3997
+        - 0.4743
+      J@20:
+        - 0.4197
+        - 0.3974
+        - 0.4184
+      Recall@1000:
+        - 0.8158
+        - 0.7477
+        - 0.8149
