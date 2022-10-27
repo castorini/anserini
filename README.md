@@ -58,6 +58,9 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 These pages can also serve as guides to reproduce our results.
 See individual pages for details!
 
+<details>
+<summary>MS MARCO V1 Passage Corpus</summary>
+
 ### MS MARCO V1 Passage Corpus
 
 |   | dev | DL19 | DL20 |
@@ -78,6 +81,10 @@ See individual pages for details!
 | SPLADEv2 | [✓](docs/regressions-msmarco-passage-distill-splade-max.md) |
 | SPLADE-distill CoCodenser-medium | [✓](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
 
+</details>
+<details>
+<summary>MS MARCO V1 Document Corpus</summary>
+
 ### MS MARCO V1 Document Corpus
 
 |   | dev | DL19 | DL20 |
@@ -95,6 +102,10 @@ See individual pages for details!
 | uniCOIL noexp | [✓](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions-dl19-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions-dl20-doc-segmented-unicoil-noexp.md) |
 | uniCOIL with doc2query-T5 | [✓](docs/regressions-msmarco-doc-segmented-unicoil.md) | [✓](docs/regressions-dl19-doc-segmented-unicoil.md) | [✓](docs/regressions-dl20-doc-segmented-unicoil.md) |
 
+</details>
+<details>
+<summary>MS MARCO V2 Passage Corpus</summary>
+
 ### MS MARCO V2 Passage Corpus
 
 |   | dev | DL21 |
@@ -109,6 +120,10 @@ See individual pages for details!
 | uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) |
 | uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-0shot.md) |
 
+</details>
+<details>
+<summary>MS MARCO V2 Document Corpus</summary>
+
 ### MS MARCO V2 Document Corpus
 
 |   | dev | DL21 |
@@ -122,6 +137,10 @@ See individual pages for details!
 | **Learned sparse lexical** |
 | uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [✓](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md) |
 | uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md) | [✓](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md) |
+
+</details>
+<details>
+<summary>Regressions for BEIR (v1.0.0)</summary>
 
 ### Regressions for BEIR (v1.0.0)
 
@@ -162,6 +181,52 @@ See individual pages for details!
 | Climate-FEVER | [+](docs/regressions-beir-v1.0.0-climate-fever-flat.md)   | [+](docs/regressions-beir-v1.0.0-climate-fever-flat-wp.md)    | [+](docs/regressions-beir-v1.0.0-climate-fever-multifield.md)     | [+](docs/regressions-beir-v1.0.0-climate-fever-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium.md) |
 | SciFact       | [+](docs/regressions-beir-v1.0.0-scifact-flat.md)         | [+](docs/regressions-beir-v1.0.0-scifact-flat-wp.md)          | [+](docs/regressions-beir-v1.0.0-scifact-multifield.md)          | [+](docs/regressions-beir-v1.0.0-scifact-unicoil-noexp.md) | [+](docs/regressions-beir-v1.0.0-scifact-splade-distil-cocodenser-medium.md) |
 
+</details>
+<details>
+<summary>Regressions for MIRACL</summary>
+
+### Regressions for MIRACL
+
+|   | BM25 |
+|---|:---:|
+| Arabic | [+](docs/regressions-miracl-v1.0-ar.md) | 
+| Bengali | [+](docs/regressions-miracl-v1.0-bn.md) | 
+| English | [+](docs/regressions-miracl-v1.0-en.md) | 
+| Spanish | [+](docs/regressions-miracl-v1.0-es.md) | 
+| Persian | [+](docs/regressions-miracl-v1.0-fa.md) | 
+| Finnish | [+](docs/regressions-miracl-v1.0-fi.md) | 
+| French | [+](docs/regressions-miracl-v1.0-fr.md) | 
+| Hindi | [+](docs/regressions-miracl-v1.0-hi.md) | 
+| Indonesian | [+](docs/regressions-miracl-v1.0-id.md) | 
+| Japanese | [+](docs/regressions-miracl-v1.0-ja.md) | 
+| Korean | [+](docs/regressions-miracl-v1.0-ko.md) | 
+| Russian | [+](docs/regressions-miracl-v1.0-ru.md) | 
+| Swahili | [+](docs/regressions-miracl-v1.0-sw.md) | 
+| Telugu | [+](docs/regressions-miracl-v1.0-te.md) | 
+| Thai | [+](docs/regressions-miracl-v1.0-th.md) | 
+| Chinese | [+](docs/regressions-miracl-v1.0-zh.md) | 
+
+</details>
+<details>
+<summary>Other Cross-Lingual and Multi-Lingual Regressions</summary>
+
+### Other Cross-Lingual and Multi-Lingual Regressions
+
++ Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
++ Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
++ Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
++ Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
++ Regressions for Mr. TyDi (v1.1) baselines: [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
++ Regressions for HC4 (v1.0) baselines on HC4 corpora: [Persian](docs/regressions-hc4-v1.0-fa.md), [Russian](docs/regressions-hc4-v1.0-ru.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
++ Regressions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
++ Regressions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
++ Regressions for TREC 2022 NeuCLIR Track (query translation): [Persian](docs/regressions-neuclir22-fa-qt.md), [Russian](docs/regressions-neuclir22-ru-qt.md), [Chinese](docs/regressions-neuclir22-zh-qt.md)
++ Regressions for TREC 2022 NeuCLIR Track (document translation): [Persian](docs/regressions-neuclir22-fa-dt.md), [Russian](docs/regressions-neuclir22-ru-dt.md), [Chinese](docs/regressions-neuclir22-zh-dt.md)
+
+</details>
+<details>
+<summary>Other Regressions</summary>
+
 ### Other Regressions
 
 + Regressions for [Disks 1 &amp; 2 (TREC 1-3)](docs/regressions-disk12.md), [Disks 4 &amp; 5 (TREC 7-8, Robust04)](docs/regressions-disk45.md), [AQUAINT (Robust05)](docs/regressions-robust05.md)
@@ -172,17 +237,14 @@ See individual pages for details!
 + Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions-car17v1.5.md), [v2.0](docs/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)
 + Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions-backgroundlinking18.md), [2019](docs/regressions-backgroundlinking19.md), [2020](docs/regressions-backgroundlinking20.md)
 + Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
-+ Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
-+ Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
-+ Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
-+ Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
-+ Regressions for Mr. TyDi (v1.1) baselines: [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
-+ Regressions for HC4 (v1.0) baselines on HC4 corpora: [Persian](docs/regressions-hc4-v1.0-fa.md), [Russian](docs/regressions-hc4-v1.0-ru.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
-+ Regressions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
-+ Regressions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
 + Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions-wikipedia-dpr-100w-bm25.md)
 
+</details>
+
 ### Available Corpora
+
+<details>
+<summary>Variants of MS MARCO V1 and V2 corpora available for download</summary>
 
 | Corpora                                                                                                                                         |   Size | Checksum                           |
 |:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
@@ -199,6 +261,8 @@ See individual pages for details!
 | [MS MARCO V2 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar)                 |  41 GB | `1949a00bfd5e1f1a230a04bbc1f01539` |
 | [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar)       |  55 GB | `97ba262c497164de1054f357caea0c63` |
 | [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)            |  72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
+
+</details>
 
 ## Additional Documentation
 
@@ -256,12 +320,17 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.16.0: October 23, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.0.md)]
 + v0.15.0: September 22, 2022 [[Release Notes](docs/release-notes/release-notes-v0.15.0.md)]
 + v0.14.4: July 31, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.4.md)]
 + v0.14.3: May 9, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.3.md)]
 + v0.14.2: March 24, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.2.md)]
 + v0.14.1: February 27, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.1.md)]
 + v0.14.0: January 10, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.0.md)]
+
+<details>
+<summary>older... (and historic notes)</summary>
+
 + v0.13.5: November 2, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.5.md)]
 + v0.13.4: October 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.4.md)]
 + v0.13.3: August 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.3.md)]
@@ -299,6 +368,8 @@ Maven 3.3+ is also required.
 Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
 As a result of this upgrade, results of all regressions have changed slightly.
 To reproducible old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
+
+</details>
 
 ## References
 

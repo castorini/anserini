@@ -53,57 +53,57 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.title.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.title.txt \
-  -bm25 -language zh &
+  -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.txt \
-  -bm25 -language zh &
+  -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.title.txt \
-  -bm25 -language zh &
+  -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.title.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.title.txt \
-  -bm25 -rm3 -language zh &
+  -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.txt \
-  -bm25 -rm3 -language zh &
+  -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.title.txt \
-  -bm25 -rm3 -language zh &
+  -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.title.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.title.txt \
-  -bm25 -rocchio -language zh &
+  -bm25 -rocchio &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.txt \
-  -bm25 -rocchio -language zh &
+  -bm25 -rocchio &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics src/main/resources/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.title.tsv \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.title.txt \
-  -bm25 -rocchio -language zh &
+  -bm25 -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -155,21 +155,21 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.0338    | 0.0387    | 0.0393    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.0431    | 0.0299    | 0.0344    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.0447    | 0.0429    | 0.0452    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.0839    | 0.0730    | 0.0701    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.0773    | 0.0845    | 0.0842    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.0861    | 0.0822    | 0.0865    |
 | **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.0549    | 0.0617    | 0.0625    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.0746    | 0.0586    | 0.0681    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.0782    | 0.0751    | 0.0755    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1271    | 0.1142    | 0.1106    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1217    | 0.1250    | 0.1238    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1369    | 0.1292    | 0.1327    |
 | **J@20**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.0563    | 0.0531    | 0.0542    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.0520    | 0.0470    | 0.0490    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.0520    | 0.0570    | 0.0610    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.0860    | 0.0810    | 0.0790    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.0800    | 0.0770    | 0.0820    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.0860    | 0.0940    | 0.0870    |
 | **Recall@1000**                                                                                              | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.3816    | 0.4080    | 0.4030    |
-| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.3844    | 0.4116    | 0.4244    |
-| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.4163    | 0.4529    | 0.4570    |
+| [HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.5982    | 0.6357    | 0.6364    |
+| [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.5573    | 0.6077    | 0.6142    |
+| [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.6182    | 0.6482    | 0.6516    |
 
 ## Reproduction Log[*](reproducibility.md)
 
