@@ -62,3 +62,6 @@ src/main/resources/topics-and-qrels/qrels.covid-round2-cumulative.txt
 
 # TREC 2022 NeuCLIR qrels haven't been official released yet.
 src/main/resources/topics-and-qrels/qrels.neuclir22-*.txt
+
+# TREC 2022 DL qrels haven't been official released yet.
+src/main/resources/topics-and-qrels/qrels.dl22-*.txt
