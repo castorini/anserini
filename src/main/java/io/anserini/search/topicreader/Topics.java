@@ -308,6 +308,20 @@ public enum Topics {
   HC4_V1_0_ZH_EN_TEST_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.tsv"),
   HC4_V1_0_ZH_EN_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.title.tsv"),
 
+  // TREC NeuCLIR 2022 Topics
+  NEUCLIR22_EN_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.en.title.tsv"),
+  NEUCLIR22_EN_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.en.desc.tsv"),
+  NEUCLIR22_EN_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.en.desc.title.tsv"),
+  NEUCLIR22_FA_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.fa.title.tsv"),
+  NEUCLIR22_FA_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.fa.desc.tsv"),
+  NEUCLIR22_FA_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.fa.desc.title.tsv"),
+  NEUCLIR22_RU_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.ru.title.tsv"),
+  NEUCLIR22_RU_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.ru.desc.tsv"),
+  NEUCLIR22_RU_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.ru.desc.title.tsv"),
+  NEUCLIR22_ZH_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.zh.title.tsv"),
+  NEUCLIR22_ZH_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.zh.desc.tsv"),
+  NEUCLIR22_ZH_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.zh.desc.title.tsv"),
+
   // MIRACL (v1.0.0): original queries
   MIRACL_V10_AR_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ar-dev.tsv"),
   MIRACL_V10_BN_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-bn-dev.tsv"),
