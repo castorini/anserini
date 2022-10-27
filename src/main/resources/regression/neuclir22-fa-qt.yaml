@@ -46,15 +46,15 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[NeuCLIR 2022 (Persian): title](https://neuclir.github.io/)"
-    id: test_title
+    id: title
     path: topics.neuclir22.fa.title.tsv
     qrel: qrels.neuclir22-fa.txt
   - name: "[NeuCLIR 2022 (Persian): desc](https://neuclir.github.io/)"
-    id: test_description
+    id: desc
     path: topics.neuclir22.fa.desc.tsv
     qrel: qrels.neuclir22-fa.txt
   - name: "[NeuCLIR 2022 (Persian): desc+title](https://neuclir.github.io/)"
-    id: test_description_title
+    id: desc_title
     path: topics.neuclir22.fa.desc.title.tsv
     qrel: qrels.neuclir22-fa.txt
 
