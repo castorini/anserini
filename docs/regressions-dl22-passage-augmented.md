@@ -107,7 +107,23 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5835    | 0.6298    | 0.6372    |
 
-Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
+**IMPORTANT**: These runs are evaluated prior to dedup, so the scores will be slightly lower than the official scores (e.g., computed by NIST), which includes dedup.
 
-+ `paug_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
-+ `paug_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
+The "BM25 (default)"" condition corresponds to the `paug_bm25` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
+As of [`91ec67`](https://github.com/castorini/pyserini/commit/91ec6749bfef206e210bcc1df8cd4060e7d7aaff), this correspondence was _exact_.
+That is, modulo the runtag and the number of hits, the output runfile should be identical.
+This can be confirmed as follows:
+
+```bash
+# Trim out the runtag:
+cut -d ' ' -f 1-5 runs/paug_bm25 > runs/paug_bm25.submitted.cut
+
+# Trim out the runtag and retain only top 100 hits per query:
+cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage-augmented.dl22.bm25-default | grep -E '^[^ ]+ Q0 [^ ]+ (\d|\d\d|100) ' > runs/paug_bm25.new.cut
+
+# Verify the two runfiles are identical:
+diff runs/paug_bm25.submitted.cut runs/paug_bm25.new.cut
+```
+
+The "BM25 + RM3" and "BM25 + Rocchio" conditions above correspond to run `paug_bm25rm3` and run `paug_bm25rocchio` submitted to the TREC 2022 Deep Learning Track as "baselines".
+However, due to [`a60e84`](https://github.com/castorini/pyserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
