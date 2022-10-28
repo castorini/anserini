@@ -108,17 +108,17 @@ See individual pages for details!
 
 ### MS MARCO V2 Passage Corpus
 
-|   | dev | DL21 |
-|---|:---:|:----:|
+|   | dev | DL21 |                           DL22                            |
+|---|:---:|:----:|:---------------------------------------------------------:|
 | **Unsupervised lexical, original corpus** |
-| baselines | [+](docs/regressions-msmarco-v2-passage.md) | [+](docs/regressions-dl21-passage.md) |
-| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-d2q-t5.md) | [+](docs/regressions-dl21-passage-d2q-t5.md) |
+| baselines | [+](docs/regressions-msmarco-v2-passage.md) | [+](docs/regressions-dl21-passage.md) |          [+](docs/regressions-dl22-passage.md)           |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-d2q-t5.md) | [+](docs/regressions-dl21-passage-d2q-t5.md) |       [+](docs/regressions-dl22-passage-d2q-t5.md)        |
 | **Unsupervised lexical, augmented corpus** |
-| baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md) |
-| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md) |
+| baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md) |      [+](docs/regressions-dl22-passage-augmented.md)      |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md) |  [+](docs/regressions-dl22-passage-augmented-d2q-t5.md)   |
 | **Learned sparse lexical** |
-| uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) |
-| uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-0shot.md) |
+| uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl22-passage-unicoil-noexp-0shot.md) |
+| uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-0shot.md) |    [✓](docs/regressions-dl22-passage-unicoil-0shot.md)    |
 
 </details>
 <details>
