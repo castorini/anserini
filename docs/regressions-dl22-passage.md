@@ -91,6 +91,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/to
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.dl22.txt
 ```
 
+Note that the TREC 2022 passage qrels are not publicly available (yet).
+However, if you are a participant, you can download them from the NIST "active participants" site.
+Place the qrels file in `src/main/resources/topics-and-qrels/qrels.dl22-passage.txt` for the above evaluation commands to work.
+
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
@@ -109,8 +113,8 @@ With the above commands, you should be able to reproduce the following results:
 
 **IMPORTANT**: These runs are evaluated prior to dedup, so the scores will be slightly lower than the official scores (e.g., computed by NIST), which includes dedup.
 
-The "BM25 (default)"" condition corresponds to the `p_bm25` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
-As of [`91ec67`](https://github.com/castorini/pyserini/commit/91ec6749bfef206e210bcc1df8cd4060e7d7aaff), this correspondence was _exact_.
+The "BM25 (default)" condition corresponds to the `p_bm25` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
+As of [`91ec67`](https://github.com/castorini/anserini/commit/91ec6749bfef206e210bcc1df8cd4060e7d7aaff), this correspondence was _exact_.
 That is, modulo the runtag and the number of hits, the output runfile should be identical.
 This can be confirmed as follows:
 
@@ -126,4 +130,4 @@ diff runs/p_bm25.submitted.cut runs/p_bm25.new.cut
 ```
 
 The "BM25 + RM3" and "BM25 + Rocchio" conditions above correspond to run `p_bm25rm3` and run `p_bm25rocchio` submitted to the TREC 2022 Deep Learning Track as "baselines".
-However, due to [`a60e84`](https://github.com/castorini/pyserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
+However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).

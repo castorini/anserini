@@ -91,18 +91,43 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/to
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl22.txt
 ```
 
+Note that the TREC 2022 passage qrels are not publicly available (yet).
+However, if you are a participant, you can download them from the NIST "active participants" site.
+Place the qrels file in `src/main/resources/topics-and-qrels/qrels.dl22-passage.txt` for the above evaluation commands to work.
+
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1649    | 0.1930    | 0.1984    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.0870    | 0.0949    | 0.0989    |
 | **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6391    | 0.5958    | 0.6325    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4396    | 0.4642    | 0.4581    |
 | **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4702    | 0.4812    | 0.4907    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3607    | 0.3734    | 0.3794    |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3883    | 0.4321    | 0.4294    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2586    | 0.2496    | 0.2558    |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6962    | 0.7672    | 0.7680    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5054    | 0.5192    | 0.5268    |
+
+**IMPORTANT**: These runs are evaluated prior to dedup, so the scores will be slightly lower than the official scores (e.g., computed by NIST), which includes dedup.
+
+The "BM25 (default)" condition corresponds to the `paug_d2q_bm25` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
+As of [`91ec67`](https://github.com/castorini/anserini/commit/91ec6749bfef206e210bcc1df8cd4060e7d7aaff), this correspondence was _exact_.
+That is, modulo the runtag and the number of hits, the output runfile should be identical.
+This can be confirmed as follows:
+
+```bash
+# Trim out the runtag:
+cut -d ' ' -f 1-5 runs/paug_d2q_bm25 > runs/paug_d2q_bm25.submitted.cut
+
+# Trim out the runtag and retain only top 100 hits per query:
+cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default | grep -E '^[^ ]+ Q0 [^ ]+ (\d|\d\d|100) ' > runs/paug_d2q_bm25.new.cut
+
+# Verify the two runfiles are identical:
+diff runs/paug_d2q_bm25.submitted.cut runs/paug_d2q_bm25.new.cut
+```
+
+The "BM25 + RM3" and "BM25 + Rocchio" conditions above correspond to run `paug_d2q_bm25rm3` and run `paug_d2q_bm25rocchio` submitted to the TREC 2022 Deep Learning Track as "baselines".
+However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
