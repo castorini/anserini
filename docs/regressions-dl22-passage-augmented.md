@@ -129,5 +129,5 @@ cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage-augmented.dl22.bm25-default | grep
 diff runs/paug_bm25.submitted.cut runs/paug_bm25.new.cut
 ```
 
-The "BM25 + RM3" and "BM25 + Rocchio" conditions above correspond to run `paug_bm25rm3` and run `paug_bm25rocchio` submitted to the TREC 2022 Deep Learning Track as "baselines".
+The "BM25 + RM3" and "BM25 + Rocchio" conditions above correspond to the `paug_bm25rm3` run and the `paug_bm25rocchio` run submitted to the TREC 2022 Deep Learning Track as "baselines".
 However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).

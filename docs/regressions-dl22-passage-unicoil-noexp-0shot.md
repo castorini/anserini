@@ -170,5 +170,5 @@ cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-n
 diff runs/p_unicoil_noexp.submitted.cut runs/p_unicoil_noexp.new.cut
 ```
 
-The "uniCOIL + Rocchio" condition corresponds to the `p_unicoil_noexp_rocchio` submitted to the TREC 2022 Deep Learning Track as a "baseline".
+The "uniCOIL + Rocchio" condition corresponds to the `p_unicoil_noexp_rocchio` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
 However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
