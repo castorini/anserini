@@ -40,7 +40,8 @@ import java.util.Arrays;
 public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
   protected IndexArgs args;
 
-  protected DefaultLuceneDocumentGenerator() {
+  public DefaultLuceneDocumentGenerator() {
+    this(new IndexArgs());
   }
 
   /**

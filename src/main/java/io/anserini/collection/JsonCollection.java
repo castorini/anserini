@@ -149,6 +149,12 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       // This is no-op constructor for sub-classes that want to do everything themselves.
     }
 
+    public Document(String id, String contents) {
+      this.id = id;
+      this.contents = contents;
+      this.fields = new HashMap<>();
+    }
+
     public Document(JsonNode json) {
       this.raw = json.toPrettyString();
       this.fields = new HashMap<>();
