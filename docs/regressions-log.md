@@ -3,6 +3,25 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+
+### October 29, 2022
+
++ commit [`2d13a2`](https://github.com/castorini/anserini/commit/2d13a25b2068ca5c2b9838bb297faca8c10603c9) (10/29/2022)
+
+Added TREC 2022 DL Track regressions (for passages).
+
+### October 27, 2022
+
++ commit [`6d8601`](https://github.com/castorini/anserini/commit/6d8601a24410567e07f7daf704bef558ff678050) (10/27/2022)
+
+Added TREC 2022 NeuCLIR Track regressions.
+
+### October 25, 2022
+
++ commit [`debf2b`](https://github.com/castorini/anserini/commit/debf2ba4aa82db9af74d77b4b68fca543ad79f35) (10/25/2022)
+
+Fixed bug in HC4 doc translation regressions: documents are in English, so we should be using the English analyzer.
+
 ### October 23, 2022
 
 + commit [`f94285`](https://github.com/castorini/anserini/commit/f94285abf322a4ec982d9eccacece97a2a65dba4) (10/23/2022)
