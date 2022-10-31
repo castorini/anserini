@@ -150,17 +150,17 @@ python tools/scripts/dedup.py tools/topics-and-qrels/msmarco-v2-passage-neardupe
   runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100
 
 # Evaluate
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage-augmented-d2q-t5.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
 ```
 
 With the above commands, we should arrive at the following sores:
