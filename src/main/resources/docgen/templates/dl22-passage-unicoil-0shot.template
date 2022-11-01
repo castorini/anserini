@@ -121,3 +121,42 @@ diff runs/p_unicoil_exp.submitted.cut runs/p_unicoil_exp.new.cut
 
 The "uniCOIL + Rocchio" condition corresponds to the `p_unicoil_exp_rocchio` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
 However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
+
+To reproduce the official NIST scores, we need to run dedup.
+Official submissions start off with only 100 hits per query, which is (slightly) reduced after the dedup process.
+Thus, we have to take our runs (which contain 1000 hits per query) and trim down to 100 hits per query prior to running dedup.
+These commands are shown below:
+
+```bash
+# Trim from 1000 hits to 100 hits
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot --output runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3 --output runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio --output runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100
+
+# Run dedup
+python tools/scripts/dedup.py tools/topics-and-qrels/msmarco-v2-passage-neardupes.txt.gz \
+  runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100 \
+  runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100 \
+  runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100
+
+# Evaluate
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100.dedup
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100.dedup
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100.dedup
+```
+
+With the above commands, we should arrive at the following sores:
+
+|              | **uniCOIL (with doc2query-T5) zero-shot** | **+RM3**  | **+Rocchio**|
+|:-------------|-------------------------------------------|-----------|-------------|
+| **nDCG@10**  | 0.4475                                    | 0.4422    | 0.4716      |
+| **MAP@100**  | 0.1097                                    | 0.1198    | 0.1277      |
+| **R@100**    | 0.2790                                    | 0.2787    | 0.2915      |

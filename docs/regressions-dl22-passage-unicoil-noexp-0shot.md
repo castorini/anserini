@@ -172,3 +172,42 @@ diff runs/p_unicoil_noexp.submitted.cut runs/p_unicoil_noexp.new.cut
 
 The "uniCOIL + Rocchio" condition corresponds to the `p_unicoil_noexp_rocchio` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
 However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
+
+To reproduce the official NIST scores, we need to run dedup.
+Official submissions start off with only 100 hits per query, which is (slightly) reduced after the dedup process.
+Thus, we have to take our runs (which contain 1000 hits per query) and trim down to 100 hits per query prior to running dedup.
+These commands are shown below:
+
+```bash
+# Trim from 1000 hits to 100 hits
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot --output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot.hits100
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rm3 --output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rm3.hits100
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rocchio --output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rocchio.hits100
+
+# Run dedup
+python tools/scripts/dedup.py tools/topics-and-qrels/msmarco-v2-passage-neardupes.txt.gz \
+  runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot.hits100 \
+  runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rm3.hits100 \
+  runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rocchio.hits100
+
+# Evaluate
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rocchio.hits100.dedup
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rocchio.hits100.dedup
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.dl22.unicoil-noexp-0shot+rocchio.hits100.dedup
+```
+
+With the above commands, we should arrive at the following sores:
+
+|              | **uniCOIL (noexp) zero-shot** | **+RM3**  | **+Rocchio**|
+|:-------------|-------------------------------|-----------|-------------|
+| **nDCG@10**  | 0.3962                        | 0.3899    | 0.4135      |
+| **MAP@100**  | 0.0797                        | 0.0933    | 0.0999      |
+| **R@100**    | 0.2192                        | 0.2319    | 0.2398      |
