@@ -101,18 +101,13 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
 
     public Segment(BufferedReader bufferedReader) throws IOException {
       super(bufferedReader);
-      tarInput = new TarArchiveInputStream(new ReaderInputStream(bufferedReader));
     }
 
     @Override
     protected void readNext() throws IOException, NoSuchElementException {
-      if (bufferedReader != null) {
-        bufferedRecord = parser.parseRaw(bufferedReader);
-        bufferedReader = null;
-        atEOF = true;
-      } else {
+      if (path != null) {
         try {
-          if (tarInput != null || (path != null && path.toString().endsWith(".tgz"))) {
+          if (path != null && path.toString().endsWith(".tgz")) {
             getNextEntry();
             bufferedReader = new BufferedReader(new InputStreamReader(tarInput, "UTF-8"));
             File file = new File(nextEntry.getName()); // this is actually not a real file, only to match the method in Parser
@@ -128,6 +123,10 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
           }
           throw e1;
         }
+      } else if (bufferedReader != null) {
+        bufferedRecord = parser.parseRaw(bufferedReader);
+        bufferedReader = null;
+        atEOF = true;
       }
     }
 
