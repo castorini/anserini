@@ -131,3 +131,42 @@ diff runs/paug_d2q_bm25.submitted.cut runs/paug_d2q_bm25.new.cut
 
 The "BM25 + RM3" and "BM25 + Rocchio" conditions above correspond to the `paug_d2q_bm25rm3` run and the `paug_d2q_bm25rocchio` run submitted to the TREC 2022 Deep Learning Track as "baselines".
 However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
+
+To reproduce the official NIST scores, we need to run dedup.
+Official submissions start off with only 100 hits per query, which is (slightly) reduced after the dedup process.
+Thus, we have to take our runs (which contain 1000 hits per query) and trim down to 100 hits per query prior to running dedup.
+These commands are shown below:
+
+```bash
+# Trim from 1000 hits to 100 hits
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default --output runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3 --output runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio --output runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100
+
+# Run dedup
+python tools/scripts/dedup.py tools/topics-and-qrels/msmarco-v2-passage-neardupes.txt.gz \
+  runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100 \
+  runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100 \
+  runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100
+
+# Evaluate
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
+```
+
+With the above commands, we should arrive at the following sores:
+
+|              | **BM25 (default)** | **+RM3**  | **+Rocchio**|
+|:-------------|--------------------|-----------|-------------|
+| **nDCG@10**  | 0.3508             | 0.3562    | 0.3656      |
+| **MAP@100**  | 0.0807             | 0.0867    | 0.0909      |
+| **R@100**    | 0.2434             | 0.2346    | 0.2410      |
