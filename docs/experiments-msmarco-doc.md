@@ -68,7 +68,7 @@ After the run completes, we can evaluate with `trec_eval`:
 ```bash
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
     src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
-map                   	all	0.2310
+map                   	all	0.2309
 recall_1000           	all	0.8856
 ```
 
@@ -90,7 +90,7 @@ map                   	all	0.2219
 
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
     src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
-map                   	all	0.2303
+map                   	all	0.2302
 ```
 
 We see that "out of the box" Anserini is already better!
@@ -278,3 +278,5 @@ That's it!
 + Results reproduced by [@alvind1](https://github.com/alvind1) on 2022-05-05 (commit [`9b2dd5f5`](https://github.com/castorini/anserini/commit/9b2dd5f5e524ce56e5784cb73404d39926982733))
 + Results reproduced by [@Pie31415](https://github.com/Pie31415) on 2022-06-22 (commit [`6aef2eb`](https://github.com/castorini/anserini/commit/6aef2eb0681f34387bf04077465f04343c338cf4))
 + Results reproduced by [@aivan6842](https://github.com/aivan6842) on 2022-07-11 (commit [`8010d5c`](https://github.com/castorini/anserini/commit/8010d5c0b066f0316c6c506170274f8f7d558f73))
++ Results reproduced by [@Jasonwu-0803](https://github.com/Jasonwu-0803) on 2022-09-27 (commit [`b5ecc5a`](https://github.com/castorini/anserini/commit/b5ecc5aff79ddfc82b175f6bd3048f5039f0480f))
++ Results reproduced by [@limelody](https://github.com/limelody) on 2022-09-27 (commit [`252b5e2`](https://github.com/castorini/anserini/commit/252b5e2087dd7b3b994d41a444d4ae0044519819))

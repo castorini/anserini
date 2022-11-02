@@ -1153,4 +1153,91 @@ public class RelevanceJudgmentsTest {
     assertEquals(50, qrels.getQids().size());
     assertEquals(2751, getQrelsCount(qrels));
   }
+
+  @Test
+  public void testMIRACL() {
+    RelevanceJudgments qrels;
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_AR_DEV);
+    assertNotNull(qrels);
+    assertEquals(2896, qrels.getQids().size());
+    assertEquals(29197, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_BN_DEV);
+    assertNotNull(qrels);
+    assertEquals(411, qrels.getQids().size());
+    assertEquals(4206, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_EN_DEV);
+    assertNotNull(qrels);
+    assertEquals(799, qrels.getQids().size());
+    assertEquals(8350, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_ES_DEV);
+    assertNotNull(qrels);
+    assertEquals(648, qrels.getQids().size());
+    assertEquals(6443, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_FA_DEV);
+    assertNotNull(qrels);
+    assertEquals(632, qrels.getQids().size());
+    assertEquals(6571, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_FI_DEV);
+    assertNotNull(qrels);
+    assertEquals(1271, qrels.getQids().size());
+    assertEquals(12008, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_FR_DEV);
+    assertNotNull(qrels);
+    assertEquals(343, qrels.getQids().size());
+    assertEquals(3429, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_HI_DEV);
+    assertNotNull(qrels);
+    assertEquals(350, qrels.getQids().size());
+    assertEquals(3494, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_ID_DEV);
+    assertNotNull(qrels);
+    assertEquals(960, qrels.getQids().size());
+    assertEquals(9668, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_JA_DEV);
+    assertNotNull(qrels);
+    assertEquals(860, qrels.getQids().size());
+    assertEquals(8354, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_KO_DEV);
+    assertNotNull(qrels);
+    assertEquals(213, qrels.getQids().size());
+    assertEquals(3057, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_RU_DEV);
+    assertNotNull(qrels);
+    assertEquals(1252, qrels.getQids().size());
+    assertEquals(13100, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_SW_DEV);
+    assertNotNull(qrels);
+    assertEquals(482, qrels.getQids().size());
+    assertEquals(5092, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_TE_DEV);
+    assertNotNull(qrels);
+    assertEquals(828, qrels.getQids().size());
+    assertEquals(1606, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_TH_DEV);
+    assertNotNull(qrels);
+    assertEquals(733, qrels.getQids().size());
+    assertEquals(7573, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_ZH_DEV);
+    assertNotNull(qrels);
+    assertEquals(393, qrels.getQids().size());
+    assertEquals(3928, getQrelsCount(qrels));
+
+
+  }
 }

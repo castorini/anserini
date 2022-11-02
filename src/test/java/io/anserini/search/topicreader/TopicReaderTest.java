@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(268, cnt);
+    assertEquals(305, cnt);
   }
 
   @Test
@@ -1639,28 +1639,79 @@ public class TopicReaderTest {
   
   @Test
   public void testHC4Topics() {
-    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_TITLE).keySet().size());
-    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_DESCRIPTION).keySet().size());
-    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_DESC_TITLE).keySet().size());
-
-    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_TITLE).keySet().size());
-    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_DESCRIPTION).keySet().size());
-    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_DESC_TITLE).keySet().size());
-    
     assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_TITLE).keySet().size());
-    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_DESCRIPTION).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_DESC).keySet().size());
     assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_DESC_TITLE).keySet().size());
 
     assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_TEST_TITLE).keySet().size());
-    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_TEST_DESCRIPTION).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_TEST_DESC).keySet().size());
     assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_TEST_DESC_TITLE).keySet().size());
-  
+
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_EN_TEST_TITLE).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_EN_TEST_DESC).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_FA_EN_TEST_DESC_TITLE).keySet().size());
+
+    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_TITLE).keySet().size());
+    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_DESC).keySet().size());
+    assertEquals(4, TopicReader.getTopics(Topics.HC4_V1_0_RU_DEV_DESC_TITLE).keySet().size());
+
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_TITLE).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_DESC).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_TEST_DESC_TITLE).keySet().size());
+
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_EN_TEST_TITLE).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_EN_TEST_DESC).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_RU_EN_TEST_DESC_TITLE).keySet().size());
+
     assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_TITLE).keySet().size());
-    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_DESCRIPTION).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_DESC).keySet().size());
     assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_ZH_DEV_DESC_TITLE).keySet().size());
 
     assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_TEST_TITLE).keySet().size());
-    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_TEST_DESCRIPTION).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_TEST_DESC).keySet().size());
     assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_TEST_DESC_TITLE).keySet().size());
+
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_EN_TEST_TITLE).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_EN_TEST_DESC).keySet().size());
+    assertEquals(50, TopicReader.getTopics(Topics.HC4_V1_0_ZH_EN_TEST_DESC_TITLE).keySet().size());
+  }
+
+  @Test
+  public void testNeuCLIR22Topics() {
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_EN_TITLE).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_EN_DESC).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_EN_DESC_TITLE).keySet().size());
+
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_TITLE).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_DESC).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_DESC_TITLE).keySet().size());
+
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_TITLE).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_DESC).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_DESC_TITLE).keySet().size());
+
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_TITLE).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_DESC).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_DESC_TITLE).keySet().size());
+  }
+
+  @Test
+  public void testMIRACLTopics() {
+    assertEquals(2896, TopicReader.getTopics(Topics.MIRACL_V10_AR_DEV).keySet().size());
+    assertEquals(411, TopicReader.getTopics(Topics.MIRACL_V10_BN_DEV).keySet().size());
+    assertEquals(799, TopicReader.getTopics(Topics.MIRACL_V10_EN_DEV).keySet().size());
+    assertEquals(648, TopicReader.getTopics(Topics.MIRACL_V10_ES_DEV).keySet().size());
+    assertEquals(632, TopicReader.getTopics(Topics.MIRACL_V10_FA_DEV).keySet().size());
+    assertEquals(1271, TopicReader.getTopics(Topics.MIRACL_V10_FI_DEV).keySet().size());
+    assertEquals(343, TopicReader.getTopics(Topics.MIRACL_V10_FR_DEV).keySet().size());
+    assertEquals(350, TopicReader.getTopics(Topics.MIRACL_V10_HI_DEV).keySet().size());
+    assertEquals(960, TopicReader.getTopics(Topics.MIRACL_V10_ID_DEV).keySet().size());
+    assertEquals(860, TopicReader.getTopics(Topics.MIRACL_V10_JA_DEV).keySet().size());
+    assertEquals(213, TopicReader.getTopics(Topics.MIRACL_V10_KO_DEV).keySet().size());
+    assertEquals(1252, TopicReader.getTopics(Topics.MIRACL_V10_RU_DEV).keySet().size());
+    assertEquals(482, TopicReader.getTopics(Topics.MIRACL_V10_SW_DEV).keySet().size());
+    assertEquals(828, TopicReader.getTopics(Topics.MIRACL_V10_TE_DEV).keySet().size());
+    assertEquals(733, TopicReader.getTopics(Topics.MIRACL_V10_TH_DEV).keySet().size());
+    assertEquals(393, TopicReader.getTopics(Topics.MIRACL_V10_ZH_DEV).keySet().size());
   }
 }

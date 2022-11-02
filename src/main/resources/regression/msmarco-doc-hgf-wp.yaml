@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFac
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 5326252749
+  total terms: 5326253111
 
 metrics:
   - metric: AP@1000
@@ -48,7 +48,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
     id: dev
-    path: topics.msmarco-doc.dev.wp.tsv.gz
+    path: topics.msmarco-doc.dev.txt
     qrel: qrels.msmarco-doc.dev.txt
 
 models:

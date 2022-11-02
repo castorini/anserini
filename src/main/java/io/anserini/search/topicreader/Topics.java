@@ -154,6 +154,7 @@ public enum Topics {
   MRTYDI_V11_TH_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.train.txt.gz"),
   MRTYDI_V11_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.dev.txt.gz"),
   MRTYDI_V11_TH_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-th.test.txt.gz"),
+
   // BEIR (v1.0.0): original queries
   BEIR_V1_0_0_TREC_COVID_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-covid.test.tsv.gz"),
   BEIR_V1_0_0_BIOASQ_TEST(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-bioasq.test.tsv.gz"),
@@ -215,6 +216,7 @@ public enum Topics {
   BEIR_V1_0_0_FEVER_TEST_WP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.wp.tsv.gz"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_WP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.wp.tsv.gz"),
   BEIR_V1_0_0_SCIFACT_TEST_WP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.wp.tsv.gz"),
+
   // BEIR (v1.0.0): pre-encoded queries for SPLADE-distill CoCodenser-medium
   BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-covid.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_BIOASQ_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-bioasq.test.splade_distil_cocodenser_medium.tsv.gz"),
@@ -245,25 +247,7 @@ public enum Topics {
   BEIR_V1_0_0_FEVER_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_SCIFACT_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.splade_distil_cocodenser_medium.tsv.gz"),
-  //HC4 V1.0 Topics
-  HC4_V1_0_RU_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.dev.title.tsv"),
-  HC4_V1_0_RU_DEV_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.dev.desc.tsv"),
-  HC4_V1_0_RU_DEV_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.dev.desc.title.tsv"),
-  HC4_V1_0_RU_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.test.title.tsv"),
-  HC4_V1_0_RU_TEST_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.test.desc.tsv"),
-  HC4_V1_0_RU_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.test.desc.title.tsv"),
-  HC4_V1_0_FA_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv"),
-  HC4_V1_0_FA_DEV_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv"),
-  HC4_V1_0_FA_DEV_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv"),
-  HC4_V1_0_FA_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv"),
-  HC4_V1_0_FA_TEST_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv"),
-  HC4_V1_0_FA_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv"),
-  HC4_V1_0_ZH_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv"),
-  HC4_V1_0_ZH_DEV_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv"),
-  HC4_V1_0_ZH_DEV_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv"),
-  HC4_V1_0_ZH_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv"),
-  HC4_V1_0_ZH_TEST_DESCRIPTION(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv"),
-  HC4_V1_0_ZH_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv"),
+
   // BEIR (v1.0.0): pre-encoded queries for uniCOIL-noexp
   BEIR_V1_0_0_TREC_COVID_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-trec-covid.test.unicoil-noexp.tsv.gz"),
   BEIR_V1_0_0_BIOASQ_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-bioasq.test.unicoil-noexp.tsv.gz"),
@@ -293,7 +277,68 @@ public enum Topics {
   BEIR_V1_0_0_SCIDOCS_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scidocs.test.unicoil-noexp.tsv.gz"),
   BEIR_V1_0_0_FEVER_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-fever.test.unicoil-noexp.tsv.gz"),
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-climate-fever.test.unicoil-noexp.tsv.gz"),
-  BEIR_V1_0_0_SCIFACT_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.unicoil-noexp.tsv.gz");
+  BEIR_V1_0_0_SCIFACT_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics-and-qrels/topics.beir-v1.0.0-scifact.test.unicoil-noexp.tsv.gz"),
+
+  // HC4 V1.0 Topics
+  HC4_V1_0_FA_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv"),
+  HC4_V1_0_FA_DEV_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv"),
+  HC4_V1_0_FA_DEV_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv"),
+  HC4_V1_0_FA_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv"),
+  HC4_V1_0_FA_TEST_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv"),
+  HC4_V1_0_FA_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv"),
+  HC4_V1_0_FA_EN_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.en.test.title.tsv"),
+  HC4_V1_0_FA_EN_TEST_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.en.test.desc.tsv"),
+  HC4_V1_0_FA_EN_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-fa.en.test.desc.title.tsv"),
+  HC4_V1_0_RU_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.dev.title.tsv"),
+  HC4_V1_0_RU_DEV_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.dev.desc.tsv"),
+  HC4_V1_0_RU_DEV_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.dev.desc.title.tsv"),
+  HC4_V1_0_RU_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.test.title.tsv"),
+  HC4_V1_0_RU_TEST_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.test.desc.tsv"),
+  HC4_V1_0_RU_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.test.desc.title.tsv"),
+  HC4_V1_0_RU_EN_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.en.test.title.tsv"),
+  HC4_V1_0_RU_EN_TEST_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.en.test.desc.tsv"),
+  HC4_V1_0_RU_EN_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-ru.en.test.desc.title.tsv"),
+  HC4_V1_0_ZH_DEV_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.dev.title.tsv"),
+  HC4_V1_0_ZH_DEV_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.tsv"),
+  HC4_V1_0_ZH_DEV_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.dev.desc.title.tsv"),
+  HC4_V1_0_ZH_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv"),
+  HC4_V1_0_ZH_TEST_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv"),
+  HC4_V1_0_ZH_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv"),
+  HC4_V1_0_ZH_EN_TEST_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.en.test.title.tsv"),
+  HC4_V1_0_ZH_EN_TEST_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.tsv"),
+  HC4_V1_0_ZH_EN_TEST_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.title.tsv"),
+
+  // TREC NeuCLIR 2022 Topics
+  NEUCLIR22_EN_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.en.title.tsv"),
+  NEUCLIR22_EN_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.en.desc.tsv"),
+  NEUCLIR22_EN_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.en.desc.title.tsv"),
+  NEUCLIR22_FA_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.fa.title.tsv"),
+  NEUCLIR22_FA_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.fa.desc.tsv"),
+  NEUCLIR22_FA_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.fa.desc.title.tsv"),
+  NEUCLIR22_RU_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.ru.title.tsv"),
+  NEUCLIR22_RU_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.ru.desc.tsv"),
+  NEUCLIR22_RU_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.ru.desc.title.tsv"),
+  NEUCLIR22_ZH_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.zh.title.tsv"),
+  NEUCLIR22_ZH_DESC(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.zh.desc.tsv"),
+  NEUCLIR22_ZH_DESC_TITLE(TsvIntTopicReader.class, "topics-and-qrels/topics.neuclir22.zh.desc.title.tsv"),
+
+  // MIRACL (v1.0.0): original queries
+  MIRACL_V10_AR_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ar-dev.tsv"),
+  MIRACL_V10_BN_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-bn-dev.tsv"),
+  MIRACL_V10_EN_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-en-dev.tsv"),
+  MIRACL_V10_ES_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-es-dev.tsv"),
+  MIRACL_V10_FA_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-fa-dev.tsv"),
+  MIRACL_V10_FI_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-fi-dev.tsv"),
+  MIRACL_V10_FR_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-fr-dev.tsv"),
+  MIRACL_V10_HI_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-hi-dev.tsv"),
+  MIRACL_V10_ID_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-id-dev.tsv"),
+  MIRACL_V10_JA_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ja-dev.tsv"),
+  MIRACL_V10_KO_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ko-dev.tsv"),
+  MIRACL_V10_RU_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-ru-dev.tsv"),
+  MIRACL_V10_SW_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-sw-dev.tsv"),
+  MIRACL_V10_TE_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-te-dev.tsv"),
+  MIRACL_V10_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-th-dev.tsv"),
+  MIRACL_V10_ZH_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv");
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;
