@@ -23,9 +23,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class FeverParagraphCollection extends DocumentCollection<FeverParagraphCollection.Document> {
 
@@ -34,9 +33,17 @@ public class FeverParagraphCollection extends DocumentCollection<FeverParagraphC
     this.allowedFileSuffix = Set.of(".jsonl");
   }
 
+  public FeverParagraphCollection() {
+  }
+
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -57,13 +64,22 @@ public class FeverParagraphCollection extends DocumentCollection<FeverParagraphC
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+    }
+
     @Override
     protected void readNext() throws NoSuchElementException {
-      bufferedRecord = new FeverParagraphCollection.Document(node);
-      if (iterator.hasNext()) { // if JSONL contains more lines, we parse the next record
-        node = iterator.next();
-      } else { // if there is no more JSON object in the bufferedReader
+      if (node == null) {
+        bufferedRecord = new FeverParagraphCollection.Document(bufferedReader);
         atEOF = true;
+      } else {
+        bufferedRecord = new FeverParagraphCollection.Document(node);
+        if (iterator.hasNext()) { // if JSONL contains more lines, we parse the next record
+          node = iterator.next();
+        } else { // if there is no more JSON object in the bufferedReader
+          atEOF = true;
+        }
       }
     }
   }
@@ -76,6 +92,26 @@ public class FeverParagraphCollection extends DocumentCollection<FeverParagraphC
       id = json.get("id").asText();
       content = json.get("text").asText();
       raw = json.get("lines").asText();
+    }
+
+    public Document(BufferedReader bufferedReader) {
+      List<String> lines = new ArrayList<>();
+      List<String> rawLines = new ArrayList<>();
+      String line;
+      try {
+        while ((line = bufferedReader.readLine()) != null) {
+          String[] arrOfLine = line.split("\t", 3);
+          rawLines.add(line);
+          if (arrOfLine.length >= 2) {
+            lines.add(arrOfLine[1]);
+          }
+        }
+        content = String.join(" ", lines);
+      } catch (Exception e) {
+        e.printStackTrace();
+        content = "";
+      }
+      raw = String.join("\n", rawLines);
     }
   }
 }

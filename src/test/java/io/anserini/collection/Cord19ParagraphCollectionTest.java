@@ -78,4 +78,10 @@ public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19
 
     assertEquals(expected.get("id"), covidDoc.id());
   }
+
+  @Override
+  public void checkRawtoContent() {
+    // no content info stored in raw field in this collection, skip the test
+    assertEquals("", "");
+  }
 }

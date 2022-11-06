@@ -16,6 +16,7 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.Reranker;
@@ -29,6 +30,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
@@ -109,14 +111,14 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final long seed;
   private final String originalIndexPath;
   private final String externalIndexPath;  // Axiomatic reranking can opt to use
-                                           // external sources for searching the expansion
-                                           // terms. Typically, we build another index
-                                           // separately and include its information here.
+  // external sources for searching the expansion
+  // terms. Typically, we build another index
+  // separately and include its information here.
   public static ScoreDoc[] internalDocidsCache; // When enabling the deterministic reranking we could cache all the
-                                                // internal Docids for all queries
+  // internal Docids for all queries
   public static List<String> externalDocidsCache; // When enabling the deterministic reranking we can opt to read sorted docids
-                                              // from a file. The file can be obtained by running
-                                              // `IndexUtils -index /path/to/index -dumpAllDocids GZ`
+  // from a file. The file can be obtained by running
+  // `IndexUtils -index /path/to/index -dumpAllDocids GZ`
 
   private final int R; // number of top documents in initial results
   private final int N; // factor that used in extracting random documents, we will extract (N-1)*R randomly select documents
@@ -125,10 +127,15 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final float beta; // scaling parameter
   private final boolean outputQuery;
   private final boolean searchTweets;
+  private final Analyzer analyzer;
+  private final Class parser;
 
-  public AxiomReranker(String originalIndexPath, String externalIndexPath, String field, boolean deterministic,
+
+  public AxiomReranker(Analyzer analyzer, Class parser, String originalIndexPath, String externalIndexPath, String field, boolean deterministic,
                        long seed, int r, int n, float beta, int top, String docidsCachePath,
                        boolean outputQuery, boolean searchTweets) throws IOException {
+    this.analyzer = analyzer;
+    this.parser = parser;
     this.field = field;
     this.deterministic = deterministic;
     this.seed = seed;
@@ -162,7 +169,7 @@ public class AxiomReranker<T> implements Reranker<T> {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context) {
-    assert(docs.documents.length == docs.scores.length);
+    assert (docs.documents.length == docs.scores.length);
 
     try {
       // First to search against external index if it is not null
@@ -320,26 +327,26 @@ public class AxiomReranker<T> implements Reranker<T> {
    * 1. Keep the top R documents in the original ranking list
    * 2. Randomly pick {@code (N-1)*R} documents from the rest of the index so in total we have R*M documents
    *
-   * @param docs The initial ranking results
+   * @param docs    The initial ranking results
    * @param context An instance of RerankerContext
    * @return a Set of {@code R*N} document Ids
    */
   private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
-    throws IOException {
+      throws IOException {
     boolean useRf = (context.getSearchArgs().rf_qrels != null);
     Set<Integer> docidSet;
     long targetSize;
     if (useRf) {
       docidSet = new HashSet<>();
-      for (int i = 0; i < docs.ids.length; i++){
-        if (docs.scores[i] > 0){
+      for (int i = 0; i < docs.ids.length; i++) {
+        if (docs.scores[i] > 0) {
           docidSet.add(docs.ids[i]);
         }
       }
       targetSize = docidSet.size() * this.N;
-    } else{
+    } else {
       docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
-        Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
+          Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
       targetSize = this.R * this.N;
     }
     if (docidSet.size() < targetSize) {
@@ -358,7 +365,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       }
       int availableDocsCnt = reader.getDocCount(this.field);
       if (this.deterministic) { // internal docid cannot be relied due to multi-threads indexing,
-                                // we have to rely on external docid here
+        // we have to rely on external docid here
         Random random = new Random(this.seed);
         while (docidSet.size() < targetSize) {
           if (AxiomReranker.externalDocidsCache != null) {
@@ -384,8 +391,8 @@ public class AxiomReranker<T> implements Reranker<T> {
   /**
    * Extract ALL the terms from the documents pool.
    *
-   * @param docIds The reranking pool, see {@link #selectDocs} for explanations
-   * @param context An instance of RerankerContext
+   * @param docIds        The reranking pool, see {@link #selectDocs} for explanations
+   * @param context       An instance of RerankerContext
    * @param filterPattern A Regex pattern that terms are collected only they matches the pattern, could be null
    * @return A Map of <term -> Set<docId>> kind of a small inverted list where the Set of docIds is where the term occurs
    */
@@ -408,24 +415,39 @@ public class AxiomReranker<T> implements Reranker<T> {
     for (int docid : docIds) {
       Terms terms = reader.getTermVector(docid, IndexArgs.CONTENTS);
       if (terms == null) {
-        LOG.warn("Document vector not stored for docid: " + docid);
-        continue;
-      }
-      TermsEnum te = terms.iterator();
-      if (te == null) {
-        LOG.warn("Document vector not stored for docid: " + docid);
-        continue;
-      }
-      while ((te.next()) != null) {
-        String term = te.term().utf8ToString();
-        // We do some noisy filtering here ... pure empirical heuristic
-        if (term.length() < 2) continue;
-        if (!term.matches("[a-z]+")) continue;
-        if (filterPattern == null || filterPattern.matcher(term).matches()) {
-          if (!termDocidSets.containsKey(term)) {
-            termDocidSets.put(term, new HashSet<>());
+        if (parser == null) {
+          throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
+        }
+        Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
+            reader.document(docid).getField(IndexArgs.RAW).stringValue());
+        for (String term : termFreqMap.keySet()) {
+          // We do some noisy filtering here ... pure empirical heuristic
+          if (term.length() < 2) continue;
+          if (!term.matches("[a-z]+")) continue;
+          if (filterPattern == null || filterPattern.matcher(term).matches()) {
+            if (!termDocidSets.containsKey(term)) {
+              termDocidSets.put(term, new HashSet<>());
+            }
+            termDocidSets.get(term).add(docid);
           }
-          termDocidSets.get(term).add(docid);
+        }
+      } else {
+        TermsEnum te = terms.iterator();
+        if (te == null) {
+          LOG.warn("Document vector not stored for docid: " + docid);
+          continue;
+        }
+        while ((te.next()) != null) {
+          String term = te.term().utf8ToString();
+          // We do some noisy filtering here ... pure empirical heuristic
+          if (term.length() < 2) continue;
+          if (!term.matches("[a-z]+")) continue;
+          if (filterPattern == null || filterPattern.matcher(term).matches()) {
+            if (!termDocidSets.containsKey(term)) {
+              termDocidSets.put(term, new HashSet<>());
+            }
+            termDocidSets.get(term).add(docid);
+          }
         }
       }
     }
@@ -448,11 +470,11 @@ public class AxiomReranker<T> implements Reranker<T> {
    * 3. Add the scores of the same term together and pick the top {@code M} ones.
    *
    * @param termInvertedList A Map of <term -> Set<docId>> where the Set of docIds is where the term occurs
-   * @param context An instance of RerankerContext
+   * @param context          An instance of RerankerContext
    * @return Map<String, Double> Top terms and their weight scores in a HashMap
    */
   private Map<String, Double> computeTermScore(
-    Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
+      Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         int cmp = Double.compare(b.getRight(), a.getRight());
@@ -500,7 +522,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       if (df == 0L) {
         continue;
       }
-      float idf = (float) Math.log((1 + docCount)/df);
+      float idf = (float) Math.log((1 + docCount) / df);
       int qtf = q.getValue();
       if (termInvertedList.containsKey(queryTerm)) {
         PriorityQueue<Pair<String, Double>> termScorePQ = new PriorityQueue<>(new ScoreComparator());
@@ -578,9 +600,9 @@ public class AxiomReranker<T> implements Reranker<T> {
     if (pXY11 != 0) m11 = pXY11 * Math.log(pXY11 / (pX1 * pY1));
     return m00 + m10 + m01 + m11;
   }
-  
+
   @Override
   public String tag() {
-    return "AxiomaticRerank(R="+R+",N="+N+",K:"+K+",M:"+M+")";
+    return "AxiomaticRerank(R=" + R + ",N=" + N + ",K:" + K + ",M:" + M + ")";
   }
 }

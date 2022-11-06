@@ -17,6 +17,9 @@
 package io.anserini.index;
 
 import io.anserini.IndexerTestBase;
+import io.anserini.analysis.AnalyzerUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
@@ -65,7 +68,7 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
       while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
         System.out.print(String.format(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq()));
         System.out.print(" [");
-        for (int j=0; j<postingsEnum.freq(); j++) {
+        for (int j = 0; j < postingsEnum.freq(); j++) {
           System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
         }
         System.out.print("]");
@@ -180,7 +183,7 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
-    for (int i=0; i<numDocs; i++) {
+    for (int i = 0; i < numDocs; i++) {
       System.out.println(reader.document(i));
       Terms terms = reader.getTermVector(i, "contents");
       TermsEnum te = terms.iterator();
@@ -196,6 +199,33 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     }
   }
 
+  // This test case iterates through all documents in the index and gets all the document vector:
+  // For each term, we compare the on-the-fly frequency verses stored(golden).
+  @Test
+  public void testOnTheFlyDocumentVector() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    Analyzer analyzer = new EnglishAnalyzer();
+    Class collectionClass = Class.forName("io.anserini.collection.JsonCollection");
+
+    int numDocs = reader.numDocs();
+    // Iterate through the document vectors
+    for (int i = 0; i < numDocs; i++) {
+      Terms terms = reader.getTermVector(i, "contents");
+      // Compute Doc Vector without using stored vector
+      Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, collectionClass,
+          reader.document(i).getField("raw").stringValue());
+      TermsEnum te = terms.iterator();
+      // For this document, iterate through the terms.
+      Term term;
+      while (te.next() != null) {
+        term = new Term("contents", te.term());
+        long tf = te.totalTermFreq();
+        assertEquals(tf, (long) termFreqMap.get(term.bytes().utf8ToString()));
+      }
+    }
+  }
+
   // This test case iterates through all documents in the index and prints out the document vector:
   // For each term, we print out the term frequency and the BM25 weight.
   @Test
@@ -207,10 +237,10 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
-    for (int i=0; i<numDocs; i++) {
+    for (int i = 0; i < numDocs; i++) {
       String docid = reader.document(i).getField("id").stringValue();
       System.out.println(reader.document(i));
-      System.out.println(i+ ": " + docid);
+      System.out.println(i + ": " + docid);
       Terms terms = reader.getTermVector(i, "contents");
       TermsEnum te = terms.iterator();
 

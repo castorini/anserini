@@ -30,6 +30,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A document collection for the Epidemic QA dataset (https://bionlp.nlm.nih.gov/epic_qa/).
@@ -37,10 +38,13 @@ import java.util.Set;
 public class EpidemicQACollection extends DocumentCollection<EpidemicQACollection.Document> {
   private static final Logger LOG = LogManager.getLogger(EpidemicQACollection.class);
 
-  public EpidemicQACollection(Path path){
+  public EpidemicQACollection(Path path) {
     this.path = path;
     // Documents are stored in JSON files (1 document/JSON file).
     this.allowedFileSuffix = Set.of(".json");
+  }
+
+  public EpidemicQACollection() {
   }
 
   @Override
@@ -48,10 +52,17 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
     return new Segment(p);
   }
 
+  @Override
+  public FileSegment<EpidemicQACollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
+  }
+
   /**
    * A single JSON file containing a document.
    */
   public class Segment extends FileSegment<EpidemicQACollection.Document> {
+    private JsonNode node = null;
+
     public Segment(Path path) throws IOException {
       super(path);
       this.bufferedReader = new BufferedReader(new InputStreamReader(
@@ -59,22 +70,34 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       LOG.info("Path: " + path.toString());
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.readTree(jsonString);
+    }
+
     @Override
     public void readNext() throws NoSuchElementException {
-      String documentJSON;
-      try {
-        documentJSON = new String(Files.readAllBytes(path));
-      } catch (IOException e) {
-        LOG.error(e.getMessage());
-        LOG.error("Error parsing file at " + path.toString());
-        throw new NoSuchElementException();
-      }
+      if (node != null) {
+        bufferedRecord = new EpidemicQACollection.Document(node.toPrettyString());
+      } else {
+        String documentJSON;
+        try {
+          documentJSON = new String(Files.readAllBytes(path));
+        } catch (IOException e) {
+          LOG.error(e.getMessage());
+          LOG.error("Error parsing file at " + path.toString());
+          throw new NoSuchElementException();
+        }
 
-      if (documentJSON == null || documentJSON.isEmpty()) {
-        throw new NoSuchElementException();
-      }
+        if (documentJSON == null || documentJSON.isEmpty()) {
+          throw new NoSuchElementException();
+        }
 
-      bufferedRecord = new EpidemicQACollection.Document(documentJSON);
+        bufferedRecord = new EpidemicQACollection.Document(documentJSON);
+      }
       atEOF = true;
     }
 

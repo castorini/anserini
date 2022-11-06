@@ -33,6 +33,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A document collection for the Trialstreamer dataset modelled after CORD-19.
@@ -40,14 +41,22 @@ import java.util.Set;
 public class TrialstreamerCollection extends DocumentCollection<TrialstreamerCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TrialstreamerCollection.class);
 
-  public TrialstreamerCollection(Path path){
+  public TrialstreamerCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
+  }
+
+  public TrialstreamerCollection() {
   }
 
   @Override
   public FileSegment<TrialstreamerCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<TrialstreamerCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -57,6 +66,7 @@ public class TrialstreamerCollection extends DocumentCollection<TrialstreamerCol
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
+    private String stringRecord = null;
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -64,9 +74,9 @@ public class TrialstreamerCollection extends DocumentCollection<TrialstreamerCol
           new FileInputStream(path.toString())));
 
       csvParser = new CSVParser(bufferedReader, CSVFormat.DEFAULT
-        .withFirstRecordAsHeader()
-        .withIgnoreHeaderCase()
-        .withTrim());
+          .withFirstRecordAsHeader()
+          .withIgnoreHeaderCase()
+          .withTrim());
 
       iterator = csvParser.iterator();
       if (iterator.hasNext()) {
@@ -74,16 +84,25 @@ public class TrialstreamerCollection extends DocumentCollection<TrialstreamerCol
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      stringRecord = bufferedReader.lines().collect(Collectors.joining());
+    }
+
     @Override
     public void readNext() throws NoSuchElementException {
-      if (record == null) {
+      if (record == null && stringRecord == null) {
         throw new NoSuchElementException("Record is empty");
       } else {
-        bufferedRecord = new TrialstreamerCollection.Document(record);
-        if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
-          record = iterator.next();
+        if (record != null) {
+          bufferedRecord = new TrialstreamerCollection.Document(record);
+          if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
+            record = iterator.next();
+          } else {
+            atEOF = true; // there is no more JSON object in the bufferedReader
+          }
         } else {
-          atEOF = true; // there is no more JSON object in the bufferedReader
+          bufferedRecord = new TrialstreamerCollection.Document(stringRecord);
         }
       }
     }
@@ -114,6 +133,23 @@ public class TrialstreamerCollection extends DocumentCollection<TrialstreamerCol
       this.record = record;
 
       String fullTextJson = getFullTextJson(TrialstreamerCollection.this.path.toString());
+      if (fullTextJson != null) {
+        raw = fullTextJson;
+        StringReader fullTextReader = new StringReader(fullTextJson);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+          JsonNode recordJsonNode = mapper.readerFor(JsonNode.class).readTree(fullTextReader);
+          facets = recordJsonNode.get("facets");
+        } catch (IOException e) {
+          LOG.error("Could not read JSON string");
+        }
+      } else {
+        String recordJson = getRecordJson();
+        raw = recordJson == null ? "" : recordJson;
+      }
+    }
+
+    public Document(String fullTextJson) {
       if (fullTextJson != null) {
         raw = fullTextJson;
         StringReader fullTextReader = new StringReader(fullTextJson);

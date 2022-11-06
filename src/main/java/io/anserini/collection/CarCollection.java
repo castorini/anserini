@@ -18,10 +18,9 @@ package io.anserini.collection;
 
 import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
+import org.apache.commons.io.input.ReaderInputStream;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -41,21 +40,35 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".cbor"));
   }
 
+  public CarCollection() {
+  }
+
   @Override
   public FileSegment<CarCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<CarCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
    * An individual file in {@code CarCollection}.
    */
   public static class Segment extends FileSegment<CarCollection.Document> {
-    private final FileInputStream stream;
+    private final InputStream stream;
     private final Iterator<Data.Paragraph> iter;
 
     public Segment(Path path) throws IOException {
       super(path);
       stream = new FileInputStream(new File(path.toString()));
+      iter = DeserializeData.iterableParagraphs(stream).iterator();
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      stream = new ReaderInputStream(bufferedReader);
       iter = DeserializeData.iterableParagraphs(stream).iterator();
     }
 
