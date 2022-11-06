@@ -28,30 +28,39 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class AfribertaCollection extends DocumentCollection<AfribertaCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(AfribertaCollection.class);
-  
-  public AfribertaCollection(Path path){
+
+  public AfribertaCollection() {
+  }
+
+  public AfribertaCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".zip", ".txt"));
   }
-  
+
   @SuppressWarnings("unchecked")
   @Override
   public FileSegment<AfribertaCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
-  
-  
+
+  @Override
+  public FileSegment<AfribertaCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
+  }
+
+
   public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
     private List<JsonNode> jsonNodeArray = null;
     private Iterator<JsonNode> iterator; // iterator for JSON line objects
-    
-    public Segment(Path path) throws IOException{
+
+    public Segment(Path path) throws IOException {
       super(path);
       
       ZipFile zip = new ZipFile(String.valueOf(path));
@@ -63,23 +72,40 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
           }
         }
       }
-      
+
       iterator = jsonNodeArray.iterator();
       if (iterator.hasNext()) {
         node = iterator.next();
       }
     }
-    
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      ObjectMapper objectMapper = new ObjectMapper();
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+      JsonNode jsonNode = objectMapper.readTree(jsonString);
+      jsonNodeArray = new ArrayList<>();
+      jsonNodeArray.add(jsonNode);
+      iterator = jsonNodeArray.iterator();
+      if (iterator.hasNext()) {
+        node = iterator.next();
+      }
+    }
+
     private List<JsonNode> getTxtFiles(InputStream inputStream) {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+      return getTxtFiles(reader);
+    }
+
+    private List<JsonNode> getTxtFiles(BufferedReader reader) {
       List<JsonNode> jsonNodeArray = new ArrayList<>();
       ObjectMapper objectMapper = new ObjectMapper();
-      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-      
+
       String line;
       try {
-        int i=0;
+        int i = 0;
         while ((line = reader.readLine()) != null) {
-          String json = "{ \"id\" : \"doc_"+i+"\", \"contents\" : \""+line.replaceAll("[-+\"\'^[\\\\p{C}]\\\\]*","").strip()+"\" }";
+          String json = "{ \"id\" : \"doc_" + i + "\", \"contents\" : \"" + line.replaceAll("[-+\"\'^[\\\\p{C}]\\\\]*", "").strip() + "\" }";
           JsonNode jsonNode = objectMapper.readTree(json);
           jsonNodeArray.add(jsonNode);
           i++;

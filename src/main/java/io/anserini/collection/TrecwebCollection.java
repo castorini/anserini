@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.ParseException;
+import java.util.stream.Collectors;
 
 /**
  * A classic TREC web collection (e.g., Gov2).
@@ -30,9 +31,17 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
     this.path = path;
   }
 
+  public TrecwebCollection() {
+  }
+
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
     return new Segment<>(p);
+  }
+
+  @Override
+  public FileSegment<Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment<>(bufferedReader);
   }
 
   /**
@@ -41,14 +50,23 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
    * @param <T> type of the document
    */
   public static class Segment<T extends Document> extends TrecCollection.Segment<T> {
-
     public Segment(Path path) throws IOException {
       super(path);
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+    }
+
     @Override
     public void readNext() throws IOException, ParseException {
-      readNextRecord(bufferedReader);
+      if (rawContent != null) {
+        bufferedRecord = (T) new Document();
+        bufferedRecord.raw = rawContent;
+        rawContent = null;
+      } else {
+        readNextRecord(bufferedReader);
+      }
     }
 
     private void readNextRecord(BufferedReader reader) throws IOException, ParseException {

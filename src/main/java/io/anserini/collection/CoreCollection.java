@@ -19,6 +19,7 @@ package io.anserini.collection;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.tukaani.xz.XZInputStream;
@@ -31,6 +32,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A document collection in the
@@ -47,14 +49,22 @@ import java.util.Set;
 public class CoreCollection extends DocumentCollection<CoreCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(CoreCollection.class);
 
-  public CoreCollection(Path path){
+  public CoreCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = Set.of(".json.xz", "json");
+  }
+
+  public CoreCollection() {
   }
 
   @Override
   public FileSegment<CoreCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<CoreCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -86,13 +96,22 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.createObjectNode();
+      ((ObjectNode) node).put("contents", jsonString);
+    }
+
     @Override
     public void readNext() throws NoSuchElementException {
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {
         bufferedRecord = new CoreCollection.Document(node);
-        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+        if (iterator != null && iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
         } else {
           atEOF = true; // there is no more JSON object in the bufferedReader
@@ -119,9 +138,10 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     private JsonNode jsonNode;
 
     public Document(JsonNode json) {
+      contents = (getJsonValue(json, "contents").equals("")) ? getJsonValue(json, "title") + " " + getJsonValue(json, "abstract") :
+          getJsonValue(json, "contents");
       id = (getJsonValue(json, "doi").equals("")) ?
-        getJsonValue(json, "coreId") : getJsonValue(json, "doi");
-      contents = getJsonValue(json, "title") + " " + getJsonValue(json, "abstract");
+          getJsonValue(json, "coreId") : getJsonValue(json, "doi");
       jsonNode = json;
     }
 

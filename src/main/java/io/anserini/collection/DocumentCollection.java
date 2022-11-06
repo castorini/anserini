@@ -19,6 +19,7 @@ package io.anserini.collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
@@ -94,6 +95,15 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
    * @throws IOException if file access error encountered
    */
   public abstract FileSegment<T> createFileSegment(Path p) throws IOException;
+
+  /**
+   * Creates a {@code FileSegment} from a path.
+   *
+   * @param bufferedReader raw BufferedReader
+   * @return {@code FileSegment} with the specified path
+   * @throws IOException if file access error encountered
+   */
+  public abstract FileSegment<T> createFileSegment(BufferedReader bufferedReader) throws IOException;
 
   /**
    * An iterator over {@code FileSegment} for the {@code DocumentCollection} iterable.

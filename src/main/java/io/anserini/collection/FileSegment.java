@@ -62,6 +62,10 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
     this.path = segmentPath;
   }
 
+  public FileSegment(BufferedReader bufferedReader) {
+    this.bufferedReader = bufferedReader;
+  }
+
   public final int getSkippedCount() {
     return skipped;
   }

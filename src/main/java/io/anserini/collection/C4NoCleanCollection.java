@@ -44,20 +44,32 @@ public class C4NoCleanCollection extends C4Collection {
     super(path);
   }
 
+  public C4NoCleanCollection() {
+  }
+
   @Override
   public FileSegment<C4Collection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
-  public static class Segment extends C4Collection.Segment{
+  @Override
+  public FileSegment<C4Collection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
+  }
+
+  public static class Segment extends C4Collection.Segment {
 
     public Segment(Path path) throws IOException {
       super(path);
       Pattern pattern = Pattern.compile("c4-train.\\d{5}-of-\\d{5}");
       Matcher matcher = pattern.matcher(filePath);
-      if(matcher.find()){
+      if (matcher.find()) {
         fileName = matcher.group();
       }
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
     }
 
     @Override
@@ -80,20 +92,20 @@ public class C4NoCleanCollection extends C4Collection {
 
     public Document(JsonNode json, String filename, int jsonLoc) {
       super(json, filename, jsonLoc);
-      
+
       try {
         this.id = json.get("docno").asText();
-      } catch(Exception e) { 
+      } catch (Exception e) {
         this.id = String.format("en.noclean.%s.%d", filename, jsonLoc);
       }
     }
 
     @Override
-    public String contents(){
+    public String contents() {
       return super.contents() + " " + super.getUrl();
     }
 
-    public String getText(){
+    public String getText() {
       return super.contents();
     }
 

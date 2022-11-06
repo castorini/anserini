@@ -101,4 +101,10 @@ public class JsonCollectionGeoRiverTest extends JsonCollectionTest {
     assertEquals(expected.get("geometry"), ((JsonCollection.Document) doc).fields().get("geometry"));
     assertEquals(expected.get("id"), doc.id());
   }
+
+  @Override
+  public void checkRawtoContent() {
+    // no content field in this collection, skip the test
+    assertEquals("", "");
+  }
 }
