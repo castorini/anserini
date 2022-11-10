@@ -416,7 +416,9 @@ public class AxiomReranker<T> implements Reranker<T> {
       Terms terms = reader.getTermVector(docid, IndexArgs.CONTENTS);
       if (terms == null) {
         if (parser == null) {
-          throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
+          LOG.warn("Document vector not stored for docid: " + docid + "\n" +
+                  "Please make sure if provided index have stored doc vectors available or search with input -collection param");
+          continue;
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
             reader.document(docid).getField(IndexArgs.RAW).stringValue());
