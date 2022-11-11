@@ -31,13 +31,21 @@ import java.util.NoSuchElementException;
  */
 public class TwentyNewsgroupsCollection extends DocumentCollection<TwentyNewsgroupsCollection.Document> {
 
-  public TwentyNewsgroupsCollection(Path path){
+  public TwentyNewsgroupsCollection(Path path) {
     this.path = path;
+  }
+
+  public TwentyNewsgroupsCollection() {
   }
 
   @Override
   public FileSegment<TwentyNewsgroupsCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<TwentyNewsgroupsCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -52,8 +60,12 @@ public class TwentyNewsgroupsCollection extends DocumentCollection<TwentyNewsgro
       super(path);
       this.fileName = path.toString();
       String[] str_path = fileName.split("/");
-      this.id = str_path[str_path.length-1];
+      this.id = str_path[str_path.length - 1];
       this.bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(this.fileName), "utf-8"));
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
     }
 
     @Override

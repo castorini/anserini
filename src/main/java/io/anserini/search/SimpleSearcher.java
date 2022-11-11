@@ -298,7 +298,7 @@ public class SimpleSearcher implements Closeable {
   public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     useRM3 = true;
     cascade = new RerankerCascade("rm3");
-    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
+    cascade.add(new Rm3Reranker(this.analyzer, null, IndexArgs.CONTENTS,
         fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -347,7 +347,7 @@ public class SimpleSearcher implements Closeable {
   public void set_rocchio(int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     useRocchio = true;
     cascade = new RerankerCascade("rocchio");
-    cascade.add(new RocchioReranker(this.analyzer, IndexArgs.CONTENTS,
+    cascade.add(new RocchioReranker(this.analyzer, null, IndexArgs.CONTENTS,
         topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
     cascade.add(new ScoreTiesAdjusterReranker());
   }

@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCollection.Document> {
@@ -44,9 +45,17 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
     this.allowedFileSuffix = Set.of(".jsonl");
   }
 
+  public FeverSentenceCollection() {
+  }
+
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -73,22 +82,31 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
                   return null;
                 }
               })
-              .filter(Objects::nonNull)
-              .flatMap(this::flattenToSentences)
-              .iterator();
+          .filter(Objects::nonNull)
+          .flatMap(this::flattenToSentences)
+          .iterator();
 
       if (iterator.hasNext()) {
         node = iterator.next();
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+    }
+
     @Override
     protected void readNext() throws NoSuchElementException {
-      bufferedRecord = new FeverSentenceCollection.Document(node);
-      if (iterator.hasNext()) { // if JSONL contains more lines, we parse the next record
-        node = iterator.next();
-      } else { // if there is no more JSON object in the bufferedReader
+      if (node == null) {
+        bufferedRecord = new FeverSentenceCollection.Document(bufferedReader);
         atEOF = true;
+      } else {
+        bufferedRecord = new FeverSentenceCollection.Document(node);
+        if (iterator != null && iterator.hasNext()) { // if JSONL contains more lines, we parse the next record
+          node = iterator.next();
+        } else { // if there is no more JSON object in the bufferedReader
+          atEOF = true;
+        }
       }
     }
 
@@ -148,6 +166,11 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
       id = json.get("id").asText();
       content = json.get("text").asText();
       raw = json.get("lines").asText();
+    }
+
+    public Document(BufferedReader bufferedReader) {
+      content = bufferedReader.lines().collect(Collectors.joining("\n"));
+      raw = content;
     }
   }
 }

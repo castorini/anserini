@@ -37,6 +37,10 @@ public class SearchArgs {
   public String topicReader;
 
   // optional arguments
+  @Option(name = "-collection", metaVar = "[class]",
+      usage = "If doc vector is not stored in the index, this need to be provided as collection class in package 'io.anserini.collection'.")
+  public String collectionClass;
+
   @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
   public String queryGenerator = "BagOfWordsQueryGenerator";
 
@@ -98,7 +102,7 @@ public class SearchArgs {
   public boolean keepstop = false;
 
   @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
-          usage = "Path to file with stopwords.")
+      usage = "Path to file with stopwords.")
   public String stopwords = null;
 
   @Option(name = "-pretokenized", usage = "Boolean switch to accept pre tokenized jsonl.")
@@ -148,7 +152,7 @@ public class SearchArgs {
 
   @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
       usage = "Maximum number of hits to return per topic after segment id removal. " +
-              "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+          "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
   public int selectMaxPassage_hits = Integer.MAX_VALUE;
   // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
@@ -344,7 +348,7 @@ public class SearchArgs {
       usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
   public String[] rocchio_gamma = new String[]{"0.15"};
 
-  @Option(name = "-rocchio.useNegative", 
+  @Option(name = "-rocchio.useNegative",
       usage = "Rocchio parameter: flag to use nonrelevant document vectors")
   public boolean rocchio_useNegative = false;
 

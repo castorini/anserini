@@ -35,19 +35,28 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
-  public MsMarcoV2DocCollection(Path path){
+  public MsMarcoV2DocCollection(Path path) {
     this.path = path;
+  }
+
+  public MsMarcoV2DocCollection() {
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MsMarcoV2DocCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<MsMarcoV2DocCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -75,6 +84,15 @@ public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocColle
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.readTree(jsonString);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws NoSuchElementException {
@@ -82,7 +100,7 @@ public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocColle
         throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {
         bufferedRecord = (T) createNewDocument(node);
-        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+        if (iterator != null && iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
         } else {
           atEOF = true; // there is no more JSON object in the bufferedReader
@@ -110,7 +128,7 @@ public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocColle
       this.raw = json.toPrettyString();
       this.fields = new HashMap<>();
 
-      json.fields().forEachRemaining( e -> {
+      json.fields().forEachRemaining(e -> {
         if ("docid".equals(e.getKey())) {
           this.id = json.get("docid").asText();
         } else {

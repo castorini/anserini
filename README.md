@@ -108,17 +108,17 @@ See individual pages for details!
 
 ### MS MARCO V2 Passage Corpus
 
-|   | dev | DL21 |
-|---|:---:|:----:|
+|   | dev | DL21 |                           DL22                            |
+|---|:---:|:----:|:---------------------------------------------------------:|
 | **Unsupervised lexical, original corpus** |
-| baselines | [+](docs/regressions-msmarco-v2-passage.md) | [+](docs/regressions-dl21-passage.md) |
-| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-d2q-t5.md) | [+](docs/regressions-dl21-passage-d2q-t5.md) |
+| baselines | [+](docs/regressions-msmarco-v2-passage.md) | [+](docs/regressions-dl21-passage.md) |          [+](docs/regressions-dl22-passage.md)           |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-d2q-t5.md) | [+](docs/regressions-dl21-passage-d2q-t5.md) |       [+](docs/regressions-dl22-passage-d2q-t5.md)        |
 | **Unsupervised lexical, augmented corpus** |
-| baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md) |
-| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md) |
+| baselines | [+](docs/regressions-msmarco-v2-passage-augmented.md) | [+](docs/regressions-dl21-passage-augmented.md) |      [+](docs/regressions-dl22-passage-augmented.md)      |
+| doc2query-T5 | [+](docs/regressions-msmarco-v2-passage-augmented-d2q-t5.md) | [+](docs/regressions-dl21-passage-augmented-d2q-t5.md) |  [+](docs/regressions-dl22-passage-augmented-d2q-t5.md)   |
 | **Learned sparse lexical** |
-| uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) |
-| uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-0shot.md) |
+| uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl22-passage-unicoil-noexp-0shot.md) |
+| uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-0shot.md) |    [✓](docs/regressions-dl22-passage-unicoil-0shot.md)    |
 
 </details>
 <details>
@@ -320,6 +320,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.16.1: November 2, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.1.md)]
 + v0.16.0: October 23, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.0.md)]
 + v0.15.0: September 22, 2022 [[Release Notes](docs/release-notes/release-notes-v0.15.0.md)]
 + v0.14.4: July 31, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.4.md)]

@@ -18,6 +18,7 @@ package io.anserini.collection;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -28,8 +29,12 @@ import java.util.Map;
  * The "title" and "text" fields are concatenated into the "contents" field for indexing.
  */
 public class BeirFlatCollection extends DocumentCollection<BeirFlatCollection.Document> {
+
   public BeirFlatCollection(Path path) {
     this.path = path;
+  }
+
+  public BeirFlatCollection() {
   }
 
   @Override
@@ -37,9 +42,18 @@ public class BeirFlatCollection extends DocumentCollection<BeirFlatCollection.Do
     return new BeirFlatCollection.Segment<>(p);
   }
 
+  @Override
+  public FileSegment<BeirFlatCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new BeirFlatCollection.Segment<>(bufferedReader);
+  }
+
   public static class Segment<T extends BeirFlatCollection.Document> extends JsonCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
     }
 
     @Override

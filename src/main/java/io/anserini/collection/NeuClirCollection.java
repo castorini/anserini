@@ -31,28 +31,32 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
-  
-  public NeuClirCollection(Path path){
+
+  public NeuClirCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
   }
-  
+
+  public NeuClirCollection() {
+  }
+
   @SuppressWarnings("unchecked")
   @Override
   public FileSegment<NeuClirCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
-  
+
+  @Override
+  public FileSegment<NeuClirCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
+  }
+
   /**
    * A file in a JSON collection, typically containing multiple documents.
    */
@@ -60,7 +64,7 @@ public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Docu
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
-    
+
     public Segment(Path path) throws IOException {
       super(path);
       
@@ -70,19 +74,27 @@ public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Docu
       } else {
         bufferedReader = new BufferedReader(new FileReader(path.toString()));
       }
-      
+
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
         node = iterator.next();
       }
     }
-    
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.readTree(jsonString);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws NoSuchElementException {
       bufferedRecord = (T) createNewDocument(node);
-      if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+      if (iterator != null && iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
         node = iterator.next();
       } else {
         atEOF = true; // there is no more JSON object in the bufferedReader

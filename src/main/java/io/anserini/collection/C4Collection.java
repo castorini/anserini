@@ -42,9 +42,17 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     this.path = path;
   }
 
+  public C4Collection() {
+  }
+
   @Override
   public FileSegment<C4Collection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<C4Collection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   // removes control characters
@@ -77,7 +85,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     return segments.stream().filter(x -> getFileNumber(x.toString()) % shardCount == currShard).collect(Collectors.toList());
   }
 
-  public static class Segment extends FileSegment<C4Collection.Document>{
+  public static class Segment extends FileSegment<C4Collection.Document> {
     protected MappingIterator<JsonNode> iterator; // iterator for JSON line objects
     protected JsonNode node = null;
     protected String filePath;
@@ -87,7 +95,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     public Segment(Path path) throws IOException {
       super(path);
       filePath = path.toString();
-      int fileNumStart = filePath.indexOf("c4-train.") + 9;  
+      int fileNumStart = filePath.indexOf("c4-train.") + 9;
       fileName = filePath.substring(fileNumStart + 1, fileNumStart + 5);
       if (filePath.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
@@ -99,6 +107,14 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
         CtrlFilterStream filteredStream = new CtrlFilterStream(stream);
         bufferedReader = new BufferedReader(new InputStreamReader(filteredStream, StandardCharsets.UTF_8));
       }
+      // reading as a json file
+      ObjectMapper mapper = new ObjectMapper();
+      iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
+      node = iterator.next();
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
       // reading as a json file
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);

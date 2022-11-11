@@ -74,7 +74,10 @@ import java.util.zip.GZIPInputStream;
 public class JsonCollection extends DocumentCollection<JsonCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
-  public JsonCollection(Path path){
+  public JsonCollection() {
+  }
+
+  public JsonCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
   }
@@ -85,10 +88,15 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     return new Segment(p);
   }
 
+  @Override
+  public FileSegment<JsonCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
+  }
+
   /**
    * A file in a JSON collection, typically containing multiple documents.
    */
-  public static class Segment<T extends Document> extends FileSegment<T>{
+  public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
@@ -103,6 +111,18 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
         bufferedReader = new BufferedReader(new FileReader(path.toString()));
       }
 
+      ObjectMapper mapper = new ObjectMapper();
+      iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
+      if (iterator.hasNext()) {
+        node = iterator.next();
+        if (node.isArray()) {
+          iter = node.elements();
+        }
+      }
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {

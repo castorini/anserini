@@ -135,24 +135,13 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-noexp-0shot-v2 >& logs/log.dl21-doc-segmented-unicoil-noexp-0shot-v2 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-0shot >& logs/log.dl21-doc-segmented-unicoil-0shot &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-unicoil-0shot-v2 >& logs/log.dl21-doc-segmented-unicoil-0shot-v2 &
-```
-</details>
 
-<details>
-<summary>Mr.TyDi (v1.1): BM25 regressions</summary>
-
-```bash
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar >& logs/log.mrtydi-v1.1-ar &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn >& logs/log.mrtydi-v1.1-bn &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en >& logs/log.mrtydi-v1.1-en &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi >& logs/log.mrtydi-v1.1-fi &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id >& logs/log.mrtydi-v1.1-id &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja >& logs/log.mrtydi-v1.1-ja &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko >& logs/log.mrtydi-v1.1-ko &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru >& logs/log.mrtydi-v1.1-ru &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw >& logs/log.mrtydi-v1.1-sw &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te >& logs/log.mrtydi-v1.1-te &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th >& logs/log.mrtydi-v1.1-th &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage >& logs/log.dl22-passage &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-d2q-t5 >& logs/log.dl22-passage-d2q-t5 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-augmented >& logs/log.dl22-passage-augmented &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-augmented-d2q-t5 >& logs/log.dl22-passage-augmented-d2q-t5 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-unicoil-noexp-0shot >& logs/log.dl22-passage-unicoil-noexp-0shot &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-unicoil-0shot >& logs/log.dl22-passage-unicoil-0shot &
 ```
 </details>
 
@@ -337,6 +326,24 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 </details>
 
 <details>
+<summary>Mr.TyDi (v1.1): BM25 regressions</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar >& logs/log.mrtydi-v1.1-ar &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn >& logs/log.mrtydi-v1.1-bn &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en >& logs/log.mrtydi-v1.1-en &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi >& logs/log.mrtydi-v1.1-fi &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id >& logs/log.mrtydi-v1.1-id &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja >& logs/log.mrtydi-v1.1-ja &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko >& logs/log.mrtydi-v1.1-ko &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru >& logs/log.mrtydi-v1.1-ru &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw >& logs/log.mrtydi-v1.1-sw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te >& logs/log.mrtydi-v1.1-te &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th >& logs/log.mrtydi-v1.1-th &
+```
+</details>
+
+<details>
 <summary>MIRACL (v1.0): BM25 regressions</summary>
 
 ```bash
@@ -360,15 +367,9 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 </details>
 
 <details>
-<summary>Other regressions</summary>
+<summary>Other cross-lingual and multi-lingual regressions</summary>
 
 ```bash
-nohup python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking18 >& logs/log.backgroundlinking18 &
-nohup python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking19 >& logs/log.backgroundlinking19 &
-nohup python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking20 >& logs/log.backgroundlinking20 &
-
-nohup python src/main/python/run_regression.py --index --verify --search --regression fever >& logs/log.fever &
-
 nohup python src/main/python/run_regression.py --index --verify --search --regression ntcir8-zh >& logs/log.ntcir8-zh &
 nohup python src/main/python/run_regression.py --index --verify --search --regression clef06-fr >& logs/log.clef06-fr &
 nohup python src/main/python/run_regression.py --index --verify --search --regression trec02-ar >& logs/log.trec02-ar &
@@ -388,6 +389,25 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru-en >& logs/log.hc4-neuclir22-ru-en &
 nohup python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh-en >& logs/log.hc4-neuclir22-zh-en &
 
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt >& logs/log.neuclir22-fa-qt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-dt >& logs/log.neuclir22-fa-dt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt >& logs/log.neuclir22-ru-qt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-dt >& logs/log.neuclir22-ru-dt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt >& logs/log.neuclir22-zh-qt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt >& logs/log.neuclir22-zh-dt &
+```
+</details>
+
+<details>
+<summary>Other regressions</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking18 >& logs/log.backgroundlinking18 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking19 >& logs/log.backgroundlinking19 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking20 >& logs/log.backgroundlinking20 &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression disk12 >& logs/log.disk12 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression disk45 >& logs/log.disk45 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression robust05 >& logs/log.robust05 &
@@ -406,6 +426,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw09b >& logs/log.cw09b &
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw12b13 >& logs/log.cw12b13 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression cw12 >& logs/log.cw12 &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression fever >& logs/log.fever &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 >& logs/log.wikipedia-dpr-100w-bm25 &
 ```

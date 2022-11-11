@@ -16,8 +16,10 @@
 
 package io.anserini.collection;
 
+import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.logging.log4j.LogManager;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -38,9 +41,17 @@ public class CommonCrawlWarcCollection extends DocumentCollection<CommonCrawlWar
     this.allowedFileSuffix = Set.of(".warc.gz");
   }
 
+  public CommonCrawlWarcCollection() {
+  }
+
   @Override
   public FileSegment<CommonCrawlWarcCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<CommonCrawlWarcCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -49,15 +60,26 @@ public class CommonCrawlWarcCollection extends DocumentCollection<CommonCrawlWar
   public static class Segment extends FileSegment<CommonCrawlWarcCollection.Document> {
 
     protected DataInputStream stream;
+    private String rawContent = null; // raw content from buffered string
 
     public Segment(Path path) throws IOException {
       super(path);
       this.stream = new DataInputStream(new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      rawContent = "1\n" + bufferedReader.lines().collect(Collectors.joining("\n"));
+    }
+
     @Override
     public void readNext() throws IOException, NoSuchElementException {
-      bufferedRecord = Document.readNextWarcRecord(stream);
+      if (rawContent != null) {
+        bufferedRecord = Document.readNextWarcRecord(rawContent);
+        rawContent = null;
+      } else {
+        bufferedRecord = Document.readNextWarcRecord(stream);
+      }
     }
 
     @Override
@@ -104,6 +126,21 @@ public class CommonCrawlWarcCollection extends DocumentCollection<CommonCrawlWar
       // set the content
       retRecord.setContent(recordContent);
 
+      return retRecord;
+    }
+
+    /**
+     * Reads in a WARC record from a data input stream.
+     *
+     * @param rawContent the input raw string
+     * @return a WARC record (or null if EOF)
+     */
+    public static Document readNextWarcRecord(String rawContent) {
+      byte[] recordContent = rawContent.getBytes();
+
+      Document retRecord = new Document();
+      retRecord.setHeader("");
+      retRecord.setContent(recordContent);
       return retRecord;
     }
   }
