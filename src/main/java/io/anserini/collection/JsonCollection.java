@@ -23,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -165,14 +166,19 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     private String raw;
     private Map<String, String> fields;
 
-    protected Document() {
-      // This is no-op constructor for sub-classes that want to do everything themselves.
+    public static Document fromString(String raw) throws IOException {
+      ObjectMapper mapper = new ObjectMapper();
+      MappingIterator<JsonNode> iterator =
+          mapper.readerFor(JsonNode.class).readValues(new ByteArrayInputStream(raw.getBytes()));
+      if (iterator.hasNext()) {
+        return new Document(iterator.next());
+      }
+
+      return null;
     }
 
-    public Document(String id, String contents) {
-      this.id = id;
-      this.contents = contents;
-      this.fields = new HashMap<>();
+    protected Document() {
+      // This is no-op constructor for sub-classes that want to do everything themselves.
     }
 
     public Document(JsonNode json) {
