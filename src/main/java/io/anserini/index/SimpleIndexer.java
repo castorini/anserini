@@ -83,9 +83,11 @@ public class SimpleIndexer {
   }
 
   public void close() {
-    boolean optimize = false;
+    close(false);
+  }
 
-    // Do a final commit
+  public void close(boolean optimize) {
+    // Do a final commit.
     try {
       if (writer != null) {
         writer.commit();
@@ -96,6 +98,7 @@ public class SimpleIndexer {
     } catch (IOException e) {
       // It is possible that this happens... but nothing much we can do at this point,
       // so just log the error and move on.
+      LOG.error(e.getMessage());
     } finally {
       try {
         if (writer != null) {
@@ -104,6 +107,7 @@ public class SimpleIndexer {
       } catch (IOException e) {
         // It is possible that this happens... but nothing much we can do at this point,
         // so just log the error and move on.
+        LOG.error(e.getMessage());
       }
     }
   }
