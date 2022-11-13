@@ -6,7 +6,7 @@ index_path: indexes/lucene-index.cw09b/
 collection_class: ClueWeb09Collection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
-index_options: -storePositions -storeDocvectors -storeRaw
+index_options: -storeRaw
 index_stats:
   documents: 50220186
   documents (non-empty): 50220156
@@ -58,7 +58,7 @@ topics:
 models:
   - name: bm25
     display: BM25
-    params: -bm25
+    params: -parallelism 16 -bm25
     results:
       MAP:
         - 0.1126
@@ -78,7 +78,7 @@ models:
         - 0.1304
   - name: bm25+rm3
     display: +RM3
-    params: -bm25 -rm3
+    params: -parallelism 16 -bm25 -rm3 -collection ClueWeb09Collection
     results:
       MAP:
         - 0.0929
@@ -98,7 +98,7 @@ models:
         - 0.1491
   - name: bm25+ax
     display: +Ax
-    params: -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20
+    params: -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection
     results:
       MAP:
         - 0.0961
@@ -118,7 +118,7 @@ models:
         - 0.2399
   - name: ql
     display: QL
-    params: -qld
+    params: -parallelism 16 -qld
     results:
       MAP:
         - 0.1060
@@ -138,7 +138,7 @@ models:
         - 0.1306
   - name: ql+rm3
     display: +RM3
-    params: -qld -rm3
+    params: -parallelism 16 -qld -rm3 -collection ClueWeb09Collection
     results:
       MAP:
         - 0.1018
@@ -158,7 +158,7 @@ models:
         - 0.1333
   - name: ql+ax
     display: +Ax
-    params: -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20
+    params: -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection
     results:
       MAP:
         - 0.1088
