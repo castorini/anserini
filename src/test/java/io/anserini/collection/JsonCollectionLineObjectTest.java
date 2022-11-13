@@ -17,7 +17,9 @@
 package io.anserini.collection;
 
 import org.junit.Before;
+import org.junit.Test;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -78,4 +80,23 @@ public class JsonCollectionLineObjectTest extends JsonCollectionTest {
     assertEquals(expected.get("field1"), ((JsonCollection.Document) doc).fields().get("field1"));
     assertEquals(expected.get("field2"), ((JsonCollection.Document) doc).fields().get("field2"));
   }
+
+
+  @Test
+  public void testFromString() throws IOException {
+    JsonCollection.Document doc1 = JsonCollection.Document.fromString(expected.get("doc1").get("raw"));
+    assertEquals("doc1", doc1.id());
+    assertEquals("this is the contents 1.", doc1.contents());
+    assertEquals("doc1 field1 content", doc1.fields().get("field1"));
+    assertEquals("doc1 field2 content", doc1.fields().get("field2"));
+    assertEquals(expected.get("doc1").get("raw"), doc1.raw());
+
+    JsonCollection.Document doc2 = JsonCollection.Document.fromString(expected.get("doc2").get("raw"));
+    assertEquals("doc2", doc2.id());
+    assertEquals("this is the contents 2.", doc2.contents());
+    assertEquals("doc2 field1 content", doc2.fields().get("field1"));
+    assertEquals("doc2 field2 content", doc2.fields().get("field2"));
+    assertEquals(expected.get("doc2").get("raw"), doc2.raw());
+  }
+
 }
