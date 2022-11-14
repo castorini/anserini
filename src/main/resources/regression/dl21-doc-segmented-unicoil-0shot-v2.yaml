@@ -10,7 +10,7 @@ index_path: indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18
-index_options: -impact -pretokenized -storeDocvectors
+index_options: -impact -pretokenized -storeRaw
 index_stats:
   documents: 124131414
   documents (non-empty): 124131414
@@ -79,7 +79,7 @@ models:
         - 0.7069
   - name: unicoil-0shot+rm3
     display: +RM3
-    params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3
+    params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3 -collection JsonVectorCollection
     results:
       MAP@100:
         - 0.3293
@@ -93,7 +93,7 @@ models:
         - 0.7611
   - name: unicoil-0shot+rocchio
     display: +Rocchio
-    params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio
+    params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio -collection JsonVectorCollection
     results:
       MAP@100:
         - 0.3434
