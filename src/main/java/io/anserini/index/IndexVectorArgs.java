@@ -20,7 +20,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 
-public class IndexVectorArgs {
+public class IndexDenseVectorsArgs {
 
   // This is the name of the field in the Lucene document where the docid is stored.
   public static final String ID = "id";

@@ -106,7 +106,7 @@ public final class IndexDenseVectors {
     public void run() {
       try {
         LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
-            generatorClass.getDeclaredConstructor(IndexVectorArgs.class).newInstance(args);
+            generatorClass.getDeclaredConstructor(IndexDenseVectorsArgs.class).newInstance(args);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
@@ -189,7 +189,7 @@ public final class IndexDenseVectors {
     }
   }
 
-  private final IndexVectorArgs args;
+  private final IndexDenseVectorsArgs args;
   private final Path collectionPath;
   private final Set whitelistDocids;
   private final Class collectionClass;
@@ -199,7 +199,7 @@ public final class IndexDenseVectors {
   private Path indexPath;
 
   @SuppressWarnings("unchecked")
-  public IndexDenseVectors(IndexVectorArgs args) throws Exception {
+  public IndexDenseVectors(IndexDenseVectorsArgs args) throws Exception {
     this.args = args;
 
     if (args.verbose) {
@@ -364,7 +364,7 @@ public final class IndexDenseVectors {
   }
 
   public static void main(String[] args) throws Exception {
-    IndexVectorArgs indexCollectionArgs = new IndexVectorArgs();
+    IndexDenseVectorsArgs indexCollectionArgs = new IndexDenseVectorsArgs();
     CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(100));
 
     try {
