@@ -6,7 +6,7 @@ index_path: indexes/lucene-index.cw12b13/
 collection_class: ClueWeb12Collection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
-index_options: -storePositions -storeDocvectors -storeRaw
+index_options: -storeRaw
 index_stats:
   documents: 52244810
   documents (non-empty): 52237522
@@ -70,7 +70,7 @@ models:
         - 0.1198
   - name: bm25+rm3
     display: +RM3
-    params: -bm25 -rm3
+    params: -bm25 -rm3 -collection ClueWeb09Collection
     results:
       MAP:
         - 0.0407
@@ -86,7 +86,7 @@ models:
         - 0.1064
   - name: bm25+ax
     display: +Ax
-    params: -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20
+    params: -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection
     results:
       MAP:
         - 0.0424
@@ -118,7 +118,7 @@ models:
         - 0.1091
   - name: ql+rm3
     display: +RM3
-    params: -qld -rm3
+    params: -qld -rm3 -collection ClueWeb09Collection
     results:
       MAP:
         - 0.0321
@@ -134,7 +134,7 @@ models:
         - 0.0926
   - name: ql+ax
     display: +Ax
-    params: -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20
+    params: -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection
     results:
       MAP:
         - 0.0354
