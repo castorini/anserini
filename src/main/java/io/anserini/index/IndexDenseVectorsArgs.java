@@ -38,6 +38,13 @@ public class IndexDenseVectorsArgs {
 
 
   // required arguments
+  @Option(name = "-M", metaVar = "[num]", required = true,
+      usage = "HNSW parameters M")
+  public int M = 16;
+
+  @Option(name = "-efC", metaVar = "[num]", required = true,
+      usage = "HNSW parameters ef Construction")
+  public int efC = 100;
 
   @Option(name = "-input", metaVar = "[path]", required = true,
       usage = "Location of input collection.")
@@ -117,4 +124,5 @@ public class IndexDenseVectorsArgs {
   @Option(name = "-shard.current", metaVar = "[n]",
       usage = "The current shard number to generate (indexed from 0).")
   public int shardCurrent = -1;
+
 }

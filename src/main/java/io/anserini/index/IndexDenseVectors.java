@@ -29,6 +29,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.codecs.KnnVectorsFormat;
+import org.apache.lucene.codecs.lucene92.Lucene92Codec;
+import org.apache.lucene.codecs.lucene92.Lucene92HnswVectorsFormat;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
@@ -271,7 +274,12 @@ public final class IndexDenseVectors {
     // Used for LocalIndexThread
     if (indexPath != null) {
       final Directory dir = FSDirectory.open(indexPath);
-      final IndexWriterConfig config = new IndexWriterConfig();
+      final IndexWriterConfig config = new IndexWriterConfig().setCodec(new Lucene92Codec(){
+        @Override
+        public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
+          return new Lucene92HnswVectorsFormat(args.M, args.efC);
+        }
+      });
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       config.setRAMBufferSizeMB(args.memorybufferSize);
       config.setUseCompoundFile(false);
