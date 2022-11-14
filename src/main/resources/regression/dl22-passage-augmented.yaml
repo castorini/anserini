@@ -6,7 +6,7 @@ index_path: indexes/lucene-index.msmarco-v2-passage-augmented/
 collection_class: MsMarcoV2PassageCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18
-index_options: -storePositions -storeDocvectors -storeRaw
+index_options: -storeRaw
 index_stats:
   documents: 138364198
   documents (non-empty): 138364198
@@ -75,7 +75,7 @@ models:
         - 0.3910
   - name: bm25-default+rm3
     display: +RM3
-    params: -bm25 -rm3
+    params: -bm25 -rm3 -collection MsMarcoV2PassageCollection
     results:
       MAP@100:
         - 0.0400
@@ -89,7 +89,7 @@ models:
         - 0.3691
   - name: bm25-default+rocchio
     display: +Rocchio
-    params: -bm25 -rocchio
+    params: -bm25 -rocchio -collection MsMarcoV2PassageCollection
     results:
       MAP@100:
         - 0.0395
