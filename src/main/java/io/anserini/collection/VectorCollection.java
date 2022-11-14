@@ -29,25 +29,25 @@ import java.util.Map;
  * A document collection for encoded dense vectors for ANN (HNSW) search.
  * The "vector" field are concatenated into the "contents" field for indexing.
  */
-public class VectorCollection extends DocumentCollection<VectorCollection.Document> {
-  public VectorCollection(Path path) {
+public class JsonDenseVectorCollection extends DocumentCollection<JsonDenseVectorCollection.Document> {
+  public JsonDenseVectorCollection(Path path) {
     this.path = path;
   }
 
-  public VectorCollection() {
+  public JsonDenseVectorCollection() {
   }
 
   @Override
-  public FileSegment<VectorCollection.Document> createFileSegment(Path p) throws IOException {
-    return new VectorCollection.Segment<>(p);
+  public FileSegment<JsonDenseVectorCollection.Document> createFileSegment(Path p) throws IOException {
+    return new JsonDenseVectorCollection.Segment<>(p);
   }
 
   @Override
-  public FileSegment<VectorCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
-    return new VectorCollection.Segment<>(bufferedReader);
+  public FileSegment<JsonDenseVectorCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new JsonDenseVectorCollection.Segment<>(bufferedReader);
   }
 
-  public static class Segment<T extends VectorCollection.Document> extends JsonCollection.Segment<T> {
+  public static class Segment<T extends JsonDenseVectorCollection.Document> extends JsonCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
     }

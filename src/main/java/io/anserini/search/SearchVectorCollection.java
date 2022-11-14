@@ -63,7 +63,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Main entry point for search.
  */
-public final class SearchVectorCollection implements Closeable {
+public final class SearchDenseVectors implements Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
   // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
@@ -71,7 +71,7 @@ public final class SearchVectorCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(IndexVectorArgs.ID, SortField.Type.STRING_VAL));
 
-  private static final Logger LOG = LogManager.getLogger(SearchVectorCollection.class);
+  private static final Logger LOG = LogManager.getLogger(SearchDenseVectors.class);
 
   private final SearchVectorArgs args;
   private final IndexReader reader;
@@ -210,7 +210,7 @@ public final class SearchVectorCollection implements Closeable {
     }
   }
 
-  public SearchVectorCollection(SearchVectorArgs args) throws IOException {
+  public SearchDenseVectors(SearchVectorArgs args) throws IOException {
     this.args = args;
     Path indexPath = Paths.get(args.index);
 
@@ -316,12 +316,12 @@ public final class SearchVectorCollection implements Closeable {
     }
 
     final long start = System.nanoTime();
-    SearchVectorCollection searcher;
+    SearchDenseVectors searcher;
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
     try {
-      searcher = new SearchVectorCollection(searchArgs);
+      searcher = new SearchDenseVectors(searchArgs);
     } catch (IllegalArgumentException e) {
       System.err.println(e.getMessage());
       return;
