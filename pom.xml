@@ -106,16 +106,16 @@
               <id>IndexCollection</id>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexVectorCollection</mainClass>
-              <id>IndexVectorCollection</id>
+              <mainClass>io.anserini.index.IndexDenseVectors</mainClass>
+              <id>IndexDenseVectors</id>
             </program>
             <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchVectorCollection</mainClass>
-              <id>SearchVectorCollection</id>
+              <mainClass>io.anserini.search.SearchDenseVectors</mainClass>
+              <id>SearchDenseVectors</id>
             </program>
             <program>
               <mainClass>io.anserini.search.SearchMsmarco</mainClass>
