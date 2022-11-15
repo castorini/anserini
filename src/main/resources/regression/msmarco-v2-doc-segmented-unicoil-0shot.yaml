@@ -9,7 +9,7 @@ download_corpus: msmarco_v2_doc_segmented_unicoil_0shot
 index_path: indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 32
+index_threads: 24
 index_options: -impact -pretokenized
 index_stats:
   documents: 124131414

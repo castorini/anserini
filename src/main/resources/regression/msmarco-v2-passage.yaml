@@ -5,7 +5,7 @@ corpus_path: collections/msmarco/msmarco_v2_passage/
 index_path: indexes/lucene-index.msmarco-v2-passage/
 collection_class: MsMarcoV2PassageCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 18
+index_threads: 24
 index_options: -storeRaw
 index_stats:
   documents: 138364198
