@@ -43,6 +43,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +60,114 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexDenseVectors {
+
+  public static final class Args {
+
+    // This is the name of the field in the Lucene document where the docid is stored.
+    public static final String ID = "id";
+  
+    // This is the name of the field in the Lucene document that should be searched by default.
+    public static final String CONTENTS = "contents";
+  
+    // This is the name of the field in the Lucene document where the raw document is stored.
+    public static final String RAW = "raw";
+  
+    // This is the name of the field in the Lucene document where the vector document is stored.
+    public static final String VECTOR = "vector";
+  
+    private static final int TIMEOUT = 600 * 1000;
+  
+  
+    // required arguments
+    @Option(name = "-M", metaVar = "[num]", required = true,
+        usage = "HNSW parameters M")
+    public int M = 16;
+  
+    @Option(name = "-efC", metaVar = "[num]", required = true,
+        usage = "HNSW parameters ef Construction")
+    public int efC = 100;
+  
+    @Option(name = "-input", metaVar = "[path]", required = true,
+        usage = "Location of input collection.")
+    public String input;
+  
+    @Option(name = "-threads", metaVar = "[num]", required = true,
+        usage = "Number of indexing threads.")
+    public int threads;
+  
+    @Option(name = "-collection", metaVar = "[class]", required = true,
+        usage = "Collection class in package 'io.anserini.collection'.")
+    public String collectionClass;
+  
+    @Option(name = "-generator", metaVar = "[class]",
+        usage = "Document generator class in package 'io.anserini.index.generator'.")
+    public String generatorClass = "DefaultLuceneDocumentGenerator";
+  
+    // optional general arguments
+  
+    @Option(name = "-verbose", forbids = {"-quiet"},
+        usage = "Enables verbose logging for each indexing thread; can be noisy if collection has many small file segments.")
+    public boolean verbose = false;
+  
+    @Option(name = "-quiet", forbids = {"-verbose"},
+        usage = "Turns off all logging.")
+    public boolean quiet = false;
+  
+    // optional arguments
+  
+    @Option(name = "-index", metaVar = "[path]", usage = "Index path.")
+    public String index;
+  
+    @Option(name = "-fields", handler = StringArrayOptionHandler.class,
+        usage = "List of fields to index (space separated), in addition to the default 'contents' field.")
+    public String[] fields = new String[]{};
+  
+    @Option(name = "-storePositions",
+        usage = "Boolean switch to index store term positions; needed for phrase queries.")
+    public boolean storePositions = false;
+  
+    @Option(name = "-storeDocvectors",
+        usage = "Boolean switch to store document vectors; needed for (pseudo) relevance feedback.")
+    public boolean storeDocvectors = false;
+  
+    @Option(name = "-storeContents",
+        usage = "Boolean switch to store document contents.")
+    public boolean storeContents = false;
+  
+    @Option(name = "-storeRaw",
+        usage = "Boolean switch to store raw source documents.")
+    public boolean storeRaw = false;
+  
+    @Option(name = "-optimize",
+        usage = "Boolean switch to optimize index (i.e., force merge) into a single segment; costly for large collections.")
+    public boolean optimize = false;
+  
+    @Option(name = "-uniqueDocid",
+        usage = "Removes duplicate documents with the same docid during indexing. This significantly slows indexing throughput " +
+                "but may be needed for tweet collections since the streaming API might deliver a tweet multiple times.")
+    public boolean uniqueDocid = false;
+  
+    @Option(name = "-memorybuffer", metaVar = "[mb]",
+        usage = "Memory buffer size (in MB).")
+    public int memorybufferSize = 2048;
+  
+    @Option(name = "-whitelist", metaVar = "[file]",
+        usage = "File containing list of docids, one per line; only these docids will be indexed.")
+    public String whitelist = null;
+  
+  
+    // Sharding options
+  
+    @Option(name = "-shard.count", metaVar = "[n]",
+        usage = "Number of shards to partition the document collection into.")
+    public int shardCount = -1;
+  
+    @Option(name = "-shard.current", metaVar = "[n]",
+        usage = "The current shard number to generate (indexed from 0).")
+    public int shardCurrent = -1;
+  
+  }
+
   private static final Logger LOG = LogManager.getLogger(IndexDenseVectors.class);
 
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
@@ -109,7 +219,7 @@ public final class IndexDenseVectors {
     public void run() {
       try {
         LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
-            generatorClass.getDeclaredConstructor(IndexDenseVectorsArgs.class).newInstance(args);
+            generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
@@ -192,7 +302,7 @@ public final class IndexDenseVectors {
     }
   }
 
-  private final IndexDenseVectorsArgs args;
+  private final Args args;
   private final Path collectionPath;
   private final Set whitelistDocids;
   private final Class collectionClass;
@@ -202,7 +312,7 @@ public final class IndexDenseVectors {
   private Path indexPath;
 
   @SuppressWarnings("unchecked")
-  public IndexDenseVectors(IndexDenseVectorsArgs args) throws Exception {
+  public IndexDenseVectors(Args args) throws Exception {
     this.args = args;
 
     if (args.verbose) {
@@ -372,7 +482,7 @@ public final class IndexDenseVectors {
   }
 
   public static void main(String[] args) throws Exception {
-    IndexDenseVectorsArgs indexCollectionArgs = new IndexDenseVectorsArgs();
+    Args indexCollectionArgs = new Args();
     CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(100));
 
     try {

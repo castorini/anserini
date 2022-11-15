@@ -16,7 +16,7 @@
 
 package io.anserini.search;
 
-import io.anserini.index.IndexDenseVectorsArgs;
+import io.anserini.index.IndexDenseVectors;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.VectorQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
@@ -69,7 +69,7 @@ public final class SearchDenseVectors implements Closeable {
   // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
   // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchVectorArgs.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexDenseVectorsArgs.ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(IndexDenseVectors.Args.ID, SortField.Type.STRING_VAL));
 
   private static final Logger LOG = LogManager.getLogger(SearchDenseVectors.class);
 
@@ -125,7 +125,7 @@ public final class SearchDenseVectors implements Closeable {
 
             int rank = 1;
             for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(IndexDenseVectorsArgs.ID);
+              String docid = docs.documents[i].get(IndexDenseVectors.Args.ID);
 
               if (args.selectMaxPassage) {
                 docid = docid.split(args.selectMaxPassage_delimiter)[0];
@@ -291,7 +291,7 @@ public final class SearchDenseVectors implements Closeable {
 
     // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
     // multiple fields with the associated boosts.
-    query = generator.buildQuery(IndexDenseVectorsArgs.VECTOR, queryString, args.efSearch);
+    query = generator.buildQuery(IndexDenseVectors.Args.VECTOR, queryString, args.efSearch);
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     rs = searcher.search(query, args.hits);

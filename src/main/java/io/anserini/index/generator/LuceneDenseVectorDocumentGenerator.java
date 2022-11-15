@@ -17,7 +17,7 @@
 package io.anserini.index.generator;
 
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.IndexDenseVectorsArgs;
+import io.anserini.index.IndexDenseVectors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +41,7 @@ import org.apache.lucene.index.VectorSimilarityFunction;
  * @param <T> type of the source document
  */
 public class LuceneDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  protected IndexDenseVectorsArgs args;
+  protected IndexDenseVectors.Args args;
 
   protected LuceneDenseVectorDocumentGenerator() {
   }
@@ -51,7 +51,7 @@ public class LuceneDenseVectorDocumentGenerator<T extends SourceDocument> implem
    *
    * @param args configuration arguments
    */
-  public LuceneDenseVectorDocumentGenerator(IndexDenseVectorsArgs args) {
+  public LuceneDenseVectorDocumentGenerator(IndexDenseVectors.Args args) {
     this.args = args;
   }
 
@@ -82,11 +82,11 @@ public class LuceneDenseVectorDocumentGenerator<T extends SourceDocument> implem
     final Document document = new Document();
 
     // Store the collection docid.
-    document.add(new StringField(IndexDenseVectorsArgs.ID, id, Field.Store.YES));
+    document.add(new StringField(IndexDenseVectors.Args.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    document.add(new KnnVectorField(IndexDenseVectorsArgs.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
+    document.add(new KnnVectorField(IndexDenseVectors.Args.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
     if (args.storeRaw) {
-      document.add(new StoredField(IndexDenseVectorsArgs.RAW, src.raw()));
+      document.add(new StoredField(IndexDenseVectors.Args.RAW, src.raw()));
     }
     return document;
   }
