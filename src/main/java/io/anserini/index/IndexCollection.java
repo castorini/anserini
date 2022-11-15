@@ -16,6 +16,7 @@
 
 package io.anserini.index;
 
+import io.anserini.analysis.CompositeAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
@@ -35,31 +36,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.ar.ArabicAnalyzer;
-import org.apache.lucene.analysis.bn.BengaliAnalyzer;
-import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.analysis.da.DanishAnalyzer;
-import org.apache.lucene.analysis.de.GermanAnalyzer;
-import org.apache.lucene.analysis.es.SpanishAnalyzer;
-import org.apache.lucene.analysis.fa.PersianAnalyzer;
-import org.apache.lucene.analysis.fi.FinnishAnalyzer;
-import org.apache.lucene.analysis.fr.FrenchAnalyzer;
-import org.apache.lucene.analysis.hi.HindiAnalyzer;
-import org.apache.lucene.analysis.hu.HungarianAnalyzer;
-import org.apache.lucene.analysis.id.IndonesianAnalyzer;
-import org.apache.lucene.analysis.it.ItalianAnalyzer;
-import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
-import org.apache.lucene.analysis.morfologik.MorfologikAnalyzer;
-import org.apache.lucene.analysis.nl.DutchAnalyzer;
-import org.apache.lucene.analysis.no.NorwegianAnalyzer;
-import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
-import org.apache.lucene.analysis.ru.RussianAnalyzer;
-import org.apache.lucene.analysis.sv.SwedishAnalyzer;
-import org.apache.lucene.analysis.te.TeluguAnalyzer;
-import org.apache.lucene.analysis.th.ThaiAnalyzer;
-import org.apache.lucene.analysis.tr.TurkishAnalyzer;
-import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
@@ -80,7 +57,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -92,6 +71,8 @@ public final class IndexCollection {
 
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
   public static final Analyzer DEFAULT_ANALYZER = DefaultEnglishAnalyzer.newDefaultInstance();
+
+  private final Map<String, String> indexWriterConfigMap = new HashMap<String, String>();
 
   public final class Counters {
     /**
@@ -250,6 +231,12 @@ public final class IndexCollection {
       LOG.info("Setting log level to " + Level.INFO);
     }
 
+    if (args.useCompositeAnalyzer && (args.analyzeWithHuggingFaceTokenizer == null)) {
+      String e = "You must pass an argument to `analyzeWithHuggingFaceTokenizer` to use the `CompositeAnalyzer`";
+      LOG.error(e);
+      throw new Exception(e);
+    }
+
     LOG.info("Starting indexer...");
     LOG.info("============ Loading Parameters ============");
     LOG.info("DocumentCollection path: " + args.input);
@@ -304,7 +291,48 @@ public final class IndexCollection {
     this.counters = new Counters();
   }
 
-  public Counters run() throws IOException {
+  public IndexWriterConfig getIndexWriterConfig() throws Exception {
+    final Analyzer compAnalyzer, analyzer;
+    final IndexWriterConfig config;
+
+    if (args.collectionClass.equals("TweetCollection")) {
+      analyzer = new TweetAnalyzer(args.tweetStemming);
+    } else if (args.analyzeWithHuggingFaceTokenizer!= null) {
+      analyzer = new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
+    } else if (indexWriterConfigMap.containsKey(args.language)){
+      String analyzerClazz = indexWriterConfigMap.get(args.language);
+      analyzer = (Analyzer) Class.forName(analyzerClazz).getDeclaredConstructor().newInstance();
+    } else if (args.pretokenized || args.language.equals("sw")) {
+      analyzer = new WhitespaceAnalyzer();
+    } else {
+      analyzer = DefaultEnglishAnalyzer.fromArguments(
+              args.stemmer, args.keepStopwords, args.stopwords);
+    }
+
+    if (args.useCompositeAnalyzer) {
+      compAnalyzer = new CompositeAnalyzer(args.analyzeWithHuggingFaceTokenizer, analyzer);
+      config = new IndexWriterConfig(compAnalyzer);
+    } else {
+      config = new IndexWriterConfig(analyzer);
+    }
+
+    if (args.bm25Accurate) {
+      config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
+    } if (args.impact ) {
+      config.setSimilarity(new ImpactSimilarity());
+    } else {
+      config.setSimilarity(new BM25Similarity());
+    }
+    
+    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    config.setRAMBufferSizeMB(args.memorybufferSize);
+    config.setUseCompoundFile(false);
+    config.setMergeScheduler(new ConcurrentMergeScheduler());
+
+    return config;
+  }
+  
+  public Counters run() throws Exception {
     final long start = System.nanoTime();
     LOG.info("============ Indexing Collection ============");
 
@@ -314,109 +342,35 @@ public final class IndexCollection {
     // Used for LocalIndexThread
     if (indexPath != null) {
       final Directory dir = FSDirectory.open(indexPath);
-      final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
-      final ArabicAnalyzer arabicAnalyzer = new ArabicAnalyzer();
-      final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
-      final DanishAnalyzer danishAnalyzer = new DanishAnalyzer();
-      final DutchAnalyzer dutchAnalyzer = new DutchAnalyzer();
-      final PersianAnalyzer farsiAnalyzer = new PersianAnalyzer();
-      final FinnishAnalyzer finnishAnalyzer = new FinnishAnalyzer();
-      final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
-      final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
-      final HindiAnalyzer hindiAnalyzer = new HindiAnalyzer();
-      final HungarianAnalyzer hungarianAnalyzer = new HungarianAnalyzer();
-      final IndonesianAnalyzer indonesianAnalyzer = new IndonesianAnalyzer();
-      final ItalianAnalyzer italianAnalyzer = new ItalianAnalyzer();
-      final JapaneseAnalyzer japaneseAnalyzer = new JapaneseAnalyzer();
-      final MorfologikAnalyzer polishAnalyzer = new MorfologikAnalyzer();
-      final NorwegianAnalyzer norwegianAnalyzer = new NorwegianAnalyzer();
-      final PortugueseAnalyzer portugueseAnalyzer = new PortugueseAnalyzer();
-      final RussianAnalyzer russianAnalyzer = new RussianAnalyzer();
-      final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
-      final SwedishAnalyzer swedishAnalyzer = new SwedishAnalyzer();
-      final TeluguAnalyzer teluguAnalyzer = new TeluguAnalyzer();
-      final ThaiAnalyzer thaiAnalyzer = new ThaiAnalyzer();
-      final TurkishAnalyzer turkishAnalyzer = new TurkishAnalyzer();
-      final UkrainianMorfologikAnalyzer ukrainianAnalyzer = new UkrainianMorfologikAnalyzer();
-      final WhitespaceAnalyzer whitespaceAnalyzer = new WhitespaceAnalyzer();
 
-      final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.fromArguments(
-              args.stemmer, args.keepStopwords, args.stopwords);
-      final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
+      indexWriterConfigMap.put("ar", "org.apache.lucene.analysis.ar.ArabicAnalyzer");
+      indexWriterConfigMap.put("bn", "org.apache.lucene.analysis.bn.BengaliAnalyzer");
+      indexWriterConfigMap.put("da", "org.apache.lucene.analysis.da.DanishAnalyzer");
+      indexWriterConfigMap.put("es", "org.apache.lucene.analysis.es.SpanishAnalyzer");
+      indexWriterConfigMap.put("fa", "org.apache.lucene.analysis.fa.PersianAnalyzer");
+      indexWriterConfigMap.put("fi", "org.apache.lucene.analysis.fi.FinnishAnalyzer");
+      indexWriterConfigMap.put("fr", "org.apache.lucene.analysis.fr.FrenchAnalyzer");
+      indexWriterConfigMap.put("de", "org.apache.lucene.analysis.de.GermanAnalyzer");
+      indexWriterConfigMap.put("hi", "org.apache.lucene.analysis.hi.HindiAnalyzer");
+      indexWriterConfigMap.put("hu", "org.apache.lucene.analysis.hu.HungarianAnalyzer");
+      indexWriterConfigMap.put("id", "org.apache.lucene.analysis.id.IndonesianAnalyzer");
+      indexWriterConfigMap.put("it", "org.apache.lucene.analysis.it.ItalianAnalyzer");
+      indexWriterConfigMap.put("ja", "org.apache.lucene.analysis.ja.JapaneseAnalyzer");
+      indexWriterConfigMap.put("ko", "org.apache.lucene.analysis.cjk.CJKAnalyzer");
+      indexWriterConfigMap.put("nl", "org.apache.lucene.analysis.nl.DutchAnalyzer");
+      indexWriterConfigMap.put("no", "org.apache.lucene.analysis.no.NorwegianAnalyzer");
+      indexWriterConfigMap.put("pl", "org.apache.lucene.analysis.morfologik.MorfologikAnalyzer");
+      indexWriterConfigMap.put("pt", "org.apache.lucene.analysis.pt.PortugueseAnalyzer");
+      indexWriterConfigMap.put("ru", "org.apache.lucene.analysis.ru.RussianAnalyzer");
+      indexWriterConfigMap.put("sv", "org.apache.lucene.analysis.sv.SwedishAnalyzer");
+      indexWriterConfigMap.put("te", "org.apache.lucene.analysis.te.TeluguAnalyzer");
+      indexWriterConfigMap.put("th", "org.apache.lucene.analysis.th.ThaiAnalyzer");
+      indexWriterConfigMap.put("tr", "org.apache.lucene.analysis.tr.TurkishAnalyzer");
+      indexWriterConfigMap.put("uk", "org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer");
+      indexWriterConfigMap.put("zh", "org.apache.lucene.analysis.cjk.CJKAnalyzer");
 
       final IndexWriterConfig config;
-      if (args.collectionClass.equals("TweetCollection")) {
-        config = new IndexWriterConfig(tweetAnalyzer);
-      } else if (args.analyzeWithHuggingFaceTokenizer!= null) {
-        config = new IndexWriterConfig(new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer));
-      } else if (args.language.equals("ar")) {
-        config = new IndexWriterConfig(arabicAnalyzer);
-      } else if (args.language.equals("bn")) {
-        config = new IndexWriterConfig(bengaliAnalyzer);
-      } else if (args.language.equals("da")) {
-        config = new IndexWriterConfig(danishAnalyzer);
-      } else if (args.language.equals("de")) {
-        config = new IndexWriterConfig(germanAnalyzer);
-      } else if (args.language.equals("es")) {
-        config = new IndexWriterConfig(spanishAnalyzer);
-      } else if (args.language.equals("fa")) {
-        config = new IndexWriterConfig(farsiAnalyzer);
-      } else if (args.language.equals("fi")) {
-        config = new IndexWriterConfig(finnishAnalyzer);
-      } else if (args.language.equals("fr")) {
-        config = new IndexWriterConfig(frenchAnalyzer);
-      } else if (args.language.equals("hi")) {
-        config = new IndexWriterConfig(hindiAnalyzer);
-      } else if (args.language.equals("hu")) {
-        config = new IndexWriterConfig(hungarianAnalyzer);
-      } else if (args.language.equals("id")) {
-        config = new IndexWriterConfig(indonesianAnalyzer);
-      } else if (args.language.equals("it")) {
-        config = new IndexWriterConfig(italianAnalyzer);
-      } else if (args.language.equals("ja")) {
-        config = new IndexWriterConfig(japaneseAnalyzer);
-      } else if (args.language.equals("nl")) {
-        config = new IndexWriterConfig(dutchAnalyzer);
-      } else if (args.language.equals("no")) {
-        config = new IndexWriterConfig(norwegianAnalyzer);
-      } else if (args.language.equals("pl")) {
-        config = new IndexWriterConfig(polishAnalyzer);
-      } else if (args.language.equals("pt")) {
-        config = new IndexWriterConfig(portugueseAnalyzer);
-      } else if (args.language.equals("ru")) {
-        config = new IndexWriterConfig(russianAnalyzer);
-      } else if (args.language.equals("sv")) {
-        config = new IndexWriterConfig(swedishAnalyzer);
-      } else if (args.language.equals("te")) {
-        config = new IndexWriterConfig(teluguAnalyzer);
-      } else if (args.language.equals("th")) {
-        config = new IndexWriterConfig(thaiAnalyzer);
-      } else if (args.language.equals("tr")) {
-        config = new IndexWriterConfig(turkishAnalyzer);
-      } else if (args.language.equals("uk")) {
-        config = new IndexWriterConfig(ukrainianAnalyzer);
-      } else if (args.language.equals("zh") || args.language.equals("ko")) {
-        config = new IndexWriterConfig(chineseAnalyzer);
-      } else if (args.language.equals("sw") || args.language.equals("te")) {
-        // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
-        config = new IndexWriterConfig(whitespaceAnalyzer);
-      } else if (args.pretokenized) {
-        config = new IndexWriterConfig(whitespaceAnalyzer);
-      } else {
-        config = new IndexWriterConfig(analyzer);
-      }
-      if (args.bm25Accurate) {
-        config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
-      } if (args.impact ) {
-        config.setSimilarity(new ImpactSimilarity());
-      } else {
-        config.setSimilarity(new BM25Similarity());
-      }
-      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-      config.setRAMBufferSizeMB(args.memorybufferSize);
-      config.setUseCompoundFile(false);
-      config.setMergeScheduler(new ConcurrentMergeScheduler());
-
+      config = getIndexWriterConfig();
       writer = new IndexWriter(dir, config);
     }
 

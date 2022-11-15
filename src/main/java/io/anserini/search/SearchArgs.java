@@ -61,6 +61,10 @@ public class SearchArgs {
       usage = "search a collection by tokenizing query with pretrained mbert tokenizer")
   public String analyzeWithHuggingFaceTokenizer = null;
 
+  @Option(name = "-useCompositeAnalyzer",
+    usage="index a collection using a Lucene Analyzer & a pretrained HuggingFace tokenizer")
+  public boolean useCompositeAnalyzer = false;
+  
   @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
   public Boolean inmem = false;
 

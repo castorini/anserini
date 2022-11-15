@@ -143,7 +143,11 @@ public class IndexArgs {
   @Option(name = "-analyzeWithHuggingFaceTokenizer",
       usage = "index a collection by tokenizing text with pretrained huggingface tokenizers")
   public String analyzeWithHuggingFaceTokenizer = null;
-
+  
+  @Option(name = "-useCompositeAnalyzer",
+    usage="index a collection using a Lucene Analyzer & a pretrained HuggingFace tokenizer")
+  public boolean useCompositeAnalyzer = false;
+  
   // Tweet options
 
   @Option(name = "-tweet.keepRetweets",

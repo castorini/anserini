@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.CompositeAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
@@ -46,31 +47,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.ar.ArabicAnalyzer;
-import org.apache.lucene.analysis.bn.BengaliAnalyzer;
-import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.analysis.da.DanishAnalyzer;
-import org.apache.lucene.analysis.de.GermanAnalyzer;
-import org.apache.lucene.analysis.es.SpanishAnalyzer;
-import org.apache.lucene.analysis.fa.PersianAnalyzer;
-import org.apache.lucene.analysis.fi.FinnishAnalyzer;
-import org.apache.lucene.analysis.fr.FrenchAnalyzer;
-import org.apache.lucene.analysis.hi.HindiAnalyzer;
-import org.apache.lucene.analysis.hu.HungarianAnalyzer;
-import org.apache.lucene.analysis.id.IndonesianAnalyzer;
-import org.apache.lucene.analysis.it.ItalianAnalyzer;
-import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
-import org.apache.lucene.analysis.morfologik.MorfologikAnalyzer;
-import org.apache.lucene.analysis.nl.DutchAnalyzer;
-import org.apache.lucene.analysis.no.NorwegianAnalyzer;
-import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
-import org.apache.lucene.analysis.ru.RussianAnalyzer;
-import org.apache.lucene.analysis.sv.SwedishAnalyzer;
-import org.apache.lucene.analysis.te.TeluguAnalyzer;
-import org.apache.lucene.analysis.th.ThaiAnalyzer;
-import org.apache.lucene.analysis.tr.TurkishAnalyzer;
-import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -161,6 +138,8 @@ public final class SearchCollection implements Closeable {
   private final boolean isRerank;
   private Map<String, ScoredDocuments> qrels;
   private Set<String> queriesWithRel;
+
+  private final Map<String, String> analyzerMap = new HashMap<String, String>();
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -370,7 +349,32 @@ public final class SearchCollection implements Closeable {
     }
   }
 
-  public SearchCollection(SearchArgs args) throws IOException {
+  private Analyzer getLangSpecificAnalyzer() throws Exception {
+    // Are we searching tweets?
+    if (args.searchtweets) {
+      LOG.info("Searching tweets? true");
+      return new TweetAnalyzer();
+    } else if (args.analyzeWithHuggingFaceTokenizer != null){
+      LOG.info("Bert Tokenizer");
+      return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
+    } else if (analyzerMap.containsKey(args.language)){
+      LOG.info("Language: " + args.language);
+      String analyzerClazz = analyzerMap.get(args.language);
+      return (Analyzer) Class.forName(analyzerClazz).getDeclaredConstructor().newInstance();
+    } else if (args.pretokenized || args.language.equals("sw")) {
+      LOG.info("Pretokenized");
+      return new WhitespaceAnalyzer();
+    } else {
+      // Default to English
+      LOG.info("Language: en");
+      LOG.info("Stemmer: " + args.stemmer);
+      LOG.info("Keep stopwords? " + args.keepstop);
+      LOG.info("Stopwords file: " + args.stopwords);
+      return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
+    }
+  }
+
+  public SearchCollection(SearchArgs args) throws Exception {
     this.args = args;
     Path indexPath = Paths.get(args.index);
 
@@ -411,101 +415,41 @@ public final class SearchCollection implements Closeable {
       this.collectionClass = null;
     }
 
-    // Are we searching tweets?
-    if (args.searchtweets) {
-      LOG.info("Searching tweets? true");
-      analyzer = new TweetAnalyzer();
-    } else if (args.analyzeWithHuggingFaceTokenizer != null){
-      analyzer = new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
-      LOG.info("Bert Tokenizer");
-    } else if (args.language.equals("ar")) {
-      analyzer = new ArabicAnalyzer();
-      LOG.info("Language: ar");
-    } else if (args.language.equals("bn")) {
-      analyzer = new BengaliAnalyzer();
-      LOG.info("Language: bn");
-    } else if (args.language.equals("da")) {
-      analyzer = new DanishAnalyzer();
-      LOG.info("Language: da");
-    } else if (args.language.equals("de")) {
-      analyzer = new GermanAnalyzer();
-      LOG.info("Language: de");
-    } else if (args.language.equals("es")) {
-      analyzer = new SpanishAnalyzer();
-      LOG.info("Language: es");
-    } else if (args.language.equals("fa")) {
-      analyzer = new PersianAnalyzer();
-      LOG.info("Language: fa");
-    } else if (args.language.equals("fi")) {
-      analyzer = new FinnishAnalyzer();
-      LOG.info("Language: fi");
-    } else if (args.language.equals("fr")) {
-      analyzer = new FrenchAnalyzer();
-      LOG.info("Language: fr");
-    } else if (args.language.equals("hi")) {
-      analyzer = new HindiAnalyzer();
-      LOG.info("Language: hi");
-    } else if (args.language.equals("hu")) {
-      analyzer = new HungarianAnalyzer();
-      LOG.info("Language: hu");
-    } else if (args.language.equals("id")) {
-      analyzer = new IndonesianAnalyzer();
-      LOG.info("Language: id");
-    } else if (args.language.equals("it")) {
-      analyzer = new ItalianAnalyzer();
-      LOG.info("Language: it");
-    } else if (args.language.equals("ja")) {
-      analyzer = new JapaneseAnalyzer();
-      LOG.info("Language: ja");
-    } else if (args.language.equals("ko")) {
-      analyzer = new CJKAnalyzer();
-      LOG.info("Language: ko");
-    } else if (args.language.equals("nl")) {
-      analyzer = new DutchAnalyzer();
-      LOG.info("Language: nl");
-    } else if (args.language.equals("no")) {
-      analyzer = new NorwegianAnalyzer();
-      LOG.info("Language: no");
-    } else if (args.language.equals("pl")) {
-      analyzer = new MorfologikAnalyzer();
-      LOG.info("Language: pl");
-    } else if (args.language.equals("pt")) {
-      analyzer = new PortugueseAnalyzer();
-      LOG.info("Language: pt");
-    } else if (args.language.equals("ru")) {
-      analyzer = new RussianAnalyzer();
-      LOG.info("Language: ru");
-    } else if (args.language.equals("sv")) {
-      analyzer = new SwedishAnalyzer();
-      LOG.info("Language: sv");
-    } else if (args.language.equals("te")) {
-      analyzer = new TeluguAnalyzer();
-      LOG.info("Language: te");
-    } else if (args.language.equals("th")) {
-      analyzer = new ThaiAnalyzer();
-      LOG.info("Language: th");
-    } else if (args.language.equals("tr")) {
-      analyzer = new TurkishAnalyzer();
-      LOG.info("Language: tr");
-    } else if (args.language.equals("uk")) {
-      analyzer = new UkrainianMorfologikAnalyzer();
-      LOG.info("Language: uk");
-    } else if (args.language.equals("zh")) {
-      analyzer = new CJKAnalyzer();
-      LOG.info("Language: zh");
-    } else if (args.pretokenized || args.language.equals("sw") || args.language.equals("te")) {
-      analyzer = new WhitespaceAnalyzer();
-      LOG.info("Pretokenized");
+    analyzerMap.put("ar", "org.apache.lucene.analysis.ar.ArabicAnalyzer");
+    analyzerMap.put("bn", "org.apache.lucene.analysis.bn.BengaliAnalyzer");
+    analyzerMap.put("da", "org.apache.lucene.analysis.da.DanishAnalyzer");
+    analyzerMap.put("es", "org.apache.lucene.analysis.es.SpanishAnalyzer");
+    analyzerMap.put("fa", "org.apache.lucene.analysis.fa.PersianAnalyzer");
+    analyzerMap.put("fi", "org.apache.lucene.analysis.fi.FinnishAnalyzer");
+    analyzerMap.put("fr", "org.apache.lucene.analysis.fr.FrenchAnalyzer");
+    analyzerMap.put("de", "org.apache.lucene.analysis.de.GermanAnalyzer");
+    analyzerMap.put("hi", "org.apache.lucene.analysis.hi.HindiAnalyzer");
+    analyzerMap.put("hu", "org.apache.lucene.analysis.hu.HungarianAnalyzer");
+    analyzerMap.put("id", "org.apache.lucene.analysis.id.IndonesianAnalyzer");
+    analyzerMap.put("it", "org.apache.lucene.analysis.it.ItalianAnalyzer");
+    analyzerMap.put("ja", "org.apache.lucene.analysis.ja.JapaneseAnalyzer");
+    analyzerMap.put("ko", "org.apache.lucene.analysis.cjk.CJKAnalyzer");
+    analyzerMap.put("nl", "org.apache.lucene.analysis.nl.DutchAnalyzer");
+    analyzerMap.put("no", "org.apache.lucene.analysis.no.NorwegianAnalyzer");
+    analyzerMap.put("pl", "org.apache.lucene.analysis.morfologik.MorfologikAnalyzer");
+    analyzerMap.put("pt", "org.apache.lucene.analysis.pt.PortugueseAnalyzer");
+    analyzerMap.put("ru", "org.apache.lucene.analysis.ru.RussianAnalyzer");
+    analyzerMap.put("sv", "org.apache.lucene.analysis.sv.SwedishAnalyzer");
+    analyzerMap.put("te", "org.apache.lucene.analysis.te.TeluguAnalyzer");
+    analyzerMap.put("th", "org.apache.lucene.analysis.th.ThaiAnalyzer");
+    analyzerMap.put("tr", "org.apache.lucene.analysis.tr.TurkishAnalyzer");
+    analyzerMap.put("uk", "org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer");
+    analyzerMap.put("zh", "org.apache.lucene.analysis.cjk.CJKAnalyzer");
+
+    if (args.useCompositeAnalyzer) {
+      LOG.info("Using CompositeAnalyzer");
+      analyzer = new CompositeAnalyzer(args.analyzeWithHuggingFaceTokenizer, getLangSpecificAnalyzer());
     } else {
-      // Default to English
-      analyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
-      LOG.info("Language: en");
-      LOG.info("Stemmer: " + args.stemmer);
-      LOG.info("Keep stopwords? " + args.keepstop);
-      LOG.info("Stopwords file: " + args.stopwords);
-      LOG.info("Number of threads for running different parameter configurations: " + args.threads);
-      LOG.info("Number of threads for running each individual parameter configuration: " + args.parallelism);
+      analyzer = getLangSpecificAnalyzer();
     }
+
+    LOG.info("Number of threads for running different parameter configurations: " + args.threads);
+    LOG.info("Number of threads for running each individual parameter configuration: " + args.parallelism);
 
     isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
 
