@@ -62,7 +62,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-passage-unicoil-0shot \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 32 -impact -pretokenized -storeDocvectors \
+  -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-passage-unicoil-0shot &
 ```
 
@@ -99,26 +99,26 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.msmarco-v2-passage.dev.unicoil.0shot.txt \
-  -parallelism 16 -impact -pretokenized -rm3 &
+  -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt \
-  -parallelism 16 -impact -pretokenized -rm3 &
+  -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.msmarco-v2-passage.dev.unicoil.0shot.txt \
-  -parallelism 16 -impact -pretokenized -rocchio &
+  -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt \
-  -parallelism 16 -impact -pretokenized -rocchio &
+  -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
