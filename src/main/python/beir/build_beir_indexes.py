@@ -46,16 +46,17 @@ beir_keys = {
     'scifact': 'SciFact'
 }
 
-
-collection_base = '/scratch2/collections'
+machine = 'tuna'
+collection_base = '/tuna1/collections'
 # Alternatives:
 #   - on my iMac Pro: '/System/Volumes/Data/store/collections'
 #   - on orca: '/store/collections'
+#   - on tuna: '/tuna1/collections'
 
-commitid_full = '1842eeffcbf4d18698d401b1c5a4b1c868f32fc6'
-commitid_short = '1842ee'
-date_abbreviated = '20220501'
-date_full = '2022/05/01'
+commitid_full = '505594b6573294a9a4c72a8feee3416f8a9bd2d9'
+commitid_short = '505594'
+date_abbreviated = '20221116'
+date_full = '2022/11/16'
 
 models = ['flat', 'multifield', 'splade-distil-cocodenser-medium']
 metrics = ['nDCG@10', 'R@100', 'R@1000']
@@ -91,32 +92,35 @@ def generate_splade_command(corpora):
            f'  >& logs/log.beir-v1.0.0-{corpora}-splade_distil_cocodenser_medium.{date_abbreviated}.{commitid_short} &'
 
 
-for key in beir_keys:
-    cmd = generate_flat_command(key)
-    print(f'{cmd}\n')
-    with open(f'logs/lucene-index.beir-v1.0.0-{key}-flat.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
-        f.write(f'# BEIR (v1.0.0) — {beir_keys[key]}\n\n')
-        f.write(f'This **"flat" Lucene index** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `damiano` with the following command:\n\n')
-        f.write('```\n')
-        f.write(f'{cmd}\n')
-        f.write('```\n')
+with open(f'logs/lucene-index.beir-v1.0.0-flat.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
+    f.write(f'# BEIR (v1.0.0): "flat" Lucene indexes\n\n')
+    f.write(f'These "flat" Lucene indexes were generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `{machine}` with the following commands:\n\n')
 
-for key in beir_keys:
-    cmd = generate_multifield_command(key)
-    print(f'{cmd}\n')
-    with open(f'logs/lucene-index.beir-v1.0.0-{key}-multifield.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
-        f.write(f'# BEIR (v1.0.0) — {beir_keys[key]}\n\n')
-        f.write(f'This **"multifield" Lucene index** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `damiano` with the following command:\n\n')
-        f.write('```\n')
-        f.write(f'{cmd}\n')
-        f.write('```\n')
+    f.write('```bash\n')
+    for key in beir_keys:
+        cmd = generate_flat_command(key)
+        print(f'{cmd}\n')
+        f.write(f'{cmd}\n\n')
+    f.write('```\n')
 
-for key in beir_keys:
-    cmd = generate_splade_command(key)
-    print(f'{cmd}\n')
-    with open(f'logs/lucene-index.beir-v1.0.0-{key}-splade_distil_cocodenser_medium.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
-        f.write(f'# BEIR (v1.0.0) — {beir_keys[key]}\n\n')
-        f.write(f'This Lucene impact index for **SPLADE-distill CoCodenser-medium** was generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `damiano` with the following command:\n\n')
-        f.write('```\n')
-        f.write(f'{cmd}\n')
-        f.write('```\n')
+with open(f'logs/lucene-index.beir-v1.0.0-multifield.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
+    f.write(f'# BEIR (v1.0.0): "multifield" Lucene indexes\n\n')
+    f.write(f'These "multifield" Lucene indexes were generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `{machine}` with the following commands:\n\n')
+
+    f.write('```bash\n')
+    for key in beir_keys:
+        cmd = generate_multifield_command(key)
+        print(f'{cmd}\n')
+        f.write(f'{cmd}\n\n')
+    f.write('```\n')
+
+with open(f'logs/lucene-index.beir-v1.0.0-splade_distil_cocodenser_medium.{date_abbreviated}.{commitid_short}.README.md', 'w') as f:
+    f.write(f'# BEIR (v1.0.0): SPLADE-distill CoCodenser-medium\n\n')
+    f.write(f'These Lucene impact indexes for SPLADE-distill CoCodenser-medium were generated on {date_full} at Anserini commit [`{commitid_short}`](https://github.com/castorini/anserini/commit/{commitid_full}) on `{machine}` with the following commands:\n\n')
+
+    f.write('```bash\n')
+    for key in beir_keys:
+        cmd = generate_splade_command(key)
+        print(f'{cmd}\n')
+        f.write(f'{cmd}\n\n')
+    f.write('```\n')
