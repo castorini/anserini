@@ -70,7 +70,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -impact -pretokenized \
+  -threads 24 -impact -pretokenized \
   >& logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot &
 ```
 

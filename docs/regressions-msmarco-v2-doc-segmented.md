@@ -25,7 +25,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-doc-segmented \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -storePositions -storeDocvectors -storeRaw \
+  -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-doc-segmented &
 ```
 
@@ -60,26 +60,26 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.msmarco-v2-doc.dev.txt \
-  -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.msmarco-v2-doc.dev2.txt \
-  -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.msmarco-v2-doc.dev.txt \
-  -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.msmarco-v2-doc.dev2.txt \
-  -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:

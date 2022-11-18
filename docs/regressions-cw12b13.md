@@ -22,7 +22,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/cw12b13 \
   -index indexes/lucene-index.cw12b13/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 44 -storePositions -storeDocvectors -storeRaw \
+  -threads 44 -storeRaw \
   >& logs/log.cw12b13 &
 ```
 
@@ -60,26 +60,26 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -topicreader Webxml \
   -output runs/run.cw12b13.bm25+rm3.topics.web.201-250.txt \
-  -bm25 -rm3 &
+  -bm25 -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -topicreader Webxml \
   -output runs/run.cw12b13.bm25+rm3.topics.web.251-300.txt \
-  -bm25 -rm3 &
+  -bm25 -rm3 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -topicreader Webxml \
   -output runs/run.cw12b13.bm25+ax.topics.web.201-250.txt \
-  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -topicreader Webxml \
   -output runs/run.cw12b13.bm25+ax.topics.web.251-300.txt \
-  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
@@ -99,26 +99,26 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -topicreader Webxml \
   -output runs/run.cw12b13.ql+rm3.topics.web.201-250.txt \
-  -qld -rm3 &
+  -qld -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -topicreader Webxml \
   -output runs/run.cw12b13.ql+rm3.topics.web.251-300.txt \
-  -qld -rm3 &
+  -qld -rm3 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
   -topicreader Webxml \
   -output runs/run.cw12b13.ql+ax.topics.web.201-250.txt \
-  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
   -topicreader Webxml \
   -output runs/run.cw12b13.ql+ax.topics.web.251-300.txt \
-  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:

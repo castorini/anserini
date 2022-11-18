@@ -31,7 +31,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-doc \
   -index indexes/lucene-index.msmarco-v2-doc/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -storePositions -storeDocvectors -storeRaw \
+  -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-doc &
 ```
 
@@ -61,14 +61,14 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt \
-  -hits 1000 -bm25 -rm3 &
+  -hits 1000 -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc/ \
   -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc.bm25-default+rocchio.topics.dl21.txt \
-  -hits 1000 -bm25 -rocchio &
+  -hits 1000 -bm25 -rocchio -collection MsMarcoV2DocCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:

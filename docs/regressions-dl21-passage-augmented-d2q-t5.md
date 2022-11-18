@@ -26,7 +26,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-passage-augmented-d2q-t5 \
   -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -storePositions -storeDocvectors -storeRaw \
+  -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-passage-augmented-d2q-t5 &
 ```
 
@@ -56,14 +56,14 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl21.txt \
-  -bm25 -rm3 &
+  -bm25 -rm3 -collection MsMarcoV2PassageCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
   -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt \
-  -bm25 -rocchio &
+  -bm25 -rocchio -collection MsMarcoV2PassageCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:

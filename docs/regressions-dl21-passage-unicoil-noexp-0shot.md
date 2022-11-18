@@ -65,7 +65,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-passage-unicoil-noexp-0shot \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -impact -pretokenized -storeDocvectors \
+  -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-passage-unicoil-noexp-0shot &
 ```
 
@@ -97,14 +97,14 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot+rm3.topics.dl21.unicoil-noexp.0shot.txt \
-  -impact -pretokenized -rm3 &
+  -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot+rocchio.topics.dl21.unicoil-noexp.0shot.txt \
-  -impact -pretokenized -rocchio &
+  -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
