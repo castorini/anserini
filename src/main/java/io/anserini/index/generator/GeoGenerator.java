@@ -1,7 +1,8 @@
 package io.anserini.index.generator;
 
 import io.anserini.collection.JsonCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.*;
@@ -15,9 +16,9 @@ import java.text.ParseException;
 public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(GeoGenerator.class);
 
-  protected IndexArgs args;
+  protected IndexCollection.Args args;
 
-  public GeoGenerator(IndexArgs args) {
+  public GeoGenerator(IndexCollection.Args args) {
     this.args = args;
   }
 
@@ -27,11 +28,11 @@ public class GeoGenerator implements LuceneDocumentGenerator<JsonCollection.Docu
 
     // Add ID field
     String id = geoDoc.id();
-    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+    doc.add(new StringField(Constants.ID, id, Field.Store.YES));
 
     // Store the raw JSON
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, geoDoc.raw()));
+      doc.add(new StoredField(Constants.RAW, geoDoc.raw()));
     }
 
     geoDoc.fields().forEach((k, v) -> {

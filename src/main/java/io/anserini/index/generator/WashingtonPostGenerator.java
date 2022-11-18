@@ -17,7 +17,7 @@
 package io.anserini.index.generator;
 
 import io.anserini.collection.WashingtonPostCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LongPoint;
@@ -44,7 +44,7 @@ public class WashingtonPostGenerator extends DefaultLuceneDocumentGenerator<Wash
     }
   }
 
-  public WashingtonPostGenerator(IndexArgs args) {
+  public WashingtonPostGenerator(IndexCollection.Args args) {
     super.args = args;
   }
   

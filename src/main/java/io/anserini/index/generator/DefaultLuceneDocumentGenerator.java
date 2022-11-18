@@ -19,7 +19,8 @@ package io.anserini.index.generator;
 import io.anserini.collection.InvalidContentsException;
 import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
@@ -38,10 +39,10 @@ import java.util.Arrays;
  * @param <T> type of the source document
  */
 public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  protected IndexArgs args;
+  protected IndexCollection.Args args;
 
   public DefaultLuceneDocumentGenerator() {
-    this(new IndexArgs());
+    this(new IndexCollection.Args());
   }
 
   /**
@@ -49,7 +50,7 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
    *
    * @param args configuration arguments
    */
-  public DefaultLuceneDocumentGenerator(IndexArgs args) {
+  public DefaultLuceneDocumentGenerator(IndexCollection.Args args) {
     this.args = args;
   }
 
@@ -73,12 +74,12 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
     final Document document = new Document();
 
     // Store the collection docid.
-    document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+    document.add(new StringField(Constants.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    document.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
-      document.add(new StoredField(IndexArgs.RAW, src.raw()));
+      document.add(new StoredField(Constants.RAW, src.raw()));
     }
 
     FieldType fieldType = new FieldType();
@@ -97,14 +98,14 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    document.add(new Field(IndexArgs.CONTENTS, contents, fieldType));
+    document.add(new Field(Constants.CONTENTS, contents, fieldType));
 
     // If this document has other fields, then we want to index it also.
     // Currently, we just use all the settings of the main "content" field.
     if (src instanceof MultifieldSourceDocument) {
       ((MultifieldSourceDocument) src).fields().forEach((k, v) -> {
-        if (k == IndexArgs.ENTITY) {
-          document.add(new StoredField(IndexArgs.ENTITY, v));
+        if (k == Constants.ENTITY) {
+          document.add(new StoredField(Constants.ENTITY, v));
         } else {
           // Only index fields that have been explicitly referenced in -fields parameter of indexing program.
           if (ArrayUtils.contains(args.fields, k)) {

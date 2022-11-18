@@ -17,14 +17,14 @@
 package io.anserini.index.generator;
 
 import io.anserini.collection.Iso19115Collection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 
 public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Collection.Document>{
-  protected IndexArgs args;
+  protected IndexCollection.Args args;
 
   // constants for storing
   public enum Iso19115Field {
@@ -51,7 +51,7 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
     }
   }
 
-  public Iso19115Generator(IndexArgs args) {
+  public Iso19115Generator(IndexCollection.Args args) {
     super(args);
     this.args = args;
   }

@@ -20,7 +20,8 @@ import com.twitter.twittertext.Extractor;
 import com.twitter.twittertext.TwitterTextParseResults;
 import com.twitter.twittertext.TwitterTextParser;
 import io.anserini.collection.TweetCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,7 +49,7 @@ import java.util.List;
 public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TweetGenerator.class);
 
-  private IndexArgs args;
+  private IndexCollection.Args args;
 
   private LongOpenHashSet deletes = null;
 
@@ -73,7 +74,7 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
     }
   }
 
-  public TweetGenerator(IndexArgs args) throws IOException {
+  public TweetGenerator(IndexCollection.Args args) throws IOException {
     this.args = args;
 
     if (!args.tweetDeletedIdsFile.isEmpty()) {
@@ -146,7 +147,7 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
     }
 
     Document doc = new Document();
-    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+    doc.add(new StringField(Constants.ID, id, Field.Store.YES));
 
     // We need this to break scoring ties.
     doc.add(new LongPoint(TweetField.ID_LONG.name, tweetDoc.getIdLong()));
@@ -175,7 +176,7 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
     tweetDoc.getLang().ifPresent(lang -> doc.add(new StringField(TweetField.LANG.name, lang, Field.Store.NO)));
 
     if (args.storeRaw) { // store the raw json string as one single field
-      doc.add(new StoredField(IndexArgs.RAW, tweetDoc.getJsonString()));
+      doc.add(new StoredField(Constants.RAW, tweetDoc.getJsonString()));
     }
 
     FieldType fieldType = new FieldType();
@@ -195,7 +196,7 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(IndexArgs.CONTENTS, text, fieldType));
+    doc.add(new Field(Constants.CONTENTS, text, fieldType));
 
     return doc;
   }

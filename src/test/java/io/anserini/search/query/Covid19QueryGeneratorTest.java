@@ -19,7 +19,7 @@ package io.anserini.search.query;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
@@ -43,33 +43,33 @@ public class Covid19QueryGeneratorTest {
     Query query;
 
     // no mention of covid-19, just pass through
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "incubation period");
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer, "incubation period");
     assertEquals("(contents:incub)^1.0 (contents:period)^1.0", query.toString());
 
     Query targetQuery = getTargetQuery("incub", "period");
 
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "incubation period covid-19");
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer, "incubation period covid-19");
     assertEquals(targetQuery, query);
 
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "covid-19 incubation period");
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer, "covid-19 incubation period");
     assertEquals(targetQuery, query);
 
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "incubation period COVID19");
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer, "incubation period COVID19");
     assertEquals(targetQuery, query);
 
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "SARS-cov-2 incubation period");
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer, "SARS-cov-2 incubation period");
     assertEquals(targetQuery, query);
 
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "the 2019nCov incubation period");
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer, "the 2019nCov incubation period");
     assertEquals(targetQuery, query);
 
     // no mention of covid-19, just pass through
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "drugs");
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer, "drugs");
     assertEquals("(contents:drug)^1.0", query.toString());
 
     Query targetQuery2 = getTargetQuery("drug");
 
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer, "coronavirus drugs");
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer, "coronavirus drugs");
     assertEquals(targetQuery2, query);
   }
 
@@ -123,7 +123,7 @@ public class Covid19QueryGeneratorTest {
     Covid19QueryGenerator queryGenerator = new Covid19QueryGenerator();
     Query query;
 
-    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer,
+    query = queryGenerator.buildQuery(Constants.CONTENTS, analyzer,
         "I'm looking for information about the incubation period of COVID-19?");
     assertEquals(getTargetQuery("incub", "period"), query);
 

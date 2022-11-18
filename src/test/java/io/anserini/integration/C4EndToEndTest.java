@@ -17,15 +17,15 @@
 package io.anserini.integration;
 
 import io.anserini.collection.C4Collection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.C4Generator;
 
 import java.util.Map;
 
 public class C4EndToEndTest extends EndToEndTest {
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/c4";
     indexArgs.collectionClass = C4Collection.class.getSimpleName();

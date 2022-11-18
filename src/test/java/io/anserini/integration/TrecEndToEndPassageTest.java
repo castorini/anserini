@@ -17,8 +17,8 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
-import io.anserini.index.IndexArgs;
-import io.anserini.search.SearchArgs;
+import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,8 +26,8 @@ import java.util.Map;
 
 public class TrecEndToEndPassageTest extends EndToEndTest {
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/trec/collection3";
     indexArgs.collectionClass = TrecCollection.class.getSimpleName();
@@ -92,7 +92,7 @@ public class TrecEndToEndPassageTest extends EndToEndTest {
     topicReader = "Trec";
     topicFile = "src/test/resources/sample_topics/Trec";
 
-    SearchArgs args;
+    SearchCollection.Args args;
 
     args = createDefaultSearchArgs().bm25();
     args.selectMaxPassage = true;

@@ -15,19 +15,18 @@
  */
 
 package io.anserini.integration;
-    
-import io.anserini.collection.JsonCollection;
-import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
-import io.anserini.search.SearchArgs;
 
-import java.util.List;
+import io.anserini.collection.JsonCollection;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
+import io.anserini.search.SearchCollection;
+
 import java.util.Map;
 
 public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
   @Override
-  IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
     indexArgs.input = "src/test/resources/sample_docs/json/collection_huggingfacetokenizer";
     indexArgs.analyzeWithHuggingFaceTokenizer = "bert-base-uncased";
     indexArgs.collectionClass = JsonCollection.class.getSimpleName();
@@ -68,7 +67,7 @@ public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
   protected void setSearchGroundTruth() {
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_topics5.tsv";
-    SearchArgs searchArg = createDefaultSearchArgs().bm25();
+    SearchCollection.Args searchArg = createDefaultSearchArgs().bm25();
     searchArg.analyzeWithHuggingFaceTokenizer = "bert-base-uncased";
     
     testQueries.put("bm25", searchArg);

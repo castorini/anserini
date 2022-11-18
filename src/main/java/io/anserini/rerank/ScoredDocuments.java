@@ -16,7 +16,7 @@
 
 package io.anserini.rerank;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -77,7 +77,7 @@ public class ScoredDocuments {
     for (Map.Entry<String, Integer> qrelsDocScorePair : qrels.entrySet()) {
       String externalDocid = qrelsDocScorePair.getKey();
       searcher = new IndexSearcher(reader);
-      Query q = new TermQuery(new Term(IndexArgs.ID, externalDocid));
+      Query q = new TermQuery(new Term(Constants.ID, externalDocid));
       TopDocs rs = searcher.search(q, 1);
       try {
         documentList.add(searcher.doc(rs.scoreDocs[0].doc));
