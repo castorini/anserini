@@ -71,7 +71,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-v2-doc-segmented-unicoil-0shot-v2 \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 18 -impact -pretokenized -storeDocvectors \
+  -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-doc-segmented-unicoil-0shot-v2 &
 ```
 
@@ -103,14 +103,14 @@ target/appassembler/bin/SearchCollection \
   -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt \
-  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3 &
+  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
   -topics src/main/resources/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt \
-  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio &
+  -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
