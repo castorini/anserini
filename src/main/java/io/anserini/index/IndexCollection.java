@@ -70,8 +70,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -92,6 +94,145 @@ public final class IndexCollection {
 
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
   public static final Analyzer DEFAULT_ANALYZER = DefaultEnglishAnalyzer.newDefaultInstance();
+
+  public static class Args {
+
+    private static final int TIMEOUT = 600 * 1000;
+
+    // required arguments
+
+    @Option(name = "-input", metaVar = "[path]", required = true,
+        usage = "Location of input collection.")
+    public String input;
+
+    @Option(name = "-threads", metaVar = "[num]", required = true,
+        usage = "Number of indexing threads.")
+    public int threads;
+
+    @Option(name = "-collection", metaVar = "[class]", required = true,
+        usage = "Collection class in package 'io.anserini.collection'.")
+    public String collectionClass;
+
+    @Option(name = "-generator", metaVar = "[class]",
+        usage = "Document generator class in package 'io.anserini.index.generator'.")
+    public String generatorClass = "DefaultLuceneDocumentGenerator";
+
+    // optional general arguments
+
+    @Option(name = "-verbose", forbids = {"-quiet"},
+        usage = "Enables verbose logging for each indexing thread; can be noisy if collection has many small file segments.")
+    public boolean verbose = false;
+
+    @Option(name = "-quiet", forbids = {"-verbose"},
+        usage = "Turns off all logging.")
+    public boolean quiet = false;
+
+    // optional arguments
+
+    @Option(name = "-index", metaVar = "[path]", usage = "Index path.")
+    public String index;
+
+    @Option(name = "-fields", handler = StringArrayOptionHandler.class,
+        usage = "List of fields to index (space separated), in addition to the default 'contents' field.")
+    public String[] fields = new String[]{};
+
+    @Option(name = "-storePositions",
+        usage = "Boolean switch to index store term positions; needed for phrase queries.")
+    public boolean storePositions = false;
+
+    @Option(name = "-storeDocvectors",
+        usage = "Boolean switch to store document vectors; needed for (pseudo) relevance feedback.")
+    public boolean storeDocvectors = false;
+
+    @Option(name = "-storeContents",
+        usage = "Boolean switch to store document contents.")
+    public boolean storeContents = false;
+
+    @Option(name = "-storeRaw",
+        usage = "Boolean switch to store raw source documents.")
+    public boolean storeRaw = false;
+
+    @Option(name = "-optimize",
+        usage = "Boolean switch to optimize index (i.e., force merge) into a single segment; costly for large collections.")
+    public boolean optimize = false;
+
+    @Option(name = "-keepStopwords",
+        usage = "Boolean switch to keep stopwords.")
+    public boolean keepStopwords = false;
+
+    @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
+        usage = "Path to file with stopwords.")
+    public String stopwords = null;
+
+    @Option(name = "-stemmer", metaVar = "[stemmer]",
+        usage = "Stemmer: one of the following {porter, krovetz, none}; defaults to 'porter'.")
+    public String stemmer = "porter";
+
+    @Option(name = "-uniqueDocid",
+        usage = "Removes duplicate documents with the same docid during indexing. This significantly slows indexing throughput " +
+            "but may be needed for tweet collections since the streaming API might deliver a tweet multiple times.")
+    public boolean uniqueDocid = false;
+
+    @Option(name = "-memorybuffer", metaVar = "[mb]",
+        usage = "Memory buffer size (in MB).")
+    public int memorybufferSize = 2048;
+
+    @Option(name = "-whitelist", metaVar = "[file]",
+        usage = "File containing list of docids, one per line; only these docids will be indexed.")
+    public String whitelist = null;
+
+    @Option(name = "-impact",
+        usage = "Boolean switch to store impacts (no norms).")
+    public boolean impact = false;
+
+    @Option(name = "-bm25.accurate",
+        usage = "Boolean switch to use AccurateBM25Similarity (computes accurate document lengths).")
+    public boolean bm25Accurate = false;
+
+    @Option(name = "-language", metaVar = "[language]",
+        usage = "Analyzer language (ISO 3166 two-letter code).")
+    public String language= "en";
+
+    @Option(name = "-pretokenized",
+        usage = "index pre-tokenized collections without any additional stemming, stopword processing")
+    public boolean pretokenized = false;
+
+    @Option(name = "-analyzeWithHuggingFaceTokenizer",
+        usage = "index a collection by tokenizing text with pretrained huggingface tokenizers")
+    public String analyzeWithHuggingFaceTokenizer = null;
+
+    // Tweet options
+
+    @Option(name = "-tweet.keepRetweets",
+        usage = "Boolean switch to index retweets.")
+    public boolean tweetKeepRetweets = false;
+
+    @Option(name = "-tweet.keepUrls",
+        usage = "Boolean switch to keep URLs.")
+    public boolean tweetKeepUrls = false;
+
+    @Option(name = "-tweet.stemming",
+        usage = "Boolean switch to apply Porter stemming while indexing tweets.")
+    public boolean tweetStemming = false;
+
+    @Option(name = "-tweet.maxId", metaVar = "[id]",
+        usage = "Max tweet id to index (long); all tweets with larger tweet ids will be skipped.")
+    public long tweetMaxId = Long.MAX_VALUE;
+
+    @Option(name = "-tweet.deletedIdsFile", metaVar = "[file]",
+        usage = "File that contains deleted tweet ids (longs), one per line; these tweets will be skipped during indexing.")
+    public String tweetDeletedIdsFile = "";
+
+    // Sharding options
+
+    @Option(name = "-shard.count", metaVar = "[n]",
+        usage = "Number of shards to partition the document collection into.")
+    public int shardCount = -1;
+
+    @Option(name = "-shard.current", metaVar = "[n]",
+        usage = "The current shard number to generate (indexed from 0).")
+    public int shardCurrent = -1;
+  }
 
   public final class Counters {
     /**
@@ -141,7 +282,7 @@ public final class IndexCollection {
     public void run() {
       try {
         LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
-            generatorClass.getDeclaredConstructor(IndexArgs.class).newInstance(args);
+            generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
@@ -224,7 +365,7 @@ public final class IndexCollection {
     }
   }
 
-  private final IndexArgs args;
+  private final Args args;
   private final Path collectionPath;
   private final Set whitelistDocids;
   private final Class collectionClass;
@@ -234,7 +375,7 @@ public final class IndexCollection {
   private Path indexPath;
 
   @SuppressWarnings("unchecked")
-  public IndexCollection(IndexArgs args) throws Exception {
+  public IndexCollection(Args args) throws Exception {
     this.args = args;
 
     if (args.verbose) {
@@ -505,7 +646,7 @@ public final class IndexCollection {
   }
 
   public static void main(String[] args) throws Exception {
-    IndexArgs indexCollectionArgs = new IndexArgs();
+    Args indexCollectionArgs = new Args();
     CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(100));
 
     try {

@@ -16,7 +16,7 @@
 
 package io.anserini.ltr.feature;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.ltr.DocumentContext;
 import io.anserini.ltr.DocumentFieldContext;
 import io.anserini.ltr.FeatureExtractor;
@@ -30,7 +30,7 @@ public class DocSize implements FeatureExtractor {
   private String field;
   private String qfield = "analyzed";
 
-  public DocSize() { this.field = IndexArgs.CONTENTS; }
+  public DocSize() { this.field = Constants.CONTENTS; }
 
   public DocSize(String field) { this.field = field; }
 

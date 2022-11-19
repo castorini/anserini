@@ -17,12 +17,12 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.SearchArgs;
+import io.anserini.search.SearchCollection;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.io.IOUtils;
@@ -284,7 +284,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       return searcher.search(new DocValuesFieldExistsQuery(TweetGenerator.TweetField.ID_LONG.name), reader.maxDoc(),
           BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
     }
-    return searcher.search(new DocValuesFieldExistsQuery(IndexArgs.ID), reader.maxDoc(),
+    return searcher.search(new DocValuesFieldExistsQuery(Constants.ID), reader.maxDoc(),
         BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
   }
 
@@ -307,7 +307,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity());
 
-      SearchArgs args = new SearchArgs();
+      SearchCollection.Args args = new SearchCollection.Args();
       args.hits = this.R;
       args.arbitraryScoreTieBreak = context.getSearchArgs().arbitraryScoreTieBreak;
       args.searchtweets = context.getSearchArgs().searchtweets;
@@ -370,7 +370,7 @@ public class AxiomReranker<T> implements Reranker<T> {
         while (docidSet.size() < targetSize) {
           if (AxiomReranker.externalDocidsCache != null) {
             String docid = AxiomReranker.externalDocidsCache.get(random.nextInt(AxiomReranker.externalDocidsCache.size()));
-            Query q = new TermQuery(new Term(IndexArgs.ID, docid));
+            Query q = new TermQuery(new Term(Constants.ID, docid));
             TopDocs rs = searcher.search(q, 1);
             docidSet.add(rs.scoreDocs[0].doc);
           } else {
@@ -413,7 +413,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     }
     Map<String, Set<Integer>> termDocidSets = new HashMap<>();
     for (int docid : docIds) {
-      Terms terms = reader.getTermVector(docid, IndexArgs.CONTENTS);
+      Terms terms = reader.getTermVector(docid, Constants.CONTENTS);
       if (terms == null) {
         if (parser == null) {
           LOG.warn("Document vector not stored for docid: " + docid + "\n" +
@@ -421,7 +421,7 @@ public class AxiomReranker<T> implements Reranker<T> {
           continue;
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.document(docid).getField(IndexArgs.RAW).stringValue());
+            reader.document(docid).getField(Constants.RAW).stringValue());
         for (String term : termFreqMap.keySet()) {
           // We do some noisy filtering here ... pure empirical heuristic
           if (term.length() < 2) continue;
@@ -520,7 +520,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     List<PriorityQueue<Pair<String, Double>>> allTermScoresPQ = new ArrayList<>();
     for (Map.Entry<String, Integer> q : queryTermsCounts.entrySet()) {
       String queryTerm = q.getKey();
-      long df = reader.docFreq(new Term(IndexArgs.CONTENTS, queryTerm));
+      long df = reader.docFreq(new Term(Constants.CONTENTS, queryTerm));
       if (df == 0L) {
         continue;
       }

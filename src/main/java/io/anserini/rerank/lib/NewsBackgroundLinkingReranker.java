@@ -17,6 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -34,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.anserini.index.IndexArgs.*;
 import static io.anserini.index.generator.WashingtonPostGenerator.WashingtonPostField.PUBLISHED_DATE;
 
 /*
@@ -60,7 +60,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
 
     List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
     for (int i = 0; i < docs.documents.length; i++) {
-      String docid = docs.documents[i].getField(ID).stringValue();
+      String docid = docs.documents[i].getField(Constants.ID).stringValue();
       docsVectorsMap.add(convertDocVectorToMap(reader, docid));
     }
 
@@ -117,7 +117,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     Map<String, Long> m = new HashMap<>();
     try {
       Terms terms = reader.getTermVector(
-          IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), CONTENTS);
+          IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), Constants.CONTENTS);
       if (terms != null) {
         TermsEnum it = terms.iterator();
         while (it.next() != null) {
@@ -130,7 +130,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
           throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(RAW).stringValue());
+            reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(Constants.RAW).stringValue());
         return termFreqMap;
       }
     } catch (Exception e) {

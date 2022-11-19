@@ -18,7 +18,7 @@ package io.anserini.search;
 
 import io.anserini.IndexerTestBase;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.search.SimpleSearcher.Result;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.document.Document;
@@ -73,7 +73,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
   public void testBatchGetDoc() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
-    ArrayList<String> docIds = new ArrayList<String>();
+    ArrayList<String> docIds = new ArrayList<>();
     docIds.add("doc1");
     docIds.add("doc2");
     docIds.add("doc3");
@@ -153,10 +153,10 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
 
     // We can fetch the exact same information from the raw Lucene document also.
-    assertEquals("doc3", hits[0].lucene_document.getField(IndexArgs.ID).stringValue());
-    assertEquals("here is a test", hits[0].lucene_document.getField(IndexArgs.CONTENTS).stringValue());
+    assertEquals("doc3", hits[0].lucene_document.getField(Constants.ID).stringValue());
+    assertEquals("here is a test", hits[0].lucene_document.getField(Constants.CONTENTS).stringValue());
     assertEquals("{\"contents\": \"here is a test\"}",
-        hits[0].lucene_document.getField(IndexArgs.RAW).stringValue());
+        hits[0].lucene_document.getField(Constants.RAW).stringValue());
 
     searcher.close();
   }
@@ -323,7 +323,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
     // Test the ability to pass in an arbitrary Lucene query.
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
-    SimpleSearcher.Result[] hits = searcher.search(new TermQuery(new Term(IndexArgs.ID, "doc3")), 10);
+    SimpleSearcher.Result[] hits = searcher.search(new TermQuery(new Term(Constants.ID, "doc3")), 10);
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
     assertEquals(2, hits[0].lucene_docid);

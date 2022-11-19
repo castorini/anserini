@@ -18,7 +18,8 @@ package io.anserini.ltr;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection.Args;
 import io.anserini.index.IndexReaderUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -58,7 +59,7 @@ public class DocumentContext {
   public void updateDoc(String docId, int internalId) throws IOException {
     doc = reader.document(internalId);
     this.docId = docId;
-    String entityJson = doc.get(IndexArgs.ENTITY);
+    String entityJson = doc.get(Constants.ENTITY);
     if (entityJson != null) {
       JsonNode root = mapper.readValue(entityJson, JsonNode.class);
       Iterator<Map.Entry<String, JsonNode>> ents = root.fields();

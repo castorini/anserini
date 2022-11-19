@@ -17,7 +17,7 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TweetCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.TweetGenerator;
 
 import java.util.Map;
@@ -32,8 +32,8 @@ public class TweetEndToEndTest extends EndToEndTest {
   //
   // Thus, there should be a total of 4 documents indexed: 9 objects - 5 skipped
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/tweets/collection1";
     indexArgs.collectionClass = TweetCollection.class.getSimpleName();
