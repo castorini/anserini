@@ -17,7 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -193,7 +193,7 @@ public class RocchioReranker implements Reranker {
           throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.document(docid).getField(IndexArgs.RAW).stringValue());
+            reader.document(docid).getField(Constants.RAW).stringValue());
         docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
       }
       vocab.addAll(docVector.getFeatures());
@@ -237,7 +237,7 @@ public class RocchioReranker implements Reranker {
 
       // We're using similar heuristics as in the RM3 implementation. See comments there.
       if (term.length() < 2 || term.length() > 20) continue;
-      int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+      int df = reader.docFreq(new Term(Constants.CONTENTS, term));
       float ratio = (float) df / numDocs;
       if (tweetsearch) {
         if (numDocs > 100000000) {
@@ -260,7 +260,7 @@ public class RocchioReranker implements Reranker {
     for (String term : terms.keySet()) {
       // We're using similar heuristics as in the RM3 implementation. See comments there.
       if (term.length() < 2 || term.length() > 20) continue;
-      int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+      int df = reader.docFreq(new Term(Constants.CONTENTS, term));
       float ratio = (float) df / numDocs;
       if (tweetsearch) {
         if (numDocs > 100000000) {

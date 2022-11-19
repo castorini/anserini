@@ -17,7 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.IndexerTestBase;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,11 +113,11 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
 
     // We can fetch the exact same information from the raw Lucene document also.
     assertEquals("doc3",
-        hits[0].lucene_document.getField(IndexArgs.ID).stringValue());
+        hits[0].lucene_document.getField(Constants.ID).stringValue());
     assertEquals("here is a test",
-        hits[0].lucene_document.getField(IndexArgs.CONTENTS).stringValue());
+        hits[0].lucene_document.getField(Constants.CONTENTS).stringValue());
     assertEquals("{\"contents\": \"here is a test\"}",
-        hits[0].lucene_document.getField(IndexArgs.RAW).stringValue());
+        hits[0].lucene_document.getField(Constants.RAW).stringValue());
 
     searcher.close();
   }

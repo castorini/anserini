@@ -17,7 +17,7 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +25,8 @@ import java.util.Map;
 
 public class TrecEndToEndTest extends EndToEndTest {
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
     indexArgs.collectionClass = TrecCollection.class.getSimpleName();

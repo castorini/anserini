@@ -17,7 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -159,7 +159,7 @@ public class BM25PrfReranker implements Reranker {
             throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
           Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-              reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+              reader.document(docs.ids[i]).getField(Constants.RAW).stringValue());
           docToTermsMap.put(docs.ids[i], termFreqMap.keySet());
           vocab.addAll(termFreqMap.keySet());
         }
@@ -180,7 +180,7 @@ public class BM25PrfReranker implements Reranker {
       if (term.matches("[0-9]+")) continue;
 
       try {
-        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+        int df = reader.docFreq(new Term(Constants.CONTENTS, term));
         int dfRel = 0;
 
         for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {
@@ -203,7 +203,7 @@ public class BM25PrfReranker implements Reranker {
 
     for (String term : originalTerms) {
       try {
-        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+        int df = reader.docFreq(new Term(Constants.CONTENTS, term));
         int dfRel = 0;
 
         for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {

@@ -4,11 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import io.anserini.collection.JsonCollection;
-import io.anserini.index.IndexArgs;
-import org.apache.lucene.document.*;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DoublePoint;
+import org.apache.lucene.document.LatLonDocValuesField;
+import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.document.ShapeField;
 import org.apache.lucene.index.IndexableField;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 public class GeoGeneratorTest {
@@ -38,7 +44,7 @@ public class GeoGeneratorTest {
 
     geoDoc = new JsonCollection.Document(jsonObj);
 
-    GeoGenerator generator = new GeoGenerator(new IndexArgs());
+    GeoGenerator generator = new GeoGenerator(new IndexCollection.Args());
     doc = generator.createDocument(geoDoc);
   }
 
@@ -97,6 +103,6 @@ public class GeoGeneratorTest {
       assertEquals(LatLonDocValuesField.class, f.getClass());
     }
 
-    assertEquals("90000003", doc.getField(IndexArgs.ID).stringValue());
+    assertEquals("90000003", doc.getField(Constants.ID).stringValue());
   }
 }

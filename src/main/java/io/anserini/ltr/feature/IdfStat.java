@@ -16,7 +16,7 @@
 
 package io.anserini.ltr.feature;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.ltr.DocumentContext;
 import io.anserini.ltr.DocumentFieldContext;
 import io.anserini.ltr.FeatureExtractor;
@@ -37,7 +37,7 @@ public class IdfStat implements FeatureExtractor {
   Pooler collectFun;
   public IdfStat(Pooler collectFun) {
     this.collectFun = collectFun;
-    this.field = IndexArgs.CONTENTS;
+    this.field = Constants.CONTENTS;
     this.qfield = "analyzed";
   }
 

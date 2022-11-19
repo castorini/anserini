@@ -17,13 +17,13 @@
 package io.anserini.index.generator;
 
 import io.anserini.collection.WarcBaseDocument;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 
 public class WarcGenerator extends DefaultLuceneDocumentGenerator<WarcBaseDocument> {
-  protected IndexArgs args;
+  protected IndexCollection.Args args;
 
   public enum WarcField {
     DATE("date"),
@@ -36,7 +36,7 @@ public class WarcGenerator extends DefaultLuceneDocumentGenerator<WarcBaseDocume
     }
   }
 
-  public WarcGenerator(IndexArgs args) {
+  public WarcGenerator(IndexCollection.Args args) {
     super(args);
     this.args = args;
   }

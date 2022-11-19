@@ -23,7 +23,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.CoreCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.document.Document;
@@ -72,16 +73,16 @@ public class CoreGeneratorTest {
 
     coreDoc = new CoreCollection.Document(coreJsonObj);
 
-    CoreGenerator generator = new CoreGenerator(new IndexArgs());
+    CoreGenerator generator = new CoreGenerator(new IndexCollection.Args());
     doc = generator.createDocument(coreDoc);
   }
 
   @Test
   public void testDocumentFields() {
     // test proper id and contents field generated from CoreCollection
-    assertEquals("doi_text", doc.getField(IndexArgs.ID).stringValue());
+    assertEquals("doi_text", doc.getField(Constants.ID).stringValue());
     assertEquals("every startup ever machine learning blockchain quantum vr",
-      doc.getField(IndexArgs.CONTENTS).stringValue());
+      doc.getField(Constants.CONTENTS).stringValue());
 
     // integer field value
     assertEquals(2020, doc.getField(CoreGenerator.CoreField.YEAR.name).numericValue());

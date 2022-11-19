@@ -16,7 +16,7 @@
 
 package io.anserini.search;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SimpleImpactSearcher implements Closeable {
   private static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
   private static final Logger LOG = LogManager.getLogger(SimpleImpactSearcher.class);
 
   protected IndexReader reader;
@@ -224,7 +224,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if error encountered during search
    */
   public Result[] search(Map<String, Float> q, int k) throws IOException {
-    Query query = generator.buildQuery(IndexArgs.CONTENTS, q);
+    Query query = generator.buildQuery(Constants.CONTENTS, q);
 
     return _search(query, k);
   }
@@ -237,7 +237,7 @@ public class SimpleImpactSearcher implements Closeable {
       searcher.setSimilarity(similarity);
     }
 
-    SearchArgs searchArgs = new SearchArgs();
+    SearchCollection.Args searchArgs = new SearchCollection.Args();
     searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
     searchArgs.hits = k;
 
@@ -256,13 +256,13 @@ public class SimpleImpactSearcher implements Closeable {
     Result[] results = new Result[hits.ids.length];
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
-      String docid = doc.getField(IndexArgs.ID).stringValue();
+      String docid = doc.getField(Constants.ID).stringValue();
 
       IndexableField field;
-      field = doc.getField(IndexArgs.CONTENTS);
+      field = doc.getField(Constants.CONTENTS);
       String contents = field == null ? null : field.stringValue();
 
-      field = doc.getField(IndexArgs.RAW);
+      field = doc.getField(Constants.RAW);
       String raw = field == null ? null : field.stringValue();
 
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], contents, raw, doc);
@@ -316,7 +316,7 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public String doc_contents(int lucene_docid) {
     try {
-      return reader.document(lucene_docid).get(IndexArgs.CONTENTS);
+      return reader.document(lucene_docid).get(Constants.CONTENTS);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -341,7 +341,7 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public String doc_raw(int lucene_docid) {
     try {
-      return reader.document(lucene_docid).get(IndexArgs.RAW);
+      return reader.document(lucene_docid).get(Constants.RAW);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;

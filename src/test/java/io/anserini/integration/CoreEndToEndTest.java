@@ -17,15 +17,15 @@
 package io.anserini.integration;
 
 import io.anserini.collection.CoreCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.CoreGenerator;
 
 import java.util.Map;
 
 public class CoreEndToEndTest extends EndToEndTest {
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/core";
     indexArgs.collectionClass = CoreCollection.class.getSimpleName();

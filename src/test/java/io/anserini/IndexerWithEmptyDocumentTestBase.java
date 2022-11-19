@@ -16,7 +16,7 @@
 
 package io.anserini;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.BinaryDocValuesField;
@@ -89,34 +89,34 @@ public class IndexerWithEmptyDocumentTestBase extends LuceneTestCase {
 
     Document doc1 = new Document();
     String doc1Text = "here is some text here is some more text. city.";
-    doc1.add(new StringField(IndexArgs.ID, "doc1", Field.Store.YES));
-    doc1.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef("doc1".getBytes())));
-    doc1.add(new Field(IndexArgs.CONTENTS, doc1Text , textOptions));
-    doc1.add(new StoredField(IndexArgs.RAW, doc1Text));
+    doc1.add(new StringField(Constants.ID, "doc1", Field.Store.YES));
+    doc1.add(new BinaryDocValuesField(Constants.ID, new BytesRef("doc1".getBytes())));
+    doc1.add(new Field(Constants.CONTENTS, doc1Text , textOptions));
+    doc1.add(new StoredField(Constants.RAW, doc1Text));
     writer.addDocument(doc1);
 
     Document doc2 = new Document();
     String doc2Text = "more texts";
-    doc2.add(new StringField(IndexArgs.ID, "doc2", Field.Store.YES));
-    doc2.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef("doc2".getBytes())));
-    doc2.add(new Field(IndexArgs.CONTENTS, doc2Text, textOptions));  // Note plural, to test stemming
-    doc2.add(new StoredField(IndexArgs.RAW, doc2Text));
+    doc2.add(new StringField(Constants.ID, "doc2", Field.Store.YES));
+    doc2.add(new BinaryDocValuesField(Constants.ID, new BytesRef("doc2".getBytes())));
+    doc2.add(new Field(Constants.CONTENTS, doc2Text, textOptions));  // Note plural, to test stemming
+    doc2.add(new StoredField(Constants.RAW, doc2Text));
     writer.addDocument(doc2);
 
     Document doc3 = new Document();
     String doc3Text = "here is a test";
-    doc3.add(new StringField(IndexArgs.ID, "doc3", Field.Store.YES));
-    doc3.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef("doc3".getBytes())));
-    doc3.add(new Field(IndexArgs.CONTENTS, doc3Text, textOptions));
-    doc3.add(new StoredField(IndexArgs.RAW, doc3Text));
+    doc3.add(new StringField(Constants.ID, "doc3", Field.Store.YES));
+    doc3.add(new BinaryDocValuesField(Constants.ID, new BytesRef("doc3".getBytes())));
+    doc3.add(new Field(Constants.CONTENTS, doc3Text, textOptions));
+    doc3.add(new StoredField(Constants.RAW, doc3Text));
     writer.addDocument(doc3);
 
     Document doc4 = new Document();
     String doc4Text = "";
-    doc4.add(new StringField(IndexArgs.ID, "doc4", Field.Store.YES));
-    doc4.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef("doc4".getBytes())));
-    doc4.add(new Field(IndexArgs.CONTENTS, doc4Text, textOptions));
-    doc4.add(new StoredField(IndexArgs.RAW, doc4Text));
+    doc4.add(new StringField(Constants.ID, "doc4", Field.Store.YES));
+    doc4.add(new BinaryDocValuesField(Constants.ID, new BytesRef("doc4".getBytes())));
+    doc4.add(new Field(Constants.CONTENTS, doc4Text, textOptions));
+    doc4.add(new StoredField(Constants.RAW, doc4Text));
     writer.addDocument(doc4);
 
     writer.commit();

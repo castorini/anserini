@@ -16,7 +16,7 @@
 
 package io.anserini.ltr.feature;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.ltr.DocumentContext;
 import io.anserini.ltr.DocumentFieldContext;
 import io.anserini.ltr.FeatureExtractor;
@@ -35,7 +35,7 @@ public class LmDirStat implements FeatureExtractor {
   Pooler collectFun;
 
   public LmDirStat(Pooler collectFun) {
-    this.field = IndexArgs.CONTENTS;
+    this.field = Constants.CONTENTS;
     this.qfield = "analyzed";
     this.collectFun = collectFun;
   }
@@ -43,7 +43,7 @@ public class LmDirStat implements FeatureExtractor {
   public LmDirStat(Pooler collectFun, double mu) {
     if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
-    this.field = IndexArgs.CONTENTS;
+    this.field = Constants.CONTENTS;
     this.qfield = "analyzed";
     this.collectFun = collectFun;
   }

@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -44,7 +44,7 @@ import java.util.concurrent.ExecutionException;
  * This class will contain setup and teardown code for testing feature extractors
  */
 abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
-  protected static final String TEST_FIELD_NAME = IndexArgs.CONTENTS;
+  protected static final String TEST_FIELD_NAME = Constants.CONTENTS;
   protected static final Analyzer TEST_ANALYZER = new EnglishAnalyzer();
   protected static final Analyzer NON_STOP_TEST_ANALYZER = new WhitespaceAnalyzer();
 
@@ -67,7 +67,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
     Field field = new Field(TEST_FIELD_NAME, testText, fieldType);
     Document doc = new Document();
     doc.add(field);
-    doc.add(new StringField(IndexArgs.ID, docId, Field.Store.YES));
+    doc.add(new StringField(Constants.ID, docId, Field.Store.YES));
     testWriter.addDocument(doc);
     testWriter.commit();
   }
