@@ -98,6 +98,6 @@ public class SearchVectorArgs {
 
   @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
       usage = "Maximum number of hits to return per topic after segment id removal. " +
-              "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+          "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
   public int selectMaxPassage_hits = Integer.MAX_VALUE;
 }

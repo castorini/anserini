@@ -16,7 +16,7 @@
 
 package io.anserini.util;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.index.NotStoredException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -42,7 +42,7 @@ public class ExtractAverageDocumentLength {
     String index;
 
     @Option(name = "-field", metaVar = "[name]", usage = "field")
-    String field = IndexArgs.CONTENTS;
+    String field = Constants.CONTENTS;
   }
 
   public static void main(String[] args) throws Exception {

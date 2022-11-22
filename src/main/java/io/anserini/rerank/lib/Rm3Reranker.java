@@ -17,7 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -164,7 +164,7 @@ public class Rm3Reranker implements Reranker {
             throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
           Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-              reader.document(docs.ids[i]).getField(IndexArgs.RAW).stringValue());
+              reader.document(docs.ids[i]).getField(Constants.RAW).stringValue());
           docVector = createdFeatureVectorOnTheFly(termFreqMap, reader, tweetsearch);
         }
 
@@ -252,7 +252,7 @@ public class Rm3Reranker implements Reranker {
         //
         // With both values, we obtained effectiveness pretty close to the old values with the
         // custom stopwords list.
-        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+        int df = reader.docFreq(new Term(Constants.CONTENTS, term));
         float ratio = (float) df / numDocs;
         if (tweetsearch) {
           if (numDocs > 100000000) { // Probably Tweets2013
@@ -317,7 +317,7 @@ public class Rm3Reranker implements Reranker {
         //
         // With both values, we obtained effectiveness pretty close to the old values with the
         // custom stopwords list.
-        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+        int df = reader.docFreq(new Term(Constants.CONTENTS, term));
         float ratio = (float) df / numDocs;
         if (tweetsearch) {
           if (numDocs > 100000000) { // Probably Tweets2013

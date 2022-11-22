@@ -17,17 +17,17 @@
 package io.anserini.integration;
 
 import io.anserini.collection.JsonCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
-import io.anserini.search.SearchArgs;
+import io.anserini.search.SearchCollection;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class JsonEndToEndZhTest extends EndToEndTest {
   @Override
-  IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
     indexArgs.input = "src/test/resources/sample_docs/json/collection_zh";
     indexArgs.collectionClass = JsonCollection.class.getSimpleName();
     indexArgs.generatorClass = DefaultLuceneDocumentGenerator.class.getSimpleName();
@@ -75,7 +75,7 @@ public class JsonEndToEndZhTest extends EndToEndTest {
   protected void setSearchGroundTruth() {
     topicReader = "TsvString";
     topicFile = "src/test/resources/sample_topics/zh_topics.tsv";
-    SearchArgs searchArg = createDefaultSearchArgs().bm25();
+    SearchCollection.Args searchArg = createDefaultSearchArgs().bm25();
     searchArg.language = "zh";
     testQueries.put("bm25", searchArg);
     queryTokens.put("1", new ArrayList<>());

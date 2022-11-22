@@ -17,7 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
@@ -90,7 +90,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SimpleSearcher implements Closeable {
   private static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
 
   protected IndexReader reader;
@@ -147,7 +147,7 @@ public class SimpleSearcher implements Closeable {
    * @throws IOException if errors encountered during initialization
    */
   public SimpleSearcher(String indexDir, Analyzer analyzer) throws IOException {
-    SearchArgs defaults = new SearchArgs();
+    SearchCollection.Args defaults = new SearchCollection.Args();
     Path indexPath = Paths.get(indexDir);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -270,7 +270,7 @@ public class SimpleSearcher implements Closeable {
    * Enables RM3 query expansion with default parameters.
    */
   public void set_rm3() {
-    SearchArgs defaults = new SearchArgs();
+    SearchCollection.Args defaults = new SearchCollection.Args();
     set_rm3(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
         Float.parseFloat(defaults.rm3_originalQueryWeight[0]));
   }
@@ -298,7 +298,7 @@ public class SimpleSearcher implements Closeable {
   public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     useRM3 = true;
     cascade = new RerankerCascade("rm3");
-    cascade.add(new Rm3Reranker(this.analyzer, null, IndexArgs.CONTENTS,
+    cascade.add(new Rm3Reranker(this.analyzer, null, Constants.CONTENTS,
         fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -325,7 +325,7 @@ public class SimpleSearcher implements Closeable {
    * Enables Rocchio query expansion with default parameters.
    */
   public void set_rocchio() {
-    SearchArgs defaults = new SearchArgs();
+    SearchCollection.Args defaults = new SearchCollection.Args();
     set_rocchio(Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
         Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
         Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]),
@@ -347,7 +347,7 @@ public class SimpleSearcher implements Closeable {
   public void set_rocchio(int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     useRocchio = true;
     cascade = new RerankerCascade("rocchio");
-    cascade.add(new RocchioReranker(this.analyzer, null, IndexArgs.CONTENTS,
+    cascade.add(new RocchioReranker(this.analyzer, null, Constants.CONTENTS,
         topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -553,7 +553,7 @@ public class SimpleSearcher implements Closeable {
    * @throws IOException if error encountered during search
    */
   public Result[] search(String q, int k) throws IOException {
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(Constants.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return _search(query, queryTokens, q, k);
@@ -581,7 +581,7 @@ public class SimpleSearcher implements Closeable {
    * @throws IOException if error encountered during search
    */
   public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
-    Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    Query query = generator.buildQuery(Constants.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return _search(query, queryTokens, q, k);
@@ -595,7 +595,7 @@ public class SimpleSearcher implements Closeable {
       searcher.setSimilarity(similarity);
     }
 
-    SearchArgs searchArgs = new SearchArgs();
+    SearchCollection.Args searchArgs = new SearchCollection.Args();
     searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
     searchArgs.hits = k;
 
@@ -614,13 +614,13 @@ public class SimpleSearcher implements Closeable {
     Result[] results = new Result[hits.ids.length];
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
-      String docid = doc.getField(IndexArgs.ID).stringValue();
+      String docid = doc.getField(Constants.ID).stringValue();
 
       IndexableField field;
-      field = doc.getField(IndexArgs.CONTENTS);
+      field = doc.getField(Constants.CONTENTS);
       String contents = field == null ? null : field.stringValue();
 
-      field = doc.getField(IndexArgs.RAW);
+      field = doc.getField(Constants.RAW);
       String raw = field == null ? null : field.stringValue();
 
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], contents, raw, doc);
@@ -637,7 +637,7 @@ public class SimpleSearcher implements Closeable {
    * @throws IOException if error encountered during search
    */
   public Map<String, Float> get_feedback_terms(String q) throws IOException {
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(Constants.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return _get_feedback_terms(query, queryTokens, q, 10);
@@ -652,7 +652,7 @@ public class SimpleSearcher implements Closeable {
       searcher.setSimilarity(similarity);
     }
 
-    SearchArgs searchArgs = new SearchArgs();
+    SearchCollection.Args searchArgs = new SearchCollection.Args();
     searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
     searchArgs.hits = k;
 
@@ -794,7 +794,7 @@ public class SimpleSearcher implements Closeable {
    */
   public String doc_contents(int lucene_docid) {
     try {
-      return reader.document(lucene_docid).get(IndexArgs.CONTENTS);
+      return reader.document(lucene_docid).get(Constants.CONTENTS);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -819,7 +819,7 @@ public class SimpleSearcher implements Closeable {
    */
   public String doc_raw(int lucene_docid) {
     try {
-      return reader.document(lucene_docid).get(IndexArgs.RAW);
+      return reader.document(lucene_docid).get(Constants.RAW);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;

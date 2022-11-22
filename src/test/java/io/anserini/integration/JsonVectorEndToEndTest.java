@@ -17,17 +17,17 @@
 package io.anserini.integration;
 
 import io.anserini.collection.JsonVectorCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
-import io.anserini.search.SearchArgs;
+import io.anserini.search.SearchCollection;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class JsonVectorEndToEndTest extends EndToEndTest {
   @Override
-  IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
     indexArgs.input = "src/test/resources/sample_docs/json_vector/collection3";
     indexArgs.collectionClass = JsonVectorCollection.class.getSimpleName();
     indexArgs.generatorClass = DefaultLuceneDocumentGenerator.class.getSimpleName();
@@ -58,7 +58,7 @@ public class JsonVectorEndToEndTest extends EndToEndTest {
   protected void setSearchGroundTruth() {
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_vector_topics.tsv";
-    SearchArgs searchArg = createDefaultSearchArgs().impact();
+    SearchCollection.Args searchArg = createDefaultSearchArgs().impact();
     searchArg.pretokenized = true;
 
     testQueries.put("impact", searchArg);

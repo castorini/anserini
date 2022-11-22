@@ -16,7 +16,7 @@
 
 package io.anserini.util;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
@@ -49,7 +49,7 @@ public class ExtractTopDfTerms {
     String output;
 
     @Option(name = "-field", metaVar = "[name]", usage = "field")
-    String field = IndexArgs.CONTENTS;
+    String field = Constants.CONTENTS;
 
     @Option(name = "-k", metaVar = "[num]", usage = "number of terms to keep")
     int topK = 100;

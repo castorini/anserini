@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.collection.WashingtonPostCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.analysis.Analyzer;
@@ -106,7 +106,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
       throws IOException {
     // Fetch the raw JSON representation of the document.
     IndexableField rawField = reader.document(
-        IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
+        IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(Constants.RAW);
     if (rawField == null) {
       throw new RuntimeException("Raw documents not stored!");
     }

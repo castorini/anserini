@@ -19,7 +19,8 @@ package io.anserini.index.generator;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.AclAnthology;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -40,7 +41,7 @@ import java.util.List;
  * Converts a {@link AclAnthology.Document} into a Lucene {@link Document}, ready to be indexed.
  */
 public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAnthology.Document> {
-  private IndexArgs args;
+  private IndexCollection.Args args;
 
   private enum AclAnthologyField {
     ADDRESS("address"),
@@ -84,7 +85,7 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
     AclAnthologyField.PUBLISHER.name,
     AclAnthologyField.MONTH.name);
 
-  public AclAnthologyGenerator(IndexArgs args) {
+  public AclAnthologyGenerator(IndexCollection.Args args) {
     this.args = args;
   }
 
@@ -100,12 +101,12 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
     Document doc = new Document();
 
     // Store the collection docid.
-    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+    doc.add(new StringField(Constants.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new BinaryDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    doc.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, aclDoc.raw()));
+      doc.add(new StoredField(Constants.RAW, aclDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();
@@ -124,7 +125,7 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(IndexArgs.CONTENTS, content, fieldType));
+    doc.add(new Field(Constants.CONTENTS, content, fieldType));
 
     // used to store original field valuees
     FieldType storedFieldType = new FieldType(fieldType);

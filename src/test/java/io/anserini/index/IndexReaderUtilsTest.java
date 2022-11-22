@@ -19,7 +19,7 @@ package io.anserini.index;
 import io.anserini.IndexerTestBase;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.search.SearchArgs;
+import io.anserini.search.SearchCollection;
 import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfo;
@@ -279,7 +279,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void computeAllTermBM25Weights() throws Exception {
-    SearchArgs args = new SearchArgs();
+    SearchCollection.Args args = new SearchCollection.Args();
     Similarity similarity = new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
 
     Directory dir = FSDirectory.open(tempDir1);
@@ -328,7 +328,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void computeBM25Weights() throws Exception {
-    SearchArgs args = new SearchArgs();
+    SearchCollection.Args args = new SearchCollection.Args();
 
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);

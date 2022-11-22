@@ -16,11 +16,9 @@
 
 package io.anserini.integration;
 
-import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.NotStoredException;
-import io.anserini.search.SearchArgs;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.CheckIndex;
@@ -55,7 +53,7 @@ import java.util.Random;
 public abstract class EndToEndTest extends LuceneTestCase {
   private static final Random RANDOM = new Random();
 
-  protected Map<String, SearchArgs> testQueries = new HashMap<>();
+  protected Map<String, SearchCollection.Args> testQueries = new HashMap<>();
 
   protected String indexPath;
 
@@ -93,7 +91,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
     cleanup.clear();
 
     // Subclasses will override this method and change their own settings.
-    IndexArgs indexArgs = getIndexArgs();
+    IndexCollection.Args indexArgs = getIndexArgs();
 
     // Note, since we want to test end-to-end, we're going to generate command-line parameters to feed back into main.
     List<String> args = new ArrayList<>(List.of(
@@ -169,10 +167,10 @@ public abstract class EndToEndTest extends LuceneTestCase {
   }
 
   // Set the indexing args. Subclasses will override this method and change their own settings.
-  abstract IndexArgs getIndexArgs();
+  abstract IndexCollection.Args getIndexArgs();
 
-  protected IndexArgs createDefaultIndexArgs() {
-    IndexArgs args = new IndexArgs();
+  protected IndexCollection.Args createDefaultIndexArgs() {
+    IndexCollection.Args args = new IndexCollection.Args();
 
     args.storePositions = true;
     args.storeDocvectors = true;
@@ -277,8 +275,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
   // Subclasses will override this method and provide the ground truth.
   protected abstract void setCheckIndexGroundTruth();
 
-  protected SearchArgs createDefaultSearchArgs() {
-    SearchArgs searchArgs = new SearchArgs();
+  protected SearchCollection.Args createDefaultSearchArgs() {
+    SearchCollection.Args searchArgs = new SearchCollection.Args();
     // required
     searchArgs.index = this.indexPath;
     searchArgs.output = this.searchOutputPrefix + this.topicReader;
@@ -301,7 +299,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
     setSearchGroundTruth();
 
     try {
-      for (Map.Entry<String, SearchArgs> entry : testQueries.entrySet()) {
+      for (Map.Entry<String, SearchCollection.Args> entry : testQueries.entrySet()) {
         SearchCollection searcher = new SearchCollection(entry.getValue());
         searcher.runTopics();
         searcher.close();

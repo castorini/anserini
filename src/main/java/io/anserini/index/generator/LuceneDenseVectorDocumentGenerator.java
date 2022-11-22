@@ -16,17 +16,12 @@
 
 package io.anserini.index.generator;
 
-import io.anserini.collection.SourceDocument;
-import io.anserini.index.IndexDenseVectors;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import io.anserini.collection.SourceDocument;
+import io.anserini.index.IndexDenseVectors;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.KnnVectorField;
@@ -34,6 +29,7 @@ import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.VectorSimilarityFunction;
 
+import java.util.ArrayList;
 
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.

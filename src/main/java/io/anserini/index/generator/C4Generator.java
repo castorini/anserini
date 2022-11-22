@@ -17,7 +17,7 @@
 package io.anserini.index.generator;
 
 import io.anserini.collection.C4Collection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LongPoint;
@@ -25,7 +25,7 @@ import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 
 public class C4Generator extends DefaultLuceneDocumentGenerator<C4Collection.Document>{
-  protected IndexArgs args;
+  protected IndexCollection.Args args;
 
   // constants for storing
   public enum C4Field {
@@ -40,7 +40,7 @@ public class C4Generator extends DefaultLuceneDocumentGenerator<C4Collection.Doc
     }
   }
 
-  public C4Generator(IndexArgs args) {
+  public C4Generator(IndexCollection.Args args) {
     super(args);
     this.args = args;
   }

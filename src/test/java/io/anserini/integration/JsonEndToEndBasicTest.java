@@ -17,15 +17,15 @@
 package io.anserini.integration;
 
 import io.anserini.collection.JsonCollection;
-import io.anserini.index.IndexArgs;
-import io.anserini.search.SearchArgs;
+import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
 
 import java.util.Map;
 
 public class JsonEndToEndBasicTest extends EndToEndTest {
   @Override
-  IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
     indexArgs.input = "src/test/resources/sample_docs/json/collection3";
     indexArgs.collectionClass = JsonCollection.class.getSimpleName();
     // The difference between JsonCollectionEndToEndMultifieldTest and JsonCollectionEndToEndBasicTest is that
@@ -55,7 +55,7 @@ public class JsonEndToEndBasicTest extends EndToEndTest {
   protected void setSearchGroundTruth() {
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_topics2.tsv";
-    SearchArgs searchArg1 = createDefaultSearchArgs().bm25();
+    SearchCollection.Args searchArg1 = createDefaultSearchArgs().bm25();
     testQueries.put("bm25", searchArg1);
     referenceRunOutput.put("bm25", new String[]{
         "1 Q0 doc1 1 0.364800 Anserini",
@@ -65,7 +65,7 @@ public class JsonEndToEndBasicTest extends EndToEndTest {
 
     topicReader = "TsvString";
     topicFile = "src/test/resources/sample_topics/json_topics3.tsv";
-    SearchArgs searchArg2 = createDefaultSearchArgs().bm25();
+    SearchCollection.Args searchArg2 = createDefaultSearchArgs().bm25();
     searchArg2.removeQuery = true;
     testQueries.put("bm25-rq", searchArg2);
     referenceRunOutput.put("bm25-rq", new String[]{
