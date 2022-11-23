@@ -45,10 +45,11 @@ logger.addHandler(ch)
 # These are the locations where corpora can be found on specific machines.
 # There is no need to specify them on a per-file basis.
 CORPUS_ROOTS = [
-    '',             # here, stored in this directory
-    '/tuna1/',      # on tuna
-    '/store/',      # on orca
-    '/scratch2/',   # on damiano
+    '',                           # here, stored in this directory
+    '/tuna1/',                    # on tuna
+    '/store/',                    # on orca
+    '/',                          # on hops
+    '/scratch2/',                 # on damiano
     '/System/Volumes/Data/store'  # for new organization of directories in macOS Monterey
 ]
 
