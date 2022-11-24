@@ -6,7 +6,7 @@ index_path: indexes/lucene-index.msmarco-passage-hgf-wp/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 9
-index_options: -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer  bert-base-uncased
+index_options: -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased
 index_stats:
   documents: 8841823
   documents (non-empty): 8841823
