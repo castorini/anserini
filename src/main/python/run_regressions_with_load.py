@@ -44,6 +44,9 @@ if __name__ == '__main__':
         lines = f.read().splitlines()
 
     for r in lines:
+        if not r or r.startswith('#'):
+            continue
+
         logger.info(f'Launching: {r}')
         os.system(r + ' &')
 
