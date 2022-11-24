@@ -53,6 +53,6 @@ if __name__ == '__main__':
         while True:
             time.sleep(args.sleep)
             load = os.getloadavg()[0]
-            logger.info(f'Current load: {load} (threshold = {args.load})')
+            logger.info(f'Current load: {load:.1f} (threshold = {args.load})')
             if load < args.load:
                 break
