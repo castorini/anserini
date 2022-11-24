@@ -15,8 +15,17 @@
 #
 
 import argparse
+import logging
 import os
 import time
+
+logger = logging.getLogger('run_regressions_with_load')
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s %(levelname)s  [python] %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
 
 
 if __name__ == '__main__':
@@ -27,20 +36,20 @@ if __name__ == '__main__':
     parser.add_argument('--load', type=int, default=10, help="minimum idf")
     args = parser.parse_args()
 
-    print(f'Running commands in {args.file}')
-    print(f'Sleep interval: {args.sleep}')
-    print(f'Threshold load: {args.load}')
+    logger.info(f'Running commands in {args.file}')
+    logger.info(f'Sleep interval: {args.sleep}')
+    logger.info(f'Threshold load: {args.load}')
 
     with open(args.file) as f:
         lines = f.read().splitlines()
 
     for r in lines:
-        print(r)
+        logger.info(f'Launching: {r}')
         os.system(r + ' &')
 
         while True:
-            time.sleep(5)
+            time.sleep(args.sleep)
             load = os.getloadavg()[0]
-            print(f'Current load: {load}')
+            logger.info(f'Current load: {load} (threshold = {args.load})')
             if load < args.load:
                 break
