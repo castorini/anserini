@@ -1,3 +1,8 @@
+# CAR: start with these because the first two are single-threaded and super slow
+python src/main/python/run_regression.py --index --verify --search --regression car17v1.5 > logs/log.car17v1.5 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression car17v2.0 > logs/log.car17v2.0 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression car17v2.0-doc2query > logs/log.car17v2.0-doc2query 2>&1
+
 # MS MARCO V1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc > logs/log.msmarco-doc 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp > logs/log.msmarco-doc-wp 2>&1
@@ -28,10 +33,6 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 python src/main/python/run_regression.py --index --verify --search --regression mb11 > logs/log.mb11 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression mb13 > logs/log.mb13 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression car17v1.5 > logs/log.car17v1.5 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression car17v2.0 > logs/log.car17v2.0 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression car17v2.0-doc2query > logs/log.car17v2.0-doc2query 2>&1
 
 # Newswire
 python src/main/python/run_regression.py --index --verify --search --regression disk12 > logs/log.disk12 2>&1
