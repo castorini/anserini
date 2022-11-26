@@ -6,7 +6,7 @@ index_path: indexes/lucene-index.msmarco-doc-hgf-wp/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 7
-index_options: -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer  bert-base-uncased
+index_options: -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
