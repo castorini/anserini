@@ -28,7 +28,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-passage \
   -index indexes/lucene-index.msmarco-passage-hgf-wp/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer  bert-base-uncased \
+  -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased \
   >& logs/log.msmarco-passage &
 ```
 

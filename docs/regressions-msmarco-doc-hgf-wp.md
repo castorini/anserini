@@ -26,7 +26,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/msmarco-doc \
   -index indexes/lucene-index.msmarco-doc-hgf-wp/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 7 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer  bert-base-uncased \
+  -threads 7 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased \
   >& logs/log.msmarco-doc &
 ```
 
