@@ -280,3 +280,4 @@ That's it!
 + Results reproduced by [@aivan6842](https://github.com/aivan6842) on 2022-07-11 (commit [`8010d5c`](https://github.com/castorini/anserini/commit/8010d5c0b066f0316c6c506170274f8f7d558f73))
 + Results reproduced by [@Jasonwu-0803](https://github.com/Jasonwu-0803) on 2022-09-27 (commit [`b5ecc5a`](https://github.com/castorini/anserini/commit/b5ecc5aff79ddfc82b175f6bd3048f5039f0480f))
 + Results reproduced by [@limelody](https://github.com/limelody) on 2022-09-27 (commit [`252b5e2`](https://github.com/castorini/anserini/commit/252b5e2087dd7b3b994d41a444d4ae0044519819))
++ Results reproduced by [@minconszhang](https://github.com/minconszhang) on 2022-11-25 (commit [`6556550`](https://github.com/castorini/anserini/commit/6556550fe33f7804993aaf10201da9900d52c14b))
