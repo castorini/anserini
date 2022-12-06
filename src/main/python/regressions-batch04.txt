@@ -1,3 +1,56 @@
+# CAR: start with these because the first two are single-threaded and super slow
+python src/main/python/run_regression.py --index --verify --search --regression car17v1.5 > logs/log.car17v1.5 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression car17v2.0 > logs/log.car17v2.0 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression car17v2.0-doc2query > logs/log.car17v2.0-doc2query 2>&1
+
+# Other
+python src/main/python/run_regression.py --index --verify --search --regression fever > logs/log.fever 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression mb11 > logs/log.mb11 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mb13 > logs/log.mb13 2>&1
+
+# Newswire
+python src/main/python/run_regression.py --index --verify --search --regression disk12 > logs/log.disk12 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression disk45 > logs/log.disk45 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression robust05 > logs/log.robust05 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression core17 > logs/log.core17 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression core18 > logs/log.core18 2>&1
+
+# HC4
+python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-fa > logs/log.hc4-v1.0-fa 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-ru > logs/log.hc4-v1.0-ru 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-zh > logs/log.hc4-v1.0-zh 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa > logs/log.hc4-neuclir22-fa 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru > logs/log.hc4-neuclir22-ru 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh > logs/log.hc4-neuclir22-zh 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa-en > logs/log.hc4-neuclir22-fa-en 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru-en > logs/log.hc4-neuclir22-ru-en 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh-en > logs/log.hc4-neuclir22-zh-en 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt > logs/log.neuclir22-fa-qt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-dt > logs/log.neuclir22-fa-dt 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt > logs/log.neuclir22-ru-qt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-dt > logs/log.neuclir22-ru-dt 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt > logs/log.neuclir22-zh-qt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt > logs/log.neuclir22-zh-dt 2>&1
+
+# Other CLIR
+python src/main/python/run_regression.py --index --verify --search --regression ntcir8-zh > logs/log.ntcir8-zh 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression clef06-fr > logs/log.clef06-fr 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression trec02-ar > logs/log.trec02-ar 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression fire12-bn > logs/log.fire12-bn 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression fire12-hi > logs/log.fire12-hi 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression fire12-en > logs/log.fire12-en 2>&1
+
+# Background linking
+python src/main/python/run_regression.py --verify --search --regression backgroundlinking18 > logs/log.backgroundlinking18 2>&1
+python src/main/python/run_regression.py --verify --search --regression backgroundlinking19 > logs/log.backgroundlinking19 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking20 > logs/log.backgroundlinking20 2>&1
+
 # Web
 python src/main/python/run_regression.py --index --verify --search --regression wt10g > logs/log.wt10g 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression gov2 > logs/log.gov2 2>&1
