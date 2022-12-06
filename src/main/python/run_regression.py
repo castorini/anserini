@@ -48,7 +48,8 @@ CORPUS_ROOTS = [
     '',                           # here, stored in this directory
     '/tuna1/',                    # on tuna
     '/store/',                    # on orca
-    '/',                          # on hops
+    '/',                          # on hops (1st location)
+    '/collection',                # on hops (2nd location)
     '/scratch2/',                 # on damiano
     '/System/Volumes/Data/store'  # for new organization of directories in macOS Monterey
 ]
