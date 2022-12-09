@@ -41,9 +41,6 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-noexp-0shot > logs/log.msmarco-v2-passage-unicoil-noexp-0shot 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-0shot > logs/log.msmarco-v2-passage-unicoil-0shot 2>&1
 
-# Other
-python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 > logs/log.wikipedia-dpr-100w-bm25 2>&1
-
 # TREC 2019/2022 DL, non-wp
 python src/main/python/run_regression.py --verify --search --regression dl19-passage > logs/log.dl19-passage 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-bm25-b8 > logs/log.dl19-passage-bm25-b8 2>&1
