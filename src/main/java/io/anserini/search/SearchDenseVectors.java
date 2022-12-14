@@ -129,6 +129,9 @@ public final class SearchDenseVectors implements Closeable {
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
 
+    @Option(name = "-parallel", usage = "Whether passing the ThreadPoolExecutor to the IndexSearcher for parallel search")
+    public Boolean parallel = false;
+
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
     // ---------------------------------------------
@@ -173,6 +176,16 @@ public final class SearchDenseVectors implements Closeable {
       this.runTag = runTag;
       this.outputPath = outputPath;
       this.searcher = new IndexSearcher(this.reader);
+      setName(outputPath);
+    }
+
+    public SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, String outputPath, String runTag,
+                          ThreadPoolExecutor executor) {
+      this.reader = reader;
+      this.topics = topics;
+      this.runTag = runTag;
+      this.outputPath = outputPath;
+      this.searcher = new IndexSearcher(this.reader, executor);
       setName(outputPath);
     }
 
@@ -346,7 +359,13 @@ public final class SearchDenseVectors implements Closeable {
     if (args.skipexists && new File(outputPath).exists()) {
       LOG.info("Run already exists, skipping: " + outputPath);
     } else {
-      executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag));
+      SearcherThread<K> searcherThread;
+      if (args.parallel) {
+        searcherThread = new SearcherThread<>(reader, topics, outputPath, runTag, executor);
+      } else {
+        searcherThread = new SearcherThread<>(reader, topics, outputPath, runTag);
+      }
+      executor.execute(searcherThread);
       executor.shutdown();
     }
 
