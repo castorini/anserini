@@ -46,6 +46,7 @@ logger.addHandler(ch)
 # There is no need to specify them on a per-file basis.
 CORPUS_ROOTS = [
     '',                           # here, stored in this directory
+    '/mnt/',                      # on tjena
     '/tuna1/',                    # on tuna
     '/store/',                    # on orca
     '/collection',                # on hops (1st location)
