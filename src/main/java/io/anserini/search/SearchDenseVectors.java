@@ -372,15 +372,25 @@ public final class SearchDenseVectors implements Closeable {
       }
       executor.execute(searcherThread);
       executor.shutdown();
+      if (searcherExecutor != null) {
+        searcherExecutor.shutdown();
+      }
     }
 
     try {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
       }
+      if (searcherExecutor != null) {
+        while (!searcherExecutor.awaitTermination(1, TimeUnit.SECONDS)) {
+        }
+      }
     } catch (InterruptedException ie) {
       // (Re-)Cancel if current thread also interrupted
       executor.shutdownNow();
+      if (searcherExecutor != null) {
+        searcherExecutor.shutdownNow();
+      }
       // Preserve interrupt status
       Thread.currentThread().interrupt();
     }
