@@ -1,7 +1,9 @@
-# Anserini: Regressions for MS MARCO Document Ranking
+# Anserini Regressions: MS MARCO Document Ranking
 
-This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
-Note that there are four different regression conditions for this task, and this page describes the following:
+**Models**: various bag-of-words approaches on complete documents
+
+This page documents regression experiments on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
+Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
 + **Expansion Condition:** none
@@ -14,6 +16,12 @@ Note that this page is automatically generated from [this template](${template})
 Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
 
 ## Indexing
 
@@ -54,8 +62,8 @@ ${effectiveness}
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=3.44`, `b=0.87`, tuned on 2019/06 and used for TREC 2019 Deep Learning Track baseline runs.
-+ The setting "tuned2" refers to `k1=4.46`, `b=0.82`, tuned to optimize for recall@100 (i.e., for first-stage retrieval) on 2019/12; see [this page](experiments-msmarco-doc.md) additional details.
++ The setting "tuned" refers to `k1=3.44`, `b=0.87`, tuned in 2019/06 using the MS MARCO document sparse judgments to optimize for MAP and used for TREC 2019 Deep Learning Track baseline runs.
++ The setting "tuned2" refers to `k1=4.46`, `b=0.82`, tuned in 2020/12 using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval); see [this page](experiments-msmarco-doc.md) additional details.
 
 See [this page](experiments-msmarco-doc.md) for more details on tuning.
 
@@ -76,13 +84,13 @@ To generate an MS MARCO submission with the BM25 default parameters, correspondi
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
-   -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
-   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-   -output runs/run.msmarco-doc.bm25-default.txt
+    -index indexes/lucene-index.msmarco-doc/ \
+    -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -output runs/run.msmarco-doc.bm25-default.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
-   --run runs/run.msmarco-doc.bm25-default.txt
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.bm25-default.txt
 
 #####################
 MRR @100: 0.23005723505603573
@@ -96,7 +104,7 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
-   -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
+   -index indexes/lucene-index.msmarco-doc/ \
    -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
    -output runs/run.msmarco-doc.bm25-tuned.txt
 
@@ -111,3 +119,48 @@ QueriesRanked: 5193
 ```
 
 This run was _not_ submitted to the MS MARCO document ranking leaderboard, but is reported in the Lin et al. (SIGIR 2021) Pyserini paper.
+
+As of February 2022, following resolution of [#1721](https://github.com/castorini/anserini/issues/1721), BM25 runs for the MS MARCO leaderboard can be generated with the commands below.
+For default parameters (`k1=0.9`, `b=0.4`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-doc/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-doc.bm25-default.txt \
+    -format msmarco \
+    -bm25 -hits 100
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.bm25-default.txt
+
+#####################
+MRR @100: 0.22994387925437856
+QueriesRanked: 5193
+#####################
+```
+
+For tuned parameters (`k1=4.46`, `b=0.82`):
+
+```
+$ sh target/appassembler/bin/SearchCollection \
+    -index indexes/lucene-index.msmarco-doc/ \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-doc.bm25-tuned.txt \
+    -format msmarco \
+    -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100
+
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.bm25-tuned.txt
+
+#####################
+MRR @100: 0.2766351807440808
+QueriesRanked: 5193
+#####################
+```
+
+Note that the resolution of [#1721](https://github.com/castorini/anserini/issues/1721) _did_ slightly change the results, since we corrected underlying issues with data preparation.

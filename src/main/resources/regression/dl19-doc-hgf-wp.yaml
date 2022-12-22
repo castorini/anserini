@@ -1,0 +1,66 @@
+---
+corpus: msmarco-doc
+corpus_path: collections/msmarco/msmarco-doc/
+
+index_path: indexes/lucene-index.msmarco-doc-hgf-wp/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 7
+index_options: -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased
+index_stats:
+  documents: 3213835
+  documents (non-empty): 3213835
+  total terms: 5326253111
+
+metrics:
+  - metric: AP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map # Note, this is different DL 2019 passage ranking!
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
+    id: dl19
+    path: topics.dl19-doc.txt
+    qrel: qrels.dl19-doc.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -analyzeWithHuggingFaceTokenizer  bert-base-uncased
+    results:
+      AP@100:
+        - 0.1947
+      nDCG@10:
+        - 0.4672
+      R@100:
+        - 0.3400
+      R@1000:
+        - 0.6421

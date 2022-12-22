@@ -20,15 +20,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.Cord19BaseDocument;
 import io.anserini.collection.TrialstreamerCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
@@ -40,7 +41,7 @@ import java.io.StringReader;
  * Converts a {@link Cord19BaseDocument} into a Lucene {@link Document}, ready to be indexed.
  */
 public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocument> {
-  private IndexArgs args;
+  private IndexCollection.Args args;
 
   public enum CovidField {
     SHA("sha"),
@@ -80,7 +81,7 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
     }
   }
 
-  public Cord19Generator(IndexArgs args) {
+  public Cord19Generator(IndexCollection.Args args) {
     this.args = args;
   }
 
@@ -113,12 +114,12 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
     Document doc = new Document();
 
     // Store the collection docid.
-    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+    doc.add(new StringField(Constants.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    doc.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, raw));
+      doc.add(new StoredField(Constants.RAW, raw));
     }
 
     FieldType fieldType = new FieldType();
@@ -137,7 +138,7 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(IndexArgs.CONTENTS, content, fieldType));
+    doc.add(new Field(Constants.CONTENTS, content, fieldType));
 
     // normal fields
     doc.add(new Field(CovidField.TITLE.name, covidDoc.record().get(CovidField.TITLE.name), fieldType));

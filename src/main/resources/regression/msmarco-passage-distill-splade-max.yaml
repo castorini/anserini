@@ -2,6 +2,9 @@
 corpus: msmarco-passage-distill-splade-max
 corpus_path: collections/msmarco/msmarco-passage-distill-splade-max/
 
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar
+download_checksum: b5d126f5d9a8e1b3ef3f5cb0ba651725
+
 index_path: indexes/lucene-index.msmarco-passage-distill-splade-max/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
@@ -13,27 +16,34 @@ index_stats:
   total terms: 95445422483
 
 metrics:
-  - metric: MAP
+  - metric: AP@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
-  - metric: MRR
+    can_combine: false
+  - metric: RR@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recip_rank
+    params: -c -M 10 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
   - metric: R@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
 
 topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
@@ -49,10 +59,12 @@ models:
     display: DistilSPLADE-max
     params: -impact -pretokenized
     results:
-      MAP:
+      AP@1000:
         - 0.3746
-      MRR:
-        - 0.3798
+      RR@10:
+        - 0.3686
+      R@100:
+        - 0.8984
       R@1000:
         - 0.9787
 

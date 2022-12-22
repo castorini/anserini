@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -30,6 +32,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
@@ -37,14 +40,22 @@ import java.util.Set;
 public class Cord19AbstractCollection extends DocumentCollection<Cord19AbstractCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(Cord19AbstractCollection.class);
 
-  public Cord19AbstractCollection(Path path){
+  public Cord19AbstractCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
+  }
+
+  public Cord19AbstractCollection() {
   }
 
   @Override
   public FileSegment<Cord19AbstractCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<Cord19AbstractCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -54,6 +65,7 @@ public class Cord19AbstractCollection extends DocumentCollection<Cord19AbstractC
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
+    private JsonNode node = null;
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -61,9 +73,9 @@ public class Cord19AbstractCollection extends DocumentCollection<Cord19AbstractC
           new FileInputStream(path.toString())));
 
       csvParser = new CSVParser(bufferedReader, CSVFormat.DEFAULT
-        .withFirstRecordAsHeader()
-        .withIgnoreHeaderCase()
-        .withTrim());
+          .withFirstRecordAsHeader()
+          .withIgnoreHeaderCase()
+          .withTrim());
 
       iterator = csvParser.iterator();
       if (iterator.hasNext()) {
@@ -71,16 +83,31 @@ public class Cord19AbstractCollection extends DocumentCollection<Cord19AbstractC
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.readTree(jsonString);
+    }
+
     @Override
     public void readNext() throws NoSuchElementException {
-      if (record == null) {
+      if (record == null && node == null) {
         throw new NoSuchElementException("Record is empty");
       } else {
-        bufferedRecord = new Cord19AbstractCollection.Document(record);
-        if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
-          record = iterator.next();
+        if (record != null) {
+          bufferedRecord = new Cord19AbstractCollection.Document(record);
+          if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
+            record = iterator.next();
+          } else {
+            atEOF = true; // there is no more JSON object in the bufferedReader
+          }
         } else {
+          bufferedRecord = new Cord19AbstractCollection.Document(node);
           atEOF = true; // there is no more JSON object in the bufferedReader
+          node = null;
         }
       }
     }
@@ -111,6 +138,14 @@ public class Cord19AbstractCollection extends DocumentCollection<Cord19AbstractC
 
       String fullTextJson = getFullTextJson(Cord19AbstractCollection.this.path.toString());
       raw = buildRawJson(fullTextJson);
+    }
+
+    public Document(JsonNode jnode) {
+      id = jnode.get("csv_metadata").get("cord_uid").asText();
+      content = jnode.get("csv_metadata").get("title").asText().replace("\n", " ");
+      content += jnode.get("csv_metadata").get("abstract").asText("").equals("") ? "" : "\n" + jnode.get("csv_metadata").get("abstract").asText();
+      String fullTextJson = jnode.toPrettyString();
+      raw = fullTextJson;
     }
   }
 }

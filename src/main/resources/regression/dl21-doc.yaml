@@ -5,12 +5,12 @@ corpus_path: collections/msmarco/msmarco_v2_doc/
 index_path: indexes/lucene-index.msmarco-v2-doc/
 collection_class: MsMarcoV2DocCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 18
-index_options: -storePositions -storeDocvectors -storeRaw
+index_threads: 24
+index_options: -storeRaw
 index_stats:
   documents: 11959635
   documents (non-empty): 11959635
-  total terms: 14165661202
+  total terms: 14165667143
 
 metrics:
   - metric: MAP@100
@@ -75,43 +75,29 @@ models:
         - 0.6739
   - name: bm25-default+rm3
     display: +RM3
-    params: -hits 1000 -bm25 -rm3
+    params: -hits 1000 -bm25 -rm3 -collection MsMarcoV2DocCollection
     results:
       MAP@100:
-        - 0.2453
+        - 0.2452
       MRR@100:
-        - 0.7994
+        - 0.7914
       nDCG@10:
-        - 0.5339
+        - 0.5304
       R@100:
-        - 0.3374
+        - 0.3376
       R@1000:
-        - 0.7335
-  - name: bm25-default+ax
-    display: +Ax
-    params: -hits 1000 -bm25 -axiom -axiom.deterministic -rerankCutoff 20
+        - 0.7341
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -hits 1000 -bm25 -rocchio -collection MsMarcoV2DocCollection
     results:
       MAP@100:
-        - 0.2034
+        - 0.2467
       MRR@100:
-        - 0.7434
+        - 0.7997
       nDCG@10:
-        - 0.4804
+        - 0.5476
       R@100:
-        - 0.3002
+        - 0.3456
       R@1000:
-        - 0.7089
-  - name: bm25-default+prf
-    display: +PRF
-    params: -hits 1000 -bm25 -bm25prf
-    results:
-      MAP@100:
-        - 0.2079
-      MRR@100:
-        - 0.7869
-      nDCG@10:
-        - 0.4850
-      R@100:
-        - 0.3096
-      R@1000:
-        - 0.7040
+        - 0.7367

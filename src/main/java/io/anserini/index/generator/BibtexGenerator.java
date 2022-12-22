@@ -18,15 +18,16 @@ package io.anserini.index.generator;
 
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.BibtexCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
@@ -45,7 +46,7 @@ import java.util.Map;
 public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection.Document> {
   public static final String TYPE = "type";
 
-  private IndexArgs args;
+  private IndexCollection.Args args;
 
   public enum BibtexField {
     DOI("doi"),
@@ -81,7 +82,7 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     BibtexField.EDITOR.name,
     BibtexField.ABSTRACT.name);
 
-  public BibtexGenerator(IndexArgs args) {
+  public BibtexGenerator(IndexCollection.Args args) {
     this.args = args;
   }
 
@@ -99,14 +100,14 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     Document doc = new Document();
 
     // Store the collection docid.
-    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+    doc.add(new StringField(Constants.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    doc.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
     // Store the collection's bibtex type
     doc.add(new StringField(TYPE, type, Field.Store.YES));
 
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, bibtexDoc.raw()));
+      doc.add(new StoredField(Constants.RAW, bibtexDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();
@@ -125,7 +126,7 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(IndexArgs.CONTENTS, content, fieldType));
+    doc.add(new Field(Constants.CONTENTS, content, fieldType));
 
     for (Map.Entry<Key, Value> fieldEntry : bibtexEntry.getFields().entrySet()) {
       String fieldKey = fieldEntry.getKey().toString();

@@ -16,7 +16,7 @@
 
 package io.anserini.ltr.feature;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.ltr.DocumentContext;
 import io.anserini.ltr.DocumentFieldContext;
 import io.anserini.ltr.FeatureExtractor;
@@ -37,12 +37,12 @@ public class UnorderedQueryPairs implements FeatureExtractor {
 
   public UnorderedQueryPairs() {
     this.qfield = "analyzed";
-    this.field = IndexArgs.CONTENTS;
+    this.field = Constants.CONTENTS;
   }
 
   public UnorderedQueryPairs(int gapSize) {
     this.gapSize = gapSize;
-    this.field = IndexArgs.CONTENTS;
+    this.field = Constants.CONTENTS;
     this.qfield = "analyzed";
   }
 

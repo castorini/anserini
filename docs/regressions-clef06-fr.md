@@ -1,10 +1,16 @@
-# Anserini: Regressions for [CLEF2006 Monolingual French](http://www.clef-initiative.eu/edition/clef2006)
+# Anserini Regressions: CLEF2006 Monolingual French
 
-This page documents regression experiments for monolingual French document retrieval as part of the [CLEF 2006 Multilingual Document Retrieval (Ad Hoc) Track](http://www.clef-initiative.eu/edition/clef2006).
+This page documents BM25 regression experiments for monolingual French document retrieval as part of the [CLEF 2006 Multilingual Document Retrieval (Ad Hoc) Track](http://www.clef-initiative.eu/edition/clef2006).
 Associated data can be found on the [CLEF test suites pages](http://www.clef-initiative.eu/dataset/corpus).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/clef06-fr.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/clef06-fr.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression clef06-fr
+```
 
 ## Indexing
 
@@ -38,7 +44,8 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.clef06-fr/ \
-  -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt -topicreader TsvString \
+  -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt \
+  -topicreader TsvString \
   -output runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt \
   -bm25 -language fr &
 ```
@@ -53,16 +60,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      |
-:---------------------------------------|-----------|
-[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3111    |
-
-
-P20                                     | BM25      |
-:---------------------------------------|-----------|
-[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3184    |
-
-
-nDCG@20                                 | BM25      |
-:---------------------------------------|-----------|
-[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.4458    |
+| **MAP**                                                                                                      | **BM25**  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3115    |
+| **P20**                                                                                                      | **BM25**  |
+| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3184    |
+| **nDCG@20**                                                                                                  | **BM25**  |
+| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.4457    |

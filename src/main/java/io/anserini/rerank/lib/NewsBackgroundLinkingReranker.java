@@ -16,10 +16,13 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
@@ -32,28 +35,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.anserini.index.IndexArgs.CONTENTS;
-import static io.anserini.index.IndexArgs.ID;
 import static io.anserini.index.generator.WashingtonPostGenerator.WashingtonPostField.PUBLISHED_DATE;
 
 /*
-* TREC News Track Background Linking task postprocessing.
-* Near-duplicate documents (similar/same with the query docid) will be removed by comparing
-* their cosine similarity with the query docid.
-*/
+ * TREC News Track Background Linking task postprocessing.
+ * Near-duplicate documents (similar/same with the query docid) will be removed by comparing
+ * their cosine similarity with the query docid.
+ */
 public class NewsBackgroundLinkingReranker implements Reranker {
+  private final Analyzer analyzer;
+  private final Class parser;
+
+  public NewsBackgroundLinkingReranker(Analyzer analyzer, Class parser) {
+    this.analyzer = analyzer;
+    this.parser = parser;
+
+  }
+
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     String queryDocId = context.getQueryDocId();
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
-    
+
     List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
     for (int i = 0; i < docs.documents.length; i++) {
-      String docid = docs.documents[i].getField(ID).stringValue();
+      String docid = docs.documents[i].getField(Constants.ID).stringValue();
       docsVectorsMap.add(convertDocVectorToMap(reader, docid));
     }
-    
+
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
     Set<Integer> toRemove = new HashSet<>();
     for (int i = 0; i < docs.documents.length; i++) {
@@ -62,7 +72,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
         toRemove.add(i);
         continue;
       }
-      for (int j = i+1; j < docs.documents.length; j++) {
+      for (int j = i + 1; j < docs.documents.length; j++) {
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
           toRemove.add(j);
         }
@@ -84,7 +94,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
         e.printStackTrace();
       }
     }
-  
+
     ScoredDocuments scoredDocs = new ScoredDocuments();
     int resSize = docs.documents.length - toRemove.size();
     scoredDocs.documents = new Document[resSize];
@@ -99,27 +109,36 @@ public class NewsBackgroundLinkingReranker implements Reranker {
         idx++;
       }
     }
-  
+
     return scoredDocs;
   }
-  
+
   private Map<String, Long> convertDocVectorToMap(IndexReader reader, String docid) {
     Map<String, Long> m = new HashMap<>();
     try {
       Terms terms = reader.getTermVector(
-          IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), CONTENTS);
-      TermsEnum it = terms.iterator();
-      while (it.next() != null) {
-        String term = it.term().utf8ToString();
-        long tf = it.totalTermFreq();
-        m.put(term, tf);
+          IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), Constants.CONTENTS);
+      if (terms != null) {
+        TermsEnum it = terms.iterator();
+        while (it.next() != null) {
+          String term = it.term().utf8ToString();
+          long tf = it.totalTermFreq();
+          m.put(term, tf);
+        }
+      } else {
+        if (parser == null) {
+          throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
+        }
+        Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
+            reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(Constants.RAW).stringValue());
+        return termFreqMap;
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
     return m;
   }
-  
+
   private double dotProduct(Map<String, Long> profile1, Map<String, Long> profile2) {
     // Loop over the smallest map
     Map<String, Long> small_profile = profile2;
@@ -128,20 +147,20 @@ public class NewsBackgroundLinkingReranker implements Reranker {
       small_profile = profile1;
       large_profile = profile2;
     }
-    
+
     double agg = 0;
     for (Map.Entry<String, Long> entry : small_profile.entrySet()) {
       long i = large_profile.getOrDefault(entry.getKey(), 0L);
       agg += 1.0 * entry.getValue() * i;
     }
-    
+
     return agg;
   }
-  
+
   private double computeCosineSimilarity(Map<String, Long> profile1, Map<String, Long> profile2) {
     return dotProduct(profile1, profile2) / (computeL2Norm(profile1) * computeL2Norm(profile2));
   }
-  
+
   /**
    * Compute the norm L2 : sqrt(Sum_i( v_i²)).
    *
@@ -150,14 +169,16 @@ public class NewsBackgroundLinkingReranker implements Reranker {
    */
   private double computeL2Norm(final Map<String, Long> profile) {
     double agg = 0;
-    
+
     for (Map.Entry<String, Long> entry : profile.entrySet()) {
       agg += 1.0 * entry.getValue() * entry.getValue();
     }
-    
+
     return Math.sqrt(agg);
   }
-  
+
   @Override
-  public String tag() { return ""; }
+  public String tag() {
+    return "";
+  }
 }

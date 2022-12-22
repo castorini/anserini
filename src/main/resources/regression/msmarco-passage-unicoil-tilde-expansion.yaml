@@ -1,6 +1,9 @@
 ---
 corpus: msmarco-passage-unicoil-tilde-expansion
-corpus_path: collections/msmarco/msmarco-passage-unicoil-tilde-expansion-b8/
+corpus_path: collections/msmarco/msmarco-passage-unicoil-tilde-expansion/
+
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar
+download_checksum: 12a9c289d94e32fd63a7d39c9677d75c
 
 index_path: indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion/
 collection_class: JsonVectorCollection
@@ -13,27 +16,34 @@ index_stats:
   total terms: 73040108576
 
 metrics:
-  - metric: MAP
+  - metric: AP@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
-  - metric: MRR
+    can_combine: false
+  - metric: RR@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recip_rank
+    params: -c -M 10 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
   - metric: R@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
 
 topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
@@ -46,13 +56,15 @@ topics:
 
 models:
   - name: unicoil-tilde-expansion
-    display: uniCOIL w/ TILDE expansion
+    display: uniCOIL (with TILDE expansions)
     params: -impact -pretokenized
     results:
-      MAP:
+      AP@1000:
         - 0.3561
-      MRR:
-        - 0.3607
+      RR@10:
+        - 0.3496
+      R@100:
+        - 0.8678
       R@1000:
         - 0.9646
 

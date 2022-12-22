@@ -1,0 +1,17 @@
+## Evaluation results w/ src/main/resources/topics-and-qrels/qrels.covid-round1.txt
+
+                                       topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5
+anserini.covid-r2.abstract.qq.bm25.txt     35  0.3522 0.5371  0.3171 0.5100 0.1752 0.6601 0.1013 b20ad699839637477c720580813fc4c1
+anserini.covid-r2.abstract.qdel.bm25.txt   35  0.3781 0.5371  0.3462 0.4829 0.1804 0.6485 0.0958 6b61ffe3913c48f91d7861050e57dcfe
+anserini.covid-r2.full-text.qq.bm25.txt    35  0.2070 0.4286  0.1931 0.3929 0.1159 0.5953 0.0995 fc44c0f3016241afd397312e075b0423
+anserini.covid-r2.full-text.qdel.bm25.txt  35  0.3123 0.4229  0.2738 0.3929 0.1473 0.6517 0.1022 ce787ef715aa66fb392822e9c1c3341a
+anserini.covid-r2.paragraph.qq.bm25.txt    35  0.2772 0.4400  0.2579 0.4529 0.1607 0.7248 0.1220 639e2c71bdad8e198364bb31bfdc34be
+anserini.covid-r2.paragraph.qdel.bm25.txt  35  0.3353 0.4343  0.2956 0.4329 0.1772 0.7196 0.1136 27ab50c0e5cd09c72252a755ecc0aea8
+anserini.covid-r2.fusion1.txt              35  0.3297 0.4657  0.3060 0.4643 0.1914 0.7561 0.1304 69b220676870255491212a46ba56fd83
+anserini.covid-r2.fusion2.txt              35  0.3679 0.4829  0.3360 0.4557 0.2066 0.7511 0.1200 ac47b8e77e7340ca6040092cf78cc63c
+
+## Evaluation results w/ src/main/resources/topics-and-qrels/qrels.covid-round2.txt
+
+                           topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5
+anserini.final-r2.fusion1.txt  35  0.4827 0.9543  0.4512 0.8614 0.2431 0.6475 0.1463 3a7f339c158c46759ace8a3aff0f2829
+anserini.final-r2.fusion2.txt  35  0.5553 0.9743  0.5058 0.8957 0.2739 0.6832 0.1528 e6155ee117aae782b211cdb559ff58e6

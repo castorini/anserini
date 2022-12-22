@@ -17,7 +17,7 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TweetCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.TweetGenerator;
 
 import java.util.Map;
@@ -32,8 +32,8 @@ public class TweetEndToEndTest extends EndToEndTest {
   //
   // Thus, there should be a total of 4 documents indexed: 9 objects - 5 skipped
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/tweets/collection1";
     indexArgs.collectionClass = TweetCollection.class.getSimpleName();
@@ -48,6 +48,8 @@ public class TweetEndToEndTest extends EndToEndTest {
     // Note that based on our settings, retweets and tweets with id > 9 will not be indexed.
 
     docCount = 4;
+    docFieldCount = 3; // id, raw, contents
+
     referenceDocs.put("3", Map.of(
         "contents", "This tweet will be indexed thanks",
         "raw", "{\"created_at\":\"Thu Aug 11 22:57:52 +0000 2016\",\"id\":3,\"id_str\":\"3\",\"text\":\"This tweet will be indexed thanks.\",\"source\":\"\\u003ca href=\\\"http:\\/\\/twitter.com\\/download\\/android\\\" rel=\\\"nofollow\\\"\\u003eTwitter for Android\\u003c\\/a\\u003e\",\"truncated\":false,\"in_reply_to_status_id\":null,\"in_reply_to_status_id_str\":null,\"in_reply_to_user_id\":null,\"in_reply_to_user_id_str\":null,\"in_reply_to_screen_name\":null,\"user\":{\"id\":3358015773,\"id_str\":\"3358015773\",\"name\":\"Cami\",\"screen_name\":\"B\",\"location\":\"Ciudad Aut\\u00f3noma de Buenos Aire\",\"url\":null,\"description\":\"15.Geminiana\\u264a Ig: CamiiMariana15 Snap: camilaracabutto\",\"protected\":false,\"verified\":false,\"followers_count\":392,\"friends_count\":307,\"listed_count\":0,\"favourites_count\":11254,\"statuses_count\":21876,\"created_at\":\"Sat Jul 04 04:32:40 +0000 2015\",\"utc_offset\":-25200,\"time_zone\":\"Pacific Time (US & Canada)\",\"geo_enabled\":false,\"lang\":\"es\",\"contributors_enabled\":false,\"is_translator\":false,\"profile_background_color\":\"000000\",\"profile_background_image_url\":\"http:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png\",\"profile_background_image_url_https\":\"https:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png\",\"profile_background_tile\":false,\"profile_link_color\":\"9266CC\",\"profile_sidebar_border_color\":\"000000\",\"profile_sidebar_fill_color\":\"000000\",\"profile_text_color\":\"000000\",\"profile_use_background_image\":false,\"profile_image_url\":\"http:\\/\\/pbs.twimg.com\\/profile_images\\/742940112527429636\\/2EcOpkFu_normal.jpg\",\"profile_image_url_https\":\"https:\\/\\/pbs.twimg.com\\/profile_images\\/742940112527429636\\/2EcOpkFu_normal.jpg\",\"profile_banner_url\":\"https:\\/\\/pbs.twimg.com\\/profile_banners\\/3358015773\\/1470945786\",\"default_profile\":false,\"default_profile_image\":false,\"following\":null,\"follow_request_sent\":null,\"notifications\":null},\"geo\":null,\"coordinates\":null,\"place\":null,\"contributors\":null,\"is_quote_status\":false,\"retweet_count\":0,\"favorite_count\":0,\"entities\":{\"hashtags\":[],\"urls\":[],\"user_mentions\":[{\"screen_name\":\"Jul1et4wizz\",\"name\":\"Julieta\",\"id\":1599099673,\"id_str\":\"1599099673\",\"indices\":[3,15]}],\"symbols\":[]},\"favorited\":false,\"retweeted\":false,\"filter_level\":\"low\",\"lang\":\"en\",\"timestamp_ms\":\"1470956272659\"}"));

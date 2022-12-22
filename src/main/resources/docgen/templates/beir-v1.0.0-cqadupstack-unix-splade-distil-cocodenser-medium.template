@@ -1,0 +1,84 @@
+# Anserini Regressions: BEIR (v1.0.0) &mdash; CQADupStack-unix
+
+**Model**: SPLADE-distil CoCodenser Medium
+
+This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; CQADupStack-unix](http://beir.ai/).
+The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search \
+  --regression ${test_name}
+```
+
+## Corpus
+
+We make available a version of the BEIR-v1.0.0 cqadupstack-unix corpus that has already been processed with SPLADE-distil CoCodenser Medium, i.e., gone through document expansion and term reweighting.
+Thus, no neural inference is involved.
+For details on how to train SPLADE-distil CoCodenser Medium and perform inference, please see [guide provided by Naver Labs Europe](https://github.com/naver/splade/tree/main/anserini_evaluation).
+
+Download the corpus and unpack into `collections/`:
+
+```
+wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/beir-v1.0.0-splade_distil_cocodenser_medium-cqadupstack-unix.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade_distil_cocodenser_medium-cqadupstack-unix.tar -C collections/
+```
+
+To confirm, the tarball is 8.9 MB and has MD5 checksum `9c5a181e03cbc7f13abd0e0e4bf9158e`.
+
+With the corpus downloaded, the following command will perform the complete regression, end to end, on any machine:
+
+```
+python src/main/python/run_regression.py --index --verify --search \
+  --regression ${test_name} \
+  --corpus-path collections/beir-v1.0.0-splade_distil_cocodenser_medium-cqadupstack-unix
+```
+
+Alternatively, you can simply copy/paste from the commands below and obtain the same results.
+
+## Indexing
+
+Sample indexing command:
+
+```
+${index_cmds}
+```
+
+The path `/path/to/${corpus}/` should point to the corpus downloaded above.
+
+The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
+Upon completion, we should have an index with 8,674 documents.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the test set questions.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
+
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.

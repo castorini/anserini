@@ -19,15 +19,16 @@ package io.anserini.index.generator;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.CoreCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
@@ -40,7 +41,7 @@ import java.util.List;
  * Converts a {@link CoreCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
 public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Document> {
-  private IndexArgs args;
+  private IndexCollection.Args args;
 
   public enum CoreField {
     DOI("doi"),
@@ -88,7 +89,7 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
     CoreField.JOURNALS.name,
     CoreField.LANGUAGE.name);
 
-  public CoreGenerator(IndexArgs args) {
+  public CoreGenerator(IndexCollection.Args args) {
     this.args = args;
   }
 
@@ -104,12 +105,12 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
     Document doc = new Document();
 
     // Store the collection docid.
-    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+    doc.add(new StringField(Constants.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    doc.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, coreDoc.raw()));
+      doc.add(new StoredField(Constants.RAW, coreDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();
@@ -128,7 +129,7 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(IndexArgs.CONTENTS, content, fieldType));
+    doc.add(new Field(Constants.CONTENTS, content, fieldType));
 
     coreDoc.jsonNode().fieldNames().forEachRemaining(key -> {
       JsonNode value = coreDoc.jsonNode().get(key);
@@ -165,10 +166,10 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
       // index as numeric value to allow range queries
       try {
         doc.add(new IntPoint(key, Integer.parseInt(valueText)));
+        doc.add(new StoredField(key, valueText));
       } catch(Exception e) {
         // year is not numeric value
       }
-      doc.add(new StoredField(key, valueText));
     } else {
       doc.add(new Field(key, valueText, fieldType));
     }

@@ -17,8 +17,8 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
-import io.anserini.index.IndexArgs;
-import io.anserini.search.SearchArgs;
+import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,8 +33,8 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   private Map<String, String[]> groundTruthRuns = new HashMap<>();
 
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
     indexArgs.collectionClass = TrecCollection.class.getSimpleName();
@@ -45,6 +45,8 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = 3; // id, raw, contents
+
     referenceDocs.put("TREC_DOC_1", Map.of(
         "contents", "This is head very simple text",
         "raw", "<HEAD>This is head</HEAD>\n" +
@@ -90,7 +92,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     topicReader = "Trec";
     topicFile = "src/test/resources/sample_topics/Trec";
 
-    SearchArgs searchArgs;
+    SearchCollection.Args searchArgs;
 
     searchArgs = createDefaultSearchArgs().bm25();
     searchArgs.bm25_b = new String[] {"0.2", "0.8"};

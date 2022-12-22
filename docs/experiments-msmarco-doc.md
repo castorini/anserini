@@ -3,7 +3,7 @@
 This page contains instructions for running BM25 baselines on the [MS MARCO *document* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *passage* ranking task](experiments-msmarco-passage.md).
 
-**Setup Note:** If you're instantiating an Ubuntu VM on your system or on cloud (AWS and GCP), try to provision enough resources as the tasks such as building the index could take some time to finish such as RAM > 8GB and storage > 100 GB (SSD). This will prevent going back and fixing machine configuration again and again.
+This exercise will require a machine with >8 GB RAM and at least 40 GB free disk space.
 
 If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, make sure you do the [passage ranking exercise](experiments-msmarco-passage.md) first.
 Similarly, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
@@ -13,7 +13,7 @@ Similarly, try to understand what you're actually doing, instead of simply [carg
 We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO document dataset:
 
-```
+```bash
 mkdir collections/msmarco-doc
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docs.trec.gz -P collections/msmarco-doc
@@ -30,10 +30,14 @@ To confirm, `msmarco-docs.trec.gz` should have MD5 checksum of `d4863e4f342982b5
 There's no need to uncompress the file, as Anserini can directly index gzipped files.
 Build the index with the following command:
 
-```
-sh target/appassembler/bin/IndexCollection -threads 1 -collection CleanTrecCollection \
- -generator DefaultLuceneDocumentGenerator -input collections/msmarco-doc \
- -index indexes/msmarco-doc/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw
+```bash
+target/appassembler/bin/IndexCollection \
+  -collection CleanTrecCollection \
+  -input collections/msmarco-doc \
+  -index indexes/msmarco-doc/lucene-index-msmarco \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 1 \
+  -storePositions -storeDocvectors -storeRaw
 ```
 
 On a modern desktop with an SSD, indexing takes around 40 minutes.
@@ -45,11 +49,14 @@ There should be a total of 3,213,835 documents indexed.
 After indexing finishes, we can do a retrieval run.
 The dev queries are already stored in our repo:
 
-```
-target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
- -index indexes/msmarco-doc/lucene-index-msmarco \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.dev.bm25.txt -bm25
+```bash
+target/appassembler/bin/SearchCollection \
+  -index indexes/msmarco-doc/lucene-index-msmarco \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-doc.dev.bm25.txt \
+  -parallelism 4 \
+  -bm25 -hits 1000
 ```
 
 Retrieval speed will vary by machine:
@@ -58,16 +65,17 @@ Adjust the parallelism by changing the `-parallelism` argument.
 
 After the run completes, we can evaluate with `trec_eval`:
 
-```
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
-map                   	all	0.2310
+```bash
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
+    src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
+map                   	all	0.2309
 recall_1000           	all	0.8856
 ```
 
 Let's compare to the baselines provided by Microsoft.
 First, download:
 
-```
+```bash
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-top100.gz -P runs
 gunzip runs/msmarco-docdev-top100.gz
 ```
@@ -75,12 +83,14 @@ gunzip runs/msmarco-docdev-top100.gz
 Then, run `trec_eval` to compare.
 Note that to be fair, we restrict evaluation to top 100 hits per topic (which is what Microsoft provides):
 
-```
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/msmarco-docdev-top100
+```bash
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
+    src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/msmarco-docdev-top100
 map                   	all	0.2219
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
-map                   	all	0.2303
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
+    src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
+map                   	all	0.2302
 ```
 
 We see that "out of the box" Anserini is already better!
@@ -91,18 +101,22 @@ Let's try to reproduce runs on there!
 A few minor details to pay attention to: the official metric is MRR@100, so we want to only return the top 100 hits, and the submission files to the leaderboard have a slightly different format.
 
 ```bash
-target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
- -index indexes/msmarco-doc/lucene-index-msmarco \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -format msmarco \
- -bm25 -bm25.k1 0.9 -bm25.b 0.4
+target/appassembler/bin/SearchCollection \
+  -index indexes/msmarco-doc/lucene-index-msmarco \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -format msmarco \
+  -parallelism 4 \
+  -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 100
 ```
 
 The command above uses the default BM25 parameters (`k1=0.9`, `b=0.4`), and note we set `-hits 100`.
 Command for evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.leaderboard-dev.bm25base.txt 
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.leaderboard-dev.bm25base.txt
 #####################
 MRR @100: 0.23005723505603573
 QueriesRanked: 5193
@@ -114,17 +128,21 @@ The above run corresponds to "Anserini's BM25, default parameters (k1=0.9, b=0.4
 Here's the invocation for BM25 with parameters optimized for recall@100 (`k1=4.46`, `b=0.82`):
 
 ```bash
-target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
- -index indexes/msmarco-doc/lucene-index-msmarco \
- -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -format msmarco \
- -bm25 -bm25.k1 4.46 -bm25.b 0.82
+target/appassembler/bin/SearchCollection \
+  -index indexes/msmarco-doc/lucene-index-msmarco \
+  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topicreader TsvInt \
+  -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -format msmarco \
+  -parallelism 4 \
+  -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100
 ```
 
 Command for evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt 
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt
 #####################
 MRR @100: 0.2770296928568702
 QueriesRanked: 5193
@@ -139,7 +157,7 @@ It is well known that BM25 parameter tuning is important.
 The setting of `k1=0.9`, `b=0.4` is often used as a default.
 
 Let's try to do better!
-We tuned BM25 using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO): these are five different sets of 10k samples from the training queries (using the `shuf` command).
+We tuned BM25 using the queries found [here](https://github.com/castorini/anserini-data/tree/master/MSMARCO): these are five different sets of 10k samples from the training queries (using the `shuf` command).
 The basic approach is grid search of parameter values in tenth increments.
 We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
 In separate trials, we optimized for:
@@ -151,35 +169,42 @@ It turns out that optimizing for MRR@10 and MAP yields the same settings.
 
 Here's the comparison between different parameter settings:
 
-Setting                                                                | MRR@100 | MAP    | Recall@1000 |
-:----------------------------------------------------------------------|--------:|-------:|------------:|
-Default (`k1=0.9`, `b=0.4`)                                            | 0.2301  | 0.2310 | 0.8856 |
-Optimized for MRR@100/MAP (`k1=3.8`, `b=0.87`)                         | 0.2784  | 0.2789 | 0.9326 |
-Optimized for recall@100 (`k1=4.46`, `b=0.82`)                         | 0.2770  | 0.2775 | 0.9357 |
+| Setting                                        | MRR@100 |    MAP | Recall@1000 |
+|:-----------------------------------------------|--------:|-------:|------------:|
+| Default (`k1=0.9`, `b=0.4`)                    |  0.2301 | 0.2310 |      0.8856 |
+| Optimized for MRR@100/MAP (`k1=3.8`, `b=0.87`) |  0.2784 | 0.2789 |      0.9326 |
+| Optimized for recall@100 (`k1=4.46`, `b=0.82`) |  0.2770 | 0.2775 |      0.9357 |
 
 As expected, BM25 tuning makes a big difference!
 
 Note that MRR@100 is computed with the leaderboard eval script (with 100 hits per query), while the other two metrics are computed with `trec_eval` (with 1000 hits per query).
 So, we need to use different search programs, for example:
 
-```
-$ target/appassembler/bin/SearchCollection -hits 1000 -parallelism 4 \
-   -index indexes/msmarco-doc/lucene-index-msmarco \
-   -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-   -output runs/run.msmarco-doc.dev.opt-mrr.txt \
-   -bm25 -bm25.k1 3.8 -bm25.b 0.87
+```bash
+$ target/appassembler/bin/SearchCollection \
+    -index indexes/msmarco-doc/lucene-index-msmarco \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-doc.dev.opt-mrr.txt \
+    -parallelism 4 \
+    -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 1000
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
+    src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
 map                   	all	0.2789
 recall_1000           	all	0.9326
 
-$ target/appassembler/bin/SearchCollection -hits 100 -parallelism 4 \
-   -index indexes/msmarco-doc/lucene-index-msmarco \
-   -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-   -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -format msmarco \
-   -bm25 -bm25.k1 3.8 -bm25.b 0.87
+$ target/appassembler/bin/SearchCollection \
+    -index indexes/msmarco-doc/lucene-index-msmarco \
+    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topicreader TsvInt \
+    -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -format msmarco \
+    -parallelism 4 \
+    -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 100
 
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py \
+    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --run runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt
 #####################
 MRR @100: 0.27836767424339787
 QueriesRanked: 5193
@@ -245,3 +270,16 @@ That's it!
 + Results reproduced by [@vivianliu0](https://github.com/vivianliu0) on 2022-01-06 (commit [`c3e14dc`](https://github.com/castorini/anserini/commit/c3e14dcda516455e2daa4ffe10fb9900c4a8fc12))
 + Results reproduced by [@mikhail-tsir](https://github.com/mikhail-tsir) on 2022-01-07 (commit [`806ac89`](https://github.com/castorini/anserini/commit/806ac896a4a5531f0a39dafb79d481e679c7dc19))
 + Results reproduced by [@AceZhan](https://github.com/AceZhan) on 2022-01-14 (commit [`7ff99e0`](https://github.com/castorini/anserini/commit/7ff99e0d3208dc8bfec6bb8ca254d0b016015a2d))
++ Results reproduced by [@jh8liang](https://github.com/jh8liang) on 2022-02-06 (commit [`5cdf9ec`](https://github.com/castorini/anserini/commit/5cdf9ec3600bf693cf8d80a9c869444b4e29ff75))
++ Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2022-02-22 (commit [`6a70804`](https://github.com/castorini/anserini/commit/6a708047f71528f7d516c0dd45485204a36e6b1d))
++ Results reproduced by [@jasper-xian](https://github.com/jasper-xian) on 2022-03-27 (commit [`2e8e9fd`](https://github.com/castorini/anserini/commit/2e8e9fdfedc1b81522d9e22a805e08e6a7105762))
++ Results reproduced by [@jx3yang](https://github.com/jx3yang) on 2022-04-25 (commit [`b429218`](https://github.com/castorini/anserini/commit/b429218e52a385eabf3fd81979e221111fbc4a19))
++ Results reproduced by [@AreelKhan](https://github.com/AreelKhan) on 2022-04-27 (commit [`7adee1d`](https://github.com/castorini/anserini/commit/7adee1d9596f052a87b0427e654c4b95e2cd5e89))
++ Results reproduced by [@alvind1](https://github.com/alvind1) on 2022-05-05 (commit [`9b2dd5f5`](https://github.com/castorini/anserini/commit/9b2dd5f5e524ce56e5784cb73404d39926982733))
++ Results reproduced by [@Pie31415](https://github.com/Pie31415) on 2022-06-22 (commit [`6aef2eb`](https://github.com/castorini/anserini/commit/6aef2eb0681f34387bf04077465f04343c338cf4))
++ Results reproduced by [@aivan6842](https://github.com/aivan6842) on 2022-07-11 (commit [`8010d5c`](https://github.com/castorini/anserini/commit/8010d5c0b066f0316c6c506170274f8f7d558f73))
++ Results reproduced by [@Jasonwu-0803](https://github.com/Jasonwu-0803) on 2022-09-27 (commit [`b5ecc5a`](https://github.com/castorini/anserini/commit/b5ecc5aff79ddfc82b175f6bd3048f5039f0480f))
++ Results reproduced by [@limelody](https://github.com/limelody) on 2022-09-27 (commit [`252b5e2`](https://github.com/castorini/anserini/commit/252b5e2087dd7b3b994d41a444d4ae0044519819))
++ Results reproduced by [@minconszhang](https://github.com/minconszhang) on 2022-11-25 (commit [`6556550`](https://github.com/castorini/anserini/commit/6556550fe33f7804993aaf10201da9900d52c14b))
++ Results reproduced by [@jingliu](https://github.com/ljatca) on 2022-12-08 (commit [`6872c87`](https://github.com/castorini/anserini/commit/6872c878d6969ebdf1875e4436777b95746b35a5))
++ Results reproduced by [@farazkh80](https://github.com/farazkh80) on 2022-12-18 (commit [`4527a5d`](https://github.com/castorini/anserini/commit/4527a5d0555e5def53855a0f2fd3bb90f53ea7e9))

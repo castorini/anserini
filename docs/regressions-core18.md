@@ -1,8 +1,16 @@
-# Anserini: Regressions for the [Washington Post](https://trec.nist.gov/data/wapost/) ([Core18](https://trec-core.github.io/2018/))
+# Anserini Regressions: TREC 2018 Common Core Track
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the TREC 2018 Common Core Track, which uses the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/core18.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/core18.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression core18
+```
 
 ## Indexing
 
@@ -35,37 +43,43 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topicreader Trec \
   -output runs/run.wapo.v2.bm25.topics.core18.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topicreader Trec \
   -output runs/run.wapo.v2.bm25+rm3.topics.core18.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topicreader Trec \
   -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topicreader Trec \
   -output runs/run.wapo.v2.ql.topics.core18.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topicreader Trec \
   -output runs/run.wapo.v2.ql+rm3.topics.core18.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt -topicreader Trec \
+  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topicreader Trec \
   -output runs/run.wapo.v2.ql+ax.topics.core18.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
@@ -90,14 +104,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.2496    | 0.3139    | 0.2840    | 0.2527    | 0.3074    | 0.2920    |
-
-
-P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.3573    | 0.4200    | 0.3947    | 0.3653    | 0.3993    | 0.4013    |
+| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)               | 0.2496    | 0.3129    | 0.2840    | 0.2527    | 0.3077    | 0.2920    |
+| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
+| [TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)               | 0.3573    | 0.4167    | 0.3947    | 0.3653    | 0.4007    | 0.4013    |
 
 ## Reproduction Log[*](reproducibility.md)
 

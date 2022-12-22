@@ -17,7 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -69,6 +69,7 @@ public class BM25PrfReranker implements Reranker {
 
   private final int fbDocs;
   private final Analyzer analyzer;
+  private final Class parser;
   private final String field;
   private final boolean outputQuery;
   private final int fbTerms;
@@ -76,8 +77,9 @@ public class BM25PrfReranker implements Reranker {
   private final float b;
   private final float newTermWeight;
 
-  public BM25PrfReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float k1, float b, float newTermWeight, boolean outputQuery) {
+  public BM25PrfReranker(Analyzer analyzer, Class parser, String field, int fbTerms, int fbDocs, float k1, float b, float newTermWeight, boolean outputQuery) {
     this.analyzer = analyzer;
+    this.parser = parser;
     this.outputQuery = outputQuery;
     this.field = field;
     this.fbTerms = fbTerms;
@@ -89,16 +91,17 @@ public class BM25PrfReranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+    IndexSearcher existingSearcher = context.getIndexSearcher();
+    IndexReader reader = existingSearcher.getIndexReader();
 
-    // set similarity to BM25PRF
-    IndexSearcher searcher = context.getIndexSearcher();
-    BM25Similarity originalSimilarity = (BM25Similarity) searcher.getSimilarity();
+    // Set similarity to BM25Prf. We want to get a new searcher for a different similarity, as opposed to using the
+    // existing searcher. Naively using the existing searcher makes the reranker not thread-safe, since interleaved
+    // execution would leave the searcher in some weird state wrt what similarity it's using.
+    IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(new BM25PrfSimilarity(k1, b));
-    IndexReader reader = searcher.getIndexReader();
-    List<String> originalQueryTerms = AnalyzerUtils.analyze(analyzer, context.getQueryText());
 
     boolean useRf = (context.getSearchArgs().rf_qrels != null);
-    PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader, useRf);
+    PrfFeatures fv = expandQuery(context.getQueryTokens(), docs, reader, useRf);
     Query newQuery = fv.toQuery();
 
     if (this.outputQuery) {
@@ -123,8 +126,7 @@ public class BM25PrfReranker implements Reranker {
       e.printStackTrace();
       return docs;
     }
-    // set similarity back
-    searcher.setSimilarity(originalSimilarity);
+
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
@@ -135,7 +137,7 @@ public class BM25PrfReranker implements Reranker {
 
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
     int numFbDocs;
-    if (useRf){
+    if (useRf) {
       numFbDocs = docs.documents.length;
     } else {
       numFbDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
@@ -144,13 +146,23 @@ public class BM25PrfReranker implements Reranker {
 
     for (int i = 0; i < numFbDocs; i++) {
       try {
-        if (useRf && docs.scores[i] <= 0){
+        if (useRf && docs.scores[i] <= 0) {
           continue;
         }
         Terms terms = reader.getTermVector(docs.ids[i], field);
-        Set<String> termsStr = getTermsStr(terms);
-        docToTermsMap.put(docs.ids[i], termsStr);
-        vocab.addAll(termsStr);
+        if (terms != null) {
+          Set<String> termsStr = getTermsStr(terms);
+          docToTermsMap.put(docs.ids[i], termsStr);
+          vocab.addAll(termsStr);
+        } else {
+          if (parser == null) {
+            throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
+          }
+          Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
+              reader.document(docs.ids[i]).getField(Constants.RAW).stringValue());
+          docToTermsMap.put(docs.ids[i], termFreqMap.keySet());
+          vocab.addAll(termFreqMap.keySet());
+        }
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -168,7 +180,7 @@ public class BM25PrfReranker implements Reranker {
       if (term.matches("[0-9]+")) continue;
 
       try {
-        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+        int df = reader.docFreq(new Term(Constants.CONTENTS, term));
         int dfRel = 0;
 
         for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {
@@ -191,7 +203,7 @@ public class BM25PrfReranker implements Reranker {
 
     for (String term : originalTerms) {
       try {
-        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+        int df = reader.docFreq(new Term(Constants.CONTENTS, term));
         int dfRel = 0;
 
         for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {

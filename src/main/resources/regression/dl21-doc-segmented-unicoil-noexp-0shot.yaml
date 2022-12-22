@@ -1,11 +1,15 @@
 ---
 corpus: msmarco-v2-doc-segmented-unicoil-noexp-0shot
-corpus_path: collections/msmarco/msmarco-doc-v2-seg-unicoil-noexp-0shot-b8/
+corpus_path: collections/msmarco/msmarco_v2_doc_segmented_unicoil_noexp_0shot/
+
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot.tar
+download_checksum: 28261587d6afde56efd8df4f950e7fb4
+download_corpus: msmarco_v2_doc_segmented_unicoil_noexp_0shot
 
 index_path: indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 18
+index_threads: 24
 index_options: -impact -pretokenized
 index_stats:
   documents: 124131404
@@ -60,7 +64,7 @@ topics:
 
 models:
   - name: unicoil-noexp-0shot
-    display: uniCOIL (no expansion, zero-shot)
+    display: uniCOIL (noexp) zero-shot
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized
     results:
       MAP@100:

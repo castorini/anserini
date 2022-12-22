@@ -1,0 +1,84 @@
+---
+corpus: wikipedia-dpr-100w
+corpus_path: collections/wikipedia/wikipedia-dpr-100w
+
+index_path: indexes/lucene-index.wikipedia-dpr-100w/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 43
+index_options: -storeRaw
+index_stats:
+  documents: 21015324
+  documents (non-empty): 21015324
+  total terms: 1512973244
+
+conversions:  
+  - command: python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run
+    params: 
+    in_file_ext: "" 
+    out_file_ext: .json
+
+metrics:
+  - metric: top_20_accuracy
+    command: python -m pyserini.eval.evaluate_dpr_retrieval
+    params:  --topk 20 --retrieval
+    separator: " "
+    parse_index: 1
+    metric_precision: 4
+    can_combine: false
+  - metric: top_100_accuracy
+    command: python -m pyserini.eval.evaluate_dpr_retrieval
+    params:  --topk 100 --retrieval
+    separator: " "
+    parse_index: 1
+    metric_precision: 4
+    can_combine: false
+    
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root:
+topics:
+  - name: "[DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)"
+    id: dpr-nq-test
+    path: topics.dpr.nq.test.txt
+    topic_reader: DprNq
+  - name: "[DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)"
+    id: dpr-trivia-test
+    path: topics.dpr.trivia.test.txt
+    topic_reader: DprNq
+  - name: "[DPR: SQuAD Test](https://github.com/facebookresearch/DPR)"
+    id: dpr-squad-test
+    path: topics.dpr.squad.test.txt
+    topic_reader: DprJsonl
+  - name: "[DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)"
+    id: dpr-wq-test
+    path: topics.dpr.wq.test.txt
+    topic_reader: DprJsonl
+  - name: "[DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)"
+    id: dpr-curated-test
+    path: topics.dpr.curated.test.txt
+    topic_reader: DprJsonl
+    convert_params: --regex
+  - name: "[EfficientQA: Natural Questions Test](https://efficientqa.github.io/)"
+    id: nq-test
+    path: topics.nq.test.txt
+    topic_reader: DprNq
+
+models:
+  - name: bm25
+    display: BM25 (default parameters)
+    params: -bm25
+    results:
+      top_20_accuracy:
+        - 0.6294
+        - 0.7641
+        - 0.7109
+        - 0.6240
+        - 0.8069
+        - 0.6399
+      top_100_accuracy:
+        - 0.7825
+        - 0.8315
+        - 0.8184
+        - 0.7549
+        - 0.8991
+        - 0.7922

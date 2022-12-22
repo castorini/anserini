@@ -17,15 +17,15 @@
 package io.anserini.integration;
 
 import io.anserini.collection.BibtexCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.BibtexGenerator;
 
 import java.util.Map;
 
 public class BibtexEndToEndTest extends EndToEndTest {
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/bib/acl";
     indexArgs.collectionClass = BibtexCollection.class.getSimpleName();
@@ -37,6 +37,8 @@ public class BibtexEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = -1; // Documents may have variable number of fields, so don't bother checking.
+
     referenceDocs.put("article-id", Map.of(
         "contents", "this is the title. ",
         "raw", "this is the title. "));

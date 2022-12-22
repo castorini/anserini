@@ -1,0 +1,121 @@
+---
+corpus: neuclir22-fa
+corpus_path: collections/multilingual/neuclir22-fa/
+
+index_path: indexes/lucene-index.neuclir22-fa
+collection_class: NeuClirCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -storePositions -storeDocvectors -storeRaw -language fa
+index_stats:
+  documents: 2232016
+  documents (non-empty): 2232016
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: J@20
+    command: python -m pyserini.eval.trec_eval
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[NeuCLIR 2022 (Persian): title](https://neuclir.github.io/)"
+    id: title
+    path: topics.neuclir22.fa.title.tsv
+    qrel: qrels.neuclir22-fa.txt
+  - name: "[NeuCLIR 2022 (Persian): desc](https://neuclir.github.io/)"
+    id: desc
+    path: topics.neuclir22.fa.desc.tsv
+    qrel: qrels.neuclir22-fa.txt
+  - name: "[NeuCLIR 2022 (Persian): desc+title](https://neuclir.github.io/)"
+    id: desc_title
+    path: topics.neuclir22.fa.desc.title.tsv
+    qrel: qrels.neuclir22-fa.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -language fa
+    results:
+      MAP:
+        - 0.2554
+        - 0.2245
+        - 0.2730
+      nDCG@20:
+        - 0.4273
+        - 0.3546
+        - 0.4301
+      J@20:
+        - 0.3759
+        - 0.3592
+        - 0.4035
+      Recall@1000:
+        - 0.6899
+        - 0.6814
+        - 0.7290
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -language fa
+    results:
+      MAP:
+        - 0.1956
+        - 0.1366
+        - 0.1760
+      nDCG@20:
+        - 0.3492
+        - 0.2679
+        - 0.3274
+      J@20:
+        - 0.3250
+        - 0.2684
+        - 0.3110
+      Recall@1000:
+        - 0.6434
+        - 0.5069
+        - 0.6033
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -language fa
+    results:
+      MAP:
+        - 0.2922
+        - 0.2734
+        - 0.3074
+      nDCG@20:
+        - 0.4327
+        - 0.3813
+        - 0.4379
+      J@20:
+        - 0.3882
+        - 0.3781
+        - 0.4035
+      Recall@1000:
+        - 0.7633
+        - 0.7506
+        - 0.7998

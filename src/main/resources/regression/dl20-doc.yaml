@@ -10,37 +10,37 @@ index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 2742209690
+  total terms: 2742219865
 
 metrics:
-  - metric: MAP
+  - metric: AP@100
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m map
+    params: -c -M 100 -m map # Note, this is different DL 2020 passage ranking!
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
   - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
-  - metric: MRR
-    command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recip_rank
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: true
+    can_combine: false
   - metric: R@100
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
@@ -54,73 +54,217 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25
     results:
-      MAP:
+      AP@100:
         - 0.3793
       nDCG@10:
         - 0.5286
-      MRR:
-        - 0.8521
       R@100:
         - 0.6110
+      R@1000:
+        - 0.8085
   - name: bm25-default+rm3
     display: +RM3
-    params: -bm25 -rm3 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25 -rm3
     results:
-      MAP:
-        - 0.4014
+      AP@100:
+        - 0.4015
       nDCG@10:
-        - 0.5225
-      MRR:
-        - 0.8541
+        - 0.5254
       R@100:
-        - 0.6414
+        - 0.6408
+      R@1000:
+        - 0.8259
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      AP@100:
+        - 0.4089
+      nDCG@10:
+        - 0.5192
+      R@100:
+        - 0.6425
+      R@1000:
+        - 0.8273
+  - name: bm25-default+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@100:
+        - 0.4096
+      nDCG@10:
+        - 0.5212
+      R@100:
+        - 0.6431
+      R@1000:
+        - 0.8270
+  - name: bm25-default+ax
+    display: +Ax
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
+    results:
+      AP@100:
+        - 0.3133
+      nDCG@10:
+        - 0.4275
+      R@100:
+        - 0.5714
+      R@1000:
+        - 0.8063
+  - name: bm25-default+prf
+    display: +PRF
+    params: -bm25 -bm25prf
+    results:
+      AP@100:
+        - 0.3515
+      nDCG@10:
+        - 0.4680
+      R@100:
+        - 0.6104
+      R@1000:
+        - 0.8084
   - name: bm25-tuned
     display: BM25 (tuned)
-    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87
     results:
-      MAP:
+      AP@100:
         - 0.3631
       nDCG@10:
         - 0.5070
-      MRR:
-        - 0.8641
       R@100:
         - 0.5935
+      R@1000:
+        - 0.7876
   - name: bm25-tuned+rm3
     display: +RM3
-    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3
     results:
-      MAP:
-        - 0.3592
+      AP@100:
+        - 0.3607
       nDCG@10:
-        - 0.5124
-      MRR:
-        - 0.8186
+        - 0.5130
       R@100:
-        - 0.5977
+        - 0.5985
+      R@1000:
+        - 0.8134
+  - name: bm25-tuned+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio
+    results:
+      AP@100:
+        - 0.3634
+      nDCG@10:
+        - 0.5070
+      R@100:
+        - 0.6057
+      R@1000:
+        - 0.8199
+  - name: bm25-tuned+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@100:
+        - 0.3628
+      nDCG@10:
+        - 0.5127
+      R@100:
+        - 0.6045
+      R@1000:
+        - 0.8238
+  - name: bm25-tuned+ax
+    display: +Ax
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20
+    results:
+      AP@100:
+        - 0.3462
+      nDCG@10:
+        - 0.4941
+      R@100:
+        - 0.6078
+      R@1000:
+        - 0.8455
+  - name: bm25-tuned+prf
+    display: +PRF
+    params: -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf
+    results:
+      AP@100:
+        - 0.3561
+      nDCG@10:
+        - 0.4785
+      R@100:
+        - 0.6198
+      R@1000:
+        - 0.8163
   - name: bm25-tuned2
     display: BM25 (tuned2)
-    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82
     results:
-      MAP:
+      AP@100:
         - 0.3581
       nDCG@10:
         - 0.5061
-      MRR:
-        - 0.8522
       R@100:
         - 0.5860
+      R@1000:
+        - 0.7776
   - name: bm25-tuned2+rm3
     display: +RM3
-    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3
     results:
-      MAP:
-        - 0.3619
+      AP@100:
+        - 0.3610
       nDCG@10:
-        - 0.5238
-      MRR:
-        - 0.8582
+        - 0.5195
       R@100:
-        - 0.5995
+        - 0.5994
+      R@1000:
+        - 0.8180
+  - name: bm25-tuned2+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio
+    results:
+      AP@100:
+        - 0.3628
+      nDCG@10:
+        - 0.5199
+      R@100:
+        - 0.6017
+      R@1000:
+        - 0.8217
+  - name: bm25-tuned2+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@100:
+        - 0.3627
+      nDCG@10:
+        - 0.5189
+      R@100:
+        - 0.6013
+      R@1000:
+        - 0.8267
+  - name: bm25-tuned2+ax
+    display: +Ax
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -axiom -axiom.deterministic -rerankCutoff 20
+    results:
+      AP@100:
+        - 0.3498
+      nDCG@10:
+        - 0.5106
+      R@100:
+        - 0.5988
+      R@1000:
+        - 0.8435
+  - name: bm25-tuned2+prf
+    display: +PRF
+    params: -bm25 -bm25.k1 4.46 -bm25.b 0.82 -bm25prf
+    results:
+      AP@100:
+        - 0.3530
+      nDCG@10:
+        - 0.4775
+      R@100:
+        - 0.6171
+      R@1000:
+        - 0.8210

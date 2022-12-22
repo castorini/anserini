@@ -16,6 +16,7 @@
 
 package io.anserini.collection;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -30,14 +31,26 @@ public class CleanTrecCollection extends DocumentCollection<CleanTrecCollection.
     this.path = path;
   }
 
+  public CleanTrecCollection() {
+  }
+
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
     return new Segment<>(p);
   }
 
+  @Override
+  public FileSegment<Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment<>(bufferedReader);
+  }
+
   public static class Segment<T extends Document> extends TrecCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
     }
 
     @Override

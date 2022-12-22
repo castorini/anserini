@@ -19,7 +19,7 @@ package io.anserini.ltr;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
@@ -128,7 +128,7 @@ public class FeatureExtractorUtils {
       List<debugOutput> result = new ArrayList<>();
 
       for(String docId: docIds) {
-        Query q = new TermQuery(new Term(IndexArgs.ID, docId));
+        Query q = new TermQuery(new Term(Constants.ID, docId));
         TopDocs topDocs = searcher.search(q, 1);
         if (topDocs.totalHits.value == 0) {
           throw new IOException(String.format("Document Id %s expected but not found in index", docId));
@@ -170,7 +170,7 @@ public class FeatureExtractorUtils {
       DataOutputStream dos = new DataOutputStream(baos);
       //strict follow doc id order
       for(String docId: docIds) {
-          Query q = new TermQuery(new Term(IndexArgs.ID, docId));
+          Query q = new TermQuery(new Term(Constants.ID, docId));
           TopDocs topDocs = searcher.search(q, 1);
           if (topDocs.totalHits.value == 0) {
             throw new IOException(String.format("Document Id %s expected but not found in index", docId));

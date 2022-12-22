@@ -1,10 +1,16 @@
-# Anserini: Regressions for [NTCIR-8 Monolingual Chinese](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html)
+# Anserini Regressions: NTCIR-8 Monolingual Chinese
 
-This page documents regression experiments for [NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html).
+This page documents BM25 regression experiments for [NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html).
 The description of the document collection can be found in the [NTCIR-8 data page](http://research.nii.ac.jp/ntcir/permission/ntcir-8/perm-en-ACLIA.html).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/ntcir8-zh.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/ntcir8-zh.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ntcir8-zh
+```
 
 ## Indexing
 
@@ -39,7 +45,8 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ntcir8-zh/ \
-  -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt -topicreader TsvString \
+  -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
+  -topicreader TsvString \
   -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
   -bm25 -language zh &
 ```
@@ -54,16 +61,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/reso
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      |
-:---------------------------------------|-----------|
-[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4014    |
-
-
-P20                                     | BM25      |
-:---------------------------------------|-----------|
-[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
-
-
-nDCG@20                                 | BM25      |
-:---------------------------------------|-----------|
-[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |
+| **MAP**                                                                                                      | **BM25**  |
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4014    |
+| **P20**                                                                                                      | **BM25**  |
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
+| **nDCG@20**                                                                                                  | **BM25**  |
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |

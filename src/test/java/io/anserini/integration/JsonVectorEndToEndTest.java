@@ -17,17 +17,17 @@
 package io.anserini.integration;
 
 import io.anserini.collection.JsonVectorCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
-import io.anserini.search.SearchArgs;
+import io.anserini.search.SearchCollection;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class JsonVectorEndToEndTest extends EndToEndTest {
   @Override
-  IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
     indexArgs.input = "src/test/resources/sample_docs/json_vector/collection3";
     indexArgs.collectionClass = JsonVectorCollection.class.getSimpleName();
     indexArgs.generatorClass = DefaultLuceneDocumentGenerator.class.getSimpleName();
@@ -41,22 +41,24 @@ public class JsonVectorEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 2;
+    docFieldCount = 3; // id, raw, contents
+
     referenceDocs.put("doc1", Map.of("contents", "f1 f2 f2 f3 f4 f4 f4 f4 f5 "));
     referenceDocs.put("doc2", Map.of("contents", "f4 f4 f4 f5 f9 f9 f22 f22 f22 f22 f22 f22 f35 f35 f35 f35 f35 f35 f35 f35 "));
 
-    fieldNormStatusTotalFields = 2;
+    fieldNormStatusTotalFields = 1;
     termIndexStatusTermCount = 10;
     termIndexStatusTotFreq = 12;
     storedFieldStatusTotalDocCounts = 2;
     termIndexStatusTotPos = 31;
-    storedFieldStatusTotFields = 8;
+    storedFieldStatusTotFields = 6;
   }
 
   @Override
   protected void setSearchGroundTruth() {
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_vector_topics.tsv";
-    SearchArgs searchArg = createDefaultSearchArgs().impact();
+    SearchCollection.Args searchArg = createDefaultSearchArgs().impact();
     searchArg.pretokenized = true;
 
     testQueries.put("impact", searchArg);

@@ -1,0 +1,57 @@
+---
+corpus: beir-v1.0.0-climate-fever-multifield
+corpus_path: collections/beir-v1.0.0/corpus/climate-fever/
+
+index_path: indexes/lucene-index.beir-v1.0.0-climate-fever-multifield/
+collection_class: BeirMultifieldCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -fields title
+index_stats:
+  documents: 5396163
+  documents (non-empty): 5396117
+  total terms: 310661477
+
+metrics:
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "BEIR (v1.0.0): Climate-FEVER"
+    id: test
+    path: topics.beir-v1.0.0-climate-fever.test.tsv.gz
+    qrel: qrels.beir-v1.0.0-climate-fever.test.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -removeQuery -hits 1000 -fields contents=1.0 title=1.0
+    results:
+      nDCG@10:
+        - 0.2129
+      R@100:
+        - 0.4357
+      R@1000:
+        - 0.6099

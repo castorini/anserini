@@ -16,12 +16,13 @@
 
 package io.anserini.rerank;
 
-import io.anserini.search.SearchArgs;
+import io.anserini.search.SearchCollection;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class RerankerContext<K> {
   private final IndexSearcher searcher;
@@ -31,10 +32,12 @@ public class RerankerContext<K> {
   private final String queryText;
   private final List<String> queryTokens;
   private final Query filter;
-  private final SearchArgs searchArgs;
+  private final SearchCollection.Args searchArgs;
+
+  public Map<String, Float> feedbackTerms;
 
   public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
-      List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
+      List<String> queryTokens, Query filter, SearchCollection.Args searchArgs) throws IOException {
     this.searcher = searcher;
     this.query = query;
     this.queryId = queryId;
@@ -73,7 +76,7 @@ public class RerankerContext<K> {
     return queryTokens;
   }
 
-  public SearchArgs getSearchArgs() {
+  public SearchCollection.Args getSearchArgs() {
     return searchArgs;
   }
 }

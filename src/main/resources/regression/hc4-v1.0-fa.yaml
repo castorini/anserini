@@ -1,0 +1,170 @@
+---
+corpus: hc4-v1.0-fa
+corpus_path: collections/multilingual/hc4-v1.0-fa/
+
+index_path: indexes/lucene-index.hc4-v1.0-fa
+collection_class: NeuClirCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -storePositions -storeDocvectors -storeRaw -language fa
+index_stats:
+  documents: 486486
+  documents (non-empty): 486486
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: J@20
+    command: python -m pyserini.eval.trec_eval
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[HC4 (Persian): dev-topic title](https://github.com/hltcoe/HC4)"
+    id: dev_title
+    path: topics.hc4-v1.0-fa.dev.title.tsv
+    qrel: qrels.hc4-v1.0-fa.dev.txt
+  - name: "[HC4 (Persian): dev-topic description](https://github.com/hltcoe/HC4)"
+    id: dev_description
+    path: topics.hc4-v1.0-fa.dev.desc.tsv
+    qrel: qrels.hc4-v1.0-fa.dev.txt
+  - name: "[HC4 (Persian): dev-topic description+title](https://github.com/hltcoe/HC4)"
+    id: dev_description_title
+    path: topics.hc4-v1.0-fa.dev.desc.title.tsv
+    qrel: qrels.hc4-v1.0-fa.dev.txt
+  - name: "[HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)"
+    id: test_title
+    path: topics.hc4-v1.0-fa.test.title.tsv
+    qrel: qrels.hc4-v1.0-fa.test.txt
+  - name: "[HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)"
+    id: test_description
+    path: topics.hc4-v1.0-fa.test.desc.tsv
+    qrel: qrels.hc4-v1.0-fa.test.txt
+  - name: "[HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)"
+    id: test_description_title
+    path: topics.hc4-v1.0-fa.test.desc.title.tsv
+    qrel: qrels.hc4-v1.0-fa.test.txt
+
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -language fa
+    results:
+      MAP:
+        - 0.2971
+        - 0.3243
+        - 0.3366
+        - 0.2877
+        - 0.2928
+        - 0.3285
+      nDCG@20:
+        - 0.3445
+        - 0.3475
+        - 0.3665
+        - 0.3846
+        - 0.4039
+        - 0.4489
+      J@20:
+        - 0.4100
+        - 0.4750
+        - 0.4700
+        - 0.4010
+        - 0.3890
+        - 0.4420
+      Recall@1000:
+        - 0.7794
+        - 0.8491
+        - 0.9129
+        - 0.8223
+        - 0.8402
+        - 0.8651
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -language fa
+    results:
+      MAP:
+        - 0.2865
+        - 0.3402
+        - 0.2919
+        - 0.2954
+        - 0.2807
+        - 0.3042
+      nDCG@20:
+        - 0.3446
+        - 0.3862
+        - 0.3454
+        - 0.3812
+        - 0.3755
+        - 0.4049
+      J@20:
+        - 0.3300
+        - 0.3500
+        - 0.3450
+        - 0.3800
+        - 0.3590
+        - 0.3800
+      Recall@1000:
+        - 0.7683
+        - 0.7737
+        - 0.8102
+        - 0.7755
+        - 0.7487
+        - 0.8055
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -language fa
+    results:
+      MAP:
+        - 0.3030
+        - 0.3721
+        - 0.3881
+        - 0.2954
+        - 0.2928
+        - 0.3274
+      nDCG@20:
+        - 0.3161
+        - 0.3895
+        - 0.3962
+        - 0.3861
+        - 0.3811
+        - 0.4256
+      J@20:
+        - 0.3950
+        - 0.5100
+        - 0.5250
+        - 0.4350
+        - 0.4300
+        - 0.4580
+      Recall@1000:
+        - 0.8039
+        - 0.8838
+        - 0.9154
+        - 0.8560
+        - 0.8738
+        - 0.8883

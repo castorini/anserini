@@ -10,37 +10,37 @@ index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 3748333319
+  total terms: 3748343494
 
 metrics:
-  - metric: MAP
+  - metric: AP@100
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m map
+    params: -c -M 100 -m map # Note, this is different DL 2020 passage ranking!
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
   - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
-  - metric: MRR
-    command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recip_rank
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: true
+    can_combine: false
   - metric: R@100
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
@@ -54,49 +54,73 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25
     results:
-      MAP:
+      AP@100:
         - 0.4230
       nDCG@10:
         - 0.5885
-      MRR:
-        - 0.9369
       R@100:
         - 0.6414
+      R@1000:
+        - 0.8403
   - name: bm25-default+rm3
     display: +RM3
-    params: -bm25 -rm3 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25 -rm3
     results:
-      MAP:
-        - 0.4229
+      AP@100:
+        - 0.4230
       nDCG@10:
-        - 0.5407
-      MRR:
-        - 0.8147
+        - 0.5427
       R@100:
-        - 0.6555
+        - 0.6554
+      R@1000:
+        - 0.8631
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      AP@100:
+        - 0.4218
+      nDCG@10:
+        - 0.5416
+      R@100:
+        - 0.6627
+      R@1000:
+        - 0.8641
   - name: bm25-tuned
     display: BM25 (tuned)
-    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87
     results:
-      MAP:
+      AP@100:
         - 0.4099
       nDCG@10:
         - 0.5852
-      MRR:
-        - 0.9439
       R@100:
         - 0.6178
+      R@1000:
+        - 0.8105
   - name: bm25-tuned+rm3
     display: +RM3
-    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 -hits 100  # Note, this is different DL 2020 passage ranking!
+    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3
     results:
-      MAP:
-        - 0.4104
+      AP@100:
+        - 0.4100
       nDCG@10:
-        - 0.5743
-      MRR:
-        - 0.8701
+        - 0.5745
       R@100:
-        - 0.6127
+        - 0.6132
+      R@1000:
+        - 0.8238
+  - name: bm25-tuned+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rocchio
+    results:
+      AP@100:
+        - 0.4151
+      nDCG@10:
+        - 0.5733
+      R@100:
+        - 0.6230
+      R@1000:
+        - 0.8316

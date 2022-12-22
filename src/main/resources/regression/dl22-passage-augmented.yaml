@@ -1,0 +1,103 @@
+---
+corpus: msmarco-v2-passage-augmented
+corpus_path: collections/msmarco/msmarco_v2_passage_augmented/
+
+index_path: indexes/lucene-index.msmarco-v2-passage-augmented/
+collection_class: MsMarcoV2PassageCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 24
+index_options: -storeRaw
+index_stats:
+  documents: 138364198
+  documents (non-empty): 138364198
+  total terms: 15272965252
+
+metrics:
+  - metric: MAP@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m map -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    id: dl22
+    path: topics.dl22.txt
+    qrel: qrels.dl22-passage.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25
+    results:
+      MAP@100:
+        - 0.0433
+      MRR@100:
+        - 0.3091
+      nDCG@10:
+        - 0.2665
+      R@100:
+        - 0.1628
+      R@1000:
+        - 0.3910
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -collection MsMarcoV2PassageCollection
+    results:
+      MAP@100:
+        - 0.0400
+      MRR@100:
+        - 0.2926
+      nDCG@10:
+        - 0.2512
+      R@100:
+        - 0.1413
+      R@1000:
+        - 0.3691
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -collection MsMarcoV2PassageCollection
+    results:
+      MAP@100:
+        - 0.0395
+      MRR@100:
+        - 0.2994
+      nDCG@10:
+        - 0.2527
+      R@100:
+        - 0.1392
+      R@1000:
+        - 0.3756

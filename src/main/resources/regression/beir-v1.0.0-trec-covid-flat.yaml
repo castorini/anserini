@@ -1,0 +1,57 @@
+---
+corpus: beir-v1.0.0-trec-covid-flat
+corpus_path: collections/beir-v1.0.0/corpus/trec-covid/
+
+index_path: indexes/lucene-index.beir-v1.0.0-trec-covid-flat/
+collection_class: BeirFlatCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 171331
+  documents (non-empty): 171331
+  total terms: 20822821
+
+metrics:
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "BEIR (v1.0.0): TREC-COVID"
+    id: test
+    path: topics.beir-v1.0.0-trec-covid.test.tsv.gz
+    qrel: qrels.beir-v1.0.0-trec-covid.test.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -removeQuery -hits 1000
+    results:
+      nDCG@10:
+        - 0.5947
+      R@100:
+        - 0.1091
+      R@1000:
+        - 0.3955

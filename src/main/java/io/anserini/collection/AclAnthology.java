@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A YAML document collection for the ACL anthology.
@@ -44,6 +45,9 @@ import java.util.Set;
 public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
   private JsonNode volumes;
   private static final Logger LOG = LogManager.getLogger(AclAnthology.class);
+
+  public AclAnthology() {
+  }
 
   public AclAnthology(Path path) {
     this.path = Paths.get(path.toString(), "/papers"); // Path containing files to iterate
@@ -63,12 +67,19 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
     return new Segment(p);
   }
 
+  @Override
+  public FileSegment<AclAnthology.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
+  }
+
   /**
    * A file in a YAML collection for ACL papers containing multiple entries.
    */
   public class Segment extends FileSegment<AclAnthology.Document> {
     private Map.Entry<String, JsonNode> nodeEntry = null;
     private Iterator<Map.Entry<String, JsonNode>> iter = null; // iterator for JSON document object
+    private String rawContent = null; // raw content from buffered string
+
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -87,16 +98,26 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      rawContent = bufferedReader.lines().collect(Collectors.joining("\n"));
+    }
+
     @Override
     public void readNext() throws NoSuchElementException {
-      if (nodeEntry == null) {
-        throw new NoSuchElementException("JsonNode is empty");
+      if (nodeEntry == null && rawContent == null) {
+        throw new NoSuchElementException("JsonNode and Raw content are empty");
       } else {
-        bufferedRecord = new AclAnthology.Document(nodeEntry);
-        if (iter.hasNext()) {
-          nodeEntry = iter.next();
-        } else {
+        if (rawContent != null) {
+          bufferedRecord = new AclAnthology.Document(rawContent);
           atEOF = true; // there is no more JSON object in the bufferedReader
+        } else {
+          bufferedRecord = new AclAnthology.Document(nodeEntry);
+          if (iter.hasNext()) {
+            nodeEntry = iter.next();
+          } else {
+            atEOF = true; // there is no more JSON object in the bufferedReader
+          }
         }
       }
     }
@@ -141,6 +162,10 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
       sigs = new ArrayList<>();
       ArrayNode sigsNode = (ArrayNode) volume.get("sigs");
       sigsNode.elements().forEachRemaining(node -> sigs.add(node.asText()));
+    }
+
+    public Document(String rawContent) {
+      contents = rawContent;
     }
 
     @Override

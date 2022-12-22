@@ -17,15 +17,15 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 
 import java.util.List;
 import java.util.Map;
 
 public class TrecEndToEndWhitelistTest extends EndToEndTest {
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
     indexArgs.collectionClass = TrecCollection.class.getSimpleName();
@@ -38,6 +38,8 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 1;
+    docFieldCount = 3; // id, raw, contents
+
     referenceDocs.put("DOC222", Map.of(
         "contents", "HEAD simple enough text text text",
         "raw", "<HEAD>HEAD</HEAD>\n" +

@@ -13,20 +13,34 @@ index_stats:
   total terms: 739691803
 
 metrics:
-  - metric: MAP
+  - metric: AP@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
+  - metric: RR@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 10 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
   - metric: R@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
     metric_precision: 4
-    can_combine: true
+    can_combine: false
 
 topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
@@ -42,31 +56,47 @@ models:
     display: BM25 (default)
     params: -bm25
     results:
-      MAP:
+      AP@1000:
         - 0.2270
+      RR@10:
+        - 0.2189
+      R@100:
+        - 0.7133
       R@1000:
         - 0.8900
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3
     results:
-      MAP:
-        - 0.2028
+      AP@1000:
+        - 0.2030
+      RR@10:
+        - 0.1941
+      R@100:
+        - 0.7003
       R@1000:
-        - 0.8916
+        - 0.8909
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68
     results:
-      MAP:
+      AP@1000:
         - 0.2293
+      RR@10:
+        - 0.2213
+      R@100:
+        - 0.7171
       R@1000:
         - 0.8911
   - name: bm25-tuned+rm3
     display: +RM3
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3
     results:
-      MAP:
-        - 0.2077
+      AP@1000:
+        - 0.2081
+      RR@10:
+        - 0.1992
+      R@100:
+        - 0.7051
       R@1000:
-        - 0.8957
+        - 0.8946

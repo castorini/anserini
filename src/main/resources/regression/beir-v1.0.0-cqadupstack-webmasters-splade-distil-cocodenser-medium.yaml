@@ -1,0 +1,57 @@
+---
+corpus: beir-v1.0.0-cqadupstack-webmasters-splade_distil_cocodenser_medium
+corpus_path: collections/beir-v1.0.0/splade_distil_cocodenser_medium/cqadupstack-webmasters
+
+index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-webmasters-splade_distil_cocodenser_medium/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized
+index_stats:
+  documents: 17405
+  documents (non-empty): 17405
+  total terms: 127823828
+
+metrics:
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "BEIR (v1.0.0): CQADupStack-webmasters"
+    id: test
+    path: topics.beir-v1.0.0-cqadupstack-webmasters.test.splade_distil_cocodenser_medium.tsv.gz
+    qrel: qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt
+
+models:
+  - name: splade_distil_cocodenser_medium
+    display: SPLADE-distill CoCodenser Medium
+    params: -impact -pretokenized -removeQuery -hits 1000
+    results:
+      nDCG@10:
+        - 0.3343
+      R@100:
+        - 0.6404
+      R@1000:
+        - 0.8767

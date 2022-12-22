@@ -1,8 +1,16 @@
-# Anserini: Regressions for [ClueWeb09 (Category B)](http://lemurproject.org/clueweb09.php/)
+# Anserini Regressions: ClueWeb09 (Category B)
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the Web Tracks from TREC 2009 to 2012 using the [ClueWeb09 (Category B) collection](http://lemurproject.org/clueweb09.php/).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/cw09b.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/cw09b.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression cw09b
+```
 
 ## Indexing
 
@@ -14,7 +22,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/cw09b \
   -index indexes/lucene-index.cw09b/ \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 44 -storePositions -storeDocvectors -storeRaw \
+  -threads 44 -storeRaw \
   >& logs/log.cw09b &
 ```
 
@@ -40,99 +48,117 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25.topics.web.51-100.txt \
-  -bm25 &
+  -parallelism 16 -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25.topics.web.101-150.txt \
-  -bm25 &
+  -parallelism 16 -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25.topics.web.151-200.txt \
-  -bm25 &
+  -parallelism 16 -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25+rm3.topics.web.51-100.txt \
-  -bm25 -rm3 &
+  -parallelism 16 -bm25 -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25+rm3.topics.web.101-150.txt \
-  -bm25 -rm3 &
+  -parallelism 16 -bm25 -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25+rm3.topics.web.151-200.txt \
-  -bm25 -rm3 &
+  -parallelism 16 -bm25 -rm3 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.51-100.txt \
-  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.101-150.txt \
-  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.151-200.txt \
-  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql.topics.web.51-100.txt \
-  -qld &
+  -parallelism 16 -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql.topics.web.101-150.txt \
-  -qld &
+  -parallelism 16 -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql.topics.web.151-200.txt \
-  -qld &
+  -parallelism 16 -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql+rm3.topics.web.51-100.txt \
-  -qld -rm3 &
+  -parallelism 16 -qld -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql+rm3.topics.web.101-150.txt \
-  -qld -rm3 &
+  -parallelism 16 -qld -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql+rm3.topics.web.151-200.txt \
-  -qld -rm3 &
+  -parallelism 16 -qld -rm3 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.51-100.txt \
-  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.101-150.txt \
-  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw09b/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -topicreader Webxml \
+  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
+  -topicreader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.151-200.txt \
-  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 &
+  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
@@ -185,29 +211,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-an
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)| 0.1126    | 0.0931    | 0.0961    | 0.1060    | 0.1019    | 0.1088    |
-[TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)| 0.1094    | 0.1085    | 0.0986    | 0.0959    | 0.0839    | 0.0860    |
-[TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)| 0.1106    | 0.1108    | 0.1356    | 0.1070    | 0.1058    | 0.1224    |
-
-
-P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)| 0.2681    | 0.2382    | 0.2535    | 0.2438    | 0.2312    | 0.2625    |
-[TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)| 0.2513    | 0.2487    | 0.2367    | 0.2147    | 0.2053    | 0.2120    |
-[TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)| 0.2167    | 0.1927    | 0.2547    | 0.2080    | 0.1980    | 0.2220    |
-
-
-nDCG@20                                 | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)| 0.1351    | 0.1368    | 0.1767    | 0.1143    | 0.1182    | 0.1495    |
-[TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)| 0.1894    | 0.1915    | 0.1854    | 0.1631    | 0.1449    | 0.1537    |
-[TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)| 0.1015    | 0.0918    | 0.1388    | 0.0875    | 0.0896    | 0.1091    |
-
-
-ERR@20                                  | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)| 0.0733    | 0.0747    | 0.1019    | 0.0599    | 0.0592    | 0.0751    |
-[TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)| 0.0959    | 0.0959    | 0.0950    | 0.0850    | 0.0787    | 0.0861    |
-[TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)| 0.1304    | 0.1494    | 0.2399    | 0.1306    | 0.1333    | 0.1564    |
+| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| [TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)          | 0.1126    | 0.0929    | 0.0961    | 0.1060    | 0.1018    | 0.1088    |
+| [TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)        | 0.1094    | 0.1080    | 0.0986    | 0.0959    | 0.0835    | 0.0860    |
+| [TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)        | 0.1105    | 0.1108    | 0.1355    | 0.1070    | 0.1057    | 0.1224    |
+| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
+| [TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)          | 0.2688    | 0.2375    | 0.2528    | 0.2438    | 0.2306    | 0.2625    |
+| [TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)        | 0.2513    | 0.2433    | 0.2367    | 0.2147    | 0.2047    | 0.2120    |
+| [TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)        | 0.2167    | 0.1920    | 0.2547    | 0.2080    | 0.1973    | 0.2220    |
+| **nDCG@20**                                                                                                  | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
+| [TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)          | 0.1351    | 0.1371    | 0.1767    | 0.1143    | 0.1181    | 0.1495    |
+| [TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)        | 0.1894    | 0.1922    | 0.1854    | 0.1631    | 0.1444    | 0.1537    |
+| [TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)        | 0.1014    | 0.0918    | 0.1388    | 0.0876    | 0.0896    | 0.1091    |
+| **ERR@20**                                                                                                   | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
+| [TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)          | 0.0733    | 0.0756    | 0.1019    | 0.0599    | 0.0591    | 0.0751    |
+| [TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)        | 0.0959    | 0.0970    | 0.0950    | 0.0850    | 0.0781    | 0.0861    |
+| [TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)        | 0.1304    | 0.1491    | 0.2399    | 0.1306    | 0.1333    | 0.1564    |

@@ -19,9 +19,7 @@
 import os
 import sys
 
-from covid_baseline_tools import perform_runs, perform_fusion, prepare_final_submissions, \
-    evaluate_runs, verify_stored_runs
-
+from covid_baseline_tools import perform_runs, perform_fusion, evaluate_runs
 
 # This makes errors more readable,
 # see https://stackoverflow.com/questions/27674602/hide-traceback-unless-a-debug-flag-is-set

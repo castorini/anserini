@@ -13,16 +13,9 @@ index_stats:
   total terms: 352316036
 
 metrics:
-  - metric: MAP
+  - metric: AP@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m map -c -l 2
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: false
-  - metric: R@1000
-    command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -30,6 +23,20 @@ metrics:
   - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.100 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -49,79 +56,143 @@ models:
     display: BM25 (default)
     params: -bm25
     results:
-      MAP:
+      AP@1000:
         - 0.3013
       nDCG@10:
         - 0.5058
+      R@100:
+        - 0.4910
       R@1000:
         - 0.7501
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3
     results:
-      MAP:
-        - 0.3390
+      AP@1000:
+        - 0.3416
       nDCG@10:
-        - 0.5180
+        - 0.5216
+      R@100:
+        - 0.5259
       R@1000:
-        - 0.7998
+        - 0.8136
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      AP@1000:
+        - 0.3474
+      nDCG@10:
+        - 0.5275
+      R@100:
+        - 0.5257
+      R@1000:
+        - 0.8007
+  - name: bm25-default+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@1000:
+        - 0.3464
+      nDCG@10:
+        - 0.5280
+      R@100:
+        - 0.5266
+      R@1000:
+        - 0.8027
   - name: bm25-default+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      MAP:
+      AP@1000:
         - 0.3745
       nDCG@10:
         - 0.5511
+      R@100:
+        - 0.5351
       R@1000:
         - 0.8241
   - name: bm25-default+prf
     display: +PRF
     params: -bm25 -bm25prf
     results:
-      MAP:
+      AP@1000:
         - 0.3561
       nDCG@10:
         - 0.5372
+      R@100:
+        - 0.5404
       R@1000:
         - 0.7929
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68
     results:
-      MAP:
+      AP@1000:
         - 0.2903
       nDCG@10:
         - 0.4973
+      R@100:
+        - 0.4974
       R@1000:
         - 0.7450
   - name: bm25-tuned+rm3
     display: +RM3
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3
     results:
-      MAP:
-        - 0.3377
+      AP@1000:
+        - 0.3339
       nDCG@10:
-        - 0.5231
+        - 0.5147
+      R@100:
+        - 0.5177
       R@1000:
-        - 0.7792
+        - 0.7950
+  - name: bm25-tuned+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio
+    results:
+      AP@1000:
+        - 0.3396
+      nDCG@10:
+        - 0.5275
+      R@100:
+        - 0.5264
+      R@1000:
+        - 0.7948
+  - name: bm25-tuned+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@1000:
+        - 0.3403
+      nDCG@10:
+        - 0.5277
+      R@100:
+        - 0.5292
+      R@1000:
+        - 0.7987
   - name: bm25-tuned+ax
     display: +Ax
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20
     results:
-      MAP:
+      AP@1000:
         - 0.3632
       nDCG@10:
         - 0.5461
+      R@100:
+        - 0.5404
       R@1000:
         - 0.8138
   - name: bm25-tuned+prf
     display: +PRF
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf
     results:
-      MAP:
+      AP@1000:
         - 0.3684
       nDCG@10:
         - 0.5536
+      R@100:
+        - 0.5420
       R@1000:
         - 0.7988

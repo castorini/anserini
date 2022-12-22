@@ -17,7 +17,7 @@
 package io.anserini.index;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.search.SearchArgs;
+import io.anserini.search.SearchCollection;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.PhraseQueryGenerator;
 import org.apache.lucene.analysis.Analyzer;
@@ -205,7 +205,7 @@ public class IndexReaderUtils {
   public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer)
       throws IOException {
     if (AnalyzerUtils.analyze(analyzer, termStr).size() > 1) {
-      Query query = new PhraseQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, termStr);
+      Query query = new PhraseQueryGenerator().buildQuery(Constants.CONTENTS, analyzer, termStr);
       IndexSearcher searcher = new IndexSearcher(reader);
       TotalHitCountCollector totalHitCountCollector = new TotalHitCountCollector();
       searcher.search(query, totalHitCountCollector);
@@ -214,7 +214,7 @@ public class IndexReaderUtils {
       );
     }
 
-    Term t = new Term(IndexArgs.CONTENTS, AnalyzerUtils.analyze(analyzer, termStr).get(0));
+    Term t = new Term(Constants.CONTENTS, AnalyzerUtils.analyze(analyzer, termStr).get(0));
     Map<String, Long> termInfo = Map.ofEntries(
       Map.entry("collectionFreq", reader.totalTermFreq(t)),
       Map.entry("docFreq", (long) reader.docFreq(t))
@@ -232,7 +232,7 @@ public class IndexReaderUtils {
    */
   public static long getDF(IndexReader reader, String term) {
     try {
-      return reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+      return reader.docFreq(new Term(Constants.CONTENTS, term));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -321,8 +321,8 @@ public class IndexReaderUtils {
   // Internal helper: takes the analyzed form in all cases.
   private static List<Posting> _getPostingsList(IndexReader reader, String analyzedTerm) {
     try {
-      Term t = new Term(IndexArgs.CONTENTS, analyzedTerm);
-      PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, IndexArgs.CONTENTS, t.bytes());
+      Term t = new Term(Constants.CONTENTS, analyzedTerm);
+      PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, Constants.CONTENTS, t.bytes());
 
       List<Posting> postingsList = new ArrayList<>();
       while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
@@ -365,7 +365,7 @@ public class IndexReaderUtils {
     if (ldocid == -1) {
       return null;
     }
-    Terms terms = reader.getTermVector(ldocid, IndexArgs.CONTENTS);
+    Terms terms = reader.getTermVector(ldocid, Constants.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -399,7 +399,7 @@ public class IndexReaderUtils {
     String[] tokens = new String[maxPos + 1];
 
     // Go through the terms again, this time to actually build the list of tokens.
-    te = reader.getTermVector(ldocid, IndexArgs.CONTENTS).iterator();
+    te = reader.getTermVector(ldocid, Constants.CONTENTS).iterator();
     while ((te.next()) != null) {
       postingsEnum = te.postings(postingsEnum);
       postingsEnum.nextDoc();
@@ -430,7 +430,7 @@ public class IndexReaderUtils {
     if (ldocid == -1) {
       return null;
     }
-    Terms terms = reader.getTermVector(ldocid, IndexArgs.CONTENTS);
+    Terms terms = reader.getTermVector(ldocid, Constants.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -463,7 +463,7 @@ public class IndexReaderUtils {
     if (ldocid == -1) {
       return null;
     }
-    Terms terms = reader.getTermVector(ldocid, IndexArgs.CONTENTS);
+    Terms terms = reader.getTermVector(ldocid, Constants.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -545,7 +545,7 @@ public class IndexReaderUtils {
    */
   public static String documentRaw(IndexReader reader, String docid) {
     try {
-      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(IndexArgs.RAW);
+      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(Constants.RAW);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -562,7 +562,7 @@ public class IndexReaderUtils {
    */
   public static String documentContents(IndexReader reader, String docid) {
     try {
-      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(IndexArgs.CONTENTS);
+      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(Constants.CONTENTS);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -579,7 +579,7 @@ public class IndexReaderUtils {
    * @throws IOException if error encountered during query
    */
   public static float getBM25AnalyzedTermWeight(IndexReader reader, String docid, String term) throws IOException {
-    SearchArgs args = new SearchArgs();
+    SearchCollection.Args args = new SearchCollection.Args();
     return getBM25AnalyzedTermWeightWithParameters(reader, docid, term,
         Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
   }
@@ -606,8 +606,8 @@ public class IndexReaderUtils {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(new BM25Similarity(k1, b));
 
-    Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
-    Query termQuery = new TermQuery(new Term(IndexArgs.CONTENTS, term));
+    Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(Constants.ID, docid)));
+    Query termQuery = new TermQuery(new Term(Constants.CONTENTS, term));
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(filterQuery, BooleanClause.Occur.MUST);
     builder.add(termQuery, BooleanClause.Occur.MUST);
@@ -629,7 +629,7 @@ public class IndexReaderUtils {
    * @throws IOException if error encountered during query
    */
   public static float getBM25UnanalyzedTermWeight(IndexReader reader, String docid, String term) throws IOException {
-    SearchArgs args = new SearchArgs();
+    SearchCollection.Args args = new SearchCollection.Args();
     return getBM25UnanalyzedTermWeightWithParameters(reader, docid, term, IndexCollection.DEFAULT_ANALYZER,
         Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
   }
@@ -664,7 +664,7 @@ public class IndexReaderUtils {
    * @throws IOException if error encountered during query
    */
   public static float computeQueryDocumentScore(IndexReader reader, String docid, String q) throws IOException {
-    SearchArgs args = new SearchArgs();
+    SearchCollection.Args args = new SearchCollection.Args();
     return computeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docid, q,
         new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0])),
         IndexCollection.DEFAULT_ANALYZER);
@@ -711,9 +711,9 @@ public class IndexReaderUtils {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(Constants.CONTENTS, analyzer, q);
 
-    Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
+    Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(Constants.ID, docid)));
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(filterQuery, BooleanClause.Occur.MUST);
     builder.add(query, BooleanClause.Occur.MUST);
@@ -738,7 +738,7 @@ public class IndexReaderUtils {
   public static int convertDocidToLuceneDocid(IndexReader reader, String docid) {
     try {
       IndexSearcher searcher = new IndexSearcher(reader);
-      Query q = new TermQuery(new Term(IndexArgs.ID, docid));
+      Query q = new TermQuery(new Term(Constants.ID, docid));
       TopDocs rs = searcher.search(q, 1);
       ScoreDoc[] hits = rs.scoreDocs;
 
@@ -766,7 +766,7 @@ public class IndexReaderUtils {
       return null;
 
     try {
-      return reader.document(docid).get(IndexArgs.ID);
+      return reader.document(docid).get(Constants.ID);
     } catch (IOException e) {
       // Eat any exceptions and just return null.
       return null;
@@ -782,12 +782,12 @@ public class IndexReaderUtils {
   public static Map<String, Object> getIndexStats(IndexReader reader) {
     Map<String, Object> indexStats = new HashMap<>();
     try {
-      Terms terms = MultiTerms.getTerms(reader, IndexArgs.CONTENTS);
+      Terms terms = MultiTerms.getTerms(reader, Constants.CONTENTS);
 
       indexStats.put("documents", reader.numDocs());
-      indexStats.put("non_empty_documents", reader.getDocCount(IndexArgs.CONTENTS));
+      indexStats.put("non_empty_documents", reader.getDocCount(Constants.CONTENTS));
       indexStats.put("unique_terms", terms.size());
-      indexStats.put("total_terms", reader.getSumTotalTermFreq(IndexArgs.CONTENTS));
+      indexStats.put("total_terms", reader.getSumTotalTermFreq(Constants.CONTENTS));
     } catch (IOException e) {
       // Eat any exceptions and just return null.
       return null;
@@ -854,7 +854,7 @@ public class IndexReaderUtils {
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader);
 
     if (args.stats) {
-      Terms terms = MultiTerms.getTerms(reader, IndexArgs.CONTENTS);
+      Terms terms = MultiTerms.getTerms(reader, Constants.CONTENTS);
 
       System.out.println("Index statistics");
       System.out.println("----------------");

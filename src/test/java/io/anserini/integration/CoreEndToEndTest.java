@@ -17,15 +17,15 @@
 package io.anserini.integration;
 
 import io.anserini.collection.CoreCollection;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.CoreGenerator;
 
 import java.util.Map;
 
 public class CoreEndToEndTest extends EndToEndTest {
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/core";
     indexArgs.collectionClass = CoreCollection.class.getSimpleName();
@@ -37,6 +37,8 @@ public class CoreEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = -1; // Documents may have variable number of fields, so don't bother checking.
+
     referenceDocs.put("fullCoreDoc", Map.of(
         "contents", "Full CORE doc ",
         "raw", "Full CORE doc "));
@@ -52,7 +54,7 @@ public class CoreEndToEndTest extends EndToEndTest {
     termIndexStatusTotFreq = 43;
     storedFieldStatusTotalDocCounts = 3;
     termIndexStatusTotPos = 45;
-    storedFieldStatusTotFields = 47;
+    storedFieldStatusTotFields = 46;
   }
 
   @Override

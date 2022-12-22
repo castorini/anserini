@@ -16,7 +16,7 @@
 
 package io.anserini.ltr.feature;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.ltr.DocumentContext;
 import io.anserini.ltr.DocumentFieldContext;
 import io.anserini.ltr.FeatureExtractor;
@@ -26,6 +26,7 @@ import io.anserini.ltr.QueryFieldContext;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Inverse DocumentCollection Term Frequency as defined in
  * Carmel, Yom-Tov Estimating query difficulty for Information Retrieval
@@ -39,7 +40,7 @@ public class IcTfStat implements FeatureExtractor {
   Pooler collectFun;
   public IcTfStat(Pooler collectFun) {
     this.collectFun = collectFun;
-    this.field = IndexArgs.CONTENTS;
+    this.field = Constants.CONTENTS;
     this.qfield = "analyzed";
   }
 

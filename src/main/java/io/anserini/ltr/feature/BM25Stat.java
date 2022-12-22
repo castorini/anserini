@@ -16,7 +16,7 @@
 
 package io.anserini.ltr.feature;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.ltr.DocumentContext;
 import io.anserini.ltr.DocumentFieldContext;
 import io.anserini.ltr.FeatureExtractor;
@@ -46,7 +46,7 @@ public class BM25Stat implements FeatureExtractor {
   Pooler collectFun;
 
   public BM25Stat(Pooler collectFun) {
-    this.field = IndexArgs.CONTENTS;
+    this.field = Constants.CONTENTS;
     this.qfield = "analyzed";
     this.collectFun = collectFun;
   }
@@ -54,7 +54,7 @@ public class BM25Stat implements FeatureExtractor {
   public BM25Stat(Pooler collectFun, double k, double b) {
     this.k1 = k;
     this.b = b;
-    this.field = IndexArgs.CONTENTS;
+    this.field = Constants.CONTENTS;
     this.qfield = "analyzed";
     this.collectFun = collectFun;
   }

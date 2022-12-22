@@ -16,31 +16,22 @@
 
 package io.anserini.rerank;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.util.BytesRef;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
 
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ScoredDocuments object that converts TopDocs from the searcher into an Anserini format
@@ -74,71 +65,6 @@ public class ScoredDocuments {
     return scoredDocs;
   }
 
-  public static ScoredDocuments fromSolrDocs(SolrDocumentList rs) {
-
-    ScoredDocuments scoredDocs = new ScoredDocuments();
-
-    int length = rs.size();
-    scoredDocs.documents = new Document[length];
-    scoredDocs.ids = new int[length];
-    scoredDocs.scores = new float[length];
-
-    for (int i = 0; i < length; i++) {
-
-      SolrDocument d = rs.get(i);
-
-      // Create placeholder copies of Lucene Documents
-      // Intention is for compatibility with ScoreTiesAdjusterReranker without disturbing other aspects of reranker code
-
-      Document document = new Document();
-      String id = d.getFieldValue("id").toString();
-      float score = (float) d.getFieldValue("score");
-
-      // Store the collection docid.
-      document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
-      // This is needed to break score ties by docid.
-      document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
-      scoredDocs.documents[i] = document;
-      scoredDocs.scores[i] = score;
-      scoredDocs.ids[i] = i; // no internal Lucene ID available, use index as placeholder
-    }
-
-    return scoredDocs;
-  }
-
-  public static ScoredDocuments fromESDocs(SearchHits rs) {
-
-    ScoredDocuments scoredDocs = new ScoredDocuments();
-    SearchHit[] searchHits = rs.getHits();
-
-    int length = searchHits.length;
-    scoredDocs.documents = new Document[length];
-    scoredDocs.ids = new int[length];
-    scoredDocs.scores = new float[length];
-
-    for (int i = 0; i < length; i++) {
-
-      SearchHit hit = searchHits[i];
-
-      // Create placeholder copies of Lucene Documents
-      // Intention is for compatibility with ScoreTiesAdjusterReranker without disturbing other aspects of reranker code
-
-      Document document = new Document();
-      String id = hit.getId();
-      float score = hit.getScore();
-
-      // Store the collection docid.
-      document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
-      // This is needed to break score ties by docid.
-      document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
-      scoredDocs.documents[i] = document;
-      scoredDocs.scores[i] = score;
-      scoredDocs.ids[i] = i; // no internal Lucene ID available, use index as placeholder
-    }
-
-    return scoredDocs;
-  }
-
   public static ScoredDocuments fromQrels(Map<String, Integer> qrels, IndexReader reader) throws IOException {
     ScoredDocuments scoredDocs = new ScoredDocuments();
 
@@ -151,7 +77,7 @@ public class ScoredDocuments {
     for (Map.Entry<String, Integer> qrelsDocScorePair : qrels.entrySet()) {
       String externalDocid = qrelsDocScorePair.getKey();
       searcher = new IndexSearcher(reader);
-      Query q = new TermQuery(new Term(IndexArgs.ID, externalDocid));
+      Query q = new TermQuery(new Term(Constants.ID, externalDocid));
       TopDocs rs = searcher.search(q, 1);
       try {
         documentList.add(searcher.doc(rs.scoreDocs[0].doc));

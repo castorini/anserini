@@ -1,8 +1,16 @@
-# Anserini: Regressions for [TREC 2018 Background Linking](http://trec-news.org/)
+# Anserini Regressions: TREC 2018 News Track (Background Linking)
+
+**Models**: various bag-of-words approaches
 
 This page describes regressions for the background linking task in the [TREC 2018 News Track](http://trec-news.org/).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/backgroundlinking18.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/backgroundlinking18.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking18
+```
 
 ## Indexing
 
@@ -35,19 +43,22 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt -topicreader BackgroundLinking \
+  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+  -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt -topicreader BackgroundLinking \
+  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+  -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt -topicreader BackgroundLinking \
+  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+  -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 ```
@@ -66,12 +77,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 sr
 
 With the above commands, you should be able to reproduce the following results:
 
-MAP                                     | BM25      | +RM3      | +RM3+DF   |
-:---------------------------------------|-----------|-----------|-----------|
-[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)| 0.2490    | 0.2642    | 0.2692    |
-
-
-nDCG@5                                  | BM25      | +RM3      | +RM3+DF   |
-:---------------------------------------|-----------|-----------|-----------|
-[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)| 0.3293    | 0.3526    | 0.4171    |
+| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+RM3+DF**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)                    | 0.2490    | 0.2661    | 0.2679    |
+| **nDCG@5**                                                                                                   | **BM25**  | **+RM3**  | **+RM3+DF**|
+| [TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)                    | 0.3293    | 0.3436    | 0.4027    |
 

@@ -1,25 +1,27 @@
-"""
-Anserini: A toolkit for reproducible information retrieval research built on Lucene
+#
+# Anserini: A Lucene toolkit for reproducible information retrieval research
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
-
+import logging
 import os
 from inspect import currentframe, getframeinfo
 from subprocess import Popen, PIPE
-import logging
 
 logging.basicConfig()
+
+
 class Evaluation(object):
     """
     Get the evaluation of a corpus for a result
@@ -47,7 +49,6 @@ class Evaluation(object):
                     os.path.join(output_root, self.eval_files_root, metric, fn)
                 ))
         return all_params
-
 
     @classmethod
     def output_all_evaluations(self, qrel_programs, qrel_file_path, result_file_path, output_path):
@@ -80,4 +81,4 @@ class Evaluation(object):
                 finally:
                     o.close()
             else:
-                logger.error('ERROR when running the evaluation for:' + result_file_path)
+                self.logger.error('ERROR when running the evaluation for:' + result_file_path)

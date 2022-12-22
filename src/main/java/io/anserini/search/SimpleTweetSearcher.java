@@ -18,7 +18,7 @@ package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.Constants;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -95,7 +95,7 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
   }
 
   public Result[] searchTweets(String q, int k, long t) throws IOException {
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(Constants.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return searchTweets(query, queryTokens, q, k, t);
@@ -109,7 +109,7 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
       searcher.setSimilarity(similarity);
     }
 
-    SearchArgs searchArgs = new SearchArgs();
+    SearchCollection.Args searchArgs = new SearchCollection.Args();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
     searchArgs.searchtweets = true;
@@ -135,13 +135,13 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
     Result[] results = new Result[hits.ids.length];
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
-      String docid = doc.getField(IndexArgs.ID).stringValue();
+      String docid = doc.getField(Constants.ID).stringValue();
 
       IndexableField field;
-      field = doc.getField(IndexArgs.CONTENTS);
+      field = doc.getField(Constants.CONTENTS);
       String contents = field == null ? null : field.stringValue();
 
-      field = doc.getField(IndexArgs.RAW);
+      field = doc.getField(Constants.RAW);
       String raw = field == null ? null : field.stringValue();
 
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], contents, raw, doc);
@@ -177,7 +177,7 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
 
     if (searchArgs.useRM3) {
-      searcher.setRM3();
+      searcher.set_rm3();
     }
 
     for (Object id : topics.keySet()) {

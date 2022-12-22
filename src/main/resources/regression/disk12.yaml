@@ -63,13 +63,13 @@ models:
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.2628
-        - 0.2578
+        - 0.2614
+        - 0.2579
         - 0.3345
       P30:
-        - 0.4860
+        - 0.4927
         - 0.4580
-        - 0.5260
+        - 0.5293
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
@@ -99,13 +99,13 @@ models:
     params: -qld -rm3
     results:
       MAP:
-        - 0.2465
-        - 0.2429
-        - 0.3037
+        - 0.2464
+        - 0.2424
+        - 0.3029
       P30:
-        - 0.4680
-        - 0.4400
-        - 0.4967
+        - 0.4673
+        - 0.4427
+        - 0.5000
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.deterministic -rerankCutoff 20

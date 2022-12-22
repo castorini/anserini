@@ -35,6 +35,7 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
@@ -66,14 +67,22 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
   //
   // [1] Lin. Is Searching Full Text More Effective Than Searching Abstracts? BMC Bioinformatics, 10:46, 2009.
 
-  public Cord19ParagraphCollection(Path path){
+  public Cord19ParagraphCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
+  }
+
+  public Cord19ParagraphCollection() {
   }
 
   @Override
   public FileSegment<Cord19ParagraphCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<Cord19ParagraphCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -85,6 +94,7 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
     private Iterator<JsonNode> paragraphIterator = null; // iterator for paragraphs in a CSV record
     private Integer paragraphNumber = 0;
+    private JsonNode node = null;
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -92,11 +102,20 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
           new FileInputStream(path.toString())));
 
       csvParser = new CSVParser(bufferedReader, CSVFormat.DEFAULT
-        .withFirstRecordAsHeader()
-        .withIgnoreHeaderCase()
-        .withTrim());
+          .withFirstRecordAsHeader()
+          .withIgnoreHeaderCase()
+          .withTrim());
 
       iterator = csvParser.iterator();
+    }
+
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+
+      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
+
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.readTree(jsonString);
     }
 
     @Override
@@ -106,7 +125,7 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
         String paragraph = paragraphIterator.next().get("text").asText();
         paragraphNumber += 1;
         bufferedRecord = new Cord19ParagraphCollection.Document(record, paragraph, paragraphNumber);
-      } else if (iterator.hasNext()) {
+      } else if (iterator != null && iterator.hasNext()) {
         // if CSV contains more lines, we parse the next record
         record = iterator.next();
         String recordFullText = "";
@@ -180,7 +199,6 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
           content += paragraph.isEmpty() ? "" : "\n" + paragraph;
         }
       }
-
       raw = buildRawJson(recordFullText);
     }
 

@@ -17,15 +17,15 @@
 package io.anserini.integration;
 
 import io.anserini.collection.AclAnthology;
-import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.AclAnthologyGenerator;
 
 import java.util.Map;
 
 public class AclAnthologyEndToEndTest extends EndToEndTest {
   @Override
-  protected IndexArgs getIndexArgs() {
-    IndexArgs indexArgs = createDefaultIndexArgs();
+  protected IndexCollection.Args getIndexArgs() {
+    IndexCollection.Args indexArgs = createDefaultIndexArgs();
 
     indexArgs.input = "src/test/resources/sample_docs/acl";
     indexArgs.collectionClass = AclAnthology.class.getSimpleName();
@@ -37,6 +37,8 @@ public class AclAnthologyEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    docFieldCount = -1; // Documents may have variable number of fields, so don't bother checking.
+
     referenceDocs.put("E17-1003", Map.of(
         "contents",
         "Exploring Different Dimensions of Attention for Uncertainty Detection Neural networks with attention " +

@@ -5,12 +5,12 @@ corpus_path: collections/msmarco/msmarco_v2_passage_augmented/
 index_path: indexes/lucene-index.msmarco-v2-passage-augmented/
 collection_class: MsMarcoV2PassageCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 18
-index_options: -storePositions -storeDocvectors -storeRaw
+index_threads: 24
+index_options: -storeRaw
 index_stats:
   documents: 138364198
   documents (non-empty): 138364198
-  total terms: 15272964956
+  total terms: 15272965252
 
 metrics:
   - metric: MAP@100
@@ -75,43 +75,29 @@ models:
         - 0.5835
   - name: bm25-default+rm3
     display: +RM3
-    params: -bm25 -rm3
+    params: -bm25 -rm3 -collection MsMarcoV2PassageCollection
     results:
       MAP@100:
         - 0.1050
       MRR@100:
-        - 0.4906
+        - 0.4915
       nDCG@10:
-        - 0.3906
+        - 0.3869
       R@100:
-        - 0.2795
+        - 0.2807
       R@1000:
-        - 0.6268
-  - name: bm25-default+ax
-    display: +Ax
-    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
+        - 0.6298
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -collection MsMarcoV2PassageCollection
     results:
       MAP@100:
-        - 0.0849
+        - 0.1043
       MRR@100:
-        - 0.4269
+        - 0.4809
       nDCG@10:
-        - 0.2927
+        - 0.3817
       R@100:
-        - 0.2645
+        - 0.2819
       R@1000:
-        - 0.6085
-  - name: bm25-default+prf
-    display: +PRF
-    params: -bm25 -bm25prf
-    results:
-      MAP@100:
-        - 0.0959
-      MRR@100:
-        - 0.4737
-      nDCG@10:
-        - 0.3488
-      R@100:
-        - 0.2729
-      R@1000:
-        - 0.5952
+        - 0.6372

@@ -43,6 +43,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -54,9 +55,17 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
     this.path = path;
   }
 
+  public TweetCollection() {
+  }
+
   @Override
   public FileSegment<TweetCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
+  }
+
+  @Override
+  public FileSegment<TweetCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new Segment(bufferedReader);
   }
 
   /**
@@ -64,6 +73,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
    */
   public static class Segment extends FileSegment<TweetCollection.Document> {
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
+    protected String rawContent = null; // raw content from buffered string
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -71,20 +81,30 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
       String fileName = path.toString();
       if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
-                Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
+            Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else { // plain text file
         bufferedReader = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8));
       }
     }
 
+    public Segment(BufferedReader bufferedReader) throws IOException {
+      super(bufferedReader);
+      rawContent = bufferedReader.lines().collect(Collectors.joining("\n"));
+    }
+
     @Override
     public void readNext() throws IOException, NoSuchElementException, ParseException {
-      String nextRecord = bufferedReader.readLine();
-      if (nextRecord == null) {
-        throw new NoSuchElementException();
+      if (rawContent != null) {
+        bufferedRecord = new TweetCollection.Document();
+        bufferedRecord.text = rawContent;
+      } else {
+        String nextRecord = bufferedReader.readLine();
+        if (nextRecord == null) {
+          throw new NoSuchElementException();
+        }
+        parseJson(nextRecord);
       }
-      parseJson(nextRecord);
     }
 
     private void parseJson(String json) throws ParseException {

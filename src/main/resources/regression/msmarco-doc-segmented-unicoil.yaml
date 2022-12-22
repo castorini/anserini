@@ -1,0 +1,93 @@
+---
+corpus: msmarco-doc-segmented-unicoil
+corpus_path: collections/msmarco/msmarco-doc-segmented-unicoil/
+
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar
+download_checksum: 6a00e2c0c375cb1e52c83ae5ac377ebb
+
+index_path: indexes/lucene-index.msmarco-doc-segmented-unicoil/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized -storeDocvectors
+index_stats:
+  documents: 20545677
+  documents (non-empty): 20545677
+  total terms: 214505277898
+
+metrics:
+  - metric: AP@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: RR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
+    id: dev
+    path: topics.msmarco-doc.dev.unicoil.tsv.gz
+    qrel: qrels.msmarco-doc.dev.txt
+
+models:
+  - name: unicoil
+    display: uniCOIL (with doc2query-T5 expansions)
+    params: -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@1000:
+        - 0.3535
+      RR@100:
+        - 0.3531
+      R@100:
+        - 0.8858
+      R@1000:
+        - 0.9546
+  - name: rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@1000:
+        - 0.3186
+      RR@100:
+        - 0.3182
+      R@100:
+        - 0.8800
+      R@1000:
+        - 0.9615
+  - name: rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      AP@1000:
+        - 0.3256
+      RR@100:
+        - 0.3252
+      R@100:
+        - 0.8848
+      R@1000:
+        - 0.9619

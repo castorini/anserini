@@ -19,7 +19,7 @@
 import os
 import sys
 
-from covid_baseline_tools import perform_runs, perform_fusion, prepare_final_submissions,\
+from covid_baseline_tools import perform_runs, perform_fusion, prepare_final_submissions, \
     evaluate_runs, verify_stored_runs
 
 # This makes errors more readable,
@@ -52,35 +52,35 @@ final_runs = {
 }
 
 stored_runs = {
-    'https://www.dropbox.com/s/g80cqdxud1l06wq/anserini.covid-r3.abstract.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qq.bm25.txt':
         cumulative_runs['anserini.covid-r3.abstract.qq.bm25.txt'],
-    'https://www.dropbox.com/s/sjcnxq7h0a3j3xz/anserini.covid-r3.abstract.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r3.abstract.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/4bjx35sgosu0jz0/anserini.covid-r3.full-text.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.full-text.qq.bm25.txt':
         cumulative_runs['anserini.covid-r3.full-text.qq.bm25.txt'],
-    'https://www.dropbox.com/s/mjt7y1ywae784d0/anserini.covid-r3.full-text.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.full-text.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r3.full-text.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/qwn7jd8vg2chjik/anserini.covid-r3.paragraph.qq.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.paragraph.qq.bm25.txt':
         cumulative_runs['anserini.covid-r3.paragraph.qq.bm25.txt'],
-    'https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.paragraph.qdel.bm25.txt':
         cumulative_runs['anserini.covid-r3.paragraph.qdel.bm25.txt'],
-    'https://www.dropbox.com/s/6vk5iohqf81iy8b/anserini.covid-r3.fusion1.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.fusion1.txt':
         cumulative_runs['anserini.covid-r3.fusion1.txt'],
-    'https://www.dropbox.com/s/n09595t1eqymkks/anserini.covid-r3.fusion2.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.fusion2.txt':
         cumulative_runs['anserini.covid-r3.fusion2.txt'],
-    'https://www.dropbox.com/s/p8fzefgwzkvvbxx/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt':
         cumulative_runs['anserini.covid-r3.abstract.qdel.bm25+rm3Rf.txt'],
-    'https://www.dropbox.com/s/ypoe9tgwef17rak/anserini.final-r3.fusion1.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion1.txt':
         final_runs['anserini.final-r3.fusion1.txt'],
-    'https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion2.txt':
         final_runs['anserini.final-r3.fusion2.txt'],
-    'https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.rf.txt':
         final_runs['anserini.final-r3.rf.txt'],
-    'https://www.dropbox.com/s/ilqgky1tti0zvez/anserini.final-r3.fusion1.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion1.post-processed.txt':
         final_runs['anserini.final-r3.fusion1.post-processed.txt'],
-    'https://www.dropbox.com/s/ue3z6xxxca9krkb/anserini.final-r3.fusion2.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.fusion2.post-processed.txt':
         final_runs['anserini.final-r3.fusion2.post-processed.txt'],
-    'https://www.dropbox.com/s/95vk831wp1ldnpm/anserini.final-r3.rf.post-processed.txt?dl=1':
+    'https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs/raw/master/round3/anserini.final-r3.rf.post-processed.txt':
         final_runs['anserini.final-r3.rf.post-processed.txt']
 }
 
@@ -107,10 +107,10 @@ def main():
 
     expected_metrics = {
         'anserini.covid-r3.abstract.qq.bm25.txt':
-            {'topics': 40, 'ndcg_cut_10': 0.2118, 'judged_cut_10': 0.3300, 'ndcg_cut_20': 0.2043,
+            {'topics': 40, 'ndcg_cut_10': 0.2117, 'judged_cut_10': 0.3300, 'ndcg_cut_20': 0.2043,
              'judged_cut_20': 0.3150, 'map': 0.0951, 'recall_1000': 0.4398, 'judged_cut_1000': 0.1275},
         'anserini.covid-r3.abstract.qdel.bm25.txt':
-            {'topics': 40, 'ndcg_cut_10': 0.2470, 'judged_cut_10': 0.3375, 'ndcg_cut_20': 0.2256,
+            {'topics': 40, 'ndcg_cut_10': 0.2466, 'judged_cut_10': 0.3375, 'ndcg_cut_20': 0.2253,
              'judged_cut_20': 0.3175, 'map': 0.1023, 'recall_1000': 0.4537, 'judged_cut_1000': 0.1248},
         'anserini.covid-r3.full-text.qq.bm25.txt':
             {'topics': 40, 'ndcg_cut_10': 0.2337, 'judged_cut_10': 0.4650, 'ndcg_cut_20': 0.2259,
@@ -138,10 +138,10 @@ def main():
 
     expected_metrics = {
         'anserini.covid-r3.abstract.qq.bm25.txt':
-            {'topics': 40, 'ndcg_cut_10': 0.5781, 'judged_cut_10': 0.8875, 'ndcg_cut_20': 0.5359,
+            {'topics': 40, 'ndcg_cut_10': 0.5780, 'judged_cut_10': 0.8875, 'ndcg_cut_20': 0.5359,
              'judged_cut_20': 0.8325, 'map': 0.2348, 'recall_1000': 0.5040, 'judged_cut_1000': 0.2351},
         'anserini.covid-r3.abstract.qdel.bm25.txt':
-            {'topics': 40, 'ndcg_cut_10': 0.6291, 'judged_cut_10': 0.9300, 'ndcg_cut_20': 0.5972,
+            {'topics': 40, 'ndcg_cut_10': 0.6289, 'judged_cut_10': 0.9300, 'ndcg_cut_20': 0.5971,
              'judged_cut_20': 0.8925, 'map': 0.2525, 'recall_1000': 0.5215, 'judged_cut_1000': 0.2370},
         'anserini.covid-r3.full-text.qq.bm25.txt':
             {'topics': 40, 'ndcg_cut_10': 0.3977, 'judged_cut_10': 0.7500, 'ndcg_cut_20': 0.3681,

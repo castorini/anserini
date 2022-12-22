@@ -1,0 +1,93 @@
+---
+corpus: msmarco-passage-unicoil-noexp
+corpus_path: collections/msmarco/msmarco-passage-unicoil-noexp/
+
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar
+download_checksum: f17ddd8c7c00ff121c3c3b147d2e17d8
+
+index_path: indexes/lucene-index.msmarco-passage-unicoil-noexp/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized -storeDocvectors
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 26468530021
+
+metrics:
+  - metric: AP@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: RR@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 10 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
+    id: dev
+    path: topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz
+    qrel: qrels.msmarco-passage.dev-subset.txt
+
+models:
+  - name: unicoil-noexp
+    display: uniCOIL (no expansions)
+    params: -impact -pretokenized
+    results:
+      AP@1000:
+        - 0.3215
+      RR@10:
+        - 0.3153
+      R@100:
+        - 0.8070
+      R@1000:
+        - 0.9239
+  - name: rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3
+    results:
+      AP@1000:
+        - 0.2621
+      RR@10:
+        - 0.2537
+      R@100:
+        - 0.7953
+      R@1000:
+        - 0.9296
+  - name: rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio
+    results:
+      AP@1000:
+        - 0.2643
+      RR@10:
+        - 0.2565
+      R@100:
+        - 0.7971
+      R@1000:
+        - 0.9326

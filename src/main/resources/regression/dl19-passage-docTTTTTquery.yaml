@@ -13,16 +13,9 @@ index_stats:
   total terms: 1986612263
 
 metrics:
-  - metric: MAP
+  - metric: AP@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m map -c -l 2
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: false
-  - metric: R@1000
-    command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -30,6 +23,20 @@ metrics:
   - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
     params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.100 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -49,59 +56,143 @@ models:
     display: BM25 (default)
     params: -bm25
     results:
-      MAP:
+      AP@1000:
         - 0.4034
       nDCG@10:
         - 0.6417
+      R@100:
+        - 0.5917
       R@1000:
         - 0.8310
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3
     results:
-      MAP:
-        - 0.4485
+      AP@1000:
+        - 0.4483
       nDCG@10:
-        - 0.6548
+        - 0.6586
+      R@100:
+        - 0.6342
+      R@1000:
+        - 0.8863
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      AP@1000:
+        - 0.4469
+      nDCG@10:
+        - 0.6538
+      R@100:
+        - 0.6338
+      R@1000:
+        - 0.8855
+  - name: bm25-default+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@1000:
+        - 0.4441
+      nDCG@10:
+        - 0.6444
+      R@100:
+        - 0.6350
       R@1000:
         - 0.8861
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68
     results:
-      MAP:
+      AP@1000:
         - 0.4052
       nDCG@10:
         - 0.6482
+      R@100:
+        - 0.5910
       R@1000:
         - 0.8269
   - name: bm25-tuned+rm3
     display: +RM3
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3
     results:
-      MAP:
-        - 0.4520
+      AP@1000:
+        - 0.4512
       nDCG@10:
-        - 0.6614
+        - 0.6591
+      R@100:
+        - 0.6396
       R@1000:
-        - 0.8826
+        - 0.8837
+  - name: bm25-tuned+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio
+    results:
+      AP@1000:
+        - 0.4525
+      nDCG@10:
+        - 0.6617
+      R@100:
+        - 0.6406
+      R@1000:
+        - 0.8838
+  - name: bm25-tuned+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@1000:
+        - 0.4511
+      nDCG@10:
+        - 0.6591
+      R@100:
+        - 0.6395
+      R@1000:
+        - 0.8877
   - name: bm25-tuned2
     display: BM25 (tuned2)
     params: -bm25 -bm25.k1 2.18 -bm25.b 0.86
     results:
-      MAP:
+      AP@1000:
         - 0.4046
       nDCG@10:
         - 0.6336
+      R@100:
+        - 0.5880
       R@1000:
         - 0.8134
   - name: bm25-tuned2+rm3
     display: +RM3
     params: -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rm3
     results:
-      MAP:
-        - 0.4360
+      AP@1000:
+        - 0.4377
       nDCG@10:
-        - 0.6528
+        - 0.6537
+      R@100:
+        - 0.6047
       R@1000:
-        - 0.8424
+        - 0.8443
+  - name: bm25-tuned2+rocchio
+    display: +Rocchio
+    params: -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rocchio
+    results:
+      AP@1000:
+        - 0.4339
+      nDCG@10:
+        - 0.6559
+      R@100:
+        - 0.6014
+      R@1000:
+        - 0.8465
+  - name: bm25-tuned2+rocchio-neg
+    display: +Rocchio*
+    params: -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rocchio -rocchio.useNegative -rerankCutoff 1000
+    results:
+      AP@1000:
+        - 0.4338
+      nDCG@10:
+        - 0.6558
+      R@100:
+        - 0.5981
+      R@1000:
+        - 0.8488
