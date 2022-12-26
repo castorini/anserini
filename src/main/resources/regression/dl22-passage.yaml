@@ -64,40 +64,40 @@ models:
     params: -bm25
     results:
       MAP@100:
-        - 0.0436
+        - 0.0325
       MRR@100:
         - 0.3256
       nDCG@10:
-        - 0.2579
+        - 0.2692
       R@100:
-        - 0.1594
+        - 0.1382
       R@1000:
-        - 0.3599
+        - 0.3321
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3 -collection MsMarcoV2PassageCollection
     results:
       MAP@100:
-        - 0.0415
+        - 0.0310
       MRR@100:
         - 0.2564
       nDCG@10:
-        - 0.2524
+        - 0.2686
       R@100:
-        - 0.1453
+        - 0.1263
       R@1000:
-        - 0.3858
+        - 0.3559
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -collection MsMarcoV2PassageCollection
     results:
       MAP@100:
-        - 0.0446
+        - 0.0340
       MRR@100:
         - 0.2733
       nDCG@10:
-        - 0.2589
+        - 0.2742
       R@100:
-        - 0.1593
+        - 0.1395
       R@1000:
-        - 0.3947
+        - 0.3639
