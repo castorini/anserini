@@ -1,7 +1,4 @@
-
-![Anserini logo](docs/anserini-logo.png | width=100)
-
-Anserini
+Anserini <img src="docs/anserini-logo.png" width="300" />
 ========
 [![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
 [![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
@@ -22,7 +19,7 @@ However, Lucene 9 code running on Lucene 8 indexes may give slightly different r
 Lucene 8 code will _not_ run on Lucene 9 indexes.
 Pyserini has been upgraded, but similar issues apply: Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
 
-## Getting Started
+## 🎬 Getting Started
 
 Many Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
 If you're looking for basic indexing and search capabilities, you might want to start there.
@@ -51,7 +48,7 @@ cd tools/eval/ndeval && make && cd ../../..
 
 With that, you should be ready to go!
 
-## Regression Experiments (+ Reproduction Guides)
+## ⚗️ Regression Experiments (+ Reproduction Guides)
 
 Anserini is designed to support experiments on various standard IR test collections out of the box.
 The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini reproducibility promise](docs/regressions.md).
@@ -266,7 +263,7 @@ See individual pages for details!
 
 </details>
 
-## Additional Documentation
+## 📃 Additional Documentation
 
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of reproducibility.
 For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
@@ -320,7 +317,7 @@ In turn, you'll be recognized as a [contributor](https://github.com/castorini/an
 
 Beyond that, there are always [open issues](https://github.com/castorini/anserini/issues) we would appreciate help on!
 
-## Release History
+## ℹ️ Release History
 
 + v0.16.2: December 12, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.2.md)]
 + v0.16.1: November 2, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.1.md)]
@@ -375,13 +372,13 @@ To reproducible old results from Lucene 7.6, use [v0.5.1](https://github.com/cas
 
 </details>
 
-## References
+## ✨ References
 
 + Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) _ECIR 2016_.
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/authorize?N47337) _SIGIR 2017_.
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) _Journal of Data and Information Quality_, 10(4), Article 16, 2018.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 This research is supported in part by the Natural Sciences and Engineering Research Council (NSERC) of Canada.
 Previous support came from the U.S. National Science Foundation under IIS-1423002 and CNS-1405688.
