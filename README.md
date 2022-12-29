@@ -306,7 +306,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)
 + Anserini supports [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on arbitrary dense vectors with Lucene
 
-## How Can I Contribute?
+## 🙋 How Can I Contribute?
 
 If you've found Anserini to be helpful, we have a simple request for you to contribute back.
 In the course of [reproducing](docs/reproducibility.md) baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the page for Disks 4 &amp; 5](docs/regressions-disk45.md).
