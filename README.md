@@ -1,4 +1,6 @@
 
+![Anserini logo](docs/anserini-logo.png | width=100)
+
 Anserini
 ========
 [![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
