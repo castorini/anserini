@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(305, cnt);
+    assertEquals(307, cnt);
   }
 
   @Test
@@ -1713,5 +1713,7 @@ public class TopicReaderTest {
     assertEquals(828, TopicReader.getTopics(Topics.MIRACL_V10_TE_DEV).keySet().size());
     assertEquals(733, TopicReader.getTopics(Topics.MIRACL_V10_TH_DEV).keySet().size());
     assertEquals(393, TopicReader.getTopics(Topics.MIRACL_V10_ZH_DEV).keySet().size());
+    assertEquals(305, TopicReader.getTopics(Topics.MIRACL_V10_DE_DEV).keySet().size());
+    assertEquals(119, TopicReader.getTopics(Topics.MIRACL_V10_YO_DEV).keySet().size());
   }
 }

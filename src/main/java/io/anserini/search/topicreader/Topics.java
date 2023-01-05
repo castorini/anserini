@@ -338,7 +338,9 @@ public enum Topics {
   MIRACL_V10_SW_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-sw-dev.tsv"),
   MIRACL_V10_TE_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-te-dev.tsv"),
   MIRACL_V10_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-th-dev.tsv"),
-  MIRACL_V10_ZH_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv");
+  MIRACL_V10_ZH_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv"),
+  MIRACL_V10_DE_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-de-dev.tsv"),
+  MIRACL_V10_YO_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-yo-dev.tsv");
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;
