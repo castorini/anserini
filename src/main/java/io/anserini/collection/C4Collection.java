@@ -141,15 +141,18 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
     protected String id;
     protected String url;
     private String contents;
+    private String contentsURL;
     private String raw;
     private long timestamp;
 
     public Document(JsonNode json, String filename, int jsonLoc) {
       this.raw = json.toPrettyString();
-      this.contents = json.get("text").asText();
 
       this.id = String.format("c4-%s-%06d", filename, jsonLoc);
       this.url = json.get("url").asText();
+      this.contents = json.get("text").asText();
+
+      this.contentsURL =  this.contents + "" + this.url;
 
       String dateTime = json.get("timestamp").asText();
       Instant i = Instant.parse(dateTime);
@@ -175,6 +178,10 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
         throw new RuntimeException("JSON document has no \"contents\" field");
       }
       return contents;
+    }
+
+    public String contentsURL(){
+      return contentsURL;
     }
 
     @Override
