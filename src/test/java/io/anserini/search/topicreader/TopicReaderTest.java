@@ -619,18 +619,18 @@ public class TopicReaderTest {
 
   @Test
   public void testGarT5Nq() {
-    assertEquals(3610, TopicReader.getTopics(Topics.GART5_NQ_TEST_ANSWERS).keySet().size());
-    assertEquals(3610, TopicReader.getTopics(Topics.GART5_NQ_TEST_TITLES).keySet().size());
-    assertEquals(3610, TopicReader.getTopics(Topics.GART5_NQ_TEST_SENTENCES).keySet().size());
-    assertEquals(3610, TopicReader.getTopics(Topics.GART5_NQ_TEST_ALL).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_ANSWERS).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_TITLES).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_SENTENCES).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_ALL).keySet().size());
   }
 
   @Test
   public void testGarT5Trivia() {
-    assertEquals(11313, TopicReader.getTopics(Topics.GART5_DPR_TRIVIA_TEST_ANSWERS).keySet().size());
-    assertEquals(11313, TopicReader.getTopics(Topics.GART5_DPR_TRIVIA_TEST_TITLES).keySet().size());
-    assertEquals(11313, TopicReader.getTopics(Topics.GART5_DPR_TRIVIA_TEST_SENTENCES).keySet().size());
-    assertEquals(11313, TopicReader.getTopics(Topics.GART5_DPR_TRIVIA_TEST_ALL).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_ANSWERS).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_TITLES).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_SENTENCES).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_ALL).keySet().size());
   }
 
   @Test
