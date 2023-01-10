@@ -618,6 +618,22 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testGarT5Nq() {
+    assertEquals(3610, TopicReader.getTopics(Topics.GART5_NQ_TEST_ANSWERS).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.GART5_NQ_TEST_TITLES).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.GART5_NQ_TEST_SENTENCES).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.GART5_NQ_TEST_ALL).keySet().size());
+  }
+
+  @Test
+  public void testGarT5Trivia() {
+    assertEquals(11313, TopicReader.getTopics(Topics.GART5_DPR_TRIVIA_TEST_ANSWERS).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.GART5_DPR_TRIVIA_TEST_TITLES).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.GART5_DPR_TRIVIA_TEST_SENTENCES).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.GART5_DPR_TRIVIA_TEST_ALL).keySet().size());
+  }
+
+  @Test
   public void testTREC19DL() {
     SortedMap<Integer, Map<String, String>> topics;
 
