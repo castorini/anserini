@@ -46,12 +46,10 @@ logger.addHandler(ch)
 # There is no need to specify them on a per-file basis.
 CORPUS_ROOTS = [
     '',                           # here, stored in this directory
+    '/collection/',               # on hops
     '/mnt/',                      # on tjena
     '/tuna1/',                    # on tuna
     '/store/',                    # on orca
-    '/collection',                # on hops (1st location)
-    '/',                          # on hops (2nd location)
-    '/scratch2/',                 # on damiano
     '/System/Volumes/Data/store'  # for new organization of directories in macOS Monterey
 ]
 
@@ -95,8 +93,9 @@ def construct_indexing_command(yaml_data, args):
             corpus_path = args.corpus_path
     else:
         for input_root in CORPUS_ROOTS:
-            corpus_path = os.path.join(input_root, yaml_data['corpus_path'])
-            if os.path.exists(corpus_path):
+            test_path = os.path.join(input_root, yaml_data['corpus_path'])
+            if os.path.exists(test_path):
+                corpus_path = test_path
                 break
 
     if not corpus_path:
