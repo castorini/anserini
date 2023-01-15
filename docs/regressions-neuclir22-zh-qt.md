@@ -150,21 +150,21 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)                                                  | 0.1796    | 0.1758    | 0.2090    |
-| [NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)                                                   | 0.1515    | 0.1216    | 0.1763    |
-| [NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)                                             | 0.1952    | 0.1707    | 0.2311    |
+| [NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)                                                  | 0.1505    | 0.1501    | 0.1692    |
+| [NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)                                                   | 0.1306    | 0.0925    | 0.1251    |
+| [NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)                                             | 0.1734    | 0.1367    | 0.1888    |
 | **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)                                                  | 0.3203    | 0.2718    | 0.3279    |
-| [NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)                                                   | 0.2803    | 0.2112    | 0.2769    |
-| [NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)                                             | 0.3343    | 0.2671    | 0.3501    |
+| [NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)                                                  | 0.2478    | 0.2127    | 0.2544    |
+| [NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)                                                   | 0.2068    | 0.1519    | 0.1985    |
+| [NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)                                             | 0.2572    | 0.1891    | 0.2734    |
 | **J@20**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)                                                  | 0.3895    | 0.3132    | 0.4004    |
 | [NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)                                                   | 0.3588    | 0.2461    | 0.3689    |
 | [NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)                                             | 0.4298    | 0.2925    | 0.4298    |
 | **Recall@1000**                                                                                              | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)                                                  | 0.4527    | 0.4334    | 0.5121    |
-| [NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)                                                   | 0.4377    | 0.3755    | 0.4989    |
-| [NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)                                             | 0.4743    | 0.4174    | 0.5201    |
+| [NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)                                                  | 0.4759    | 0.4651    | 0.5230    |
+| [NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)                                                   | 0.4577    | 0.3703    | 0.5113    |
+| [NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)                                             | 0.4940    | 0.4373    | 0.5327    |
 
 ## Reproduction Log[*](reproducibility.md)
 
