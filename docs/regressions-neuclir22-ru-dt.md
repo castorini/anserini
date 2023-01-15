@@ -150,21 +150,21 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [NeuCLIR 2022 (Russian): title](https://neuclir.github.io/)                                                  | 0.2492    | 0.3005    | 0.2979    |
-| [NeuCLIR 2022 (Russian): desc](https://neuclir.github.io/)                                                   | 0.1489    | 0.2408    | 0.2291    |
-| [NeuCLIR 2022 (Russian): desc+title](https://neuclir.github.io/)                                             | 0.2307    | 0.2982    | 0.2919    |
+| [NeuCLIR 2022 (Russian): title](https://neuclir.github.io/)                                                  | 0.2685    | 0.2500    | 0.2567    |
+| [NeuCLIR 2022 (Russian): desc](https://neuclir.github.io/)                                                   | 0.1190    | 0.1769    | 0.1731    |
+| [NeuCLIR 2022 (Russian): desc+title](https://neuclir.github.io/)                                             | 0.2066    | 0.2220    | 0.2253    |
 | **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [NeuCLIR 2022 (Russian): title](https://neuclir.github.io/)                                                  | 0.4123    | 0.4312    | 0.4309    |
-| [NeuCLIR 2022 (Russian): desc](https://neuclir.github.io/)                                                   | 0.2755    | 0.3524    | 0.3511    |
-| [NeuCLIR 2022 (Russian): desc+title](https://neuclir.github.io/)                                             | 0.3789    | 0.4092    | 0.4166    |
+| [NeuCLIR 2022 (Russian): title](https://neuclir.github.io/)                                                  | 0.3693    | 0.3545    | 0.3589    |
+| [NeuCLIR 2022 (Russian): desc](https://neuclir.github.io/)                                                   | 0.2060    | 0.2539    | 0.2627    |
+| [NeuCLIR 2022 (Russian): desc+title](https://neuclir.github.io/)                                             | 0.3080    | 0.3024    | 0.3188    |
 | **J@20**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [NeuCLIR 2022 (Russian): title](https://neuclir.github.io/)                                                  | 0.3702    | 0.3882    | 0.3868    |
 | [NeuCLIR 2022 (Russian): desc](https://neuclir.github.io/)                                                   | 0.2772    | 0.3417    | 0.3382    |
 | [NeuCLIR 2022 (Russian): desc+title](https://neuclir.github.io/)                                             | 0.3618    | 0.3737    | 0.3811    |
 | **Recall@1000**                                                                                              | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [NeuCLIR 2022 (Russian): title](https://neuclir.github.io/)                                                  | 0.6942    | 0.7233    | 0.7542    |
-| [NeuCLIR 2022 (Russian): desc](https://neuclir.github.io/)                                                   | 0.5448    | 0.6601    | 0.6622    |
-| [NeuCLIR 2022 (Russian): desc+title](https://neuclir.github.io/)                                             | 0.6921    | 0.7252    | 0.7455    |
+| [NeuCLIR 2022 (Russian): title](https://neuclir.github.io/)                                                  | 0.7409    | 0.7808    | 0.7908    |
+| [NeuCLIR 2022 (Russian): desc](https://neuclir.github.io/)                                                   | 0.5780    | 0.6772    | 0.6780    |
+| [NeuCLIR 2022 (Russian): desc+title](https://neuclir.github.io/)                                             | 0.7255    | 0.7658    | 0.7798    |
 
 ## Reproduction Log[*](reproducibility.md)
 
