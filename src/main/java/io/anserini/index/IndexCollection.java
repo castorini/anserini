@@ -538,7 +538,7 @@ public final class IndexCollection {
         config = new IndexWriterConfig(ukrainianAnalyzer);
       } else if (args.language.equals("zh") || args.language.equals("ko")) {
         config = new IndexWriterConfig(chineseAnalyzer);
-      } else if (args.language.equals("sw") || args.language.equals("te")) {
+      } else if (args.language.equals("sw") || args.language.equals("yo")) {
         // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
         config = new IndexWriterConfig(whitespaceAnalyzer);
       } else if (args.pretokenized) {

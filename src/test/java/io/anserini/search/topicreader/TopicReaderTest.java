@@ -37,7 +37,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(305, cnt);
+    assertEquals(315, cnt);
   }
 
   @Test
@@ -615,6 +615,22 @@ public class TopicReaderTest {
     assertEquals("when did computer become widespread in homes and schools", topics.get(topics.lastKey()).get("title"));
     assertEquals("['1980s']", topics.get(topics.lastKey()).get("answers"));
     assertEquals("who sings gimme shelter with mick jagger", topics.get(1756).get("title"));
+  }
+
+  @Test
+  public void testGarT5Nq() {
+    assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_ANSWERS).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_TITLES).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_SENTENCES).keySet().size());
+    assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_ALL).keySet().size());
+  }
+
+  @Test
+  public void testGarT5Trivia() {
+    assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_ANSWERS).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_TITLES).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_SENTENCES).keySet().size());
+    assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_ALL).keySet().size());
   }
 
   @Test
@@ -1713,5 +1729,7 @@ public class TopicReaderTest {
     assertEquals(828, TopicReader.getTopics(Topics.MIRACL_V10_TE_DEV).keySet().size());
     assertEquals(733, TopicReader.getTopics(Topics.MIRACL_V10_TH_DEV).keySet().size());
     assertEquals(393, TopicReader.getTopics(Topics.MIRACL_V10_ZH_DEV).keySet().size());
+    assertEquals(305, TopicReader.getTopics(Topics.MIRACL_V10_DE_DEV).keySet().size());
+    assertEquals(119, TopicReader.getTopics(Topics.MIRACL_V10_YO_DEV).keySet().size());
   }
 }

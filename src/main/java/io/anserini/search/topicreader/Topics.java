@@ -121,6 +121,14 @@ public enum Topics {
   DPR_SQUAD_TEST(DprJsonlTopicReader.class, "topics-and-qrels/topics.dpr.squad.test.txt"),
   NQ_DEV(DprNqTopicReader.class, "topics-and-qrels/topics.nq.dev.txt"),
   NQ_TEST(DprNqTopicReader.class, "topics-and-qrels/topics.nq.test.txt"),
+  NQ_TEST_GART5_ANSWERS(TsvIntTopicReader.class, "topics-and-qrels/topics.nq.test.gar-t5.answers.tsv"),
+  NQ_TEST_GART5_TITLES(TsvIntTopicReader.class, "topics-and-qrels/topics.nq.test.gar-t5.titles.tsv"),
+  NQ_TEST_GART5_SENTENCES(TsvIntTopicReader.class, "topics-and-qrels/topics.nq.test.gar-t5.sentences.tsv"),
+  NQ_TEST_GART5_ALL(TsvIntTopicReader.class, "topics-and-qrels/topics.nq.test.gar-t5.all.tsv"),
+  DPR_TRIVIA_TEST_GART5_ANSWERS(TsvIntTopicReader.class, "topics-and-qrels/topics.dpr.trivia.test.gar-t5.answers.tsv"),
+  DPR_TRIVIA_TEST_GART5_TITLES(TsvIntTopicReader.class, "topics-and-qrels/topics.dpr.trivia.test.gar-t5.titles.tsv"),
+  DPR_TRIVIA_TEST_GART5_SENTENCES(TsvIntTopicReader.class, "topics-and-qrels/topics.dpr.trivia.test.gar-t5.sentences.tsv"),
+  DPR_TRIVIA_TEST_GART5_ALL(TsvIntTopicReader.class, "topics-and-qrels/topics.dpr.trivia.test.gar-t5.all.tsv"),
   MRTYDI_V11_AR_TRAIN(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.train.txt.gz"),
   MRTYDI_V11_AR_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.dev.txt.gz"),
   MRTYDI_V11_AR_TEST(TsvIntTopicReader.class, "topics-and-qrels/topics.mrtydi-v1.1-ar.test.txt.gz"),
@@ -338,7 +346,9 @@ public enum Topics {
   MIRACL_V10_SW_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-sw-dev.tsv"),
   MIRACL_V10_TE_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-te-dev.tsv"),
   MIRACL_V10_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-th-dev.tsv"),
-  MIRACL_V10_ZH_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv");
+  MIRACL_V10_ZH_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv"),
+  MIRACL_V10_DE_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-de-dev.tsv"),
+  MIRACL_V10_YO_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-yo-dev.tsv");
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;
