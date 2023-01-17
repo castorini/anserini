@@ -142,17 +142,15 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1200    | 0.1292    | 0.1380    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1050    | 0.1170    | 0.1225    |
 | **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
 | [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5831    | 0.5634    | 0.5577    |
 | **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4566    | 0.4471    | 0.4799    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4614    | 0.4608    | 0.4886    |
 | **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2996    | 0.2993    | 0.3113    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2716    | 0.2751    | 0.2860    |
 | **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5543    | 0.5661    | 0.5847    |
-
-**IMPORTANT**: These runs are evaluated prior to dedup, so the scores will be slightly lower than the official scores (e.g., computed by NIST), which includes dedup.
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5253    | 0.5372    | 0.5559    |
 
 The uniCOIL condition corresponds to the `p_unicoil_exp` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
 As of [`91ec67`](https://github.com/castorini/anserini/commit/91ec6749bfef206e210bcc1df8cd4060e7d7aaff), this correspondence was _exact_.
@@ -164,7 +162,8 @@ This can be confirmed as follows:
 cut -d ' ' -f 1-5 runs/p_unicoil_exp > runs/p_unicoil_exp.submitted.cut
 
 # Trim out the runtag and retain only top 100 hits per query:
-cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot | grep -E '^[^ ]+ Q0 [^ ]+ (\d|\d\d|100) ' > runs/p_unicoil_exp.new.cut
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot --output runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100
+cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100 > runs/p_unicoil_exp.new.cut
 
 # Verify the two runfiles are identical:
 diff runs/p_unicoil_exp.submitted.cut runs/p_unicoil_exp.new.cut
@@ -172,42 +171,3 @@ diff runs/p_unicoil_exp.submitted.cut runs/p_unicoil_exp.new.cut
 
 The "uniCOIL + Rocchio" condition corresponds to the `p_unicoil_exp_rocchio` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
 However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
-
-To reproduce the official NIST scores, we need to run dedup.
-Official submissions start off with only 100 hits per query, which is (slightly) reduced after the dedup process.
-Thus, we have to take our runs (which contain 1000 hits per query) and trim down to 100 hits per query prior to running dedup.
-These commands are shown below:
-
-```bash
-# Trim from 1000 hits to 100 hits
-python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot --output runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100
-python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3 --output runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100
-python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio --output runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100
-
-# Run dedup
-python tools/scripts/dedup.py tools/topics-and-qrels/msmarco-v2-passage-neardupes.txt.gz \
-  runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100 \
-  runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100 \
-  runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100
-
-# Evaluate
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100.dedup
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100.dedup
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.dl22.unicoil-0shot+rocchio.hits100.dedup
-```
-
-With the above commands, we should arrive at the following sores:
-
-|              | **uniCOIL (with doc2query-T5) zero-shot** | **+RM3**  | **+Rocchio**|
-|:-------------|-------------------------------------------|-----------|-------------|
-| **nDCG@10**  | 0.4475                                    | 0.4422    | 0.4716      |
-| **MAP@100**  | 0.1097                                    | 0.1198    | 0.1277      |
-| **R@100**    | 0.2790                                    | 0.2787    | 0.2915      |
