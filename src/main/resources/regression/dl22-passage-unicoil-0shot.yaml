@@ -68,40 +68,40 @@ models:
     params: -impact -pretokenized
     results:
       MAP@100:
-        - 0.1200
+        - 0.1050
       MRR@100:
         - 0.5831
       nDCG@10:
-        - 0.4566
+        - 0.4614
       R@100:
-        - 0.2996
+        - 0.2716
       R@1000:
-        - 0.5543
+        - 0.5253
   - name: unicoil-0shot+rm3
     display: +RM3
     params: -impact -pretokenized -rm3 -collection JsonVectorCollection
     results:
       MAP@100:
-        - 0.1292
+        - 0.1170
       MRR@100:
         - 0.5634
       nDCG@10:
-        - 0.4471
+        - 0.4608
       R@100:
-        - 0.2993
+        - 0.2751
       R@1000:
-        - 0.5661
+        - 0.5372
   - name: unicoil-0shot+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio -collection JsonVectorCollection
     results:
       MAP@100:
-        - 0.1380
+        - 0.1225
       MRR@100:
         - 0.5577
       nDCG@10:
-        - 0.4799
+        - 0.4886
       R@100:
-        - 0.3113
+        - 0.2860
       R@1000:
-        - 0.5847
+        - 0.5559
