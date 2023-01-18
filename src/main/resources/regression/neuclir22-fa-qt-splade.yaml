@@ -45,17 +45,17 @@ topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[NeuCLIR 2022 (Persian): title (original queries)](https://neuclir.github.io/)"
+  - name: "[NeuCLIR 2022 (Persian): title (human-translated queries)](https://neuclir.github.io/)"
     id: orig-title
-    path: topics.neuclir22-fa.splade.orig-title.txt.gz
+    path: topics.neuclir22-fa.splade.ht-title.txt.gz
     qrel: qrels.neuclir22-fa.txt
-  - name: "[NeuCLIR 2022 (Persian): desc (original queries)](https://neuclir.github.io/)"
+  - name: "[NeuCLIR 2022 (Persian): desc (human-translated queries)](https://neuclir.github.io/)"
     id: orig-desc
-    path: topics.neuclir22-fa.splade.orig-desc.txt.gz
+    path: topics.neuclir22-fa.splade.ht-desc.txt.gz
     qrel: qrels.neuclir22-fa.txt
-  - name: "[NeuCLIR 2022 (Persian): desc+title (original queries)](https://neuclir.github.io/)"
+  - name: "[NeuCLIR 2022 (Persian): desc+title (human-translated queries)](https://neuclir.github.io/)"
     id: orig-desc_title
-    path: topics.neuclir22-fa.splade.orig-desc_title.txt.gz
+    path: topics.neuclir22-fa.splade.ht-desc_title.txt.gz
     qrel: qrels.neuclir22-fa.txt
   - name: "[NeuCLIR 2022 (Persian): title (machine-translated queries)](https://neuclir.github.io/)"
     id: mt-title
