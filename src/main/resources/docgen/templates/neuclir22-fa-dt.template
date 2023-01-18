@@ -1,8 +1,8 @@
-# Anserini Regressions: NeuCLIR22 &mdash; Persian
+# Anserini Regressions: NeuCLIR22 &mdash; Persian (Document Translation)
 
-This page documents regression experiments for the [TREC 2022 NeuCLIR Track](https://neuclir.github.io/), Persian, with the following configuration:
+This page presents **document translation** regression experiments for the [TREC 2022 NeuCLIR Track](https://neuclir.github.io/), Persian, with the following configuration:
 
-+ Queries: Original English queries
++ Queries: English
 + Documents: Machine-translated documents from Persian into English (corpus provided by the organizers)
 + Model: BM25
 

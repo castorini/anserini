@@ -1,7 +1,10 @@
 # Anserini Regressions: NeuCLIR22 &mdash; Persian (Query Translation)
 
-This page documents SPLADE regression experiments for the [TREC 2022 NeuCLIR Track](https://neuclir.github.io/), Persian, using query translation (i.e., human translations provided by the organizers).
-The Persian documents have been encoded by the SPLADE model (ask Carlos what he wants to call it).
+This page presents **query translation** regression experiments for the [TREC 2022 NeuCLIR Track](https://neuclir.github.io/), Persian, with the following configuration:
+
++ Queries: Translated from English into Persian
++ Documents: Original Persian corpus
++ Model: SPLADE
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
