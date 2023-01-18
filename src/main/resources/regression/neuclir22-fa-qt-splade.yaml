@@ -45,17 +45,29 @@ topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[NeuCLIR 2022 (Persian): title](https://neuclir.github.io/)"
-    id: title
-    path: topics.neuclir22.splade.fa.title.txt.gz
+  - name: "[NeuCLIR 2022 (Persian): title (original queries)](https://neuclir.github.io/)"
+    id: orig-title
+    path: topics.neuclir22-fa.splade.orig-title.txt.gz
     qrel: qrels.neuclir22-fa.txt
-  - name: "[NeuCLIR 2022 (Persian): desc](https://neuclir.github.io/)"
-    id: desc
-    path: topics.neuclir22.splade.fa.desc.txt.gz
+  - name: "[NeuCLIR 2022 (Persian): desc (original queries)](https://neuclir.github.io/)"
+    id: orig-desc
+    path: topics.neuclir22-fa.splade.orig-desc.txt.gz
     qrel: qrels.neuclir22-fa.txt
-  - name: "[NeuCLIR 2022 (Persian): desc+title](https://neuclir.github.io/)"
-    id: desc_title
-    path: topics.neuclir22.splade.fa.desc_title.txt.gz
+  - name: "[NeuCLIR 2022 (Persian): desc+title (original queries)](https://neuclir.github.io/)"
+    id: orig-desc_title
+    path: topics.neuclir22-fa.splade.orig-desc_title.txt.gz
+    qrel: qrels.neuclir22-fa.txt
+  - name: "[NeuCLIR 2022 (Persian): title (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-title
+    path: topics.neuclir22-fa.splade.mt-title.txt.gz
+    qrel: qrels.neuclir22-fa.txt
+  - name: "[NeuCLIR 2022 (Persian): desc (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-desc
+    path: topics.neuclir22-fa.splade.mt-desc.txt.gz
+    qrel: qrels.neuclir22-fa.txt
+  - name: "[NeuCLIR 2022 (Persian): desc+title (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-desc_title
+    path: topics.neuclir22-fa.splade.mt-desc_title.txt.gz
     qrel: qrels.neuclir22-fa.txt
 
 models:
@@ -67,18 +79,30 @@ models:
         - 0.2896
         - 0.2959
         - 0.3376
+        - 0.2957
+        - 0.2890
+        - 0.3313
       nDCG@20:
         - 0.4301
         - 0.4413
         - 0.4788
+        - 0.4437
+        - 0.4300
+        - 0.4728
       J@20:
         - 0.3684
         - 0.3741
         - 0.3952
+        - 0.3632
+        - 0.3737
+        - 0.3895
       Recall@1000:
         - 0.7652
         - 0.8173
         - 0.8329
+        - 0.8045
+        - 0.8172
+        - 0.8437
   - name: splade+rm3
     display: +RM3
     params: -impact -pretokenized -rm3
@@ -87,18 +111,30 @@ models:
         - 0.2896
         - 0.2959
         - 0.3376
+        - 0.2957
+        - 0.2890
+        - 0.3313
       nDCG@20:
         - 0.4301
         - 0.4413
         - 0.4788
+        - 0.4437
+        - 0.4300
+        - 0.4728
       J@20:
         - 0.3684
         - 0.3741
         - 0.3952
+        - 0.3632
+        - 0.3737
+        - 0.3895
       Recall@1000:
         - 0.7652
         - 0.8173
         - 0.8329
+        - 0.8045
+        - 0.8172
+        - 0.8437
   - name: splade+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio
@@ -107,15 +143,27 @@ models:
         - 0.2984
         - 0.2931
         - 0.2905
+        - 0.2836
+        - 0.2824
+        - 0.3136
       nDCG@20:
         - 0.4348
         - 0.4232
         - 0.4146
+        - 0.4193
+        - 0.4121
+        - 0.4444
       J@20:
         - 0.3759
         - 0.3952
+        - 0.4035
+        - 0.3680
+        - 0.3921
         - 0.4035
       Recall@1000:
         - 0.7897
         - 0.8175
         - 0.8245
+        - 0.8099
+        - 0.8117
+        - 0.8350

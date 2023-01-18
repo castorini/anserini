@@ -1,8 +1,8 @@
 ---
 corpus: neuclir22-zh
-corpus_path: collections/multilingual/neuclir22-zh/
+corpus_path: collections/multilingual/neuclir22-zh-splade/
 
-index_path: indexes/lucene-index.neuclir22-zh
+index_path: indexes/lucene-index.neuclir22-zh-splade
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8
