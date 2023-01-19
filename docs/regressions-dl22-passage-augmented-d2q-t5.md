@@ -101,17 +101,15 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.0870    | 0.0949    | 0.0989    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.0735    | 0.0821    | 0.0860    |
 | **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4396    | 0.4642    | 0.4581    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4396    | 0.4647    | 0.4583    |
 | **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3607    | 0.3734    | 0.3794    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3609    | 0.3749    | 0.3801    |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2586    | 0.2496    | 0.2558    |
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2331    | 0.2250    | 0.2316    |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5054    | 0.5192    | 0.5268    |
-
-**IMPORTANT**: These runs are evaluated prior to dedup, so the scores will be slightly lower than the official scores (e.g., computed by NIST), which includes dedup.
+| [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4739    | 0.4914    | 0.5006    |
 
 The "BM25 (default)" condition corresponds to the `paug_d2q_bm25` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
 As of [`91ec67`](https://github.com/castorini/anserini/commit/91ec6749bfef206e210bcc1df8cd4060e7d7aaff), this correspondence was _exact_.
@@ -123,7 +121,8 @@ This can be confirmed as follows:
 cut -d ' ' -f 1-5 runs/paug_d2q_bm25 > runs/paug_d2q_bm25.submitted.cut
 
 # Trim out the runtag and retain only top 100 hits per query:
-cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default | grep -E '^[^ ]+ Q0 [^ ]+ (\d|\d\d|100) ' > runs/paug_d2q_bm25.new.cut
+python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default --output runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100
+cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100 > runs/paug_d2q_bm25.new.cut
 
 # Verify the two runfiles are identical:
 diff runs/paug_d2q_bm25.submitted.cut runs/paug_d2q_bm25.new.cut
@@ -131,42 +130,3 @@ diff runs/paug_d2q_bm25.submitted.cut runs/paug_d2q_bm25.new.cut
 
 The "BM25 + RM3" and "BM25 + Rocchio" conditions above correspond to the `paug_d2q_bm25rm3` run and the `paug_d2q_bm25rocchio` run submitted to the TREC 2022 Deep Learning Track as "baselines".
 However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).
-
-To reproduce the official NIST scores, we need to run dedup.
-Official submissions start off with only 100 hits per query, which is (slightly) reduced after the dedup process.
-Thus, we have to take our runs (which contain 1000 hits per query) and trim down to 100 hits per query prior to running dedup.
-These commands are shown below:
-
-```bash
-# Trim from 1000 hits to 100 hits
-python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default --output runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100
-python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3 --output runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100
-python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio --output runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100
-
-# Run dedup
-python tools/scripts/dedup.py tools/topics-and-qrels/msmarco-v2-passage-neardupes.txt.gz \
-  runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100 \
-  runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100 \
-  runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100
-
-# Evaluate
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rm3.hits100.dedup
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.dl22.bm25-default+rocchio.hits100.dedup
-```
-
-With the above commands, we should arrive at the following sores:
-
-|              | **BM25 (default)** | **+RM3**  | **+Rocchio**|
-|:-------------|--------------------|-----------|-------------|
-| **nDCG@10**  | 0.3508             | 0.3562    | 0.3656      |
-| **MAP@100**  | 0.0807             | 0.0867    | 0.0909      |
-| **R@100**    | 0.2434             | 0.2346    | 0.2410      |
