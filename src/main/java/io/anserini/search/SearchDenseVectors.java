@@ -119,7 +119,7 @@ public final class SearchDenseVectors implements Closeable {
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
 
-    @Option(name = "-threadsPerSearch", usage = "no. of threads passed to the IndexSearcher for searching in parallel over multiple segments")
+    @Option(name = "-threadsPerQuery", usage = "no. of threads passed to the IndexSearcher for searching in parallel over multiple segments")
     public int threadsPerSearch = 1;
 
     // ---------------------------------------------
