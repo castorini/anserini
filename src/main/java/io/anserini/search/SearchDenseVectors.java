@@ -27,11 +27,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.KnnVectorQuery;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TotalHits;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -66,12 +62,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Main entry point for search.
  */
 public final class SearchDenseVectors implements Closeable {
-  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
-  // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
-  // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
-  // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchVectorArgs.
-  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexDenseVectors.Args.ID, SortField.Type.STRING_VAL));
 
   private static final Logger LOG = LogManager.getLogger(SearchDenseVectors.class);
 
@@ -110,10 +100,10 @@ public final class SearchDenseVectors implements Closeable {
     @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
     public Boolean skipexists = false;
 
-    @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
+    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 1000;
 
-    @Option(name = "-efSearch", metaVar = "[number]", required = false, usage = "efSearch parameter for HNSW search")
+    @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
     public int efSearch = 100;
 
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
@@ -129,8 +119,8 @@ public final class SearchDenseVectors implements Closeable {
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
 
-    @Option(name = "-parallelSearch", usage = "no. of threads hold by the Executor passed to the IndexSearcher for parallel search")
-    public int parallel = 1;
+    @Option(name = "-threadsPerSearch", usage = "no. of threads passed to the IndexSearcher for searching in parallel over multiple segments")
+    public int threadsPerSearch = 1;
 
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
@@ -193,7 +183,7 @@ public final class SearchDenseVectors implements Closeable {
     public void run() {
       try {
         // A short descriptor of the ranking setup.
-        final String desc = String.format("ranker: kNN");
+        final String desc = "ranker: kNN";
         // ThreadPool for parallelizing the execution of individual queries:
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
         // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
@@ -329,7 +319,7 @@ public final class SearchDenseVectors implements Closeable {
   }
 
   @SuppressWarnings("unchecked")
-  public <K> void runTopics() throws IOException {
+  public <K> void runTopics() {
     TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
     for (String singleTopicsFile : args.topics) {
@@ -355,8 +345,8 @@ public final class SearchDenseVectors implements Closeable {
 
     LOG.info("============ Launching Search Threads ============");
     ThreadPoolExecutor searcherExecutor;
-    if (args.parallel > 1) {
-      searcherExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallel);
+    if (args.threadsPerSearch > 1) {
+      searcherExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threadsPerSearch);
     } else {
       searcherExecutor = null;
     }
@@ -365,7 +355,7 @@ public final class SearchDenseVectors implements Closeable {
       LOG.info("Run already exists, skipping: " + outputPath);
     } else {
       SearcherThread<K> searcherThread;
-      if (args.parallel > 1) {
+      if (args.threadsPerSearch > 1) {
         searcherThread = new SearcherThread<>(reader, topics, outputPath, runTag, searcherExecutor);
       } else {
         searcherThread = new SearcherThread<>(reader, topics, outputPath, runTag);
@@ -411,8 +401,7 @@ public final class SearchDenseVectors implements Closeable {
     // multiple fields with the associated boosts.
     query = generator.buildQuery(IndexDenseVectors.Args.VECTOR, queryString, args.efSearch);
 
-    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    rs = searcher.search(query, args.hits);
+    TopDocs rs = searcher.search(query, args.hits);
     ScoredDocuments scoredDocs;
     scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
 
