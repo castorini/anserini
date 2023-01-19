@@ -120,7 +120,7 @@ public final class SearchDenseVectors implements Closeable {
     public String format = "trec";
 
     @Option(name = "-threadsPerQuery", usage = "no. of threads passed to the IndexSearcher for searching in parallel over multiple segments")
-    public int threadsPerSearch = 1;
+    public int threadsPerQuery = 1;
 
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
@@ -345,8 +345,8 @@ public final class SearchDenseVectors implements Closeable {
 
     LOG.info("============ Launching Search Threads ============");
     ThreadPoolExecutor searcherExecutor;
-    if (args.threadsPerSearch > 1) {
-      searcherExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threadsPerSearch);
+    if (args.threadsPerQuery > 1) {
+      searcherExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threadsPerQuery);
     } else {
       searcherExecutor = null;
     }
@@ -355,7 +355,7 @@ public final class SearchDenseVectors implements Closeable {
       LOG.info("Run already exists, skipping: " + outputPath);
     } else {
       SearcherThread<K> searcherThread;
-      if (args.threadsPerSearch > 1) {
+      if (args.threadsPerQuery > 1) {
         searcherThread = new SearcherThread<>(reader, topics, outputPath, runTag, searcherExecutor);
       } else {
         searcherThread = new SearcherThread<>(reader, topics, outputPath, runTag);
