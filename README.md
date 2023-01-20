@@ -53,38 +53,49 @@ With that, you should be ready to go!
 Anserini is designed to support experiments on various standard IR test collections out of the box.
 The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini reproducibility promise](docs/regressions.md).
 For the most part, these runs are based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
-
 These pages can also serve as guides to reproduce our results.
 See individual pages for details!
 
 <details>
-<summary>MS MARCO V1 Passage Corpus</summary>
+<summary>MS MARCO V1 Passage</summary>
 
-### MS MARCO V1 Passage Corpus
+### MS MARCO V1 Passage Regressions
 
-|   | dev | DL19 | DL20 |
-|---|:---:|:----:|:----:|
-| **Unsupervised Lexical** |
-| BoW baselines | [+](docs/regressions-msmarco-passage.md) | [+](docs/regressions-dl19-passage.md) | [+](docs/regressions-dl20-passage.md) |
-| Quantized BM25 | [✓](docs/regressions-msmarco-passage-bm25-b8.md) | [✓](docs/regressions-dl19-passage-bm25-b8.md) | [✓](docs/regressions-dl20-passage-bm25-b8.md) |
-| WP baselines | [+](docs/regressions-msmarco-passage-wp.md) | [+](docs/regressions-dl19-passage-wp.md) | [+](docs/regressions-dl20-passage-wp.md) |
-| Huggingface WP baselines | [+](docs/regressions-msmarco-passage-hgf-wp.md) | [+](docs/regressions-dl19-passage-hgf-wp.md) | [+](docs/regressions-dl20-passage-hgf-wp.md) |
-| doc2query | [+](docs/regressions-msmarco-passage-doc2query.md) |
-| doc2query-T5 | [+](docs/regressions-msmarco-passage-docTTTTTquery.md) | [+](docs/regressions-dl19-passage-docTTTTTquery.md) | [+](docs/regressions-dl20-passage-docTTTTTquery.md) |
-| **Learned sparse lexical (uniCOIL family)** |
-| uniCOIL noexp | [✓](docs/regressions-msmarco-passage-unicoil-noexp.md) | [✓](docs/regressions-dl19-passage-unicoil-noexp.md) | [✓](docs/regressions-dl20-passage-unicoil-noexp.md) |
-| uniCOIL with doc2query-T5 | [✓](docs/regressions-msmarco-passage-unicoil.md) | [✓](docs/regressions-dl19-passage-unicoil.md) | [✓](docs/regressions-dl20-passage-unicoil.md) |
-| uniCOIL with TILDE | [✓](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md) |
-| **Learned sparse lexical (other)** |
-| DeepImpact | [✓](docs/regressions-msmarco-passage-deepimpact.md) |
-| SPLADEv2 | [✓](docs/regressions-msmarco-passage-distill-splade-max.md) |
-| SPLADE-distill CoCodenser-medium | [✓](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
+|                                             |                                   dev                                    |                                 DL19                                  |                                 DL20                                  |
+|---------------------------------------------|:------------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+| **Unsupervised Lexical**                    |                                                                          |                                                                       |                                                                       |
+| BoW baselines                               |                 [+](docs/regressions-msmarco-passage.md)                 |                 [+](docs/regressions-dl19-passage.md)                 |                 [+](docs/regressions-dl20-passage.md)                 |
+| Quantized BM25                              |             [✓](docs/regressions-msmarco-passage-bm25-b8.md)             |             [✓](docs/regressions-dl19-passage-bm25-b8.md)             |             [✓](docs/regressions-dl20-passage-bm25-b8.md)             |
+| WP baselines                                |               [+](docs/regressions-msmarco-passage-wp.md)                |               [+](docs/regressions-dl19-passage-wp.md)                |               [+](docs/regressions-dl20-passage-wp.md)                |
+| Huggingface WP baselines                    |             [+](docs/regressions-msmarco-passage-hgf-wp.md)              |             [+](docs/regressions-dl19-passage-hgf-wp.md)              |             [+](docs/regressions-dl20-passage-hgf-wp.md)              |
+| doc2query                                   |            [+](docs/regressions-msmarco-passage-doc2query.md)            |                                                                       |                                                                       |
+| doc2query-T5                                |          [+](docs/regressions-msmarco-passage-docTTTTTquery.md)          |          [+](docs/regressions-dl19-passage-docTTTTTquery.md)          |          [+](docs/regressions-dl20-passage-docTTTTTquery.md)          |
+| **Learned sparse lexical (uniCOIL family)** |                                                                          |                                                                       |                                                                       |
+| uniCOIL noexp                               |          [✓](docs/regressions-msmarco-passage-unicoil-noexp.md)          |          [✓](docs/regressions-dl19-passage-unicoil-noexp.md)          |          [✓](docs/regressions-dl20-passage-unicoil-noexp.md)          |
+| uniCOIL with doc2query-T5                   |             [✓](docs/regressions-msmarco-passage-unicoil.md)             |             [✓](docs/regressions-dl19-passage-unicoil.md)             |             [✓](docs/regressions-dl20-passage-unicoil.md)             |
+| uniCOIL with TILDE                          |     [✓](docs/regressions-msmarco-passage-unicoil-tilde-expansion.md)     |                                                                       |                                                                       |
+| **Learned sparse lexical (other)**          |                                                                          |                                                                       |                                                                       |
+| DeepImpact                                  |           [✓](docs/regressions-msmarco-passage-deepimpact.md)            |                                                                       |                                                                       |
+| SPLADEv2                                    |       [✓](docs/regressions-msmarco-passage-distill-splade-max.md)        |                                                                       |                                                                       |
+| SPLADE-distill CoCodenser-medium            | [✓](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
+
+### Available Corpora for Download
+
+| Corpora                                                                                                                                         |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [MS MARCO V1 passage: Quantized BM25](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar)                            | 1.2 GB | `0a623e2c97ac6b7e814bf1323a97b435` |
+| [MS MARCO V1 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar)                     | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
+| [MS MARCO V1 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar)                          | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
+| [MS MARCO V1 passage: uniCOIL (TILDE)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar)           | 3.9 GB | `12a9c289d94e32fd63a7d39c9677d75c` |
+| [MS MARCO V1 passage: DeepImpact](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar)                             | 3.6 GB | `73843885b503af3c8b3ee62e5f5a9900` |
+| [MS MARCO V1 passage: SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                       | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
+| [MS MARCO V1 passage: SPLADE CoCodenser](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar) | 4.9 GB | `f77239a26d08856e6491a34062893b0c` |
 
 </details>
 <details>
-<summary>MS MARCO V1 Document Corpus</summary>
+<summary>MS MARCO V1 Document</summary>
 
-### MS MARCO V1 Document Corpus
+### MS MARCO V1 Document Regressions
 
 |   | dev | DL19 | DL20 |
 |---|:---:|:----:|:----:|
@@ -101,11 +112,22 @@ See individual pages for details!
 | uniCOIL noexp | [✓](docs/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions-dl19-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions-dl20-doc-segmented-unicoil-noexp.md) |
 | uniCOIL with doc2query-T5 | [✓](docs/regressions-msmarco-doc-segmented-unicoil.md) | [✓](docs/regressions-dl19-doc-segmented-unicoil.md) | [✓](docs/regressions-dl20-doc-segmented-unicoil.md) |
 
+### Available Corpora for Download
+
+| Corpora                                                                                                                                         |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [MS MARCO V1 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar)                   |  11 GB | `11b226e1cacd9c8ae0a660fd14cdd710` |
+| [MS MARCO V1 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar)                        |  19 GB | `6a00e2c0c375cb1e52c83ae5ac377ebb` |
+| [MS MARCO V2 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar)            |  24 GB | `d9cc1ed3049746e68a2c91bf90e5212d` |
+| [MS MARCO V2 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar)                 |  41 GB | `1949a00bfd5e1f1a230a04bbc1f01539` |
+| [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar)       |  55 GB | `97ba262c497164de1054f357caea0c63` |
+| [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)            |  72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
+
 </details>
 <details>
-<summary>MS MARCO V2 Passage Corpus</summary>
+<summary>MS MARCO V2 Passage</summary>
 
-### MS MARCO V2 Passage Corpus
+### MS MARCO V2 Passage Regressions
 
 |   | dev | DL21 |                           DL22                            |
 |---|:---:|:----:|:---------------------------------------------------------:|
@@ -119,11 +141,18 @@ See individual pages for details!
 | uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions-dl22-passage-unicoil-noexp-0shot.md) |
 | uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-passage-unicoil-0shot.md) | [✓](docs/regressions-dl21-passage-unicoil-0shot.md) |    [✓](docs/regressions-dl22-passage-unicoil-0shot.md)    |
 
+### Available Corpora for Download
+
+| Corpora                                                                                                                                         |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [MS MARCO V2 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar)            |  24 GB | `d9cc1ed3049746e68a2c91bf90e5212d` |
+| [MS MARCO V2 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar)                 |  41 GB | `1949a00bfd5e1f1a230a04bbc1f01539` |
+
 </details>
 <details>
-<summary>MS MARCO V2 Document Corpus</summary>
+<summary>MS MARCO V2 Document</summary>
 
-### MS MARCO V2 Document Corpus
+### MS MARCO V2 Document Regressions
 
 |   | dev | DL21 |
 |---|:---:|:----:|
@@ -137,11 +166,18 @@ See individual pages for details!
 | uniCOIL noexp zero-shot | [✓](docs/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [✓](docs/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md) |
 | uniCOIL with doc2query-T5 zero-shot | [✓](docs/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md) | [✓](docs/regressions-dl21-doc-segmented-unicoil-0shot-v2.md) |
 
+### Available Corpora for Download
+
+| Corpora                                                                                                                                         |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar)       |  55 GB | `97ba262c497164de1054f357caea0c63` |
+| [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)            |  72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
+
 </details>
 <details>
-<summary>Regressions for BEIR (v1.0.0)</summary>
+<summary>BEIR</summary>
 
-### Regressions for BEIR (v1.0.0)
+### BEIR (v1.0.0) Regressions
 
 + F = "flat" baseline
 + MF = "multifield" baseline
@@ -182,49 +218,25 @@ See individual pages for details!
 
 </details>
 <details>
-<summary>Regressions for MIRACL</summary>
+<summary>Cross-Lingual and Multi-Lingual</summary>
 
-### Regressions for MIRACL
+### Cross-Lingual and Multi-Lingual Regressions
 
-|   | BM25 |
-|---|:---:|
-| Arabic | [+](docs/regressions-miracl-v1.0-ar.md) | 
-| Bengali | [+](docs/regressions-miracl-v1.0-bn.md) | 
-| English | [+](docs/regressions-miracl-v1.0-en.md) | 
-| Spanish | [+](docs/regressions-miracl-v1.0-es.md) | 
-| Persian | [+](docs/regressions-miracl-v1.0-fa.md) | 
-| Finnish | [+](docs/regressions-miracl-v1.0-fi.md) | 
-| French | [+](docs/regressions-miracl-v1.0-fr.md) | 
-| Hindi | [+](docs/regressions-miracl-v1.0-hi.md) | 
-| Indonesian | [+](docs/regressions-miracl-v1.0-id.md) | 
-| Japanese | [+](docs/regressions-miracl-v1.0-ja.md) | 
-| Korean | [+](docs/regressions-miracl-v1.0-ko.md) | 
-| Russian | [+](docs/regressions-miracl-v1.0-ru.md) | 
-| Swahili | [+](docs/regressions-miracl-v1.0-sw.md) | 
-| Telugu | [+](docs/regressions-miracl-v1.0-te.md) | 
-| Thai | [+](docs/regressions-miracl-v1.0-th.md) | 
-| Chinese | [+](docs/regressions-miracl-v1.0-zh.md) | 
-
-</details>
-<details>
-<summary>Other Cross-Lingual and Multi-Lingual Regressions</summary>
-
-### Other Cross-Lingual and Multi-Lingual Regressions
-
++ Regressions for Mr. TyDi (v1.1) baselines: [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
++ Regressions for MIRACL (v1.0) baselines: [ar](docs/regressions-miracl-v1.0-ar.md), [bn](docs/regressions-miracl-v1.0-bn.md), [en](docs/regressions-miracl-v1.0-en.md), [es](docs/regressions-miracl-v1.0-es.md), [fa](docs/regressions-miracl-v1.0-fa.md), [fi](docs/regressions-miracl-v1.0-fi.md), [fr](docs/regressions-miracl-v1.0-fr.md), [hi](docs/regressions-miracl-v1.0-hi.md), [id](docs/regressions-miracl-v1.0-id.md), [ja](docs/regressions-miracl-v1.0-ja.md), [ko](docs/regressions-miracl-v1.0-ko.md), [ru](docs/regressions-miracl-v1.0-ru.md), [sw](docs/regressions-miracl-v1.0-sw.md), [te](docs/regressions-miracl-v1.0-te.md), [th](docs/regressions-miracl-v1.0-th.md), [zh](docs/regressions-miracl-v1.0-zh.md)
++ Regressions for TREC 2022 NeuCLIR Track (query translation): [Persian](docs/regressions-neuclir22-fa-qt.md), [Russian](docs/regressions-neuclir22-ru-qt.md), [Chinese](docs/regressions-neuclir22-zh-qt.md)
++ Regressions for TREC 2022 NeuCLIR Track (document translation): [Persian](docs/regressions-neuclir22-fa-dt.md), [Russian](docs/regressions-neuclir22-ru-dt.md), [Chinese](docs/regressions-neuclir22-zh-dt.md)
++ Regressions for HC4 (v1.0) baselines on HC4 corpora: [Persian](docs/regressions-hc4-v1.0-fa.md), [Russian](docs/regressions-hc4-v1.0-ru.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
++ Regressions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
++ Regressions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
-+ Regressions for Mr. TyDi (v1.1) baselines: [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
-+ Regressions for HC4 (v1.0) baselines on HC4 corpora: [Persian](docs/regressions-hc4-v1.0-fa.md), [Russian](docs/regressions-hc4-v1.0-ru.md), [Chinese](docs/regressions-hc4-v1.0-zh.md)
-+ Regressions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa.md), [Russian](docs/regressions-hc4-neuclir22-ru.md), [Chinese](docs/regressions-hc4-neuclir22-zh.md)
-+ Regressions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](docs/regressions-hc4-neuclir22-fa-en.md), [Russian](docs/regressions-hc4-neuclir22-ru-en.md), [Chinese](docs/regressions-hc4-neuclir22-zh-en.md)
-+ Regressions for TREC 2022 NeuCLIR Track (query translation): [Persian](docs/regressions-neuclir22-fa-qt.md), [Russian](docs/regressions-neuclir22-ru-qt.md), [Chinese](docs/regressions-neuclir22-zh-qt.md)
-+ Regressions for TREC 2022 NeuCLIR Track (document translation): [Persian](docs/regressions-neuclir22-fa-dt.md), [Russian](docs/regressions-neuclir22-ru-dt.md), [Chinese](docs/regressions-neuclir22-zh-dt.md)
 
 </details>
 <details>
-<summary>Other Regressions</summary>
+<summary>Other</summary>
 
 ### Other Regressions
 
@@ -237,29 +249,6 @@ See individual pages for details!
 + Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions-backgroundlinking18.md), [2019](docs/regressions-backgroundlinking19.md), [2020](docs/regressions-backgroundlinking20.md)
 + Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
 + Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions-wikipedia-dpr-100w-bm25.md)
-
-</details>
-
-### Available Corpora
-
-<details>
-<summary>Variants of MS MARCO V1 and V2 corpora available for download</summary>
-
-| Corpora                                                                                                                                         |   Size | Checksum                           |
-|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
-| [MS MARCO V1 passage: Quantized BM25](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar)                            | 1.2 GB | `0a623e2c97ac6b7e814bf1323a97b435` |
-| [MS MARCO V1 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar)                     | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
-| [MS MARCO V1 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar)                          | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
-| [MS MARCO V1 passage: uniCOIL (TILDE)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar)           | 3.9 GB | `12a9c289d94e32fd63a7d39c9677d75c` |
-| [MS MARCO V1 passage: DeepImpact](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar)                             | 3.6 GB | `73843885b503af3c8b3ee62e5f5a9900` |
-| [MS MARCO V1 passage: SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                       | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
-| [MS MARCO V1 passage: SPLADE CoCodenser](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar) | 4.9 GB | `f77239a26d08856e6491a34062893b0c` |
-| [MS MARCO V1 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar)                   |  11 GB | `11b226e1cacd9c8ae0a660fd14cdd710` |
-| [MS MARCO V1 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar)                        |  19 GB | `6a00e2c0c375cb1e52c83ae5ac377ebb` |
-| [MS MARCO V2 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar)            |  24 GB | `d9cc1ed3049746e68a2c91bf90e5212d` |
-| [MS MARCO V2 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar)                 |  41 GB | `1949a00bfd5e1f1a230a04bbc1f01539` |
-| [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar)       |  55 GB | `97ba262c497164de1054f357caea0c63` |
-| [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)            |  72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
 
 </details>
 
@@ -319,6 +308,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## ℹ️ Release History
 
++ v0.20.0: January 20, 2023 [[Release Notes](docs/release-notes/release-notes-v0.20.0.md)]
 + v0.16.2: December 12, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.2.md)]
 + v0.16.1: November 2, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.1.md)]
 + v0.16.0: October 23, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.0.md)]
