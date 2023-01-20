@@ -1,5 +1,5 @@
 ---
-corpus: neuclir22-fa
+corpus: neuclir22-fa-splade
 corpus_path: collections/multilingual/neuclir22-fa-splade/
 
 index_path: indexes/lucene-index.neuclir22-fa-splade
