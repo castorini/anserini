@@ -46,16 +46,28 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[NeuCLIR 2022 (Persian): title (human-translated queries)](https://neuclir.github.io/)"
-    id: title
+    id: ht-title
     path: topics.neuclir22-fa.ht-title.txt
     qrel: qrels.neuclir22-fa.txt
   - name: "[NeuCLIR 2022 (Persian): desc (human-translated queries)](https://neuclir.github.io/)"
-    id: desc
+    id: ht-desc
     path: topics.neuclir22-fa.ht-desc.txt
     qrel: qrels.neuclir22-fa.txt
   - name: "[NeuCLIR 2022 (Persian): desc+title (human-translated queries)](https://neuclir.github.io/)"
-    id: desc_title
+    id: ht-desc_title
     path: topics.neuclir22-fa.ht-desc_title.txt
+    qrel: qrels.neuclir22-fa.txt
+  - name: "[NeuCLIR 2022 (Persian): title (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-title
+    path: topics.neuclir22-fa.mt-title.txt
+    qrel: qrels.neuclir22-fa.txt
+  - name: "[NeuCLIR 2022 (Persian): desc (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-desc
+    path: topics.neuclir22-fa.mt-desc.txt
+    qrel: qrels.neuclir22-fa.txt
+  - name: "[NeuCLIR 2022 (Persian): desc+title (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-desc_title
+    path: topics.neuclir22-fa.mt-desc_title.txt
     qrel: qrels.neuclir22-fa.txt
 
 models:
@@ -67,18 +79,30 @@ models:
         - 0.2151
         - 0.1875
         - 0.2271
+        - 0.2169
+        - 0.1925
+        - 0.2526
       nDCG@20:
         - 0.3428
         - 0.2843
         - 0.3429
+        - 0.3331
+        - 0.2974
+        - 0.3700
       J@20:
         - 0.3759
         - 0.3592
         - 0.4035
+        - 0.3684
+        - 0.3412
+        - 0.3820
       Recall@1000:
         - 0.7128
         - 0.7027
         - 0.7373
+        - 0.7254
+        - 0.6815
+        - 0.7424
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3 -language fa
@@ -87,18 +111,30 @@ models:
         - 0.1640
         - 0.1070
         - 0.1408
+        - 0.1767
+        - 0.1227
+        - 0.1681
       nDCG@20:
         - 0.2775
         - 0.2010
         - 0.2463
+        - 0.2917
+        - 0.2146
+        - 0.2963
       J@20:
         - 0.3250
         - 0.2684
+        - 0.3110
+        - 0.3307
+        - 0.2592
         - 0.3110
       Recall@1000:
         - 0.6870
         - 0.5572
         - 0.6414
+        - 0.6877
+        - 0.5606
+        - 0.6264
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -language fa
@@ -107,15 +143,27 @@ models:
         - 0.2304
         - 0.2077
         - 0.2358
+        - 0.2321
+        - 0.2266
+        - 0.2597
       nDCG@20:
         - 0.3356
         - 0.2885
         - 0.3408
+        - 0.3374
+        - 0.3300
+        - 0.3612
       J@20:
         - 0.3882
         - 0.3781
         - 0.4035
+        - 0.3899
+        - 0.3618
+        - 0.3908
       Recall@1000:
         - 0.7691
         - 0.7520
         - 0.8092
+        - 0.7672
+        - 0.7033
+        - 0.7829

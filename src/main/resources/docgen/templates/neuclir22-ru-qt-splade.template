@@ -1,9 +1,9 @@
-# Anserini Regressions: NeuCLIR22 &mdash; Persian (Query Translation)
+# Anserini Regressions: NeuCLIR22 &mdash; Russian (Query Translation)
 
-This page presents **query translation** regression experiments for the [TREC 2022 NeuCLIR Track](https://neuclir.github.io/), Persian, with the following configuration:
+This page presents **query translation** regression experiments for the [TREC 2022 NeuCLIR Track](https://neuclir.github.io/), Russian, with the following configuration:
 
-+ Queries: Translated from English into Persian
-+ Documents: Original Persian corpus
++ Queries: Translated from English into Russian
++ Documents: Original Russian corpus
 + Model: SPLADE
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).

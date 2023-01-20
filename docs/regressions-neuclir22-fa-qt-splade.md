@@ -17,14 +17,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Corpus Download
 
-The NeuCLIR 2022 corpus can be downloaded following the instructions [here](https://neuclir.github.io/).
-
-With the corpus downloaded, unpack into `collections/` and run the following command to perform the remaining steps below:
-
-```bash
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt-splade \
-  --corpus-path collections/neuclir22-fa
-```
+TODO
 
 ## Indexing
 
