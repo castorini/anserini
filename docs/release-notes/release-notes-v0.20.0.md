@@ -1,6 +1,6 @@
 # Anserini Release Notes (v0.20.0)
 
-+ **Release date:** December 12, 2023
++ **Release date:** January 20, 2023
 + **Lucene version:** Lucene 9.4.2
 
 ## Summary of Changes
