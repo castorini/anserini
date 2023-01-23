@@ -773,6 +773,20 @@ public class IndexReaderUtils {
     }
   }
 
+  // Internal helper: counts the number of unique terms
+  private static long getUniqueTerms(IndexReader reader) throws IOException {
+    Terms terms = MultiTerms.getTerms(reader, Constants.CONTENTS);
+    long UniqueTerms = terms.size();
+    if (UniqueTerms == -1) { // terms.size() may not be available in Lucene
+      UniqueTerms = 0;
+      TermsEnum it = terms.iterator();
+      while (it.next() != null) {
+        UniqueTerms += 1;
+      }
+    }
+    return UniqueTerms;
+  }
+
   /**
    * Returns index statistics.
    *
@@ -786,7 +800,7 @@ public class IndexReaderUtils {
 
       indexStats.put("documents", reader.numDocs());
       indexStats.put("non_empty_documents", reader.getDocCount(Constants.CONTENTS));
-      indexStats.put("unique_terms", terms.size());
+      indexStats.put("unique_terms", getUniqueTerms(reader));
       indexStats.put("total_terms", reader.getSumTotalTermFreq(Constants.CONTENTS));
     } catch (IOException e) {
       // Eat any exceptions and just return null.
