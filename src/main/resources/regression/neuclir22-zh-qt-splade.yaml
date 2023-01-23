@@ -6,10 +6,10 @@ index_path: indexes/lucene-index.neuclir22-zh-splade
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8
-index_options: -impact -pretokenized -storeDocvectors
+index_options: -impact -pretokenized -storeRaw
 index_stats:
-  documents: 3179206
-  documents (non-empty): 3179206
+  documents: 3179209
+  documents (non-empty): 3179209
 
 metrics:
   - metric: MAP
@@ -76,94 +76,94 @@ models:
     params: -impact -pretokenized
     results:
       MAP:
-        - 0.1505
-        - 0.1306
-        - 0.1734
-        - 0.1505
-        - 0.1306
-        - 0.1734
+        - 0.2107
+        - 0.1763
+        - 0.2108
+        - 0.1850
+        - 0.1495
+        - 0.1917
       nDCG@20:
-        - 0.2478
-        - 0.2068
-        - 0.2572
-        - 0.2478
-        - 0.2068
-        - 0.2572
+        - 0.3110
+        - 0.2935
+        - 0.3143
+        - 0.2843
+        - 0.2527
+        - 0.2929
       J@20:
-        - 0.3895
-        - 0.3588
-        - 0.4298
-        - 0.3895
-        - 0.3588
-        - 0.4298
+        - 0.2930
+        - 0.2711
+        - 0.3000
+        - 0.2904
+        - 0.2482
+        - 0.2794
       Recall@1000:
-        - 0.4759
-        - 0.4577
-        - 0.4940
-        - 0.4759
-        - 0.4577
-        - 0.4940
+        - 0.6803
+        - 0.6602
+        - 0.6551
+        - 0.6424
+        - 0.5919
+        - 0.6312
   - name: splade+rm3
     display: +RM3
-    params: -impact -pretokenized -rm3
+    params: -impact -pretokenized -rm3 -collection JsonVectorCollection
     results:
       MAP:
-        - 0.1501
-        - 0.0925
-        - 0.1367
-        - 0.1501
-        - 0.0925
-        - 0.1367
+        - 0.2107
+        - 0.1763
+        - 0.2108
+        - 0.1850
+        - 0.1495
+        - 0.1917
       nDCG@20:
-        - 0.2127
-        - 0.1519
-        - 0.1891
-        - 0.2127
-        - 0.1519
-        - 0.1891
+        - 0.3110
+        - 0.2935
+        - 0.3143
+        - 0.2843
+        - 0.2527
+        - 0.2929
       J@20:
-        - 0.3132
-        - 0.2461
-        - 0.2925
-        - 0.3132
-        - 0.2461
-        - 0.2925
+        - 0.2930
+        - 0.2711
+        - 0.3000
+        - 0.2904
+        - 0.2482
+        - 0.2794
       Recall@1000:
-        - 0.4651
-        - 0.3703
-        - 0.4373
-        - 0.4651
-        - 0.3703
-        - 0.4373
+        - 0.6803
+        - 0.6602
+        - 0.6551
+        - 0.6424
+        - 0.5919
+        - 0.6312
   - name: splade+rocchio
     display: +Rocchio
-    params: -impact -pretokenized -rocchio
+    params: -impact -pretokenized -rocchio -collection JsonVectorCollection
     results:
       MAP:
-        - 0.1692
-        - 0.1251
-        - 0.1888
-        - 0.1692
-        - 0.1251
-        - 0.1888
+        - 0.2338
+        - 0.2042
+        - 0.2253
+        - 0.2075
+        - 0.1810
+        - 0.2139
       nDCG@20:
-        - 0.2544
-        - 0.1985
-        - 0.2734
-        - 0.2544
-        - 0.1985
-        - 0.2734
+        - 0.3198
+        - 0.2926
+        - 0.3077
+        - 0.2920
+        - 0.2562
+        - 0.3029
       J@20:
-        - 0.4004
-        - 0.3689
-        - 0.4298
-        - 0.4004
-        - 0.3689
-        - 0.4298
+        - 0.3101
+        - 0.3092
+        - 0.3057
+        - 0.3066
+        - 0.2728
+        - 0.2978
       Recall@1000:
-        - 0.5230
-        - 0.5113
-        - 0.5327
-        - 0.5230
-        - 0.5113
-        - 0.5327
+        - 0.7100
+        - 0.7205
+        - 0.7029
+        - 0.6861
+        - 0.6096
+        - 0.6535
