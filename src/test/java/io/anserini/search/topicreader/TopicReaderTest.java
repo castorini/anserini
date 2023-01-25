@@ -24,6 +24,7 @@ import java.util.SortedMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class TopicReaderTest {
 
@@ -37,7 +38,7 @@ public class TopicReaderTest {
       String[] pathParts = topic.path.split("/");
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
     }
-    assertEquals(321, cnt);
+    assertEquals(342, cnt);
   }
 
   @Test
@@ -1693,30 +1694,143 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNeuCLIR22Topics() {
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_EN_TITLE).keySet().size());
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_EN_DESC).keySet().size());
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_EN_DESC_TITLE).keySet().size());
+  public void testNeuCLIR22OriginalTopics() {
+    SortedMap<Integer, Map<String, String>> t, d, dt;
 
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_HT_TITLE).keySet().size());
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_HT_DESC).keySet().size());
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_HT_DESC_TITLE).keySet().size());
+    t = TopicReader.getTopics(Topics.NEUCLIR22_EN_TITLE);
+    d = TopicReader.getTopics(Topics.NEUCLIR22_EN_DESC);
+    dt = TopicReader.getTopics(Topics.NEUCLIR22_EN_DESC_TITLE);
 
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_HT_TITLE).keySet().size());
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_HT_DESC).keySet().size());
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_HT_DESC_TITLE).keySet().size());
+    assertEquals(114, t.keySet().size());
+    assertEquals(114, d.keySet().size());
+    assertEquals(114, dt.keySet().size());
 
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_HT_TITLE).keySet().size());
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_HT_DESC).keySet().size());
-    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_HT_DESC_TITLE).keySet().size());
+    assertEquals(t.keySet(), d.keySet());
+    assertEquals(d.keySet(), dt.keySet());
 
+    for (Integer k : t.keySet()) {
+      assertEquals(dt.get(k).get("title"), d.get(k).get("title") + " " + t.get(k).get("title"));
+    }
+
+    // Persian
+    t = TopicReader.getTopics(Topics.NEUCLIR22_FA_HT_TITLE);
+    d = TopicReader.getTopics(Topics.NEUCLIR22_FA_HT_DESC);
+    dt = TopicReader.getTopics(Topics.NEUCLIR22_FA_HT_DESC_TITLE);
+
+    assertEquals(114, t.keySet().size());
+    assertEquals(114, d.keySet().size());
+    assertEquals(114, dt.keySet().size());
+
+    assertEquals(t.keySet(), d.keySet());
+    assertEquals(d.keySet(), dt.keySet());
+
+    for (Integer k : t.keySet()) {
+      assertEquals(dt.get(k).get("title"), d.get(k).get("title") + " " + t.get(k).get("title"));
+    }
+
+    t = TopicReader.getTopics(Topics.NEUCLIR22_FA_MT_TITLE);
+    d = TopicReader.getTopics(Topics.NEUCLIR22_FA_MT_DESC);
+    dt = TopicReader.getTopics(Topics.NEUCLIR22_FA_MT_DESC_TITLE);
+
+    assertEquals(114, t.keySet().size());
+    assertEquals(114, d.keySet().size());
+    assertEquals(114, dt.keySet().size());
+
+    assertEquals(t.keySet(), d.keySet());
+    assertEquals(d.keySet(), dt.keySet());
+
+    for (Integer k : t.keySet()) {
+      assertEquals(dt.get(k).get("title"), d.get(k).get("title") + " " + t.get(k).get("title"));
+    }
+
+    // Russian
+    t = TopicReader.getTopics(Topics.NEUCLIR22_RU_HT_TITLE);
+    d = TopicReader.getTopics(Topics.NEUCLIR22_RU_HT_DESC);
+    dt = TopicReader.getTopics(Topics.NEUCLIR22_RU_HT_DESC_TITLE);
+
+    assertEquals(114, t.keySet().size());
+    assertEquals(114, d.keySet().size());
+    assertEquals(114, dt.keySet().size());
+
+    assertEquals(t.keySet(), d.keySet());
+    assertEquals(d.keySet(), dt.keySet());
+
+    for (Integer k : t.keySet()) {
+      assertEquals(dt.get(k).get("title"), d.get(k).get("title") + " " + t.get(k).get("title"));
+    }
+
+    t = TopicReader.getTopics(Topics.NEUCLIR22_RU_MT_TITLE);
+    d = TopicReader.getTopics(Topics.NEUCLIR22_RU_MT_DESC);
+    dt = TopicReader.getTopics(Topics.NEUCLIR22_RU_MT_DESC_TITLE);
+
+    assertEquals(114, t.keySet().size());
+    assertEquals(114, d.keySet().size());
+    assertEquals(114, dt.keySet().size());
+
+    assertEquals(t.keySet(), d.keySet());
+    assertEquals(d.keySet(), dt.keySet());
+
+    for (Integer k : t.keySet()) {
+      assertEquals(dt.get(k).get("title"), d.get(k).get("title") + " " + t.get(k).get("title"));
+    }
+
+    // Chinese
+    t = TopicReader.getTopics(Topics.NEUCLIR22_ZH_HT_TITLE);
+    d = TopicReader.getTopics(Topics.NEUCLIR22_ZH_HT_DESC);
+    dt = TopicReader.getTopics(Topics.NEUCLIR22_ZH_HT_DESC_TITLE);
+
+    assertEquals(114, t.keySet().size());
+    assertEquals(114, d.keySet().size());
+    assertEquals(114, dt.keySet().size());
+
+    assertEquals(t.keySet(), d.keySet());
+    assertEquals(d.keySet(), dt.keySet());
+
+    for (Integer k : t.keySet()) {
+      assertEquals(dt.get(k).get("title"), d.get(k).get("title") + " " + t.get(k).get("title"));
+    }
+
+    t = TopicReader.getTopics(Topics.NEUCLIR22_ZH_MT_TITLE);
+    d = TopicReader.getTopics(Topics.NEUCLIR22_ZH_MT_DESC);
+    dt = TopicReader.getTopics(Topics.NEUCLIR22_ZH_MT_DESC_TITLE);
+
+    assertEquals(114, t.keySet().size());
+    assertEquals(114, d.keySet().size());
+    assertEquals(114, dt.keySet().size());
+
+    assertEquals(t.keySet(), d.keySet());
+    assertEquals(d.keySet(), dt.keySet());
+
+    for (Integer k : t.keySet()) {
+      assertEquals(dt.get(k).get("title"), d.get(k).get("title") + " " + t.get(k).get("title"));
+    }
+  }
+
+  @Test
+  public void testNeuCLIR22SpladeTopics() {
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_HT_TITLE).keySet().size());
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_HT_DESC).keySet().size());
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_HT_DESC_TITLE).keySet().size());
+
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_MT_TITLE).keySet().size());
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_MT_DESC).keySet().size());
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_MT_DESC_TITLE).keySet().size());
 
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_SPLADE_HT_TITLE).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_SPLADE_HT_DESC).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_SPLADE_HT_DESC_TITLE).keySet().size());
+
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_SPLADE_MT_TITLE).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_SPLADE_MT_DESC).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_RU_SPLADE_MT_DESC_TITLE).keySet().size());
+
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_SPLADE_HT_TITLE).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_SPLADE_HT_DESC).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_SPLADE_HT_DESC_TITLE).keySet().size());
+
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_SPLADE_MT_TITLE).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_SPLADE_MT_DESC).keySet().size());
+    assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_ZH_SPLADE_MT_DESC_TITLE).keySet().size());
   }
 
   @Test

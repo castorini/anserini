@@ -11,7 +11,7 @@
 11	China's attitudes toward the U.S. withdrawal from the Paris Climate Accords
 12	China's economy under the Coronavirus
 13	Intellectual property disputes Tesla encountered in China
-14	"Israeli series ""Tehran"" "
+14	Israeli series "Tehran"
 16	Dramatic decrease in number of bees
 17	The impact of Chengdu Research Base of Giant Panda Breeding on local tourism
 18	The situation of myopia rate among K12 students in China
@@ -88,7 +88,7 @@
 102	The impact of climate change on the living environment of polar bears
 103	Applications of artificial intelligence in agriculture
 104	Honor killing In Iran
-105	"The so-called ""Arab Shield"" military exercise in Egypt"
+105	The so-called "Arab Shield" military exercise in Egypt
 106	DNA proof of Native American - Siberian connections
 107	Tank development in Russia
 108	Tornado in Alabama
