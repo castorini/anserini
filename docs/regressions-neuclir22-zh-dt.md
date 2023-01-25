@@ -49,57 +49,57 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-title.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default.topics.neuclir22-en.original-title.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default.topics.neuclir22-en.original-desc.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc_title.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default.topics.neuclir22-en.original-desc_title.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-title.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.neuclir22-en.original-title.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.neuclir22-en.original-desc.txt \
   -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc_title.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.neuclir22-en.original-desc_title.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-title.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.neuclir22-en.original-title.txt \
   -bm25 -rocchio &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.neuclir22-en.original-desc.txt \
   -bm25 -rocchio &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc_title.tsv \
+  -topics src/main/resources/topics-and-qrels/topics.neuclir22-en.original-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.neuclir22-en.original-desc_title.txt \
   -bm25 -rocchio &
