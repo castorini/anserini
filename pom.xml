@@ -110,7 +110,7 @@
               <id>IndexDenseVectors</id>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexDenseAnnVectors</mainClass>
+              <mainClass>io.anserini.ann.IndexDenseAnnVectors</mainClass>
               <id>IndexDenseAnnVectors</id>
             </program>
             <program>
