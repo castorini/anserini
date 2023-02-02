@@ -91,16 +91,6 @@ public final class IndexDenseAnnVectors {
 
     private static final int TIMEOUT = 600 * 1000;
 
-
-    // required arguments
-    @Option(name = "-M", metaVar = "[num]", required = true,
-        usage = "HNSW parameters M")
-    public int M = 16;
-
-    @Option(name = "-efC", metaVar = "[num]", required = true,
-        usage = "HNSW parameters ef Construction")
-    public int efC = 100;
-
     @Option(name = "-input", metaVar = "[path]", required = true,
         usage = "Location of input collection.")
     public String input;
@@ -158,7 +148,7 @@ public final class IndexDenseAnnVectors {
 
     @Option(name = "-uniqueDocid",
         usage = "Removes duplicate documents with the same docid during indexing. This significantly slows indexing throughput " +
-                "but may be needed for tweet collections since the streaming API might deliver a tweet multiple times.")
+            "but may be needed for tweet collections since the streaming API might deliver a tweet multiple times.")
     public boolean uniqueDocid = false;
 
     @Option(name = "-memorybuffer", metaVar = "[mb]",
@@ -172,7 +162,7 @@ public final class IndexDenseAnnVectors {
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
     public String encoding = FW;
 
-    @Option(name="-stored", metaVar = "[boolean]", usage = "store vectors")
+    @Option(name = "-stored", metaVar = "[boolean]", usage = "store vectors")
     public boolean stored;
 
     @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
@@ -201,13 +191,13 @@ public final class IndexDenseAnnVectors {
     @Option(name = "-shard.current", metaVar = "[n]",
         usage = "The current shard number to generate (indexed from 0).")
     public int shardCurrent = -1;
-
   }
 
   private static final Logger LOG = LogManager.getLogger(IndexDenseAnnVectors.class);
 
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
   public final class Counters {
+
     /**
      * Counter for successfully indexed documents.
      */
@@ -238,6 +228,7 @@ public final class IndexDenseAnnVectors {
   }
 
   private final class LocalIndexerThread extends Thread {
+
     final private Path inputFile;
     final private IndexWriter writer;
     final private DocumentCollection collection;
@@ -316,23 +307,23 @@ public final class IndexDenseAnnVectors {
           // When indexing tweets, this is normal, because there are delete messages that are skipped over.
           counters.skipped.addAndGet(skipped);
           LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": " + skipped + " docs skipped.");
+                       inputFile.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
           LOG.error(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": error iterating through segment.");
+                        inputFile.getFileName().toString() + ": error iterating through segment.");
         }
 
         // Log at the debug level because this can be quite noisy if there are lots of file segments.
         LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
-            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
+                      inputFile.getFileName().toString() + ": " + cnt + " docs added.");
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
         if (fileSegment != null) {
-            fileSegment.close();
+          fileSegment.close();
         }
       }
     }
@@ -433,12 +424,7 @@ public final class IndexDenseAnnVectors {
     // Used for LocalIndexThread
     if (indexPath != null) {
       final Directory dir = FSDirectory.open(indexPath);
-      final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene94Codec(){
-        @Override
-        public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-          return new Lucene94HnswVectorsFormat(args.M, args.efC);
-        }
-      });
+      final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene94Codec());
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       config.setRAMBufferSizeMB(args.memorybufferSize);
       config.setUseCompoundFile(false);
@@ -458,11 +444,11 @@ public final class IndexDenseAnnVectors {
     }
     final int segmentCnt = segmentPaths.size();
 
-    LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
+    LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files")));
     LOG.info("Starting to index...");
 
-    for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
+    for (Object segmentPath : segmentPaths) {
+      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPath));
     }
 
     executor.shutdown();
@@ -474,7 +460,7 @@ public final class IndexDenseAnnVectors {
           LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
         } else {
           LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
-              (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
+                                 (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
         }
       }
     } catch (InterruptedException ie) {
@@ -486,7 +472,7 @@ public final class IndexDenseAnnVectors {
 
     if (segmentCnt != executor.getCompletedTaskCount()) {
       throw new RuntimeException("totalFiles = " + segmentCnt +
-          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+                                     " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
     }
 
     long numIndexed = writer.getDocStats().maxDoc;
@@ -525,7 +511,7 @@ public final class IndexDenseAnnVectors {
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
+                           DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
 
     return counters;
   }
@@ -540,7 +526,7 @@ public final class IndexDenseAnnVectors {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
       System.err.println("Example: " + IndexDenseAnnVectors.class.getSimpleName() +
-          parser.printExample(OptionHandlerFilter.REQUIRED));
+                             parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
