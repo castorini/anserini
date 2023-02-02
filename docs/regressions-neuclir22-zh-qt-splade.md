@@ -27,7 +27,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/neuclir22-zh-splade.tar -P collec
 tar xvf collections/neuclir22-zh-splade.tar -C collections/
 ```
 
-To confirm, `neuclir22-zh-splade.tar` is 4.9 GB and has MD5 checksum `f491137ef8a8020bfb4940a3bdeaf886`.
+To confirm, `neuclir22-zh-splade.tar` is 5.9 GB and has MD5 checksum `f491137ef8a8020bfb4940a3bdeaf886`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
