@@ -4,10 +4,13 @@ This page presents **query translation** regression experiments for the [TREC 20
 
 + Queries: Translated from English into Persian
 + Documents: Original Persian corpus
-+ Model: SPLADE
++ Model: SPLADE NeuCLIR22
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+We make available a version of the corpus that has already been encoded with SPLADE NeuCLIR22, i.e., we performed model inference on every document and stored the output sparse vectors.
+Thus, no neural inference is required to reproduce these experiments; see instructions below.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -17,7 +20,20 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Corpus Download
 
-TODO
+Download the corpus and unpack into `collections/`:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/neuclir22-fa-splade.tar -P collections/
+tar xvf collections/neuclir22-fa-splade.tar -C collections/
+```
+
+To confirm, `neuclir22-fa-splade.tar` is 4.0 GB and has MD5 checksum `10fddf0b2a132b9514767bed87ca2693`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
+  --corpus-path collections/${corpus}
+```
 
 ## Indexing
 

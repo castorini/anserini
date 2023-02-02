@@ -4,10 +4,13 @@ This page presents **query translation** regression experiments for the [TREC 20
 
 + Queries: Translated from English into Russian
 + Documents: Original Russian corpus
-+ Model: SPLADE
++ Model: SPLADE NeuCLIR22
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/neuclir22-ru-qt-splade.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/neuclir22-ru-qt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+We make available a version of the corpus that has already been encoded with SPLADE NeuCLIR22, i.e., we performed model inference on every document and stored the output sparse vectors.
+Thus, no neural inference is required to reproduce these experiments; see instructions below.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -17,7 +20,20 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Corpus Download
 
-TODO
+Download the corpus and unpack into `collections/`:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/neuclir22-ru-splade.tar -P collections/
+tar xvf collections/neuclir22-ru-splade.tar -C collections/
+```
+
+To confirm, `neuclir22-ru-splade.tar` is 11 GB and has MD5 checksum `453a5be6913b2ab32c18541b2882c821`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt-splade \
+  --corpus-path collections/neuclir22-ru-splade
+```
 
 ## Indexing
 
