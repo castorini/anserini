@@ -38,7 +38,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression fire12-hi > logs/log.fire12-hi 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression fire12-en > logs/log.fire12-en 2>&1
 
-# HC4 (part 2)
+# HC4 (part 2) / NeuCLIR
 # e.g., hc4-neuclir22-ru-en and neuclir22-ru-dt both write to indexes/lucene-index.neuclir22-ru-en so we need to stagger
 
 python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt > logs/log.neuclir22-fa-qt 2>&1
@@ -49,6 +49,17 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt > logs/log.neuclir22-zh-qt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt > logs/log.neuclir22-zh-dt 2>&1
+
+# NeuCLIR: SPLADE
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt-splade > logs/log.neuclir22-fa-qt-splade 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-dt-splade > logs/log.neuclir22-fa-dt-splade 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt-splade > logs/log.neuclir22-ru-qt-splade 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-dt-splade > logs/log.neuclir22-ru-dt-splade 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt-splade > logs/log.neuclir22-zh-qt-splade 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt-splade > logs/log.neuclir22-zh-dt-splade 2>&1
 
 # Background linking
 python src/main/python/run_regression.py --verify --search --regression backgroundlinking18 > logs/log.backgroundlinking18 2>&1
