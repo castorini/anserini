@@ -110,6 +110,10 @@
               <id>IndexDenseVectors</id>
             </program>
             <program>
+              <mainClass>io.anserini.index.IndexDenseAnnVectors</mainClass>
+              <id>IndexDenseAnnVectors</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
