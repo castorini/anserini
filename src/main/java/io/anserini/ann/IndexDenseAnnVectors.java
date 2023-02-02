@@ -68,7 +68,7 @@ import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import static io.anserini.ann.IndexDenseAnnVectors.Args.FW;
 import static io.anserini.ann.IndexDenseAnnVectors.Args.LEXLSH;
-import static io.anserini.ann.IndexVectorsHNSW.FIELD_VECTOR;
+import static io.anserini.ann.IndexDenseAnnVectors.Args.VECTOR;
 
 public final class IndexDenseAnnVectors {
 
@@ -427,7 +427,7 @@ public final class IndexDenseAnnVectors {
       System.err.println("error!");
     }
     Map<String, Analyzer> map = new HashMap<>();
-    map.put(FIELD_VECTOR, vectorAnalyzer);
+    map.put(VECTOR, vectorAnalyzer);
     Analyzer analyzer = new PerFieldAnalyzerWrapper(new StandardAnalyzer(), map);
 
     // Used for LocalIndexThread
