@@ -119,7 +119,7 @@ public final class IndexDenseAnnVectors {
 
     // optional arguments
 
-    @Option(name = "-index", metaVar = "[path]", usage = "Index path.")
+    @Option(name = "-index", metaVar = "[path]", usage = "Index path.", required = true)
     public String index;
 
     @Option(name = "-fields", handler = StringArrayOptionHandler.class,
@@ -247,7 +247,6 @@ public final class IndexDenseAnnVectors {
       try {
         LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
             generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
-        LOG.info("creating doc with {}", generator);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every

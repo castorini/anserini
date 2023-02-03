@@ -65,7 +65,6 @@ public class LuceneAnnVectorDocumentGenerator<T extends SourceDocument> implemen
 
   @Override
   public Document createDocument(T src) throws InvalidDocumentException {
-    System.err.println("creating doc");
     String id = src.id();
     float[] contents;
 
@@ -90,7 +89,6 @@ public class LuceneAnnVectorDocumentGenerator<T extends SourceDocument> implemen
     if (args.storeRaw) {
       document.add(new StoredField(IndexDenseVectors.Args.RAW, src.raw()));
     }
-    System.err.println("doc created");
     return document;
   }
 }
