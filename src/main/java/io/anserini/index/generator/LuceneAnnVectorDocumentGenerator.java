@@ -65,6 +65,7 @@ public class LuceneAnnVectorDocumentGenerator<T extends SourceDocument> implemen
 
   @Override
   public Document createDocument(T src) throws InvalidDocumentException {
+    System.err.println("creating doc");
     String id = src.id();
     float[] contents;
 
@@ -86,10 +87,10 @@ public class LuceneAnnVectorDocumentGenerator<T extends SourceDocument> implemen
     // Store the collection docid.
     document.add(new StringField(IndexDenseVectors.Args.ID, id, Field.Store.YES));
     document.add(new TextField(IndexDenseVectors.Args.VECTOR, sb.toString(), args.stored ? Field.Store.YES : Field.Store.NO));
-
     if (args.storeRaw) {
       document.add(new StoredField(IndexDenseVectors.Args.RAW, src.raw()));
     }
+    System.err.println("doc created");
     return document;
   }
 }

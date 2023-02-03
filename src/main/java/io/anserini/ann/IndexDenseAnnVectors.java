@@ -247,6 +247,7 @@ public final class IndexDenseAnnVectors {
       try {
         LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
             generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+        LOG.info("creating doc with {}", generator);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
@@ -284,6 +285,7 @@ public final class IndexDenseAnnVectors {
             continue;
           }
 
+          LOG.info("indexing doc {} with writer {}", doc, writer);
           if (args.uniqueDocid) {
             writer.updateDocument(new Term("id", d.id()), doc);
           } else {
@@ -430,6 +432,7 @@ public final class IndexDenseAnnVectors {
       config.setUseCompoundFile(false);
       config.setMergeScheduler(new ConcurrentMergeScheduler());
       writer = new IndexWriter(dir, config);
+      LOG.info("indexing with writer {}", writer);
     }
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
