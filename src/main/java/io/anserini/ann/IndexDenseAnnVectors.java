@@ -163,7 +163,7 @@ public final class IndexDenseAnnVectors {
     public String encoding = FW;
 
     @Option(name = "-stored", metaVar = "[boolean]", usage = "store vectors")
-    public boolean stored;
+    public boolean stored = false;
 
     @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
     public int ngrams = 2;
