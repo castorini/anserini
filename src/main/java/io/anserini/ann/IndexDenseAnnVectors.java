@@ -284,7 +284,6 @@ public final class IndexDenseAnnVectors {
             continue;
           }
 
-          LOG.info("indexing doc {} with writer {}", doc, writer);
           if (args.uniqueDocid) {
             writer.updateDocument(new Term("id", d.id()), doc);
           } else {
@@ -431,7 +430,6 @@ public final class IndexDenseAnnVectors {
       config.setUseCompoundFile(false);
       config.setMergeScheduler(new ConcurrentMergeScheduler());
       writer = new IndexWriter(dir, config);
-      LOG.info("indexing with writer {}", writer);
     }
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
