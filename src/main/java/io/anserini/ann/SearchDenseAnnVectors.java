@@ -39,8 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import io.anserini.index.IndexDenseVectors;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.query.FWAnnVectorQueryGenerator;
-import io.anserini.search.query.VectorQueryGenerator;
+import io.anserini.search.query.AnnVectorQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -48,14 +47,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.KnnVectorQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopScoreDocCollector;
-import org.apache.lucene.search.TotalHits;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -92,9 +87,10 @@ public final class SearchDenseAnnVectors implements Closeable {
     @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
     public String topicReader;
 
+    @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
+    public String encoding;
+
     // optional arguments
-    @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
-    public String queryGenerator = "BagOfWordsQueryGenerator";
 
     @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
     public int threads = 1;
@@ -115,9 +111,6 @@ public final class SearchDenseAnnVectors implements Closeable {
 
     @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
     public int hits = 1000;
-
-    @Option(name = "-efSearch", metaVar = "[number]", required = false, usage = "efSearch parameter for HNSW search")
-    public int efSearch = 100;
 
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
@@ -163,7 +156,7 @@ public final class SearchDenseAnnVectors implements Closeable {
   private final Args args;
   private final IndexReader reader;
 
-  private FWAnnVectorQueryGenerator generator;
+  private AnnVectorQueryGenerator generator;
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -314,7 +307,7 @@ public final class SearchDenseAnnVectors implements Closeable {
         DirectoryReader.open(FSDirectory.open(indexPath));
     LOG.info("Vector Search:");
     LOG.info("Number of threads for running different parameter configurations: " + args.threads);
-    this.generator = new FWAnnVectorQueryGenerator();
+    this.generator = new AnnVectorQueryGenerator(args.encoding);
   }
 
   @Override

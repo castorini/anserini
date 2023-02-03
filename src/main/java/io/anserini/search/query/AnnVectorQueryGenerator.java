@@ -20,49 +20,53 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.ann.IndexVectors;
 import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
 import org.apache.lucene.search.Query;
 
+import static io.anserini.ann.IndexDenseAnnVectors.Args.FW;
+import static io.anserini.ann.IndexDenseAnnVectors.Args.LEXLSH;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
-public class FWAnnVectorQueryGenerator {
+public class AnnVectorQueryGenerator {
 
-  private final FakeWordsEncoderAnalyzer analyzer = new FakeWordsEncoderAnalyzer();;
+  private final Analyzer vectorAnalyzer;
 
-  private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<>() {
-    });
-    int length = denseVector.size();
-    float[] vector = new float[length];
-    int i = 0;
-    for (Float f : denseVector) {
-      vector[i++] = f;
+  public AnnVectorQueryGenerator(String encoding) {
+    if (encoding.equalsIgnoreCase(FW)) {
+      vectorAnalyzer = new FakeWordsEncoderAnalyzer();
+    } else if (encoding.equalsIgnoreCase(LEXLSH)) {
+      vectorAnalyzer = new LexicalLshAnalyzer();
+    } else {
+      throw new RuntimeException("unrecognized encoding " + encoding);
     }
-    return vector;
   }
-  
-  public Query buildQuery(String queryString) throws JsonMappingException, JsonProcessingException{
-    float[] queryVector;
-    queryVector = convertJsonArray(queryString);
+
+  private String convertJsonArray(String vectorString) throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<>() {});
     StringBuilder sb = new StringBuilder();
-    for (double fv : queryVector) {
+    for (float fv : denseVector) {
       if (sb.length() > 0) {
         sb.append(' ');
       }
       sb.append(fv);
     }
-    String vectorString = sb.toString();
+    return sb.toString();
+  }
+
+  public Query buildQuery(String queryString) throws JsonProcessingException {
+    String queryVector = convertJsonArray(queryString);
     float msm = 0;
     float cutoff = 0.999f;
     CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, cutoff);
-    for (String token : AnalyzerUtils.analyze(analyzer, vectorString)) {
+    for (String token : AnalyzerUtils.analyze(vectorAnalyzer, queryVector)) {
       simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
     }
 //    if (msm > 0) {
