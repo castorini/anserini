@@ -114,6 +114,10 @@
               <id>IndexDenseAnnVectors</id>
             </program>
             <program>
+              <mainClass>io.anserini.ann.SearchDenseAnnVectors</mainClass>
+              <id>SearchDenseAnnVectors</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
