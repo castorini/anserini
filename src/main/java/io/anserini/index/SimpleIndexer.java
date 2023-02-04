@@ -17,9 +17,14 @@
 package io.anserini.index;
 
 import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.analysis.AnalyzerMap;
+import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
+import io.anserini.index.IndexCollection.Args;
+import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
-import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.index.generator.GeneratorException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -32,7 +37,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
@@ -47,14 +51,58 @@ public class SimpleIndexer {
 
   private final Path indexPath;
   private final IndexWriter writer;
-  private final DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
-  private final LuceneDocumentGenerator generator = new DefaultLuceneDocumentGenerator();
+  private final Analyzer analyzer;
+  private final LuceneDocumentGenerator generator;
 
   public SimpleIndexer(String indexPath) throws IOException {
     this.indexPath = Paths.get(indexPath);
     if (!Files.exists(this.indexPath)) {
       Files.createDirectories(this.indexPath);
     }
+
+    analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
+    generator = new DefaultLuceneDocumentGenerator();
+    final Directory dir = FSDirectory.open(this.indexPath);
+    final IndexWriterConfig config = new IndexWriterConfig(analyzer);
+
+    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    config.setRAMBufferSizeMB(2048);
+    config.setUseCompoundFile(false);
+    config.setMergeScheduler(new ConcurrentMergeScheduler());
+
+    writer = new IndexWriter(dir, config);
+  }
+
+  public SimpleIndexer(String[] argv) throws Exception {
+    this(parseArgs(argv));
+  }
+
+  private static Args parseArgs(String[] argv) throws CmdLineException {
+    Args args = new Args();
+    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(100));
+
+    try {
+      parser.parseArgument(argv);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example: " + SimpleIndexer.class.getSimpleName() +
+          parser.printExample(OptionHandlerFilter.REQUIRED));
+      throw e;
+    }
+    return args;
+  }
+
+  @SuppressWarnings("unchecked")
+  public SimpleIndexer(Args args) throws Exception {
+    this.indexPath = Paths.get(args.index);
+    if (!Files.exists(this.indexPath)) {
+      Files.createDirectories(this.indexPath);
+    }
+    Class generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
+    generator = (LuceneDocumentGenerator) 
+        generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+    analyzer = getAnalyzer(args);
 
     final Directory dir = FSDirectory.open(this.indexPath);
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
@@ -67,6 +115,27 @@ public class SimpleIndexer {
     writer = new IndexWriter(dir, config);
   }
 
+  private Analyzer getAnalyzer(Args args) throws Exception {
+    if (args.analyzeWithHuggingFaceTokenizer != null){
+      LOG.info("Bert Tokenizer");
+      return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
+    } else if (AnalyzerMap.analyzerMap.containsKey(args.language)){
+      LOG.info("Language: " + args.language);
+      return AnalyzerMap.getLangSpecificAnalyzer(args.language);
+    } else if (args.pretokenized || args.language.equals("sw")) {
+      LOG.info("Pretokenized");
+      return new WhitespaceAnalyzer();
+    } else {
+      // Default to English
+      LOG.info("Language: en");
+      LOG.info("Stemmer: " + args.stemmer);
+      LOG.info("Keep stopwords? " + args.keepStopwords);
+      LOG.info("Stopwords file: " + args.stopwords);
+      return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
   public boolean addDocument(String raw) {
     try {
       JsonCollection.Document doc = JsonCollection.Document.fromString(raw);
@@ -112,15 +181,6 @@ public class SimpleIndexer {
     }
   }
 
-  public static class Args {
-    @Option(name = "-input", metaVar = "[path]", required = true,
-        usage = "Location of input collection.")
-    public String input;
-
-    @Option(name = "-index", metaVar = "[path]", usage = "Index path.")
-    public String index;
-  }
-
   // Main here exists only as a convenience. Once we're happy with the APIs, there should *not* be
   // a separate code entry point; one less thing to debug, one less thing to go wrong.
   public static void main(String[] argv) throws Exception {
@@ -132,7 +192,7 @@ public class SimpleIndexer {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: " + IndexCollection.class.getSimpleName() +
+      System.err.println("Example: " + SimpleIndexer.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -141,7 +201,7 @@ public class SimpleIndexer {
     JsonCollection collection = new JsonCollection(Paths.get(args.input));
 
     int cnt = 0;
-    SimpleIndexer indexer = new SimpleIndexer(args.index);
+    SimpleIndexer indexer = new SimpleIndexer(args);
 
     LOG.info("input: " + args.input);
     LOG.info("collection: " + args.index);
