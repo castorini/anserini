@@ -32,6 +32,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -97,6 +98,9 @@ public final class SearchDenseAnnVectors implements Closeable {
 
     @Option(name = "-parallelism", metaVar = "[int]", usage = "Number of threads to use for each individual parameter configuration.")
     public int parallelism = 8;
+
+    @Option(name = "-threadsPerQuery", metaVar = "[int]", usage = "Number of threads used to execute each query.")
+    public int threadsPerQuery = 1;
 
     @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
     public Boolean removeQuery = false;
@@ -166,12 +170,12 @@ public final class SearchDenseAnnVectors implements Closeable {
     final private String runTag;
 
 
-    private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, String outputPath, String runTag) {
+    private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, String outputPath, String runTag, ExecutorService executorService) {
       this.reader = reader;
       this.topics = topics;
       this.runTag = runTag;
       this.outputPath = outputPath;
-      this.searcher = new IndexSearcher(this.reader);
+      this.searcher = executorService != null ? new IndexSearcher(this.reader, executorService) : new IndexSearcher(this.reader);
       setName(outputPath);
     }
 
@@ -342,17 +346,29 @@ public final class SearchDenseAnnVectors implements Closeable {
 
     LOG.info("============ Launching Search Threads ============");
 
+    ExecutorService queryExecutor = null;
+    if (args.threadsPerQuery > 1) {
+      queryExecutor = Executors.newFixedThreadPool(args.threadsPerQuery);
+    }
+
     String outputPath = args.output;
     if (args.skipexists && new File(outputPath).exists()) {
       LOG.info("Run already exists, skipping: " + outputPath);
     } else {
-      executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag));
+      executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag, queryExecutor));
       executor.shutdown();
+      if (queryExecutor != null) {
+        queryExecutor.shutdown();
+      }
     }
 
     try {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+      }
+      if (queryExecutor != null) {
+        while (!queryExecutor.awaitTermination(1, TimeUnit.MINUTES)) {
+        }
       }
     } catch (InterruptedException ie) {
       // (Re-)Cancel if current thread also interrupted
