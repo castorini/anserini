@@ -1,0 +1,169 @@
+---
+corpus: neuclir22-zh-splade
+corpus_path: collections/multilingual/neuclir22-zh-splade/
+
+index_path: indexes/lucene-index.neuclir22-zh-splade
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -impact -pretokenized -storeRaw
+index_stats:
+  documents: 3179209
+  documents (non-empty): 3179209
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: J@20
+    command: python -m pyserini.eval.trec_eval
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[NeuCLIR 2022 (Chinese): title (human-translated queries)](https://neuclir.github.io/)"
+    id: ht-title
+    path: topics.neuclir22-zh.splade.ht-title.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): desc (human-translated queries)](https://neuclir.github.io/)"
+    id: ht-desc
+    path: topics.neuclir22-zh.splade.ht-desc.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): desc+title (human-translated queries)](https://neuclir.github.io/)"
+    id: ht-desc_title
+    path: topics.neuclir22-zh.splade.ht-desc_title.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): title (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-title
+    path: topics.neuclir22-zh.splade.mt-title.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): desc (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-desc
+    path: topics.neuclir22-zh.splade.mt-desc.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): desc+title (machine-translated queries)](https://neuclir.github.io/)"
+    id: mt-desc_title
+    path: topics.neuclir22-zh.splade.mt-desc_title.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+
+models:
+  - name: splade
+    display: SPLADE
+    params: -impact -pretokenized
+    results:
+      MAP:
+        - 0.2107
+        - 0.1763
+        - 0.2108
+        - 0.1850
+        - 0.1495
+        - 0.1917
+      nDCG@20:
+        - 0.3110
+        - 0.2935
+        - 0.3143
+        - 0.2843
+        - 0.2527
+        - 0.2929
+      J@20:
+        - 0.2930
+        - 0.2711
+        - 0.3000
+        - 0.2904
+        - 0.2482
+        - 0.2794
+      Recall@1000:
+        - 0.6803
+        - 0.6602
+        - 0.6551
+        - 0.6424
+        - 0.5919
+        - 0.6312
+  - name: splade+rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3 -collection JsonVectorCollection
+    results:
+      MAP:
+        - 0.2107
+        - 0.1763
+        - 0.2108
+        - 0.1850
+        - 0.1495
+        - 0.1917
+      nDCG@20:
+        - 0.3110
+        - 0.2935
+        - 0.3143
+        - 0.2843
+        - 0.2527
+        - 0.2929
+      J@20:
+        - 0.2930
+        - 0.2711
+        - 0.3000
+        - 0.2904
+        - 0.2482
+        - 0.2794
+      Recall@1000:
+        - 0.6803
+        - 0.6602
+        - 0.6551
+        - 0.6424
+        - 0.5919
+        - 0.6312
+  - name: splade+rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio -collection JsonVectorCollection
+    results:
+      MAP:
+        - 0.2338
+        - 0.2042
+        - 0.2253
+        - 0.2075
+        - 0.1810
+        - 0.2139
+      nDCG@20:
+        - 0.3198
+        - 0.2926
+        - 0.3077
+        - 0.2920
+        - 0.2562
+        - 0.3029
+      J@20:
+        - 0.3101
+        - 0.3092
+        - 0.3057
+        - 0.3066
+        - 0.2728
+        - 0.2978
+      Recall@1000:
+        - 0.7100
+        - 0.7205
+        - 0.7029
+        - 0.6861
+        - 0.6096
+        - 0.6535
