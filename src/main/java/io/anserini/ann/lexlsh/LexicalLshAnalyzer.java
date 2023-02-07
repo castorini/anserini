@@ -34,6 +34,9 @@ public class LexicalLshAnalyzer extends Analyzer {
 
   private static final int DEFAULT_SHINGLE_SIZE = 2;
   private static final int DEFAULT_DECIMALS = 1;
+  private static final int DEFAULT_HASH_COUNT = 1;
+  private static final int DEFAULT_BUCKET_COUNT = 300;
+  private static final int DEFAULT_HASH_SET_SIZE = 1;
 
   private final int min;
   private final int max;
@@ -53,8 +56,8 @@ public class LexicalLshAnalyzer extends Analyzer {
   }
 
   public LexicalLshAnalyzer() {
-    this(DEFAULT_SHINGLE_SIZE, DEFAULT_SHINGLE_SIZE, MinHashFilter.DEFAULT_HASH_COUNT, MinHashFilter.DEFAULT_BUCKET_COUNT,
-        MinHashFilter.DEFAULT_HASH_SET_SIZE, DEFAULT_DECIMALS);
+    this(DEFAULT_SHINGLE_SIZE, DEFAULT_SHINGLE_SIZE, DEFAULT_HASH_COUNT, DEFAULT_BUCKET_COUNT,
+        DEFAULT_HASH_SET_SIZE, DEFAULT_DECIMALS);
   }
 
   public LexicalLshAnalyzer(int decimals, int ngrams, int hashCount, int bucketCount, int hashSetSize) {
