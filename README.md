@@ -216,7 +216,7 @@ See individual pages for details!
 <details>
 <summary>Cross-Lingual and Multi-Lingual</summary>
 
-### Cross-Lingual and Multi-Lingual Regressions
+### Cross-lingual and Multi-lingual Regressions
 
 + Regressions for Mr. TyDi (v1.1) baselines: [ar](docs/regressions-mrtydi-v1.1-ar.md), [bn](docs/regressions-mrtydi-v1.1-bn.md), [en](docs/regressions-mrtydi-v1.1-en.md), [fi](docs/regressions-mrtydi-v1.1-fi.md), [id](docs/regressions-mrtydi-v1.1-id.md), [ja](docs/regressions-mrtydi-v1.1-ja.md), [ko](docs/regressions-mrtydi-v1.1-ko.md), [ru](docs/regressions-mrtydi-v1.1-ru.md), [sw](docs/regressions-mrtydi-v1.1-sw.md), [te](docs/regressions-mrtydi-v1.1-te.md), [th](docs/regressions-mrtydi-v1.1-th.md)
 + Regressions for MIRACL (v1.0) baselines: [ar](docs/regressions-miracl-v1.0-ar.md), [bn](docs/regressions-miracl-v1.0-bn.md), [en](docs/regressions-miracl-v1.0-en.md), [es](docs/regressions-miracl-v1.0-es.md), [fa](docs/regressions-miracl-v1.0-fa.md), [fi](docs/regressions-miracl-v1.0-fi.md), [fr](docs/regressions-miracl-v1.0-fr.md), [hi](docs/regressions-miracl-v1.0-hi.md), [id](docs/regressions-miracl-v1.0-id.md), [ja](docs/regressions-miracl-v1.0-ja.md), [ko](docs/regressions-miracl-v1.0-ko.md), [ru](docs/regressions-miracl-v1.0-ru.md), [sw](docs/regressions-miracl-v1.0-sw.md), [te](docs/regressions-miracl-v1.0-te.md), [th](docs/regressions-miracl-v1.0-th.md), [zh](docs/regressions-miracl-v1.0-zh.md)
@@ -230,6 +230,7 @@ See individual pages for details!
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
++ Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions-fire12-hi.md), [Monolingual English](docs/regressions-fire12-en.md)
 
 </details>
 <details>
