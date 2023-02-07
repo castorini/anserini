@@ -11,7 +11,7 @@
 11	I am looking for report on China's official attitudes toward the U.S. withdrawal from the Paris Climate Accords.
 12	I'm looking for articles about how Chinas economy could withstand the coronavirus COVID-19 pandemic.
 13	I am looking for stories about intellectual property disputes Tesla encountered in China.
-14	"I am looking for Iranian reactions and news related to the Israeli-made series ""Tehran""."
+14	I am looking for Iranian reactions and news related to the Israeli-made series "Tehran".
 16	I am looking for articles on the dramatic decrease in the number of bees and beehives.
 17	I am looking for stories about the impact of the Chengdu Research Base of Giant Panda Breeding on local tourism.
 18	I am interested in finding information about the situation of myopia among K12 students in China.
@@ -88,7 +88,7 @@
 102	I am interested in articles that cover the impact of climate change on the living environment of polar bears.
 103	I am looking for articles on how artificial intelligence is being applied in agriculture.
 104	I am looking for reports, facts, analyzes and government responses regarding honor killings and taboos of the patriarchal society in Iran.
-105	"I am looking for articles with details about the military exercise called ""Arab Shield"" in Egypt and its purpose."
+105	I am looking for articles with details about the military exercise called "Arab Shield" in Egypt and its purpose.
 106	I am looking for articles on DNA proving the connection between Native Americans and Siberian peoples.
 107	I am looking for articles on  Post-Cold-War Development of Russian tanks.
 108	I'm looking for tornado reports in Alabama.

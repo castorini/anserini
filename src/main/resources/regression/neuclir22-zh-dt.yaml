@@ -45,17 +45,17 @@ topic_reader: TsvInt
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[NeuCLIR 2022 (Chinese): title](https://neuclir.github.io/)"
+  - name: "[NeuCLIR 2022 (Chinese): title (original English queries)](https://neuclir.github.io/)"
     id: title
-    path: topics.neuclir22.en.title.tsv
+    path: topics.neuclir22-en.original-title.txt
     qrel: qrels.neuclir22-zh.txt
-  - name: "[NeuCLIR 2022 (Chinese): desc](https://neuclir.github.io/)"
+  - name: "[NeuCLIR 2022 (Chinese): desc (original English queries)](https://neuclir.github.io/)"
     id: desc
-    path: topics.neuclir22.en.desc.tsv
+    path: topics.neuclir22-en.original-desc.txt
     qrel: qrels.neuclir22-zh.txt
-  - name: "[NeuCLIR 2022 (Chinese): desc+title](https://neuclir.github.io/)"
+  - name: "[NeuCLIR 2022 (Chinese): desc+title (original English queries)](https://neuclir.github.io/)"
     id: desc_title
-    path: topics.neuclir22.en.desc.title.tsv
+    path: topics.neuclir22-en.original-desc_title.txt
     qrel: qrels.neuclir22-zh.txt
 
 models:
