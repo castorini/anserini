@@ -121,7 +121,7 @@ public class SimpleIndexer {
       return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
     } else if (AnalyzerMap.analyzerMap.containsKey(args.language)){
       LOG.info("Language: " + args.language);
-      return AnalyzerMap.getLangSpecificAnalyzer(args.language);
+      return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
     } else if (args.pretokenized || args.language.equals("sw")) {
       LOG.info("Pretokenized");
       return new WhitespaceAnalyzer();

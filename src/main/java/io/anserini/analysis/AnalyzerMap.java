@@ -51,7 +51,7 @@ public class AnalyzerMap {
     }
   };
 
-  public static Analyzer getLangSpecificAnalyzer(String language) throws Exception {
+  public static Analyzer getLanguageSpecificAnalyzer(String language) throws Exception {
     String analyzerClazz = analyzerMap.get(language); 
   return (Analyzer) Class.forName(analyzerClazz).getDeclaredConstructor().newInstance();
   }
