@@ -1,0 +1,121 @@
+---
+corpus: neuclir22-zh-en-splade
+corpus_path: collections/multilingual/neuclir22-zh-en-splade/
+
+index_path: indexes/lucene-index.neuclir22-zh-en-splade
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -impact -pretokenized -storeRaw
+index_stats:
+  documents: 3179206
+  documents (non-empty): 3179206
+
+metrics:
+  - metric: MAP
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: J@20
+    command: python -m pyserini.eval.trec_eval
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[NeuCLIR 2022 (Chinese): title (original English queries)](https://neuclir.github.io/)"
+    id: title
+    path: topics.neuclir22-en.splade.original-title.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): desc (original English queries)](https://neuclir.github.io/)"
+    id: desc
+    path: topics.neuclir22-en.splade.original-desc.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+  - name: "[NeuCLIR 2022 (Chinese): desc+title (original English queries)](https://neuclir.github.io/)"
+    id: desc_title
+    path: topics.neuclir22-en.splade.original-desc_title.txt.gz
+    qrel: qrels.neuclir22-zh.txt
+
+models:
+  - name: splade
+    display: SPLADE
+    params: -impact -pretokenized
+    results:
+      MAP:
+        - 0.3068
+        - 0.3108
+        - 0.3034
+      nDCG@20:
+        - 0.4233
+        - 0.4299
+        - 0.4236
+      J@20:
+        - 0.3851
+        - 0.3825
+        - 0.3961
+      Recall@1000:
+        - 0.7997
+        - 0.7597
+        - 0.7922
+  - name: splade+rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3 -collection JsonVectorCollection
+    results:
+      MAP:
+        - 0.2843
+        - 0.2631
+        - 0.2820
+      nDCG@20:
+        - 0.3816
+        - 0.3496
+        - 0.3770
+      J@20:
+        - 0.3575
+        - 0.3531
+        - 0.3675
+      Recall@1000:
+        - 0.7546
+        - 0.6969
+        - 0.7481
+  - name: splade+rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio -collection JsonVectorCollection
+    results:
+      MAP:
+        - 0.3151
+        - 0.3108
+        - 0.3092
+      nDCG@20:
+        - 0.4204
+        - 0.4142
+        - 0.4206
+      J@20:
+        - 0.3860
+        - 0.3825
+        - 0.3969
+      Recall@1000:
+        - 0.8038
+        - 0.7623
+        - 0.8067

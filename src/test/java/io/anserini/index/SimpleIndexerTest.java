@@ -57,4 +57,35 @@ public class SimpleIndexerTest extends LuceneTestCase {
     searcher.close();
   }
 
+  @Test
+  public void testInitWithArgs() throws Exception {
+    Path tempDir = createTempDir();
+
+    SimpleIndexer.main(new String[] {
+      "-input",
+      "src/test/resources/sample_docs/json/collection3",
+      "-index",
+      tempDir.toString(),
+      "-collection",
+      "JsonCollection",
+      "-threads",
+      "1",
+      "-storePositions",
+      "-storeDocvectors",
+      "-storeRaw",
+      "-language",
+      "sw",
+    });
+
+    SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
+    // Set language to sw so that same Analyzer is used for indexing & searching
+    searcher.set_language("sw");
+    SimpleSearcher.Result[] hits = searcher.search("1.", 10);
+
+    assertEquals(1, hits.length);
+    assertEquals("doc1", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
+
+    searcher.close();
+  }
 }
