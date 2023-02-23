@@ -16,12 +16,18 @@
 
 package io.anserini.analysis;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AnalyzerMap {
-  public static final Map<String, String> analyzerMap = new HashMap<String, String>() {
+  private static final Logger LOG = LogManager.getLogger(AnalyzerMap.class);
+
+  public static final Map<String, String> analyzerMap = new HashMap<>() {
     {
       put("ar", "org.apache.lucene.analysis.ar.ArabicAnalyzer");
       put("bn", "org.apache.lucene.analysis.bn.BengaliAnalyzer");
@@ -51,8 +57,24 @@ public class AnalyzerMap {
     }
   };
 
-  public static Analyzer getLanguageSpecificAnalyzer(String language) throws Exception {
-    String analyzerClazz = analyzerMap.get(language); 
-  return (Analyzer) Class.forName(analyzerClazz).getDeclaredConstructor().newInstance();
+  public static Analyzer getLanguageSpecificAnalyzer(String language) {
+    String analyzerClazz = analyzerMap.get(language);
+
+    try {
+      return (Analyzer) Class.forName(analyzerClazz).getDeclaredConstructor().newInstance();
+    } catch (InstantiationException e) {
+      LOG.error(e);
+    } catch (IllegalAccessException e) {
+      LOG.error(e);
+    } catch (InvocationTargetException e) {
+      LOG.error(e);
+    } catch (NoSuchMethodException e) {
+      LOG.error(e);
+    } catch (ClassNotFoundException e) {
+      LOG.error(e);
+    }
+
+    // If we have any issues, eat the exception and return null.
+    return null;
   }
 }

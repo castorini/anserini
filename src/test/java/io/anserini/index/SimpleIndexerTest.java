@@ -29,14 +29,14 @@ import java.nio.file.Paths;
 public class SimpleIndexerTest extends LuceneTestCase {
 
   @Test
-  public void testBasic() throws IOException {
+  public void testBasic() throws Exception {
     Path tempDir = createTempDir();
 
     Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
     JsonCollection collection = new JsonCollection(collectionPath);
+    SimpleIndexer indexer = new SimpleIndexer(tempDir.toString());
 
     int cnt = 0;
-    SimpleIndexer indexer = new SimpleIndexer(tempDir.toString());
     for (FileSegment<JsonCollection.Document> segment : collection ) {
       for (JsonCollection.Document doc : segment) {
         indexer.addDocument(doc.raw());
@@ -61,21 +61,27 @@ public class SimpleIndexerTest extends LuceneTestCase {
   public void testInitWithArgs() throws Exception {
     Path tempDir = createTempDir();
 
-    SimpleIndexer.main(new String[] {
-      "-input",
-      "src/test/resources/sample_docs/json/collection3",
-      "-index",
-      tempDir.toString(),
-      "-collection",
-      "JsonCollection",
-      "-threads",
-      "1",
-      "-storePositions",
-      "-storeDocvectors",
-      "-storeRaw",
-      "-language",
-      "sw",
+    Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
+    JsonCollection collection = new JsonCollection(collectionPath);
+    SimpleIndexer indexer = new SimpleIndexer(new String[] {
+        "-input", "",
+        "-index", tempDir.toString(),
+        "-collection", "JsonCollection",
+        "-language", "sw",
+        "-storePositions", "-storeDocvectors", "-storeRaw",
     });
+
+    int cnt = 0;
+    for (FileSegment<JsonCollection.Document> segment : collection ) {
+      for (JsonCollection.Document doc : segment) {
+        indexer.addDocument(doc.raw());
+        cnt++;
+      }
+      segment.close();
+    }
+
+    indexer.close();
+    assertEquals(2, cnt);
 
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
     // Set language to sw so that same Analyzer is used for indexing & searching
