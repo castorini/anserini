@@ -1,0 +1,12 @@
+{
+  "id": "doc3",
+  "contents": "third document contains C",
+  "field1": "three field1",
+  "field2": "3 field2"
+}
+{
+  "id": "doc4",
+  "contents": "fourth doc goes D",
+  "field1": "four four field_one",
+  "field2": "fourth field2 contents"
+}

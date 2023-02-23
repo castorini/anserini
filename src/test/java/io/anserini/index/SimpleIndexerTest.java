@@ -29,7 +29,7 @@ import java.nio.file.Paths;
 public class SimpleIndexerTest extends LuceneTestCase {
 
   @Test
-  public void testBasic() throws IOException {
+  public void testBasic() throws Exception {
     Path tempDir = createTempDir();
 
     Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
@@ -62,19 +62,12 @@ public class SimpleIndexerTest extends LuceneTestCase {
     Path tempDir = createTempDir();
 
     SimpleIndexer.main(new String[] {
-      "-input",
-      "src/test/resources/sample_docs/json/collection3",
-      "-index",
-      tempDir.toString(),
-      "-collection",
-      "JsonCollection",
-      "-threads",
-      "1",
-      "-storePositions",
-      "-storeDocvectors",
-      "-storeRaw",
-      "-language",
-      "sw",
+      "-input", "src/test/resources/sample_docs/json/collection3",
+      "-index", tempDir.toString(),
+      "-collection", "JsonCollection",
+      "-language", "sw",
+      "-threads", "1",
+      "-storePositions", "-storeDocvectors", "-storeRaw",
     });
 
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());

@@ -17,11 +17,13 @@
 package io.anserini.analysis;
 
 import org.apache.lucene.analysis.Analyzer;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AnalyzerMap {
-  public static final Map<String, String> analyzerMap = new HashMap<String, String>() {
+  public static final Map<String, String> analyzerMap = new HashMap<>() {
     {
       put("ar", "org.apache.lucene.analysis.ar.ArabicAnalyzer");
       put("bn", "org.apache.lucene.analysis.bn.BengaliAnalyzer");
@@ -51,8 +53,24 @@ public class AnalyzerMap {
     }
   };
 
-  public static Analyzer getLanguageSpecificAnalyzer(String language) throws Exception {
-    String analyzerClazz = analyzerMap.get(language); 
-  return (Analyzer) Class.forName(analyzerClazz).getDeclaredConstructor().newInstance();
+  public static Analyzer getLanguageSpecificAnalyzer(String language) {
+    String analyzerClazz = analyzerMap.get(language);
+
+    try {
+      return (Analyzer) Class.forName(analyzerClazz).getDeclaredConstructor().newInstance();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    // If we have any issues, eat the exception and return null.
+    return null;
   }
 }
