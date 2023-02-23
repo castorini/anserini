@@ -105,10 +105,6 @@ public final class IndexCollection {
         usage = "Location of input collection.")
     public String input;
 
-    @Option(name = "-threads", metaVar = "[num]", required = true,
-        usage = "Number of indexing threads.")
-    public int threads;
-
     @Option(name = "-collection", metaVar = "[class]", required = true,
         usage = "Collection class in package 'io.anserini.collection'.")
     public String collectionClass;
@@ -127,6 +123,9 @@ public final class IndexCollection {
     public boolean quiet = false;
 
     // optional arguments
+
+    @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
+    public int threads = 8;
 
     @Option(name = "-append", usage = "Append documents.")
     public boolean append = false;

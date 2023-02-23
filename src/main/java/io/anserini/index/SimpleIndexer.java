@@ -62,31 +62,42 @@ public class SimpleIndexer {
     return args;
   }
 
-  public SimpleIndexer(String indexPath) throws IOException {
-    this(indexPath, false);
-  }
-
-  public SimpleIndexer(String indexPath, boolean append) throws IOException {
-    this.indexPath = Paths.get(indexPath);
-    if (!Files.exists(this.indexPath)) {
-      Files.createDirectories(this.indexPath);
-    }
-
-    analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
-    generator = new DefaultLuceneDocumentGenerator();
-    final Directory dir = FSDirectory.open(this.indexPath);
-    final IndexWriterConfig config = new IndexWriterConfig(analyzer);
-
-    config.setOpenMode(append? IndexWriterConfig.OpenMode.APPEND : IndexWriterConfig.OpenMode.CREATE);
-    config.setRAMBufferSizeMB(2048);
-    config.setUseCompoundFile(false);
-    config.setMergeScheduler(new ConcurrentMergeScheduler());
-
-    writer = new IndexWriter(dir, config);
-  }
+//  public SimpleIndexer(String indexPath, boolean append) throws IOException {
+//    this.indexPath = Paths.get(indexPath);
+//    if (!Files.exists(this.indexPath)) {
+//      Files.createDirectories(this.indexPath);
+//    }
+//
+//    analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
+//    generator = new DefaultLuceneDocumentGenerator();
+//    final Directory dir = FSDirectory.open(this.indexPath);
+//    final IndexWriterConfig config = new IndexWriterConfig(analyzer);
+//
+//    config.setOpenMode(append? IndexWriterConfig.OpenMode.APPEND : IndexWriterConfig.OpenMode.CREATE);
+//    config.setRAMBufferSizeMB(2048);
+//    config.setUseCompoundFile(false);
+//    config.setMergeScheduler(new ConcurrentMergeScheduler());
+//
+//    writer = new IndexWriter(dir, config);
+//  }
 
   public SimpleIndexer(String[] argv) throws Exception {
     this(parseArgs(argv));
+  }
+
+  public SimpleIndexer(String indexPath) throws Exception {
+    this(new String[] {
+        "-input", "",
+        "-index", indexPath,
+        "-collection", "JsonCollection"});
+  }
+
+  public SimpleIndexer(String indexPath, boolean append) throws Exception {
+    this(new String[] {
+        "-input", "",
+        "-index", indexPath,
+        "-collection", "JsonCollection",
+        "-append"});
   }
 
   public SimpleIndexer(Args args) throws Exception {
@@ -101,7 +112,7 @@ public class SimpleIndexer {
     final Directory dir = FSDirectory.open(this.indexPath);
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
-    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    config.setOpenMode(args.append ? IndexWriterConfig.OpenMode.APPEND : IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(2048);
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());
