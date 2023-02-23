@@ -16,20 +16,19 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.AnalyzerMap;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
-import io.anserini.index.IndexCollection.Args;
-import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
+import io.anserini.index.IndexCollection.Args;
 import io.anserini.index.generator.GeneratorException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -54,60 +53,44 @@ public class SimpleIndexer {
   private final Analyzer analyzer;
   private final LuceneDocumentGenerator generator;
 
-  public SimpleIndexer(String indexPath) throws IOException {
-    this.indexPath = Paths.get(indexPath);
-    if (!Files.exists(this.indexPath)) {
-      Files.createDirectories(this.indexPath);
-    }
+  private static Args parseArgs(String[] argv) throws CmdLineException {
+    Args args = new Args();
+    CmdLineParser parser = new CmdLineParser(args);
+    parser.parseArgument(argv);
 
-    analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
-    generator = new DefaultLuceneDocumentGenerator();
-    final Directory dir = FSDirectory.open(this.indexPath);
-    final IndexWriterConfig config = new IndexWriterConfig(analyzer);
-
-    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    config.setRAMBufferSizeMB(2048);
-    config.setUseCompoundFile(false);
-    config.setMergeScheduler(new ConcurrentMergeScheduler());
-
-    writer = new IndexWriter(dir, config);
+    return args;
   }
 
   public SimpleIndexer(String[] argv) throws Exception {
     this(parseArgs(argv));
   }
 
-  private static Args parseArgs(String[] argv) throws CmdLineException {
-    Args args = new Args();
-    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(100));
-
-    try {
-      parser.parseArgument(argv);
-    } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: " + SimpleIndexer.class.getSimpleName() +
-          parser.printExample(OptionHandlerFilter.REQUIRED));
-      throw e;
-    }
-    return args;
+  public SimpleIndexer(String indexPath) throws Exception {
+    this(new String[] {
+        "-input", "",
+        "-index", indexPath,
+        "-collection", "JsonCollection"});
   }
 
-  @SuppressWarnings("unchecked")
+  public SimpleIndexer(String indexPath, boolean append) throws Exception {
+    // First line of constructor must be "this", which leads to a slightly awkward implementation.
+    this(append ? new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection", "-append"} :
+        new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection"});
+  }
+
   public SimpleIndexer(Args args) throws Exception {
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
       Files.createDirectories(this.indexPath);
     }
     Class generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
-    generator = (LuceneDocumentGenerator) 
-        generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+    generator = (LuceneDocumentGenerator) generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
     analyzer = getAnalyzer(args);
 
     final Directory dir = FSDirectory.open(this.indexPath);
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
-    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    config.setOpenMode(args.append ? IndexWriterConfig.OpenMode.CREATE_OR_APPEND : IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(2048);
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());
@@ -115,23 +98,28 @@ public class SimpleIndexer {
     writer = new IndexWriter(dir, config);
   }
 
-  private Analyzer getAnalyzer(Args args) throws Exception {
-    if (args.analyzeWithHuggingFaceTokenizer != null){
-      LOG.info("Bert Tokenizer");
-      return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
-    } else if (AnalyzerMap.analyzerMap.containsKey(args.language)){
-      LOG.info("Language: " + args.language);
-      return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
-    } else if (args.pretokenized || args.language.equals("sw")) {
-      LOG.info("Pretokenized");
-      return new WhitespaceAnalyzer();
-    } else {
-      // Default to English
-      LOG.info("Language: en");
-      LOG.info("Stemmer: " + args.stemmer);
-      LOG.info("Keep stopwords? " + args.keepStopwords);
-      LOG.info("Stopwords file: " + args.stopwords);
-      return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
+  private Analyzer getAnalyzer(Args args) {
+    try {
+      if (args.analyzeWithHuggingFaceTokenizer != null) {
+        LOG.info("Using HuggingFaceTokenizerAnalyzer");
+        return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
+      } else if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
+        LOG.info("Using language-specific analyzer");
+        LOG.info("Language: " + args.language);
+        return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
+      } else if (args.pretokenized || args.language.equals("sw")) {
+        LOG.info("Using WhitespaceAnalyzer");
+        return new WhitespaceAnalyzer();
+      } else {
+        // Default to English
+        LOG.info("Using DefaultEnglishAnalyzer");
+        LOG.info("Stemmer: " + args.stemmer);
+        LOG.info("Keep stopwords? " + args.keepStopwords);
+        LOG.info("Stopwords file: " + args.stopwords);
+        return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
+      }
+    } catch (Exception e) {
+      return null;
     }
   }
 
@@ -141,10 +129,10 @@ public class SimpleIndexer {
       JsonCollection.Document doc = JsonCollection.Document.fromString(raw);
       writer.addDocument(generator.createDocument(doc));
     } catch (GeneratorException e) {
-      e.printStackTrace();
+      LOG.error(e);
       return false;
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e);
       return false;
     }
 

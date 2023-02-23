@@ -105,17 +105,12 @@ public final class IndexCollection {
         usage = "Location of input collection.")
     public String input;
 
-    @Option(name = "-threads", metaVar = "[num]", required = true,
-        usage = "Number of indexing threads.")
-    public int threads;
-
     @Option(name = "-collection", metaVar = "[class]", required = true,
         usage = "Collection class in package 'io.anserini.collection'.")
     public String collectionClass;
 
-    @Option(name = "-generator", metaVar = "[class]",
-        usage = "Document generator class in package 'io.anserini.index.generator'.")
-    public String generatorClass = "DefaultLuceneDocumentGenerator";
+    @Option(name = "-index", metaVar = "[path]", usage = "Index path.", required = true)
+    public String index;
 
     // optional general arguments
 
@@ -129,8 +124,15 @@ public final class IndexCollection {
 
     // optional arguments
 
-    @Option(name = "-index", metaVar = "[path]", usage = "Index path.")
-    public String index;
+    @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
+    public int threads = 8;
+
+    @Option(name = "-append", usage = "Append documents.")
+    public boolean append = false;
+
+    @Option(name = "-generator", metaVar = "[class]",
+        usage = "Document generator class in package 'io.anserini.index.generator'.")
+    public String generatorClass = "DefaultLuceneDocumentGenerator";
 
     @Option(name = "-fields", handler = StringArrayOptionHandler.class,
         usage = "List of fields to index (space separated), in addition to the default 'contents' field.")
