@@ -22,7 +22,6 @@ import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
 import io.anserini.index.IndexCollection.Args;
-import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.index.generator.GeneratorException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -74,11 +73,9 @@ public class SimpleIndexer {
   }
 
   public SimpleIndexer(String indexPath, boolean append) throws Exception {
-    this(new String[] {
-        "-input", "",
-        "-index", indexPath,
-        "-collection", "JsonCollection",
-        "-append"});
+    // First line of constructor must be "this", which leads to a slightly awkward implementation.
+    this(append ? new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection", "-append"} :
+        new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection"});
   }
 
   public SimpleIndexer(Args args) throws Exception {
@@ -93,7 +90,7 @@ public class SimpleIndexer {
     final Directory dir = FSDirectory.open(this.indexPath);
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
-    config.setOpenMode(args.append ? IndexWriterConfig.OpenMode.APPEND : IndexWriterConfig.OpenMode.CREATE);
+    config.setOpenMode(args.append ? IndexWriterConfig.OpenMode.CREATE_OR_APPEND : IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(2048);
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());

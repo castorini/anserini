@@ -50,7 +50,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
   }
 
   @Test
-  public void testBasic() throws Exception {
+  public void testBasic1() throws Exception {
     Path tempDir = createTempDir();
     SimpleIndexer indexer;
     int cnt;
@@ -105,6 +105,70 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
     assertEquals(0.6764, hits[0].score, 1e-4);
+    searcher.close();
+  }
+
+  @Test
+  public void testBasic2() throws Exception {
+    Path tempDir = createTempDir();
+    SimpleIndexer indexer;
+    int cnt;
+
+    SimpleSearcher searcher;
+    SimpleSearcher.Result[] hits;
+
+    indexer = new SimpleIndexer(tempDir.toString());
+    cnt = new JsonCollectionWrapper("src/test/resources/sample_docs/json/collection3").indexWith(indexer);
+    indexer.close();
+
+    assertEquals(2, cnt);
+
+    searcher = new SimpleSearcher(tempDir.toString());
+    assertEquals(2, searcher.get_total_num_docs());
+    hits = searcher.search("1", 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc1", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
+    searcher.close();
+
+    // We're going to overwrite the index, but with different constructor.
+    indexer = new SimpleIndexer(tempDir.toString(), false);
+    cnt = new JsonCollectionWrapper("src/test/resources/sample_docs/json/collection4").indexWith(indexer);
+    indexer.close();
+
+    assertEquals(2, cnt);
+
+    searcher = new SimpleSearcher(tempDir.toString());
+    assertEquals(2, searcher.get_total_num_docs());
+    hits = searcher.search("contains", 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc3", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
+    searcher.close();
+  }
+
+  @Test
+  public void testBasic3() throws Exception {
+    Path tempDir = createTempDir();
+    SimpleIndexer indexer;
+    int cnt;
+
+    SimpleSearcher searcher;
+    SimpleSearcher.Result[] hits;
+
+    // Make sure appending to a non-existent is okay.
+    indexer = new SimpleIndexer(tempDir.toString(), true);
+    cnt = new JsonCollectionWrapper("src/test/resources/sample_docs/json/collection3").indexWith(indexer);
+    indexer.close();
+
+    assertEquals(2, cnt);
+
+    searcher = new SimpleSearcher(tempDir.toString());
+    assertEquals(2, searcher.get_total_num_docs());
+    hits = searcher.search("1", 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc1", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
     searcher.close();
   }
 
