@@ -62,25 +62,6 @@ public class SimpleIndexer {
     return args;
   }
 
-//  public SimpleIndexer(String indexPath, boolean append) throws IOException {
-//    this.indexPath = Paths.get(indexPath);
-//    if (!Files.exists(this.indexPath)) {
-//      Files.createDirectories(this.indexPath);
-//    }
-//
-//    analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
-//    generator = new DefaultLuceneDocumentGenerator();
-//    final Directory dir = FSDirectory.open(this.indexPath);
-//    final IndexWriterConfig config = new IndexWriterConfig(analyzer);
-//
-//    config.setOpenMode(append? IndexWriterConfig.OpenMode.APPEND : IndexWriterConfig.OpenMode.CREATE);
-//    config.setRAMBufferSizeMB(2048);
-//    config.setUseCompoundFile(false);
-//    config.setMergeScheduler(new ConcurrentMergeScheduler());
-//
-//    writer = new IndexWriter(dir, config);
-//  }
-
   public SimpleIndexer(String[] argv) throws Exception {
     this(parseArgs(argv));
   }
@@ -151,10 +132,10 @@ public class SimpleIndexer {
       JsonCollection.Document doc = JsonCollection.Document.fromString(raw);
       writer.addDocument(generator.createDocument(doc));
     } catch (GeneratorException e) {
-      e.printStackTrace();
+      LOG.error(e);
       return false;
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e);
       return false;
     }
 

@@ -16,6 +16,8 @@
 
 package io.anserini.analysis;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AnalyzerMap {
+  private static final Logger LOG = LogManager.getLogger(AnalyzerMap.class);
+
   public static final Map<String, String> analyzerMap = new HashMap<>() {
     {
       put("ar", "org.apache.lucene.analysis.ar.ArabicAnalyzer");
@@ -59,15 +63,15 @@ public class AnalyzerMap {
     try {
       return (Analyzer) Class.forName(analyzerClazz).getDeclaredConstructor().newInstance();
     } catch (InstantiationException e) {
-      e.printStackTrace();
+      LOG.error(e);
     } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      LOG.error(e);
     } catch (InvocationTargetException e) {
-      e.printStackTrace();
+      LOG.error(e);
     } catch (NoSuchMethodException e) {
-      e.printStackTrace();
+      LOG.error(e);
     } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+      LOG.error(e);
     }
 
     // If we have any issues, eat the exception and return null.
