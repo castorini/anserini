@@ -148,7 +148,7 @@ public class SimpleIndexer {
   }
 
   @SuppressWarnings("unchecked")
-  public boolean addDocument(String raw) {
+  public boolean addRawDocument(String raw) {
     try {
       JsonCollection.Document doc = JsonCollection.Document.fromString(raw);
       writer.addDocument(generator.createDocument(doc));
@@ -164,7 +164,22 @@ public class SimpleIndexer {
   }
 
   @SuppressWarnings("unchecked")
-  public int addDocuments(String[] docs) {
+  public boolean addJsonDocument(JsonCollection.Document doc) {
+    try {
+      writer.addDocument(generator.createDocument(doc));
+    } catch (GeneratorException e) {
+      LOG.error(e);
+      return false;
+    } catch (IOException e) {
+      LOG.error(e);
+      return false;
+    }
+
+    return true;
+  }
+
+  @SuppressWarnings("unchecked")
+  public int addRawDocuments(String[] docs) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     AtomicInteger cnt = new AtomicInteger();
 
@@ -172,6 +187,41 @@ public class SimpleIndexer {
       executor.execute(() -> {
         try {
           writer.addDocument(generator.createDocument(JsonCollection.Document.fromString(doc)));
+          cnt.incrementAndGet();
+        } catch (GeneratorException e) {
+          throw new CompletionException(e);
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
+      });
+    }
+
+    executor.shutdown();
+
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+    }
+
+    return cnt.get();
+  }
+
+  @SuppressWarnings("unchecked")
+  public int addJsonDocuments(JsonCollection.Document[] docs) {
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
+    AtomicInteger cnt = new AtomicInteger();
+
+    for (JsonCollection.Document doc : docs) {
+      executor.execute(() -> {
+        try {
+          writer.addDocument(generator.createDocument(doc));
           cnt.incrementAndGet();
         } catch (GeneratorException e) {
           throw new CompletionException(e);
@@ -255,7 +305,7 @@ public class SimpleIndexer {
 
     for (FileSegment<JsonCollection.Document> segment : collection ) {
       for (JsonCollection.Document doc : segment) {
-        indexer.addDocument(doc.raw());
+        indexer.addRawDocument(doc.raw());
         cnt++;
         if (cnt % 100000 == 0) {
           LOG.info(cnt + " docs indexed");

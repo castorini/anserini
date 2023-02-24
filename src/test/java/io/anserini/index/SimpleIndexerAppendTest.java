@@ -39,7 +39,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
       int cnt = 0;
       for (FileSegment<JsonCollection.Document> segment : collection) {
         for (JsonCollection.Document doc : segment) {
-          indexer.addDocument(doc.raw());
+          indexer.addRawDocument(doc.raw());
           cnt++;
         }
         segment.close();
