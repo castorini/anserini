@@ -25,6 +25,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleIndexerTest extends LuceneTestCase {
 
@@ -88,6 +90,35 @@ public class SimpleIndexerTest extends LuceneTestCase {
     searcher.set_language("sw");
     SimpleSearcher.Result[] hits = searcher.search("1.", 10);
 
+    assertEquals(1, hits.length);
+    assertEquals("doc1", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatch() throws Exception {
+    Path tempDir = createTempDir();
+
+    Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
+    JsonCollection collection = new JsonCollection(collectionPath);
+    List<String> docs = new ArrayList<>();
+    for (FileSegment<JsonCollection.Document> segment : collection ) {
+      for (JsonCollection.Document doc : segment) {
+        docs.add(doc.raw());
+      }
+      segment.close();
+    }
+
+    SimpleIndexer indexer = new SimpleIndexer(tempDir.toString(), 4);
+    int cnt = indexer.addDocuments(docs.toArray(new String[docs.size()]));
+    indexer.close();
+
+    assertEquals(2, cnt);
+
+    SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
+    SimpleSearcher.Result[] hits = searcher.search("1", 10);
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
     assertEquals(0.3648, hits[0].score, 1e-4);
