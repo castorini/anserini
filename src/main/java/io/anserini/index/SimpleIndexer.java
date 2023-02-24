@@ -24,7 +24,6 @@ import io.anserini.collection.JsonCollection;
 import io.anserini.index.IndexCollection.Args;
 import io.anserini.index.generator.GeneratorException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import io.anserini.search.SimpleSearcher;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +44,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -89,7 +87,8 @@ public class SimpleIndexer {
 
   public SimpleIndexer(String indexPath, boolean append) throws Exception {
     // First line of constructor must be "this", which leads to a slightly awkward implementation.
-    this(append ? new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection", "-append"} :
+    this(append ?
+        new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection", "-append"} :
         new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection"});
   }
 
