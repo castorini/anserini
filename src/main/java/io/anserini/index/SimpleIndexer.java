@@ -43,7 +43,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimpleIndexer {
   private static final Logger LOG = LogManager.getLogger(SimpleIndexer.class);
@@ -52,6 +56,7 @@ public class SimpleIndexer {
   private final IndexWriter writer;
   private final Analyzer analyzer;
   private final LuceneDocumentGenerator generator;
+  private final int threads;
 
   private static Args parseArgs(String[] argv) throws CmdLineException {
     Args args = new Args();
@@ -72,13 +77,32 @@ public class SimpleIndexer {
         "-collection", "JsonCollection"});
   }
 
+  public SimpleIndexer(String indexPath, int threads) throws Exception {
+    this(new String[] {
+        "-input", "",
+        "-index", indexPath,
+        "-collection", "JsonCollection",
+        "-threads", threads + ""});
+  }
+
   public SimpleIndexer(String indexPath, boolean append) throws Exception {
     // First line of constructor must be "this", which leads to a slightly awkward implementation.
-    this(append ? new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection", "-append"} :
+    this(append ?
+        new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection", "-append"} :
         new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection"});
   }
 
+  public SimpleIndexer(String indexPath, boolean append, int threads) throws Exception {
+    // First line of constructor must be "this", which leads to a slightly awkward implementation.
+    this(append ?
+        new String[] {"-input", "", "-index", indexPath,
+            "-collection", "JsonCollection", "-threads", threads + "", "-append"} :
+        new String[] {"-input", "", "-index", indexPath,
+            "-collection", "JsonCollection", "-threads", threads + ""});
+  }
+
   public SimpleIndexer(Args args) throws Exception {
+    this.threads = args.threads;
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
       Files.createDirectories(this.indexPath);
@@ -139,6 +163,41 @@ public class SimpleIndexer {
     return true;
   }
 
+  @SuppressWarnings("unchecked")
+  public int addDocuments(String[] docs) {
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
+    AtomicInteger cnt = new AtomicInteger();
+
+    for (String doc : docs) {
+      executor.execute(() -> {
+        try {
+          writer.addDocument(generator.createDocument(JsonCollection.Document.fromString(doc)));
+          cnt.incrementAndGet();
+        } catch (GeneratorException e) {
+          throw new CompletionException(e);
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
+      });
+    }
+
+    executor.shutdown();
+
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+    }
+
+    return cnt.get();
+  }
+
   public void close() {
     close(false);
   }
@@ -196,7 +255,6 @@ public class SimpleIndexer {
 
     for (FileSegment<JsonCollection.Document> segment : collection ) {
       for (JsonCollection.Document doc : segment) {
-        //System.out.println(doc.raw());
         indexer.addDocument(doc.raw());
         cnt++;
         if (cnt % 100000 == 0) {
@@ -210,6 +268,5 @@ public class SimpleIndexer {
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", cnt,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
-
   }
 }
