@@ -16,6 +16,7 @@
 
 package io.anserini.index;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
 import io.anserini.search.SimpleSearcher;
@@ -31,11 +32,19 @@ public class SimpleIndexerTest extends LuceneTestCase {
 
   @Test
   public void testJsonDoc() throws Exception {
-    JsonCollection.Document doc = JsonCollection.Document.fromString("{\"id\": \"0\", \"contents\": \"Document 0\"}");
-    System.out.println(doc.raw());
+    JsonCollection.Document doc1 =
+            JsonCollection.Document.fromString("{\"id\": \"0\", \"contents\": \"Document 0\"}");
 
-    doc = JsonCollection.Document.fromFields("0", "Document 0");
-    System.out.println(doc.raw());
+    JsonCollection.Document doc2 =
+            JsonCollection.Document.fromFields("0", "Document 0");
+
+    JsonCollection.Document doc3 = new JsonCollection.Document(
+            new ObjectMapper().createObjectNode()
+                    .put("id", "0")
+                    .put("contents", "Document 0"));
+
+    assertEquals(doc1.raw(), doc2.raw());
+    assertEquals(doc2.raw(), doc3.raw());
   }
 
   @Test

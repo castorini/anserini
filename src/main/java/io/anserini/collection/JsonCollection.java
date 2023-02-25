@@ -170,7 +170,6 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     private Map<String, String> fields;
 
     public static Document fromString(String raw) throws IOException {
-      //ObjectMapper mapper = new ObjectMapper();
       MappingIterator<JsonNode> iterator =
           MAPPER.readerFor(JsonNode.class).readValues(new ByteArrayInputStream(raw.getBytes()));
       if (iterator.hasNext()) {
@@ -181,20 +180,9 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     }
 
     public static Document fromFields(String id, String contents) throws IOException {
-      Document doc = new Document();
-      doc.id = id;
-      doc.contents = contents;
-
-      ObjectNode node = MAPPER.createObjectNode();
-      node.put("id", id);
-      node.put("contents", contents);
-
-      doc.raw = MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(node);
-//      doc.raw = String.format("{\"id\": \"%s\", \"contents\": \"%s\"}",
-//          id.replace("\"", "\\\""), contents.replace("\"", "\\\""));
-      doc.fields = new HashMap<>();
-
-      return doc;
+      return new Document(MAPPER.createObjectNode()
+              .put("id", id)
+              .put("contents", contents));
     }
 
     protected Document() {
