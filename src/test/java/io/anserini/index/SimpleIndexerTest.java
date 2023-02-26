@@ -16,13 +16,14 @@
 
 package io.anserini.index;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
 import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -31,7 +32,24 @@ import java.util.List;
 public class SimpleIndexerTest extends LuceneTestCase {
 
   @Test
-  public void testBasic() throws Exception {
+  public void testJsonDoc() throws Exception {
+    JsonCollection.Document doc1 =
+            JsonCollection.Document.fromString("{\"id\": \"0\", \"contents\": \"Document 0\"}");
+
+    JsonCollection.Document doc2 =
+            JsonCollection.Document.fromFields("0", "Document 0");
+
+    JsonCollection.Document doc3 = new JsonCollection.Document(
+            new ObjectMapper().createObjectNode()
+                    .put("id", "0")
+                    .put("contents", "Document 0"));
+
+    assertEquals(doc1.raw(), doc2.raw());
+    assertEquals(doc2.raw(), doc3.raw());
+  }
+
+  @Test
+  public void testBasic1() throws Exception {
     Path tempDir = createTempDir();
 
     Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
@@ -41,7 +59,67 @@ public class SimpleIndexerTest extends LuceneTestCase {
     int cnt = 0;
     for (FileSegment<JsonCollection.Document> segment : collection ) {
       for (JsonCollection.Document doc : segment) {
-        indexer.addDocument(doc.raw());
+        indexer.addRawDocument(doc.raw());
+        cnt++;
+      }
+      segment.close();
+    }
+
+    indexer.close();
+    assertEquals(2, cnt);
+
+    SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
+    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc1", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBasic2() throws Exception {
+    Path tempDir = createTempDir();
+
+    Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
+    JsonCollection collection = new JsonCollection(collectionPath);
+    SimpleIndexer indexer = new SimpleIndexer(tempDir.toString());
+
+    int cnt = 0;
+    for (FileSegment<JsonCollection.Document> segment : collection ) {
+      for (JsonCollection.Document doc : segment) {
+        indexer.addJsonDocument(JsonCollection.Document.fromString(doc.raw()));
+        cnt++;
+      }
+      segment.close();
+    }
+
+    indexer.close();
+    assertEquals(2, cnt);
+
+    SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
+    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc1", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBasic3() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    Path tempDir = createTempDir();
+
+    Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
+    JsonCollection collection = new JsonCollection(collectionPath);
+    SimpleIndexer indexer = new SimpleIndexer(tempDir.toString());
+
+    int cnt = 0;
+    for (FileSegment<JsonCollection.Document> segment : collection ) {
+      for (JsonCollection.Document doc : segment) {
+        indexer.addJsonNode(
+                mapper.createObjectNode().put("id", doc.id()).put("contents", doc.contents()));
         cnt++;
       }
       segment.close();
@@ -76,7 +154,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
     int cnt = 0;
     for (FileSegment<JsonCollection.Document> segment : collection ) {
       for (JsonCollection.Document doc : segment) {
-        indexer.addDocument(doc.raw());
+        indexer.addRawDocument(doc.raw());
         cnt++;
       }
       segment.close();
@@ -98,7 +176,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
   }
 
   @Test
-  public void testBatch() throws Exception {
+  public void testBatch1() throws Exception {
     Path tempDir = createTempDir();
 
     Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
@@ -112,7 +190,66 @@ public class SimpleIndexerTest extends LuceneTestCase {
     }
 
     SimpleIndexer indexer = new SimpleIndexer(tempDir.toString(), 4);
-    int cnt = indexer.addDocuments(docs.toArray(new String[docs.size()]));
+    int cnt = indexer.addRawDocuments(docs.toArray(new String[0]));
+    indexer.close();
+
+    assertEquals(2, cnt);
+
+    SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
+    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc1", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatch2() throws Exception {
+    Path tempDir = createTempDir();
+
+    Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
+    JsonCollection collection = new JsonCollection(collectionPath);
+    List<JsonCollection.Document> docs = new ArrayList<>();
+    for (FileSegment<JsonCollection.Document> segment : collection ) {
+      for (JsonCollection.Document doc : segment) {
+        docs.add(JsonCollection.Document.fromString(doc.raw()));
+      }
+      segment.close();
+    }
+
+    SimpleIndexer indexer = new SimpleIndexer(tempDir.toString(), 4);
+    int cnt = indexer.addJsonDocuments(docs.toArray(new JsonCollection.Document[0]));
+    indexer.close();
+
+    assertEquals(2, cnt);
+
+    SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
+    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc1", hits[0].docid);
+    assertEquals(0.3648, hits[0].score, 1e-4);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatch3() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    Path tempDir = createTempDir();
+
+    Path collectionPath = Paths.get("src/test/resources/sample_docs/json/collection3");
+    JsonCollection collection = new JsonCollection(collectionPath);
+    List<JsonNode> docs = new ArrayList<>();
+    for (FileSegment<JsonCollection.Document> segment : collection ) {
+      for (JsonCollection.Document doc : segment) {
+        docs.add(mapper.createObjectNode().put("id", doc.id()).put("contents", doc.contents()));
+      }
+      segment.close();
+    }
+
+    SimpleIndexer indexer = new SimpleIndexer(tempDir.toString(), 4);
+    int cnt = indexer.addJsonNodes(docs.toArray(new JsonNode[0]));
     indexer.close();
 
     assertEquals(2, cnt);
