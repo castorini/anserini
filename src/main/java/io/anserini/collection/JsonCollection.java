@@ -19,6 +19,7 @@ package io.anserini.collection;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -161,20 +162,27 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
    * A document in a JSON collection.
    */
   public static class Document extends MultifieldSourceDocument {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     private String id;
     private String contents;
     private String raw;
     private Map<String, String> fields;
 
     public static Document fromString(String raw) throws IOException {
-      ObjectMapper mapper = new ObjectMapper();
       MappingIterator<JsonNode> iterator =
-          mapper.readerFor(JsonNode.class).readValues(new ByteArrayInputStream(raw.getBytes()));
+          MAPPER.readerFor(JsonNode.class).readValues(new ByteArrayInputStream(raw.getBytes()));
       if (iterator.hasNext()) {
         return new Document(iterator.next());
       }
 
       return null;
+    }
+
+    public static Document fromFields(String id, String contents) throws IOException {
+      return new Document(MAPPER.createObjectNode()
+              .put("id", id)
+              .put("contents", contents));
     }
 
     protected Document() {

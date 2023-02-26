@@ -16,6 +16,7 @@
 
 package io.anserini.index;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.AnalyzerMap;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
@@ -48,6 +49,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 public class SimpleIndexer {
   private static final Logger LOG = LogManager.getLogger(SimpleIndexer.class);
@@ -148,7 +150,7 @@ public class SimpleIndexer {
   }
 
   @SuppressWarnings("unchecked")
-  public boolean addDocument(String raw) {
+  public boolean addRawDocument(String raw) {
     try {
       JsonCollection.Document doc = JsonCollection.Document.fromString(raw);
       writer.addDocument(generator.createDocument(doc));
@@ -164,14 +166,65 @@ public class SimpleIndexer {
   }
 
   @SuppressWarnings("unchecked")
-  public int addDocuments(String[] docs) {
+  public boolean addJsonDocument(JsonCollection.Document doc) {
+    try {
+      writer.addDocument(generator.createDocument(doc));
+    } catch (GeneratorException e) {
+      LOG.error(e);
+      return false;
+    } catch (IOException e) {
+      LOG.error(e);
+      return false;
+    }
+
+    return true;
+  }
+
+  @SuppressWarnings("unchecked")
+  public boolean addJsonNode(JsonNode node) {
+    try {
+      writer.addDocument(generator.createDocument(new JsonCollection.Document(node)));
+    } catch (GeneratorException e) {
+      LOG.error(e);
+      return false;
+    } catch (IOException e) {
+      LOG.error(e);
+      return false;
+    }
+
+    return true;
+  }
+
+  @SuppressWarnings("unchecked")
+  public int addRawDocuments(String[] docs) throws IOException {
+    return addToIndex(docs, (doc) -> {
+      try {
+        return JsonCollection.Document.fromString(doc);
+      } catch (IOException e) {
+        // There's not much we can do here, because we might have partially indexed a batch,
+        // so a return value would not be accurate.
+        throw new RuntimeException(e);
+      }
+    });
+  }
+
+  @SuppressWarnings("unchecked")
+  public int addJsonDocuments(JsonCollection.Document[] docs) {
+    return addToIndex(docs, Function.identity());
+  }
+
+  public int addJsonNodes(JsonNode[] nodes) {
+    return addToIndex(nodes, JsonCollection.Document::new);
+  }
+
+  private <T> int addToIndex(T[] objects, Function<T, JsonCollection.Document> func) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     AtomicInteger cnt = new AtomicInteger();
 
-    for (String doc : docs) {
+    for (T object : objects) {
       executor.execute(() -> {
         try {
-          writer.addDocument(generator.createDocument(JsonCollection.Document.fromString(doc)));
+          writer.addDocument(generator.createDocument(func.apply(object)));
           cnt.incrementAndGet();
         } catch (GeneratorException e) {
           throw new CompletionException(e);
@@ -255,7 +308,7 @@ public class SimpleIndexer {
 
     for (FileSegment<JsonCollection.Document> segment : collection ) {
       for (JsonCollection.Document doc : segment) {
-        indexer.addDocument(doc.raw());
+        indexer.addRawDocument(doc.raw());
         cnt++;
         if (cnt % 100000 == 0) {
           LOG.info(cnt + " docs indexed");
