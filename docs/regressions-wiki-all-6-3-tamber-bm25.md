@@ -27,7 +27,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.wiki-all-6-3-tamber &
 ```
 
-The directory `/path/to/wiki-all-6-3-tamber/`should be a directory containing the wikipedia-dpr-100w passages collection retrieved from [here](https://dl.fbaipublicfiles.com/dpr/wikipedia_split/psgs_w100.tsv.gz).
+The directory `/path/to/wiki-all-6-3-tamber/`should be a directory containing the wiki-all-6-3-tamber passages collection retrieved from [here](https://huggingface.co/datasets/castorini/odqa-wiki-corpora).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
