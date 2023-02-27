@@ -17,6 +17,32 @@
 package io.anserini.util;
 
 import io.anserini.analysis.AnalyzerUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.bn.BengaliAnalyzer;
+import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.da.DanishAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fa.PersianAnalyzer;
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
+import org.apache.lucene.analysis.fr.FrenchAnalyzer;
+import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.hu.HungarianAnalyzer;
+import org.apache.lucene.analysis.id.IndonesianAnalyzer;
+import org.apache.lucene.analysis.it.ItalianAnalyzer;
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.morfologik.MorfologikAnalyzer;
+import org.apache.lucene.analysis.nl.DutchAnalyzer;
+import org.apache.lucene.analysis.no.NorwegianAnalyzer;
+import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
+import org.apache.lucene.analysis.ru.RussianAnalyzer;
+import org.apache.lucene.analysis.sv.SwedishAnalyzer;
+import org.apache.lucene.analysis.te.TeluguAnalyzer;
+import org.apache.lucene.analysis.th.ThaiAnalyzer;
+import org.apache.lucene.analysis.tr.TurkishAnalyzer;
+import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.StringUtils;
@@ -48,12 +74,17 @@ public class DumpAnalyzedQueries {
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "queries")
     public String output;
+
+    @Option(name = "-language", usage = "Analyzer Language")
+    public String language = "en";
+
   }
 
   @SuppressWarnings("unchecked")
   public static void main(String[] argv) throws IOException {
     Args args = new Args();
     CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(90));
+    Analyzer analyzer;
 
     try {
       parser.parseArgument(argv);
@@ -61,6 +92,91 @@ public class DumpAnalyzedQueries {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
       return;
+    }
+
+    // Read the analyzer from the command line, default is en 
+    if (args.language.equals("ar")) {
+      analyzer = new ArabicAnalyzer();
+      System.out.println("Language: ar");
+    } else if (args.language.equals("bn")) {
+      analyzer = new BengaliAnalyzer();
+      System.out.println("Language: bn");
+    } else if (args.language.equals("da")) {
+      analyzer = new DanishAnalyzer();
+      System.out.println("Language: da");
+    } else if (args.language.equals("de")) {
+      analyzer = new GermanAnalyzer();
+      System.out.println("Language: de");
+    } else if (args.language.equals("es")) {
+      analyzer = new SpanishAnalyzer();
+      System.out.println("Language: es");
+    } else if (args.language.equals("fa")) {
+      analyzer = new PersianAnalyzer();
+      System.out.println("Language: fa");
+    } else if (args.language.equals("fi")) {
+      analyzer = new FinnishAnalyzer();
+      System.out.println("Language: fi");
+    } else if (args.language.equals("fr")) {
+      analyzer = new FrenchAnalyzer();
+      System.out.println("Language: fr");
+    } else if (args.language.equals("hi")) {
+      analyzer = new HindiAnalyzer();
+      System.out.println("Language: hi");
+    } else if (args.language.equals("hu")) {
+      analyzer = new HungarianAnalyzer();
+      System.out.println("Language: hu");
+    } else if (args.language.equals("id")) {
+      analyzer = new IndonesianAnalyzer();
+      System.out.println("Language: id");
+    } else if (args.language.equals("it")) {
+      analyzer = new ItalianAnalyzer();
+      System.out.println("Language: it");
+    } else if (args.language.equals("ja")) {
+      analyzer = new JapaneseAnalyzer();
+      System.out.println("Language: ja");
+    } else if (args.language.equals("ko")) {
+      analyzer = new CJKAnalyzer();
+      System.out.println("Language: ko");
+    } else if (args.language.equals("nl")) {
+      analyzer = new DutchAnalyzer();
+      System.out.println("Language: nl");
+    } else if (args.language.equals("no")) {
+      analyzer = new NorwegianAnalyzer();
+      System.out.println("Language: no");
+    } else if (args.language.equals("pl")) {
+      analyzer = new MorfologikAnalyzer();
+      System.out.println("Language: pl");
+    } else if (args.language.equals("pt")) {
+      analyzer = new PortugueseAnalyzer();
+      System.out.println("Language: pt");
+    } else if (args.language.equals("ru")) {
+      analyzer = new RussianAnalyzer();
+      System.out.println("Language: ru");
+    } else if (args.language.equals("sv")) {
+      analyzer = new SwedishAnalyzer();
+      System.out.println("Language: sv");
+    } else if (args.language.equals("te")) {
+      analyzer = new TeluguAnalyzer();
+      System.out.println("Language: te");
+    } else if (args.language.equals("th")) {
+      analyzer = new ThaiAnalyzer();
+      System.out.println("Language: th");
+    } else if (args.language.equals("tr")) {
+      analyzer = new TurkishAnalyzer();
+      System.out.println("Language: tr");
+    } else if (args.language.equals("uk")) {
+      analyzer = new UkrainianMorfologikAnalyzer();
+      System.out.println("Language: uk");
+    } else if (args.language.equals("zh")) {
+      analyzer = new CJKAnalyzer();
+      System.out.println("Language: zh");
+    } else if (args.language.equals("sw") || args.language.equals("te")) {
+      analyzer = new WhitespaceAnalyzer();
+      System.out.println("Whitespace Analyzer");
+    } else {
+      // Default to English with Porter stemmer
+      System.out.println("English/Porter: Default Analyzer");
+      analyzer = IndexCollection.DEFAULT_ANALYZER;
     }
 
     TopicReader<?> tr;
@@ -92,7 +208,7 @@ public class DumpAnalyzedQueries {
 
     FileOutputStream out = new FileOutputStream(args.output);
     for (Map.Entry<?, Map<String, String>> entry : topics.entrySet()) {
-      List<String> tokens = AnalyzerUtils.analyze(IndexCollection.DEFAULT_ANALYZER, entry.getValue().get("title"));
+      List<String> tokens = AnalyzerUtils.analyze(analyzer, entry.getValue().get("title"));
       out.write((entry.getKey() + "\t" + StringUtils.join(tokens, " ") + "\n").getBytes());
     }
     out.close();
