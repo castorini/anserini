@@ -16,7 +16,9 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.AnalyzerMap;
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.CompositeTokenizer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
@@ -46,31 +48,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.ar.ArabicAnalyzer;
-import org.apache.lucene.analysis.bn.BengaliAnalyzer;
-import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.analysis.da.DanishAnalyzer;
-import org.apache.lucene.analysis.de.GermanAnalyzer;
-import org.apache.lucene.analysis.es.SpanishAnalyzer;
-import org.apache.lucene.analysis.fa.PersianAnalyzer;
-import org.apache.lucene.analysis.fi.FinnishAnalyzer;
-import org.apache.lucene.analysis.fr.FrenchAnalyzer;
-import org.apache.lucene.analysis.hi.HindiAnalyzer;
-import org.apache.lucene.analysis.hu.HungarianAnalyzer;
-import org.apache.lucene.analysis.id.IndonesianAnalyzer;
-import org.apache.lucene.analysis.it.ItalianAnalyzer;
-import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
-import org.apache.lucene.analysis.morfologik.MorfologikAnalyzer;
-import org.apache.lucene.analysis.nl.DutchAnalyzer;
-import org.apache.lucene.analysis.no.NorwegianAnalyzer;
-import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
-import org.apache.lucene.analysis.ru.RussianAnalyzer;
-import org.apache.lucene.analysis.sv.SwedishAnalyzer;
-import org.apache.lucene.analysis.te.TeluguAnalyzer;
-import org.apache.lucene.analysis.th.ThaiAnalyzer;
-import org.apache.lucene.analysis.tr.TurkishAnalyzer;
-import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -192,6 +170,10 @@ public final class SearchCollection implements Closeable {
     @Option(name = "-analyzeWithHuggingFaceTokenizer",
         usage = "search a collection by tokenizing query with pretrained mbert tokenizer")
     public String analyzeWithHuggingFaceTokenizer = null;
+
+    @Option(name = "-useCompositeTokenizer",
+        usage = "search a collection using a Lucene Analyzer & a pretrained HuggingFace tokenizer")
+    public boolean useCompositeTokenizer = false;
 
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
@@ -669,6 +651,46 @@ public final class SearchCollection implements Closeable {
 
   }
 
+  private Analyzer getAnalyzer() {
+    try {
+      // Are we searching tweets?
+      if (args.searchtweets) {
+        return new TweetAnalyzer();
+      } else if (args.useCompositeTokenizer) {
+        final Analyzer languageSpecificAnalyzer;
+        if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
+          languageSpecificAnalyzer = AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
+        } else if (args.language.equals("en")) {
+          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
+        } else {
+          languageSpecificAnalyzer = new WhitespaceAnalyzer();
+        }
+        String message = "Using CompositeTokenizer with HF Tokenizer: %s & Analyzer %s";
+        LOG.info(String.format(message, args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer.getClass().getName()));
+        return new CompositeTokenizer(args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer);
+      } else if (args.analyzeWithHuggingFaceTokenizer != null) {
+        return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
+      } else if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
+        LOG.info("Using language-specific analyzer");
+        LOG.info("Language: " + args.language);
+        return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
+      } else if (args.language.equals("sw") || args.language.equals("yo")) {
+        return new WhitespaceAnalyzer();
+      } else if (args.pretokenized) {
+        return new WhitespaceAnalyzer();
+      } else {
+        // Default to English
+        LOG.info("Using DefaultEnglishAnalyzer");
+        LOG.info("Stemmer: " + args.stemmer);
+        LOG.info("Keep stopwords? " + args.keepstop);
+        LOG.info("Stopwords file: " + args.stopwords);
+        return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
+      }
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   private final Args args;
   private final IndexReader reader;
   private final Analyzer analyzer;
@@ -928,101 +950,7 @@ public final class SearchCollection implements Closeable {
       this.collectionClass = null;
     }
 
-    // Are we searching tweets?
-    if (args.searchtweets) {
-      LOG.info("Searching tweets? true");
-      analyzer = new TweetAnalyzer();
-    } else if (args.analyzeWithHuggingFaceTokenizer != null){
-      analyzer = new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
-      LOG.info("Bert Tokenizer");
-    } else if (args.language.equals("ar")) {
-      analyzer = new ArabicAnalyzer();
-      LOG.info("Language: ar");
-    } else if (args.language.equals("bn")) {
-      analyzer = new BengaliAnalyzer();
-      LOG.info("Language: bn");
-    } else if (args.language.equals("da")) {
-      analyzer = new DanishAnalyzer();
-      LOG.info("Language: da");
-    } else if (args.language.equals("de")) {
-      analyzer = new GermanAnalyzer();
-      LOG.info("Language: de");
-    } else if (args.language.equals("es")) {
-      analyzer = new SpanishAnalyzer();
-      LOG.info("Language: es");
-    } else if (args.language.equals("fa")) {
-      analyzer = new PersianAnalyzer();
-      LOG.info("Language: fa");
-    } else if (args.language.equals("fi")) {
-      analyzer = new FinnishAnalyzer();
-      LOG.info("Language: fi");
-    } else if (args.language.equals("fr")) {
-      analyzer = new FrenchAnalyzer();
-      LOG.info("Language: fr");
-    } else if (args.language.equals("hi")) {
-      analyzer = new HindiAnalyzer();
-      LOG.info("Language: hi");
-    } else if (args.language.equals("hu")) {
-      analyzer = new HungarianAnalyzer();
-      LOG.info("Language: hu");
-    } else if (args.language.equals("id")) {
-      analyzer = new IndonesianAnalyzer();
-      LOG.info("Language: id");
-    } else if (args.language.equals("it")) {
-      analyzer = new ItalianAnalyzer();
-      LOG.info("Language: it");
-    } else if (args.language.equals("ja")) {
-      analyzer = new JapaneseAnalyzer();
-      LOG.info("Language: ja");
-    } else if (args.language.equals("ko")) {
-      analyzer = new CJKAnalyzer();
-      LOG.info("Language: ko");
-    } else if (args.language.equals("nl")) {
-      analyzer = new DutchAnalyzer();
-      LOG.info("Language: nl");
-    } else if (args.language.equals("no")) {
-      analyzer = new NorwegianAnalyzer();
-      LOG.info("Language: no");
-    } else if (args.language.equals("pl")) {
-      analyzer = new MorfologikAnalyzer();
-      LOG.info("Language: pl");
-    } else if (args.language.equals("pt")) {
-      analyzer = new PortugueseAnalyzer();
-      LOG.info("Language: pt");
-    } else if (args.language.equals("ru")) {
-      analyzer = new RussianAnalyzer();
-      LOG.info("Language: ru");
-    } else if (args.language.equals("sv")) {
-      analyzer = new SwedishAnalyzer();
-      LOG.info("Language: sv");
-    } else if (args.language.equals("te")) {
-      analyzer = new TeluguAnalyzer();
-      LOG.info("Language: te");
-    } else if (args.language.equals("th")) {
-      analyzer = new ThaiAnalyzer();
-      LOG.info("Language: th");
-    } else if (args.language.equals("tr")) {
-      analyzer = new TurkishAnalyzer();
-      LOG.info("Language: tr");
-    } else if (args.language.equals("uk")) {
-      analyzer = new UkrainianMorfologikAnalyzer();
-      LOG.info("Language: uk");
-    } else if (args.language.equals("zh")) {
-      analyzer = new CJKAnalyzer();
-      LOG.info("Language: zh");
-    } else if (args.pretokenized || args.language.equals("sw") || args.language.equals("te")) {
-      analyzer = new WhitespaceAnalyzer();
-      LOG.info("Pretokenized");
-    } else {
-      // Default to English
-      analyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
-      LOG.info("Language: en");
-      LOG.info("Stemmer: " + args.stemmer);
-      LOG.info("Keep stopwords? " + args.keepstop);
-      LOG.info("Stopwords file: " + args.stopwords);
-      LOG.info("Number of threads for running different parameter configurations: " + args.threads);
-      LOG.info("Number of threads for running each individual parameter configuration: " + args.parallelism);
-    }
+    analyzer = getAnalyzer();
 
     isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
 
