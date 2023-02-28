@@ -20,6 +20,7 @@ import io.anserini.analysis.AnalyzerMap;
 import io.anserini.analysis.CompositeTokenizer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.analysis.MegaTokenizer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
@@ -184,6 +185,10 @@ public final class IndexCollection {
     @Option(name = "-useCompositeTokenizer",
         usage="index a collection using a Lucene Analyzer & a pretrained HuggingFace tokenizer")
     public boolean useCompositeTokenizer = false;
+
+    @Option(name = "-useMegaTokenizer",
+        usage="index a collection using the MegaTokenizer")
+    public boolean useMegaTokenizer = false;
 
     // Tweet options
 
@@ -433,6 +438,9 @@ public final class IndexCollection {
     try {
       if (args.collectionClass.equals("TweetCollection")) {
         return new TweetAnalyzer(args.tweetStemming);
+      } else if (args.useMegaTokenizer) {
+        LOG.info("Using MegaTokenizer");
+        return MegaTokenizer.getAnalyzer(args.language, args.analyzeWithHuggingFaceTokenizer);
       } else if (args.useCompositeTokenizer) {
         final Analyzer languageSpecificAnalyzer;
         if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
