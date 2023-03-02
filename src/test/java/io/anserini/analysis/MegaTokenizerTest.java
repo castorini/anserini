@@ -32,8 +32,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class MegaTokenizerTest {
-  String huggingFaceModelId = "bert-base-multilingual-uncased";
-
   private static final Map<String, Object[][]> examples = new HashMap<>() {
     {
       // Case (1): Both Lucene analyzer & monolingual tokenizer exist
@@ -104,7 +102,6 @@ public class MegaTokenizerTest {
     Analyzer analyzer = MegaTokenizer.getAnalyzer(language);
     Object[][] example = examples.get(language);
 
-    
     for (int i = 0; i < example.length; i++) {
       verify((String[]) example[i][1], parseKeywords(analyzer, (String) example[i][0]));
     }

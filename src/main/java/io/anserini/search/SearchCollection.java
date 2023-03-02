@@ -21,6 +21,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.CompositeTokenizer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
+import io.anserini.analysis.MegaTokenizer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.Constants;
 import io.anserini.index.generator.TweetGenerator;
@@ -174,6 +175,10 @@ public final class SearchCollection implements Closeable {
     @Option(name = "-useCompositeTokenizer",
         usage = "search a collection using a Lucene Analyzer & a pretrained HuggingFace tokenizer")
     public boolean useCompositeTokenizer = false;
+
+    @Option(name = "-useMegaTokenizer",
+        usage="index a collection using the MegaTokenizer")
+    public boolean useMegaTokenizer = false;
 
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
@@ -656,6 +661,9 @@ public final class SearchCollection implements Closeable {
       // Are we searching tweets?
       if (args.searchtweets) {
         return new TweetAnalyzer();
+      } else if (args.useMegaTokenizer) {
+        LOG.info("Using MegaTokenizer");
+        return MegaTokenizer.getAnalyzer(args.language, args.analyzeWithHuggingFaceTokenizer);
       } else if (args.useCompositeTokenizer) {
         final Analyzer languageSpecificAnalyzer;
         if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
