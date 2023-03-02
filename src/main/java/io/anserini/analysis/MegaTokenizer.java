@@ -33,7 +33,6 @@ public class MegaTokenizer {
       put("ar", "theyorubayesian/bert-base-uncased-arabic-cc");
       put("bn", "theyorubayesian/bert-base-uncased-bengali-cc");
       put("en", "bert-base-multilingual-uncased");
-      put("es", "theyorubayesian/bert-base-uncased-spanish-cc");
       put("fa", "theyorubayesian/bert-base-uncased-persian-cc");
       put("fi", "theyorubayesian/bert-base-uncased-finnish-cc");
       put("hi", "theyorubayesian/bert-base-uncased-hindi-cc");

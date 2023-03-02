@@ -16,6 +16,7 @@
 
 package io.anserini.analysis;
 
+import junit.framework.JUnit4TestAdapter;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -30,16 +31,16 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class CompositeTokenizerTest {
-Object[][] examples = new Object[][]{
-  {"Ṣé Wàá Fọkàn sí Àwọn Ohun Tá A Ti Kọ Sílẹ̀?",
-    new String[] {
-      "bm25wp_se", "bm25wp_wa", "bm25wp_##a", 
-      "bm25wp_fo", "bm25wp_##kan", "bm25wp_si", 
-      "bm25wp_awon", "bm25wp_oh", "bm25wp_##un", 
-      "bm25wp_ta", "bm25wp_a", "bm25wp_ti", "bm25wp_ko", 
-      "bm25wp_sile", "bm25wp_?", "bm25_Ṣé", "bm25_Wàá", 
-      "bm25_Fọkàn", "bm25_sí", "bm25_Àwọn", "bm25_Ohun", 
-      "bm25_Tá", "bm25_A", "bm25_Ti", "bm25_Kọ", "bm25_Sílẹ̀?"} }
+  Object[][] examples = new Object[][]{
+    {"Ṣé Wàá Fọkàn sí Àwọn Ohun Tá A Ti Kọ Sílẹ̀?",
+      new String[] {
+        "bm25wp_se", "bm25wp_wa", "bm25wp_##a", 
+        "bm25wp_fo", "bm25wp_##kan", "bm25wp_si", 
+        "bm25wp_awon", "bm25wp_oh", "bm25wp_##un", 
+        "bm25wp_ta", "bm25wp_a", "bm25wp_ti", "bm25wp_ko", 
+        "bm25wp_sile", "bm25wp_?", "bm25_Ṣé", "bm25_Wàá", 
+        "bm25_Fọkàn", "bm25_sí", "bm25_Àwọn", "bm25_Ohun", 
+        "bm25_Tá", "bm25_A", "bm25_Ti", "bm25_Kọ", "bm25_Sílẹ̀?"} }
   };
   String huggingFaceModelId = "bert-base-multilingual-uncased";
 
@@ -79,4 +80,7 @@ Object[][] examples = new Object[][]{
     return list;
   }
 
+  public static junit.framework.Test suite() {
+    return new JUnit4TestAdapter(CompositeTokenizerTest.class);
+  }
 }
