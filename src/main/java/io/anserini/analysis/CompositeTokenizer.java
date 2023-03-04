@@ -59,8 +59,8 @@ public class CompositeTokenizer extends Analyzer {
 	}
 
 	public CompositeTokenizer(HuggingFaceTokenizer tokenizer, Analyzer analyzer) {
+		this.analyzer = analyzer;	
 		this.tokenizer = tokenizer;
-		this.analyzer = analyzer;
 	}
 
 	private Reader applyAnalyzers(Reader reader) throws IOException {
@@ -82,17 +82,17 @@ public class CompositeTokenizer extends Analyzer {
 
 		String analyzedString = String.join(" ", analyzerOutput);
 		String[] tokens = this.tokenizer.encode(readerString).getTokens();
-		String tokenizedString = "bm25wp_" + String.join(" bm25wp_", tokens);
+		// Important for empty documents
+		String tokenizedString = tokens.length > 0 ? "bm25wp_" + String.join(" bm25wp_", tokens) : "";
 
-		return new StringReader(tokenizedString + " " + analyzedString);
+		return new StringReader(String.join(" ", 	new String[]{tokenizedString, analyzedString}));
 	}
 
 	@Override
 	protected Reader initReader(String fieldName, Reader reader) {
 		try { 
 			return applyAnalyzers(reader);
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			LOG.error("Error applying analyzers: " + e);
 		}
 		return reader;

@@ -30,20 +30,20 @@ public class MegaTokenizer {
 
   private static final Map<String, String> tokenizerMap = new HashMap<>() {
     {
-      put("ar", "theyorubayesian/bert-base-uncased-arabic-cc");
-      put("bn", "theyorubayesian/bert-base-uncased-bengali-cc");
+      put("ar", "castorini/bert-base-uncased-arabic-cc");
+      put("bn", "castorini/bert-base-uncased-bengali-cc");
       put("en", "bert-base-multilingual-uncased");
-      put("fa", "theyorubayesian/bert-base-uncased-persian-cc");
-      put("fi", "theyorubayesian/bert-base-uncased-finnish-cc");
-      put("hi", "theyorubayesian/bert-base-uncased-hindi-cc");
-      put("id", "theyorubayesian/bert-base-uncased-indonesian-cc");
-      put("ja", "theyorubayesian/bert-base-uncased-japanese-cc");
-      put("ko", "theyorubayesian/bert-base-uncased-korean-cc");
-      put("ru", "theyorubayesian/bert-base-uncased-russian-cc");
-      put("sw", "theyorubayesian/bert-base-uncased-swahili-cc");
-      put("te", "theyorubayesian/bert-base-uncased-telugu-cc");
-      put("th", "theyorubayesian/bert-base-uncased-thai-cc");
-      put("yo", "theyorubayesian/bert-base-uncased-yoruba-cc");
+      put("fa", "castorini/bert-base-uncased-persian-cc");
+      put("fi", "castorini/bert-base-uncased-finnish-cc");
+      put("hi", "castorini/bert-base-uncased-hindi-cc");
+      put("id", "castorini/bert-base-uncased-indonesian-cc");
+      put("ja", "castorini/bert-base-uncased-japanese-cc");
+      put("ko", "castorini/bert-base-uncased-korean-cc");
+      put("ru", "castorini/bert-base-uncased-russian-cc");
+      put("sw", "castorini/bert-base-uncased-swahili-cc");
+      put("te", "castorini/bert-base-uncased-telugu-cc");
+      put("th", "castorini/bert-base-uncased-thai-cc");
+      put("yo", "castorini/bert-base-uncased-yoruba-cc");
     }
   };
 
