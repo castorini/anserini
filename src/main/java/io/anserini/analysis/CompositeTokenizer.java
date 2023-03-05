@@ -59,8 +59,8 @@ public class CompositeTokenizer extends Analyzer {
 	}
 
 	public CompositeTokenizer(HuggingFaceTokenizer tokenizer, Analyzer analyzer) {
-		this.analyzer = analyzer;	
 		this.tokenizer = tokenizer;
+		this.analyzer = analyzer;	
 	}
 
 	private Reader applyAnalyzers(Reader reader) throws IOException {
