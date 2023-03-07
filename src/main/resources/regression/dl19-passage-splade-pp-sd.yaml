@@ -1,0 +1,93 @@
+---
+corpus: msmarco-passage-splade-pp-sd
+corpus_path: collections/msmarco/msmarco-passage-splade-pp-sd
+
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar
+download_checksum: cb7e264222f2bf2221dd2c9d28190be1
+
+index_path: indexes/lucene-index.msmarco-passage-splade-pp-sd/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized -storeDocvectors
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 55456660129
+
+metrics:
+  - metric: AP@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.100 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.1000 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl19
+    path: topics.dl19-passage.splade-pp-sd.tsv.gz
+    qrel: qrels.dl19-passage.txt
+
+models:
+  - name: splade-pp-sd
+    display: SPLADE++ CoCondenser-SelfDistil
+    params: -impact -pretokenized
+    results:
+      AP@1000:
+        - 0.4998
+      nDCG@10:
+        - 0.7357
+      R@100:
+        - 0.6353
+      R@1000:
+        - 0.8758
+  - name: rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3
+    results:
+      AP@1000:
+        - 0.4915
+      nDCG@10:
+        - 0.6986
+      R@100:
+        - 0.6456
+      R@1000:
+        - 0.8793
+  - name: rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio
+    results:
+      AP@1000:
+        - 0.5068
+      nDCG@10:
+        - 0.7155
+      R@100:
+        - 0.6540
+      R@1000:
+        - 0.8916
