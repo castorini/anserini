@@ -83,17 +83,17 @@ See individual pages for details!
 
 ### Available Corpora for Download
 
-| Corpora                                                                                                                                         |   Size | Checksum                           |
-|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
-| [MS MARCO V1 passage: Quantized BM25](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar)                            | 1.2 GB | `0a623e2c97ac6b7e814bf1323a97b435` |
-| [MS MARCO V1 passage: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar)                     | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
-| [MS MARCO V1 passage: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar)                          | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
-| [MS MARCO V1 passage: uniCOIL (TILDE)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar)           | 3.9 GB | `12a9c289d94e32fd63a7d39c9677d75c` |
-| [MS MARCO V1 passage: DeepImpact](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar)                             | 3.6 GB | `73843885b503af3c8b3ee62e5f5a9900` |
-| [MS MARCO V1 passage: SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                       | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
-| [MS MARCO V1 passage: SPLADE CoCodenser](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar) | 4.9 GB | `f77239a26d08856e6491a34062893b0c` |
-| [MS MARCO V1 passage: SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)          | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
-| [MS MARCO V1 passage: SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)              | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
+| Corpora                                                                                                                                   |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [Quantized BM25](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar)                                           | 1.2 GB | `0a623e2c97ac6b7e814bf1323a97b435` |
+| [uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar)                                    | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
+| [uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar)                                         | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
+| [uniCOIL (TILDE)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar)                          | 3.9 GB | `12a9c289d94e32fd63a7d39c9677d75c` |
+| [DeepImpact](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar)                                            | 3.6 GB | `73843885b503af3c8b3ee62e5f5a9900` |
+| [SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                                      | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
+| [SPLADE-distill CoCodenser-medium](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar) | 4.9 GB | `f77239a26d08856e6491a34062893b0c` |
+| [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)                         | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
+| [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)                             | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
 
 </details>
 <details>

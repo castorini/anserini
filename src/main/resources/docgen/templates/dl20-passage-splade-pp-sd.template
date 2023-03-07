@@ -1,9 +1,10 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: SPLADE-distil CoCodenser Medium
+**Model**: SPLADE++ CoCondenser-SelfDistil
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
-The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+
+> Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
@@ -17,8 +18,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
-We make available a version of the MS MARCO passage corpus that has already been processed with SPLADE-distil CoCodenser Medium, i.e., performed model inference on every document and stored the output sparse vectors.
-Thus, no neural inference is involved.
+We make available a version of the MS MARCO passage corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -91,5 +91,3 @@ The experimental results reported here are directly comparable to the results re
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
-
-+ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-14 (commit [`dc07344`](https://github.com/castorini/anserini/commit/dc073447c8a0c07b53d979c49bf1e2e018200508))
