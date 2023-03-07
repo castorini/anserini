@@ -57,7 +57,7 @@ These pages can also serve as guides to reproduce our results.
 See individual pages for details!
 
 <details>
-<summary>MS MARCO V1 Passage</summary>
+<summary>MS MARCO V1 Passage Regressions</summary>
 
 ### MS MARCO V1 Passage Regressions
 
@@ -78,6 +78,8 @@ See individual pages for details!
 | DeepImpact                                  |           [✓](docs/regressions-msmarco-passage-deepimpact.md)            |                                                                       |                                                                       |
 | SPLADEv2                                    |       [✓](docs/regressions-msmarco-passage-distill-splade-max.md)        |                                                                       |                                                                       |
 | SPLADE-distill CoCodenser-medium            | [✓](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
+| SPLADE++ CoCondenser-EnsembleDistil         |          [✓](docs/regressions-msmarco-passage-splade-pp-ed.md)           |       [✓](docs/regressions-dl19-passage-splade-splade-pp-ed.md)       |       [✓](docs/regressions-dl20-passage-splade-splade-pp-ed.md)       |
+| SPLADE++ CoCondenser-SelfDistil             |          [✓](docs/regressions-msmarco-passage-splade-pp-sd.md)           |       [✓](docs/regressions-dl19-passage-splade-splade-pp-sd.md)       |       [✓](docs/regressions-dl20-passage-splade-splade-pp-sd.md)       |
 
 ### Available Corpora for Download
 
@@ -90,10 +92,12 @@ See individual pages for details!
 | [MS MARCO V1 passage: DeepImpact](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar)                             | 3.6 GB | `73843885b503af3c8b3ee62e5f5a9900` |
 | [MS MARCO V1 passage: SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                       | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
 | [MS MARCO V1 passage: SPLADE CoCodenser](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar) | 4.9 GB | `f77239a26d08856e6491a34062893b0c` |
+| [MS MARCO V1 passage: SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)          | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
+| [MS MARCO V1 passage: SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)              | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
 
 </details>
 <details>
-<summary>MS MARCO V1 Document</summary>
+<summary>MS MARCO V1 Document Regressions</summary>
 
 ### MS MARCO V1 Document Regressions
 
@@ -121,7 +125,7 @@ See individual pages for details!
 
 </details>
 <details>
-<summary>MS MARCO V2 Passage</summary>
+<summary>MS MARCO V2 Passage Regressions</summary>
 
 ### MS MARCO V2 Passage Regressions
 
@@ -146,7 +150,7 @@ See individual pages for details!
 
 </details>
 <details>
-<summary>MS MARCO V2 Document</summary>
+<summary>MS MARCO V2 Document Regressions</summary>
 
 ### MS MARCO V2 Document Regressions
 
@@ -171,7 +175,7 @@ See individual pages for details!
 
 </details>
 <details>
-<summary>BEIR</summary>
+<summary>BEIR (v1.0.0) Regressions</summary>
 
 ### BEIR (v1.0.0) Regressions
 
@@ -214,7 +218,7 @@ See individual pages for details!
 
 </details>
 <details>
-<summary>Cross-Lingual and Multi-Lingual</summary>
+<summary>Cross-lingual and Multi-lingual Regressions</summary>
 
 ### Cross-lingual and Multi-lingual Regressions
 
@@ -234,7 +238,7 @@ See individual pages for details!
 
 </details>
 <details>
-<summary>Other</summary>
+<summary>Other Regressions</summary>
 
 ### Other Regressions
 

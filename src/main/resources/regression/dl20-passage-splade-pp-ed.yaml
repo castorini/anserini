@@ -56,7 +56,7 @@ topics:
 
 models:
   - name: splade-pp-ed
-    display: SPLADE pp ed
+    display: SPLADE++ CoCondenser-EnsembleDistil
     params: -impact -pretokenized
     results:
       AP@1000:
