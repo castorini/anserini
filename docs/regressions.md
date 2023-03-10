@@ -47,6 +47,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-tilde-expansion >& logs/log.msmarco-passage-unicoil-tilde-expansion &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-distill-splade-max >& logs/log.msmarco-passage-distill-splade-max &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium >& logs/log.msmarco-passage-splade-distil-cocodenser-medium &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed >& logs/log.msmarco-passage-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd >& logs/log.msmarco-passage-splade-pp-sd &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp >& logs/log.msmarco-doc-wp &
@@ -66,6 +68,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil >& logs/log.dl19-passage-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil-noexp >& logs/log.dl19-passage-unicoil-noexp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-distil-cocodenser-medium >& logs/log.dl19-passage-splade-distil-cocodenser-medium &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-pp-ed >& logs/log.dl19-passage-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-pp-sd >& logs/log.dl19-passage-splade-pp-sd &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc >& logs/log.dl19-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-wp >& logs/log.dl19-doc-wp &
@@ -85,6 +89,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-unicoil >& logs/log.dl20-passage-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-unicoil-noexp >& logs/log.dl20-passage-unicoil-noexp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-distil-cocodenser-medium >& logs/log.dl20-passage-splade-distil-cocodenser-medium &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-ed >& logs/log.dl20-passage-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-sd >& logs/log.dl20-passage-splade-pp-sd &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-wp >& logs/log.dl20-doc-wp &
@@ -430,6 +436,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression fever >& logs/log.fever &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 >& logs/log.wikipedia-dpr-100w-bm25 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression wiki-all-6-3-tamber-bm25 >& logs/log.wiki-all-6-3-tamber-bm25 &
 ```
 </details>
 

@@ -26,6 +26,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 # Other
 python src/main/python/run_regression.py --index --verify --search --regression fever > logs/log.fever 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 > logs/log.wikipedia-dpr-100w-bm25 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression wiki-all-6-3-tamber-bm25 > logs/log.wiki-all-6-3-tamber-bm25 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression mb11 > logs/log.mb11 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression mb13 > logs/log.mb13 2>&1

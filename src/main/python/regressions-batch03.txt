@@ -21,6 +21,8 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-tilde-expansion > logs/log.msmarco-passage-unicoil-tilde-expansion 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-distill-splade-max > logs/log.msmarco-passage-distill-splade-max 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium > logs/log.msmarco-passage-splade-distil-cocodenser-medium 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
 
 # MS MARCO V2
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc > logs/log.msmarco-v2-doc 2>&1
@@ -48,18 +50,25 @@ python src/main/python/run_regression.py --verify --search --regression dl19-pas
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-unicoil > logs/log.dl19-passage-unicoil 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-unicoil-noexp > logs/log.dl19-passage-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-distil-cocodenser-medium > logs/log.dl19-passage-splade-distil-cocodenser-medium 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-pp-ed > logs/log.dl19-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-pp-sd > logs/log.dl19-passage-splade-pp-sd 2>&1
+
 python src/main/python/run_regression.py --verify --search --regression dl19-doc > logs/log.dl19-doc 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-docTTTTTquery > logs/log.dl19-doc-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented > logs/log.dl19-doc-segmented 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-docTTTTTquery > logs/log.dl19-doc-segmented-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-unicoil > logs/log.dl19-doc-segmented-unicoil 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-unicoil-noexp > logs/log.dl19-doc-segmented-unicoil-noexp 2>&1
+
 python src/main/python/run_regression.py --verify --search --regression dl20-passage > logs/log.dl20-passage 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-bm25-b8 > logs/log.dl20-passage-bm25-b8 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-docTTTTTquery > logs/log.dl20-passage-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-unicoil > logs/log.dl20-passage-unicoil 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-unicoil-noexp > logs/log.dl20-passage-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-distil-cocodenser-medium > logs/log.dl20-passage-splade-distil-cocodenser-medium 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-pp-ed > logs/log.dl20-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-pp-sd > logs/log.dl20-passage-splade-pp-sd 2>&1
+
 python src/main/python/run_regression.py --verify --search --regression dl20-doc > logs/log.dl20-doc 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-docTTTTTquery > logs/log.dl20-doc-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented > logs/log.dl20-doc-segmented 2>&1
