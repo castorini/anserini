@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw -language en -useMegaT
 index_stats:
   documents: 32907100
   documents (non-empty): 32907100
-  total terms: 1507060932
+  total terms: 4450505310
 
 metrics:
   - metric: MRR@100
@@ -51,10 +51,10 @@ models:
     params: -bm25 -hits 100 -language en -useMegaTokenizer
     results:
       MRR@100:
-        - 0.1592
-        - 0.1685
-        - 0.1404
+        - 0.1624
+        - 0.1786
+        - 0.1482
       R@100:
-        - 0.5785
-        - 0.6196
-        - 0.5365
+        - 0.5904
+        - 0.6253
+        - 0.5464
