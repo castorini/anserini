@@ -5,8 +5,6 @@
 This page documents regression experiments on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
 Here we are using Composite Tokenizer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
 
-In general, effectiveness is better than with "standard" Lucene tokenization.
-
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc-composite-tokenizer.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc-composite-tokenizer.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 

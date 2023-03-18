@@ -5,8 +5,6 @@
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
 Here we are using Composite Tokenizer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
 
-In general, effectiveness is better than with "standard" Lucene tokenization.
-
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-doc-composite-tokenizer.yaml).
