@@ -19,8 +19,8 @@ import java.util.Map;
 import static org.junit.Assert.assertArrayEquals;
 
 public class SpladePpEdEncoderQueryInferenceTest {
-    static private final String MODEL_URL = "https://dl.dropboxusercontent.com/s/8eq7pjkm1lrwe1r/spladePpEd.onnx?dl=0";
-    static private final String MODEL_NAME = "spladePpEdEncoder.onnx";
+    static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-ed.onnx";
+    static private final String MODEL_NAME = "splade-pp-ed.onnx";
 
     Object[][] examples = new Object[][] {
             { new long[] { 101, 2029, 18714, 7457, 13853, 3798, 1999, 1996, 2668, 1029, 102 },

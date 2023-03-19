@@ -35,9 +35,9 @@ import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.QueryEncoder;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
-import io.anserini.search.queryencoder.QueryEncoder;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.ImpactSimilarity;
 import io.anserini.search.similarity.TaggedSimilarity;
@@ -760,7 +760,7 @@ public final class SearchCollection implements Closeable {
         // Initialize query encoder if specified
         QueryEncoder queryEncoder;
         if (args.encoder != null) {
-          queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.queryencoder." + args.encoder + "Encoder")
+          queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + args.encoder + "QueryEncoder")
                   .getConstructor(int.class, int.class).newInstance(args.weightRange, args.quantRange);
         } else {
           queryEncoder = null;
