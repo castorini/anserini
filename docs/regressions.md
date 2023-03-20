@@ -346,6 +346,18 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw >& logs/log.mrtydi-v1.1-sw &
 nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te >& logs/log.mrtydi-v1.1-te &
 nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th >& logs/log.mrtydi-v1.1-th &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar-mega >& logs/log.mrtydi-v1.1-ar-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-mega >& logs/log.mrtydi-v1.1-bn-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en-mega >& logs/log.mrtydi-v1.1-en-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi-mega >& logs/log.mrtydi-v1.1-fi-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id-mega >& logs/log.mrtydi-v1.1-id-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja-mega >& logs/log.mrtydi-v1.1-ja-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko-mega >& logs/log.mrtydi-v1.1-ko-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru-mega >& logs/log.mrtydi-v1.1-ru-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw-mega >& logs/log.mrtydi-v1.1-sw-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-mega >& logs/log.mrtydi-v1.1-te-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-mega >& logs/log.mrtydi-v1.1-th-mega &
 ```
 </details>
 
@@ -369,6 +381,23 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te >& logs/log.miracl-v1.0-te &
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th >& logs/log.miracl-v1.0-th &
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh >& logs/log.miracl-v1.0-zh &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar-mega >& logs/log.miracl-v1.0-ar-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn-mega >& logs/log.miracl-v1.0-bn-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-en-mega >& logs/log.miracl-v1.0-en-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-es-mega >& logs/log.miracl-v1.0-es-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa-mega >& logs/log.miracl-v1.0-fa-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi-mega >& logs/log.miracl-v1.0-fi-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr-mega >& logs/log.miracl-v1.0-fr-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-hi-mega >& logs/log.miracl-v1.0-hi-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-id-mega >& logs/log.miracl-v1.0-id-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ja-mega >& logs/log.miracl-v1.0-ja-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ko-mega >& logs/log.miracl-v1.0-ko-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ru-mega >& logs/log.miracl-v1.0-ru-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-sw-mega >& logs/log.miracl-v1.0-sw-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te-mega >& logs/log.miracl-v1.0-te-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th-mega >& logs/log.miracl-v1.0-th-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh-mega >& logs/log.miracl-v1.0-zh-mega &
 ```
 </details>
 
@@ -403,6 +432,15 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt >& logs/log.neuclir22-zh-qt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt >& logs/log.neuclir22-zh-dt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt-splade >& logs/log.neuclir22-fa-qt-splade &
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-dt-splade >& logs/log.neuclir22-fa-dt-splade &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt-splade >& logs/log.neuclir22-ru-qt-splade &
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-dt-splade >& logs/log.neuclir22-ru-dt-splade &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt-splade >& logs/log.neuclir22-zh-qt-splade &
+nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt-splade >& logs/log.neuclir22-zh-dt-splade &
 ```
 </details>
 
