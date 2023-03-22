@@ -29,6 +29,9 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -42,6 +45,8 @@ import java.util.SortedMap;
  * analyzed query) tuples; the analyzed query comprises space-delimited tokens.
  */
 public class DumpAnalyzedQueries {
+
+  private static final Logger LOG = LogManager.getLogger(DumpAnalyzedQueries.class);
 
   public static class Args {
     @Option(name = "-topicreader", metaVar = "[class]", usage = "topic reader")
@@ -60,15 +65,15 @@ public class DumpAnalyzedQueries {
   static Analyzer getAnalyzer(Args args) {
     try {
       if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
-        System.out.println("Using language-specific analyzer");
-        System.out.println("Language: " + args.language);
+        LOG.info("Using language-specific analyzer");
+        LOG.info("Language: " + args.language);
         return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
       } else if (args.language.equals("sw") || args.language.equals("te")) {
-        System.out.println("Using WhitespaceAnalyzer");
+        LOG.info("Using WhitespaceAnalyzer");
         return new WhitespaceAnalyzer();
       } else {
         // Default to English
-        System.out.println("Using DefaultEnglishAnalyzer");
+        LOG.info("Using DefaultEnglishAnalyzer");
         return IndexCollection.DEFAULT_ANALYZER;
       }
     } catch (Exception e) {
@@ -95,10 +100,10 @@ public class DumpAnalyzedQueries {
       // Can we infer the TopicReader?
       Class<? extends TopicReader> clazz = TopicReader.getTopicReaderClassByFile(args.topicsFile.toString());
       if (clazz != null) {
-        System.out.println(String.format("Inferring %s has TopicReader class %s.", args.topicsFile, clazz));
+        LOG.warn(String.format("Inferring %s has TopicReader class %s.", args.topicsFile, clazz));
       } else {
         // If not, get it from the command-line argument.
-        System.out.println(String.format("Unable to infer TopicReader class for %s, using specified class %s.",
+        LOG.info(String.format("Unable to infer TopicReader class for %s, using specified class %s.",
             args.topicsFile, args.topicReader));
         if (args.topicReader == null) {
           System.err.println("Must specify TopicReader with -topicreader!");
@@ -124,6 +129,6 @@ public class DumpAnalyzedQueries {
     }
     out.close();
 
-    System.out.println("Done!");
+    LOG.info("Done!");
   }
 }
