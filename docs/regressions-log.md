@@ -3,6 +3,15 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### March 24, 2023
+
+Summarizing the addition of several recent regressions:
+
++ Regressions for `MegaTokenizer` on Mr.TyDi and MIRACL.
++ Regressions for `CompositeTokenizer` on { MS MARCO V1 passage, MS MARCO V1 doc (full), MS MARCO V1 doc (segmented) } × { dev queries, DL19, DL20 }.
++ Regressions for SPLADE++ ED/SD on MS MARCO V1 passage for dev queries, DL19, and DL20. 
++ Regressions for SPLADE on NeuCLIR22  for `fa`, `ru`, `zh`, both QT and DT.
++ Regressions for `wiki-all-6-3-tamber-bm25` from Tamber et al. (ECIR 2023).
 
 ### October 29, 2022
 
