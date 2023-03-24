@@ -2,9 +2,11 @@
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc > logs/log.msmarco-doc 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp > logs/log.msmarco-doc-wp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-hgf-wp > logs/log.msmarco-doc-hgf-wp 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-composite-tokenizer > logs/log.msmarco-doc-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-docTTTTTquery > logs/log.msmarco-doc-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented > logs/log.msmarco-doc-segmented 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-wp > logs/log.msmarco-doc-segmented-wp 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-composite-tokenizer > logs/log.msmarco-doc-segmented-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-docTTTTTquery > logs/log.msmarco-doc-segmented-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil > logs/log.msmarco-doc-segmented-unicoil 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp > logs/log.msmarco-doc-segmented-unicoil-noexp 2>&1
@@ -13,6 +15,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bm25-b8 > logs/log.msmarco-passage-bm25-b8 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-wp > logs/log.msmarco-passage-wp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-hgf-wp > logs/log.msmarco-passage-hgf-wp 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-composite-tokenizer > logs/log.msmarco-passage-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-doc2query > logs/log.msmarco-passage-doc2query 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-docTTTTTquery > logs/log.msmarco-passage-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-deepimpact > logs/log.msmarco-passage-deepimpact 2>&1
@@ -46,6 +49,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 # TREC 2019/2022 DL, non-wp
 python src/main/python/run_regression.py --verify --search --regression dl19-passage > logs/log.dl19-passage 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-bm25-b8 > logs/log.dl19-passage-bm25-b8 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-composite-tokenizer > logs/log.dl19-passage-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-docTTTTTquery > logs/log.dl19-passage-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-unicoil > logs/log.dl19-passage-unicoil 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-unicoil-noexp > logs/log.dl19-passage-unicoil-noexp 2>&1
@@ -54,14 +58,17 @@ python src/main/python/run_regression.py --verify --search --regression dl19-pas
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-pp-sd > logs/log.dl19-passage-splade-pp-sd 2>&1
 
 python src/main/python/run_regression.py --verify --search --regression dl19-doc > logs/log.dl19-doc 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-composite-tokenizer > logs/log.dl19-doc-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-docTTTTTquery > logs/log.dl19-doc-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented > logs/log.dl19-doc-segmented 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-composite-tokenizer > logs/log.dl19-doc-segmented-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-docTTTTTquery > logs/log.dl19-doc-segmented-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-unicoil > logs/log.dl19-doc-segmented-unicoil 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-unicoil-noexp > logs/log.dl19-doc-segmented-unicoil-noexp 2>&1
 
 python src/main/python/run_regression.py --verify --search --regression dl20-passage > logs/log.dl20-passage 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-bm25-b8 > logs/log.dl20-passage-bm25-b8 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-composite-tokenizer > logs/log.dl20-passage-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-docTTTTTquery > logs/log.dl20-passage-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-unicoil > logs/log.dl20-passage-unicoil 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-unicoil-noexp > logs/log.dl20-passage-unicoil-noexp 2>&1
@@ -70,8 +77,10 @@ python src/main/python/run_regression.py --verify --search --regression dl20-pas
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-pp-sd > logs/log.dl20-passage-splade-pp-sd 2>&1
 
 python src/main/python/run_regression.py --verify --search --regression dl20-doc > logs/log.dl20-doc 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-composite-tokenizer > logs/log.dl20-doc-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-docTTTTTquery > logs/log.dl20-doc-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented > logs/log.dl20-doc-segmented 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-composite-tokenizer > logs/log.dl20-doc-segmented-composite-tokenizer 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-docTTTTTquery > logs/log.dl20-doc-segmented-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-unicoil > logs/log.dl20-doc-segmented-unicoil 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-unicoil-noexp > logs/log.dl20-doc-segmented-unicoil-noexp 2>&1
