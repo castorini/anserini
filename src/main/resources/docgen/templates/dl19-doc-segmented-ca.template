@@ -1,8 +1,8 @@
-# Anserini Regressions: TREC 2020 Deep Learning Track (Document)
+# Anserini Regressions: TREC 2019 Deep Learning Track (Document)
 
-**Models**: various bag-of-words approaches on segmented documents using Composite Analyzer.
+**Models**: various bag-of-words approaches on segmented documents using CompositeAnalyzer.
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
@@ -41,8 +41,8 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 45 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
+The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -70,6 +70,6 @@ Note that in the official evaluation for document ranking, all runs were truncat
 Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.
 Remember that we keep qrels of _all_ relevance grades, unlike the case for passage ranking, where relevance grade 1 needs to be discarded when computing certain metrics.
 Here, we retrieve 1000 hits per query, but measure AP at cutoff 100 (e.g., AP@100).
-Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
+Thus, the experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
 Note that [#1721](https://github.com/castorini/anserini/issues/1721) slightly change the results, since we corrected underlying issues with data preparation.

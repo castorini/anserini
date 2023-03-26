@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Document)
 
-**Models**: various bag-of-words approaches on segmented documents using Composite Analyzer.
+**Models**: various bag-of-words approaches on segmented documents using CompositeAnalyzer.
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
 
@@ -12,8 +12,8 @@ For additional instructions on working with MS MARCO document collection, refer 
 
 In the passage (i.e., segment) indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-doc-segmented-composite-analyzer.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-doc-segmented-composite-analyzer.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.
@@ -22,7 +22,7 @@ These new versions yield end-to-end scores that are slightly different, so if nu
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-composite-analyzer
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
 ## Indexing
@@ -30,13 +30,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
-  -collection JsonCollection \
-  -input /path/to/msmarco-doc-segmented \
-  -index indexes/lucene-index.dl20-doc-segmented-composite-analyzer/ \
-  -generator DefaultLuceneDocumentGenerator \
-  -threads 16 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
-  >& logs/log.msmarco-doc-segmented &
+${index_cmds}
 ```
 
 The directory `/path/to/msmarco-doc-segmented/` should be a directory containing the segmented corpus in Anserini's jsonl format.
@@ -53,36 +47,20 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.dl20-doc-segmented-composite-analyzer/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt \
-  -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
+${ranking_cmds}
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
+${eval_cmds}
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@100**                                                                                                   | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3568    |
-| **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5196    |
-| **R@100**                                                                                                    | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5912    |
-| **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7856    |
+${effectiveness}
 
 Explanation of settings:
 

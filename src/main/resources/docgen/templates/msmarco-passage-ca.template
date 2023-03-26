@@ -1,9 +1,9 @@
-# Anserini Regressions: MS MARCO Document Ranking
+# Anserini Regressions: MS MARCO Passage Ranking
 
-**Models**: various bag-of-words approaches on complete documents using Composite Analyzer.
+**Models**: bag-of-words approaches using CompositeAnalyzer
 
-This page documents regression experiments on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
-Here we are using Composite Analyzer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
+This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
+Here we are using CompositeAnalyzer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -22,15 +22,14 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/msmarco-doc/` should be a directory containing the document corpus in Anserini's jsonl format.
-See [this page](experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
+The directory `/path/to/msmarco-passage-wp/` should be a directory containing the corpus in Anserini's jsonl format.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 5193 dev set questions.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
