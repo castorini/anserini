@@ -31,7 +31,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-public class MegaTokenizerTest {
+public class AutoCompositeAnalyzerTest {
   private static final Map<String, Object[][]> examples = new HashMap<>() {
     {
       // Case (1): Both Lucene analyzer & monolingual tokenizer exist
@@ -65,7 +65,7 @@ public class MegaTokenizerTest {
   public void case1() throws Exception {
     String language = "fi";
     Object[][] example = examples.get(language);
-    Analyzer analyzer = MegaTokenizer.getAnalyzer(language);
+    Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
 
     for (int i = 0; i < example.length; i++) {
       List<String> tokens = parseKeywords(analyzer, (String) example[i][0]);
@@ -78,7 +78,7 @@ public class MegaTokenizerTest {
   public void case2() throws Exception {
     String language = "yo";
     Object[][] example = examples.get(language);
-    Analyzer analyzer = MegaTokenizer.getAnalyzer(language);
+    Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
     
     for (int i = 0; i < example.length; i++) {
       verify((String[]) example[i][1], parseKeywords(analyzer, (String) example[i][0]));
@@ -89,7 +89,7 @@ public class MegaTokenizerTest {
   public void case3() throws Exception {
     String language = "ha";
     Object[][] example = examples.get(language);
-    Analyzer analyzer = MegaTokenizer.getAnalyzer(language);
+    Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
     
     for (int i = 0; i < example.length; i++) {
       verify((String[]) example[i][1], parseKeywords(analyzer, (String) example[i][0]));
@@ -99,7 +99,7 @@ public class MegaTokenizerTest {
   @Test
   public void case4() throws Exception {
     String language = "es";
-    Analyzer analyzer = MegaTokenizer.getAnalyzer(language);
+    Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
     Object[][] example = examples.get(language);
 
     for (int i = 0; i < example.length; i++) {
@@ -133,6 +133,6 @@ public class MegaTokenizerTest {
   }
 
   public static junit.framework.Test suite() {
-    return new JUnit4TestAdapter(MegaTokenizerTest.class);
+    return new JUnit4TestAdapter(AutoCompositeAnalyzerTest.class);
   }
 }

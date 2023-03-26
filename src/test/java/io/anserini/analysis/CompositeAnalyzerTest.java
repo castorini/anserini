@@ -30,7 +30,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class CompositeTokenizerTest {
+public class CompositeAnalyzerTest {
   Object[][] examples = new Object[][]{
     {"Ṣé Wàá Fọkàn sí Àwọn Ohun Tá A Ti Kọ Sílẹ̀?",
       new String[] {
@@ -46,7 +46,7 @@ public class CompositeTokenizerTest {
 
   @Test
   public void basic() throws Exception {
-    Analyzer analyzer = new CompositeTokenizer(huggingFaceModelId, new WhitespaceAnalyzer());
+    Analyzer analyzer = new CompositeAnalyzer(huggingFaceModelId, new WhitespaceAnalyzer());
 
     for (int i = 0; i < examples.length; i++) {
       verify((String[]) examples[i][1], parseKeywords(analyzer, (String) examples[i][0]));
@@ -81,6 +81,6 @@ public class CompositeTokenizerTest {
   }
 
   public static junit.framework.Test suite() {
-    return new JUnit4TestAdapter(CompositeTokenizerTest.class);
+    return new JUnit4TestAdapter(CompositeAnalyzerTest.class);
   }
 }

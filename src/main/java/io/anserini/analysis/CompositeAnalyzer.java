@@ -37,8 +37,8 @@
  import java.util.Map;
  import java.util.concurrent.ConcurrentHashMap;
  
- public class CompositeTokenizer extends Analyzer {
-   private static final Logger LOG = LogManager.getLogger(CompositeTokenizer.class);
+ public class CompositeAnalyzer extends Analyzer {
+   private static final Logger LOG = LogManager.getLogger(CompositeAnalyzer.class);
    private final HuggingFaceTokenizer tokenizer;
    private final Analyzer analyzer;
  
@@ -54,11 +54,11 @@
      }
    }
  
-   public CompositeTokenizer(String tokenizerNameOrPath, Analyzer analyzer) throws IOException {
+   public CompositeAnalyzer(String tokenizerNameOrPath, Analyzer analyzer) throws IOException {
      this(makeTokenizer(tokenizerNameOrPath), analyzer);
    }
  
-   public CompositeTokenizer(HuggingFaceTokenizer tokenizer, Analyzer analyzer) {
+   public CompositeAnalyzer(HuggingFaceTokenizer tokenizer, Analyzer analyzer) {
      this.tokenizer = tokenizer;
      this.analyzer = analyzer;	
    }

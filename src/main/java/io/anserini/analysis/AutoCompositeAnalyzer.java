@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MegaTokenizer {
-  private static final Logger LOG = LogManager.getLogger(CompositeTokenizer.class);
+public class AutoCompositeAnalyzer {
+  private static final Logger LOG = LogManager.getLogger(CompositeAnalyzer.class);
 
   private static final Map<String, String> tokenizerMap = new HashMap<>() {
     {
@@ -72,9 +72,9 @@ public class MegaTokenizer {
     if (languageSpecificAnalyzer.getClass().getName().equals("org.apache.lucene.analysis.core.WhitespaceAnalyzer")) {
       if (hfTokenizer == null ) {
         // Case (3): No Lucene analyzer exists & no monolingual tokenizer exists
-        String message = "Using CompositeTokenizer with HF Tokenizer: %s & Analyzer %s";
+        String message = "Using CompositeAnalyzer with HF Tokenizer: %s & Analyzer %s";
         LOG.info(String.format(message, "bert-base-multilingual-uncased", languageSpecificAnalyzer.getClass().getName()));
-        return new CompositeTokenizer("bert-base-multilingual-uncased", languageSpecificAnalyzer);
+        return new CompositeAnalyzer("bert-base-multilingual-uncased", languageSpecificAnalyzer);
       } else {
         // Case (2): No Lucene analyzer but monolingual tokenizer exists
         LOG.info("Using HF Tokenizer: " + hfTokenizer);
@@ -88,9 +88,9 @@ public class MegaTokenizer {
         return languageSpecificAnalyzer;
       } else {
         // Case (1): Both Lucene analyzer & monolingual tokenizer exist
-        String message = "Using CompositeTokenizer with HF Tokenizer: %s & Analyzer %s";
+        String message = "Using CompositeAnalyzer with HF Tokenizer: %s & Analyzer %s";
         LOG.info(String.format(message, hfTokenizer, languageSpecificAnalyzer.getClass().getName()));
-        return new CompositeTokenizer(hfTokenizer, languageSpecificAnalyzer);
+        return new CompositeAnalyzer(hfTokenizer, languageSpecificAnalyzer);
       }
     }
   }
