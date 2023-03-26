@@ -2,7 +2,7 @@
 
 **Models**: bag-of-words approaches using `AutoCompositeAnalyzer`
 
-This page documents BM25 regression experiments for [MIRACL (v1.0) &mdash; Spanish](https://github.com/project-miracl/miracl) using AutoCompositeAnalyzer.
+This page documents BM25 regression experiments for [MIRACL (v1.0) &mdash; Spanish](https://github.com/project-miracl/miracl) using `AutoCompositeAnalyzer`.
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
