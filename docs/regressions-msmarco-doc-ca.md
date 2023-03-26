@@ -1,6 +1,6 @@
 # Anserini Regressions: MS MARCO Document Ranking
 
-**Models**: various bag-of-words approaches on complete documents using CompositeAnalyzer.
+**Models**: various bag-of-words approaches on complete documents using `CompositeAnalyzer`.
 
 This page documents regression experiments on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
 Here we are using CompositeAnalyzer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).

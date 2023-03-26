@@ -1,6 +1,6 @@
 # Anserini Regressions: Mr. TyDi (v1.1) &mdash; English
 
-**Models**: bag-of-words approaches using AutoCompositeAnalyzer
+**Models**: bag-of-words approaches using `AutoCompositeAnalyzer`
 
 This page documents BM25 regression experiments for [Mr. TyDi (v1.1) &mdash; English](https://github.com/castorini/mr.tydi) using AutoCompositeAnalyzer.
 

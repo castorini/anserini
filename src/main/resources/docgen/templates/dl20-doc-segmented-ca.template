@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Document)
 
-**Models**: various bag-of-words approaches on segmented documents using CompositeAnalyzer.
+**Models**: various bag-of-words approaches on segmented documents using `CompositeAnalyzer`.
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
 
