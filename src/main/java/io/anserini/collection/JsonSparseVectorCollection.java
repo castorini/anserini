@@ -24,36 +24,40 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-/**xxw
- * A JSON document collection where the user can specify directly the vector to be indexed.
+/**
+ * A JSON sparse document collection for learned sparse retrieval
  */
-public class JsonTermWeightCollection extends DocumentCollection<JsonTermWeightCollection.Document> {
-  public JsonTermWeightCollection(Path path) {
+public class JsonSparseVectorCollection extends DocumentCollection<JsonSparseVectorCollection.Document> {
+  public JsonSparseVectorCollection(Path path) {
     this.path = path;
   }
 
   @Override
-  public FileSegment<JsonTermWeightCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
-    return new JsonTermWeightCollection.Segment<>(bufferedReader);
+  public FileSegment<JsonSparseVectorCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+    return new JsonSparseVectorCollection.Segment<>(bufferedReader);
   }
+
   @Override
-  public FileSegment<JsonTermWeightCollection.Document> createFileSegment(Path path) throws IOException {
-    return new JsonTermWeightCollection.Segment<>(path);
+  public FileSegment<JsonSparseVectorCollection.Document> createFileSegment(Path path) throws IOException {
+    return new JsonSparseVectorCollection.Segment<>(path);
   }
-  public static class Segment<T extends JsonTermWeightCollection.Document> extends JsonCollection.Segment<T> {
+
+  public static class Segment<T extends JsonSparseVectorCollection.Document> extends JsonCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
     }
+
     public Segment(BufferedReader bufferedReader) throws IOException {
       super(bufferedReader);
     }
+
     @Override
     protected Document createNewDocument(JsonNode json) {
       return new Document(json);
     }
   }
 
-  public static class Document extends JsonCollection.Document implements SourceTermWeightDocument {
+  public static class Document extends JsonCollection.Document implements SourceSparseVectorDocument {
     private Map<String, Float> vector;
     public Document(JsonNode json) {
       super(json);
@@ -75,5 +79,6 @@ public class JsonTermWeightCollection extends DocumentCollection<JsonTermWeightC
     public Map<String, Float> vector() {
       return this.vector;
     }
+
   }
 }

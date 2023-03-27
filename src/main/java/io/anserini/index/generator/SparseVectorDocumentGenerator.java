@@ -18,7 +18,7 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.InvalidContentsException;
 import io.anserini.collection.SourceDocument;
-import io.anserini.collection.SourceTermWeightDocument;
+import io.anserini.collection.SourceSparseVectorDocument;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.document.*;
@@ -31,17 +31,18 @@ import java.util.Map;
  *
  * @param <T> type of the source document
  */
-public class TermWeightDocumentGenerator<T extends  SourceTermWeightDocument & SourceDocument> implements LuceneDocumentGenerator<T> {
+public class SparseVectorDocumentGenerator<T extends SourceSparseVectorDocument & SourceDocument> implements LuceneDocumentGenerator<T> {
   protected IndexCollection.Args args;
 
-  protected TermWeightDocumentGenerator() {
+  protected SparseVectorDocumentGenerator() {
+
   }
   /**
    * Constructor with config and counters
    *
    * @param args configuration arguments
    */
-  public TermWeightDocumentGenerator(IndexCollection.Args args) {
+  public SparseVectorDocumentGenerator(IndexCollection.Args args) {
     this.args = args;
   }
 

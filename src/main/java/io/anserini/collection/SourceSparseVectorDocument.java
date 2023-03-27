@@ -23,7 +23,7 @@ import java.util.Map;
  * Lucene {@link org.apache.lucene.document.Document}, which is the Lucene representation that
  * can be directly inserted into an index.
  */
-public interface SourceTermWeightDocument{
+public interface SourceSparseVectorDocument {
   /**
    * Return the vector containing term and weight
    * @return a map that map term to weight
