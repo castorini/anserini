@@ -1253,8 +1253,7 @@ public final class SearchCollection implements Closeable {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(Constants.CONTENTS, analyzer, queryString);
     } else if (args.impact){
         query = new BagOfWordsQueryGenerator().buildFeatureQuery(Constants.CONTENTS, analyzer, queryString);
-    }
-    else {
+    } else {
       QueryGenerator generator;
       try {
         generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
