@@ -1,0 +1,60 @@
+---
+corpus: mrtydi-v1.1-te
+corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-telugu/
+
+index_path: indexes/lucene-index.mrtydi-v1.1-telugu-aca/
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw -language te -useAutoCompositeAnalyzer
+index_stats:
+  documents: 548224
+  documents (non-empty): 548224
+  total terms: 66656576
+
+metrics:
+  - metric: MRR@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvInt
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+topics:
+  - name: "[Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)"
+    id: train
+    path: topics.mrtydi-v1.1-te.train.txt.gz
+    qrel: qrels.mrtydi-v1.1-te.train.txt
+  - name: "[Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)"
+    id: dev
+    path: topics.mrtydi-v1.1-te.dev.txt.gz
+    qrel: qrels.mrtydi-v1.1-te.dev.txt
+  - name: "[Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)"
+    id: test
+    path: topics.mrtydi-v1.1-te.test.txt.gz
+    qrel: qrels.mrtydi-v1.1-te.test.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -hits 100 -language te -useAutoCompositeAnalyzer
+    results:
+      MRR@100:
+        - 0.4063
+        - 0.4131
+        - 0.5096
+      R@100:
+        - 0.8379
+        - 0.8332
+        - 0.9110
