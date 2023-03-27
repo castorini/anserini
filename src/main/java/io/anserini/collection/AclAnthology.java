@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,11 +54,17 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
     this.path = Paths.get(path.toString(), "/papers"); // Path containing files to iterate
     this.allowedFileSuffix = Set.of(".yaml");
 
-    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+    LoaderOptions loaderOptions = new LoaderOptions();
+    loaderOptions.setCodePointLimit(10 * 1024 * 1024); // 10 MB
+    YAMLFactory yamlFactory = YAMLFactory.builder()
+        .loaderOptions(loaderOptions)
+        .build();
+
+    ObjectMapper mapper = new ObjectMapper(yamlFactory);
     try {
       this.volumes = mapper.readValue(new File(path.toString(), "/volumes.yaml"), JsonNode.class);
     } catch (IOException e) {
-      LOG.error("Unable to open volumes.yaml");
+      LOG.error(e);
       return;
     }
   }
@@ -86,7 +93,13 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
 
       // read YAML file into JsonNode format
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
-      ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+      LoaderOptions loaderOptions = new LoaderOptions();
+      loaderOptions.setCodePointLimit(10 * 1024 * 1024); // 10 MB
+      YAMLFactory yamlFactory = YAMLFactory.builder()
+        .loaderOptions(loaderOptions)
+        .build();
+
+      ObjectMapper mapper = new ObjectMapper(yamlFactory);
       MappingIterator<JsonNode> iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
 
       if (iterator.hasNext()) {
