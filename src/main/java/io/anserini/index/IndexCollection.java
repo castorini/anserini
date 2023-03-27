@@ -17,10 +17,10 @@
 package io.anserini.index;
 
 import io.anserini.analysis.AnalyzerMap;
-import io.anserini.analysis.CompositeTokenizer;
+import io.anserini.analysis.CompositeAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.analysis.MegaTokenizer;
+import io.anserini.analysis.AutoCompositeAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
@@ -182,13 +182,13 @@ public final class IndexCollection {
         usage = "index a collection by tokenizing text with pretrained huggingface tokenizers")
     public String analyzeWithHuggingFaceTokenizer = null;
 
-    @Option(name = "-useCompositeTokenizer",
+    @Option(name = "-useCompositeAnalyzer",
         usage="index a collection using a Lucene Analyzer & a pretrained HuggingFace tokenizer")
-    public boolean useCompositeTokenizer = false;
+    public boolean useCompositeAnalyzer = false;
 
-    @Option(name = "-useMegaTokenizer",
-        usage="index a collection using the MegaTokenizer")
-    public boolean useMegaTokenizer = false;
+    @Option(name = "-useAutoCompositeAnalyzer",
+        usage="index a collection using the AutoCompositeAnalyzer")
+    public boolean useAutoCompositeAnalyzer = false;
 
     // Tweet options
 
@@ -438,10 +438,10 @@ public final class IndexCollection {
     try {
       if (args.collectionClass.equals("TweetCollection")) {
         return new TweetAnalyzer(args.tweetStemming);
-      } else if (args.useMegaTokenizer) {
-        LOG.info("Using MegaTokenizer");
-        return MegaTokenizer.getAnalyzer(args.language, args.analyzeWithHuggingFaceTokenizer);
-      } else if (args.useCompositeTokenizer) {
+      } else if (args.useAutoCompositeAnalyzer) {
+        LOG.info("Using AutoCompositeAnalyzer");
+        return AutoCompositeAnalyzer.getAnalyzer(args.language, args.analyzeWithHuggingFaceTokenizer);
+      } else if (args.useCompositeAnalyzer) {
         final Analyzer languageSpecificAnalyzer;
         if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
           languageSpecificAnalyzer = AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
@@ -450,9 +450,9 @@ public final class IndexCollection {
         } else {
           languageSpecificAnalyzer = new WhitespaceAnalyzer();
         }
-        String message = "Using CompositeTokenizer with HF Tokenizer: %s & Analyzer %s";
+        String message = "Using CompositeAnalyzer with HF Tokenizer: %s & Analyzer %s";
         LOG.info(String.format(message, args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer.getClass().getName()));
-        return new CompositeTokenizer(args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer);
+        return new CompositeAnalyzer(args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer);
       } else if (args.analyzeWithHuggingFaceTokenizer!= null) {
         return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
       } else if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
