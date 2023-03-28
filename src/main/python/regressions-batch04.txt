@@ -91,22 +91,22 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th > logs/log.miracl-v1.0-th 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh > logs/log.miracl-v1.0-zh 2>&1
 
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar-mega > logs/log.miracl-v1.0-ar-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn-mega > logs/log.miracl-v1.0-bn-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-en-mega > logs/log.miracl-v1.0-en-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-es-mega > logs/log.miracl-v1.0-es-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa-mega > logs/log.miracl-v1.0-fa-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi-mega > logs/log.miracl-v1.0-fi-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr-mega > logs/log.miracl-v1.0-fr-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-hi-mega > logs/log.miracl-v1.0-hi-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-id-mega > logs/log.miracl-v1.0-id-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ja-mega > logs/log.miracl-v1.0-ja-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ko-mega > logs/log.miracl-v1.0-ko-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ru-mega > logs/log.miracl-v1.0-ru-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-sw-mega > logs/log.miracl-v1.0-sw-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te-mega > logs/log.miracl-v1.0-te-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th-mega > logs/log.miracl-v1.0-th-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh-mega > logs/log.miracl-v1.0-zh-mega 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar-aca > logs/log.miracl-v1.0-ar-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn-aca > logs/log.miracl-v1.0-bn-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-en-aca > logs/log.miracl-v1.0-en-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-es-aca > logs/log.miracl-v1.0-es-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa-aca > logs/log.miracl-v1.0-fa-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi-aca > logs/log.miracl-v1.0-fi-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr-aca > logs/log.miracl-v1.0-fr-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-hi-aca > logs/log.miracl-v1.0-hi-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-id-aca > logs/log.miracl-v1.0-id-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ja-aca > logs/log.miracl-v1.0-ja-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ko-aca > logs/log.miracl-v1.0-ko-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ru-aca > logs/log.miracl-v1.0-ru-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-sw-aca > logs/log.miracl-v1.0-sw-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te-aca > logs/log.miracl-v1.0-te-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th-aca > logs/log.miracl-v1.0-th-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh-aca > logs/log.miracl-v1.0-zh-aca 2>&1
 
 # Mr.TyDi
 python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar > logs/log.mrtydi-v1.1-ar 2>&1
@@ -121,17 +121,17 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te > logs/log.mrtydi-v1.1-te 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th > logs/log.mrtydi-v1.1-th 2>&1
 
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar-mega > logs/log.mrtydi-v1.1-ar-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-mega > logs/log.mrtydi-v1.1-bn-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en-mega > logs/log.mrtydi-v1.1-en-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi-mega > logs/log.mrtydi-v1.1-fi-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id-mega > logs/log.mrtydi-v1.1-id-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja-mega > logs/log.mrtydi-v1.1-ja-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko-mega > logs/log.mrtydi-v1.1-ko-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru-mega > logs/log.mrtydi-v1.1-ru-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw-mega > logs/log.mrtydi-v1.1-sw-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-mega > logs/log.mrtydi-v1.1-te-mega 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-mega > logs/log.mrtydi-v1.1-th-mega 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar-aca > logs/log.mrtydi-v1.1-ar-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-aca > logs/log.mrtydi-v1.1-bn-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en-aca > logs/log.mrtydi-v1.1-en-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi-aca > logs/log.mrtydi-v1.1-fi-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id-aca > logs/log.mrtydi-v1.1-id-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja-aca > logs/log.mrtydi-v1.1-ja-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko-aca > logs/log.mrtydi-v1.1-ko-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru-aca > logs/log.mrtydi-v1.1-ru-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw-aca > logs/log.mrtydi-v1.1-sw-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-aca > logs/log.mrtydi-v1.1-te-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-aca > logs/log.mrtydi-v1.1-th-aca 2>&1
 
 # BEIR
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium 2>&1

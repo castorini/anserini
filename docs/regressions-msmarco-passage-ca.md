@@ -3,7 +3,7 @@
 **Models**: bag-of-words approaches using `CompositeAnalyzer`
 
 This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
-Here we are using CompositeAnalyzer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
+Here we are using `CompositeAnalyzer` which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-ca.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-ca.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -22,7 +22,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-wp \
-  -index indexes/lucene-index.msmarco-passage-composite-analyzer/ \
+  -index indexes/lucene-index.msmarco-passage-ca/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-wp &
@@ -41,7 +41,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-composite-analyzer/ \
+  -index indexes/lucene-index.msmarco-passage-ca/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt \

@@ -3,7 +3,7 @@
 **Models**: bag-of-words approaches using `CompositeAnalyzer`
 
 This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html).
-Here we are using CompositeAnalyzer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
+Here we are using `CompositeAnalyzer` which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
@@ -25,7 +25,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-passage \
-  -index indexes/lucene-index.msmarco-passage-composite-analyzer/ \
+  -index indexes/lucene-index.msmarco-passage-ca/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-passage &
@@ -45,7 +45,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-composite-analyzer/ \
+  -index indexes/lucene-index.msmarco-passage-ca/ \
   -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage.bm25-default.topics.dl20.txt \
