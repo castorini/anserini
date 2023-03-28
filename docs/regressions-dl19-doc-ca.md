@@ -3,7 +3,7 @@
 **Models**: various bag-of-words approaches on complete documents using `CompositeAnalyzer`
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
-Here we are using CompositeAnalyzer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
+Here we are using `CompositeAnalyzer` which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
@@ -24,7 +24,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc \
-  -index indexes/lucene-index.msmarco-composite-analyzer/ \
+  -index indexes/lucene-index.msmarco-doc-ca/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-doc &
@@ -45,7 +45,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-composite-analyzer/ \
+  -index indexes/lucene-index.msmarco-doc-ca/ \
   -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt \
