@@ -7,9 +7,9 @@
 
 + Added batch indexing implementation to `SimpleIndexer`.
 + Added ability to append to existing indexes.
-+ Added regressions for `CompositeAnalyzer` and `AutoCompositeAnalyzer`: Mr.TyDi, MIRACL, MS MARCO V1
-+ Added regressions for SPLADE++: BEIR, MS MARCO V1
-+ Updated all regressions for NeuCLIR22
++ Added regressions for `CompositeAnalyzer` and `AutoCompositeAnalyzer`: Mr.TyDi, MIRACL, MS MARCO V1.
++ Added regressions for SPLADE++: BEIR, MS MARCO V1.
++ Updated all regressions for NeuCLIR22.
 
 ## Contributors (This Release)
 
