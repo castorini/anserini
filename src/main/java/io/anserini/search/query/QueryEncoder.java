@@ -26,7 +26,8 @@ public abstract class QueryEncoder {
 
   public abstract String encode(String query) throws OrtException;
   
-  abstract Map<String, Float> getTokenWeightMap(float[] computedWeights);
+
+  abstract Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights);
 
   abstract Map<String, Float> getTokenWeightMap(List<String> tokens, float[] computedWeights);
 

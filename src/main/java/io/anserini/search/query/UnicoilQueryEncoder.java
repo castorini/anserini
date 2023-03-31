@@ -41,8 +41,8 @@ public class UnicoilQueryEncoder extends QueryEncoder {
     return vocabFile.toPath();
   }
 
-  public UnicoilQueryEncoder(int weightRange, int quantRange) throws IOException, OrtException {
-    super(weightRange, quantRange);
+  public UnicoilQueryEncoder() throws IOException, OrtException {
+    super(5, 256);
     DefaultVocabulary vocabulary = DefaultVocabulary.builder()
         .addFromTextFile(getVocabPath())
         .optUnknownToken("[UNK]")
@@ -136,7 +136,7 @@ public class UnicoilQueryEncoder extends QueryEncoder {
   }
 
   @Override
-  Map<String, Float> getTokenWeightMap(float[] computedWeights) {
+  Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getTokenWeightMap'");
   }

@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class SpladePlusPlusSelfDistilQueryEncoder extends QueryEncoder {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd.onnx";
+  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd-optimized.onnx";
 
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
@@ -43,8 +43,8 @@ public class SpladePlusPlusSelfDistilQueryEncoder extends QueryEncoder {
     return vocabFile.toPath();
   }
 
-  public SpladePlusPlusSelfDistilQueryEncoder(int weightRange, int quantRange) throws IOException, OrtException {
-    super(weightRange, quantRange);
+  public SpladePlusPlusSelfDistilQueryEncoder() throws IOException, OrtException {
+    super(5, 256);
 
     vocab = DefaultVocabulary.builder()
         .addFromTextFile(getVocabPath())
@@ -74,14 +74,14 @@ public class SpladePlusPlusSelfDistilQueryEncoder extends QueryEncoder {
 
     // initialize attention mask with all 1s
     Arrays.fill(attentionMask[0], 1);
-
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
     inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
     inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
 
     try (OrtSession.Result results = session.run(inputs)) {
-      float[] computedWeights = flatten(results.get("q_rep").get().getValue());
-      Map<String, Float> tokenWeightMap = getTokenWeightMap(computedWeights);
+      long[] indexes = (long[]) results.get("output_idx").get().getValue();
+      float[] weights = (float[]) results.get("output_weights").get().getValue();
+      Map<String, Float> tokenWeightMap = getTokenWeightMap(indexes, weights);
       encodedQuery = generateEncodedQuery(tokenWeightMap);
     }
     return encodedQuery;
@@ -96,59 +96,25 @@ public class SpladePlusPlusSelfDistilQueryEncoder extends QueryEncoder {
     return tokenIds;
   }
 
-  private float[] flatten(Object obj) {
+  @Override
+  Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights) {
     /*
-     * This function is used to flatten the output of the model.
-     */
-    List<Float> weightsList = new ArrayList<>();
-    Object[] inputs = (Object[]) obj;
-    for (Object input : inputs) {
-      float[] weights = (float[]) input;
-      for (float weight : weights) {
-        weightsList.add(weight);
-      }
-    }
-    return toArray(weightsList);
-  }
-
-  private float[] toArray(List<Float> input) {
-    float[] output = new float[input.size()];
-    for (int i = 0; i < output.length; i++) {
-      output[i] = input.get(i);
-    }
-    return output;
-  }
-
-  Map<String, Float> getTokenWeightMap(float[] computedWeights) {
-    /*
-     * This function is used to generate a map of token and its corresponding
-     * weight.
+     * This function returns a map of token to its weight.
      */
     Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
 
-    int i;
-    for (i = 0; i < computedWeights.length; i++) {
-      if (computedWeights[i] != 0) {
-        tokenWeightMap.put(vocab.getToken(i), computedWeights[i]);
+    for (int i = 0; i < indexes.length; i++) {
+      if (indexes[i] == 101 || indexes[i] == 102 || indexes[i] == 0) {
+        continue;
       }
+      tokenWeightMap.put(vocab.getToken(indexes[i]), computedWeights[i]);
     }
-
-    if (tokenWeightMap.containsKey("[CLS]")) {
-      tokenWeightMap.remove("[CLS]");
-    }
-    if (tokenWeightMap.containsKey("[SEP]")) {
-      tokenWeightMap.remove("[SEP]");
-    }
-    if (tokenWeightMap.containsKey("[PAD]")) {
-      tokenWeightMap.remove("[PAD]");
-    }
-
     return tokenWeightMap;
   }
 
   private String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
     /*
-     * This function is used to generate the encoded query.
+     * This function generates the encoded query.
      */
     List<String> encodedQuery = new ArrayList<>();
     for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {

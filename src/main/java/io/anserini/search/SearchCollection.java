@@ -761,7 +761,7 @@ public final class SearchCollection implements Closeable {
         QueryEncoder queryEncoder;
         if (args.encoder != null) {
           queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + args.encoder + "QueryEncoder")
-                  .getConstructor(int.class, int.class).newInstance(args.weightRange, args.quantRange);
+                  .getConstructor().newInstance();
         } else {
           queryEncoder = null;
         }
