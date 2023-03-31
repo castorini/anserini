@@ -1,25 +1,25 @@
-# Anserini Release Notes (v0.20.0)
+# Anserini Release Notes (v0.21.0)
 
-+ **Release date:** January 20, 2023
++ **Release date:** March 31, 2023
 + **Lucene version:** Lucene 9.4.2
 
 ## Summary of Changes
 
-+ Updated TREC 2022 Deep Learning Track regressions (change in qrels).
-+ Updated TREC 2022 NeuCLIR Track regressions (change in qrels).
-+ Added topics and qrels for MIRACL surprise languages.
-+ Added GAR-T5 topics.
++ Added batch indexing implementation to `SimpleIndexer`.
++ Added ability to append to existing indexes.
++ Added regressions for `CompositeAnalyzer` and `AutoCompositeAnalyzer`: Mr.TyDi, MIRACL, MS MARCO V1
++ Added regressions for SPLADE++: BEIR, MS MARCO V1
++ Updated all regressions for NeuCLIR22
 
 ## Contributors (This Release)
 
 Sorted by number of commits:
 
 + Jimmy Lin ([lintool](https://github.com/lintool))
-+ Xinyu (Crystina) Zhang ([crystina-z](https://github.com/crystina-z))
-+ Arthur Chen ([ArthurChen189](https://github.com/ArthurChen189))
-+ Cath ([Cathrineee](https://github.com/Cathrineee))
-+ Faraz ([farazkh80](https://github.com/farazkh80))
-+ Tommaso Teofili ([tteofili](https://github.com/tteofili))
++ Akintunde Oladipo ([theyorubayesian](https://github.com/theyorubayesian))
++ Matt Yang ([justram](https://github.com/justram))
++ Kyung Jae (Jack) Lee ([dlrudwo1269](https://github.com/dlrudwo1269))
++ Manveer Tamber ([manveertamber](https://github.com/manveertamber))
 
 ## All Contributors
 
@@ -38,8 +38,8 @@ All contributors with five or more commits, sorted by number of commits, [accord
 + Yuqi Liu ([yuki617](https://github.com/yuki617))
 + Chris Kamphuis ([Chriskamphuis](https://github.com/Chriskamphuis))
 + Victor Yang ([Victor0118](https://github.com/Victor0118))
-+ Boris Lin ([borislin](https://github.com/borislin))
 + Matt Yang ([justram](https://github.com/justram))
++ Boris Lin ([borislin](https://github.com/borislin))
 + Nikhil Gupta ([nikhilro](https://github.com/nikhilro))
 + Stephanie Hu ([stephaniewhoo](https://github.com/stephaniewhoo))
 + Shane Ding ([shaneding](https://github.com/shaneding))
@@ -48,11 +48,12 @@ All contributors with five or more commits, sorted by number of commits, [accord
 + Kuang Lu ([lukuang](https://github.com/lukuang))
 + Xinyu (Crystina) Zhang ([crystina-z](https://github.com/crystina-z))
 + Adam Yang ([adamyy](https://github.com/adamyy))
++ Manveer Tamber ([manveertamber](https://github.com/manveertamber))
 + Joel Mackenzie ([JMMackenzie](https://github.com/JMMackenzie))
 + Xinyu Mavis Liu ([x389liu](https://github.com/x389liu))
 + Salman Mohammed ([salman1993](https://github.com/salman1993))
 + Luchen Tan ([LuchenTan](https://github.com/LuchenTan))
-+ Manveer Tamber ([manveertamber](https://github.com/manveertamber))
++ Akintunde Oladipo ([theyorubayesian](https://github.com/theyorubayesian))
 + Matt Yang ([d1shs0ap](https://github.com/d1shs0ap))
 + Kelvin Jiang ([kelvin-jiang](https://github.com/kelvin-jiang))
 + Johnson Han ([x65han](https://github.com/x65han))
