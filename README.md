@@ -310,6 +310,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## ℹ️ Release History
 
++ v0.21.0: March 31, 2023 [[Release Notes](docs/release-notes/release-notes-v0.21.0.md)]
 + v0.20.0: January 20, 2023 [[Release Notes](docs/release-notes/release-notes-v0.20.0.md)]
 + v0.16.2: December 12, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.2.md)]
 + v0.16.1: November 2, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.1.md)]
