@@ -83,20 +83,6 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.txt \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-segmented-unicoil.rm3.topics.msmarco-doc.dev.unicoil.txt \
-  -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.msmarco-doc.dev.unicoil.txt \
-  -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -106,31 +92,21 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qre
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.msmarco-doc.dev.unicoil.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.msmarco-doc.dev.unicoil.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.msmarco-doc.dev.unicoil.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.msmarco-doc.dev.unicoil.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.msmarco-doc.dev.unicoil.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.msmarco-doc.dev.unicoil.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.msmarco-doc.dev.unicoil.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.msmarco-doc.dev.unicoil.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.msmarco-doc.dev.unicoil.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3535    | 0.3186    | 0.3256    |
-| **RR@100**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3531    | 0.3182    | 0.3252    |
-| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8858    | 0.8800    | 0.8848    |
-| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9546    | 0.9615    | 0.9619    |
+| **AP@1000**                                                                                                  | **uniCOIL (with doc2query-T5 expansions)**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3535    |
+| **RR@100**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3531    |
+| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5 expansions)**|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8858    |
+| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5 expansions)**|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9546    |
 
 ## Additional Notes
 

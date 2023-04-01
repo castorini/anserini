@@ -72,35 +72,38 @@ models:
       R@1000:
         - 0.8982
         - 0.8952
-  - name: bm25-default+rm3
-    display: +RM3
-    params: -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
-    results:
-      MAP@100:
-        - 0.1956
-        - 0.1949
-      MRR@100:
-        - 0.1975
-        - 0.1978
-      R@100:
-        - 0.7131
-        - 0.7160
-      R@1000:
-        - 0.9002
-        - 0.8972
-  - name: bm25-default+rocchio
-    display: +Rocchio
-    params: -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
-    results:
-      MAP@100:
-        - 0.1959
-        - 0.1938
-      MRR@100:
-        - 0.1980
-        - 0.1965
-      R@100:
-        - 0.7135
-        - 0.7197
-      R@1000:
-        - 0.9028
-        - 0.8976
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: bm25-default+rm3
+#    display: +RM3
+#    params: -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+#    results:
+#      MAP@100:
+#        - 0.1956
+#        - 0.1949
+#      MRR@100:
+#        - 0.1975
+#        - 0.1978
+#      R@100:
+#        - 0.7131
+#        - 0.7160
+#      R@1000:
+#        - 0.9002
+#        - 0.8972
+#  - name: bm25-default+rocchio
+#    display: +Rocchio
+#    params: -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+#    results:
+#      MAP@100:
+#        - 0.1959
+#        - 0.1938
+#      MRR@100:
+#        - 0.1980
+#        - 0.1965
+#      R@100:
+#        - 0.7135
+#        - 0.7197
+#      R@1000:
+#        - 0.9028
+#        - 0.8976
