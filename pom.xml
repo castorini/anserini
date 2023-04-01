@@ -448,7 +448,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.9</version>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -468,6 +468,16 @@
     <dependency>
       <groupId>ai.djl.huggingface</groupId>
       <artifactId>tokenizers</artifactId>
+      <version>0.21.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.onnxruntime</groupId>
+      <artifactId>onnxruntime</artifactId>
+      <version>1.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ai.djl</groupId>
+      <artifactId>api</artifactId>
       <version>0.21.0</version>
     </dependency>
   </dependencies>

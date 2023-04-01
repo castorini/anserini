@@ -35,6 +35,7 @@ import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.QueryEncoder;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -246,6 +247,15 @@ public final class SearchCollection implements Closeable {
 
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
+
+    @Option(name = "-encoder", usage = "Query encoder for supervised sparse retrieval tasks")
+    public String encoder = null;
+  
+    @Option(name = "-weightRange", usage = "range of weights for sparse query encoding")
+    public int weightRange = 5;
+  
+    @Option(name = "-quantRange", usage = "range of quantization for sparse query encoding")
+    public int quantRange = 256;
 
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
@@ -747,6 +757,15 @@ public final class SearchCollection implements Closeable {
         ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
         AtomicInteger cnt = new AtomicInteger();
 
+        // Initialize query encoder if specified
+        QueryEncoder queryEncoder;
+        if (args.encoder != null) {
+          queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + args.encoder + "QueryEncoder")
+                  .getConstructor().newInstance();
+        } else {
+          queryEncoder = null;
+        }
+
         final long start = System.nanoTime();
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
@@ -763,6 +782,15 @@ public final class SearchCollection implements Closeable {
               }
             } else {
               queryString = entry.getValue().get(args.topicfield);
+            }
+
+            if (queryEncoder != null) {
+              try {
+                queryString = queryEncoder.encode(queryString);
+              } catch (Exception e) {
+                e.printStackTrace();
+                throw new CompletionException(e);
+              }
             }
 
             ScoredDocuments queryQrels = null;

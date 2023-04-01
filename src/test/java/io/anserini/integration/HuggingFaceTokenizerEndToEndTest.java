@@ -20,9 +20,12 @@ import io.anserini.collection.JsonCollection;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.search.SearchCollection;
+import com.carrotsearch.randomizedtesting.annotations.ThreadLeakScope;
 
 import java.util.Map;
 
+
+@ThreadLeakScope(ThreadLeakScope.Scope.NONE)
 public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
   @Override
   IndexCollection.Args getIndexArgs() {
