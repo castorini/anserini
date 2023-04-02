@@ -72,35 +72,38 @@ models:
       R@1000:
         - 0.8054
         - 0.8029
-  - name: bm25-default+rm3
-    display: +RM3
-    params: -bm25 -rm3 -collection MsMarcoV2DocCollection
-    results:
-      MAP@100:
-        - 0.0965
-        - 0.1016
-      MRR@100:
-        - 0.0974
-        - 0.1033
-      R@100:
-        - 0.5108
-        - 0.5253
-      R@1000:
-        - 0.7699
-        - 0.7736
-  - name: bm25-default+rocchio
-    display: +Rocchio
-    params: -bm25 -rocchio -collection MsMarcoV2DocCollection
-    results:
-      MAP@100:
-        - 0.0965
-        - 0.1037
-      MRR@100:
-        - 0.0974
-        - 0.1052
-      R@100:
-        - 0.5135
-        - 0.5261
-      R@1000:
-        - 0.7697
-        - 0.7762
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: bm25-default+rm3
+#    display: +RM3
+#    params: -bm25 -rm3 -collection MsMarcoV2DocCollection
+#    results:
+#      MAP@100:
+#        - 0.0965
+#        - 0.1016
+#      MRR@100:
+#        - 0.0974
+#        - 0.1033
+#      R@100:
+#        - 0.5108
+#        - 0.5253
+#      R@1000:
+#        - 0.7699
+#        - 0.7736
+#  - name: bm25-default+rocchio
+#    display: +Rocchio
+#    params: -bm25 -rocchio -collection MsMarcoV2DocCollection
+#    results:
+#      MAP@100:
+#        - 0.0965
+#        - 0.1037
+#      MRR@100:
+#        - 0.0974
+#        - 0.1052
+#      R@100:
+#        - 0.5135
+#        - 0.5261
+#      R@1000:
+#        - 0.7697
+#        - 0.7762
