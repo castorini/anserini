@@ -99,32 +99,6 @@ target/appassembler/bin/SearchCollection \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt \
   -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.msmarco-v2-doc.dev.unicoil.0shot.txt \
-  -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt \
-  -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.msmarco-v2-doc.dev.unicoil.0shot.txt \
-  -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt \
-  -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -136,39 +110,25 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank sr
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.msmarco-v2-doc.dev.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.msmarco-v2-doc.dev.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.msmarco-v2-doc.dev.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.msmarco-v2-doc.dev.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.msmarco-v2-doc.dev.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.msmarco-v2-doc.dev.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rocchio.topics.msmarco-v2-doc.dev2.unicoil.0shot.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2388    | 0.2174    | 0.2229    |
-| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2422    | 0.2198    | 0.2200    |
-| **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2419    | 0.2197    | 0.2252    |
-| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2445    | 0.2225    | 0.2225    |
-| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.7791    | 0.7684    | 0.7775    |
-| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.7759    | 0.7640    | 0.7747    |
-| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.9122    | 0.9175    | 0.9232    |
-| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.9172    | 0.9220    | 0.9253    |
+| **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2388    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2422    |
+| **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.2419    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.2445    |
+| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.7791    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.7759    |
+| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**|
+| [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.9122    |
+| [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.9172    |
 
 ## Reproduction Log[*](reproducibility.md)
 

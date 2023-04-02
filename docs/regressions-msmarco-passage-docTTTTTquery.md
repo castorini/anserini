@@ -55,27 +55,6 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -rm3 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -rocchio &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
@@ -83,50 +62,8 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rm3 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rocchio &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.msmarco-passage.dev-subset.txt \
-  -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -137,75 +74,30 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/t
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.msmarco-passage.dev-subset.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.msmarco-passage.dev-subset.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.msmarco-passage.dev-subset.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-passage.dev-subset.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.msmarco-passage.dev-subset.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.msmarco-passage.dev-subset.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.msmarco-passage.dev-subset.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.msmarco-passage.dev-subset.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.msmarco-passage.dev-subset.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.msmarco-passage.dev-subset.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned2)**| **+RM3**  | **+Rocchio**| **+Rocchio***|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2805    | 0.2241    | 0.2260    | 0.2234    | 0.2850    | 0.2260    | 0.2277    | 0.2276    | 0.2893    | 0.2472    | 0.2488    | 0.2467    |
-| **RR@10**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned2)**| **+RM3**  | **+Rocchio**| **+Rocchio***|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2723    | 0.2139    | 0.2158    | 0.2129    | 0.2768    | 0.2154    | 0.2174    | 0.2173    | 0.2816    | 0.2382    | 0.2395    | 0.2372    |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned2)**| **+RM3**  | **+Rocchio**| **+Rocchio***|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8192    | 0.8000    | 0.8019    | 0.8025    | 0.8190    | 0.8030    | 0.8052    | 0.8072    | 0.8277    | 0.8226    | 0.8238    | 0.8227    |
-| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned)**| **+RM3**  | **+Rocchio**| **+Rocchio***| **BM25 (tuned2)**| **+RM3**  | **+Rocchio**| **+Rocchio***|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9470    | 0.9460    | 0.9467    | 0.9475    | 0.9471    | 0.9479    | 0.9496    | 0.9493    | 0.9506    | 0.9528    | 0.9535    | 0.9539    |
+| **AP@1000**                                                                                                  | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2805    | 0.2850    | 0.2893    |
+| **RR@10**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2723    | 0.2768    | 0.2816    |
+| **R@100**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8192    | 0.8190    | 0.8277    |
+| **R@1000**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9470    | 0.9471    | 0.9506    |
 
 Explanation of settings:
 

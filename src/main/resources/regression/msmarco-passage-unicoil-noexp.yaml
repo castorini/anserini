@@ -67,27 +67,30 @@ models:
         - 0.8070
       R@1000:
         - 0.9239
-  - name: rm3
-    display: +RM3
-    params: -impact -pretokenized -rm3
-    results:
-      AP@1000:
-        - 0.2621
-      RR@10:
-        - 0.2537
-      R@100:
-        - 0.7953
-      R@1000:
-        - 0.9296
-  - name: rocchio
-    display: +Rocchio
-    params: -impact -pretokenized -rocchio
-    results:
-      AP@1000:
-        - 0.2643
-      RR@10:
-        - 0.2565
-      R@100:
-        - 0.7971
-      R@1000:
-        - 0.9326
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: rm3
+#    display: +RM3
+#    params: -impact -pretokenized -rm3
+#    results:
+#      AP@1000:
+#        - 0.2621
+#      RR@10:
+#        - 0.2537
+#      R@100:
+#        - 0.7953
+#      R@1000:
+#        - 0.9296
+#  - name: rocchio
+#    display: +Rocchio
+#    params: -impact -pretokenized -rocchio
+#    results:
+#      AP@1000:
+#        - 0.2643
+#      RR@10:
+#        - 0.2565
+#      R@100:
+#        - 0.7971
+#      R@1000:
+#        - 0.9326
