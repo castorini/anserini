@@ -1,6 +1,7 @@
 package io.anserini.search.query;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
+import ai.djl.modality.nlp.Vocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
@@ -14,7 +15,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 
-public class UnicoilQueryEncoder extends QueryEncoder {
+public class UniCoilQueryEncoder extends QueryEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/unicoil.onnx";
 
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
@@ -25,31 +26,21 @@ public class UnicoilQueryEncoder extends QueryEncoder {
 
   private final BertFullTokenizer tokenizer;
 
+  private final DefaultVocabulary vocab;
+
   private final OrtEnvironment environment;
 
   private final OrtSession session;
 
-  static private Path getModelPath() throws IOException {
-    File modelFile = new File(getCacheDir(), MODEL_NAME);
-    FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
-    return modelFile.toPath();
-  }
-
-  static private Path getVocabPath() throws IOException {
-    File vocabFile = new File(getCacheDir(), VOCAB_NAME);
-    FileUtils.copyURLToFile(new URL(VOCAB_URL), vocabFile);
-    return vocabFile.toPath();
-  }
-
-  public UnicoilQueryEncoder() throws IOException, OrtException {
+  public UniCoilQueryEncoder() throws IOException, OrtException {
     super(5, 256);
-    DefaultVocabulary vocabulary = DefaultVocabulary.builder()
-        .addFromTextFile(getVocabPath())
+    this.vocab = DefaultVocabulary.builder()
+        .addFromTextFile(getVocabPath(VOCAB_NAME, VOCAB_URL))
         .optUnknownToken("[UNK]")
         .build();
-    this.tokenizer = new BertFullTokenizer(vocabulary, true);
+    this.tokenizer = new BertFullTokenizer(vocab, true);
     this.environment = OrtEnvironment.getEnvironment();
-    this.session = environment.createSession(getModelPath().toString(), new OrtSession.SessionOptions());
+    this.session = environment.createSession(getModelPath(MODEL_NAME, MODEL_URL).toString(), new OrtSession.SessionOptions());
   }
 
   @Override
@@ -61,7 +52,7 @@ public class UnicoilQueryEncoder extends QueryEncoder {
     queryTokens.add("[SEP]");
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens);
+    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
     inputTokenIds[0] = queryTokenIds;
     inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
@@ -74,14 +65,6 @@ public class UnicoilQueryEncoder extends QueryEncoder {
     return encodedQuery;
   }
 
-  private long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens) {
-    int numTokens = tokens.size();
-    long[] tokenIds = new long[numTokens];
-    for (int i = 0; i < numTokens; ++i) {
-      tokenIds[i] = tokenizer.getVocabulary().getIndex(tokens.get(i));
-    }
-    return tokenIds;
-  }
 
   private float[] flatten(Object obj) {
     List<Float> weightsList = new ArrayList<>();
@@ -122,22 +105,4 @@ public class UnicoilQueryEncoder extends QueryEncoder {
     return tokenWeightMap;
   }
 
-  private String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
-    List<String> encodedQuery = new ArrayList<>();
-    for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
-      String token = entry.getKey();
-      Float tokenWeight = entry.getValue();
-      int weightQuanted = Math.round(tokenWeight / weightRange * quantRange);
-      for (int i = 0; i < weightQuanted; ++i) {
-        encodedQuery.add(token);
-      }
-    }
-    return String.join(" ", encodedQuery);
-  }
-
-  @Override
-  Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getTokenWeightMap'");
-  }
 }
