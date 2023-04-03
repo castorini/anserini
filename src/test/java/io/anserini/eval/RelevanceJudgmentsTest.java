@@ -168,6 +168,28 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
+  public void testTrec22DLPassage() {
+    // % cut -f 1 -d ' ' src/main/resources/topics-and-qrels/qrels.dl22-passage.txt | uniq | wc
+    //      76      76     608
+    // % wc src/main/resources/topics-and-qrels/qrels.dl22-passage.txt
+    //  386416 1545664 15800539 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt
+
+    RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl22-passage.txt");
+    assertNotNull(qrels);
+    assertEquals(76, qrels.getQids().size());
+    assertEquals(386416, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_passage_00_491585864"));
+    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_passage_68_715747739"));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2022_DL_PASSAGE);
+    assertNotNull(qrels);
+    assertEquals(76, qrels.getQids().size());
+    assertEquals(386416, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_passage_00_491585864"));
+    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_passage_68_715747739"));
+  }
+
+  @Test
   public void testMsmarcoDocDev() {
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt");
     assertNotNull(qrels);
@@ -1142,7 +1164,7 @@ public class RelevanceJudgmentsTest {
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(2522, getQrelsCount(qrels));
-  
+
     qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_ZH_DEV);
     assertNotNull(qrels);
     assertEquals(10, qrels.getQids().size());
@@ -1152,6 +1174,41 @@ public class RelevanceJudgmentsTest {
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(2751, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testNeuClir2022() {
+    RelevanceJudgments qrels;
+
+    // % cut -f 1 -d ' ' src/main/resources/topics-and-qrels/qrels.neuclir22-fa.txt | uniq | wc
+    //      46      46     146
+    // % wc src/main/resources/topics-and-qrels/qrels.neuclir22-fa.txt
+    //   34174  136696 1508848 src/main/resources/topics-and-qrels/qrels.neuclir22-fa.txt
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_FA);
+    assertNotNull(qrels);
+    assertEquals(46, qrels.getQids().size());
+    assertEquals(34174, getQrelsCount(qrels));
+
+    // % cut -f 1 -d ' ' src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt | uniq | wc
+    //      45      45     139
+    // % wc src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt
+    //   33006  132024 1455114 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_RU);
+    assertNotNull(qrels);
+    assertEquals(45, qrels.getQids().size());
+    assertEquals(33006, getQrelsCount(qrels));
+
+    // % cut -f 1 -d ' ' src/main/resources/topics-and-qrels/qrels.neuclir22-zh.txt | uniq | wc
+    //      49      49     155
+    // % wc src/main/resources/topics-and-qrels/qrels.neuclir22-zh.txt
+    //   36575  146300 1614196 src/main/resources/topics-and-qrels/qrels.neuclir22-zh.txt
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_ZH);
+    assertNotNull(qrels);
+    assertEquals(49, qrels.getQids().size());
+    assertEquals(36575, getQrelsCount(qrels));
   }
 
   @Test
@@ -1237,7 +1294,5 @@ public class RelevanceJudgmentsTest {
     assertNotNull(qrels);
     assertEquals(393, qrels.getQids().size());
     assertEquals(3928, getQrelsCount(qrels));
-
-
   }
 }
