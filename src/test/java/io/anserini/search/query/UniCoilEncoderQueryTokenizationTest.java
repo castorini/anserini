@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertArrayEquals;
 
 public class UniCoilEncoderQueryTokenizationTest {
-  static private final String VOCAB_URL = "https://dl.dropboxusercontent.com/s/2kgkvw6gm37ghc8/vocab.txt?dl=0RYd";
+  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
   Object[][] examples = new Object[][] {
       { "which hormone increases calcium levels in the blood?",
@@ -60,7 +60,7 @@ public class UniCoilEncoderQueryTokenizationTest {
   };
 
   static private String getCacheDir() {
-    File cacheDir = new File("~/.cache/anserini/test");
+    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
     if (!cacheDir.exists()) {
       cacheDir.mkdir();
     }
@@ -68,7 +68,7 @@ public class UniCoilEncoderQueryTokenizationTest {
   }
 
   static private Path getVocabPath() throws IOException {
-    File vocabFile = new File(getCacheDir(), "UnicoilVocab.txt");
+    File vocabFile = new File(getCacheDir(), "unicoil-vocab.txt");
     FileUtils.copyURLToFile(new URL(VOCAB_URL), vocabFile);
     return vocabFile.toPath();
   }

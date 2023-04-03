@@ -1,26 +1,15 @@
 package io.anserini.search.query;
 
 import ai.onnxruntime.*;
-import ai.onnxruntime.OrtSession.Result;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
-import static org.junit.Assert.assertArrayEquals;
+public class SpladePlusPlusSelfDistilEncoderQueryInferenceTest extends SpladePlusPlusEncoderQueryInferenceTest {
 
-public class SpladePlusPlusSelfDistilEncoderQueryInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd-optimized.onnx";
   static private final String MODEL_NAME = "splade-pp-sd-optimized.onnx";
 
-  Object[][] examples = new Object[][] {
+  static private final Object[][] EXAMPLES = new Object[][] {
       { new long[] { 101, 2029, 18714, 7457, 13853, 3798, 1999, 1996, 2668, 1029, 102 },
           new long[] { 2504, 2668, 3231, 3433, 3445, 3466, 3623, 3798, 4319, 4789, 4852, 5333, 5387, 5547,
               7077, 7461, 8247, 8319, 9007, 9495, 9997, 10032, 10163, 12005, 12448, 13004, 13341, 13853,
@@ -212,48 +201,12 @@ public class SpladePlusPlusSelfDistilEncoderQueryInferenceTest {
               0.2994387f, 0.3522259f, 0.15532349f, 1.4914014f, 0.7453375f } }
   };
 
-  static private String getCacheDir() {
-    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
-    if (!cacheDir.exists()) {
-      cacheDir.mkdir();
-    }
-    return cacheDir.getPath();
-  }
-
-  static private Path getEncoderModelPath() throws IOException {
-    File modelFile = new File(getCacheDir(), MODEL_NAME);
-    FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
-    return modelFile.toPath();
+  public SpladePlusPlusSelfDistilEncoderQueryInferenceTest() {
+    super(MODEL_NAME, MODEL_URL, EXAMPLES);
   }
 
   @Test
   public void basic() throws OrtException, IOException {
-    String modelPath = getEncoderModelPath().toString();
-    try (OrtEnvironment env = OrtEnvironment.getEnvironment();
-        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-        OrtSession session = env.createSession(modelPath, options)) {
-
-      for (Object[] example : examples) {
-        long[] inputIds = (long[]) example[0];
-        long[] expectedIdx = (long[]) example[1];
-        float[] expectedWeights = (float[]) example[2];
-
-        Map<String, OnnxTensor> inputs = new HashMap<>();
-        long[][] tokenIds = new long[1][inputIds.length];
-        long[][] tokenTypeIdsTensor = new long[1][inputIds.length];
-        long[][] attentionMaskTensor = new long[1][inputIds.length];
-        Arrays.fill(attentionMaskTensor[0], 1);
-        tokenIds[0] = inputIds;
-        inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
-        inputs.put("token_type_ids", OnnxTensor.createTensor(env, tokenTypeIdsTensor));
-        inputs.put("attention_mask", OnnxTensor.createTensor(env, attentionMaskTensor));
-        try (Result results = session.run(inputs)) {
-          long[] indexes = (long[]) results.get("output_idx").get().getValue();
-          float[] weights = (float[]) results.get("output_weights").get().getValue();
-          assertArrayEquals(expectedIdx, indexes);
-          assertArrayEquals(expectedWeights, weights, 1e-4f);
-        }
-      }
-    }
+    super.basicTest();
   }
 }

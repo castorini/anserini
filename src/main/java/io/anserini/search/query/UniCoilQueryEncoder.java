@@ -1,18 +1,13 @@
 package io.anserini.search.query;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
-import ai.djl.modality.nlp.Vocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.*;
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.*;
 
 public class UniCoilQueryEncoder extends QueryEncoder {

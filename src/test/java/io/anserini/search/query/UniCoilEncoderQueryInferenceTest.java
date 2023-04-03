@@ -17,7 +17,7 @@ import java.util.Map;
 import static org.junit.Assert.assertArrayEquals;
 
 public class UniCoilEncoderQueryInferenceTest {
-  static private final String MODEL_URL = "https://dl.dropboxusercontent.com/s/39jqt27b6efuyry/UnicoilEncoder.onnx?dl=0";
+  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/unicoil.onnx";
 
   Object[][] examples = new Object[][] {
       { new long[] { 101, 2029, 18714, 7457, 13853, 3798, 1999, 1996, 2668, 1029, 102 },
@@ -78,7 +78,7 @@ public class UniCoilEncoderQueryInferenceTest {
   };
 
   static private String getCacheDir() {
-    File cacheDir = new File("~/.cache/anserini/test");
+    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
     if (!cacheDir.exists()) {
       cacheDir.mkdir();
     }
@@ -86,7 +86,7 @@ public class UniCoilEncoderQueryInferenceTest {
   }
 
   static private Path getUnicoilEncoderModelPath() throws IOException {
-    File modelFile = new File(getCacheDir(), "UnicoilEncoder.onnx");
+    File modelFile = new File(getCacheDir(), "unicoil.onnx");
     FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
     return modelFile.toPath();
   }

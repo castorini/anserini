@@ -250,12 +250,6 @@ public final class SearchCollection implements Closeable {
 
     @Option(name = "-encoder", usage = "Query encoder for supervised sparse retrieval tasks")
     public String encoder = null;
-  
-    @Option(name = "-weightRange", usage = "range of weights for sparse query encoding")
-    public int weightRange = 5;
-  
-    @Option(name = "-quantRange", usage = "range of quantization for sparse query encoding")
-    public int quantRange = 256;
 
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
