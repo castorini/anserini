@@ -1,4 +1,4 @@
-package io.anserini.onnx.unicoil;
+package io.anserini.search.query;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public class UnicoilEncoderQueryTokenizationTest {
+public class UniCoilEncoderQueryTokenizationTest {
     static private final String VOCAB_URL = "https://dl.dropboxusercontent.com/s/2kgkvw6gm37ghc8/vocab.txt?dl=0RYd";
 
     Object[][] examples = new Object[][] {

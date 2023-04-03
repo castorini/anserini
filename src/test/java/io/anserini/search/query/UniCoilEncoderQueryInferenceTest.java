@@ -1,4 +1,4 @@
-package io.anserini.onnx.unicoil;
+package io.anserini.search.query;
 
 import ai.onnxruntime.*;
 import ai.onnxruntime.OrtSession.Result;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public class UnicoilEncoderQueryInferenceTest {
+public class UniCoilEncoderQueryInferenceTest {
     static private final String MODEL_URL = "https://dl.dropboxusercontent.com/s/39jqt27b6efuyry/UnicoilEncoder.onnx?dl=0";
 
     Object[][] examples = new Object[][] {

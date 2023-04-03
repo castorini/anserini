@@ -1,4 +1,4 @@
-package io.anserini.onnx.splade;
+package io.anserini.search.query;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
