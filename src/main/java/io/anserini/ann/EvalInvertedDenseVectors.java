@@ -22,7 +22,6 @@ import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
 import io.anserini.index.IndexInvertedDenseVectors;
 import io.anserini.search.topicreader.TrecTopicReader;
-import io.anserini.util.IOUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
