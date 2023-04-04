@@ -59,7 +59,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-public final class IndexDenseVectors {
+public final class IndexHnswDenseVectors {
 
   public static final class Args {
 
@@ -168,7 +168,7 @@ public final class IndexDenseVectors {
   
   }
 
-  private static final Logger LOG = LogManager.getLogger(IndexDenseVectors.class);
+  private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
 
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
   public final class Counters {
@@ -312,7 +312,7 @@ public final class IndexDenseVectors {
   private Path indexPath;
 
   @SuppressWarnings("unchecked")
-  public IndexDenseVectors(Args args) throws Exception {
+  public IndexHnswDenseVectors(Args args) throws Exception {
     this.args = args;
 
     if (args.verbose) {
@@ -490,11 +490,11 @@ public final class IndexDenseVectors {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: " + IndexDenseVectors.class.getSimpleName() +
+      System.err.println("Example: " + IndexHnswDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new IndexDenseVectors(indexCollectionArgs).run();
+    new IndexHnswDenseVectors(indexCollectionArgs).run();
   }
 }

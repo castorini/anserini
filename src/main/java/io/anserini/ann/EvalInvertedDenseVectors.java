@@ -20,7 +20,9 @@ import com.google.common.collect.Sets;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
+import io.anserini.index.IndexInvertedDenseVectors;
 import io.anserini.search.topicreader.TrecTopicReader;
+import io.anserini.util.IOUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -53,7 +55,7 @@ import java.util.TreeSet;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
-public class ApproximateNearestNeighborEval {
+public class EvalInvertedDenseVectors {
   private static final String FW = "fw";
   private static final String LEXLSH = "lexlsh";
 
@@ -105,7 +107,7 @@ public class ApproximateNearestNeighborEval {
   }
 
   public static void main(String[] args) throws Exception {
-    ApproximateNearestNeighborEval.Args indexArgs = new ApproximateNearestNeighborEval.Args();
+    EvalInvertedDenseVectors.Args indexArgs = new EvalInvertedDenseVectors.Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
@@ -113,7 +115,7 @@ public class ApproximateNearestNeighborEval {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: " + ApproximateNearestNeighborEval.class.getSimpleName() +
+      System.err.println("Example: " + EvalInvertedDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -125,14 +127,14 @@ public class ApproximateNearestNeighborEval {
           indexArgs.bucketCount, indexArgs.hashSetSize);
     } else {
       parser.printUsage(System.err);
-      System.err.println("Example: " + ApproximateNearestNeighborEval.class.getSimpleName() +
+      System.err.println("Example: " + EvalInvertedDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
     System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, List<float[]>> wordVectors = IndexVectors.readGloVe(indexArgs.input);
+    Map<String, List<float[]>> wordVectors = IOUtils.readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
@@ -176,7 +178,7 @@ public class ApproximateNearestNeighborEval {
               simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
             }
             for (String token : AnalyzerUtils.analyze(vectorAnalyzer, fvString)) {
-              simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
+              simQuery.add(new Term(IndexInvertedDenseVectors.FIELD_VECTOR, token));
             }
 
             long start = System.currentTimeMillis();
@@ -187,7 +189,7 @@ public class ApproximateNearestNeighborEval {
             Set<String> observations = new HashSet<>();
             for (ScoreDoc sd : results.topDocs().scoreDocs) {
               Document document = reader.document(sd.doc);
-              String wordValue = document.get(IndexVectors.FIELD_ID);
+              String wordValue = document.get(IndexInvertedDenseVectors.FIELD_ID);
               observations.add(wordValue);
             }
             double intersection = Sets.intersection(truth, observations).size();

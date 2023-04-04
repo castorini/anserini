@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.anserini.ann;
+package io.anserini.index;
 
 import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
+import io.anserini.util.IOUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class IndexVectors {
+public class IndexInvertedDenseVectors {
   public static final String FIELD_ID = "id";
   public static final String FIELD_VECTOR = "vector";
 
@@ -90,7 +90,7 @@ public class IndexVectors {
   }
 
   public static void main(String[] args) throws Exception {
-    IndexVectors.Args indexArgs = new IndexVectors.Args();
+    IndexInvertedDenseVectors.Args indexArgs = new IndexInvertedDenseVectors.Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
@@ -98,7 +98,7 @@ public class IndexVectors {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: " + IndexVectors.class.getSimpleName() +
+      System.err.println("Example: " + IndexInvertedDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -110,7 +110,7 @@ public class IndexVectors {
           indexArgs.bucketCount, indexArgs.hashSetSize);
     } else {
       parser.printUsage(System.err);
-      System.err.println("Example: " + IndexVectors.class.getSimpleName() +
+      System.err.println("Example: " + IndexInvertedDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -118,7 +118,7 @@ public class IndexVectors {
     final long start = System.nanoTime();
     System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, List<float[]>> vectors = readGloVe(indexArgs.input);
+    Map<String, List<float[]>> vectors = IOUtils.readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
@@ -173,32 +173,4 @@ public class IndexVectors {
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
-  static Map<String, List<float[]>> readGloVe(File input) throws IOException {
-    Map<String, List<float[]>> vectors = new HashMap<>();
-    for (String line : IOUtils.readLines(new FileReader(input))) {
-      String[] s = line.split("\\s+");
-      if (s.length > 2) {
-        String key = s[0];
-        float[] vector = new float[s.length - 1];
-        float norm = 0f;
-        for (int i = 1; i < s.length; i++) {
-          float f = Float.parseFloat(s[i]);
-          vector[i - 1] = f;
-          norm += Math.pow(f, 2);
-        }
-        norm = (float) Math.sqrt(norm);
-        for (int i = 0; i < vector.length; i++) {
-          vector[i] = vector[i] / norm;
-        }
-        if (vectors.containsKey(key)) {
-          List<float[]> floats = new LinkedList<>(vectors.get(key));
-          floats.add(vector);
-          vectors.put(key, floats);
-        } else {
-          vectors.put(key, List.of(vector));
-        }
-      }
-    }
-    return vectors;
-  }
 }

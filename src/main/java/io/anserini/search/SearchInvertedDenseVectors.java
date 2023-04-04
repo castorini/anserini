@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package io.anserini.ann;
+package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
+import io.anserini.index.IndexInvertedDenseVectors;
+import io.anserini.util.IOUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -48,7 +50,7 @@ import java.util.Map;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
-public class ApproximateNearestNeighborSearch {
+public class SearchInvertedDenseVectors {
   private static final String FW = "fw";
   private static final String LEXLSH = "lexlsh";
 
@@ -97,7 +99,7 @@ public class ApproximateNearestNeighborSearch {
   }
 
   public static void main(String[] args) throws Exception {
-    ApproximateNearestNeighborSearch.Args indexArgs = new ApproximateNearestNeighborSearch.Args();
+    SearchInvertedDenseVectors.Args indexArgs = new SearchInvertedDenseVectors.Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
@@ -105,7 +107,7 @@ public class ApproximateNearestNeighborSearch {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: " + ApproximateNearestNeighborSearch.class.getSimpleName() +
+      System.err.println("Example: " + SearchInvertedDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -117,7 +119,7 @@ public class ApproximateNearestNeighborSearch {
           indexArgs.bucketCount, indexArgs.hashSetSize);
     } else {
       parser.printUsage(System.err);
-      System.err.println("Example: " + ApproximateNearestNeighborSearch.class.getSimpleName() +
+      System.err.println("Example: " + SearchInvertedDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -143,14 +145,14 @@ public class ApproximateNearestNeighborSearch {
 
     Collection<String> vectorStrings = new LinkedList<>();
     if (indexArgs.stored) {
-      TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_ID, indexArgs.word)), indexArgs.depth);
+      TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexInvertedDenseVectors.FIELD_ID, indexArgs.word)), indexArgs.depth);
       for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-        vectorStrings.add(reader.document(scoreDoc.doc).get(IndexVectors.FIELD_VECTOR));
+        vectorStrings.add(reader.document(scoreDoc.doc).get(IndexInvertedDenseVectors.FIELD_VECTOR));
       }
     } else {
       System.out.println(String.format("Loading model %s", indexArgs.input));
 
-      Map<String, List<float[]>> wordVectors = IndexVectors.readGloVe(indexArgs.input);
+      Map<String, List<float[]>> wordVectors = IOUtils.readGloVe(indexArgs.input);
 
       if (wordVectors.containsKey(indexArgs.word)) {
         List<float[]> vectors = wordVectors.get(indexArgs.word);
@@ -173,7 +175,7 @@ public class ApproximateNearestNeighborSearch {
       float cutoff = indexArgs.cutoff;
       CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, cutoff);
       for (String token : AnalyzerUtils.analyze(vectorAnalyzer, vectorString)) {
-        simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
+        simQuery.add(new Term(IndexInvertedDenseVectors.FIELD_VECTOR, token));
       }
       if (msm > 0) {
         simQuery.setHighFreqMinimumNumberShouldMatch(msm);
@@ -190,7 +192,7 @@ public class ApproximateNearestNeighborSearch {
       int rank = 1;
       for (ScoreDoc sd : results.topDocs().scoreDocs) {
         Document document = reader.document(sd.doc);
-        String word = document.get(IndexVectors.FIELD_ID);
+        String word = document.get(IndexInvertedDenseVectors.FIELD_ID);
         System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
         rank++;
       }

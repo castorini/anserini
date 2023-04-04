@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package io.anserini.ann;
+package io.anserini.index;
 
+import io.anserini.index.IndexInvertedDenseVectors;
 import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Tests for {@link IndexVectors}
+ * Tests for {@link IndexInvertedDenseVectors}
  */
-public class IndexVectorsTest {
+public class IndexInvertedDenseVectorsTest {
 
   @Test
   public void indexFWTest() throws Exception {
@@ -57,7 +58,7 @@ public class IndexVectorsTest {
     if (stored) {
       args.add("-stored");
     }
-    IndexVectors.main(args.toArray(new String[0]));
+    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
   }
 
 
