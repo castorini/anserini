@@ -20,7 +20,6 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
 import io.anserini.index.IndexInvertedDenseVectors;
-import io.anserini.util.IOUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -152,7 +151,7 @@ public class SearchInvertedDenseVectors {
     } else {
       System.out.println(String.format("Loading model %s", indexArgs.input));
 
-      Map<String, List<float[]>> wordVectors = IOUtils.readGloVe(indexArgs.input);
+      Map<String, List<float[]>> wordVectors = IndexInvertedDenseVectors.readGloVe(indexArgs.input);
 
       if (wordVectors.containsKey(indexArgs.word)) {
         List<float[]> vectors = wordVectors.get(indexArgs.word);
