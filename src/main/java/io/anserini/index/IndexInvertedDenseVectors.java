@@ -16,8 +16,8 @@
 
 package io.anserini.index;
 
-import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
+import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.lucene.analysis.Analyzer;

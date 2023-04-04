@@ -17,8 +17,8 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
+import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
 import io.anserini.index.IndexInvertedDenseVectors;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.ann;
+package io.anserini.analysis;
 
 import org.apache.lucene.analysis.util.CharTokenizer;
 

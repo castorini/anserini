@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.anserini.ann;
+package io.anserini.search;
 
 import com.google.common.collect.Sets;
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
+import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
 import io.anserini.index.IndexInvertedDenseVectors;
 import io.anserini.search.topicreader.TrecTopicReader;
 import org.apache.lucene.analysis.Analyzer;
@@ -54,7 +54,7 @@ import java.util.TreeSet;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
-public class EvalInvertedDenseVectors {
+public class EvaluateInvertedDenseVectors {
   private static final String FW = "fw";
   private static final String LEXLSH = "lexlsh";
 
@@ -106,7 +106,7 @@ public class EvalInvertedDenseVectors {
   }
 
   public static void main(String[] args) throws Exception {
-    EvalInvertedDenseVectors.Args indexArgs = new EvalInvertedDenseVectors.Args();
+    EvaluateInvertedDenseVectors.Args indexArgs = new EvaluateInvertedDenseVectors.Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
@@ -114,7 +114,7 @@ public class EvalInvertedDenseVectors {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: " + EvalInvertedDenseVectors.class.getSimpleName() +
+      System.err.println("Example: " + EvaluateInvertedDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -126,7 +126,7 @@ public class EvalInvertedDenseVectors {
           indexArgs.bucketCount, indexArgs.hashSetSize);
     } else {
       parser.printUsage(System.err);
-      System.err.println("Example: " + EvalInvertedDenseVectors.class.getSimpleName() +
+      System.err.println("Example: " + EvaluateInvertedDenseVectors.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }

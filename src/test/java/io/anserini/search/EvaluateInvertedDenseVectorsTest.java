@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package io.anserini.ann;
+package io.anserini.search;
 
 import io.anserini.index.IndexInvertedDenseVectorsTest;
 import org.junit.Test;
 
 /**
- * Tests for {@link EvalInvertedDenseVectors}
+ * Tests for {@link EvaluateInvertedDenseVectors}
  */
-public class EvalInvertedDenseVectorsTest {
+public class EvaluateInvertedDenseVectorsTest {
 
   @Test
   public void evalFWTest() throws Exception {
@@ -31,7 +31,7 @@ public class EvalInvertedDenseVectorsTest {
     IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
     String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
         path, "-topics", "src/test/resources/sample_topics/Trec"};
-    EvalInvertedDenseVectors.main(args);
+    EvaluateInvertedDenseVectors.main(args);
   }
 
   @Test
@@ -41,7 +41,7 @@ public class EvalInvertedDenseVectorsTest {
     IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
     String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
         path, "-topics", "src/test/resources/sample_topics/Trec"};
-    EvalInvertedDenseVectors.main(args);
+    EvaluateInvertedDenseVectors.main(args);
   }
 
 }

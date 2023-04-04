@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.ann.lexlsh;
+package io.anserini.analysis.lexlsh;
 
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;

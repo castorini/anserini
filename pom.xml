@@ -162,7 +162,7 @@
               <id>ApproximateNearestNeighborSearch</id>
             </program>
             <program>
-              <mainClass>io.anserini.ann.EvalInvertedDenseVectors</mainClass>
+              <mainClass>io.anserini.search.EvaluateInvertedDenseVectors</mainClass>
               <id>ApproximateNearestNeighborEval</id>
             </program>
           </programs>

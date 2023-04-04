@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.ann.lexlsh;
+package io.anserini.analysis.lexlsh;
 
+import io.anserini.analysis.lexlsh.LexicalLshTruncateTokenFilter;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
