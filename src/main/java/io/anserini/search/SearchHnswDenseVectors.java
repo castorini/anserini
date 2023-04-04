@@ -16,7 +16,7 @@
 
 package io.anserini.search;
 
-import io.anserini.index.IndexDenseVectors;
+import io.anserini.index.IndexHnswDenseVectors;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.VectorQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
@@ -65,15 +65,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Main entry point for search.
  */
-public final class SearchDenseVectors implements Closeable {
+public final class SearchHnswDenseVectors implements Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
   // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
   // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchVectorArgs.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexDenseVectors.Args.ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(IndexHnswDenseVectors.Args.ID, SortField.Type.STRING_VAL));
 
-  private static final Logger LOG = LogManager.getLogger(SearchDenseVectors.class);
+  private static final Logger LOG = LogManager.getLogger(SearchHnswDenseVectors.class);
 
   public static class Args {
     // required arguments
@@ -209,7 +209,7 @@ public final class SearchDenseVectors implements Closeable {
 
             int rank = 1;
             for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(IndexDenseVectors.Args.ID);
+              String docid = docs.documents[i].get(IndexHnswDenseVectors.Args.ID);
 
               if (args.selectMaxPassage) {
                 docid = docid.split(args.selectMaxPassage_delimiter)[0];
@@ -294,7 +294,7 @@ public final class SearchDenseVectors implements Closeable {
     }
   }
 
-  public SearchDenseVectors(Args args) throws IOException {
+  public SearchHnswDenseVectors(Args args) throws IOException {
     this.args = args;
     Path indexPath = Paths.get(args.index);
 
@@ -375,7 +375,7 @@ public final class SearchDenseVectors implements Closeable {
 
     // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
     // multiple fields with the associated boosts.
-    query = generator.buildQuery(IndexDenseVectors.Args.VECTOR, queryString, args.efSearch);
+    query = generator.buildQuery(IndexHnswDenseVectors.Args.VECTOR, queryString, args.efSearch);
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     rs = searcher.search(query, args.hits);
@@ -400,12 +400,12 @@ public final class SearchDenseVectors implements Closeable {
     }
 
     final long start = System.nanoTime();
-    SearchDenseVectors searcher;
+    SearchHnswDenseVectors searcher;
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
     try {
-      searcher = new SearchDenseVectors(searchArgs);
+      searcher = new SearchHnswDenseVectors(searchArgs);
     } catch (IllegalArgumentException e) {
       System.err.println(e.getMessage());
       return;

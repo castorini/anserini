@@ -17,10 +17,9 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.ann.ApproximateNearestNeighborSearch;
-import io.anserini.ann.IndexVectors;
-import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
+import io.anserini.index.IndexInvertedDenseVectors;
+import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -42,7 +41,7 @@ import java.util.List;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 /**
- * Convenience class to leverage Anserini {@link ApproximateNearestNeighborSearch} capabilities from code (e.g. Pyserini)
+ * Convenience class to leverage Anserini {@link SearchInvertedDenseVectors} capabilities from code (e.g. Pyserini)
  * rather than command line. It assumes index has been created with {@code -stored} option enabled.
  */
 public class SimpleNearestNeighborSearcher {
@@ -51,16 +50,16 @@ public class SimpleNearestNeighborSearcher {
   private final IndexSearcher searcher;
 
   public SimpleNearestNeighborSearcher(String path) throws IOException {
-    this(path, IndexVectors.FW);
+    this(path, IndexInvertedDenseVectors.FW);
   }
 
   public SimpleNearestNeighborSearcher(String path, String encoding) throws IOException {
     Directory d = FSDirectory.open(Paths.get(path));
     DirectoryReader reader = DirectoryReader.open(d);
     searcher = new IndexSearcher(reader);
-    if (encoding.equalsIgnoreCase(IndexVectors.LEXLSH)) {
+    if (encoding.equalsIgnoreCase(IndexInvertedDenseVectors.LEXLSH)) {
       analyzer = new LexicalLshAnalyzer();
-    } else if (encoding.equalsIgnoreCase(IndexVectors.FW)) {
+    } else if (encoding.equalsIgnoreCase(IndexInvertedDenseVectors.FW)) {
       analyzer = new FakeWordsEncoderAnalyzer();
       searcher.setSimilarity(new ClassicSimilarity());
     } else {
@@ -95,22 +94,22 @@ public class SimpleNearestNeighborSearcher {
 
   protected Result[][] multisearch(String id, int k, int d) throws IOException {
     List<Result[]> results = new ArrayList<>();
-    TopDocs wordDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_ID, id)), k);
+    TopDocs wordDocs = searcher.search(new TermQuery(new Term(IndexInvertedDenseVectors.FIELD_ID, id)), k);
 
     for (ScoreDoc scoreDoc : wordDocs.scoreDocs) {
       Document doc = searcher.doc(scoreDoc.doc);
-      String vector = doc.get(IndexVectors.FIELD_VECTOR);
+      String vector = doc.get(IndexInvertedDenseVectors.FIELD_VECTOR);
       CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, 0.999f);
       List<String> tokens = AnalyzerUtils.analyze(analyzer, vector);
       for (String token : tokens) {
-        simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
+        simQuery.add(new Term(IndexInvertedDenseVectors.FIELD_VECTOR, token));
       }
       TopDocs nearest = searcher.search(simQuery, d);
       Result[] neighbors = new Result[nearest.scoreDocs.length];
       int i = 0;
       for (ScoreDoc nn : nearest.scoreDocs) {
         Document ndoc = searcher.doc(nn.doc);
-        neighbors[i] = new Result(ndoc.get(IndexVectors.FIELD_ID), nn.score);
+        neighbors[i] = new Result(ndoc.get(IndexInvertedDenseVectors.FIELD_ID), nn.score);
         i++;
       }
       results.add(neighbors);

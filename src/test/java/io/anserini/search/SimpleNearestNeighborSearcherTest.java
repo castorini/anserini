@@ -16,7 +16,7 @@
 
 package io.anserini.search;
 
-import io.anserini.ann.IndexVectorsTest;
+import io.anserini.index.IndexInvertedDenseVectorsTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +27,7 @@ public class SimpleNearestNeighborSearcherTest {
   @Test
   public void testSearchingFW() throws Exception {
     String idxPath = "target/ast" + System.currentTimeMillis();
-    IndexVectorsTest.createIndex(idxPath, "fw", true);
+    IndexInvertedDenseVectorsTest.createIndex(idxPath, "fw", true);
     SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath);
     SimpleNearestNeighborSearcher.Result[] results = simpleNearestNeighborSearcher.search("text", 2);
     assertNotNull(results);
@@ -37,7 +37,7 @@ public class SimpleNearestNeighborSearcherTest {
   @Test
   public void testSearchingLL() throws Exception {
     String idxPath = "target/ast" + System.currentTimeMillis();
-    IndexVectorsTest.createIndex(idxPath, "lexlsh", true);
+    IndexInvertedDenseVectorsTest.createIndex(idxPath, "lexlsh", true);
     SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath, "lexlsh");
     SimpleNearestNeighborSearcher.Result[] results = simpleNearestNeighborSearcher.search("text", 2);
     assertNotNull(results);
@@ -47,7 +47,7 @@ public class SimpleNearestNeighborSearcherTest {
   @Test
   public void testMultiSearchingFW() throws Exception {
     String idxPath = "target/ast" + System.currentTimeMillis();
-    IndexVectorsTest.createIndex(idxPath, "fw", true);
+    IndexInvertedDenseVectorsTest.createIndex(idxPath, "fw", true);
     SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath);
     SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.multisearch("text", 2, 2);
     assertNotNull(results);
@@ -58,7 +58,7 @@ public class SimpleNearestNeighborSearcherTest {
   @Test
   public void testMultiSearchingLL() throws Exception {
     String idxPath = "target/ast" + System.currentTimeMillis();
-    IndexVectorsTest.createIndex(idxPath, "lexlsh", true);
+    IndexInvertedDenseVectorsTest.createIndex(idxPath, "lexlsh", true);
     SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath, "lexlsh");
     SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.multisearch("text", 2, 2);
     assertNotNull(results);
