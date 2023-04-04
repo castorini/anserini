@@ -134,7 +134,7 @@ public class EvalInvertedDenseVectors {
 
     System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, List<float[]>> wordVectors = IOUtils.readGloVe(indexArgs.input);
+    Map<String, List<float[]>> wordVectors = IndexInvertedDenseVectors.readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
