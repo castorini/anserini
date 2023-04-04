@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.ann.fw;
+package io.anserini.analysis.fw;
 
-import io.anserini.ann.FeatureVectorsTokenizer;
+import io.anserini.analysis.FeatureVectorsTokenizer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.StopFilter;

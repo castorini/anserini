@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.ann.fw;
+package io.anserini.analysis.fw;
 
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
@@ -23,8 +23,6 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
-import static io.anserini.ann.fw.FakeWordsEncoderAnalyzer.REMOVE_IT;
 
 /**
  * {@link TokenFilter} that encodes a real valued token into a stream of "fake word" tokens proportional to
@@ -65,7 +63,7 @@ public final class FakeWordsEncodeAndQuantizeFilter extends TokenFilter {
       if (qv > 0) {
         termAttribute.append(fw);
       } else {
-        termAttribute.append(REMOVE_IT);
+        termAttribute.append(FakeWordsEncoderAnalyzer.REMOVE_IT);
       }
       return true;
     } else {

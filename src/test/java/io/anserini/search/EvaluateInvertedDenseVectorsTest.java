@@ -14,33 +14,34 @@
  * limitations under the License.
  */
 
-package io.anserini.ann;
+package io.anserini.search;
 
+import io.anserini.index.IndexInvertedDenseVectorsTest;
 import org.junit.Test;
 
 /**
- * Tests for {@link ApproximateNearestNeighborEval}
+ * Tests for {@link EvaluateInvertedDenseVectors}
  */
-public class ApproximateNearestNeighborEvalTest {
+public class EvaluateInvertedDenseVectorsTest {
 
   @Test
   public void evalFWTest() throws Exception {
     String path = "target/idx-sample-fw";
     String encoding = "fw";
-    IndexVectorsTest.createIndex(path, encoding, false);
+    IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
     String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
         path, "-topics", "src/test/resources/sample_topics/Trec"};
-    ApproximateNearestNeighborEval.main(args);
+    EvaluateInvertedDenseVectors.main(args);
   }
 
   @Test
   public void evalLLTest() throws Exception {
     String path = "target/idx-sample-ll";
     String encoding = "lexlsh";
-    IndexVectorsTest.createIndex(path, encoding, false);
+    IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
     String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
         path, "-topics", "src/test/resources/sample_topics/Trec"};
-    ApproximateNearestNeighborEval.main(args);
+    EvaluateInvertedDenseVectors.main(args);
   }
 
 }
