@@ -60,7 +60,7 @@ public class SpladeEncoderQueryTokenizationTest {
   };
 
   static private String getCacheDir() {
-    File cacheDir = new File("~/.cache/anserini/test");
+    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
     if (!cacheDir.exists()) {
       cacheDir.mkdir();
     }
