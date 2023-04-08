@@ -42,7 +42,7 @@ import java.util.TreeMap;
  * </pre>
  */
 public class WebTopicReader extends TopicReader<Integer> {
-  public WebTopicReader(Path topicFile) {
+  public WebTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

@@ -29,7 +29,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class DprNqTopicReader extends TopicReader<Integer> {
-    public DprNqTopicReader(Path topicFile) {
+    public DprNqTopicReader(Path topicFile) throws IOException {
       super(topicFile);
     }
   

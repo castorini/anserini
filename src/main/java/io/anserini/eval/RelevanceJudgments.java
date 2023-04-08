@@ -17,24 +17,40 @@
 package io.anserini.eval;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+
 public class RelevanceJudgments {
   final private Map<String, Map<String, Integer>> qrels;
+  final private static String CACHE_DIR = System.getProperty("user.home") + "/.cache/anserini/topics-and-qrels";
+  final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels";
 
-  public static RelevanceJudgments fromQrels(Qrels qrels) {
+
+  public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException{
     return new RelevanceJudgments("src/main/resources/" + qrels.path);
   }
 
-  public RelevanceJudgments(String file) {
+  public RelevanceJudgments(String file) throws IOException {
     qrels = new HashMap<>();
+    Path qrelPath = Path.of(file);
+    try{
+      qrelPath = getQrelPath(qrelPath);
+    }catch (IOException e){
+      System.out.println("Qrel file not found");
+    }
 
-    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(qrelPath.toString()))) {
       String line;
       String[] arr;
       while ((line = br.readLine()) != null) {
@@ -42,8 +58,6 @@ public class RelevanceJudgments {
         String qid = arr[0];
         String docno = arr[2];
         int grade = Integer.parseInt(arr[3]);
-        //System.out.println(qid + " " + docno + " " + grade);
-
         if (qrels.containsKey(qid)) {
           qrels.get(qid).put(docno, grade);
         } else {
@@ -60,8 +74,9 @@ public class RelevanceJudgments {
   /**
    * Method will return whether this docId for this qid is judged or not
    * Note that if qid is invalid this will always return false
-   * @param qid     qid
-   * @param docid   docid
+   * 
+   * @param qid   qid
+   * @param docid docid
    * @return true if docId is judged against qid false otherwise
    */
   public boolean isDocJudged(String qid, String docid) {
@@ -76,7 +91,7 @@ public class RelevanceJudgments {
     }
   }
 
-  public<K> int getRelevanceGrade(K qid, String docid) {
+  public <K> int getRelevanceGrade(K qid, String docid) {
     if (!qrels.containsKey(qid)) {
       return 0;
     }
@@ -85,12 +100,13 @@ public class RelevanceJudgments {
       return 0;
     }
 
-    if ( qrels.get(qid).get(docid) <= 0 ) return 0;
+    if (qrels.get(qid).get(docid) <= 0)
+      return 0;
     return qrels.get(qid).get(docid);
   }
 
   public Set<String> getQids() {
-      return this.qrels.keySet();
+    return this.qrels.keySet();
   }
 
   public Map<String, Integer> getDocMap(String qid) {
@@ -100,10 +116,80 @@ public class RelevanceJudgments {
       return null;
     }
   }
+  private static String getCacheDir() {
+    File cacheDir = new File(CACHE_DIR);
+    if (!cacheDir.exists()) {
+      cacheDir.mkdir();
+    }
+    return cacheDir.getPath();
+  }
   
-  public static String getQrelsResource(Qrels qrels) throws IOException {
-    InputStream inputStream = RelevanceJudgments.class.getClassLoader().getResourceAsStream(qrels.path);
+  /**
+   * Method will return the qrel file as a string
+   * 
+   * @param qrelPath path to qrel file
+   * @return qrel file as a string
+   * @throws IOException
+   */
+  public static String getQrelsResource(Path qrelPath) throws IOException{
+    Path resultPath = qrelPath;
+    try{
+      resultPath = getQrelPath(qrelPath);
+    }catch (Exception e){
+      throw new IOException("Could not get qrel file from cloud or local file system");
+    }
+
+    InputStream inputStream = Files.newInputStream(resultPath);
     String raw = new String(inputStream.readAllBytes());
     return raw;
+  }
+
+  /**
+   * Method will look for the absolute qrel path and return it as a Path object
+   * 
+   * @param qrelPath path to qrel file
+   * @return qrel path
+   * @throws IOException
+   */
+  private static Path getQrelPath(Path qrelPath) throws IOException{
+    if (!Qrels.contains(qrelPath)) {
+      // If the topic file is not in the list of known topics, we assume it is a local file.
+      Path tempPath = Path.of(getCacheDir() + "/" + qrelPath.getFileName().toString());
+      if (Files.exists(tempPath)) {
+        // if it is a unregistred topic in the Topics Enum, but it is in the cache, we use it
+        return tempPath;
+      }
+      return qrelPath;
+    }
+    
+    Path resultPath = getNewQrelAbsPath(qrelPath);
+    if (!Files.exists(resultPath)) {
+      resultPath = getQrelFromCloud(qrelPath);
+    }
+    return resultPath;
+  }
+
+  public static Path getNewQrelAbsPath(Path qrelPath){
+    return Paths.get(getCacheDir(), qrelPath.getFileName().toString());
+  }
+
+  /**
+   * Method will download the qrel file from the cloud and return the path to the file
+   * 
+   * @param qrelPath path to qrel file
+   * @return path to qrel file
+   * @throws IOException
+   */
+  public static Path getQrelFromCloud(Path qrelPath) throws IOException{
+    String qrelURL = CLOUD_PATH + "/" + qrelPath.getFileName().toString();
+    System.out.println("Downloading qrel from cloud " + qrelURL.toString());
+    File qrelFile = new File(getCacheDir(), qrelPath.getFileName().toString());
+    try{
+      FileUtils.copyURLToFile(new URL(qrelURL), qrelFile);
+    }catch (Exception e){
+      System.out.println("Error downloading topics from cloud " + qrelURL.toString());
+      throw e;
+    }
+    return qrelFile.toPath();
   }
 }

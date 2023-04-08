@@ -17,12 +17,13 @@
 package io.anserini.search.topicreader;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.reflect.Constructor;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,6 +34,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.zip.GZIPInputStream;
 
+import org.apache.commons.io.FileUtils;
+
 /**
  * A reader of topics, i.e., information needs or queries, in a variety of standard formats.
  *
@@ -41,6 +44,9 @@ import java.util.zip.GZIPInputStream;
 public abstract class TopicReader<K> {
   protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
+  final private static String CACHE_DIR = System.getProperty("user.home") + "/.cache/anserini/topics-and-qrels";
+  final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels";
+
 
   static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = new HashMap<>();
 
@@ -72,8 +78,8 @@ public abstract class TopicReader<K> {
     return null;
   }
 
-  public TopicReader(Path topicFile) {
-    this.topicFile = topicFile;
+  public TopicReader(Path topicFile) throws IOException {
+    this.topicFile = getTopicPath(topicFile);
   }
 
   /**
@@ -86,6 +92,7 @@ public abstract class TopicReader<K> {
    */
   public SortedMap<K, Map<String, String>> read() throws IOException {
     BufferedReader bufferedReader;
+    this.topicFile = getTopicPath(topicFile);
     if (topicFile.toString().endsWith(".gz")) {
       InputStream stream = new GZIPInputStream(Files.newInputStream(topicFile, StandardOpenOption.READ), BUFFER_SIZE);
       bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
@@ -112,14 +119,16 @@ public abstract class TopicReader<K> {
    * @return evaluation topics
    */
   @SuppressWarnings("unchecked")
-  public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) {
+  public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) throws IOException{
     try {
       String raw;
       InputStream inputStream;
-      if (topics.path.endsWith(".gz")) {
-        inputStream = new GZIPInputStream(TopicReader.class.getClassLoader().getResourceAsStream(topics.path));
+      Path topicPath = getTopicPath(Path.of(topics.path));
+
+      if (topicPath.toString().endsWith(".gz")) {
+        inputStream = new GZIPInputStream(Files.newInputStream(topicPath, StandardOpenOption.READ));
       } else {
-        inputStream = TopicReader.class.getClassLoader().getResourceAsStream(topics.path);
+        inputStream = Files.newInputStream(topicPath, StandardOpenOption.READ);
       }
       raw = new String(inputStream.readAllBytes());
       inputStream.close();
@@ -162,8 +171,9 @@ public abstract class TopicReader<K> {
    *
    * @param topics topics
    * @return evaluation topics, with strings as topic ids
+   * @throws IOException
    */
-  public static Map<String, Map<String, String>> getTopicsWithStringIds(Topics topics) {
+  public static Map<String, Map<String, String>> getTopicsWithStringIds(Topics topics) throws IOException {
     SortedMap<?, Map<String, String>> originalTopics = getTopics(topics);
     if (originalTopics == null)
       return null;
@@ -204,5 +214,60 @@ public abstract class TopicReader<K> {
     } catch (Exception e) {
       return null;
     }
+  }
+
+  private static String getCacheDir() {
+    File cacheDir = new File(CACHE_DIR);
+    if (!cacheDir.exists()) {
+      cacheDir.mkdir();
+    }
+    return cacheDir.getPath();
+  }
+
+  /**
+   * Downloads the topics from the cloud and returns the path to the local copy
+   * @param topicPath
+   * @return Path to the local copy of the topics
+   * @throws IOException
+   */
+  public static Path getTopicsFromCloud(Path topicPath) throws IOException{
+    String topicURL = CLOUD_PATH + "/" + topicPath.getFileName().toString();
+    System.out.println("Downloading topics from cloud " + topicURL.toString());
+    File topicFile = new File(getCacheDir(), topicPath.getFileName().toString());
+    try{
+      FileUtils.copyURLToFile(new URL(topicURL), topicFile);
+    }catch (Exception e){
+      System.out.println("Error downloading topics from cloud " + topicURL.toString());
+      throw e;
+    }
+    return topicFile.toPath();
+  }
+
+  public static Path getNewTopicsAbsPath(Path topicPath){
+    return Paths.get(getCacheDir(), topicPath.getFileName().toString());
+  }
+
+  /**
+   * Returns the path to the topic file. If the topic file is not in the list of known topics, we assume it is a local file.
+   * @param topicPath
+   * @return
+   * @throws IOException
+   */
+  private static Path getTopicPath(Path topicPath) throws IOException{
+    if (!Topics.contains(topicPath)) {
+      // If the topic file is not in the list of known topics, we assume it is a local file.
+      Path tempPath = Path.of(getCacheDir() + "/" + topicPath.getFileName().toString());
+      if (Files.exists(tempPath)) {
+        // if it is a unregistred topic, but it is in the cache, we use it
+        return tempPath;
+      }
+      return topicPath;
+    }
+    
+    Path resultPath = getNewTopicsAbsPath(topicPath);
+    if (!Files.exists(resultPath)) {
+      resultPath = getTopicsFromCloud(topicPath);
+    }
+    return resultPath;
   }
 }

@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
  * Topic reader for the TREC News Track background linking task.
  */
 public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
-  public BackgroundLinkingTopicReader(Path topicFile) {
+  public BackgroundLinkingTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

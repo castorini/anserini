@@ -36,7 +36,7 @@ public class CacmTopicReader extends TopicReader<Integer> {
   private static final Pattern QUERY_ID_PATTERN =
       Pattern.compile("<DOCNO>\\s*(.*?)\\s*</DOCNO>", Pattern.DOTALL);
 
-  public CacmTopicReader(Path topicFile) {
+  public CacmTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

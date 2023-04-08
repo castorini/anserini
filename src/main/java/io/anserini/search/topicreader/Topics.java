@@ -16,6 +16,8 @@
 
 package io.anserini.search.topicreader;
 
+import java.nio.file.Path;
+
 /**
  * An enumeration comprising standard sets of topics from various evaluations.
  */
@@ -34,6 +36,7 @@ public enum Topics {
   TREC2007_MILLION_QUERY(WebTopicReader.class, "topics-and-qrels/topics.mq.1-10000.txt"),
   TREC2008_MILLION_QUERY(WebTopicReader.class, "topics-and-qrels/topics.mq.10001-20000.txt"),
   TREC2009_MILLION_QUERY(PrioritizedWebTopicReader.class, "topics-and-qrels/topics.mq.20001-60000.txt"),
+  TREC2009_WEB(WebxmlTopicReader.class, "topics-and-qrels/topics.web.1-50.txt"),
   TREC2010_WEB(WebxmlTopicReader.class, "topics-and-qrels/topics.web.51-100.txt"),
   TREC2011_WEB(WebxmlTopicReader.class, "topics-and-qrels/topics.web.101-150.txt"),
   TREC2012_WEB(WebxmlTopicReader.class, "topics-and-qrels/topics.web.151-200.txt"),
@@ -377,7 +380,14 @@ public enum Topics {
   MIRACL_V10_TH_DEV(TsvIntTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-th-dev.tsv"),
   MIRACL_V10_ZH_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-zh-dev.tsv"),
   MIRACL_V10_DE_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-de-dev.tsv"),
-  MIRACL_V10_YO_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-yo-dev.tsv");
+  MIRACL_V10_YO_DEV(TsvStringTopicReader.class, "topics-and-qrels/topics.miracl-v1.0-yo-dev.tsv"),
+
+  // unused topics
+  CACM(CacmTopicReader.class,"topics-and-qrels/topics.cacm.txt"),
+  NTCIR_EN_1(NtcirTopicReader.class, "topics-and-qrels/topics.www1.english.txt"),
+  NTCIR_EN_2(NtcirTopicReader.class, "topics-and-qrels/topics.www2.english.txt"),
+  TERABYTE_05_EFFICIENCY(WebTopicReader.class, "topics-and-qrels/topics.terabyte05.efficiency.txt"),
+  NTCIR_8_EN_EVAL(TsvStringTopicReader.class, "topics-and-qrels/topics.ntcir8en.eval.txt");
 
   public final String path;
   public final Class<? extends TopicReader> readerClass;
@@ -386,4 +396,13 @@ public enum Topics {
     this.readerClass = c;
     this.path = path;
   }
+
+  public static boolean contains(Path topicPath) {
+    for (Topics c : Topics.values()) {
+        if (Path.of(c.path).getFileName().equals(topicPath.getFileName())) {
+            return true;
+        }
+    }
+    return false;
+}
 }

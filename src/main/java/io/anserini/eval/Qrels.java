@@ -16,6 +16,8 @@
 
 package io.anserini.eval;
 
+import java.nio.file.Path;
+
 import io.anserini.search.topicreader.TsvIntTopicReader;
 import io.anserini.search.topicreader.TsvStringTopicReader;
 
@@ -169,4 +171,13 @@ public enum Qrels {
   Qrels(String path) {
     this.path = path;
   }
+
+  public static boolean contains(Path topicPath) {
+    for (Qrels c : Qrels.values()) {
+        if (Path.of(c.path).getFileName().equals(topicPath.getFileName())) {
+            return true;
+        }
+    }
+    return false;
+}
 }

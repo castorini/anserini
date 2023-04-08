@@ -35,7 +35,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class CovidTopicReader extends TopicReader<Integer> {
-  public CovidTopicReader(Path topicFile) {
+  public CovidTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

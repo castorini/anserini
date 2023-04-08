@@ -27,7 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MicroblogTopicReader extends TopicReader<Integer> {
-  public MicroblogTopicReader(Path topicFile) {
+  public MicroblogTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 
