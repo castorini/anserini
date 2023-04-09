@@ -163,8 +163,8 @@ public class Cord19FullTextCollection extends DocumentCollection<Cord19FullTextC
       String fullTextJson = jnode.toPrettyString();
       raw = fullTextJson;
 
-      if (fullTextJson != null) {
-        // For the contents(), we're going to gather up all the text in body_text
+      // For the contents(), we're going to gather up all the text in body_text (if the element exists)
+      if (jnode.get("body_text") != null) {
         try {
           Iterator<JsonNode> paragraphIterator = jnode.get("body_text").elements();
 
@@ -173,7 +173,7 @@ public class Cord19FullTextCollection extends DocumentCollection<Cord19FullTextC
             content += "\n" + node.get("text").asText();
           }
         } catch (Exception e) {
-          LOG.error("Error parsing file at " + Cord19FullTextCollection.this.path.toString() + "\n" + e.getMessage());
+          LOG.error("Error parsing file at " + Cord19FullTextCollection.this.path.toString() + ", docid " + id);
         }
       }
     }
