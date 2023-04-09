@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 public class QaTopicReader extends TopicReader<Integer> {
 
-  public QaTopicReader(Path topicFile) {
+  public QaTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

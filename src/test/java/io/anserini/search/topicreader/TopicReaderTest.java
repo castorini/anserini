@@ -18,13 +18,13 @@ package io.anserini.search.topicreader;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 public class TopicReaderTest {
 
@@ -35,10 +35,10 @@ public class TopicReaderTest {
       cnt++;
 
       // Verify that we can fetch the TopicReader class given the name of the topic file.
-      String[] pathParts = topic.path.split("/");
-      assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
+      String path = topic.path;
+      assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(342, cnt);
+    assertEquals(348, cnt);
   }
 
   @Test
@@ -71,7 +71,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNewswireTopics() {
+  public void testNewswireTopics() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC1_ADHOC);
@@ -132,7 +132,7 @@ public class TopicReaderTest {
   }
   
   @Test
-  public void testTrecTitleParsing() {
+  public void testTrecTitleParsing() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC1_ADHOC);
@@ -159,7 +159,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNewswireTopics_TopicIdsAsStrings() {
+  public void testNewswireTopics_TopicIdsAsStrings() throws IOException {
     Map<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopicsWithStringIds(Topics.TREC1_ADHOC);
@@ -206,7 +206,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testWebTopics() {
+  public void testWebTopics() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.WT10G);
@@ -309,7 +309,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testWebTopics_TopicIdsAsStrings() {
+  public void testWebTopics_TopicIdsAsStrings() throws IOException {
     Map<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopicsWithStringIds(Topics.WT10G);
@@ -388,7 +388,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testMicoblogTopics() {
+  public void testMicoblogTopics() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.MB11);
@@ -425,7 +425,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testMicoblogTopics_TopicIdsAsStrings() {
+  public void testMicoblogTopics_TopicIdsAsStrings() throws IOException {
     Map<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopicsWithStringIds(Topics.MB11);
@@ -454,7 +454,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testCAR() {
+  public void testCAR() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.CAR17V15_BENCHMARK_Y1_TEST);
@@ -475,7 +475,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testCAR_TopicIdsAsStrings() {
+  public void testCAR_TopicIdsAsStrings() throws IOException {
     Map<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopicsWithStringIds(Topics.CAR17V15_BENCHMARK_Y1_TEST);
@@ -495,7 +495,7 @@ public class TopicReaderTest {
         topics.get("enwiki:Yellowstone%20National%20Park/Recreation").get("title"));  }
 
   @Test
-  public void testDprNq() {
+  public void testDprNq() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.DPR_NQ_DEV);
@@ -522,7 +522,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testDprTrivia() {
+  public void testDprTrivia() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.DPR_TRIVIA_DEV);
@@ -547,7 +547,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testDprWq() {
+  public void testDprWq() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.DPR_WQ_TEST);
@@ -562,7 +562,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testDprCurated() {
+  public void testDprCurated() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.DPR_CURATED_TEST);
@@ -577,7 +577,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testDprSquad() {
+  public void testDprSquad() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.DPR_SQUAD_TEST);
@@ -592,7 +592,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNq() {
+  public void testNq() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.NQ_DEV);
@@ -619,7 +619,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testGarT5Nq() {
+  public void testGarT5Nq() throws IOException {
     assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_ANSWERS).keySet().size());
     assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_TITLES).keySet().size());
     assertEquals(3610, TopicReader.getTopics(Topics.NQ_TEST_GART5_SENTENCES).keySet().size());
@@ -627,7 +627,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testGarT5Trivia() {
+  public void testGarT5Trivia() throws IOException {
     assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_ANSWERS).keySet().size());
     assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_TITLES).keySet().size());
     assertEquals(11313, TopicReader.getTopics(Topics.DPR_TRIVIA_TEST_GART5_SENTENCES).keySet().size());
@@ -635,7 +635,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testTREC19DL() {
+  public void testTREC19DL() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE);
@@ -716,7 +716,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testTREC20DL() {
+  public void testTREC20DL() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2020_DL);
@@ -763,7 +763,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testTREC21DL() {
+  public void testTREC21DL() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2021_DL);
@@ -793,7 +793,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testTREC22DL() {
+  public void testTREC22DL() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2022_DL);
@@ -823,7 +823,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testMSMARCO() {
+  public void testMSMARCO() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.MSMARCO_DOC_DEV);
@@ -1031,7 +1031,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testMSMARO_TopicIdsAsStrings() {
+  public void testMSMARO_TopicIdsAsStrings() throws IOException {
     Map<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopicsWithStringIds(Topics.MSMARCO_DOC_DEV);
@@ -1084,7 +1084,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNonEnglishTopics() {
+  public void testNonEnglishTopics() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.NTCIR8_ZH);
@@ -1137,7 +1137,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNonEnglishTopics_TopicIdsAsStrings() {
+  public void testNonEnglishTopics_TopicIdsAsStrings() throws IOException {
     Map<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopicsWithStringIds(Topics.TREC1_ADHOC);
@@ -1184,7 +1184,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testCovidTopics() {
+  public void testCovidTopics() throws IOException {
     Map<String, Map<String, String>> topics;
 
     // Round 1
@@ -1229,7 +1229,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testCovidTopicsUDel() {
+  public void testCovidTopicsUDel() throws IOException {
     Map<String, Map<String, String>> topics;
 
     // Round 1
@@ -1269,7 +1269,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testCovidTopics_TopicIdsAsStrings() {
+  public void testCovidTopics_TopicIdsAsStrings() throws IOException {
     Map<String, Map<String, String>> topics;
 
     // Round 1
@@ -1315,7 +1315,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testCovidTopicsUDel_TopicIdsAsStrings() {
+  public void testCovidTopicsUDel_TopicIdsAsStrings() throws IOException {
     Map<String, Map<String, String>> topics;
 
     // Round 1
@@ -1355,7 +1355,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testBackgroundLinkingTopics() {
+  public void testBackgroundLinkingTopics() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2018_BL);
@@ -1405,7 +1405,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testEpidemicQATopics() {
+  public void testEpidemicQATopics() throws IOException {
     SortedMap<Integer, Map<String, String>> consumerTopics;
     consumerTopics = TopicReader.getTopics(Topics.EPIDEMIC_QA_CONSUMER_PRELIM);
 
@@ -1458,7 +1458,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testMrTyDiTopics() {
+  public void testMrTyDiTopics() throws IOException {
     assertEquals(12377, TopicReader.getTopics(Topics.MRTYDI_V11_AR_TRAIN).keySet().size());
     assertEquals(3115, TopicReader.getTopics(Topics.MRTYDI_V11_AR_DEV).keySet().size());
     assertEquals(1081, TopicReader.getTopics(Topics.MRTYDI_V11_AR_TEST).keySet().size());
@@ -1505,7 +1505,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testBeirTopics() {
+  public void testBeirTopics() throws IOException {
     assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST).keySet().size());
     assertEquals(500,   TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST).keySet().size());
     assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST).keySet().size());
@@ -1538,7 +1538,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testBeirSpladeDistillCocodenserTopics() {
+  public void testBeirSpladeDistillCocodenserTopics() throws IOException {
     assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
     assertEquals(500,   TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
     assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
@@ -1570,7 +1570,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testBeirWPTopics() {
+  public void testBeirWPTopics() throws IOException {
     assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST_WP).keySet().size());
     assertEquals(500,   TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_WP).keySet().size());
     assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST_WP).keySet().size());
@@ -1603,7 +1603,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testBeirUnicoilNoexpTopics() {
+  public void testBeirUnicoilNoexpTopics() throws IOException{
     assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST_UNCOIL_NOEXP).keySet().size());
     assertEquals(500,   TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_UNCOIL_NOEXP).keySet().size());
     assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST_UNCOIL_NOEXP).keySet().size());
@@ -1655,7 +1655,7 @@ public class TopicReaderTest {
   }
   
   @Test
-  public void testHC4Topics() {
+  public void testHC4Topics() throws IOException {
     assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_TITLE).keySet().size());
     assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_DESC).keySet().size());
     assertEquals(10, TopicReader.getTopics(Topics.HC4_V1_0_FA_DEV_DESC_TITLE).keySet().size());
@@ -1694,7 +1694,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNeuCLIR22OriginalTopics() {
+  public void testNeuCLIR22OriginalTopics() throws IOException {
     SortedMap<Integer, Map<String, String>> t, d, dt;
 
     t = TopicReader.getTopics(Topics.NEUCLIR22_EN_TITLE);
@@ -1807,7 +1807,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNeuCLIR22SpladeTopics() {
+  public void testNeuCLIR22SpladeTopics() throws IOException {
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_HT_TITLE).keySet().size());
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_HT_DESC).keySet().size());
     assertEquals(114, TopicReader.getTopics(Topics.NEUCLIR22_FA_SPLADE_HT_DESC_TITLE).keySet().size());
@@ -1834,7 +1834,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testMIRACLTopics() {
+  public void testMIRACLTopics() throws IOException {
     assertEquals(2896, TopicReader.getTopics(Topics.MIRACL_V10_AR_DEV).keySet().size());
     assertEquals(411, TopicReader.getTopics(Topics.MIRACL_V10_BN_DEV).keySet().size());
     assertEquals(799, TopicReader.getTopics(Topics.MIRACL_V10_EN_DEV).keySet().size());

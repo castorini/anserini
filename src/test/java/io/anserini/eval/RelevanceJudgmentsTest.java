@@ -21,9 +21,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class RelevanceJudgmentsTest {
+import java.io.IOException;
 
-  public int getQrelsCount(RelevanceJudgments qrels) {
+public class RelevanceJudgmentsTest{
+
+  public int getQrelsCount(RelevanceJudgments qrels) throws IOException{
     int count = 0;
     for (String qid : qrels.getQids()) {
       count += qrels.getDocMap(qid).size();
@@ -32,7 +34,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testRobust04() {
+  public void testRobust04() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.robust04.txt");
     assertNotNull(qrels);
     assertEquals(249, qrels.getQids().size());
@@ -49,7 +51,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testRobust05() {
+  public void testRobust05() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.robust05.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
@@ -66,7 +68,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec19DLDoc() {
+  public void testTrec19DLDoc() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl19-doc.txt");
     assertNotNull(qrels);
     assertEquals(43, qrels.getQids().size());
@@ -83,7 +85,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec19DLPassage() {
+  public void testTrec19DLPassage() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl19-passage.txt");
     assertNotNull(qrels);
     assertEquals(43, qrels.getQids().size());
@@ -100,7 +102,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec20DLDoc() {
+  public void testTrec20DLDoc() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl20-doc.txt");
     assertNotNull(qrels);
     assertEquals(45, qrels.getQids().size());
@@ -117,7 +119,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec20DLPassage() {
+  public void testTrec20DLPassage() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl20-passage.txt");
     assertNotNull(qrels);
     assertEquals(54, qrels.getQids().size());
@@ -134,7 +136,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec21DLDoc() {
+  public void testTrec21DLDoc() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl21-doc.txt");
     assertNotNull(qrels);
     assertEquals(57, qrels.getQids().size());
@@ -151,7 +153,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec21DLPassage() {
+  public void testTrec21DLPassage() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.dl21-passage.txt");
     assertNotNull(qrels);
     assertEquals(53, qrels.getQids().size());
@@ -168,7 +170,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec22DLPassage() {
+  public void testTrec22DLPassage() throws IOException{
     // % cut -f 1 -d ' ' src/main/resources/topics-and-qrels/qrels.dl22-passage.txt | uniq | wc
     //      76      76     608
     // % wc src/main/resources/topics-and-qrels/qrels.dl22-passage.txt
@@ -190,7 +192,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMsmarcoDocDev() {
+  public void testMsmarcoDocDev() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt");
     assertNotNull(qrels);
     assertEquals(5193, qrels.getQids().size());
@@ -207,7 +209,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMsmarcoPassageDevSubset() {
+  public void testMsmarcoPassageDevSubset() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt");
     assertNotNull(qrels);
     assertEquals(6980, qrels.getQids().size());
@@ -224,7 +226,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMsmarcoV2DocDev() {
+  public void testMsmarcoV2DocDev() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt");
     assertNotNull(qrels);
     assertEquals(4552, qrels.getQids().size());
@@ -241,7 +243,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMsmarcoV2DocDev2() {
+  public void testMsmarcoV2DocDev2() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt");
     assertNotNull(qrels);
     assertEquals(5000, qrels.getQids().size());
@@ -258,7 +260,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMsmarcoV2DocPassage() {
+  public void testMsmarcoV2DocPassage() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt");
     assertNotNull(qrels);
     assertEquals(3903, qrels.getQids().size());
@@ -275,7 +277,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMsmarcoV2DocPassage2() {
+  public void testMsmarcoV2DocPassage2() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt");
     assertNotNull(qrels);
     assertEquals(4281, qrels.getQids().size());
@@ -292,7 +294,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCore17() {
+  public void testCore17() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.core17.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
@@ -309,7 +311,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCore18() {
+  public void testCore18() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.core18.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
@@ -326,7 +328,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCar15() {
+  public void testCar15() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt");
     assertNotNull(qrels);
     assertEquals(2125, qrels.getQids().size());
@@ -347,7 +349,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCar20() {
+  public void testCar20() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt");
     assertNotNull(qrels);
     assertEquals(2254, qrels.getQids().size());
@@ -366,7 +368,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec2018BL() {
+  public void testTrec2018BL() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
@@ -383,7 +385,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec2019BL() {
+  public void testTrec2019BL() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt");
     assertNotNull(qrels);
     assertEquals(57, qrels.getQids().size());
@@ -400,7 +402,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec2020BL() {
+  public void testTrec2020BL() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt");
     assertNotNull(qrels);
     assertEquals(49, qrels.getQids().size());
@@ -417,7 +419,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCovidRound1() {
+  public void testCovidRound1() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round1.txt");
     assertNotNull(qrels);
     assertEquals(30, qrels.getQids().size());
@@ -434,7 +436,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCovidRound2() {
+  public void testCovidRound2() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round2.txt");
     assertNotNull(qrels);
     assertEquals(35, qrels.getQids().size());
@@ -451,7 +453,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCovidRound3() {
+  public void testCovidRound3() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round3.txt");
     assertNotNull(qrels);
     assertEquals(40, qrels.getQids().size());
@@ -468,7 +470,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCovidRound4() {
+  public void testCovidRound4() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round4.txt");
     assertNotNull(qrels);
     assertEquals(45, qrels.getQids().size());
@@ -485,7 +487,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCovidRound5() {
+  public void testCovidRound5() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round5.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
@@ -502,7 +504,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCovidRound3Cumulative() {
+  public void testCovidRound3Cumulative() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt");
     assertNotNull(qrels);
     assertEquals(40, qrels.getQids().size());
@@ -519,7 +521,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCovidRound4Cumulative() {
+  public void testCovidRound4Cumulative() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt");
     assertNotNull(qrels);
     assertEquals(45, qrels.getQids().size());
@@ -536,7 +538,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testCovidComplete() {
+  public void testCovidComplete() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.covid-complete.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
@@ -553,7 +555,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testNtcir8Zh() {
+  public void testNtcir8Zh() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt");
     assertNotNull(qrels);
     assertEquals(100, qrels.getQids().size());
@@ -570,7 +572,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testClef2006Fr() {
+  public void testClef2006Fr() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.clef06fr.txt");
     assertNotNull(qrels);
     assertEquals(49, qrels.getQids().size());
@@ -587,7 +589,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testTrec2002Ar() {
+  public void testTrec2002Ar() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.trec02ar.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
@@ -604,7 +606,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiAr() {
+  public void testMrTyDiAr() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt");
@@ -639,7 +641,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiBn() {
+  public void testMrTyDiBn() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt");
@@ -674,7 +676,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiEn() {
+  public void testMrTyDiEn() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-en.train.txt");
@@ -709,7 +711,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiFi() {
+  public void testMrTyDiFi() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-fi.train.txt");
@@ -744,7 +746,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiId() {
+  public void testMrTyDiId() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-id.train.txt");
@@ -779,7 +781,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiJa() {
+  public void testMrTyDiJa() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ja.train.txt");
@@ -814,7 +816,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiKo() {
+  public void testMrTyDiKo() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ko.train.txt");
@@ -849,7 +851,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiRu() {
+  public void testMrTyDiRu() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt");
@@ -884,7 +886,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiSw() {
+  public void testMrTyDiSw() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-sw.train.txt");
@@ -919,7 +921,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiTe() {
+  public void testMrTyDiTe() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.train.txt");
@@ -957,7 +959,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMrTyDiTh() {
+  public void testMrTyDiTh() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = new RelevanceJudgments("src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-th.train.txt");
@@ -992,7 +994,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testBEIR() {
+  public void testBEIR() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = RelevanceJudgments.fromQrels(Qrels.BEIR_V1_0_0_TREC_COVID_TEST);
@@ -1142,7 +1144,7 @@ public class RelevanceJudgmentsTest {
   }
   
   @Test
-  public void testHC4() {
+  public void testHC4() throws IOException{
     RelevanceJudgments qrels;
     
     qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_RU_DEV);
@@ -1177,7 +1179,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testNeuClir2022() {
+  public void testNeuClir2022() throws IOException{
     RelevanceJudgments qrels;
 
     // % cut -f 1 -d ' ' src/main/resources/topics-and-qrels/qrels.neuclir22-fa.txt | uniq | wc
@@ -1212,7 +1214,7 @@ public class RelevanceJudgmentsTest {
   }
 
   @Test
-  public void testMIRACL() {
+  public void testMIRACL() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = RelevanceJudgments.fromQrels(Qrels.MIRACL_V10_AR_DEV);

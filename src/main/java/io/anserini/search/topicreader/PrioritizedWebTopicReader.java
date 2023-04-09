@@ -28,7 +28,7 @@ import java.util.TreeMap;
 
 public class PrioritizedWebTopicReader extends TopicReader<Integer> {
 
-  public PrioritizedWebTopicReader(Path topicFile) {
+  public PrioritizedWebTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
   
