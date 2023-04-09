@@ -33,7 +33,7 @@ import java.util.TreeMap;
  * http://research.nii.ac.jp/ntcir/workshop/OnlineProceedings14/pdf/ntcir/01-NTCIR14-OV-WWW-MaoJ.pdf
  */
 public class NtcirTopicReader extends TopicReader<Integer> {
-  public NtcirTopicReader(Path topicFile) {
+  public NtcirTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

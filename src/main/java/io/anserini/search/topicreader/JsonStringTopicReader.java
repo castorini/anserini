@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonStringTopicReader extends TopicReader<String> {
 
-  public JsonStringTopicReader(Path topicFile) {
+  public JsonStringTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

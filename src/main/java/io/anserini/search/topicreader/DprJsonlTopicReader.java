@@ -31,7 +31,7 @@ public class DprJsonlTopicReader extends TopicReader<Integer> {
     private static final String QUESTION_KEY = "question";
     private static final String ANSWERS_KEY = "answer";
 
-    public DprJsonlTopicReader(Path topicFile) {
+    public DprJsonlTopicReader(Path topicFile) throws IOException {
         super(topicFile);
     }
 

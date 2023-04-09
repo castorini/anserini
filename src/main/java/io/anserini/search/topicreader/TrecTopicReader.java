@@ -31,7 +31,7 @@ public class TrecTopicReader extends TopicReader<Integer> {
 
   private final String newline = System.getProperty("line.separator");
 
-  public TrecTopicReader(Path topicFile) {
+  public TrecTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

@@ -1212,13 +1212,10 @@ public final class SearchCollection implements Closeable {
     TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
     for (String singleTopicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(singleTopicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
-      }
+      Path topicsPath =  Path.of(singleTopicsFile);
       try {
         tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
-            .getConstructor(Path.class).newInstance(topicsFilePath);
+            .getConstructor(Path.class).newInstance(topicsPath);
         topics.putAll(tr.read());
       } catch (Exception e) {
         e.printStackTrace();
