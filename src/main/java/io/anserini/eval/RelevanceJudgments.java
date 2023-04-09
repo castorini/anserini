@@ -33,24 +33,23 @@ import org.apache.commons.io.FileUtils;
 
 public class RelevanceJudgments {
   final private Map<String, Map<String, Integer>> qrels;
-  final private static String CACHE_DIR = System.getProperty("user.home") + "/.cache/anserini/topics-and-qrels";
+  final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
   final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels";
 
-
-  public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException{
+  public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException {
     return new RelevanceJudgments("src/main/resources/" + qrels.path);
   }
 
   public RelevanceJudgments(String file) throws IOException {
     qrels = new HashMap<>();
-    Path qrelPath = Path.of(file);
-    try{
-      qrelPath = getQrelPath(qrelPath);
-    }catch (IOException e){
-      System.out.println("Qrel file not found");
+    Path qrelsPath = Path.of(file);
+    try {
+      qrelsPath = getQrelPath(qrelsPath);
+    } catch (IOException e) {
+      System.out.println("Qrels file not found");
     }
 
-    try (BufferedReader br = new BufferedReader(new FileReader(qrelPath.toString()))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(qrelsPath.toString()))) {
       String line;
       String[] arr;
       while ((line = br.readLine()) != null) {
@@ -67,7 +66,7 @@ public class RelevanceJudgments {
         }
       }
     } catch (IOException e) {
-
+      throw new IOException("Could not read qrels file");
     }
   }
 
@@ -116,6 +115,7 @@ public class RelevanceJudgments {
       return null;
     }
   }
+
   private static String getCacheDir() {
     File cacheDir = new File(CACHE_DIR);
     if (!cacheDir.exists()) {
@@ -123,20 +123,20 @@ public class RelevanceJudgments {
     }
     return cacheDir.getPath();
   }
-  
+
   /**
-   * Method will return the qrel file as a string
+   * Method will return the qrels file as a string
    * 
-   * @param qrelPath path to qrel file
-   * @return qrel file as a string
+   * @param qrelsPath path to qrels file
+   * @return qrels file as a string
    * @throws IOException
    */
-  public static String getQrelsResource(Path qrelPath) throws IOException{
-    Path resultPath = qrelPath;
-    try{
-      resultPath = getQrelPath(qrelPath);
-    }catch (Exception e){
-      throw new IOException("Could not get qrel file from cloud or local file system");
+  public static String getQrelsResource(Path qrelsPath) throws IOException {
+    Path resultPath = qrelsPath;
+    try {
+      resultPath = getQrelPath(qrelsPath);
+    } catch (Exception e) {
+      throw new IOException("Could not get qrels file from cloud or local file system");
     }
 
     InputStream inputStream = Files.newInputStream(resultPath);
@@ -145,51 +145,54 @@ public class RelevanceJudgments {
   }
 
   /**
-   * Method will look for the absolute qrel path and return it as a Path object
+   * Method will look for the absolute qrels path and return it as a Path object
    * 
-   * @param qrelPath path to qrel file
-   * @return qrel path
+   * @param qrelsPath path to qrels file
+   * @return qrels path
    * @throws IOException
    */
-  private static Path getQrelPath(Path qrelPath) throws IOException{
-    if (!Qrels.contains(qrelPath)) {
-      // If the topic file is not in the list of known topics, we assume it is a local file.
-      Path tempPath = Path.of(getCacheDir() + "/" + qrelPath.getFileName().toString());
+  private static Path getQrelPath(Path qrelsPath) throws IOException {
+    if (!Qrels.contains(qrelsPath)) {
+      // If the topic file is not in the list of known topics, we assume it is a local
+      // file.
+      Path tempPath = Path.of(getCacheDir() + "/" + qrelsPath.getFileName().toString());
       if (Files.exists(tempPath)) {
-        // if it is a unregistred topic in the Topics Enum, but it is in the cache, we use it
+        // if it is a unregistred topic in the Topics Enum, but it is in the cache, we
+        // use it
         return tempPath;
       }
-      return qrelPath;
+      return qrelsPath;
     }
-    
-    Path resultPath = getNewQrelAbsPath(qrelPath);
+
+    Path resultPath = getNewQrelAbsPath(qrelsPath);
     if (!Files.exists(resultPath)) {
-      resultPath = getQrelFromCloud(qrelPath);
+      resultPath = downloadQrels(qrelsPath);
     }
     return resultPath;
   }
 
-  public static Path getNewQrelAbsPath(Path qrelPath){
-    return Paths.get(getCacheDir(), qrelPath.getFileName().toString());
+  public static Path getNewQrelAbsPath(Path qrelsPath) {
+    return Paths.get(getCacheDir(), qrelsPath.getFileName().toString());
   }
 
   /**
-   * Method will download the qrel file from the cloud and return the path to the file
+   * Method will download the qrels file from the cloud and return the path to the
+   * file
    * 
-   * @param qrelPath path to qrel file
-   * @return path to qrel file
+   * @param qrelsPath path to qrels file
+   * @return path to qrels file
    * @throws IOException
    */
-  public static Path getQrelFromCloud(Path qrelPath) throws IOException{
-    String qrelURL = CLOUD_PATH + "/" + qrelPath.getFileName().toString();
-    System.out.println("Downloading qrel from cloud " + qrelURL.toString());
-    File qrelFile = new File(getCacheDir(), qrelPath.getFileName().toString());
-    try{
-      FileUtils.copyURLToFile(new URL(qrelURL), qrelFile);
-    }catch (Exception e){
-      System.out.println("Error downloading topics from cloud " + qrelURL.toString());
+  public static Path downloadQrels(Path qrelsPath) throws IOException {
+    String qrelsURL = Paths.get(CLOUD_PATH, qrelsPath.getFileName().toString()).toString();
+    System.out.println("Downloading qrels from cloud " + qrelsURL.toString());
+    File qrelsFile = new File(getCacheDir(), qrelsPath.getFileName().toString());
+    try {
+      FileUtils.copyURLToFile(new URL(qrelsURL), qrelsFile);
+    } catch (Exception e) {
+      System.out.println("Error downloading topics from cloud " + qrelsURL.toString());
       throw e;
     }
-    return qrelFile.toPath();
+    return qrelsFile.toPath();
   }
 }

@@ -8,12 +8,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 
 public abstract class QueryEncoder {
-  static private final String CACHE_DIR = System.getProperty("user.home") + "/.cache/anserini/encoders";
+  static private final String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/encoders").toString();
 
   protected int weightRange;
 

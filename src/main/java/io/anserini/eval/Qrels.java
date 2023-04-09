@@ -174,10 +174,10 @@ public enum Qrels {
 
   public static boolean contains(Path topicPath) {
     for (Qrels c : Qrels.values()) {
-        if (Path.of(c.path).getFileName().equals(topicPath.getFileName())) {
-            return true;
-        }
+      if (Path.of(c.path).getFileName().equals(topicPath.getFileName())) {
+        return true;
+      }
     }
     return false;
-}
+  }
 }
