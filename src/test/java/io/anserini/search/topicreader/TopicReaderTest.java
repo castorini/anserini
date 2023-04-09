@@ -35,8 +35,8 @@ public class TopicReaderTest {
       cnt++;
 
       // Verify that we can fetch the TopicReader class given the name of the topic file.
-      String[] pathParts = topic.path.split("/");
-      assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(pathParts[1]));
+      String path = topic.path;
+      assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
     assertEquals(348, cnt);
   }

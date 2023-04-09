@@ -45,7 +45,7 @@ public abstract class TopicReader<K> {
   protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
   final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
-  final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels";
+  final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
 
   static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = new HashMap<>();
@@ -53,8 +53,8 @@ public abstract class TopicReader<K> {
   static {
     // Inverts the "Topic" enum to populate the lookup table that maps topics filename to reader class.
     for (Topics topic : Topics.values()) {
-      String pathParts[] = topic.path.split("\\/");
-      TOPIC_FILE_TO_TYPE.put(pathParts[1], topic.readerClass);
+      String path = topic.path;
+      TOPIC_FILE_TO_TYPE.put(path, topic.readerClass);
     }
   }
 
@@ -231,7 +231,7 @@ public abstract class TopicReader<K> {
    * @throws IOException
    */
   public static Path getTopicsFromCloud(Path topicPath) throws IOException{
-    String topicURL = CLOUD_PATH + "/" + topicPath.getFileName().toString();
+    String topicURL = CLOUD_PATH + topicPath.getFileName().toString();
     System.out.println("Downloading topics from cloud " + topicURL.toString());
     File topicFile = new File(getCacheDir(), topicPath.getFileName().toString());
     try{
@@ -254,11 +254,11 @@ public abstract class TopicReader<K> {
    * @throws IOException
    */
   private static Path getTopicPath(Path topicPath) throws IOException{
-    if (!Topics.contains(topicPath)) {
+    if (!TOPIC_FILE_TO_TYPE.containsKey(topicPath.getFileName().toString())) {
       // If the topic file is not in the list of known topics, we assume it is a local file.
-      Path tempPath = Path.of(getCacheDir() + "/" + topicPath.getFileName().toString());
+      Path tempPath = Paths.get(getCacheDir(), topicPath.getFileName().toString());
       if (Files.exists(tempPath)) {
-        // if it is a unregistred topic, but it is in the cache, we use it
+        // if it is an unregistred topic, but it is in the cache, we use it
         return tempPath;
       }
       return topicPath;

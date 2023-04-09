@@ -34,7 +34,7 @@ import org.apache.commons.io.FileUtils;
 public class RelevanceJudgments {
   final private Map<String, Map<String, Integer>> qrels;
   final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
-  final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels";
+  final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException {
     return new RelevanceJudgments("src/main/resources/" + qrels.path);
@@ -44,9 +44,9 @@ public class RelevanceJudgments {
     qrels = new HashMap<>();
     Path qrelsPath = Path.of(file);
     try {
-      qrelsPath = getQrelPath(qrelsPath);
+      qrelsPath = getQrelsPath(qrelsPath);
     } catch (IOException e) {
-      System.out.println("Qrels file not found");
+      System.out.println("Qrels file not found at " + qrelsPath.toString());
     }
 
     try (BufferedReader br = new BufferedReader(new FileReader(qrelsPath.toString()))) {
@@ -134,7 +134,7 @@ public class RelevanceJudgments {
   public static String getQrelsResource(Path qrelsPath) throws IOException {
     Path resultPath = qrelsPath;
     try {
-      resultPath = getQrelPath(qrelsPath);
+      resultPath = getQrelsPath(qrelsPath);
     } catch (Exception e) {
       throw new IOException("Could not get qrels file from cloud or local file system");
     }
@@ -151,11 +151,11 @@ public class RelevanceJudgments {
    * @return qrels path
    * @throws IOException
    */
-  private static Path getQrelPath(Path qrelsPath) throws IOException {
+  private static Path getQrelsPath(Path qrelsPath) throws IOException {
     if (!Qrels.contains(qrelsPath)) {
       // If the topic file is not in the list of known topics, we assume it is a local
       // file.
-      Path tempPath = Path.of(getCacheDir() + "/" + qrelsPath.getFileName().toString());
+      Path tempPath = Paths.get(getCacheDir(), qrelsPath.getFileName().toString());
       if (Files.exists(tempPath)) {
         // if it is a unregistred topic in the Topics Enum, but it is in the cache, we
         // use it
@@ -184,7 +184,7 @@ public class RelevanceJudgments {
    * @throws IOException
    */
   public static Path downloadQrels(Path qrelsPath) throws IOException {
-    String qrelsURL = Paths.get(CLOUD_PATH, qrelsPath.getFileName().toString()).toString();
+    String qrelsURL = CLOUD_PATH + qrelsPath.getFileName().toString().toString();
     System.out.println("Downloading qrels from cloud " + qrelsURL.toString());
     File qrelsFile = new File(getCacheDir(), qrelsPath.getFileName().toString());
     try {
