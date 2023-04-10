@@ -36,8 +36,6 @@ metrics:
     can_combine: true
 
 topic_reader: Trec
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)"
     id: fire12

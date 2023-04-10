@@ -39,8 +39,6 @@ metrics:
     metric_precision: 4
 
 topic_reader: Webxml
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)"
     id: trec2013

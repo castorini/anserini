@@ -29,8 +29,6 @@ metrics:
     can_combine: true
 
 topic_reader: Trec
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)"
     id: trec1

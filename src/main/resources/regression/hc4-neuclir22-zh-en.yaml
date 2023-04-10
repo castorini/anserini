@@ -42,8 +42,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)"
     id: test_title

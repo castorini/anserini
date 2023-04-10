@@ -36,8 +36,6 @@ metrics:
     can_combine: true
 
 topic_reader: Trec
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)"
     id: trec02

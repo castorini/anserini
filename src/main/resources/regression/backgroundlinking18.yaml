@@ -29,8 +29,6 @@ metrics:
     can_combine: true
 
 topic_reader: BackgroundLinking
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)"
     id: bglink18

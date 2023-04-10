@@ -42,8 +42,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[NeuCLIR 2022 (Russian): title (human-translated queries)](https://neuclir.github.io/)"
     id: ht-title

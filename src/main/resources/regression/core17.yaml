@@ -29,8 +29,6 @@ metrics:
     can_combine: true
 
 topic_reader: Trec
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)"
     id: core17

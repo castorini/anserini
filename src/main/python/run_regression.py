@@ -133,7 +133,7 @@ def construct_search_commands(yaml_data):
         [
             SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
-            '-topics', os.path.join(yaml_data['topic_root'], topic_set['path']),
+            '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
             '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
             '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
             model['params']
@@ -169,7 +169,7 @@ def evaluate_and_verify(yaml_data, dry_run):
             for metric in yaml_data['metrics']:
                 eval_cmd = [
                   os.path.join(metric['command']), metric['params'] if 'params' in metric and metric['params'] else '',
-                  os.path.join(yaml_data['qrels_root'], topic_set['qrel']) if 'qrel' in topic_set and topic_set['qrel'] else '',
+                  os.path.join('tools/topics-and-qrels', topic_set['qrel']) if 'qrel' in topic_set and topic_set['qrel'] else '',
                   construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else '')
                 ]
                 if dry_run:
