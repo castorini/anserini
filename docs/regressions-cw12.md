@@ -44,52 +44,52 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -topics tools/topics-and-qrels/topics.web.201-250.txt \
   -topicreader Webxml \
   -output runs/run.cw12.bm25.topics.web.201-250.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -topics tools/topics-and-qrels/topics.web.251-300.txt \
   -topicreader Webxml \
   -output runs/run.cw12.bm25.topics.web.251-300.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -topics tools/topics-and-qrels/topics.web.201-250.txt \
   -topicreader Webxml \
   -output runs/run.cw12.bm25+rm3.topics.web.201-250.txt \
   -parallelism 16 -bm25 -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -topics tools/topics-and-qrels/topics.web.251-300.txt \
   -topicreader Webxml \
   -output runs/run.cw12.bm25+rm3.topics.web.251-300.txt \
   -parallelism 16 -bm25 -rm3 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -topics tools/topics-and-qrels/topics.web.201-250.txt \
   -topicreader Webxml \
   -output runs/run.cw12.ql.topics.web.201-250.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -topics tools/topics-and-qrels/topics.web.251-300.txt \
   -topicreader Webxml \
   -output runs/run.cw12.ql.topics.web.251-300.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+  -topics tools/topics-and-qrels/topics.web.201-250.txt \
   -topicreader Webxml \
   -output runs/run.cw12.ql+rm3.topics.web.201-250.txt \
   -parallelism 16 -qld -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12/ \
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+  -topics tools/topics-and-qrels/topics.web.251-300.txt \
   -topicreader Webxml \
   -output runs/run.cw12.ql+rm3.topics.web.251-300.txt \
   -parallelism 16 -qld -rm3 -collection ClueWeb09Collection &
@@ -98,25 +98,25 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
 
 ```
-tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
-tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
+tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
+tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
 
-tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
-tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
+tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
+tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
 
-tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
-tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
+tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
+tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
 
-tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
-tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
+tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
+tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
 ```
 
 ## Effectiveness
@@ -125,14 +125,14 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **QL**    | **+RM3**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
-| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.1695    | 0.1477    | 0.1494    | 0.1284    |
-| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.2469    | 0.2342    | 0.2467    | 0.2185    |
+| [TREC 2013 Web Track (Topics 201-250)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.201-250.txt)| 0.1695    | 0.1477    | 0.1494    | 0.1284    |
+| [TREC 2014 Web Track (Topics 251-300)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.251-300.txt)| 0.2469    | 0.2342    | 0.2467    | 0.2185    |
 | **P30**                                                                                                      | **BM25**  | **+RM3**  | **QL**    | **+RM3**  |
-| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.2767    | 0.2400    | 0.2607    | 0.2373    |
-| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.4547    | 0.4140    | 0.4380    | 0.3800    |
+| [TREC 2013 Web Track (Topics 201-250)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.201-250.txt)| 0.2767    | 0.2400    | 0.2607    | 0.2373    |
+| [TREC 2014 Web Track (Topics 251-300)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.251-300.txt)| 0.4547    | 0.4140    | 0.4380    | 0.3800    |
 | **nDCG@20**                                                                                                  | **BM25**  | **+RM3**  | **QL**    | **+RM3**  |
-| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.2083    | 0.2058    | 0.1993    | 0.1701    |
-| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.2572    | 0.2548    | 0.2220    | 0.2076    |
+| [TREC 2013 Web Track (Topics 201-250)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.201-250.txt)| 0.2083    | 0.2058    | 0.1993    | 0.1701    |
+| [TREC 2014 Web Track (Topics 251-300)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.251-300.txt)| 0.2572    | 0.2548    | 0.2220    | 0.2076    |
 | **ERR@20**                                                                                                   | **BM25**  | **+RM3**  | **QL**    | **+RM3**  |
-| [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)        | 0.1283    | 0.1304    | 0.1232    | 0.0995    |
-| [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)        | 0.1616    | 0.1655    | 0.1323    | 0.1242    |
+| [TREC 2013 Web Track (Topics 201-250)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.201-250.txt)| 0.1283    | 0.1304    | 0.1232    | 0.0995    |
+| [TREC 2014 Web Track (Topics 251-300)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.251-300.txt)| 0.1616    | 0.1655    | 0.1323    | 0.1242    |

@@ -34,8 +34,6 @@ metrics:
     metric_precision: 4
     can_combine: false
     
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root:
 topics:
   - name: "[DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)"
     id: dpr-nq-test

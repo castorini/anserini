@@ -29,10 +29,8 @@ metrics:
     can_combine: true
 
 topic_reader: Trec
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)"
+  - name: "[TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt)"
     id: trec05
     path: topics.robust05.txt
     qrel: qrels.robust05.txt

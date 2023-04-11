@@ -40,14 +40,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fever-paragraph/ \
-  -topics src/main/resources/topics-and-qrels/topics.fever.dev.txt \
+  -topics tools/topics-and-qrels/topics.fever.dev.txt \
   -topicreader TsvInt \
   -output runs/run.fever.bm25-default.topics.fever.dev.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fever-paragraph/ \
-  -topics src/main/resources/topics-and-qrels/topics.fever.dev.txt \
+  -topics tools/topics-and-qrels/topics.fever.dev.txt \
   -topicreader TsvInt \
   -output runs/run.fever.bm25-tuned.topics.fever.dev.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.1 &
@@ -56,9 +56,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
 ```
 
 ## Effectiveness

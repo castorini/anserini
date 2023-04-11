@@ -37,19 +37,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-telugu-aca/ \
-  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-te.train.txt.gz \
+  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-te.train.txt.gz \
   -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.train.txt \
   -bm25 -hits 100 -language te -useAutoCompositeAnalyzer &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-telugu-aca/ \
-  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-te.dev.txt.gz \
+  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-te.dev.txt.gz \
   -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.dev.txt \
   -bm25 -hits 100 -language te -useAutoCompositeAnalyzer &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-telugu-aca/ \
-  -topics src/main/resources/topics-and-qrels/topics.mrtydi-v1.1-te.test.txt.gz \
+  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-te.test.txt.gz \
   -topicreader TsvInt \
   -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.test.txt \
   -bm25 -hits 100 -language te -useAutoCompositeAnalyzer &
@@ -58,9 +58,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.train.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.train.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.dev.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 src/main/resources/topics-and-qrels/qrels.mrtydi-v1.1-te.test.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-te.train.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.train.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-te.dev.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-te.test.txt runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.test.txt
 ```
 
 ## Effectiveness

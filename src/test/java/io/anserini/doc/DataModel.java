@@ -130,8 +130,6 @@ public class DataModel {
     this.index_stats = index_stats;
   }
 
-  private String topic_root;
-  private String qrels_root;
   private String topic_reader;
 
   public String getTopic_reader() {
@@ -140,22 +138,6 @@ public class DataModel {
 
   public void setTopic_reader(String topic_reader) {
     this.topic_reader = topic_reader;
-  }
-
-  public String getTopic_root() {
-    return topic_root;
-  }
-
-  public void setTopic_root(String topic_root) {
-    this.topic_root = topic_root;
-  }
-
-  public String getQrels_root() {
-    return qrels_root;
-  }
-
-  public void setQrels_root(String qrels_root) {
-    this.qrels_root = qrels_root;
   }
 
   private List<Metric> metrics;
@@ -311,7 +293,7 @@ public class DataModel {
       for (Topic topic : getTopics()) {
         builder.append(SEARCH_COMMAND).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
-        builder.append("  -topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
+        builder.append("  -topics").append(" ").append(Paths.get("tools/topics-and-qrels", topic.getPath())).append(" \\\n");
         builder.append("  -topicreader").append(" ").append((topic.getTopic_reader() == null) ? getTopic_reader() : topic.getTopic_reader()).append(" \\\n");
         builder.append("  -output").append(" ").append(generateRunFile(collection, model, topic)).append(" \\\n");
         if (model.getParams() != null) {
@@ -367,7 +349,7 @@ public class DataModel {
           }
           String evalCmdResidual = "";
           if(topic.getQrel() != null){
-            evalCmdResidual += " " + Paths.get(getQrels_root(), topic.getQrel());
+            evalCmdResidual += " " + Paths.get("tools/topics-and-qrels", topic.getQrel());
           }
           evalCmdResidual += " " + generateRunFile(collection, model, topic);
           List<Conversion> conversions = getConversions();

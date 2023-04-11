@@ -49,111 +49,111 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt \
   -bm25 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-desc.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt \
   -bm25 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-desc_title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt \
   -bm25 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt \
   -bm25 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-desc.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt \
   -bm25 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-desc_title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt \
   -bm25 -language ru &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt \
   -bm25 -rm3 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-desc.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt \
   -bm25 -rm3 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-desc_title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt \
   -bm25 -rm3 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt \
   -bm25 -rm3 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-desc.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt \
   -bm25 -rm3 -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-desc_title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt \
   -bm25 -rm3 -language ru &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt \
   -bm25 -rocchio -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-desc.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt \
   -bm25 -rocchio -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.ht-desc_title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.ht-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt \
   -bm25 -rocchio -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt \
   -bm25 -rocchio -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-desc.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-desc.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt \
   -bm25 -rocchio -language ru &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
-  -topics src/main/resources/topics-and-qrels/topics.neuclir22-ru.mt-desc_title.txt \
+  -topics tools/topics-and-qrels/topics.neuclir22-ru.mt-desc_title.txt \
   -topicreader TsvInt \
   -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt \
   -bm25 -rocchio -language ru &
@@ -162,80 +162,80 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
 ```
 
 ## Effectiveness

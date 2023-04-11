@@ -43,21 +43,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt \
+  -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
   -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt \
+  -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
   -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt \
+  -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
   -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt \
   -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
@@ -66,11 +66,11 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt
 ```
 
 ## Effectiveness
@@ -79,7 +79,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+RM3+DF**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)                    | 0.3029    | 0.3787    | 0.3160    |
+| [TREC 2019 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking19.txt)| 0.3029    | 0.3787    | 0.3160    |
 | **nDCG@5**                                                                                                   | **BM25**  | **+RM3**  | **+RM3+DF**|
-| [TREC 2019 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt)                    | 0.4785    | 0.5200    | 0.5018    |
+| [TREC 2019 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking19.txt)| 0.4785    | 0.5200    | 0.5018    |
 
