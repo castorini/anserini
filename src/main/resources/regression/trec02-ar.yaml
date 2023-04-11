@@ -37,7 +37,7 @@ metrics:
 
 topic_reader: Trec
 topics:
-  - name: "[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)"
+  - name: "[TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt)"
     id: trec02
     path: topics.trec02ar-ar.txt
     qrel: qrels.trec02ar.txt

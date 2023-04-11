@@ -30,7 +30,7 @@ metrics:
 
 topic_reader: Trec
 topics:
-  - name: "[TREC 2005 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust05.txt)"
+  - name: "[TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt)"
     id: trec05
     path: topics.robust05.txt
     qrel: qrels.robust05.txt

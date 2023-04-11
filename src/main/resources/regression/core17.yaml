@@ -30,7 +30,7 @@ metrics:
 
 topic_reader: Trec
 topics:
-  - name: "[TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)"
+  - name: "[TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt)"
     id: core17
     path: topics.core17.txt
     qrel: qrels.core17.txt

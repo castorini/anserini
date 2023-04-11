@@ -107,6 +107,6 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.1545    | 0.1308    | 0.1364    | 0.1371    | 0.1083    | 0.1077    |
+| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.1545    | 0.1308    | 0.1364    | 0.1371    | 0.1083    | 0.1077    |
 | **MRR**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.2321    | 0.1940    | 0.1978    | 0.2013    | 0.1608    | 0.1588    |
+| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.2321    | 0.1940    | 0.1978    | 0.2013    | 0.1608    | 0.1588    |

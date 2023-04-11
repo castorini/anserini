@@ -62,8 +62,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3115    |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3115    |
 | **P20**                                                                                                      | **BM25**  |
-| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.3184    |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3184    |
 | **nDCG@20**                                                                                                  | **BM25**  |
-| [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)         | 0.4457    |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.4457    |

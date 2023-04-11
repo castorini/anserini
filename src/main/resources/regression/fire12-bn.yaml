@@ -37,7 +37,7 @@ metrics:
 
 topic_reader: Trec
 topics:
-  - name: "[FIRE 2012 (Monolingual Bengali)](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt)"
+  - name: "[FIRE 2012 (Monolingual Bengali)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12bn.176-225.txt)"
     id: fire12
     path: topics.fire12bn.176-225.txt
     qrel: qrels.fire12bn.176-225.txt

@@ -61,8 +61,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)          | 0.3867    |
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.3867    |
 | **P20**                                                                                                      | **BM25**  |
-| [FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)          | 0.4470    |
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.4470    |
 | **nDCG@20**                                                                                                  | **BM25**  |
-| [FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)          | 0.5310    |
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.5310    |

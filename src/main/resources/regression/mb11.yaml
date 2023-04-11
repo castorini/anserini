@@ -30,11 +30,11 @@ metrics:
 
 topic_reader: Microblog
 topics:
-  - name: "[TREC 2011 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2011.txt)"
+  - name: "[TREC 2011 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2011.txt)"
     id: mb11
     path: topics.microblog2011.txt
     qrel: qrels.microblog2011.txt
-  - name: "[TREC 2012 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2012.txt)"
+  - name: "[TREC 2012 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2012.txt)"
     id: mb12
     path: topics.microblog2012.txt
     qrel: qrels.microblog2012.txt

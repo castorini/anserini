@@ -30,15 +30,15 @@ metrics:
 
 topic_reader: Trec
 topics:
-  - name: "[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)"
+  - name: "[TREC-1 Ad Hoc Topics 51-100](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.51-100.txt)"
     id: trec1
     path: topics.adhoc.51-100.txt
     qrel: qrels.adhoc.51-100.txt
-  - name: "[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)"
+  - name: "[TREC-2 Ad Hoc Topics 101-150](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.101-150.txt)"
     id: trec2
     path: topics.adhoc.101-150.txt
     qrel: qrels.adhoc.101-150.txt
-  - name: "[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)"
+  - name: "[TREC-3 Ad Hoc Topics 151-200](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.151-200.txt)"
     id: trec3
     path: topics.adhoc.151-200.txt
     qrel: qrels.adhoc.151-200.txt

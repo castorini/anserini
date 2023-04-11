@@ -30,7 +30,7 @@ metrics:
 
 topic_reader: BackgroundLinking
 topics:
-  - name: "[TREC 2020 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt)"
+  - name: "[TREC 2020 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking20.txt)"
     id: bglink20
     path: topics.backgroundlinking20.txt
     qrel: qrels.backgroundlinking20.txt
