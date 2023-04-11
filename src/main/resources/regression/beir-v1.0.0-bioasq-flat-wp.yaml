@@ -36,8 +36,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvString
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "BEIR (v1.0.0): BioASQ"
     id: test

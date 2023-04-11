@@ -39,18 +39,16 @@ metrics:
     metric_precision: 4
 
 topic_reader: Webxml
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)"
+  - name: "[TREC 2010 Web Track (Topics 51-100)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.51-100.txt)"
     id: trec2010
     path: topics.web.51-100.txt
     qrel: qrels.web.51-100.txt
-  - name: "[TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)"
+  - name: "[TREC 2011 Web Track (Topics 101-150)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.101-150.txt)"
     id: trec2011
     path: topics.web.101-150.txt
     qrel: qrels.web.101-150.txt
-  - name: "[TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)"
+  - name: "[TREC 2012 Web Track (Topics 151-200)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.151-200.txt)"
     id: trec2012
     path: topics.web.151-200.txt
     qrel: qrels.web.151-200.txt

@@ -44,42 +44,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topics tools/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topics tools/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topics tools/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topics tools/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql.topics.car17v1.5.benchmarkY1test.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topics tools/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
+  -topics tools/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
   -topicreader Car \
   -output runs/run.car-paragraphCorpus.v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
@@ -88,17 +88,17 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.ql.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.ql.topics.car17v1.5.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt
 ```
 
 ## Effectiveness
@@ -107,6 +107,6 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)| 0.1562    | 0.1290    | 0.1358    | 0.1386    | 0.1085    | 0.1048    |
+| [TREC 2017 CAR: benchmarkY1test (v1.5)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)| 0.1562    | 0.1290    | 0.1358    | 0.1386    | 0.1085    | 0.1048    |
 | **MRR**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)| 0.2331    | 0.1908    | 0.1949    | 0.2037    | 0.1607    | 0.1524    |
+| [TREC 2017 CAR: benchmarkY1test (v1.5)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)| 0.2331    | 0.1908    | 0.1949    | 0.2037    | 0.1607    | 0.1524    |

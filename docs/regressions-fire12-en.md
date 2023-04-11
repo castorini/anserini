@@ -43,7 +43,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fire12-en/ \
-  -topics src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt \
+  -topics tools/topics-and-qrels/topics.fire12en.176-225.txt \
   -topicreader Trec \
   -output runs/run.fire12-en.bm25.topics.fire12en.176-225.txt \
   -bm25 -language en &
@@ -52,7 +52,7 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12en.176-225.txt runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12en.176-225.txt runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
 ```
 
 ## Effectiveness
@@ -61,8 +61,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [FIRE 2012 (Monolingual English)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)        | 0.3713    |
+| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.3713    |
 | **P20**                                                                                                      | **BM25**  |
-| [FIRE 2012 (Monolingual English)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)        | 0.4970    |
+| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.4970    |
 | **nDCG@20**                                                                                                  | **BM25**  |
-| [FIRE 2012 (Monolingual English)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)        | 0.5420    |
+| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.5420    |

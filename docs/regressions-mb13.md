@@ -52,78 +52,78 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools/topics-and-qrels/topics.microblog2013.txt \
   -topicreader Microblog \
   -output runs/run.mb13.bm25.topics.microblog2013.txt \
   -searchtweets -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools/topics-and-qrels/topics.microblog2014.txt \
   -topicreader Microblog \
   -output runs/run.mb13.bm25.topics.microblog2014.txt \
   -searchtweets -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools/topics-and-qrels/topics.microblog2013.txt \
   -topicreader Microblog \
   -output runs/run.mb13.bm25+rm3.topics.microblog2013.txt \
   -searchtweets -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools/topics-and-qrels/topics.microblog2014.txt \
   -topicreader Microblog \
   -output runs/run.mb13.bm25+rm3.topics.microblog2014.txt \
   -searchtweets -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools/topics-and-qrels/topics.microblog2013.txt \
   -topicreader Microblog \
   -output runs/run.mb13.bm25+ax.topics.microblog2013.txt \
   -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools/topics-and-qrels/topics.microblog2014.txt \
   -topicreader Microblog \
   -output runs/run.mb13.bm25+ax.topics.microblog2014.txt \
   -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools/topics-and-qrels/topics.microblog2013.txt \
   -topicreader Microblog \
   -output runs/run.mb13.ql.topics.microblog2013.txt \
   -searchtweets -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools/topics-and-qrels/topics.microblog2014.txt \
   -topicreader Microblog \
   -output runs/run.mb13.ql.topics.microblog2014.txt \
   -searchtweets -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools/topics-and-qrels/topics.microblog2013.txt \
   -topicreader Microblog \
   -output runs/run.mb13.ql+rm3.topics.microblog2013.txt \
   -searchtweets -qld -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools/topics-and-qrels/topics.microblog2014.txt \
   -topicreader Microblog \
   -output runs/run.mb13.ql+rm3.topics.microblog2014.txt \
   -searchtweets -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools/topics-and-qrels/topics.microblog2013.txt \
   -topicreader Microblog \
   -output runs/run.mb13.ql+ax.topics.microblog2013.txt \
   -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools/topics-and-qrels/topics.microblog2014.txt \
   -topicreader Microblog \
   -output runs/run.mb13.ql+ax.topics.microblog2014.txt \
   -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
@@ -132,23 +132,23 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25.topics.microblog2013.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25.topics.microblog2014.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25.topics.microblog2013.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25.topics.microblog2014.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+rm3.topics.microblog2013.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+rm3.topics.microblog2014.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+rm3.topics.microblog2013.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+rm3.topics.microblog2014.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+ax.topics.microblog2013.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+ax.topics.microblog2014.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+ax.topics.microblog2013.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+ax.topics.microblog2014.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql.topics.microblog2013.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql.topics.microblog2014.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql.topics.microblog2013.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql.topics.microblog2014.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+rm3.topics.microblog2013.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+rm3.topics.microblog2014.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+rm3.topics.microblog2013.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+rm3.topics.microblog2014.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+ax.topics.microblog2013.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+ax.topics.microblog2014.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+ax.topics.microblog2013.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+ax.topics.microblog2014.txt
 ```
 
 ## Effectiveness
@@ -157,8 +157,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)          | 0.2371    | 0.2499    | 0.2855    | 0.2602    | 0.2878    | 0.3152    |
-| [TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)          | 0.3931    | 0.4361    | 0.4796    | 0.4181    | 0.4667    | 0.4965    |
+| [TREC 2013 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2013.txt)| 0.2371    | 0.2499    | 0.2855    | 0.2602    | 0.2878    | 0.3152    |
+| [TREC 2014 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2014.txt)| 0.3931    | 0.4361    | 0.4796    | 0.4181    | 0.4667    | 0.4965    |
 | **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)          | 0.4339    | 0.4383    | 0.4728    | 0.4561    | 0.4839    | 0.5078    |
-| [TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)          | 0.6212    | 0.6406    | 0.6648    | 0.6430    | 0.6552    | 0.6727    |
+| [TREC 2013 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2013.txt)| 0.4339    | 0.4383    | 0.4728    | 0.4561    | 0.4839    | 0.5078    |
+| [TREC 2014 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2014.txt)| 0.6212    | 0.6406    | 0.6648    | 0.6430    | 0.6552    | 0.6727    |

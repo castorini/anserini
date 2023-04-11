@@ -77,21 +77,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl19-passage.splade-pp-ed.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt \
   -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl19-passage.splade-pp-ed.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt \
   -impact -pretokenized -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-passage.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl19-passage.splade-pp-ed.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt \
   -impact -pretokenized -rocchio &
@@ -100,20 +100,20 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.splade-pp-ed.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.splade-pp-ed.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.splade-pp-ed.txt
 ```
 
 ## Effectiveness

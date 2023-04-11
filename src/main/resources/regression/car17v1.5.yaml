@@ -29,10 +29,8 @@ metrics:
     can_combine: true
 
 topic_reader: Car
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[TREC 2017 CAR: benchmarkY1test (v1.5)](../src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)"
+  - name: "[TREC 2017 CAR: benchmarkY1test (v1.5)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt/)"
     id: car17v1.5
     path: topics.car17v1.5.benchmarkY1test.txt
     qrel: qrels.car17v1.5.benchmarkY1test.txt

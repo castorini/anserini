@@ -29,10 +29,8 @@ metrics:
     can_combine: true
 
 topic_reader: Trec
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)"
+  - name: "[TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt)"
     id: core18
     path: topics.core18.txt
     qrel: qrels.core18.txt

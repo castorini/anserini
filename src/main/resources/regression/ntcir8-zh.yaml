@@ -37,10 +37,8 @@ metrics:
     can_combine: true
 
 topic_reader: TsvString
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)"
+  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt)"
     id: ntcir8
     path: topics.ntcir8zh.eval.txt
     qrel: qrels.ntcir8.eval.txt
