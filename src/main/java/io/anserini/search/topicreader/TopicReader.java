@@ -253,7 +253,7 @@ public abstract class TopicReader<K> {
    * @return
    * @throws IOException
    */
-  private static Path getTopicPath(Path topicPath) throws IOException{
+  public static Path getTopicPath(Path topicPath) throws IOException{
     if (!TOPIC_FILE_TO_TYPE.containsKey(topicPath.getFileName().toString())) {
       // If the topic file is not in the list of known topics, we assume it is a local file.
       Path tempPath = Paths.get(getCacheDir(), topicPath.getFileName().toString());

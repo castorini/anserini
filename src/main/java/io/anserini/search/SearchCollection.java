@@ -907,9 +907,9 @@ public final class SearchCollection implements Closeable {
           try {
             InputStream inputStream = null;
             if (isMSMARCOv1_passage) {
-              inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path);
+              inputStream = Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)), StandardOpenOption.READ);
             } else {
-              inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_DOC_DEV.path);
+              inputStream = Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)), StandardOpenOption.READ);
             }
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
