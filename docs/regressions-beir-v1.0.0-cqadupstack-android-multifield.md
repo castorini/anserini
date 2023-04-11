@@ -36,7 +36,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-cqadupstack-android-multifield/ \
-  -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-android.test.tsv.gz \
+  -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-android.test.tsv.gz \
   -topicreader TsvString \
   -output runs/run.beir-v1.0.0-cqadupstack-android-multifield.bm25.topics.beir-v1.0.0-cqadupstack-android.test.txt \
   -bm25 -removeQuery -hits 1000 -fields contents=1.0 title=1.0 &
@@ -45,9 +45,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android-multifield.bm25.topics.beir-v1.0.0-cqadupstack-android.test.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android-multifield.bm25.topics.beir-v1.0.0-cqadupstack-android.test.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android-multifield.bm25.topics.beir-v1.0.0-cqadupstack-android.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android-multifield.bm25.topics.beir-v1.0.0-cqadupstack-android.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android-multifield.bm25.topics.beir-v1.0.0-cqadupstack-android.test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android-multifield.bm25.topics.beir-v1.0.0-cqadupstack-android.test.txt
 ```
 
 ## Effectiveness

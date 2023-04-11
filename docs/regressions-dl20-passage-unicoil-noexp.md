@@ -82,21 +82,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt \
   -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt \
   -impact -pretokenized -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt \
   -impact -pretokenized -rocchio &
@@ -105,20 +105,20 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl20.unicoil-noexp.0shot.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl20.unicoil-noexp.0shot.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl20.unicoil-noexp.0shot.txt
 ```
 
 ## Effectiveness

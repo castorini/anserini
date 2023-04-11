@@ -35,7 +35,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.miracl-v1.0-sw/ \
-  -topics src/main/resources/topics-and-qrels/topics.miracl-v1.0-sw-dev.tsv \
+  -topics tools/topics-and-qrels/topics.miracl-v1.0-sw-dev.tsv \
   -topicreader TsvInt \
   -output runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt \
   -bm25 -hits 100 -language sw &
@@ -44,8 +44,8 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt
 ```
 
 ## Effectiveness
