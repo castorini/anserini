@@ -32,10 +32,10 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
 
-+ [`topics.adhoc.451-550.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt): topics for the [TREC-9 Web Track](http://trec.nist.gov/data/topics_eng/topics.451-500.gz) and the [TREC 2001 Web Track](http://trec.nist.gov/data/topics_eng/topics.501-550.txt)
-+ [`qrels.adhoc.451-550.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt): qrels for the [TREC-9 Web Track](http://trec.nist.gov/data/qrels_eng/qrels.trec9.main_web.gz) and the [TREC 2001 Web Track](http://trec.nist.gov/data/qrels_eng/adhoc_qrels.txt)
++ [`topics.adhoc.451-550.txt`](../tools/topics-and-qrels/topics.adhoc.451-550.txt): topics for the [TREC-9 Web Track](http://trec.nist.gov/data/topics_eng/topics.451-500.gz) and the [TREC 2001 Web Track](http://trec.nist.gov/data/topics_eng/topics.501-550.txt)
++ [`qrels.adhoc.451-550.txt`](../tools/topics-and-qrels/qrels.adhoc.451-550.txt): qrels for the [TREC-9 Web Track](http://trec.nist.gov/data/qrels_eng/qrels.trec9.main_web.gz) and the [TREC 2001 Web Track](http://trec.nist.gov/data/qrels_eng/adhoc_qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

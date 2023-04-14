@@ -30,7 +30,7 @@ public class TsvStringTopicReaderTest {
   @Test
   public void test() throws IOException {
     TopicReader<String> reader = new TsvStringTopicReader(
-        Paths.get("src/main/resources/topics-and-qrels/topics.ntcir8en.eval.txt"));
+        Paths.get("tools/topics-and-qrels/topics.ntcir8en.eval.txt"));
 
     SortedMap<String, Map<String, String>> topics = reader.read();
 

@@ -30,7 +30,7 @@ public class BackgroundLinkingTopicReaderTest {
   @Test
   public void test2018() throws IOException {
     TopicReader<Integer> reader = new BackgroundLinkingTopicReader(
-        Paths.get("src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt"));
+        Paths.get("tools/topics-and-qrels/topics.backgroundlinking18.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -51,7 +51,7 @@ public class BackgroundLinkingTopicReaderTest {
   @Test
   public void test2019() throws IOException {
     TopicReader<Integer> reader = new BackgroundLinkingTopicReader(
-        Paths.get("src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt"));
+        Paths.get("tools/topics-and-qrels/topics.backgroundlinking19.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

@@ -31,7 +31,7 @@ public class NtcirTopicReaderTest {
   @Test
   public void test_www1_en() throws IOException {
 
-    Path path1 = Paths.get("src/main/resources/topics-and-qrels/topics.www1.english.txt");
+    Path path1 = Paths.get("tools/topics-and-qrels/topics.www1.english.txt");
     TopicReader<Integer> reader1 = new NtcirTopicReader(path1);
 
     SortedMap<Integer, Map<String, String>> topics1 = reader1.read();
@@ -47,7 +47,7 @@ public class NtcirTopicReaderTest {
 
   @Test
   public void test_www2_en() throws IOException {
-    Path path = Paths.get("src/main/resources/topics-and-qrels/topics.www2.english.txt");
+    Path path = Paths.get("tools/topics-and-qrels/topics.www2.english.txt");
     TopicReader<Integer> reader = new NtcirTopicReader(path);
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();

@@ -33,7 +33,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the test set of multiple QA datasets, namely Natural Questions, TriviaQA, SQuAD, and WebQuestions.
 
 After indexing has completed, you should be able to perform retrieval as follows:

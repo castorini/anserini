@@ -76,7 +76,7 @@ Evaluate recall at retrieval depth=100:
 
 ```bash
 $ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -path glove300-fw/ \
-   -encoding fw -fw.q 60 -topics src/main/resources/topics-and-qrels/topics.robust04.txt -samples 100 -depth 100
+   -encoding fw -fw.q 60 -topics tools/topics-and-qrels/topics.robust04.txt -samples 100 -depth 100
 Loading model glove.6B.300d.txt
 Reading index at glove300-fw
 Evaluating at retrieval depth: 100
@@ -126,7 +126,7 @@ Evaluate recall at retrieval depth=100:
 
 ```bash
 $ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -path glove300-ll/ \
-   -encoding lexlsh -topics src/main/resources/topics-and-qrels/topics.robust04.txt -samples 100 -depth 100
+   -encoding lexlsh -topics tools/topics-and-qrels/topics.robust04.txt -samples 100 -depth 100
 Loading model glove.6B.300d.txt
 Reading index at glove300-ll
 Evaluating at retrieval depth: 100
