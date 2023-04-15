@@ -41,13 +41,13 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented > logs/log.msmarco-v2-doc-segmented 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-d2q-t5 > logs/log.msmarco-v2-doc-segmented-d2q-t5 2>&1
 
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
-
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot > logs/log.msmarco-v2-doc-segmented-unicoil-0shot 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-0shot-v2 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage > logs/log.msmarco-v2-passage 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-d2q-t5 > logs/log.msmarco-v2-passage-d2q-t5 2>&1
