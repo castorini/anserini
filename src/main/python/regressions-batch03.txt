@@ -7,10 +7,6 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp > logs/log.msmarco-doc-wp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-hgf-wp > logs/log.msmarco-doc-hgf-wp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-ca > logs/log.msmarco-doc-ca 2>&1
-
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-ed-onnx > logs/log.dl19-passage-splade-pp-ed-onnx 2>&1
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-sd-onnx > logs/log.dl19-passage-splade-pp-sd-onnx 2>&1
-
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-docTTTTTquery > logs/log.msmarco-doc-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented > logs/log.msmarco-doc-segmented 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-wp > logs/log.msmarco-doc-segmented-wp 2>&1
@@ -19,8 +15,8 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil > logs/log.msmarco-doc-segmented-unicoil 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp > logs/log.msmarco-doc-segmented-unicoil-noexp 2>&1
 
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-ed-onnx > logs/log.dl20-passage-splade-pp-ed-onnx 2>&1
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-sd-onnx > logs/log.dl20-passage-splade-pp-sd-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-ed-onnx > logs/log.dl19-passage-splade-pp-ed-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-sd-onnx > logs/log.dl19-passage-splade-pp-sd-onnx 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage > logs/log.msmarco-passage 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bm25-b8 > logs/log.msmarco-passage-bm25-b8 2>&1
@@ -35,14 +31,18 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-tilde-expansion > logs/log.msmarco-passage-unicoil-tilde-expansion 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-distill-splade-max > logs/log.msmarco-passage-distill-splade-max 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium > logs/log.msmarco-passage-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
+
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-ed-onnx > logs/log.dl20-passage-splade-pp-ed-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-sd-onnx > logs/log.dl20-passage-splade-pp-sd-onnx 2>&1
 
 # MS MARCO V2
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc > logs/log.msmarco-v2-doc 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-d2q-t5 > logs/log.msmarco-v2-doc-d2q-t5 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented > logs/log.msmarco-v2-doc-segmented 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-d2q-t5 > logs/log.msmarco-v2-doc-segmented-d2q-t5 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 2>&1
