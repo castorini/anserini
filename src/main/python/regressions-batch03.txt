@@ -1,3 +1,7 @@
+# ONNX runs write to the same indexes as the encoded queries, so we need to spread out
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx > logs/log.msmarco-passage-splade-pp-ed-onnx 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx > logs/log.msmarco-passage-splade-pp-sd-onnx 2>&1
+
 # MS MARCO V1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc > logs/log.msmarco-doc 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp > logs/log.msmarco-doc-wp 2>&1
@@ -10,6 +14,9 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-docTTTTTquery > logs/log.msmarco-doc-segmented-docTTTTTquery 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil > logs/log.msmarco-doc-segmented-unicoil 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp > logs/log.msmarco-doc-segmented-unicoil-noexp 2>&1
+
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-ed-onnx > logs/log.dl19-passage-splade-pp-ed-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-sd-onnx > logs/log.dl19-passage-splade-pp-sd-onnx 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage > logs/log.msmarco-passage 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bm25-b8 > logs/log.msmarco-passage-bm25-b8 2>&1
@@ -24,8 +31,9 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-tilde-expansion > logs/log.msmarco-passage-unicoil-tilde-expansion 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-distill-splade-max > logs/log.msmarco-passage-distill-splade-max 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium > logs/log.msmarco-passage-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
+
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-ed-onnx > logs/log.dl20-passage-splade-pp-ed-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-sd-onnx > logs/log.dl20-passage-splade-pp-sd-onnx 2>&1
 
 # MS MARCO V2
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc > logs/log.msmarco-v2-doc 2>&1
@@ -37,6 +45,9 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot > logs/log.msmarco-v2-doc-segmented-unicoil-0shot 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-0shot-v2 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage > logs/log.msmarco-v2-passage 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-d2q-t5 > logs/log.msmarco-v2-passage-d2q-t5 2>&1
@@ -120,3 +131,63 @@ python src/main/python/run_regression.py --verify --search --regression dl22-pas
 python src/main/python/run_regression.py --verify --search --regression dl22-passage-augmented-d2q-t5 > logs/log.dl22-passage-augmented-d2q-t5 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl22-passage-unicoil-noexp-0shot > logs/log.dl22-passage-unicoil-noexp-0shot 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl22-passage-unicoil-0shot > logs/log.dl22-passage-unicoil-0shot 2>&1
+
+# MIRACL
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar > logs/log.miracl-v1.0-ar 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn > logs/log.miracl-v1.0-bn 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-en > logs/log.miracl-v1.0-en 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-es > logs/log.miracl-v1.0-es 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa > logs/log.miracl-v1.0-fa 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi > logs/log.miracl-v1.0-fi 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr > logs/log.miracl-v1.0-fr 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-hi > logs/log.miracl-v1.0-hi 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-id > logs/log.miracl-v1.0-id 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ja > logs/log.miracl-v1.0-ja 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ko > logs/log.miracl-v1.0-ko 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ru > logs/log.miracl-v1.0-ru 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-sw > logs/log.miracl-v1.0-sw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te > logs/log.miracl-v1.0-te 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th > logs/log.miracl-v1.0-th 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh > logs/log.miracl-v1.0-zh 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar-aca > logs/log.miracl-v1.0-ar-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn-aca > logs/log.miracl-v1.0-bn-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-en-aca > logs/log.miracl-v1.0-en-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-es-aca > logs/log.miracl-v1.0-es-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa-aca > logs/log.miracl-v1.0-fa-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi-aca > logs/log.miracl-v1.0-fi-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr-aca > logs/log.miracl-v1.0-fr-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-hi-aca > logs/log.miracl-v1.0-hi-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-id-aca > logs/log.miracl-v1.0-id-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ja-aca > logs/log.miracl-v1.0-ja-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ko-aca > logs/log.miracl-v1.0-ko-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ru-aca > logs/log.miracl-v1.0-ru-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-sw-aca > logs/log.miracl-v1.0-sw-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te-aca > logs/log.miracl-v1.0-te-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th-aca > logs/log.miracl-v1.0-th-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh-aca > logs/log.miracl-v1.0-zh-aca 2>&1
+
+# Mr.TyDi
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar > logs/log.mrtydi-v1.1-ar 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn > logs/log.mrtydi-v1.1-bn 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en > logs/log.mrtydi-v1.1-en 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi > logs/log.mrtydi-v1.1-fi 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id > logs/log.mrtydi-v1.1-id 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja > logs/log.mrtydi-v1.1-ja 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko > logs/log.mrtydi-v1.1-ko 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru > logs/log.mrtydi-v1.1-ru 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw > logs/log.mrtydi-v1.1-sw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te > logs/log.mrtydi-v1.1-te 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th > logs/log.mrtydi-v1.1-th 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar-aca > logs/log.mrtydi-v1.1-ar-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-aca > logs/log.mrtydi-v1.1-bn-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en-aca > logs/log.mrtydi-v1.1-en-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi-aca > logs/log.mrtydi-v1.1-fi-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id-aca > logs/log.mrtydi-v1.1-id-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja-aca > logs/log.mrtydi-v1.1-ja-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko-aca > logs/log.mrtydi-v1.1-ko-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru-aca > logs/log.mrtydi-v1.1-ru-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw-aca > logs/log.mrtydi-v1.1-sw-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-aca > logs/log.mrtydi-v1.1-te-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-aca > logs/log.mrtydi-v1.1-th-aca 2>&1
