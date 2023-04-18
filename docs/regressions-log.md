@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### April 5, 2023
+
++ commit [`a7df7f`](https://github.com/castorini/anserini/commit/a7df7fc5d527ede8f34ee60afa41dec4f6b0e93a) (4/5/2023)
+
+Added initial regressions for ONNX: SPLADE++ ED/SD on MS MARCO V1 passage for dev queries, DL19, and DL20.
+
 ### March 24, 2023
 
 Summarizing the addition of several recent regressions:
