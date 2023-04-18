@@ -86,7 +86,7 @@ You can also run the following command to reproduce Anserini BM25 retrieval:
 
 ```bash
 sh target/appassembler/bin/SearchSolr \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -topics tools/topics-and-qrels/topics.robust04.txt \
   -topicreader Trec \
   -solr.index robust04 \
   -solr.zkUrl localhost:9983 \
@@ -97,7 +97,7 @@ Evaluation can be performed using `trec_eval`:
 
 ```bash
 $ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 \
-    src/main/resources/topics-and-qrels/qrels.robust04.txt \
+    tools/topics-and-qrels/qrels.robust04.txt \
     runs/run.solr.robust04.bm25.topics.robust04.txt
 
 map                   	all	0.2531

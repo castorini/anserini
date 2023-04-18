@@ -35,10 +35,10 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST's page for [non-English topics](https://trec.nist.gov/data/topics_noneng/index.html) and [non-English relevance judgments](https://trec.nist.gov/data/qrels_noneng/index.html):
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST's page for [non-English topics](https://trec.nist.gov/data/topics_noneng/index.html) and [non-English relevance judgments](https://trec.nist.gov/data/qrels_noneng/index.html):
 
-+ [`topics.trec02ar-ar.txt`](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt): TREC 2002 cross language topics in Arabic
-+ [`qrels.trec02ar.txt`](../src/main/resources/topics-and-qrels/qrels.trec02ar.txt): TREC 2002 cross language relevance judgements
++ [`topics.trec02ar-ar.txt`](../tools/topics-and-qrels/topics.trec02ar-ar.txt): TREC 2002 cross language topics in Arabic
++ [`qrels.trec02ar.txt`](../tools/topics-and-qrels/qrels.trec02ar.txt): TREC 2002 cross language relevance judgements
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

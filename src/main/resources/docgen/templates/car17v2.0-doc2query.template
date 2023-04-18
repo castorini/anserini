@@ -32,10 +32,10 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-The "benchmarkY1-test" topics and qrels (v2.0) are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
+The "benchmarkY1-test" topics and qrels (v2.0) are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
 
-+ [`topics.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)
-+ [`qrels.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt)
++ [`topics.car17v2.0.benchmarkY1test.txt`](../tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)
++ [`qrels.car17v2.0.benchmarkY1test.txt`](../tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt)
 
 Specifically, this is the section-level passage retrieval task with automatic ground truth.
 

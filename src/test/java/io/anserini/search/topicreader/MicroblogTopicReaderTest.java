@@ -30,7 +30,7 @@ public class MicroblogTopicReaderTest {
   @Test
   public void test() throws IOException {
     TopicReader<Integer> reader =
-        new MicroblogTopicReader(Paths.get("src/main/resources/topics-and-qrels/topics.microblog2011.txt"));
+        new MicroblogTopicReader(Paths.get("tools/topics-and-qrels/topics.microblog2011.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

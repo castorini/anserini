@@ -52,7 +52,7 @@ The dev queries are already stored in our repo:
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.dev.bm25.txt \
   -parallelism 4 \
@@ -67,7 +67,7 @@ After the run completes, we can evaluate with `trec_eval`:
 
 ```bash
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
-    src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
+    tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2309
 recall_1000           	all	0.8856
 ```
@@ -85,11 +85,11 @@ Note that to be fair, we restrict evaluation to top 100 hits per topic (which is
 
 ```bash
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
-    src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/msmarco-docdev-top100
+    tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/msmarco-docdev-top100
 map                   	all	0.2219
 
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
-    src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
+    tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2302
 ```
 
@@ -103,7 +103,7 @@ A few minor details to pay attention to: the official metric is MRR@100, so we w
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -format msmarco \
   -parallelism 4 \
@@ -115,7 +115,7 @@ Command for evaluation:
 
 ```bash
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc.leaderboard-dev.bm25base.txt
 #####################
 MRR @100: 0.23005723505603573
@@ -130,7 +130,7 @@ Here's the invocation for BM25 with parameters optimized for recall@100 (`k1=4.4
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -format msmarco \
   -parallelism 4 \
@@ -141,7 +141,7 @@ Command for evaluation:
 
 ```bash
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt
 #####################
 MRR @100: 0.2770296928568702
@@ -183,27 +183,27 @@ So, we need to use different search programs, for example:
 ```bash
 $ target/appassembler/bin/SearchCollection \
     -index indexes/msmarco-doc/lucene-index-msmarco \
-    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -topicreader TsvInt \
     -output runs/run.msmarco-doc.dev.opt-mrr.txt \
     -parallelism 4 \
     -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 1000
 
 $ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
-    src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
+    tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
 map                   	all	0.2789
 recall_1000           	all	0.9326
 
 $ target/appassembler/bin/SearchCollection \
     -index indexes/msmarco-doc/lucene-index-msmarco \
-    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -topicreader TsvInt \
     -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -format msmarco \
     -parallelism 4 \
     -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 100
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt
 #####################
 MRR @100: 0.27836767424339787

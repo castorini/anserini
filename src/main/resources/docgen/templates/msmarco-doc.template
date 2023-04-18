@@ -38,7 +38,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 5193 dev set questions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -85,11 +85,11 @@ To generate an MS MARCO submission with the BM25 default parameters, correspondi
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
     -index indexes/lucene-index.msmarco-doc/ \
-    -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -queries tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -output runs/run.msmarco-doc.bm25-default.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc.bm25-default.txt
 
 #####################
@@ -105,11 +105,11 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
    -index indexes/lucene-index.msmarco-doc/ \
-   -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+   -queries tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
    -output runs/run.msmarco-doc.bm25-tuned.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-   --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+   --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
    --run runs/run.msmarco-doc.bm25-tuned.txt
 
 #####################
@@ -126,14 +126,14 @@ For default parameters (`k1=0.9`, `b=0.4`):
 ```
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-doc/ \
-    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -topicreader TsvInt \
     -output runs/run.msmarco-doc.bm25-default.txt \
     -format msmarco \
     -bm25 -hits 100
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc.bm25-default.txt
 
 #####################
@@ -147,14 +147,14 @@ For tuned parameters (`k1=4.46`, `b=0.82`):
 ```
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-doc/ \
-    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -topicreader TsvInt \
     -output runs/run.msmarco-doc.bm25-tuned.txt \
     -format msmarco \
     -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc.bm25-tuned.txt
 
 #####################

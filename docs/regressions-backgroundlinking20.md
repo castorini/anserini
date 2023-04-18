@@ -33,10 +33,10 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
 
-+ [`topics.backgroundlinking20.txt`](../src/main/resources/topics-and-qrels/topics.backgroundlinking20.txt): topics for the background linking task of the TREC 2020 News Track
-+ [`qrels.backgroundlinking20.txt`](../src/main/resources/topics-and-qrels/qrels.backgroundlinking20.txt): qrels for the background linking task of the TREC 2020 News Track
++ [`topics.backgroundlinking20.txt`](../tools/topics-and-qrels/topics.backgroundlinking20.txt): topics for the background linking task of the TREC 2020 News Track
++ [`qrels.backgroundlinking20.txt`](../tools/topics-and-qrels/qrels.backgroundlinking20.txt): qrels for the background linking task of the TREC 2020 News Track
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

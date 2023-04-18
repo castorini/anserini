@@ -25,36 +25,36 @@ nohup target/appassembler/bin/IndexCollection \
 log.core18.pos+docvectors+rawdocs &
 ```
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+Topics and qrels are stored in `tools/topics-and-qrels/`.
 
 Commands to reproduce submitted runs:
 
 ```
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_bm25 -output core18.anserini_bm25.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_sdm -sdm -output core18.anserini_sdm.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_rm3 -rm3 -output core18.anserini_rm3.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_ax -axiom -axiom.deterministic -rerankCutoff 20 -output core18.anserini_ax.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_ax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output core18.anserini_ax17.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_ql -output core18.anserini_ql.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlsdm -sdm -output core18.anserini_qlsdm.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlrm3 -rm3 -output core18.anserini_qlrm3.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlax -axiom -axiom.deterministic -rerankCutoff 20 -output core18.anserini_qlax.txt
-target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output core18.anserini_qlax17.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_bm25 -output core18.anserini_bm25.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_sdm -sdm -output core18.anserini_sdm.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_rm3 -rm3 -output core18.anserini_rm3.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_ax -axiom -axiom.deterministic -rerankCutoff 20 -output core18.anserini_ax.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_ax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output core18.anserini_ax17.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_ql -output core18.anserini_ql.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlsdm -sdm -output core18.anserini_qlsdm.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlrm3 -rm3 -output core18.anserini_qlrm3.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlax -axiom -axiom.deterministic -rerankCutoff 20 -output core18.anserini_qlax.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics tools/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output core18.anserini_qlax17.txt
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_bm25.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_sdm.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_rm3.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_ax.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_ax17.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_ql.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_qlsdm.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_qlrm3.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_qlax.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_qlax17.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_bm25.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_sdm.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_rm3.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_ax.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_ax17.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_ql.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_qlsdm.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_qlrm3.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_qlax.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 tools/topics-and-qrels/qrels.core18.txt core18.anserini_qlax17.txt
 ```
 
 The above describes how the Anserini team generated runs for TREC 2018.
@@ -229,16 +229,16 @@ python src/main/python/trec2018/centre/task2/main.py --eval --plot
 The above commands generate _ALL_ results we have put in the notebook paper. To reproduce the submitted runs _ONLY_:
 
 ```
-target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -runtag Anserini-UDInfolabWEB1-1 -output Anserini-UDInfolabWEB1-1.txt
-target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.snippets2018.pos+docvectors+rawdocs -runtag Anserini-UDInfolabWEB1-2 -output Anserini-UDInfolabWEB1-2.txt
-target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.wiki.pos+docvectors -runtag Anserini-UDInfolabWEB1-3 -output Anserini-UDInfolabWEB1-3.txt
-target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2013.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -ql -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 1.7 -runtag Anserini-UDInfolabWEB2-1 -output Anserini-UDInfolabWEB2-1.txt
-target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2018.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -ql -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 1.7 -runtag Anserini-UDInfolabWEB2-2 -output Anserini-UDInfolabWEB2-2.txt
-target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2018.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.wiki.pos+docvectors -runtag Anserini-UDInfolabWEB2-3 -output Anserini-UDInfolabWEB2-3.txt
+target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics tools/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -runtag Anserini-UDInfolabWEB1-1 -output Anserini-UDInfolabWEB1-1.txt
+target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics tools/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.snippets2018.pos+docvectors+rawdocs -runtag Anserini-UDInfolabWEB1-2 -output Anserini-UDInfolabWEB1-2.txt
+target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics tools/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.wiki.pos+docvectors -runtag Anserini-UDInfolabWEB1-3 -output Anserini-UDInfolabWEB1-3.txt
+target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2013.pos+docvectors+rawdocs -topicreader Webxml -topics tools/topics-and-qrels/topics.web.201-250.txt -ql -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 1.7 -runtag Anserini-UDInfolabWEB2-1 -output Anserini-UDInfolabWEB2-1.txt
+target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2018.pos+docvectors+rawdocs -topicreader Webxml -topics tools/topics-and-qrels/topics.web.201-250.txt -ql -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 1.7 -runtag Anserini-UDInfolabWEB2-2 -output Anserini-UDInfolabWEB2-2.txt
+target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2018.pos+docvectors+rawdocs -topicreader Webxml -topics tools/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.wiki.pos+docvectors -runtag Anserini-UDInfolabWEB2-3 -output Anserini-UDInfolabWEB2-3.txt
 ```
 
 **NOTE**: Topics and qrels are currently available only to TREC 2018 participants.
-Users will need to download the topics and qrels directly from the NIST website and put them at `src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt`.
+Users will need to download the topics and qrels directly from the NIST website and put them at `tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt`.
 These files will be checked into the repo after NIST publishes them publicly.
 
 ### Effectiveness
@@ -246,18 +246,18 @@ These files will be checked into the repo after NIST publishes them publicly.
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-1.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-2.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-3.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-1.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-2.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-3.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-1.txt
-eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-2.txt
-eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-3.txt
-eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-1.txt
-eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-2.txt
-eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-3.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-1.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-2.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-3.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-1.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-2.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-3.txt
+eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-1.txt
+eval/gdeval.pl -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-2.txt
+eval/gdeval.pl -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-3.txt
+eval/gdeval.pl -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-1.txt
+eval/gdeval.pl -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-2.txt
+eval/gdeval.pl -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-3.txt
 ```
 
 These are the effectiveness scores derived from our official TREC runs submitted to NIST, with "old" and "new" qrels:

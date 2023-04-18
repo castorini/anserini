@@ -31,17 +31,17 @@ mkdir runs/bm25base/
 
 sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
  -index ~/.cache/pyserini/indexes/index-msmarco-doc-20201117-f87c94.ac747860e7a37aed37cc30ed3990f273 \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/bm25base/dev.txt &
+ -queries tools/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/bm25base/dev.txt &
 
 sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 0.9 -b 0.4 -threads 9 \
  -index ~/.cache/pyserini/indexes/index-msmarco-doc-20201117-f87c94.ac747860e7a37aed37cc30ed3990f273 \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.test.txt -output runs/bm25base/eval.txt &
+ -queries tools/topics-and-qrels/topics.msmarco-doc.test.txt -output runs/bm25base/eval.txt &
 ```
 
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25base/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25base/dev.txt
 #####################
 MRR @100: 0.23005723505603573
 QueriesRanked: 5193
@@ -57,17 +57,17 @@ mkdir runs/bm25tuned/
 
 sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
  -index ~/.cache/pyserini/indexes/index-msmarco-doc-20201117-f87c94.ac747860e7a37aed37cc30ed3990f273 \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/bm25tuned/dev.txt &
+ -queries tools/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/bm25tuned/dev.txt &
 
 sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.46 -b 0.82 -threads 9 \
  -index ~/.cache/pyserini/indexes/index-msmarco-doc-20201117-f87c94.ac747860e7a37aed37cc30ed3990f273 \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.test.txt -output runs/bm25tuned/eval.txt &
+ -queries tools/topics-and-qrels/topics.msmarco-doc.test.txt -output runs/bm25tuned/eval.txt &
 ```
 
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25tuned/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25tuned/dev.txt
 #####################
 MRR @100: 0.2770296928568702
 QueriesRanked: 5193
@@ -86,14 +86,14 @@ Run with **per-passage** configuration, BM25 default parameters:
 ```bash
 mkdir runs/bm25pbase/
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-per-passage-20201204-f50dcc.797367406a7542b649cefa6b41cf4c33/ \
   -output runs/bm25pbase/dev.trec.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/bm25pbase/dev.trec.txt --output runs/bm25pbase/dev.txt
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.test.txt \
+target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-per-passage-20201204-f50dcc.797367406a7542b649cefa6b41cf4c33/ \
   -output runs/bm25pbase/eval.trec.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
@@ -104,7 +104,7 @@ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/bm25pba
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25pbase/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25pbase/dev.txt
 #####################
 MRR @100: 0.2682349308946578
 QueriesRanked: 5193
@@ -118,14 +118,14 @@ Run with **per-passage** configuration, BM25 tuned parameters, optimized for rec
 ```bash
 mkdir runs/bm25ptuned/
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-per-passage-20201204-f50dcc.797367406a7542b649cefa6b41cf4c33/ \
   -output runs/bm25ptuned/dev.trec.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/bm25ptuned/dev.trec.txt --output runs/bm25ptuned/dev.txt
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.test.txt \
+target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-per-passage-20201204-f50dcc.797367406a7542b649cefa6b41cf4c33/ \
   -output runs/bm25ptuned/eval.trec.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
@@ -136,7 +136,7 @@ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/bm25ptu
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25ptuned/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/bm25ptuned/dev.txt
 #####################
 MRR @100: 0.2751202109946902
 QueriesRanked: 5193
@@ -164,17 +164,17 @@ mkdir runs/doc2query-t5-per-doc/
 
 sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.68 -b 0.87 -threads 9 \
  -index ~/.cache/pyserini/indexes/index-msmarco-doc-expanded-per-doc-20201126-1b4d0a.f7056191842ab77a01829cff68004782 \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/doc2query-t5-per-doc/dev.txt &
+ -queries tools/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/doc2query-t5-per-doc/dev.txt &
 
 sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.68 -b 0.87 -threads 9 \
  -index ~/.cache/pyserini/indexes/index-msmarco-doc-expanded-per-doc-20201126-1b4d0a.f7056191842ab77a01829cff68004782 \
- -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.test.txt -output runs/doc2query-t5-per-doc/eval.txt &
+ -queries tools/topics-and-qrels/topics.msmarco-doc.test.txt -output runs/doc2query-t5-per-doc/eval.txt &
 ```
 
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/doc2query-t5-per-doc/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/doc2query-t5-per-doc/dev.txt
 #####################
 MRR @100: 0.3265190296491929
 QueriesRanked: 5193
@@ -193,14 +193,14 @@ Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for rec
 ```bash
 mkdir runs/doc2query-t5-per-passage/
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-expanded-per-passage-20201126-1b4d0a.54ea30c64515edf3c3741291b785be53 \
   -output runs/doc2query-t5-per-passage/dev.trec.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/doc2query-t5-per-passage/dev.trec.txt --output runs/doc2query-t5-per-passage/dev.txt
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.test.txt \
+target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-expanded-per-passage-20201126-1b4d0a.54ea30c64515edf3c3741291b785be53 \
   -output runs/doc2query-t5-per-passage/eval.trec.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
@@ -211,7 +211,7 @@ python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/doc2que
 Evaluation:
 
 ```bash
-$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/doc2query-t5-per-passage/dev.txt
+$ python tools/scripts/msmarco/msmarco_doc_eval.py --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt --run runs/doc2query-t5-per-passage/dev.txt
 #####################
 MRR @100: 0.32081861579183746
 QueriesRanked: 5193
