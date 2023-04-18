@@ -35,10 +35,10 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from the [NTCIR Test Collection page](https://www.nii.ac.jp/dsc/idr/en/ntcir/ntcir.html):
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from the [NTCIR Test Collection page](https://www.nii.ac.jp/dsc/idr/en/ntcir/ntcir.html):
 
-+ [`topics.ntcir8zh.eval.txt`](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt): NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics
-+ [`qrels.ntcir8.eval.txt `](../src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt): NTCIR-8 ACLIA (IR4QA subtask) relevance judgments
++ [`topics.ntcir8zh.eval.txt`](../tools/topics-and-qrels/topics.ntcir8zh.eval.txt): NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics
++ [`qrels.ntcir8.eval.txt `](../tools/topics-and-qrels/qrels.ntcir8.eval.txt): NTCIR-8 ACLIA (IR4QA subtask) relevance judgments
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
