@@ -107,7 +107,7 @@
             </program>
             <program>
               <mainClass>io.anserini.index.IndexHnswDenseVectors</mainClass>
-              <id>IndexDenseVectors</id>
+              <id>IndexHnswDenseVectors</id>
             </program>
             <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
@@ -115,11 +115,7 @@
             </program>
             <program>
               <mainClass>io.anserini.search.SearchHnswDenseVectors</mainClass>
-              <id>SearchDenseVectors</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchMsmarco</mainClass>
-              <id>SearchMsmarco</id>
+              <id>SearchHnswDenseVectors</id>
             </program>
             <program>
               <mainClass>io.anserini.search.SimpleSearcher</mainClass>

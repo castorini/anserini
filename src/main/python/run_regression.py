@@ -54,8 +54,12 @@ CORPUS_ROOTS = [
 ]
 
 INDEX_COMMAND = 'target/appassembler/bin/IndexCollection'
+INDEX_HNSW_COMMAND = 'target/appassembler/bin/IndexHnswDenseVectors'
+
 INDEX_STATS_COMMAND = 'target/appassembler/bin/IndexReaderUtils'
+
 SEARCH_COMMAND = 'target/appassembler/bin/SearchCollection'
+SEARCH_HNSW_COMMAND = 'target/appassembler/bin/SearchHnswDenseVectors'
 
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
@@ -111,8 +115,13 @@ def construct_indexing_command(yaml_data, args):
     if not os.path.exists('indexes'):
         os.makedirs('indexes')
 
+    if yaml_data['collection_class'] == 'JsonDenseVectorCollection':
+        root_cmd = INDEX_HNSW_COMMAND
+    else:
+        root_cmd = INDEX_COMMAND
+
     index_command = [
-        INDEX_COMMAND,
+        root_cmd,
         '-collection', yaml_data['collection_class'],
         '-generator', yaml_data['generator_class'],
         '-threads', str(threads),
@@ -131,7 +140,7 @@ def construct_runfile_path(corpus, id, model_name):
 def construct_search_commands(yaml_data):
     ranking_commands = [
         [
-            SEARCH_COMMAND,
+            SEARCH_HNSW_COMMAND if 'VectorQueryGenerator' in model['params'] else SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
             '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
@@ -141,6 +150,7 @@ def construct_search_commands(yaml_data):
         for (model, topic_set) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
     return ranking_commands
+
 
 def construct_convert_commands(yaml_data):
     converting_commands = [
@@ -156,6 +166,7 @@ def construct_convert_commands(yaml_data):
         for (model, topic_set, conversion) in list(itertools.product(yaml_data['models'], yaml_data['topics'], yaml_data['conversions']))
     ]
     return converting_commands
+
 
 def evaluate_and_verify(yaml_data, dry_run):
     fail_str = '\033[91m[FAIL]\033[0m '
@@ -207,9 +218,11 @@ def run_search(cmd):
     logger.info(' '.join(cmd))
     call(' '.join(cmd), shell=True)
 
+
 def run_convert(cmd):
     logger.info(' '.join(cmd))
     call(' '.join(cmd), shell=True)
+
 
 # https://gist.github.com/leimao/37ff6e990b3226c2c9670a2cd1e4a6f5
 class TqdmUpTo(tqdm):
@@ -336,20 +349,23 @@ if __name__ == '__main__':
     # Verify index statistics.
     if args.verify:
         logger.info('='*10 + ' Verifying Index ' + '='*10)
-        index_utils_command = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
-        verification_command = ' '.join(index_utils_command)
-        logger.info(verification_command)
-        if not args.dry_run:
-            out = check_output(' '.join(index_utils_command)).decode('utf-8').split('\n')
-            for line in out:
-                stat = line.split(':')[0]
-                if stat in yaml_data['index_stats']:
-                    value = int(line.split(':')[1])
-                    if value != yaml_data['index_stats'][stat]:
-                        print('{}: expected={}, actual={}'.format(stat, yaml_data['index_stats'][stat], value))
-                    assert value == yaml_data['index_stats'][stat]
-                    logger.info(line)
-            logger.info('Index statistics successfully verified!')
+        if yaml_data['collection_class'] == 'JsonDenseVectorCollection':
+            logger.info('Skipping verification step for HNSW dense indexes.')
+        else:
+            index_utils_command = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
+            verification_command = ' '.join(index_utils_command)
+            logger.info(verification_command)
+            if not args.dry_run:
+                out = check_output(' '.join(index_utils_command)).decode('utf-8').split('\n')
+                for line in out:
+                    stat = line.split(':')[0]
+                    if stat in yaml_data['index_stats']:
+                        value = int(line.split(':')[1])
+                        if value != yaml_data['index_stats'][stat]:
+                            print('{}: expected={}, actual={}'.format(stat, yaml_data['index_stats'][stat], value))
+                        assert value == yaml_data['index_stats'][stat]
+                        logger.info(line)
+                logger.info('Index statistics successfully verified!')
 
     # Search and verify results.
     if args.search:
