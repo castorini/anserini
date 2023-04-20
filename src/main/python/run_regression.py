@@ -194,9 +194,19 @@ def evaluate_and_verify(yaml_data, dry_run):
                 eval_out = out.strip().split(metric['separator'])[metric['parse_index']]
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
-                result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3} topics: {4}'.format(
-                    expected, actual, metric['metric'], model['name'], topic_set['id'])
-                if is_close(expected, actual):
+
+                # For HNSW, we only print to third digit
+                if 'VectorQueryGenerator' in model['params']:
+                    result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
+                        expected, actual, metric['metric'], model['name'], topic_set['id'])
+                else:
+                    result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3} topics: {4}'.format(
+                        expected, actual, metric['metric'], model['name'], topic_set['id'])
+
+                # For inverted indexes, we expect scores to match precisely.
+                # For HNSW, be more tolerant.
+                if is_close(expected, actual) or \
+                        ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.006)):
                     logger.info(ok_str + result_str)
                 else:
                     if args.lucene8 and is_close_lucene8(expected, actual):
