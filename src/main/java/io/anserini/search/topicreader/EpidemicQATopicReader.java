@@ -42,7 +42,7 @@ public class EpidemicQATopicReader extends TopicReader<Integer> {
   private static final String QUERY_KEY = "query";
   private static final String BACKGROUND_KEY = "background";
 
-  public EpidemicQATopicReader(Path topicFile) {
+  public EpidemicQATopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

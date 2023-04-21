@@ -30,7 +30,7 @@ public class EpidemicQATopicReaderTest {
   public void test() throws IOException {
     TopicReader<Integer> consumerReader =
         new EpidemicQATopicReader(
-            Paths.get("src/main/resources/topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"));
+            Paths.get("tools/topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"));
 
     SortedMap<Integer, Map<String, String>> consumerTopics = consumerReader.read();
 
@@ -57,7 +57,7 @@ public class EpidemicQATopicReaderTest {
 
     TopicReader<Integer> expertReader =
         new EpidemicQATopicReader(
-            Paths.get("src/main/resources/topics-and-qrels/topics.epidemic-qa.expert.prelim.json"));
+            Paths.get("tools/topics-and-qrels/topics.epidemic-qa.expert.prelim.json"));
 
     SortedMap<Integer, Map<String, String>> expertTopics = expertReader.read();
 

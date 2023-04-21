@@ -2,7 +2,7 @@
 corpus: msmarco-doc
 corpus_path: collections/msmarco/msmarco-doc/
 
-index_path: indexes/lucene-index.msmarco-composite-analyzer/
+index_path: indexes/lucene-index.msmarco-doc-ca/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 9
@@ -43,8 +43,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
     id: dl19

@@ -38,7 +38,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 54 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
@@ -47,7 +47,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-wp/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.wp.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.wp.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt \
   -bm25 -pretokenized &
@@ -56,10 +56,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-wp.bm25-default.topics.dl20.wp.txt
 ```
 
 ## Effectiveness

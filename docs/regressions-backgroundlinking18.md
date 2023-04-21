@@ -33,31 +33,31 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
 
-+ [`topics.backgroundlinking18.txt`](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt): [topics for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/newsir18-topics.txt)
-+ [`qrels.backgroundlinking18.txt`](../src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt): [qrels for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/bqrels.exp-gains.txt)
++ [`topics.backgroundlinking18.txt`](../tools/topics-and-qrels/topics.backgroundlinking18.txt): [topics for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/newsir18-topics.txt)
++ [`qrels.backgroundlinking18.txt`](../tools/topics-and-qrels/qrels.backgroundlinking18.txt): [qrels for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/bqrels.exp-gains.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+  -topics tools/topics-and-qrels/topics.backgroundlinking18.txt \
   -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+  -topics tools/topics-and-qrels/topics.backgroundlinking18.txt \
   -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+  -topics tools/topics-and-qrels/topics.backgroundlinking18.txt \
   -topicreader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking18.txt \
   -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
@@ -66,11 +66,11 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.wapo.v2.bm25.topics.backgroundlinking18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.wapo.v2.bm25.topics.backgroundlinking18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking18.txt
 ```
 
 ## Effectiveness
@@ -79,7 +79,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+RM3+DF**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)                    | 0.2490    | 0.2661    | 0.2679    |
+| [TREC 2018 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking18.txt)| 0.2490    | 0.2661    | 0.2679    |
 | **nDCG@5**                                                                                                   | **BM25**  | **+RM3**  | **+RM3+DF**|
-| [TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)                    | 0.3293    | 0.3436    | 0.4027    |
+| [TREC 2018 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking18.txt)| 0.3293    | 0.3436    | 0.4027    |
 

@@ -42,7 +42,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
 
@@ -51,21 +51,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl21.txt \
+  -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt \
   -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -74,20 +74,20 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl21.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
 ```
 
 ## Effectiveness

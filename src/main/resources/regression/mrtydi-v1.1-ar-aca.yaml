@@ -29,8 +29,6 @@ metrics:
     can_combine: true
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)"
     id: train

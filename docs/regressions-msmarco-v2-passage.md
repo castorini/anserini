@@ -36,91 +36,51 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-These regression experiments use the [dev queries](../src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt) and the [dev2 queries](../src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
+These regression experiments use the [dev queries](../tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt) and the [dev2 queries](../tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
+  -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
+  -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt \
   -bm25 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev.txt \
-  -bm25 -rm3 -collection MsMarcoV2PassageCollection &
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev2.txt \
-  -bm25 -rm3 -collection MsMarcoV2PassageCollection &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.msmarco-v2-passage.dev.txt \
-  -bm25 -rocchio -collection MsMarcoV2PassageCollection &
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.msmarco-v2-passage.dev2.txt \
-  -bm25 -rocchio -collection MsMarcoV2PassageCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default+rm3.topics.msmarco-v2-passage.dev2.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.msmarco-v2-passage.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.msmarco-v2-passage.dev2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.msmarco-v2-passage.dev2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default+rocchio.topics.msmarco-v2-passage.dev2.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.0709    | 0.0621    | 0.0622    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.0794    | 0.0651    | 0.0663    |
-| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.0719    | 0.0630    | 0.0631    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.0802    | 0.0659    | 0.0671    |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.3397    | 0.3370    | 0.3413    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.3459    | 0.3435    | 0.3516    |
-| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.5733    | 0.5947    | 0.5968    |
-| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.5839    | 0.6062    | 0.6104    |
+| **MAP@100**                                                                                                  | **BM25 (default)**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.0709    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.0794    |
+| **MRR@100**                                                                                                  | **BM25 (default)**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.0719    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.0802    |
+| **R@100**                                                                                                    | **BM25 (default)**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.3397    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.3459    |
+| **R@1000**                                                                                                   | **BM25 (default)**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.5733    |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.5839    |

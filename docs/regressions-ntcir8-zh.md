@@ -35,17 +35,17 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from the [NTCIR Test Collection page](https://www.nii.ac.jp/dsc/idr/en/ntcir/ntcir.html):
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from the [NTCIR Test Collection page](https://www.nii.ac.jp/dsc/idr/en/ntcir/ntcir.html):
 
-+ [`topics.ntcir8zh.eval.txt`](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt): NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics
-+ [`qrels.ntcir8.eval.txt `](../src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt): NTCIR-8 ACLIA (IR4QA subtask) relevance judgments
++ [`topics.ntcir8zh.eval.txt`](../tools/topics-and-qrels/topics.ntcir8zh.eval.txt): NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics
++ [`qrels.ntcir8.eval.txt `](../tools/topics-and-qrels/qrels.ntcir8.eval.txt): NTCIR-8 ACLIA (IR4QA subtask) relevance judgments
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ntcir8-zh/ \
-  -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
+  -topics tools/topics-and-qrels/topics.ntcir8zh.eval.txt \
   -topicreader TsvString \
   -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
   -bm25 -language zh &
@@ -54,7 +54,7 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.ntcir8.eval.txt runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
 ```
 
 ## Effectiveness
@@ -63,8 +63,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4014    |
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4014    |
 | **P20**                                                                                                      | **BM25**  |
-| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
 | **nDCG@20**                                                                                                  | **BM25**  |
-| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |

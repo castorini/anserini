@@ -49,7 +49,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
@@ -58,42 +58,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt \
   -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
+  -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -102,35 +102,35 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
 ```
 
 ## Effectiveness

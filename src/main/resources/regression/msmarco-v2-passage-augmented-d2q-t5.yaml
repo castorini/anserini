@@ -43,8 +43,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev
@@ -72,35 +70,38 @@ models:
       R@1000:
         - 0.7647
         - 0.7659
-  - name: bm25-default+rm3
-    display: +RM3
-    params: -bm25 -rm3 -collection MsMarcoV2PassageCollection
-    results:
-      MAP@100:
-        - 0.0873
-        - 0.0896
-      MRR@100:
-        - 0.0883
-        - 0.0904
-      R@100:
-        - 0.4774
-        - 0.4905
-      R@1000:
-        - 0.7607
-        - 0.7649
-  - name: bm25-default+rocchio
-    display: +Rocchio
-    params: -bm25 -rocchio -collection MsMarcoV2PassageCollection
-    results:
-      MAP@100:
-        - 0.0882
-        - 0.0900
-      MRR@100:
-        - 0.0893
-        - 0.0908
-      R@100:
-        - 0.4756
-        - 0.4880
-      R@1000:
-        - 0.7648
-        - 0.7666
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: bm25-default+rm3
+#    display: +RM3
+#    params: -bm25 -rm3 -collection MsMarcoV2PassageCollection
+#    results:
+#      MAP@100:
+#        - 0.0873
+#        - 0.0896
+#      MRR@100:
+#        - 0.0883
+#        - 0.0904
+#      R@100:
+#        - 0.4774
+#        - 0.4905
+#      R@1000:
+#        - 0.7607
+#        - 0.7649
+#  - name: bm25-default+rocchio
+#    display: +Rocchio
+#    params: -bm25 -rocchio -collection MsMarcoV2PassageCollection
+#    results:
+#      MAP@100:
+#        - 0.0882
+#        - 0.0900
+#      MRR@100:
+#        - 0.0893
+#        - 0.0908
+#      R@100:
+#        - 0.4756
+#        - 0.4880
+#      R@1000:
+#        - 0.7648
+#        - 0.7666

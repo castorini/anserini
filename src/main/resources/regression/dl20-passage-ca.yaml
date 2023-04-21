@@ -2,7 +2,7 @@
 corpus: msmarco-passage
 corpus_path: collections/msmarco/passage
 
-index_path: indexes/lucene-index.msmarco-passage-composite-analyzer/
+index_path: indexes/lucene-index.msmarco-passage-ca/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 9
@@ -43,8 +43,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20

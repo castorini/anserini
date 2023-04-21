@@ -33,52 +33,52 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
 
-+ [`topics.core18.txt`](../src/main/resources/topics-and-qrels/topics.core18.txt): [topics for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/topics2018.txt)
-+ [`qrels.core18.txt`](../src/main/resources/topics-and-qrels/qrels.core18.txt): [qrels for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/qrels2018.txt)
++ [`topics.core18.txt`](../tools/topics-and-qrels/topics.core18.txt): [topics for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/topics2018.txt)
++ [`qrels.core18.txt`](../tools/topics-and-qrels/qrels.core18.txt): [qrels for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/qrels2018.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topics tools/topics-and-qrels/topics.core18.txt \
   -topicreader Trec \
   -output runs/run.wapo.v2.bm25.topics.core18.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topics tools/topics-and-qrels/topics.core18.txt \
   -topicreader Trec \
   -output runs/run.wapo.v2.bm25+rm3.topics.core18.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topics tools/topics-and-qrels/topics.core18.txt \
   -topicreader Trec \
   -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topics tools/topics-and-qrels/topics.core18.txt \
   -topicreader Trec \
   -output runs/run.wapo.v2.ql.topics.core18.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topics tools/topics-and-qrels/topics.core18.txt \
   -topicreader Trec \
   -output runs/run.wapo.v2.ql+rm3.topics.core18.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -topics tools/topics-and-qrels/topics.core18.txt \
   -topicreader Trec \
   -output runs/run.wapo.v2.ql+ax.topics.core18.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
@@ -87,17 +87,17 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
 ```
 
 ## Effectiveness
@@ -106,9 +106,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)               | 0.2496    | 0.3129    | 0.2840    | 0.2527    | 0.3077    | 0.2920    |
+| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt)| 0.2496    | 0.3129    | 0.2840    | 0.2527    | 0.3077    | 0.2920    |
 | **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)               | 0.3573    | 0.4167    | 0.3947    | 0.3653    | 0.4007    | 0.4013    |
+| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt)| 0.3573    | 0.4167    | 0.3947    | 0.3653    | 0.4007    | 0.4013    |
 
 ## Reproduction Log[*](reproducibility.md)
 

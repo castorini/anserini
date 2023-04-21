@@ -33,7 +33,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the test set of multiple QA datasets, namely Natural Questions, TriviaQA, SQuAD, and WebQuestions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -41,37 +41,37 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics src/main/resources/topics-and-qrels/topics.dpr.nq.test.txt \
+  -topics tools/topics-and-qrels/topics.dpr.nq.test.txt \
   -topicreader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics src/main/resources/topics-and-qrels/topics.dpr.trivia.test.txt \
+  -topics tools/topics-and-qrels/topics.dpr.trivia.test.txt \
   -topicreader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics src/main/resources/topics-and-qrels/topics.dpr.squad.test.txt \
+  -topics tools/topics-and-qrels/topics.dpr.squad.test.txt \
   -topicreader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics src/main/resources/topics-and-qrels/topics.dpr.wq.test.txt \
+  -topics tools/topics-and-qrels/topics.dpr.wq.test.txt \
   -topicreader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics src/main/resources/topics-and-qrels/topics.dpr.curated.test.txt \
+  -topics tools/topics-and-qrels/topics.dpr.curated.test.txt \
   -topicreader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics src/main/resources/topics-and-qrels/topics.nq.test.txt \
+  -topics tools/topics-and-qrels/topics.nq.test.txt \
   -topicreader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt \
   -bm25 &

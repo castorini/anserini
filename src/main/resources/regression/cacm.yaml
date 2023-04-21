@@ -30,8 +30,6 @@ metrics:
     can_combine: true
 
 topic_reader: Cacm
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "CACM All"
     id: cacm

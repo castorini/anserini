@@ -39,7 +39,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bm25-b8 >& logs/log.msmarco-passage-bm25-b8 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-wp >& logs/log.msmarco-passage-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-hgf-wp >& logs/log.msmarco-passage-hgf-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-composite-tokenizer >& logs/log.msmarco-passage-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-ca >& logs/log.msmarco-passage-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-doc2query >& logs/log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-docTTTTTquery >& logs/log.msmarco-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-deepimpact >& logs/log.msmarco-passage-deepimpact &
@@ -50,15 +50,17 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium >& logs/log.msmarco-passage-splade-distil-cocodenser-medium &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed >& logs/log.msmarco-passage-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd >& logs/log.msmarco-passage-splade-pp-sd &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx >& logs/log.msmarco-passage-splade-pp-ed-onnx
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx >& logs/log.msmarco-passage-splade-pp-sd-onnx
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp >& logs/log.msmarco-doc-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-hgf-wp >& logs/log.msmarco-doc-hgf-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-composite-tokenizer >& logs/log.msmarco-doc-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-ca >& logs/log.msmarco-doc-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-docTTTTTquery >& logs/log.msmarco-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented >& logs/log.msmarco-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-wp >& logs/log.msmarco-doc-segmented-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-composite-tokenizer >& logs/log.msmarco-doc-segmented-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-ca >& logs/log.msmarco-doc-segmented-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-docTTTTTquery >& logs/log.msmarco-doc-segmented-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil >& logs/log.msmarco-doc-segmented-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp >& logs/log.msmarco-doc-segmented-unicoil-noexp &
@@ -67,22 +69,24 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-bm25-b8 >& logs/log.dl19-passage-bm25-b8 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-wp >& logs/log.dl19-passage-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-hgf-wp >& logs/log.dl19-passage-hgf-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-composite-tokenizer >& logs/log.dl19-passage-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-ca >& logs/log.dl19-passage-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-docTTTTTquery >& logs/log.dl19-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil >& logs/log.dl19-passage-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil-noexp >& logs/log.dl19-passage-unicoil-noexp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-distil-cocodenser-medium >& logs/log.dl19-passage-splade-distil-cocodenser-medium &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-pp-ed >& logs/log.dl19-passage-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-pp-sd >& logs/log.dl19-passage-splade-pp-sd &
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl19-passage-splade-pp-ed-onnx >& logs/log.dl19-passage-splade-pp-ed-onnx
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl19-passage-splade-pp-sd-onnx >& logs/log.dl19-passage-splade-pp-sd-onnx
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc >& logs/log.dl19-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-wp >& logs/log.dl19-doc-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-hgf-wp >& logs/log.dl19-doc-hgf-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-composite-tokenizer >& logs/log.dl19-doc-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-ca >& logs/log.dl19-doc-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-docTTTTTquery >& logs/log.dl19-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented >& logs/log.dl19-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-wp >& logs/log.dl19-doc-segmented-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-composite-tokenizer >& logs/log.dl19-doc-segmented-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-ca >& logs/log.dl19-doc-segmented-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-docTTTTTquery >& logs/log.dl19-doc-segmented-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-unicoil >& logs/log.dl19-doc-segmented-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented-unicoil-noexp >& logs/log.dl19-doc-segmented-unicoil-noexp &
@@ -90,7 +94,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage >& logs/log.dl20-passage &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-bm25-b8 >& logs/log.dl20-passage-bm25-b8 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-wp >& logs/log.dl20-passage-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-composite-tokenizer >& logs/log.dl20-passage-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-ca >& logs/log.dl20-passage-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-hgf-wp >& logs/log.dl20-passage-hgf-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-docTTTTTquery >& logs/log.dl20-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-unicoil >& logs/log.dl20-passage-unicoil &
@@ -98,15 +102,17 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-distil-cocodenser-medium >& logs/log.dl20-passage-splade-distil-cocodenser-medium &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-ed >& logs/log.dl20-passage-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-sd >& logs/log.dl20-passage-splade-pp-sd &
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl20-passage-splade-pp-ed-onnx >& logs/log.dl20-passage-splade-pp-ed-onnx
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl20-passage-splade-pp-sd-onnx >& logs/log.dl20-passage-splade-pp-sd-onnx
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-wp >& logs/log.dl20-doc-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-hgf-wp >& logs/log.dl20-doc-hgf-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-composite-tokenizer >& logs/log.dl20-doc-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-ca >& logs/log.dl20-doc-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-docTTTTTquery >& logs/log.dl20-doc-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented >& logs/log.dl20-doc-segmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-wp >& logs/log.dl20-doc-segmented-wp &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-composite-tokenizer >& logs/log.dl20-doc-segmented-composite-tokenizer &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-ca >& logs/log.dl20-doc-segmented-ca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-docTTTTTquery >& logs/log.dl20-doc-segmented-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-unicoil >& logs/log.dl20-doc-segmented-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-unicoil-noexp >& logs/log.dl20-doc-segmented-unicoil-noexp &
@@ -356,17 +362,17 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te >& logs/log.mrtydi-v1.1-te &
 nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th >& logs/log.mrtydi-v1.1-th &
 
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar-mega >& logs/log.mrtydi-v1.1-ar-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-mega >& logs/log.mrtydi-v1.1-bn-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en-mega >& logs/log.mrtydi-v1.1-en-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi-mega >& logs/log.mrtydi-v1.1-fi-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id-mega >& logs/log.mrtydi-v1.1-id-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja-mega >& logs/log.mrtydi-v1.1-ja-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko-mega >& logs/log.mrtydi-v1.1-ko-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru-mega >& logs/log.mrtydi-v1.1-ru-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw-mega >& logs/log.mrtydi-v1.1-sw-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-mega >& logs/log.mrtydi-v1.1-te-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-mega >& logs/log.mrtydi-v1.1-th-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar-aca >& logs/log.mrtydi-v1.1-ar-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-aca >& logs/log.mrtydi-v1.1-bn-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en-aca >& logs/log.mrtydi-v1.1-en-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi-aca >& logs/log.mrtydi-v1.1-fi-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id-aca >& logs/log.mrtydi-v1.1-id-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja-aca >& logs/log.mrtydi-v1.1-ja-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko-aca >& logs/log.mrtydi-v1.1-ko-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru-aca >& logs/log.mrtydi-v1.1-ru-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw-aca >& logs/log.mrtydi-v1.1-sw-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-aca >& logs/log.mrtydi-v1.1-te-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-aca >& logs/log.mrtydi-v1.1-th-aca &
 ```
 </details>
 
@@ -391,22 +397,22 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th >& logs/log.miracl-v1.0-th &
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh >& logs/log.miracl-v1.0-zh &
 
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar-mega >& logs/log.miracl-v1.0-ar-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn-mega >& logs/log.miracl-v1.0-bn-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-en-mega >& logs/log.miracl-v1.0-en-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-es-mega >& logs/log.miracl-v1.0-es-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa-mega >& logs/log.miracl-v1.0-fa-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi-mega >& logs/log.miracl-v1.0-fi-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr-mega >& logs/log.miracl-v1.0-fr-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-hi-mega >& logs/log.miracl-v1.0-hi-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-id-mega >& logs/log.miracl-v1.0-id-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ja-mega >& logs/log.miracl-v1.0-ja-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ko-mega >& logs/log.miracl-v1.0-ko-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ru-mega >& logs/log.miracl-v1.0-ru-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-sw-mega >& logs/log.miracl-v1.0-sw-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te-mega >& logs/log.miracl-v1.0-te-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th-mega >& logs/log.miracl-v1.0-th-mega &
-nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh-mega >& logs/log.miracl-v1.0-zh-mega &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar-aca >& logs/log.miracl-v1.0-ar-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-bn-aca >& logs/log.miracl-v1.0-bn-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-en-aca >& logs/log.miracl-v1.0-en-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-es-aca >& logs/log.miracl-v1.0-es-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fa-aca >& logs/log.miracl-v1.0-fa-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fi-aca >& logs/log.miracl-v1.0-fi-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-fr-aca >& logs/log.miracl-v1.0-fr-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-hi-aca >& logs/log.miracl-v1.0-hi-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-id-aca >& logs/log.miracl-v1.0-id-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ja-aca >& logs/log.miracl-v1.0-ja-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ko-aca >& logs/log.miracl-v1.0-ko-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ru-aca >& logs/log.miracl-v1.0-ru-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-sw-aca >& logs/log.miracl-v1.0-sw-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-te-aca >& logs/log.miracl-v1.0-te-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th-aca >& logs/log.miracl-v1.0-th-aca &
+nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh-aca >& logs/log.miracl-v1.0-zh-aca &
 ```
 </details>
 

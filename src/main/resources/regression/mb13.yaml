@@ -29,14 +29,12 @@ metrics:
     can_combine: true
 
 topic_reader: Microblog
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)"
+  - name: "[TREC 2013 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2013.txt)"
     id: mb13
     path: topics.microblog2013.txt
     qrel: qrels.microblog2013.txt
-  - name: "[TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)"
+  - name: "[TREC 2014 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2014.txt)"
     id: mb14
     path: topics.microblog2014.txt
     qrel: qrels.microblog2014.txt

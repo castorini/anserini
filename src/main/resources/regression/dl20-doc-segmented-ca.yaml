@@ -2,7 +2,7 @@
 corpus: msmarco-doc-segmented
 corpus_path: collections/msmarco/msmarco-doc-segmented/
 
-index_path: indexes/lucene-index.dl20-doc-segmented-composite-analyzer/
+index_path: indexes/lucene-index.msmarco-doc-segmented-ca/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -43,8 +43,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20

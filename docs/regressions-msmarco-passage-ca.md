@@ -3,7 +3,7 @@
 **Models**: bag-of-words approaches using `CompositeAnalyzer`
 
 This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
-Here we are using CompositeAnalyzer which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
+Here we are using `CompositeAnalyzer` which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-ca.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-ca.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -22,7 +22,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-wp \
-  -index indexes/lucene-index.msmarco-passage-composite-analyzer/ \
+  -index indexes/lucene-index.msmarco-passage-ca/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-wp &
@@ -34,15 +34,15 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-composite-analyzer/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -index indexes/lucene-index.msmarco-passage-ca/ \
+  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt \
   -bm25  -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
@@ -51,10 +51,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

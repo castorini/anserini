@@ -65,7 +65,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -73,58 +73,34 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt \
   -impact -pretokenized &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-ed.rm3.topics.msmarco-passage.dev-subset.splade-pp-ed.txt \
-  -impact -pretokenized -rm3 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.msmarco-passage.dev-subset.splade-pp-ed.txt \
-  -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3884    | 0.2967    | 0.3365    |
-| **RR@10**                                                                                                    | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3830    | 0.2882    | 0.3293    |
-| **R@100**                                                                                                    | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9095    | 0.8728    | 0.8967    |
-| **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9831    | 0.9744    | 0.9811    |
+| **AP@1000**                                                                                                  | **SPLADE++ CoCondenser-EnsembleDistil**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3884    |
+| **RR@10**                                                                                                    | **SPLADE++ CoCondenser-EnsembleDistil**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3830    |
+| **R@100**                                                                                                    | **SPLADE++ CoCondenser-EnsembleDistil**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9095    |
+| **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9831    |
 
 ## Reproduction Log[*](reproducibility.md)
 

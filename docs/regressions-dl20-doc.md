@@ -48,7 +48,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 45 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
@@ -57,126 +57,126 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default.topics.dl20.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt \
   -bm25 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt \
   -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt \
   -bm25 -bm25prf &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -bm25prf &
@@ -185,95 +185,95 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+rocchio-neg.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+ax.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-default+prf.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+rocchio-neg.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+ax.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned+prf.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+rocchio-neg.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+ax.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmacro-doc.bm25-tuned2+prf.topics.dl20.txt
 ```
 
 ## Effectiveness

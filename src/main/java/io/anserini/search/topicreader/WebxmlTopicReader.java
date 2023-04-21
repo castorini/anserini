@@ -28,7 +28,7 @@ import java.util.TreeMap;
  * Topic reader for standard XML format used in the TREC Web Tracks.
  */
 public class WebxmlTopicReader extends TopicReader<Integer> {
-  public WebxmlTopicReader(Path topicFile) {
+  public WebxmlTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

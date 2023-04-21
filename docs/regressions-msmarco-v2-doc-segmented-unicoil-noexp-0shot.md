@@ -80,21 +80,21 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-These regression experiments use the [dev queries](../src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.txt) and the [dev2 queries](../src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
+These regression experiments use the [dev queries](../tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt) and the [dev2 queries](../tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt \
   -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt \
   -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -103,12 +103,12 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
 ```
 
 ## Effectiveness

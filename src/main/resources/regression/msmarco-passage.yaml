@@ -43,8 +43,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
@@ -64,66 +62,69 @@ models:
         - 0.6578
       R@1000:
         - 0.8526
-  - name: bm25-default+rm3
-    display: +RM3
-    params: -bm25 -rm3
-    results:
-      AP@1000:
-        - 0.1663
-      RR@10:
-        - 0.1566
-      R@100:
-        - 0.6538
-      R@1000:
-        - 0.8606
-  - name: bm25-default+rocchio
-    display: +Rocchio
-    params: -bm25 -rocchio
-    results:
-      AP@1000:
-        - 0.1690
-      RR@10:
-        - 0.1595
-      R@100:
-        - 0.6553
-      R@1000:
-        - 0.8620
-  - name: bm25-default+rocchio-neg
-    display: +Rocchio*
-    params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
-    results:
-      AP@1000:
-        - 0.1676
-      RR@10:
-        - 0.1576
-      R@100:
-        - 0.6559
-      R@1000:
-        - 0.8652
-  - name: bm25-default+ax
-    display: +Ax
-    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
-    results:
-      AP@1000:
-        - 0.1625
-      RR@10:
-        - 0.1517
-      R@100:
-        - 0.6556
-      R@1000:
-        - 0.8747
-  - name: bm25-default+prf
-    display: +PRF
-    params: -bm25 -bm25prf
-    results:
-      AP@1000:
-        - 0.1520
-      RR@10:
-        - 0.1421
-      R@100:
-        - 0.6535
-      R@1000:
-        - 0.8537
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: bm25-default+rm3
+#    display: +RM3
+#    params: -bm25 -rm3
+#    results:
+#      AP@1000:
+#        - 0.1663
+#      RR@10:
+#        - 0.1566
+#      R@100:
+#        - 0.6538
+#      R@1000:
+#        - 0.8606
+#  - name: bm25-default+rocchio
+#    display: +Rocchio
+#    params: -bm25 -rocchio
+#    results:
+#      AP@1000:
+#        - 0.1690
+#      RR@10:
+#        - 0.1595
+#      R@100:
+#        - 0.6553
+#      R@1000:
+#        - 0.8620
+#  - name: bm25-default+rocchio-neg
+#    display: +Rocchio*
+#    params: -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000
+#    results:
+#      AP@1000:
+#        - 0.1676
+#      RR@10:
+#        - 0.1576
+#      R@100:
+#        - 0.6559
+#      R@1000:
+#        - 0.8652
+#  - name: bm25-default+ax
+#    display: +Ax
+#    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
+#    results:
+#      AP@1000:
+#        - 0.1625
+#      RR@10:
+#        - 0.1517
+#      R@100:
+#        - 0.6556
+#      R@1000:
+#        - 0.8747
+#  - name: bm25-default+prf
+#    display: +PRF
+#    params: -bm25 -bm25prf
+#    results:
+#      AP@1000:
+#        - 0.1520
+#      RR@10:
+#        - 0.1421
+#      R@100:
+#        - 0.6535
+#      R@1000:
+#        - 0.8537
   - name: bm25-tuned
     display: BM25 (tuned)
     params: -bm25 -bm25.k1 0.82 -bm25.b 0.68
@@ -136,63 +137,66 @@ models:
         - 0.6701
       R@1000:
         - 0.8573
-  - name: bm25-tuned+rm3
-    display: +RM3
-    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3
-    results:
-      AP@1000:
-        - 0.1741
-      RR@10:
-        - 0.1646
-      R@100:
-        - 0.6674
-      R@1000:
-        - 0.8704
-  - name: bm25-tuned+rocchio
-    display: +Rocchio
-    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio
-    results:
-      AP@1000:
-        - 0.1777
-      RR@10:
-        - 0.1684
-      R@100:
-        - 0.6706
-      R@1000:
-        - 0.8726
-  - name: bm25-tuned+rocchio-neg 
-    display: +Rocchio*
-    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000
-    results:
-      AP@1000:
-        - 0.1762
-      RR@10:
-        - 0.1669
-      R@100:
-        - 0.6748
-      R@1000:
-        - 0.8757
-  - name: bm25-tuned+ax
-    display: +Ax
-    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20
-    results:
-      AP@1000:
-        - 0.1699
-      RR@10:
-        - 0.1594
-      R@100:
-        - 0.6721
-      R@1000:
-        - 0.8809
-  - name: bm25-tuned+prf
-    display: +PRF
-    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf
-    results:
-      AP@1000:
-        - 0.1582
-      RR@10:
-        - 0.1484
-      R@100:
-        - 0.6589
-      R@1000:
-        - 0.8561
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: bm25-tuned+rm3
+#    display: +RM3
+#    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3
+#    results:
+#      AP@1000:
+#        - 0.1741
+#      RR@10:
+#        - 0.1646
+#      R@100:
+#        - 0.6674
+#      R@1000:
+#        - 0.8704
+#  - name: bm25-tuned+rocchio
+#    display: +Rocchio
+#    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio
+#    results:
+#      AP@1000:
+#        - 0.1777
+#      RR@10:
+#        - 0.1684
+#      R@100:
+#        - 0.6706
+#      R@1000:
+#        - 0.8726
+#  - name: bm25-tuned+rocchio-neg
+#    display: +Rocchio*
+#    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000
+#    results:
+#      AP@1000:
+#        - 0.1762
+#      RR@10:
+#        - 0.1669
+#      R@100:
+#        - 0.6748
+#      R@1000:
+#        - 0.8757
+#  - name: bm25-tuned+ax
+#    display: +Ax
+#    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20
+#    results:
+#      AP@1000:
+#        - 0.1699
+#      RR@10:
+#        - 0.1594
+#      R@100:
+#        - 0.6721
+#      R@1000:
+#        - 0.8809
+#  - name: bm25-tuned+prf
+#    display: +PRF
+#    params: -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf
+#    results:
+#      AP@1000:
+#        - 0.1582
+#      RR@10:
+#        - 0.1484
+#      R@100:
+#        - 0.6589
+#      R@1000:
+#        - 0.8561

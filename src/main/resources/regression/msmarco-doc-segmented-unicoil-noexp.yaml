@@ -46,8 +46,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
     id: dev
@@ -67,27 +65,30 @@ models:
         - 0.8639
       R@1000:
         - 0.9420
-  - name: rm3
-    display: +RM3
-    params: -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
-    results:
-      AP@1000:
-        - 0.3052
-      RR@100:
-        - 0.3048
-      R@100:
-        - 0.8600
-      R@1000:
-        - 0.9495
-  - name: rocchio
-    display: +Rocchio
-    params: -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
-    results:
-      AP@1000:
-        - 0.3092
-      RR@100:
-        - 0.3088
-      R@100:
-        - 0.8667
-      R@1000:
-        - 0.9521
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: rm3
+#    display: +RM3
+#    params: -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+#    results:
+#      AP@1000:
+#        - 0.3052
+#      RR@100:
+#        - 0.3048
+#      R@100:
+#        - 0.8600
+#      R@1000:
+#        - 0.9495
+#  - name: rocchio
+#    display: +Rocchio
+#    params: -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+#    results:
+#      AP@1000:
+#        - 0.3092
+#      RR@100:
+#        - 0.3088
+#      R@100:
+#        - 0.8667
+#      R@1000:
+#        - 0.9521

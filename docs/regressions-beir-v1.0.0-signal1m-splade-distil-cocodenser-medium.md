@@ -63,7 +63,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the test set questions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -71,7 +71,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-signal1m-splade_distil_cocodenser_medium/ \
-  -topics src/main/resources/topics-and-qrels/topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.tsv.gz \
+  -topics tools/topics-and-qrels/topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.tsv.gz \
   -topicreader TsvString \
   -output runs/run.beir-v1.0.0-signal1m-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized -removeQuery -hits 1000 &
@@ -80,9 +80,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-signal1m.test.splade_distil_cocodenser_medium.txt
 ```
 
 ## Effectiveness

@@ -70,7 +70,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -78,58 +78,34 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt \
   -impact -pretokenized &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt \
-  -impact -pretokenized -rm3 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt \
-  -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rm3.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-noexp.unicoil-noexp.topics.msmarco-passage.dev-subset.unicoil-noexp.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3215    | 0.2621    | 0.2643    |
-| **RR@10**                                                                                                    | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3153    | 0.2537    | 0.2565    |
-| **R@100**                                                                                                    | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8070    | 0.7953    | 0.7971    |
-| **R@1000**                                                                                                   | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9239    | 0.9296    | 0.9326    |
+| **AP@1000**                                                                                                  | **uniCOIL (no expansions)**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3215    |
+| **RR@10**                                                                                                    | **uniCOIL (no expansions)**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3153    |
+| **R@100**                                                                                                    | **uniCOIL (no expansions)**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8070    |
+| **R@1000**                                                                                                   | **uniCOIL (no expansions)**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9239    |
 
 ## Reproduction Log[*](reproducibility.md)
 

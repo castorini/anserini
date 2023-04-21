@@ -30,7 +30,7 @@ public class TrecTopicReaderTest {
   @Test
   public void test1() throws IOException {
     TopicReader<Integer> reader = new TrecTopicReader(
-        Paths.get("src/main/resources/topics-and-qrels/topics.robust04.txt"));
+        Paths.get("tools/topics-and-qrels/topics.robust04.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -45,7 +45,7 @@ public class TrecTopicReaderTest {
   @Test
   public void test2() throws IOException {
     TopicReader<Integer> reader = new TrecTopicReader(
-        Paths.get("src/main/resources/topics-and-qrels/topics.core18.txt"));
+        Paths.get("tools/topics-and-qrels/topics.core18.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -60,7 +60,7 @@ public class TrecTopicReaderTest {
   @Test
   public void test3() throws IOException {
     TopicReader<Integer> reader = new TrecTopicReader(
-        Paths.get("src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt"));
+        Paths.get("tools/topics-and-qrels/topics.fire12bn.176-225.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -76,7 +76,7 @@ public class TrecTopicReaderTest {
   public void test4() throws IOException {
     // Note that this file has a formatting error - make sure we can handle it.
     TopicReader<Integer> reader = new TrecTopicReader(
-        Paths.get("src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt"));
+        Paths.get("tools/topics-and-qrels/topics.fire12hi.176-225.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -94,7 +94,7 @@ public class TrecTopicReaderTest {
   @Test
   public void test5() throws IOException {
     TopicReader<Integer> reader = new TrecTopicReader(
-        Paths.get("src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt"));
+        Paths.get("tools/topics-and-qrels/topics.trec02ar-ar.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

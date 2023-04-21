@@ -78,7 +78,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 76 topics for which NIST has provided judgments as part of the TREC 2022 Deep Learning Track.
 
 <!-- update link once data becomes public
@@ -90,21 +90,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt \
   -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicreader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
@@ -113,28 +113,28 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl22.unicoil.0shot.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl22.unicoil.0shot.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 src/main/resources/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl22.unicoil.0shot.txt
 ```
 
 Note that the TREC 2022 passage qrels are not publicly available (yet).
 However, if you are a participant, you can download them from the NIST "active participants" site.
-Place the qrels file in `src/main/resources/topics-and-qrels/qrels.dl22-passage.txt` for the above evaluation commands to work.
+Place the qrels file in `tools/topics-and-qrels/qrels.dl22-passage.txt` for the above evaluation commands to work.
 
 ## Effectiveness
 

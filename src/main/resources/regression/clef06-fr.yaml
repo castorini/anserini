@@ -36,10 +36,8 @@ metrics:
     can_combine: true
 
 topic_reader: TsvString
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)"
+  - name: "[CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt)"
     id: clef06fr
     path: topics.clef06fr.mono.fr.txt
     qrel: qrels.clef06fr.txt

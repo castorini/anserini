@@ -7,7 +7,7 @@ Note that this document is specifically a **runbook** and does not encode regres
 
 However, we concede that _repeatability_ of the runs (even by us) is challenging, since the codebase is always evolving, and by the time we add proper documentation, it might be several months later... but we try our best...
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+Topics and qrels are stored in `tools/topics-and-qrels/`.
 
 ## Data Preparation with Anserini
 
@@ -56,12 +56,12 @@ target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
 ``` bash
 target/appassembler/bin/SearchCollection -topicreader Trec \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
- -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
+ -topics tools/topics-and-qrels/topics.robust04.301-450.601-700.txt \
  -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 -hits 10000
 
 target/appassembler/bin/SearchCollection -topicreader Trec \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
- -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
+ -topics tools/topics-and-qrels/topics.robust04.301-450.601-700.txt \
  -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt \
  -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000
 ```
@@ -71,12 +71,12 @@ target/appassembler/bin/SearchCollection -topicreader Trec \
 ``` bash
 target/appassembler/bin/SearchCollection -topicreader Trec \
  -index lucene-index.robust05.pos+docvectors+rawdocs \
- -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+ -topics tools/topics-and-qrels/topics.robust05.txt \
  -output run.robust05.bm25+rm3.topics.robust05.txt -bm25 -rm3 -hits 10000
 
 target/appassembler/bin/SearchCollection -topicreader Trec \
  -index lucene-index.robust05.pos+docvectors+rawdocs \
- -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+ -topics tools/topics-and-qrels/topics.robust05.txt \
  -output run.robust05.bm25+ax.topics.robust05.txt \
  -bm25 -axiom -rerankCutoff 20 -axiom.deterministic
 ```
@@ -86,12 +86,12 @@ target/appassembler/bin/SearchCollection -topicreader Trec \
 ``` bash
 target/appassembler/bin/SearchCollection -topicreader Trec \
  -index lucene-index.core17.pos+docvectors+rawdocs \
- -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+ -topics tools/topics-and-qrels/topics.core17.txt \
  -output run.core17.bm25+rm3.topics.core17.txt -bm25 -rm3 -hits 10000
 
 target/appassembler/bin/SearchCollection -topicreader Trec \
  -index lucene-index.core17.pos+docvectors+rawdocs \
- -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+ -topics tools/topics-and-qrels/topics.core17.txt \
  -output run.core17.bm25+ax.topics.core17.txt \
  -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000
 ```
@@ -101,12 +101,12 @@ target/appassembler/bin/SearchCollection -topicreader Trec \
 ``` bash
 target/appassembler/bin/SearchCollection -topicreader Trec \
  -index lucene-index.core18.pos+docvectors+rawdocs -bm25 \
- -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+ -topics tools/topics-and-qrels/topics.core18.txt \
  -output run.core18.bm25+rm3.topics.core18.txt -rm3 -hits 10000
 
 target/appassembler/bin/SearchCollection -topicreader Trec \
  -index lucene-index.core18.pos+docvectors+rawdocs -bm25 \
- -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+ -topics tools/topics-and-qrels/topics.core18.txt \
  -output run.core18.bm25+ax.topics.core18.txt -axiom \
  -rerankCutoff 20 -axiom.deterministic -hits 10000
 ```
@@ -344,20 +344,20 @@ python script/submission.py --rank-file src/main_folder/test/Core18_rerank_rm3.t
 Run `trec_eval` to evaluate effectiveness. On the runs based on Axiom:
 
 ```
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_LRax0.6.txt
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e3ax0.6.txt
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e3ax0.7.txt
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7ax0.6.txt
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7ax0.7.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_LRax0.6.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_e3ax0.6.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_e3ax0.7.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7ax0.6.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7ax0.7.txt
 ```
 
 On the runs based on RM3:
 
 ```
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_LRrm0.6.txt
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e3rm30.6.txt
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7rm30.6.txt
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7rm30.7.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_LRrm0.6.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_e3rm30.6.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7rm30.6.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../tools/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7rm30.7.txt
 ```
 
 We have confirmed that as of `commit acf4c872f6bf36756ba972dbddd8fcefcfb2a648` (Sat Dec 15 11:41:59 2018 -0500), the above commands work.

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.20.1-SNAPSHOT</version>
+  <version>0.21.1-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -26,7 +26,7 @@
   </developers>
 
   <properties>
-    <lucene.version>9.4.2</lucene.version>
+    <lucene.version>9.5.0</lucene.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -106,20 +106,16 @@
               <id>IndexCollection</id>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexDenseVectors</mainClass>
-              <id>IndexDenseVectors</id>
+              <mainClass>io.anserini.index.IndexHnswDenseVectors</mainClass>
+              <id>IndexHnswDenseVectors</id>
             </program>
             <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchDenseVectors</mainClass>
-              <id>SearchDenseVectors</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchMsmarco</mainClass>
-              <id>SearchMsmarco</id>
+              <mainClass>io.anserini.search.SearchHnswDenseVectors</mainClass>
+              <id>SearchHnswDenseVectors</id>
             </program>
             <program>
               <mainClass>io.anserini.search.SimpleSearcher</mainClass>
@@ -154,15 +150,15 @@
                <id>ExtractTopDfTerms</id>
             </program>
             <program>
-              <mainClass>io.anserini.ann.IndexVectors</mainClass>
+              <mainClass>io.anserini.index.IndexInvertedDenseVectors</mainClass>
               <id>IndexVectors</id>
             </program>
             <program>
-              <mainClass>io.anserini.ann.ApproximateNearestNeighborSearch</mainClass>
+              <mainClass>io.anserini.search.SearchInvertedDenseVectors</mainClass>
               <id>ApproximateNearestNeighborSearch</id>
             </program>
             <program>
-              <mainClass>io.anserini.ann.ApproximateNearestNeighborEval</mainClass>
+              <mainClass>io.anserini.search.EvaluateInvertedDenseVectors</mainClass>
               <id>ApproximateNearestNeighborEval</id>
             </program>
           </programs>
@@ -448,7 +444,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.9</version>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -468,6 +464,16 @@
     <dependency>
       <groupId>ai.djl.huggingface</groupId>
       <artifactId>tokenizers</artifactId>
+      <version>0.21.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.onnxruntime</groupId>
+      <artifactId>onnxruntime</artifactId>
+      <version>1.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ai.djl</groupId>
+      <artifactId>api</artifactId>
       <version>0.21.0</version>
     </dependency>
   </dependencies>

@@ -44,7 +44,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 5193 dev set questions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -52,94 +52,46 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.msmarco-doc.dev.txt \
-  -bm25 -rm3 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.msmarco-doc.dev.txt \
-  -bm25 -rocchio &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-doc.dev.txt \
-  -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 &
-
-target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
-  -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-doc.dev.txt \
-  -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.msmarco-doc.dev.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.msmarco-doc.dev.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-doc.dev.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2886    | 0.1841    | 0.1841    | 0.3273    | 0.2628    | 0.2648    |
-| **RR@100**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2880    | 0.1834    | 0.1833    | 0.3269    | 0.2623    | 0.2643    |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7993    | 0.7422    | 0.7441    | 0.8612    | 0.8390    | 0.8448    |
-| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9259    | 0.9126    | 0.9128    | 0.9553    | 0.9522    | 0.9534    |
+| **AP@1000**                                                                                                  | **BM25 (default)**| **BM25 (tuned)**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2886    | 0.3273    |
+| **RR@100**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2880    | 0.3269    |
+| **R@100**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7993    | 0.8612    |
+| **R@1000**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9259    | 0.9553    |
 
 Explanation of settings:
 
@@ -164,11 +116,11 @@ To generate an MS MARCO submission with the BM25 tuned parameters, corresponding
 ```bash
 $ sh target/appassembler/bin/SearchMsmarco -hits 100 -k1 4.68 -b 0.87 -threads 9 \
     -index indexes/lucene-index.msmarco-doc-docTTTTTquery \
-    -queries src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -queries tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt
 
 #####################
@@ -185,14 +137,14 @@ For default parameters (`k1=0.9`, `b=0.4`):
 ```
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -topicreader TsvInt \
     -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.txt \
     -format msmarco \
     -bm25 -hits 100
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc-docTTTTTquery.bm25-default.txt
 
 #####################
@@ -206,14 +158,14 @@ For tuned parameters (`k1=4.68`, `b=0.87`):
 ```
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
-    -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+    -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -topicreader TsvInt \
     -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt \
     -format msmarco \
     -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100
 
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt \
+    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     --run runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt
 
 #####################

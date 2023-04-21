@@ -33,7 +33,7 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-segmented \
-  -index indexes/lucene-index.dl20-doc-segmented-composite-analyzer/ \
+  -index indexes/lucene-index.msmarco-doc-segmented-ca/ \
   -generator DefaultLuceneDocumentGenerator \
   -threads 16 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-doc-segmented &
@@ -46,7 +46,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 45 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
@@ -54,8 +54,8 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchCollection \
-  -index indexes/lucene-index.dl20-doc-segmented-composite-analyzer/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -index indexes/lucene-index.msmarco-doc-segmented-ca/ \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
@@ -64,10 +64,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 src/main/resources/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl20.txt
 ```
 
 ## Effectiveness

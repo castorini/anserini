@@ -29,18 +29,16 @@ metrics:
     can_combine: true
 
 topic_reader: Trec
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
-  - name: "[TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)"
+  - name: "[TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte04.701-750.txt)"
     id: trec2004
     path: topics.terabyte04.701-750.txt
     qrel: qrels.terabyte04.701-750.txt
-  - name: "[TREC 2005 Terabyte Track (Topics 751-800)](../src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt)"
+  - name: "[TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte05.751-800.txt)"
     id: trec2005
     path: topics.terabyte05.751-800.txt
     qrel: qrels.terabyte05.751-800.txt
-  - name: "[TREC 2006 Terabyte Track (Topics 801-850)](../src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt)"
+  - name: "[TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte06.801-850.txt)"
     id: trec2006
     path: topics.terabyte06.801-850.txt
     qrel: qrels.terabyte06.801-850.txt

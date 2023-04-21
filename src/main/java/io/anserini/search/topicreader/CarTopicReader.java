@@ -26,7 +26,7 @@ import java.util.TreeMap;
 
 public class CarTopicReader extends TopicReader<String> {
 
-  public CarTopicReader(Path topicFile) {
+  public CarTopicReader(Path topicFile) throws IOException {
     super(topicFile);
   }
 

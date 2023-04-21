@@ -40,90 +40,90 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
 
-+ [`topics.microblog2011.txt`](../src/main/resources/topics-and-qrels/topics.microblog2011.txt): [topics for the TREC 2011 Microblog Track](https://trec.nist.gov/data/microblog/11/topics.MB1-50.txt)
-+ [`topics.microblog2012.txt`](../src/main/resources/topics-and-qrels/topics.microblog2012.txt): [topics for the TREC 2012 Microblog Track](https://trec.nist.gov/data/microblog/12/2012.topics.MB51-110.txt)
-+ [`qrels.microblog2011.txt`](../src/main/resources/topics-and-qrels/qrels.microblog2011.txt): [qrels for TREC 2011 Microblog Track](https://trec.nist.gov/data/microblog/11/microblog11-qrels)
-+ [`qrels.microblog2012.txt`](../src/main/resources/topics-and-qrels/qrels.microblog2012.txt): [qrels for TREC 2012 Microblog Track](https://trec.nist.gov/data/microblog/12/adhoc-qrels)
++ [`topics.microblog2011.txt`](../tools/topics-and-qrels/topics.microblog2011.txt): [topics for the TREC 2011 Microblog Track](https://trec.nist.gov/data/microblog/11/topics.MB1-50.txt)
++ [`topics.microblog2012.txt`](../tools/topics-and-qrels/topics.microblog2012.txt): [topics for the TREC 2012 Microblog Track](https://trec.nist.gov/data/microblog/12/2012.topics.MB51-110.txt)
++ [`qrels.microblog2011.txt`](../tools/topics-and-qrels/qrels.microblog2011.txt): [qrels for TREC 2011 Microblog Track](https://trec.nist.gov/data/microblog/11/microblog11-qrels)
++ [`qrels.microblog2012.txt`](../tools/topics-and-qrels/qrels.microblog2012.txt): [qrels for TREC 2012 Microblog Track](https://trec.nist.gov/data/microblog/12/adhoc-qrels)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
+  -topics tools/topics-and-qrels/topics.microblog2011.txt \
   -topicreader Microblog \
   -output runs/run.mb11.bm25.topics.microblog2011.txt \
   -searchtweets -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
+  -topics tools/topics-and-qrels/topics.microblog2012.txt \
   -topicreader Microblog \
   -output runs/run.mb11.bm25.topics.microblog2012.txt \
   -searchtweets -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
+  -topics tools/topics-and-qrels/topics.microblog2011.txt \
   -topicreader Microblog \
   -output runs/run.mb11.bm25+rm3.topics.microblog2011.txt \
   -searchtweets -bm25 -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
+  -topics tools/topics-and-qrels/topics.microblog2012.txt \
   -topicreader Microblog \
   -output runs/run.mb11.bm25+rm3.topics.microblog2012.txt \
   -searchtweets -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
+  -topics tools/topics-and-qrels/topics.microblog2011.txt \
   -topicreader Microblog \
   -output runs/run.mb11.bm25+ax.topics.microblog2011.txt \
   -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
+  -topics tools/topics-and-qrels/topics.microblog2012.txt \
   -topicreader Microblog \
   -output runs/run.mb11.bm25+ax.topics.microblog2012.txt \
   -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
+  -topics tools/topics-and-qrels/topics.microblog2011.txt \
   -topicreader Microblog \
   -output runs/run.mb11.ql.topics.microblog2011.txt \
   -searchtweets -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
+  -topics tools/topics-and-qrels/topics.microblog2012.txt \
   -topicreader Microblog \
   -output runs/run.mb11.ql.topics.microblog2012.txt \
   -searchtweets -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
+  -topics tools/topics-and-qrels/topics.microblog2011.txt \
   -topicreader Microblog \
   -output runs/run.mb11.ql+rm3.topics.microblog2011.txt \
   -searchtweets -qld -rm3 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
+  -topics tools/topics-and-qrels/topics.microblog2012.txt \
   -topicreader Microblog \
   -output runs/run.mb11.ql+rm3.topics.microblog2012.txt \
   -searchtweets -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
+  -topics tools/topics-and-qrels/topics.microblog2011.txt \
   -topicreader Microblog \
   -output runs/run.mb11.ql+ax.topics.microblog2011.txt \
   -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mb11/ \
-  -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
+  -topics tools/topics-and-qrels/topics.microblog2012.txt \
   -topicreader Microblog \
   -output runs/run.mb11.ql+ax.topics.microblog2012.txt \
   -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
@@ -132,23 +132,23 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.bm25.topics.microblog2011.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.bm25.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.bm25.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.bm25.topics.microblog2012.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.bm25+rm3.topics.microblog2011.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.bm25+rm3.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.bm25+rm3.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.bm25+rm3.topics.microblog2012.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.bm25+ax.topics.microblog2011.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.bm25+ax.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.bm25+ax.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.bm25+ax.topics.microblog2012.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.ql.topics.microblog2011.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.ql.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.ql.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.ql.topics.microblog2012.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.ql+rm3.topics.microblog2011.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.ql+rm3.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.ql+rm3.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.ql+rm3.topics.microblog2012.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.ql+ax.topics.microblog2011.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.ql+ax.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2011.txt runs/run.mb11.ql+ax.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2012.txt runs/run.mb11.ql+ax.topics.microblog2012.txt
 ```
 
 ## Effectiveness
@@ -157,8 +157,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2011 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2011.txt)          | 0.3384    | 0.3658    | 0.4008    | 0.3584    | 0.3961    | 0.4201    |
-| [TREC 2012 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2012.txt)          | 0.1948    | 0.2209    | 0.2309    | 0.2102    | 0.2400    | 0.2474    |
+| [TREC 2011 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2011.txt)| 0.3384    | 0.3658    | 0.4008    | 0.3584    | 0.3961    | 0.4201    |
+| [TREC 2012 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2012.txt)| 0.1948    | 0.2209    | 0.2309    | 0.2102    | 0.2400    | 0.2474    |
 | **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2011 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2011.txt)          | 0.3959    | 0.4177    | 0.4612    | 0.4061    | 0.4408    | 0.4408    |
-| [TREC 2012 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2012.txt)          | 0.3316    | 0.3463    | 0.3554    | 0.3333    | 0.3520    | 0.3842    |
+| [TREC 2011 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2011.txt)| 0.3959    | 0.4177    | 0.4612    | 0.4061    | 0.4408    | 0.4408    |
+| [TREC 2012 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2012.txt)| 0.3316    | 0.3463    | 0.3554    | 0.3333    | 0.3520    | 0.3842    |

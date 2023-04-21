@@ -35,6 +35,7 @@ import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.QueryEncoder;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -246,6 +247,9 @@ public final class SearchCollection implements Closeable {
 
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
+
+    @Option(name = "-encoder", usage = "Query encoder for supervised sparse retrieval tasks")
+    public String encoder = null;
 
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
@@ -747,6 +751,15 @@ public final class SearchCollection implements Closeable {
         ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
         AtomicInteger cnt = new AtomicInteger();
 
+        // Initialize query encoder if specified
+        QueryEncoder queryEncoder;
+        if (args.encoder != null) {
+          queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + args.encoder + "QueryEncoder")
+                  .getConstructor().newInstance();
+        } else {
+          queryEncoder = null;
+        }
+
         final long start = System.nanoTime();
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
@@ -763,6 +776,15 @@ public final class SearchCollection implements Closeable {
               }
             } else {
               queryString = entry.getValue().get(args.topicfield);
+            }
+
+            if (queryEncoder != null) {
+              try {
+                queryString = queryEncoder.encode(queryString);
+              } catch (Exception e) {
+                e.printStackTrace();
+                throw new CompletionException(e);
+              }
             }
 
             ScoredDocuments queryQrels = null;
@@ -885,9 +907,9 @@ public final class SearchCollection implements Closeable {
           try {
             InputStream inputStream = null;
             if (isMSMARCOv1_passage) {
-              inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path);
+              inputStream = Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)), StandardOpenOption.READ);
             } else {
-              inputStream = TopicReader.class.getClassLoader().getResourceAsStream(Topics.MSMARCO_DOC_DEV.path);
+              inputStream = Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)), StandardOpenOption.READ);
             }
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -1190,13 +1212,10 @@ public final class SearchCollection implements Closeable {
     TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
     for (String singleTopicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(singleTopicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
-      }
+      Path topicsPath =  Path.of(singleTopicsFile);
       try {
         tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
-            .getConstructor(Path.class).newInstance(topicsFilePath);
+            .getConstructor(Path.class).newInstance(topicsPath);
         topics.putAll(tr.read());
       } catch (Exception e) {
         e.printStackTrace();

@@ -38,7 +38,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
 The regression experiments here evaluate on the 54 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
@@ -47,84 +47,84 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt \
   -bm25 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt \
   -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
-  -topics src/main/resources/topics-and-qrels/topics.dl20.txt \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
@@ -133,65 +133,65 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 src/main/resources/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt
 ```
 
 ## Effectiveness

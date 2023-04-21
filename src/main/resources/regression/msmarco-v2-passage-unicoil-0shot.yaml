@@ -47,8 +47,6 @@ metrics:
     can_combine: false
 
 topic_reader: TsvInt
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev
@@ -76,35 +74,38 @@ models:
       R@1000:
         - 0.7616
         - 0.7671
-  - name: unicoil-0shot+rm3
-    display: +RM3
-    params: -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection
-    results:
-      MAP@100:
-        - 0.1319
-        - 0.1343
-      MRR@100:
-        - 0.1330
-        - 0.1352
-      R@100:
-        - 0.5521
-        - 0.5552
-      R@1000:
-        - 0.7736
-        - 0.7700
-  - name: unicoil-0shot+rocchio
-    display: +Rocchio
-    params: -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection
-    results:
-      MAP@100:
-        - 0.1319
-        - 0.1371
-      MRR@100:
-        - 0.1334
-        - 0.1380
-      R@100:
-        - 0.5557
-        - 0.5696
-      R@1000:
-        - 0.7800
-        - 0.7849
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: unicoil-0shot+rm3
+#    display: +RM3
+#    params: -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection
+#    results:
+#      MAP@100:
+#        - 0.1319
+#        - 0.1343
+#      MRR@100:
+#        - 0.1330
+#        - 0.1352
+#      R@100:
+#        - 0.5521
+#        - 0.5552
+#      R@1000:
+#        - 0.7736
+#        - 0.7700
+#  - name: unicoil-0shot+rocchio
+#    display: +Rocchio
+#    params: -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection
+#    results:
+#      MAP@100:
+#        - 0.1319
+#        - 0.1371
+#      MRR@100:
+#        - 0.1334
+#        - 0.1380
+#      R@100:
+#        - 0.5557
+#        - 0.5696
+#      R@1000:
+#        - 0.7800
+#        - 0.7849

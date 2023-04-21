@@ -173,7 +173,7 @@ And perform retrieval on the test queries:
 ```
 sh target/appassembler/bin/SearchCollection -topicreader Car \
  -index indexes/trec_car/lucene-index.car17v2.0-expanded-topk10 \
- -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
+ -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
  -output runs/run.car17v2.0.bm25.expanded-topk10.txt -bm25
 ```
 
@@ -181,7 +181,7 @@ Evaluation is performed with `trec_eval`:
 
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
- src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
+ tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
  runs/run.car17v2.0.bm25.expanded-topk10.txt
 ```
 
