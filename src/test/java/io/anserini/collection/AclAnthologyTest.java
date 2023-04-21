@@ -52,13 +52,13 @@ public class AclAnthologyTest extends DocumentCollectionTest<AclAnthology.Docume
     doc1.put("booktitle", "COLING 2000 Volume 1: The 18th International Conference on Computational Linguistics");
     doc1.put("paper_id", "3");
     doc1.put("parent_volume_id", "C00-1");
-    doc1.put("pdf", "https://www.aclweb.org/anthology/C00-1003.pdf");
-    doc1.put("thumbnail", "https://www.aclweb.org/anthology/thumb/C00-1003.jpg");
+    doc1.put("pdf", "https://aclanthology.org/C00-1003.pdf");
+    doc1.put("thumbnail", "https://aclanthology.org/thumb/C00-1003.jpg");
     doc1.put("title", "Selectional Restrictions in HPSG");
-    doc1.put("url", "https://www.aclweb.org/anthology/C00-1003");
+    doc1.put("url", "https://aclanthology.org/C00-1003");
     doc1.put("contents", "Selectional Restrictions in HPSG ");
     doc1.put("sigs", "");
-    doc1.put("venues", "COLING");
+    doc1.put("venues", "coling");
     expected.put("C00-1003", doc1);
 
     HashMap<String, String> doc2 = new HashMap<>();
@@ -67,7 +67,7 @@ public class AclAnthologyTest extends DocumentCollectionTest<AclAnthology.Docume
     doc2.put("title", "Exploiting a Probabilistic Hierarchical Model for Generation");
     doc2.put("contents", "Exploiting a Probabilistic Hierarchical Model for Generation ");
     doc2.put("sigs", "");
-    doc2.put("venues", "COLING");
+    doc2.put("venues", "coling");
     expected.put("C00-1007", doc2);
 
     HashMap<String, String> doc3 = new HashMap<>();
@@ -85,11 +85,11 @@ public class AclAnthologyTest extends DocumentCollectionTest<AclAnthology.Docume
     doc3.put("page_last", "34");
     doc3.put("paper_id", "3");
     doc3.put("parent_volume_id", "E17-1");
-    doc3.put("pdf", "https://www.aclweb.org/anthology/E17-1003.pdf");
+    doc3.put("pdf", "https://aclanthology.org/E17-1003.pdf");
     doc3.put("publisher", "Association for Computational Linguistics");
-    doc3.put("thumbnail", "https://www.aclweb.org/anthology/thumb/E17-1003.jpg");
+    doc3.put("thumbnail", "https://aclanthology.org/thumb/E17-1003.jpg");
     doc3.put("title", "Exploring Different Dimensions of Attention for Uncertainty Detection");
-    doc3.put("url", "https://www.aclweb.org/anthology/E17-1003");
+    doc3.put("url", "https://aclanthology.org/E17-1003");
     doc3.put("contents", "Exploring Different Dimensions of Attention for Uncertainty Detection " +
       "Neural networks with attention have proven effective for many natural " +
       "language processing tasks. In this paper, we develop attention mechanisms for " +
@@ -102,7 +102,7 @@ public class AclAnthologyTest extends DocumentCollectionTest<AclAnthology.Docume
       "perform similar to the state-of-the-art model on a biomedical benchmark which " +
       "uses a large set of linguistic features.");
     doc3.put("sigs", "");
-    doc3.put("venues", "EACL");
+    doc3.put("venues", "eacl");
     expected.put("E17-1003", doc3);
   }
 

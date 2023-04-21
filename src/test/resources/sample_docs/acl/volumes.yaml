@@ -1,4 +1,5 @@
 C00-1:
+  events: []
   has_abstracts: false
   meta_date: '2000'
   papers:
@@ -9,8 +10,11 @@ C00-1:
     Linguistics'
   title_html: '<span class="acl-fixed-case">COLING</span> 2000 Volume 1: The 18th
     International Conference on Computational Linguistics'
+  url: https://aclanthology.org/C00-1
+  venue:
+  - coling
   venues:
-  - COLING
+  - coling
   year: '2000'
 E17-1:
   address: Valencia, Spain
@@ -27,19 +31,22 @@ E17-1:
     full: Alexander Koller
     id: alexander-koller
     last: Koller
+  events: []
   has_abstracts: true
   meta_date: 2017/4
   month: April
   papers:
-  - E17-1003
-  pdf: https://www.aclweb.org/anthology/E17-1.pdf
+  - E17-1000
+  pdf: https://aclanthology.org/E17-1.pdf
   publisher: Association for Computational Linguistics
   sigs: []
   title: 'Proceedings of the 15th Conference of the European Chapter of the Association
     for Computational Linguistics: Volume 1, Long Papers'
   title_html: 'Proceedings of the 15th Conference of the <span class="acl-fixed-case">E</span>uropean
     Chapter of the Association for Computational Linguistics: Volume 1, Long Papers'
-  url: https://www.aclweb.org/anthology/E17-1
+  url: https://aclanthology.org/E17-1
+  venue:
+  - eacl
   venues:
-  - EACL
+  - eacl
   year: '2017'
