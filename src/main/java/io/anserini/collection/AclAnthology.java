@@ -167,7 +167,7 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
       volume = AclAnthology.this.volumes.get(parentVolumeId);
 
       // Process venue facets
-      venues = new ArrayList<>();      
+      venues = new ArrayList<>();
       ArrayNode venuesNode = (ArrayNode) paper.get("venue");
       venuesNode.elements().forEachRemaining(node -> venues.add(node.asText()));
 
