@@ -30,6 +30,13 @@ mkdir -p build/data
 
 Generate cleaned YAML data:
 
+1. Add the following lines to `bin/create_hugo_yaml.py` before function `export_anthology`
+```python
+# Prevent yaml from creating aliases which can't be parsed by anserini
+Dumper.ignore_aliases = lambda self, data: True
+```
+
+2. Execute the following script:
 ```bash
 python bin/create_hugo_yaml.py
 ```

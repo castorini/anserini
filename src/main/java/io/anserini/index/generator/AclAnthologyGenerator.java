@@ -76,13 +76,13 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
     AclAnthologyField.THUMBNAIL.name);
 
   public static final List<String> NUMERIC_FIELD_NAMES = List.of(
-    AclAnthologyField.YEAR.name,
-    AclAnthologyField.PAGE_FIRST.name,
-    AclAnthologyField.PAGE_LAST.name);
+    AclAnthologyField.YEAR.name);
 
   public static final List<String> FIELDS_WITHOUT_STEMMING = List.of(
     AclAnthologyField.AUTHOR_STRING.name,
     AclAnthologyField.PUBLISHER.name,
+    AclAnthologyField.PAGE_FIRST.name,
+    AclAnthologyField.PAGE_LAST.name,
     AclAnthologyField.MONTH.name);
 
   public AclAnthologyGenerator(IndexCollection.Args args) {

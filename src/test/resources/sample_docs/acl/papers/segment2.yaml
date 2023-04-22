@@ -26,16 +26,30 @@ E17-1003:
     for Computational Linguistics: Volume 1, Long Papers'
   booktitle_html: 'Proceedings of the 15th Conference of the <span class="acl-fixed-case">E</span>uropean
     Chapter of the Association for Computational Linguistics: Volume 1, Long Papers'
+  citation: "[Exploring Different Dimensions of Attention for Uncertainty Detection](https://aclanthology.org/E17-1003)
+    (Adel & Sch\xFCtze, EACL 2017)"
+  citation_acl: "Heike Adel and Hinrich Sch\xFCtze. 2017. <a href=\"https://aclanthology.org/E17-1003\">Exploring
+    Different Dimensions of Attention for Uncertainty Detection</a>. In <i>Proceedings
+    of the 15th Conference of the European Chapter of the Association for Computational
+    Linguistics: Volume 1, Long Papers</i>, pages 22\u201334, Valencia, Spain. Association
+    for Computational Linguistics."
+  events: []
+  language: null
   month: April
   page_first: '22'
   page_last: '34'
   pages: "22\u201334"
   paper_id: '3'
   parent_volume_id: E17-1
-  pdf: https://www.aclweb.org/anthology/E17-1003.pdf
+  pdf: https://aclanthology.org/E17-1003.pdf
   publisher: Association for Computational Linguistics
-  thumbnail: https://www.aclweb.org/anthology/thumb/E17-1003.jpg
+  pwcdataset:
+  - name: SST
+    url: https://paperswithcode.com/dataset/sst
+  thumbnail: https://aclanthology.org/thumb/E17-1003.jpg
   title: Exploring Different Dimensions of Attention for Uncertainty Detection
   title_html: Exploring Different Dimensions of Attention for Uncertainty Detection
-  url: https://www.aclweb.org/anthology/E17-1003
+  url: https://aclanthology.org/E17-1003
+  venue:
+  - eacl
   year: '2017'

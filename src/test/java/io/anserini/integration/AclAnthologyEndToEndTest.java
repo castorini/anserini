@@ -71,12 +71,12 @@ public class AclAnthologyEndToEndTest extends EndToEndTest {
         "raw",
         "Exploiting a Probabilistic Hierarchical Model for Generation "));
 
-    fieldNormStatusTotalFields = 13;
-    termIndexStatusTermCount = 241;
-    termIndexStatusTotFreq = 288;
+    fieldNormStatusTotalFields = 21;
+    termIndexStatusTermCount = 330;
+    termIndexStatusTotFreq = 411;
     storedFieldStatusTotalDocCounts = 3;
-    termIndexStatusTotPos = 339;
-    storedFieldStatusTotFields = 67;
+    termIndexStatusTotPos = 470;
+    storedFieldStatusTotFields = 83;
   }
 
   @Override
