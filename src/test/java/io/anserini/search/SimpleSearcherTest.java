@@ -142,13 +142,15 @@ public class SimpleSearcherTest extends IndexerTestBase {
 
   @Test
   public void testSearch1() throws Exception {
+    // This is the non-batch version of test case "testBatchSearch1"; results should be the same.
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
+    // Q1: "test"
     SimpleSearcher.Result[] hits = searcher.search("test", 10);
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
     assertEquals(2, hits[0].lucene_docid);
-    assertEquals(0.5702000f, hits[0].score, 10e-6);
+    assertEquals(0.57020f, hits[0].score, 10e-6);
     assertEquals("here is a test", hits[0].contents);
     assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
 
@@ -157,6 +159,34 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("here is a test", hits[0].lucene_document.getField(Constants.CONTENTS).stringValue());
     assertEquals("{\"contents\": \"here is a test\"}",
         hits[0].lucene_document.getField(Constants.RAW).stringValue());
+
+    // Q2: "more"
+    hits = searcher.search("more", 10);
+    assertEquals(2, hits.length);
+
+    assertEquals("doc2", hits[0].docid);
+    assertEquals(1, hits[0].lucene_docid);
+    assertEquals(0.27330f, hits[0].score, 10e-6);
+    assertEquals("more texts", hits[0].contents);
+    assertEquals("{\"contents\": \"more texts\"}", hits[0].raw);
+
+    // We can fetch the exact same information from the raw Lucene document also.
+    assertEquals("doc2", hits[0].lucene_document.getField(Constants.ID).stringValue());
+    assertEquals("more texts", hits[0].lucene_document.getField(Constants.CONTENTS).stringValue());
+    assertEquals("{\"contents\": \"more texts\"}",
+        hits[0].lucene_document.getField(Constants.RAW).stringValue());
+
+    assertEquals("doc1", hits[1].docid);
+    assertEquals(0, hits[1].lucene_docid);
+    assertEquals(0.20800f, hits[1].score, 10e-6);
+    assertEquals("here is some text here is some more text. city.", hits[1].contents);
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", hits[1].raw);
+
+    // We can fetch the exact same information from the raw Lucene document also.
+    assertEquals("doc1", hits[1].lucene_document.getField(Constants.ID).stringValue());
+    assertEquals("here is some text here is some more text. city.", hits[1].lucene_document.getField(Constants.CONTENTS).stringValue());
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
+        hits[1].lucene_document.getField(Constants.RAW).stringValue());
 
     searcher.close();
   }
@@ -170,7 +200,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(0.28830000f, results[0].score, 10e-6);
+    assertEquals(0.28830f, results[0].score, 10e-6);
     assertEquals("here is some text here is some more text. city.", results[0].contents);
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", results[0].raw);
 
@@ -178,16 +208,25 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(0.28830000f, results[0].score, 10e-6);
+    assertEquals(0.28830f, results[0].score, 10e-6);
     assertEquals("doc2", results[1].docid);
     assertEquals(1, results[1].lucene_docid);
-    assertEquals(0.27329999f, results[1].score, 10e-6);
+    assertEquals(0.27330f, results[1].score, 10e-6);
 
     results = searcher.search("test");
     assertEquals(1, results.length);
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
-    assertEquals(0.5702000f, results[0].score, 10e-6);
+    assertEquals(0.57020f, results[0].score, 10e-6);
+
+    results = searcher.search("more");
+    assertEquals(2, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.27330f, results[0].score, 10e-6);
+    assertEquals("doc1", results[1].docid);
+    assertEquals(0, results[1].lucene_docid);
+    assertEquals(0.20800f, results[1].score, 10e-6);
 
     searcher.close();
   }
@@ -202,22 +241,31 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.16070f, results[0].score, 10e-5);
+    assertEquals(0.16070f, results[0].score, 10e-6);
 
     results = searcher.search("text");
     assertEquals(2, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.16070f, results[0].score, 10e-5);
+    assertEquals(0.16070f, results[0].score, 10e-6);
     assertEquals("doc1", results[1].docid);
     assertEquals(0, results[1].lucene_docid);
-    assertEquals(0.10870f, results[1].score, 10e-5);
+    assertEquals(0.10870f, results[1].score, 10e-6);
 
     results = searcher.search("test");
     assertEquals(1, results.length);
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
-    assertEquals(0.33530f, results[0].score, 10e-5);
+    assertEquals(0.33530f, results[0].score, 10e-6);
+
+    results = searcher.search("more");
+    assertEquals(2, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.16070f, results[0].score, 10e-6);
+    assertEquals("doc1", results[1].docid);
+    assertEquals(0, results[1].lucene_docid);
+    assertEquals(0.06140f, results[1].score, 10e-6);
 
     searcher.close();
   }
@@ -249,6 +297,15 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, results[0].lucene_docid);
     assertEquals(0.31850f, results[0].score, 10e-5);
 
+    results = searcher.search("more");
+    assertEquals(2, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.17770f, results[0].score, 10e-6);
+    assertEquals("doc1", results[1].docid);
+    assertEquals(0, results[1].lucene_docid);
+    assertEquals(0.0f, results[1].score, 10e-6);
+
     searcher.close();
   }
 
@@ -264,11 +321,26 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(0.14417f, results[0].score, 10e-5);
+    assertEquals(0.14420f, results[0].score, 10e-6);
 
     Map<String, Float> feedbackTerms = searcher.get_feedback_terms("text");
     assertEquals(1, feedbackTerms.size());
-    assertEquals(0.5f, feedbackTerms.get("text"), 10e-5);
+    assertEquals(0.5f, feedbackTerms.get("text"), 10e-6);
+
+    results = searcher.search("test");
+    assertEquals(1, results.length);
+    assertEquals("doc3", results[0].docid);
+    assertEquals(2, results[0].lucene_docid);
+    assertEquals(0.28510f, results[0].score, 10e-6);
+
+    results = searcher.search("more");
+    assertEquals(2, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.13660f, results[0].score, 10e-6);
+    assertEquals("doc1", results[1].docid);
+    assertEquals(0, results[1].lucene_docid);
+    assertEquals(0.10400f, results[1].score, 10e-6);
 
     searcher.unset_rm3();
     assertFalse(searcher.use_rm3());
@@ -287,21 +359,49 @@ public class SimpleSearcherTest extends IndexerTestBase {
 
   @Test
   public void testSearch6() throws Exception {
+    // This adds Rocchio on top of "testSearch1"
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
     searcher.set_rocchio();
     assertTrue(searcher.use_rocchio());
 
     Result[] results;
+    Map<String, Float> feedbackTerms;
 
     results = searcher.search("text", 1);
     assertEquals(1, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(0.28830f, results[0].score, 10e-5);
+    assertEquals(0.28830f, results[0].score, 10e-6);
 
-    Map<String, Float> feedbackTerms = searcher.get_feedback_terms("text");
+    // Note that the feedback term is just the query, the scores are the same.
+    feedbackTerms = searcher.get_feedback_terms("text");
     assertEquals(1, feedbackTerms.size());
-    assertEquals(1.0f, feedbackTerms.get("text"), 10e-5);
+    assertEquals(1.0f, feedbackTerms.get("text"), 10e-6);
+
+    results = searcher.search("test");
+    assertEquals(1, results.length);
+    assertEquals("doc3", results[0].docid);
+    assertEquals(2, results[0].lucene_docid);
+    assertEquals(0.57020f, results[0].score, 10e-6);
+
+    // Note that the feedback term is just the query, the scores are the same.
+    feedbackTerms = searcher.get_feedback_terms("test");
+    assertEquals(1, feedbackTerms.size());
+    assertEquals(1.0f, feedbackTerms.get("test"), 10e-6);
+
+    results = searcher.search("more");
+    assertEquals(2, results.length);
+    assertEquals("doc2", results[0].docid);
+    assertEquals(1, results[0].lucene_docid);
+    assertEquals(0.27330f, results[0].score, 10e-6);
+    assertEquals("doc1", results[1].docid);
+    assertEquals(0, results[1].lucene_docid);
+    assertEquals(0.20800f, results[1].score, 10e-6);
+
+    // Note that the feedback term is just the query, the scores are the same.
+    feedbackTerms = searcher.get_feedback_terms("more");
+    assertEquals(1, feedbackTerms.size());
+    assertEquals(1.0f, feedbackTerms.get("more"), 10e-6);
 
     searcher.unset_rocchio();
     assertFalse(searcher.use_rocchio());
@@ -335,6 +435,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
 
   @Test
   public void testBatchSearch1() throws Exception {
+    // This is the batch version of test case "testSearch1"; results should be the same.
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
       
     List<String> queries = new ArrayList<>();
@@ -350,36 +451,237 @@ public class SimpleSearcherTest extends IndexerTestBase {
 
     assertEquals(1, hits.get("query_test").length);
     assertEquals("doc3", hits.get("query_test")[0].docid);
+    assertEquals(2, hits.get("query_test")[0].lucene_docid);
+    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-6);
+    assertEquals("here is a test", hits.get("query_test")[0].contents);
+    assertEquals("{\"contents\": \"here is a test\"}", hits.get("query_test")[0].raw);
 
     assertEquals(2, hits.get("query_more").length);
     assertEquals("doc2", hits.get("query_more")[0].docid);
+    assertEquals(1, hits.get("query_more")[0].lucene_docid);
+    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals("more texts", hits.get("query_more")[0].contents);
+    assertEquals("{\"contents\": \"more texts\"}", hits.get("query_more")[0].raw);
+
     assertEquals("doc1", hits.get("query_more")[1].docid);
+    assertEquals(0, hits.get("query_more")[1].lucene_docid);
+    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-6);
+    assertEquals("here is some text here is some more text. city.", hits.get("query_more")[1].contents);
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", hits.get("query_more")[1].raw);
 
     searcher.close();
   }
 
   @Test
   public void testBatchSearch2() throws Exception {
+    // This is the batch version of test case "testSearch2"; results should be the same.
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
-    searcher.set_rm3();
 
     List<String> queries = new ArrayList<>();
+    queries.add("text");
     queries.add("test");
     queries.add("more");
 
     List<String> qids = new ArrayList<>();
+    qids.add("query_text");
     qids.add("query_test");
     qids.add("query_more");
 
     Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
-    assertEquals(2, hits.size());
+    assertEquals(3, hits.size());
+
+    assertEquals(2, hits.get("query_text").length);
+    assertEquals("doc1", hits.get("query_text")[0].docid);
+    assertEquals(0, hits.get("query_text")[0].lucene_docid);
+    assertEquals(0.28830f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals("doc2", hits.get("query_text")[1].docid);
+    assertEquals(1, hits.get("query_text")[1].lucene_docid);
+    assertEquals(0.27330f, hits.get("query_text")[1].score, 10e-6);
 
     assertEquals(1, hits.get("query_test").length);
     assertEquals("doc3", hits.get("query_test")[0].docid);
+    assertEquals(2, hits.get("query_test")[0].lucene_docid);
+    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-6);
 
     assertEquals(2, hits.get("query_more").length);
     assertEquals("doc2", hits.get("query_more")[0].docid);
+    assertEquals(1, hits.get("query_more")[0].lucene_docid);
+    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-6);
     assertEquals("doc1", hits.get("query_more")[1].docid);
+    assertEquals(0, hits.get("query_more")[1].lucene_docid);
+    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-6);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatchSearch3() throws Exception {
+    // This is the batch version of test case "testSearch3"; results should be the same.
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_bm25(3.5f, 0.9f);
+
+    List<String> queries = new ArrayList<>();
+    queries.add("text");
+    queries.add("test");
+    queries.add("more");
+
+    List<String> qids = new ArrayList<>();
+    qids.add("query_text");
+    qids.add("query_test");
+    qids.add("query_more");
+
+    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
+    assertEquals(3, hits.size());
+
+    assertEquals(2, hits.get("query_text").length);
+    assertEquals("doc2", hits.get("query_text")[0].docid);
+    assertEquals(1, hits.get("query_text")[0].lucene_docid);
+    assertEquals(0.16070f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals("doc1", hits.get("query_text")[1].docid);
+    assertEquals(0, hits.get("query_text")[1].lucene_docid);
+    assertEquals(0.10870f, hits.get("query_text")[1].score, 10e-6);
+
+    assertEquals(1, hits.get("query_test").length);
+    assertEquals("doc3", hits.get("query_test")[0].docid);
+    assertEquals(2, hits.get("query_test")[0].lucene_docid);
+    assertEquals(0.33530f, hits.get("query_test")[0].score, 10e-6);
+
+    assertEquals(2, hits.get("query_more").length);
+    assertEquals("doc2", hits.get("query_more")[0].docid);
+    assertEquals(1, hits.get("query_more")[0].lucene_docid);
+    assertEquals(0.16070f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals("doc1", hits.get("query_more")[1].docid);
+    assertEquals(0, hits.get("query_more")[1].lucene_docid);
+    assertEquals(0.06140f, hits.get("query_more")[1].score, 10e-6);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatchSearch4() throws Exception {
+    // This is the batch version of test case "testSearch4"; results should be the same.
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_qld(10);
+
+    List<String> queries = new ArrayList<>();
+    queries.add("text");
+    queries.add("test");
+    queries.add("more");
+
+    List<String> qids = new ArrayList<>();
+    qids.add("query_text");
+    qids.add("query_test");
+    qids.add("query_more");
+
+    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
+    assertEquals(3, hits.size());
+
+    assertEquals(2, hits.get("query_text").length);
+    assertEquals("doc2", hits.get("query_text")[0].docid);
+    assertEquals(1, hits.get("query_text")[0].lucene_docid);
+    assertEquals(0.09910f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals("doc1", hits.get("query_text")[1].docid);
+    assertEquals(0, hits.get("query_text")[1].lucene_docid);
+    assertEquals(0.0f, hits.get("query_text")[1].score, 10e-6);
+
+    assertEquals(1, hits.get("query_test").length);
+    assertEquals("doc3", hits.get("query_test")[0].docid);
+    assertEquals(2, hits.get("query_test")[0].lucene_docid);
+    assertEquals(0.31850f, hits.get("query_test")[0].score, 10e-6);
+
+    assertEquals(2, hits.get("query_more").length);
+    assertEquals("doc2", hits.get("query_more")[0].docid);
+    assertEquals(1, hits.get("query_more")[0].lucene_docid);
+    assertEquals(0.17770f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals("doc1", hits.get("query_more")[1].docid);
+    assertEquals(0, hits.get("query_more")[1].lucene_docid);
+    assertEquals(0.0f, hits.get("query_more")[1].score, 10e-6);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatchSearch5() throws Exception {
+    // This is the batch version of test case "testSearch5"; results should be the same.
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_rm3();
+
+    List<String> queries = new ArrayList<>();
+    queries.add("text");
+    queries.add("test");
+    queries.add("more");
+
+    List<String> qids = new ArrayList<>();
+    qids.add("query_text");
+    qids.add("query_test");
+    qids.add("query_more");
+
+    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
+    assertEquals(3, hits.size());
+
+    assertEquals(2, hits.get("query_text").length);
+    assertEquals("doc1", hits.get("query_text")[0].docid);
+    assertEquals(0, hits.get("query_text")[0].lucene_docid);
+    assertEquals(0.14420f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals("doc2", hits.get("query_text")[1].docid);
+    assertEquals(1, hits.get("query_text")[1].lucene_docid);
+    assertEquals(0.13660f, hits.get("query_text")[1].score, 10e-6);
+
+    assertEquals(1, hits.get("query_test").length);
+    assertEquals("doc3", hits.get("query_test")[0].docid);
+    assertEquals(2, hits.get("query_test")[0].lucene_docid);
+    assertEquals(0.28510f, hits.get("query_test")[0].score, 10e-5);
+
+    assertEquals(2, hits.get("query_more").length);
+    assertEquals("doc2", hits.get("query_more")[0].docid);
+    assertEquals(1, hits.get("query_more")[0].lucene_docid);
+    assertEquals(0.13660f, hits.get("query_more")[0].score, 10e-5);
+    assertEquals("doc1", hits.get("query_more")[1].docid);
+    assertEquals(0, hits.get("query_more")[1].lucene_docid);
+    assertEquals(0.10400f, hits.get("query_more")[1].score, 10e-5);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testBatchSearch6() throws Exception {
+    // This is the batch version of test case "testSearch6"; results should be the same.
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    searcher.set_rocchio();
+
+    List<String> queries = new ArrayList<>();
+    queries.add("text");
+    queries.add("test");
+    queries.add("more");
+
+    List<String> qids = new ArrayList<>();
+    qids.add("query_text");
+    qids.add("query_test");
+    qids.add("query_more");
+
+    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
+    assertEquals(3, hits.size());
+
+    assertEquals(2, hits.get("query_text").length);
+    assertEquals("doc1", hits.get("query_text")[0].docid);
+    assertEquals(0, hits.get("query_text")[0].lucene_docid);
+    assertEquals(0.28830f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals("doc2", hits.get("query_text")[1].docid);
+    assertEquals(1, hits.get("query_text")[1].lucene_docid);
+    assertEquals(0.27330f, hits.get("query_text")[1].score, 10e-6);
+
+    assertEquals(1, hits.get("query_test").length);
+    assertEquals("doc3", hits.get("query_test")[0].docid);
+    assertEquals(2, hits.get("query_test")[0].lucene_docid);
+    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-6);
+
+    assertEquals(2, hits.get("query_more").length);
+    assertEquals("doc2", hits.get("query_more")[0].docid);
+    assertEquals(1, hits.get("query_more")[0].lucene_docid);
+    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals("doc1", hits.get("query_more")[1].docid);
+    assertEquals(0, hits.get("query_more")[1].lucene_docid);
+    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-6);
 
     searcher.close();
   }
