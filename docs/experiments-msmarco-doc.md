@@ -286,3 +286,4 @@ That's it!
 + Results reproduced by [@Cath](https://github.com/Cathrineee) on 2023-01-14 (commit [`732cba4`](https://github.com/castorini/anserini/commit/732cba4775312f606888778d1e705e1ccea926df))
 + Results reproduced by [@dlrudwo1269](https://github.com/dlrudwo1269) on 2023-03-07 (commit [`4b7662c7`](https://github.com/castorini/anserini/commit/4b7662c7f154b9fbfe68aec9c371d8204d9ed31e))
 + Results reproduced by [@aryamancodes](https://github.com/aryamancodes) on 2023-04-11 (commit [`ed89401`](https://github.com/castorini/anserini/commit/ed894015977347e6e04363dea67d19e5474848ee))
++ Results reproduced by [@Jocn2020](https://github.com/Jocn2020) on 2023-04-30 (commit [`30269d6`](https://github.com/castorini/anserini/commit/30269d636a556174e3756fe59accab6c22a7c732))
