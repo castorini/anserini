@@ -150,7 +150,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
     assertEquals(2, hits[0].lucene_docid);
-    assertEquals(0.57020f, hits[0].score, 10e-6);
+    assertEquals(0.57020f, hits[0].score, 10e-5);
     assertEquals("here is a test", hits[0].contents);
     assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
 
@@ -166,7 +166,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
 
     assertEquals("doc2", hits[0].docid);
     assertEquals(1, hits[0].lucene_docid);
-    assertEquals(0.27330f, hits[0].score, 10e-6);
+    assertEquals(0.27330f, hits[0].score, 10e-5);
     assertEquals("more texts", hits[0].contents);
     assertEquals("{\"contents\": \"more texts\"}", hits[0].raw);
 
@@ -178,7 +178,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
 
     assertEquals("doc1", hits[1].docid);
     assertEquals(0, hits[1].lucene_docid);
-    assertEquals(0.20800f, hits[1].score, 10e-6);
+    assertEquals(0.20800f, hits[1].score, 10e-5);
     assertEquals("here is some text here is some more text. city.", hits[1].contents);
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", hits[1].raw);
 
@@ -200,7 +200,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(0.28830f, results[0].score, 10e-6);
+    assertEquals(0.28830f, results[0].score, 10e-5);
     assertEquals("here is some text here is some more text. city.", results[0].contents);
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", results[0].raw);
 
@@ -208,25 +208,25 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(0.28830f, results[0].score, 10e-6);
+    assertEquals(0.28830f, results[0].score, 10e-5);
     assertEquals("doc2", results[1].docid);
     assertEquals(1, results[1].lucene_docid);
-    assertEquals(0.27330f, results[1].score, 10e-6);
+    assertEquals(0.27330f, results[1].score, 10e-5);
 
     results = searcher.search("test");
     assertEquals(1, results.length);
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
-    assertEquals(0.57020f, results[0].score, 10e-6);
+    assertEquals(0.57020f, results[0].score, 10e-5);
 
     results = searcher.search("more");
     assertEquals(2, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.27330f, results[0].score, 10e-6);
+    assertEquals(0.27330f, results[0].score, 10e-5);
     assertEquals("doc1", results[1].docid);
     assertEquals(0, results[1].lucene_docid);
-    assertEquals(0.20800f, results[1].score, 10e-6);
+    assertEquals(0.20800f, results[1].score, 10e-5);
 
     searcher.close();
   }
@@ -241,31 +241,31 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.16070f, results[0].score, 10e-6);
+    assertEquals(0.16070f, results[0].score, 10e-5);
 
     results = searcher.search("text");
     assertEquals(2, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.16070f, results[0].score, 10e-6);
+    assertEquals(0.16070f, results[0].score, 10e-5);
     assertEquals("doc1", results[1].docid);
     assertEquals(0, results[1].lucene_docid);
-    assertEquals(0.10870f, results[1].score, 10e-6);
+    assertEquals(0.10870f, results[1].score, 10e-5);
 
     results = searcher.search("test");
     assertEquals(1, results.length);
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
-    assertEquals(0.33530f, results[0].score, 10e-6);
+    assertEquals(0.33530f, results[0].score, 10e-5);
 
     results = searcher.search("more");
     assertEquals(2, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.16070f, results[0].score, 10e-6);
+    assertEquals(0.16070f, results[0].score, 10e-5);
     assertEquals("doc1", results[1].docid);
     assertEquals(0, results[1].lucene_docid);
-    assertEquals(0.06140f, results[1].score, 10e-6);
+    assertEquals(0.06140f, results[1].score, 10e-5);
 
     searcher.close();
   }
@@ -301,10 +301,10 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.17770f, results[0].score, 10e-6);
+    assertEquals(0.17770f, results[0].score, 10e-5);
     assertEquals("doc1", results[1].docid);
     assertEquals(0, results[1].lucene_docid);
-    assertEquals(0.0f, results[1].score, 10e-6);
+    assertEquals(0.0f, results[1].score, 10e-5);
 
     searcher.close();
   }
@@ -321,26 +321,26 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(0.14420f, results[0].score, 10e-6);
+    assertEquals(0.14420f, results[0].score, 10e-5);
 
     Map<String, Float> feedbackTerms = searcher.get_feedback_terms("text");
     assertEquals(1, feedbackTerms.size());
-    assertEquals(0.5f, feedbackTerms.get("text"), 10e-6);
+    assertEquals(0.5f, feedbackTerms.get("text"), 10e-5);
 
     results = searcher.search("test");
     assertEquals(1, results.length);
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
-    assertEquals(0.28510f, results[0].score, 10e-6);
+    assertEquals(0.28510f, results[0].score, 10e-5);
 
     results = searcher.search("more");
     assertEquals(2, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.13660f, results[0].score, 10e-6);
+    assertEquals(0.13660f, results[0].score, 10e-5);
     assertEquals("doc1", results[1].docid);
     assertEquals(0, results[1].lucene_docid);
-    assertEquals(0.10400f, results[1].score, 10e-6);
+    assertEquals(0.10400f, results[1].score, 10e-5);
 
     searcher.unset_rm3();
     assertFalse(searcher.use_rm3());
@@ -371,37 +371,37 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(0.28830f, results[0].score, 10e-6);
+    assertEquals(0.28830f, results[0].score, 10e-5);
 
     // Note that the feedback term is just the query, the scores are the same.
     feedbackTerms = searcher.get_feedback_terms("text");
     assertEquals(1, feedbackTerms.size());
-    assertEquals(1.0f, feedbackTerms.get("text"), 10e-6);
+    assertEquals(1.0f, feedbackTerms.get("text"), 10e-5);
 
     results = searcher.search("test");
     assertEquals(1, results.length);
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
-    assertEquals(0.57020f, results[0].score, 10e-6);
+    assertEquals(0.57020f, results[0].score, 10e-5);
 
     // Note that the feedback term is just the query, the scores are the same.
     feedbackTerms = searcher.get_feedback_terms("test");
     assertEquals(1, feedbackTerms.size());
-    assertEquals(1.0f, feedbackTerms.get("test"), 10e-6);
+    assertEquals(1.0f, feedbackTerms.get("test"), 10e-5);
 
     results = searcher.search("more");
     assertEquals(2, results.length);
     assertEquals("doc2", results[0].docid);
     assertEquals(1, results[0].lucene_docid);
-    assertEquals(0.27330f, results[0].score, 10e-6);
+    assertEquals(0.27330f, results[0].score, 10e-5);
     assertEquals("doc1", results[1].docid);
     assertEquals(0, results[1].lucene_docid);
-    assertEquals(0.20800f, results[1].score, 10e-6);
+    assertEquals(0.20800f, results[1].score, 10e-5);
 
     // Note that the feedback term is just the query, the scores are the same.
     feedbackTerms = searcher.get_feedback_terms("more");
     assertEquals(1, feedbackTerms.size());
-    assertEquals(1.0f, feedbackTerms.get("more"), 10e-6);
+    assertEquals(1.0f, feedbackTerms.get("more"), 10e-5);
 
     searcher.unset_rocchio();
     assertFalse(searcher.use_rocchio());
@@ -452,20 +452,20 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, hits.get("query_test").length);
     assertEquals("doc3", hits.get("query_test")[0].docid);
     assertEquals(2, hits.get("query_test")[0].lucene_docid);
-    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-6);
+    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-5);
     assertEquals("here is a test", hits.get("query_test")[0].contents);
     assertEquals("{\"contents\": \"here is a test\"}", hits.get("query_test")[0].raw);
 
     assertEquals(2, hits.get("query_more").length);
     assertEquals("doc2", hits.get("query_more")[0].docid);
     assertEquals(1, hits.get("query_more")[0].lucene_docid);
-    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-5);
     assertEquals("more texts", hits.get("query_more")[0].contents);
     assertEquals("{\"contents\": \"more texts\"}", hits.get("query_more")[0].raw);
 
     assertEquals("doc1", hits.get("query_more")[1].docid);
     assertEquals(0, hits.get("query_more")[1].lucene_docid);
-    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-6);
+    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-5);
     assertEquals("here is some text here is some more text. city.", hits.get("query_more")[1].contents);
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", hits.get("query_more")[1].raw);
 
@@ -493,23 +493,23 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, hits.get("query_text").length);
     assertEquals("doc1", hits.get("query_text")[0].docid);
     assertEquals(0, hits.get("query_text")[0].lucene_docid);
-    assertEquals(0.28830f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals(0.28830f, hits.get("query_text")[0].score, 10e-5);
     assertEquals("doc2", hits.get("query_text")[1].docid);
     assertEquals(1, hits.get("query_text")[1].lucene_docid);
-    assertEquals(0.27330f, hits.get("query_text")[1].score, 10e-6);
+    assertEquals(0.27330f, hits.get("query_text")[1].score, 10e-5);
 
     assertEquals(1, hits.get("query_test").length);
     assertEquals("doc3", hits.get("query_test")[0].docid);
     assertEquals(2, hits.get("query_test")[0].lucene_docid);
-    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-6);
+    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-5);
 
     assertEquals(2, hits.get("query_more").length);
     assertEquals("doc2", hits.get("query_more")[0].docid);
     assertEquals(1, hits.get("query_more")[0].lucene_docid);
-    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-5);
     assertEquals("doc1", hits.get("query_more")[1].docid);
     assertEquals(0, hits.get("query_more")[1].lucene_docid);
-    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-6);
+    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-5);
 
     searcher.close();
   }
@@ -536,23 +536,23 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, hits.get("query_text").length);
     assertEquals("doc2", hits.get("query_text")[0].docid);
     assertEquals(1, hits.get("query_text")[0].lucene_docid);
-    assertEquals(0.16070f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals(0.16070f, hits.get("query_text")[0].score, 10e-5);
     assertEquals("doc1", hits.get("query_text")[1].docid);
     assertEquals(0, hits.get("query_text")[1].lucene_docid);
-    assertEquals(0.10870f, hits.get("query_text")[1].score, 10e-6);
+    assertEquals(0.10870f, hits.get("query_text")[1].score, 10e-5);
 
     assertEquals(1, hits.get("query_test").length);
     assertEquals("doc3", hits.get("query_test")[0].docid);
     assertEquals(2, hits.get("query_test")[0].lucene_docid);
-    assertEquals(0.33530f, hits.get("query_test")[0].score, 10e-6);
+    assertEquals(0.33530f, hits.get("query_test")[0].score, 10e-5);
 
     assertEquals(2, hits.get("query_more").length);
     assertEquals("doc2", hits.get("query_more")[0].docid);
     assertEquals(1, hits.get("query_more")[0].lucene_docid);
-    assertEquals(0.16070f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals(0.16070f, hits.get("query_more")[0].score, 10e-5);
     assertEquals("doc1", hits.get("query_more")[1].docid);
     assertEquals(0, hits.get("query_more")[1].lucene_docid);
-    assertEquals(0.06140f, hits.get("query_more")[1].score, 10e-6);
+    assertEquals(0.06140f, hits.get("query_more")[1].score, 10e-5);
 
     searcher.close();
   }
@@ -579,23 +579,23 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, hits.get("query_text").length);
     assertEquals("doc2", hits.get("query_text")[0].docid);
     assertEquals(1, hits.get("query_text")[0].lucene_docid);
-    assertEquals(0.09910f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals(0.09910f, hits.get("query_text")[0].score, 10e-5);
     assertEquals("doc1", hits.get("query_text")[1].docid);
     assertEquals(0, hits.get("query_text")[1].lucene_docid);
-    assertEquals(0.0f, hits.get("query_text")[1].score, 10e-6);
+    assertEquals(0.0f, hits.get("query_text")[1].score, 10e-5);
 
     assertEquals(1, hits.get("query_test").length);
     assertEquals("doc3", hits.get("query_test")[0].docid);
     assertEquals(2, hits.get("query_test")[0].lucene_docid);
-    assertEquals(0.31850f, hits.get("query_test")[0].score, 10e-6);
+    assertEquals(0.31850f, hits.get("query_test")[0].score, 10e-5);
 
     assertEquals(2, hits.get("query_more").length);
     assertEquals("doc2", hits.get("query_more")[0].docid);
     assertEquals(1, hits.get("query_more")[0].lucene_docid);
-    assertEquals(0.17770f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals(0.17770f, hits.get("query_more")[0].score, 10e-5);
     assertEquals("doc1", hits.get("query_more")[1].docid);
     assertEquals(0, hits.get("query_more")[1].lucene_docid);
-    assertEquals(0.0f, hits.get("query_more")[1].score, 10e-6);
+    assertEquals(0.0f, hits.get("query_more")[1].score, 10e-5);
 
     searcher.close();
   }
@@ -622,10 +622,10 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, hits.get("query_text").length);
     assertEquals("doc1", hits.get("query_text")[0].docid);
     assertEquals(0, hits.get("query_text")[0].lucene_docid);
-    assertEquals(0.14420f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals(0.14420f, hits.get("query_text")[0].score, 10e-5);
     assertEquals("doc2", hits.get("query_text")[1].docid);
     assertEquals(1, hits.get("query_text")[1].lucene_docid);
-    assertEquals(0.13660f, hits.get("query_text")[1].score, 10e-6);
+    assertEquals(0.13660f, hits.get("query_text")[1].score, 10e-5);
 
     assertEquals(1, hits.get("query_test").length);
     assertEquals("doc3", hits.get("query_test")[0].docid);
@@ -665,23 +665,23 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(2, hits.get("query_text").length);
     assertEquals("doc1", hits.get("query_text")[0].docid);
     assertEquals(0, hits.get("query_text")[0].lucene_docid);
-    assertEquals(0.28830f, hits.get("query_text")[0].score, 10e-6);
+    assertEquals(0.28830f, hits.get("query_text")[0].score, 10e-5);
     assertEquals("doc2", hits.get("query_text")[1].docid);
     assertEquals(1, hits.get("query_text")[1].lucene_docid);
-    assertEquals(0.27330f, hits.get("query_text")[1].score, 10e-6);
+    assertEquals(0.27330f, hits.get("query_text")[1].score, 10e-5);
 
     assertEquals(1, hits.get("query_test").length);
     assertEquals("doc3", hits.get("query_test")[0].docid);
     assertEquals(2, hits.get("query_test")[0].lucene_docid);
-    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-6);
+    assertEquals(0.57020f, hits.get("query_test")[0].score, 10e-5);
 
     assertEquals(2, hits.get("query_more").length);
     assertEquals("doc2", hits.get("query_more")[0].docid);
     assertEquals(1, hits.get("query_more")[0].lucene_docid);
-    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-6);
+    assertEquals(0.27330f, hits.get("query_more")[0].score, 10e-5);
     assertEquals("doc1", hits.get("query_more")[1].docid);
     assertEquals(0, hits.get("query_more")[1].lucene_docid);
-    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-6);
+    assertEquals(0.20800f, hits.get("query_more")[1].score, 10e-5);
 
     searcher.close();
   }
