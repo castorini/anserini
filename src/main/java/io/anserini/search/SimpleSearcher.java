@@ -276,14 +276,14 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Enables RM3 query expansion with specified parameters.
+   * Enables RM3 query expansion with default parameters.
    *
-   * @param fbTerms number of expansion terms
-   * @param fbDocs number of expansion documents
-   * @param originalQueryWeight weight to assign to the original query
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
    */
-  public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight) {
-    set_rm3(fbTerms, fbDocs, originalQueryWeight, false, true);
+  public void set_rm3(String collectionClass) {
+    SearchCollection.Args defaults = new SearchCollection.Args();
+    set_rm3(collectionClass, Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
+        Float.parseFloat(defaults.rm3_originalQueryWeight[0]));
   }
 
   /**
@@ -292,13 +292,46 @@ public class SimpleSearcher implements Closeable {
    * @param fbTerms number of expansion terms
    * @param fbDocs number of expansion documents
    * @param originalQueryWeight weight to assign to the original query
+   */
+  public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight) {
+    set_rm3(null, fbTerms, fbDocs, originalQueryWeight, false, true);
+  }
+
+  /**
+   * Enables RM3 query expansion with specified parameters.
+   *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
+   * @param fbTerms number of expansion terms
+   * @param fbDocs number of expansion documents
+   * @param originalQueryWeight weight to assign to the original query
+   */
+  public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight) {
+    set_rm3(collectionClass, fbTerms, fbDocs, originalQueryWeight, false, true);
+  }
+
+  /**
+   * Enables RM3 query expansion with specified parameters.
+   *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
+   * @param fbTerms number of expansion terms
+   * @param fbDocs number of expansion documents
+   * @param originalQueryWeight weight to assign to the original query
    * @param outputQuery flag to print original and expanded queries
    * @param filterTerms whether to filter terms to be English only
    */
-  public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
+  public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
+    Class clazz = null;
+    try {
+      if (collectionClass != null) {
+        clazz = Class.forName("io.anserini.collection." + collectionClass);
+      }
+    } catch (ClassNotFoundException e) {
+      LOG.error("collectionClass: " + collectionClass + " not found!");
+    }
+
     useRM3 = true;
     cascade = new RerankerCascade("rm3");
-    cascade.add(new Rm3Reranker(this.analyzer, null, Constants.CONTENTS,
+    cascade.add(new Rm3Reranker(this.analyzer, clazz, Constants.CONTENTS,
         fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -326,7 +359,20 @@ public class SimpleSearcher implements Closeable {
    */
   public void set_rocchio() {
     SearchCollection.Args defaults = new SearchCollection.Args();
-    set_rocchio(Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
+    set_rocchio(null, Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
+        Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
+        Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]),
+        Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
+  }
+
+  /**
+   * Enables Rocchio query expansion with default parameters.
+   *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
+   */
+  public void set_rocchio(String collectionClass) {
+    SearchCollection.Args defaults = new SearchCollection.Args();
+    set_rocchio(collectionClass, Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
         Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
         Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]),
         Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
@@ -335,6 +381,7 @@ public class SimpleSearcher implements Closeable {
   /**
    * Enables Rocchio query expansion with specified parameters.
    *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
    * @param topFbTerms number of relevant expansion terms
    * @param topFbDocs number of relevant expansion documents
    * @param bottomFbTerms number of nonrelevant expansion terms
@@ -344,10 +391,19 @@ public class SimpleSearcher implements Closeable {
    * @param gamma weight to assign to the nonrelevant document vectors
    * @param outputQuery flag to print original and expanded queries
    */
-  public void set_rocchio(int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+  public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+    Class clazz = null;
+    try {
+      if (collectionClass != null) {
+        clazz = Class.forName("io.anserini.collection." + collectionClass);
+      }
+    } catch (ClassNotFoundException e) {
+      LOG.error("collectionClass: " + collectionClass + " not found!");
+    }
+
     useRocchio = true;
     cascade = new RerankerCascade("rocchio");
-    cascade.add(new RocchioReranker(this.analyzer, null, Constants.CONTENTS,
+    cascade.add(new RocchioReranker(this.analyzer, clazz, Constants.CONTENTS,
         topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
