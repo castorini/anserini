@@ -68,9 +68,9 @@ public class HuggingFaceTokenizerAnalyzer extends Analyzer {
   
   /**
    * Tokenizes a String Object
-   * @param reader
-   * @return
-   * @throws IOException
+   * @param reader String Object
+   * @return Reader
+   * @throws IOException IOException
    */
   public Reader tokenizeReader(Reader reader) throws IOException {
     String targetString = IOUtils.toString(reader);

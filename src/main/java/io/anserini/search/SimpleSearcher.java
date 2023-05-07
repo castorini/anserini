@@ -390,6 +390,7 @@ public class SimpleSearcher implements Closeable {
    * @param beta weight to assign to the relevant document vectors
    * @param gamma weight to assign to the nonrelevant document vectors
    * @param outputQuery flag to print original and expanded queries
+   * @param useNegative flag to use negative feedback
    */
   public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     Class clazz = null;
@@ -797,6 +798,7 @@ public class SimpleSearcher implements Closeable {
    * Batch version of {@link #doc(String)}.
    *
    * @param docids list of docids
+   * @param threads number of threads to use
    * @return a map of docid to corresponding Lucene {@link Document}
    */
   public Map<String, Document> batch_get_docs(List<String> docids, int threads) {

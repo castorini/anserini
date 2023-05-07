@@ -106,7 +106,7 @@ public class SimpleImpactSearcher implements Closeable {
     Path indexPath = Paths.get(indexDir);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
+      throw new IOException(indexDir + " does not exist or is not a directory.");
     }
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
@@ -126,9 +126,7 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Sets the query encoder
    * 
-   * @param queryEncoder the query encoder
-   * @throws IOException if errors encountered during initialization
-   * @return the query encoder
+   * @param encoder the query encoder
    */
   public void set_onnxQueryEncoder(String encoder) {
     if (empty_encoder()) {
@@ -235,6 +233,7 @@ public class SimpleImpactSearcher implements Closeable {
    * Encodes the query using the onnx encoder
    * 
    * @param queryString query string
+   * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
   public Map<String, Float> encode_with_onnx(String queryString) throws OrtException {
