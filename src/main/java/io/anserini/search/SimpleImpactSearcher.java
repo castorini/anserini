@@ -23,6 +23,7 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.QueryEncoder;
 import io.anserini.search.similarity.ImpactSimilarity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,11 +39,14 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 
+import ai.onnxruntime.OrtException;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionException;
@@ -66,7 +70,7 @@ public class SimpleImpactSearcher implements Closeable {
   protected RerankerCascade cascade;
   protected IndexSearcher searcher = null;
   protected boolean backwardsCompatibilityLucene8;
-
+  private QueryEncoder queryEncoder = null;
   /**
    * This class is meant to serve as the bridge between Anserini and Pyserini.
    * Note that we are adopting Python naming conventions here on purpose.
@@ -118,6 +122,29 @@ public class SimpleImpactSearcher implements Closeable {
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
+
+  /**
+   * Sets the query encoder
+   * 
+   * @param queryEncoder the query encoder
+   * @throws IOException if errors encountered during initialization
+   * @return the query encoder
+   */
+  public void set_onnxQueryEncoder(String encoder) {
+    if (empty_encoder()) {
+      try {
+        this.queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + encoder + "QueryEncoder")
+      .getConstructor().newInstance();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    }  
+  }
+
+  private boolean empty_encoder(){
+    return this.queryEncoder == null;
+  }
+
 
   /**
    * Returns the number of documents in the index.
@@ -205,6 +232,18 @@ public class SimpleImpactSearcher implements Closeable {
   }
 
   /**
+   * Encodes the query using the onnx encoder
+   * 
+   * @param queryString query string
+   * @return encoded query
+   */
+  public Map<String, Float> encode_with_onnx(String queryString) throws OrtException {
+    Map<String, Float> encodedQ = this.queryEncoder.getTokenWeightMap(queryString);
+    return encodedQ;
+  }
+
+
+  /**
    * Searches the collection, returning 10 hits by default.
    *
    * @param q query
@@ -225,7 +264,6 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public Result[] search(Map<String, Float> q, int k) throws IOException {
     Query query = generator.buildQuery(Constants.CONTENTS, q);
-
     return _search(query, k);
   }
 

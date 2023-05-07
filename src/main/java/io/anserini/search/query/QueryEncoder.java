@@ -87,4 +87,6 @@ public abstract class QueryEncoder {
     return tokenWeightMap;
   }
 
+  public abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
+
 }
