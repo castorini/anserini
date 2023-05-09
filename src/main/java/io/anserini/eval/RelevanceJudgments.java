@@ -129,7 +129,7 @@ public class RelevanceJudgments {
    * 
    * @param qrelsPath path to qrels file
    * @return qrels file as a string
-   * @throws IOException
+   * @throws IOException if qrels file is not found
    */
   public static String getQrelsResource(Path qrelsPath) throws IOException {
     Path resultPath = qrelsPath;
@@ -181,7 +181,7 @@ public class RelevanceJudgments {
    * 
    * @param qrelsPath path to qrels file
    * @return path to qrels file
-   * @throws IOException
+   * @throws IOException if qrels file is not found
    */
   public static Path downloadQrels(Path qrelsPath) throws IOException {
     String qrelsURL = CLOUD_PATH + qrelsPath.getFileName().toString().toString();

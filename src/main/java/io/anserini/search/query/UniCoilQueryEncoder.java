@@ -41,22 +41,8 @@ public class UniCoilQueryEncoder extends QueryEncoder {
   @Override
   public String encode(String query) throws OrtException {
     String encodedQuery = "";
-    List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
-    queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
-
-    Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab);
-    long[][] inputTokenIds = new long[1][queryTokenIds.length];
-    inputTokenIds[0] = queryTokenIds;
-    inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
-
-    try (OrtSession.Result results = session.run(inputs)) {
-      float[] computedWeights = flatten(results.get(0).getValue());
-      Map<String, Float> tokenWeightMap = getTokenWeightMap(queryTokens, computedWeights);
-      encodedQuery = generateEncodedQuery(tokenWeightMap);
-    }
+    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
+    encodedQuery = generateEncodedQuery(tokenWeightMap);
     return encodedQuery;
   }
 
@@ -81,7 +67,7 @@ public class UniCoilQueryEncoder extends QueryEncoder {
     return output;
   }
 
-  Map<String, Float> getTokenWeightMap(List<String> tokens, float[] computedWeights) {
+  private Map<String, Float> getTokenWeightMap(List<String> tokens, float[] computedWeights) {
     Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
     for (int i = 0; i < tokens.size(); ++i) {
       String token = tokens.get(i);
@@ -96,6 +82,29 @@ public class UniCoilQueryEncoder extends QueryEncoder {
       } else {
         tokenWeightMap.put(token, tokenWeight);
       }
+    }
+    return tokenWeightMap;
+  }
+
+  @Override
+  public Map<String, Float> getTokenWeightMap(String query) throws OrtException {
+    List<String> queryTokens = new ArrayList<>();
+    queryTokens.add("[CLS]");
+    queryTokens.addAll(tokenizer.tokenize(query));
+    queryTokens.add("[SEP]");
+
+    Map<String, OnnxTensor> inputs = new HashMap<>();
+    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab);
+    long[][] inputTokenIds = new long[1][queryTokenIds.length];
+    inputTokenIds[0] = queryTokenIds;
+    inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
+
+    Map<String, Float> tokenWeightMap = null;
+    try (OrtSession.Result results = session.run(inputs)) {
+      float[] computedWeights = flatten(results.get(0).getValue());
+      tokenWeightMap = getTokenWeightMap(queryTokens, computedWeights);
+    } catch (OrtException e) {
+      e.printStackTrace();
     }
     return tokenWeightMap;
   }

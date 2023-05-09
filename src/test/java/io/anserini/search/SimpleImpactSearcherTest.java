@@ -25,6 +25,15 @@ import java.util.List;
 import java.util.Map;
 
 public class SimpleImpactSearcherTest extends IndexerTestBase {
+
+  private static Map<String, Float> EXPECTED_ENCODED_QUERY = new HashMap<>();
+
+  static {
+    EXPECTED_ENCODED_QUERY.put("here", 3.05345f);
+    EXPECTED_ENCODED_QUERY.put("a", 0.59636426f);
+    EXPECTED_ENCODED_QUERY.put("test", 2.9012794f);
+  }
+
   @Test
   public void testGetDoc() throws Exception {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
@@ -194,5 +203,16 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
   public void testTotalNumDocuments() throws Exception {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
     assertEquals(3 ,searcher.get_total_num_docs());
+  }
+
+  @Test
+  public void testOnnxEncoder() throws Exception{
+    SimpleImpactSearcher searcher = new SimpleImpactSearcher();
+    searcher.set_onnx_query_encoder("SpladePlusPlusEnsembleDistil");
+
+    Map<String, Float> encoded_query = searcher.encode_with_onnx("here is a test");
+    assertEquals(encoded_query.get("here"), EXPECTED_ENCODED_QUERY.get("here"));
+    assertEquals(encoded_query.get("a"), EXPECTED_ENCODED_QUERY.get("a"));
+    assertEquals(encoded_query.get("test"), EXPECTED_ENCODED_QUERY.get("test"));
   }
 }

@@ -41,7 +41,12 @@ public class SpladePlusPlusSelfDistilQueryEncoder extends QueryEncoder {
 
   @Override
   public String encode(String query) throws OrtException {
-    String encodedQuery = "";
+    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
+    return generateEncodedQuery(tokenWeightMap);
+  }
+
+  @Override
+  public Map<String, Float> getTokenWeightMap(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
     queryTokens.add("[CLS]");
     queryTokens.addAll(tokenizer.tokenize(query));
@@ -60,14 +65,15 @@ public class SpladePlusPlusSelfDistilQueryEncoder extends QueryEncoder {
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
     inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
     inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
-
+    Map<String, Float> tokenWeightMap = null;
     try (OrtSession.Result results = session.run(inputs)) {
       long[] indexes = (long[]) results.get("output_idx").get().getValue();
       float[] weights = (float[]) results.get("output_weights").get().getValue();
-      Map<String, Float> tokenWeightMap = getTokenWeightMap(indexes, weights, vocab);
-      encodedQuery = generateEncodedQuery(tokenWeightMap);
+      tokenWeightMap = getTokenWeightMap(indexes, weights, vocab);
+    } catch (OrtException e) {
+      e.printStackTrace();
     }
-    return encodedQuery;
+    return tokenWeightMap;
   }
 
 }
