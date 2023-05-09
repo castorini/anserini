@@ -116,6 +116,7 @@ public abstract class TopicReader<K> {
    *
    * @param topics topics
    * @param <K> type of topic id
+   * @throws IOException if error encountered reading topics
    * @return evaluation topics
    */
   @SuppressWarnings("unchecked")
@@ -171,7 +172,7 @@ public abstract class TopicReader<K> {
    *
    * @param topics topics
    * @return evaluation topics, with strings as topic ids
-   * @throws IOException
+   * @throws IOException if error encountered reading topics
    */
   public static Map<String, Map<String, String>> getTopicsWithStringIds(Topics topics) throws IOException {
     SortedMap<?, Map<String, String>> originalTopics = getTopics(topics);
@@ -226,9 +227,9 @@ public abstract class TopicReader<K> {
 
   /**
    * Downloads the topics from the cloud and returns the path to the local copy
-   * @param topicPath
+   * @param topicPath Path to the topics
    * @return Path to the local copy of the topics
-   * @throws IOException
+   * @throws IOException if error encountered downloading topics
    */
   public static Path getTopicsFromCloud(Path topicPath) throws IOException{
     String topicURL = CLOUD_PATH + topicPath.getFileName().toString();
@@ -249,9 +250,9 @@ public abstract class TopicReader<K> {
 
   /**
    * Returns the path to the topic file. If the topic file is not in the list of known topics, we assume it is a local file.
-   * @param topicPath
-   * @return
-   * @throws IOException
+   * @param topicPath Path to the topic file
+   * @return Path to the topic file
+   * @throws IOException if error encountered reading topics
    */
   public static Path getTopicPath(Path topicPath) throws IOException{
     if (Files.exists(topicPath)) {
