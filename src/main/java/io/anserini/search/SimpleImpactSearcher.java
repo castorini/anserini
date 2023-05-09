@@ -128,11 +128,11 @@ public class SimpleImpactSearcher implements Closeable {
    * 
    * @param encoder the query encoder
    */
-  public void set_onnxQueryEncoder(String encoder) {
+  public void set_onnx_query_encoder(String encoder) {
     if (empty_encoder()) {
       try {
         this.queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + encoder + "QueryEncoder")
-      .getConstructor().newInstance();
+          .getConstructor().newInstance();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }

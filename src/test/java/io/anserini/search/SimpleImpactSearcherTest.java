@@ -208,7 +208,7 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
   @Test
   public void testOnnxEncoder() throws Exception{
     SimpleImpactSearcher searcher = new SimpleImpactSearcher();
-    searcher.set_onnxQueryEncoder("SpladePlusPlusEnsembleDistil");
+    searcher.set_onnx_query_encoder("SpladePlusPlusEnsembleDistil");
 
     Map<String, Float> encoded_query = searcher.encode_with_onnx("here is a test");
     assertEquals(encoded_query.get("here"), EXPECTED_ENCODED_QUERY.get("here"));
