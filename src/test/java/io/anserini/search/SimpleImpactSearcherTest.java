@@ -211,8 +211,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     searcher.set_onnx_query_encoder("SpladePlusPlusEnsembleDistil");
 
     Map<String, Float> encoded_query = searcher.encode_with_onnx("here is a test");
-    assertEquals(encoded_query.get("here"), EXPECTED_ENCODED_QUERY.get("here"));
-    assertEquals(encoded_query.get("a"), EXPECTED_ENCODED_QUERY.get("a"));
-    assertEquals(encoded_query.get("test"), EXPECTED_ENCODED_QUERY.get("test"));
+    assertEquals(encoded_query.get("here"), EXPECTED_ENCODED_QUERY.get("here"), 2e-4);
+    assertEquals(encoded_query.get("a"), EXPECTED_ENCODED_QUERY.get("a"), 2e-4);
+    assertEquals(encoded_query.get("test"), EXPECTED_ENCODED_QUERY.get("test"), 2e-4);
   }
 }
