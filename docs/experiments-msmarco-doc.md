@@ -286,4 +286,4 @@ That's it!
 - Results reproduced by [@aryamancodes](https://github.com/aryamancodes) on 2023-04-11 (commit [`ed89401`](https://github.com/castorini/anserini/commit/ed894015977347e6e04363dea67d19e5474848ee))
 - Results reproduced by [@Jocn2020](https://github.com/Jocn2020) on 2023-04-30 (commit [`30269d6`](https://github.com/castorini/anserini/commit/30269d636a556174e3756fe59accab6c22a7c732))
 
-* Results reproduced by [@Singularity-tian](https://github.com/Singularity-tian) on 2023-05-12 (commit [``]())
+* Results reproduced by [@Singularity-tian](https://github.com/Singularity-tian) on 2023-05-12 (commit [`e656d34`](https://github.com/castorini/anserini/commit/e656d3481f982065cbf075333ea39eed422e4e2d))
