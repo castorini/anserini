@@ -1,12 +1,12 @@
 ---
-corpus: msmarco-v2-passage-splade-pp-ed
-corpus_path: collections/msmarco/msmarco_v2_passage_splade_pp_ed/
+corpus: msmarco-v2-passage-splade-pp-sd
+corpus_path: collections/msmarco/msmarco_v2_passage_splade_pp_sd/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_ed.tar
-download_checksum: 2cdb2adc259b8fa6caf666b20ebdc0e8
-download_corpus: msmarco_v2_passage_splade_pp_ed
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_sd.tar
+download_checksum: 061930dd615c7c807323ea7fc7957877
+download_corpus: msmarco_v2_passage_splade_pp_sd
 
-index_path: indexes/lucene-index.msmarco-v2-passage-splade-pp-ed/
+index_path: indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 24
@@ -14,7 +14,7 @@ index_options: -impact -pretokenized -storeRaw
 index_stats:
   documents: 138364198
   documents (non-empty): 138364198
-  total terms: 861058871141
+  total terms: 907527565158
 
 metrics:
   - metric: MAP@100
@@ -57,12 +57,12 @@ topic_reader: TsvInt
 topics:
   - name: "[DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl22
-    path: topics.dl22.splade-pp-ed.tsv.gz
+    path: topics.dl22.splade-pp-sd.tsv.gz
     qrel: qrels.dl22-passage.txt
 
 models:
-  - name: splade-pp-ed
-    display: SPLADE++ CoCondenser-EnsembleDistil
+  - name: splade-pp-sd
+    display: SPLADE++ CoCondenser-SelfDistil
     params: -parallelism 16 -impact -pretokenized
     results:
       MAP@100:
@@ -75,7 +75,7 @@ models:
         - 0.3742
       R@1000:
         - 0.6629
-  - name: splade-pp-ed+rm3
+  - name: splade-pp-sd+rm3
     display: +RM3
     params: -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection
     results:
@@ -89,7 +89,7 @@ models:
         - 0.3561
       R@1000:
         - 0.6367
-  - name: splade-pp-ed+rocchio
+  - name: splade-pp-sd+rocchio
     display: +Rocchio
     params: -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection
     results:
