@@ -1,0 +1,88 @@
+# Anserini Regressions: MS MARCO (V2) Passage Ranking
+
+**Model**: SPLADE++ CoCondenser-EnsembleDistil
+
+This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model on MS MARCO (V2) Passage Corpus.
+Here, we evaluate on the dev/dev2 queries.
+
+ The model can be described in the following paper:
+
+> Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
+We make available a version of the MS MARCO passage corpus that has already been encoded with SPLADE++ CoCondenser-EnsembleDistil.
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression ${test_name}
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
+
+Download the corpus and unpack into `collections/`:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_ed.tar -P collections/
+tar xvf collections/msmarco_v2_passage_splade_pp_ed.tar -C collections/
+```
+
+To confirm, `msmarco_v2_passage_splade_pp_ed.tar` is 66 GB and has MD5 checksum `2cdb2adc259b8fa6caf666b20ebdc0e8`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
+  --corpus-path collections/${corpus}
+```
+
+## Indexing
+
+Sample indexing command:
+
+```bash
+${index_cmds}
+```
+
+The path `/path/to/${corpus}/` should point to the corpus downloaded above.
+
+The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doc lengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
+Upon completion, we should have an index with 8,841,823 documents.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```bash
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```bash
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
