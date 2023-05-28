@@ -43,7 +43,7 @@ With the corpus downloaded, the following command will perform the remaining ste
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-splade-pp-ed \
-  --corpus-path collections/msmarco-v2-passage-splade-pp-ed
+  --corpus-path collections/msmarco_v2_passage_splade_pp_ed
 ```
 
 ## Indexing

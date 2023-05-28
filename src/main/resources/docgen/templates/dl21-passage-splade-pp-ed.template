@@ -43,7 +43,7 @@ With the corpus downloaded, the following command will perform the remaining ste
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
-  --corpus-path collections/${corpus}
+  --corpus-path collections/${download_corpus}
 ```
 
 ## Indexing
