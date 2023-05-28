@@ -2,8 +2,8 @@
 
 **Model**: SPLADE++ CoCondenser-SelfDistil
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model on MS MARCO (V2) Passage Corpus.
-Here, we evaluate on the dev/dev2 queries.
+This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model to the MS MARCO V2 Passage Corpus.
+Here, we evaluate on the dev queries.
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
@@ -16,7 +16,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-splade-pp-sd
 ```
 
-We make available a version of the MS MARCO passage corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
+We make available a version of the corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
