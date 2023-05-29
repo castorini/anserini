@@ -20,7 +20,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-sd
 ```
 
-We make available a version of the MS MARCO passage corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
+We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 

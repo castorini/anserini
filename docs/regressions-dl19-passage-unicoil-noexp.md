@@ -22,7 +22,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-unicoil-noexp
 ```
 
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., we have performed model inference on every document and stored the output sparse vectors.
+We make available a version of the MS MARCO Passage Corpus that has already been processed with uniCOIL, i.e., we have performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is involved.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
