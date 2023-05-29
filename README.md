@@ -78,7 +78,9 @@ See individual pages for details!
 | SPLADEv2                                    |       [✓](docs/regressions-msmarco-passage-distill-splade-max.md)        |                                                                       |                                                                       |
 | SPLADE-distill CoCodenser-medium            | [✓](docs/regressions-msmarco-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl19-passage-splade-distil-cocodenser-medium.md) | [✓](docs/regressions-dl20-passage-splade-distil-cocodenser-medium.md) |
 | SPLADE++ CoCondenser-EnsembleDistil         |          [✓](docs/regressions-msmarco-passage-splade-pp-ed.md)           |          [✓](docs/regressions-dl19-passage-splade-pp-ed.md)           |          [✓](docs/regressions-dl20-passage-splade-pp-ed.md)           |
+| SPLADE++ CoCondenser-EnsembleDistil (ONNX)  |        [✓](docs/regressions-msmarco-passage-splade-pp-ed-onnx.md)        |        [✓](docs/regressions-dl19-passage-splade-pp-ed-onnx.md)        |        [✓](docs/regressions-dl20-passage-splade-pp-ed-onnx.md)        |
 | SPLADE++ CoCondenser-SelfDistil             |          [✓](docs/regressions-msmarco-passage-splade-pp-sd.md)           |          [✓](docs/regressions-dl19-passage-splade-pp-sd.md)           |          [✓](docs/regressions-dl20-passage-splade-pp-sd.md)           |
+| SPLADE++ CoCondenser-SelfDistil (ONNX)      |        [✓](docs/regressions-msmarco-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions-dl19-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions-dl20-passage-splade-pp-sd-onnx.md)        |
 
 ### Available Corpora for Download
 
