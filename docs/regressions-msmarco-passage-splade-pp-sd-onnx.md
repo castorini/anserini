@@ -1,20 +1,20 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: SPLADE++ CoCondenser-SelfDistil (using pre-encoded queries)
+**Model**: SPLADE++ CoCondenser-SelfDistil (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), as described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are using ONNX to perform query encoding on the fly.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-splade-pp-sd.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-splade-pp-sd-onnx.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd-onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
@@ -22,7 +22,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-splade-pp-sd
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -40,7 +40,7 @@ To confirm, `msmarco-passage-splade-pp-sd.tar` is 4.8 GB and has MD5 checksum `c
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd \
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx \
   --corpus-path collections/msmarco-passage-splade-pp-sd
 ```
 
@@ -106,6 +106,4 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd.template) and run `bin/build.sh` to rebuild the documentation.
-
-+ Results reproduced by [@justram](https://github.com/justram) on 2023-03-08 (commit [`03f95a8`](https://github.com/castorini/anserini/commit/03f95a8e1ae09ab09efe046bfcbd3a4cdda691b4))
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd-onnx.template) and run `bin/build.sh` to rebuild the documentation.
