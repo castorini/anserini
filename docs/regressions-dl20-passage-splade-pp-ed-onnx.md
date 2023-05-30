@@ -1,23 +1,23 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: SPLADE++ CoCondenser-EnsembleDistil (using pre-encoded queries)
+**Model**: SPLADE++ CoCondenser-EnsembleDistil (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are using ONNX to perform query encoding on the fly.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-passage-splade-pp-ed.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-ed.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-passage-splade-pp-ed-onnx.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-ed-onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-ed
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-ed-onnx
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE++ CoCondenser-EnsembleDistil.
@@ -25,7 +25,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage-splade-pp-ed
+python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage-splade-pp-ed-onnx
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -43,7 +43,7 @@ To confirm, `msmarco-passage-splade-pp-ed.tar` is 4.2 GB and has MD5 checksum `e
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-ed \
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-ed-onnx \
   --corpus-path collections/msmarco-passage-splade-pp-ed
 ```
 
@@ -79,43 +79,43 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.splade-pp-ed.txt \
-  -impact -pretokenized &
+  -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.txt \
+  -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.splade-pp-ed.txt \
-  -impact -pretokenized -rm3 &
+  -output runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.txt \
+  -impact -pretokenized -rm3 -encoder SpladePlusPlusEnsembleDistil &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.splade-pp-ed.txt \
-  -impact -pretokenized -rocchio &
+  -output runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.txt \
+  -impact -pretokenized -rocchio -encoder SpladePlusPlusEnsembleDistil &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl20.txt
 ```
 
 ## Effectiveness
@@ -124,13 +124,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5001    | 0.5096    | 0.5084    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4999    | 0.5098    | 0.5084    |
 | **nDCG@10**                                                                                                  | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7198    | 0.7131    | 0.7280    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7197    | 0.7145    | 0.7280    |
 | **R@100**                                                                                                    | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7653    | 0.7553    | 0.7704    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7653    | 0.7555    | 0.7704    |
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8995    | 0.9046    | 0.9069    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8998    | 0.9046    | 0.9069    |
 
 Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
@@ -138,6 +138,4 @@ The experimental results reported here are directly comparable to the results re
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-ed.template) and run `bin/build.sh` to rebuild the documentation.
-
-+ Results reproduced by [@justram](https://github.com/justram) on 2023-03-08 (commit [`03f95a8`](https://github.com/castorini/anserini/commit/03f95a8e1ae09ab09efe046bfcbd3a4cdda691b4))
+To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-ed-onnx.template) and run `bin/build.sh` to rebuild the documentation.
