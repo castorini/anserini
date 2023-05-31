@@ -2,7 +2,7 @@
 
 **Models**: BM25 with doc2query-T5 expansions on augmented passages
 
-This page describes regression experiments for passage ranking _on the augmented version_ of the MS MARCO (V2) passage corpus using the dev queries, which is integrated into Anserini's regression testing framework.
+This page describes regression experiments for passage ranking _on the augmented version_ of the MS MARCO V2 Passage Corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we expand the augmented passage corpus with doc2query-T5.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-passage-augmented-d2q-t5.yaml).
