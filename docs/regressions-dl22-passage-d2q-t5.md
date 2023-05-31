@@ -2,10 +2,10 @@
 
 **Models**: BM25 with doc2query-T5 expansions on original passages
 
-This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, on the TREC 2022 Deep Learning Track passage ranking task using the MS MARCO V2 passage collection.
+This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2 Passage Corpus.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO V2 passage collection, refer to [this page](experiments-msmarco-v2.md).
+For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl22-passage-d2q-t5.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl22-passage-d2q-t5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -38,11 +38,7 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
-The regression experiments here evaluate on the 76 topics for which NIST has provided judgments as part of the TREC 2022 Deep Learning Track.
-
-<!-- update link once data becomes public
-The original data can be found [here](https://trec.nist.gov/data/deep2022.html).
--->
+The regression experiments here evaluate on the 76 topics for which NIST has provided judgments as part of the [TREC 2022 Deep Learning Track](https://trec.nist.gov/data/deep2022.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

@@ -1,13 +1,11 @@
 # Anserini Regressions: TREC 2021 Deep Learning Track (Passage)
 
-**Model**: uniCOIL (with doc2query-T5 expansions) zero-shot
+**Model**: SPLADE++ CoCondenser-EnsembleDistil
 
 This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 Passage Corpus.
-Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with doc2query-T5 expansions.
+Here, we cover experiments with the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model, described in the following paper:
 
-The uniCOIL model is described in the following paper:
-
-> Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
+> Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](experiments-msmarco-v2.md).
@@ -21,8 +19,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., we have applied doc2query-T5 expansions, performed model inference on every document, and stored the output sparse vectors.
-Thus, no neural inference is involved.
+We make available a version of the corpus that has already been encoded with SPLADE++ CoCondenser-EnsembleDistil.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -34,25 +31,19 @@ The `run_regression.py` script automates the following steps, but if you want to
 
 ## Corpus Download
 
-Download, unpack, and prepare the corpus:
+Download the corpus and unpack into `collections/`:
 
 ```bash
-# Download
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar -P collections/
-
-# Unpack
-tar -xvf collections/msmarco_v2_passage_unicoil_0shot.tar -C collections/
-
-# Rename (indexer is expecting corpus under a slightly different name)
-mv collections/msmarco_v2_passage_unicoil_0shot collections/msmarco-v2-passage-unicoil-0shot
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_ed.tar -P collections/
+tar xvf collections/msmarco_v2_passage_splade_pp_ed.tar -C collections/
 ```
 
-To confirm, `msmarco_v2_passage_unicoil_0shot.tar` is 41 GB and has an MD5 checksum of `1949a00bfd5e1f1a230a04bbc1f01539`.
+To confirm, `msmarco_v2_passage_splade_pp_ed.tar` is 66 GB and has MD5 checksum `2cdb2adc259b8fa6caf666b20ebdc0e8`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
-  --corpus-path collections/${corpus}
+  --corpus-path collections/${download_corpus}
 ```
 
 ## Indexing
@@ -94,11 +85,6 @@ With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-This run roughly corresponds to run `d_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
-The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
-
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
-
-+ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))
