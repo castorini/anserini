@@ -145,6 +145,8 @@ public enum Topics {
   DPR_TRIVIA_TEST_GART5_TITLES(TsvIntTopicReader.class, "topics.dpr.trivia.test.gar-t5.titles.tsv"),
   DPR_TRIVIA_TEST_GART5_SENTENCES(TsvIntTopicReader.class, "topics.dpr.trivia.test.gar-t5.sentences.tsv"),
   DPR_TRIVIA_TEST_GART5_ALL(TsvIntTopicReader.class, "topics.dpr.trivia.test.gar-t5.all.tsv"),
+
+  // Mr.TyDi queries
   MRTYDI_V11_AR_TRAIN(TsvIntTopicReader.class, "topics.mrtydi-v1.1-ar.train.txt.gz"),
   MRTYDI_V11_AR_DEV(TsvIntTopicReader.class, "topics.mrtydi-v1.1-ar.dev.txt.gz"),
   MRTYDI_V11_AR_TEST(TsvIntTopicReader.class, "topics.mrtydi-v1.1-ar.test.txt.gz"),
