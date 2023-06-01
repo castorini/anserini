@@ -139,3 +139,5 @@ The experimental results reported here are directly comparable to the results re
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-ed-onnx.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@cadurosar](https://github.com/cadurosar) on 2023-06-01 (commit [`70ea75`](https://github.com/castorini/anserini/commit/70ea75314ba570001eb68134f2185b55f6c66044))
