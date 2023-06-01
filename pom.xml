@@ -86,6 +86,7 @@
           <testTarget>11</testTarget>
           <showDeprecation>true</showDeprecation>
           <compilerArgument>-Xlint:unchecked</compilerArgument>
+          <argLine>-Xmx8192m</argLine>
         </configuration>
       </plugin>
       <plugin>
