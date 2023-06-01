@@ -855,7 +855,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testMSMARCO() throws IOException {
+  public void testMSMARCO_V1() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.MSMARCO_DOC_DEV);
@@ -964,6 +964,11 @@ public class TopicReaderTest {
     assertEquals("term service agreement definition", topics.get(topics.firstKey()).get("title"));
     assertEquals(1136966, (int) topics.lastKey());
     assertEquals("#ffffff color code", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testMSMARCO_V2() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.MSMARCO_V2_DOC_DEV);
     assertNotNull(topics);
