@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(348, cnt);
+    assertEquals(356, cnt);
   }
 
   @Test
@@ -790,6 +790,22 @@ public class TopicReaderTest {
     assertEquals(624, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1136769, (int) topics.lastKey());
     assertEquals(633, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2021_DL_SPLADE_PP_ED);
+    assertNotNull(topics);
+    assertEquals(477, topics.size());
+    assertEquals(2082, (int) topics.firstKey());
+    assertEquals(23936, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1136769, (int) topics.lastKey());
+    assertEquals(25398, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2021_DL_SPLADE_PP_SD);
+    assertNotNull(topics);
+    assertEquals(477, topics.size());
+    assertEquals(2082, (int) topics.firstKey());
+    assertEquals(26369, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1136769, (int) topics.lastKey());
+    assertEquals(27149, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
@@ -820,6 +836,22 @@ public class TopicReaderTest {
     assertEquals(900, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(2056473, (int) topics.lastKey());
     assertEquals(726, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL_SPLADE_PP_ED);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals(25701, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals(28012, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL_SPLADE_PP_SD);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals(31052, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals(33891, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
@@ -1005,6 +1037,22 @@ public class TopicReaderTest {
     assertEquals(1102390, (int) topics.lastKey());
     assertEquals(533, topics.get(topics.lastKey()).get("title").split(" ").length);
 
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV_SPLADE_PP_ED);
+    assertNotNull(topics);
+    assertEquals(3903, topics.size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals(21944, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1102390, (int) topics.lastKey());
+    assertEquals(30978, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV_SPLADE_PP_SD);
+    assertNotNull(topics);
+    assertEquals(3903, topics.size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals(25539, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1102390, (int) topics.lastKey());
+    assertEquals(35354, topics.get(topics.lastKey()).get("title").split(" ").length);
+
     topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2);
     assertNotNull(topics);
     assertEquals(4281, topics.size());
@@ -1028,6 +1076,22 @@ public class TopicReaderTest {
     assertEquals(649, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1102413, (int) topics.lastKey());
     assertEquals(537, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2_SPLADE_PP_ED);
+    assertNotNull(topics);
+    assertEquals(4281, topics.size());
+    assertEquals(1325, (int) topics.firstKey());
+    assertEquals(14928, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1102413, (int) topics.lastKey());
+    assertEquals(18984, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2_SPLADE_PP_SD);
+    assertNotNull(topics);
+    assertEquals(4281, topics.size());
+    assertEquals(1325, (int) topics.firstKey());
+    assertEquals(15862, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(1102413, (int) topics.lastKey());
+    assertEquals(23387, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
