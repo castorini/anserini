@@ -1,10 +1,12 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: SPLADE++ CoCondenser-EnsembleDistil
+**Model**: SPLADE++ CoCondenser-EnsembleDistil (using pre-encoded queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
+
+In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
@@ -18,7 +20,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-ed
 ```
 
-We make available a version of the MS MARCO passage corpus that has already been encoded with SPLADE++ CoCondenser-EnsembleDistil.
+We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE++ CoCondenser-EnsembleDistil.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -33,11 +35,11 @@ The `run_regression.py` script automates the following steps, but if you want to
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar -P collections/
-tar xvf collections/msmarco-passage-splade_distil_cocodenser_medium.tar -C collections/
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar -P collections/
+tar xvf collections/msmarco-passage-splade-pp-ed.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-splade_distil_cocodenser_medium.tar` is 4.9 GB and has MD5 checksum `f77239a26d08856e6491a34062893b0c`.
+To confirm, `msmarco-passage-splade-pp-ed.tar` is 4.2 GB and has MD5 checksum `e489133bdc54ee1e7c62a32aa582bc77`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

@@ -43,12 +43,14 @@ public class GenerateRegressionDocsTest {
       URL yaml = GenerateRegressionDocsTest.class.getResource(String.format("/regression/%s.yaml", testName));
       DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
       String corpus = data.getCorpus();
+      String download_corpus = data.getDownload_corpus();
 
       Map<String, String> valuesMap = new HashMap<>();
       valuesMap.put("yaml", String.format("../src/main/resources/regression/%s.yaml", testName));
       valuesMap.put("template", String.format("../src/main/resources/docgen/templates/%s.template", testName));
       valuesMap.put("test_name", testName);
       valuesMap.put("corpus", corpus);
+      valuesMap.put("download_corpus", download_corpus);
       valuesMap.put("index_cmds", data.generateIndexingCommand(corpus));
       valuesMap.put("ranking_cmds", data.generateRankingCommand(corpus));
       valuesMap.put("converting_cmds", data.generateConvertingCommand(corpus));

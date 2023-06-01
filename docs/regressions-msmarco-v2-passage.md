@@ -2,7 +2,7 @@
 
 **Models**: various bag-of-words approaches on original passages
 
-This page describes regression experiments for passage ranking on the MS MARCO (V2) passage corpus using the dev queries, which is integrated into Anserini's regression testing framework.
+This page describes regression experiments for passage ranking on the MS MARCO V2 Passage Corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we cover bag-of-words baselines.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-v2.md).
 
