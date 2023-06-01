@@ -80,6 +80,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
+          <argLine>-Xmx4096m</argLine>
           <source>11</source>
           <target>11</target>
           <testSource>11</testSource>
