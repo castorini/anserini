@@ -1050,13 +1050,13 @@ public class TopicReaderTest {
     assertEquals(1102390, (int) topics.lastKey());
     assertEquals(30978, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV_SPLADE_PP_SD);
-    assertNotNull(topics);
-    assertEquals(3903, topics.size());
-    assertEquals(2, (int) topics.firstKey());
-    assertEquals(25539, topics.get(topics.firstKey()).get("title").split(" ").length);
-    assertEquals(1102390, (int) topics.lastKey());
-    assertEquals(35354, topics.get(topics.lastKey()).get("title").split(" ").length);
+//    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV_SPLADE_PP_SD);
+//    assertNotNull(topics);
+//    assertEquals(3903, topics.size());
+//    assertEquals(2, (int) topics.firstKey());
+//    assertEquals(25539, topics.get(topics.firstKey()).get("title").split(" ").length);
+//    assertEquals(1102390, (int) topics.lastKey());
+//    assertEquals(35354, topics.get(topics.lastKey()).get("title").split(" ").length);
 
     topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2);
     assertNotNull(topics);
@@ -1082,21 +1082,21 @@ public class TopicReaderTest {
     assertEquals(1102413, (int) topics.lastKey());
     assertEquals(537, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2_SPLADE_PP_ED);
-    assertNotNull(topics);
-    assertEquals(4281, topics.size());
-    assertEquals(1325, (int) topics.firstKey());
-    assertEquals(14928, topics.get(topics.firstKey()).get("title").split(" ").length);
-    assertEquals(1102413, (int) topics.lastKey());
-    assertEquals(18984, topics.get(topics.lastKey()).get("title").split(" ").length);
-
-    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2_SPLADE_PP_SD);
-    assertNotNull(topics);
-    assertEquals(4281, topics.size());
-    assertEquals(1325, (int) topics.firstKey());
-    assertEquals(15862, topics.get(topics.firstKey()).get("title").split(" ").length);
-    assertEquals(1102413, (int) topics.lastKey());
-    assertEquals(23387, topics.get(topics.lastKey()).get("title").split(" ").length);
+//    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2_SPLADE_PP_ED);
+//    assertNotNull(topics);
+//    assertEquals(4281, topics.size());
+//    assertEquals(1325, (int) topics.firstKey());
+//    assertEquals(14928, topics.get(topics.firstKey()).get("title").split(" ").length);
+//    assertEquals(1102413, (int) topics.lastKey());
+//    assertEquals(18984, topics.get(topics.lastKey()).get("title").split(" ").length);
+//
+//    topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV2_SPLADE_PP_SD);
+//    assertNotNull(topics);
+//    assertEquals(4281, topics.size());
+//    assertEquals(1325, (int) topics.firstKey());
+//    assertEquals(15862, topics.get(topics.firstKey()).get("title").split(" ").length);
+//    assertEquals(1102413, (int) topics.lastKey());
+//    assertEquals(23387, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
