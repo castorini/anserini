@@ -94,7 +94,6 @@
         <version>3.1.0</version>
         <configuration>
           <argLine>-Xmx8192m</argLine>
-          <!-- skipTests>true</skipTests -->
         </configuration>
       </plugin>
       <plugin>
