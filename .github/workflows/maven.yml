@@ -23,7 +23,7 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven
-      run: MAVEN_OPTS="-Xms1024m -Xmx8192m" mvn -B package --file pom.xml
+      run: export MAVEN_OPTS="-Xms1024m -Xmx8192m"; mvn -B package --file pom.xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       # https://github.com/codecov/codecov-action
