@@ -46,6 +46,8 @@ public enum Topics {
   MB14(MicroblogTopicReader.class, "topics.microblog2014.txt"),
   CAR17V15_BENCHMARK_Y1_TEST(CarTopicReader.class, "topics.car17v1.5.benchmarkY1test.txt"),
   CAR17V20_BENCHMARK_Y1_TEST(CarTopicReader.class, "topics.car17v2.0.benchmarkY1test.txt"),
+
+  // TREC DL topics
   TREC2019_DL_DOC(TsvIntTopicReader.class,"topics.dl19-doc.txt"),
   TREC2019_DL_DOC_WP(TsvIntTopicReader.class,"topics.dl19-doc.wp.tsv.gz"),
   TREC2019_DL_DOC_UNICOIL(TsvIntTopicReader.class,"topics.dl19-doc.unicoil.0shot.tsv.gz"),
@@ -63,9 +65,15 @@ public enum Topics {
   TREC2021_DL(TsvIntTopicReader.class,"topics.dl21.txt"),
   TREC2021_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl21.unicoil.0shot.tsv.gz"),
   TREC2021_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl21.unicoil-noexp.0shot.tsv.gz"),
+  TREC2021_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl21.splade-pp-ed.tsv.gz"),
+  TREC2021_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl21.splade-pp-sd.tsv.gz"),
   TREC2022_DL(TsvIntTopicReader.class,"topics.dl22.txt"),
   TREC2022_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl22.unicoil.0shot.tsv.gz"),
   TREC2022_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl22.unicoil-noexp.0shot.tsv.gz"),
+  TREC2022_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl22.splade-pp-ed.tsv.gz"),
+  TREC2022_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl22.splade-pp-sd.tsv.gz"),
+
+  // MS MARCO V1 topics
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-doc.dev.txt"),
   MSMARCO_DOC_DEV_WP(TsvIntTopicReader.class,"topics.msmarco-doc.dev.wp.tsv.gz"),
   MSMARCO_DOC_DEV_UNICOIL(TsvIntTopicReader.class,"topics.msmarco-doc.dev.unicoil.tsv.gz"),
@@ -80,6 +88,8 @@ public enum Topics {
   MSMARCO_PASSAGE_DEV_SUBSET_DISTILL_SPLADE_MAX(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.tsv.gz"),
   MSMARCO_PASSAGE_TEST_SUBSET(TsvIntTopicReader.class, "topics.msmarco-passage.test-subset.txt"),
+
+  // MS MARCO V2 topics
   MSMARCO_V2_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.txt"),
   MSMARCO_V2_DOC_DEV_UNICOIL(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_DOC_DEV_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz"),
@@ -89,9 +99,14 @@ public enum Topics {
   MSMARCO_V2_PASSAGE_DEV(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.txt"),
   MSMARCO_V2_PASSAGE_DEV_UNICOIL(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_PASSAGE_DEV_UNICOIL_NOEXP(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz"),
+  MSMARCO_V2_PASSAGE_DEV_SPLADE_PP_ED(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.splade-pp-ed.tsv.gz"),
+  MSMARCO_V2_PASSAGE_DEV_SPLADE_PP_SD(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.splade-pp-sd.tsv.gz"),
   MSMARCO_V2_PASSAGE_DEV2(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev2.txt"),
   MSMARCO_V2_PASSAGE_DEV2_UNICOIL(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev2.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_PASSAGE_DEV2_UNICOIL_NOEXP(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz"),
+  MSMARCO_V2_PASSAGE_DEV2_SPLADE_PP_ED(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev2.splade-pp-ed.tsv.gz"),
+  MSMARCO_V2_PASSAGE_DEV2_SPLADE_PP_SD(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev2.splade-pp-sd.tsv.gz"),
+
   NTCIR8_ZH(TsvStringTopicReader.class, "topics.ntcir8zh.eval.txt"),
   CLEF2006_FR(TsvStringTopicReader.class, "topics.clef06fr.mono.fr.txt"),
   TREC2002_AR(TrecTopicReader.class, "topics.trec02ar-ar.txt"),
@@ -130,6 +145,8 @@ public enum Topics {
   DPR_TRIVIA_TEST_GART5_TITLES(TsvIntTopicReader.class, "topics.dpr.trivia.test.gar-t5.titles.tsv"),
   DPR_TRIVIA_TEST_GART5_SENTENCES(TsvIntTopicReader.class, "topics.dpr.trivia.test.gar-t5.sentences.tsv"),
   DPR_TRIVIA_TEST_GART5_ALL(TsvIntTopicReader.class, "topics.dpr.trivia.test.gar-t5.all.tsv"),
+
+  // Mr.TyDi queries
   MRTYDI_V11_AR_TRAIN(TsvIntTopicReader.class, "topics.mrtydi-v1.1-ar.train.txt.gz"),
   MRTYDI_V11_AR_DEV(TsvIntTopicReader.class, "topics.mrtydi-v1.1-ar.dev.txt.gz"),
   MRTYDI_V11_AR_TEST(TsvIntTopicReader.class, "topics.mrtydi-v1.1-ar.test.txt.gz"),
