@@ -67,7 +67,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
 The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -109,3 +109,4 @@ With the above commands, you should be able to reproduce the following results:
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@justram](https://github.com/justram) on 2023-03-08 (commit [`03f95a8`](https://github.com/castorini/anserini/commit/03f95a8e1ae09ab09efe046bfcbd3a4cdda691b4))
++ Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2022-05-30 (commit [`a403a2a`](https://github.com/castorini/anserini/commit/a403a2a44af9322c7a2dbdb5240180a62398ab06))
