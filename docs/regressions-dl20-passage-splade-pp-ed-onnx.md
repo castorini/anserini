@@ -141,4 +141,4 @@ The experimental results reported here are directly comparable to the results re
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-ed-onnx.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@cadurosar](https://github.com/cadurosar) on 2023-06-01 (commit [`70ea75`](https://github.com/castorini/anserini/commit/70ea75314ba570001eb68134f2185b55f6c66044))
-+ Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2022-05-30 (commit [`a403a2a`](https://github.com/castorini/anserini/commit/a403a2a44af9322c7a2dbdb5240180a62398ab06))
++ Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2023-06-01 (commit [`a403a2a`](https://github.com/castorini/anserini/commit/a403a2a44af9322c7a2dbdb5240180a62398ab06))
