@@ -70,7 +70,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
 The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
@@ -141,8 +141,4 @@ The experimental results reported here are directly comparable to the results re
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl19-passage-splade-pp-sd-onnx.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@cadurosar](https://github.com/cadurosar) on 2023-06-01 (commit [`70ea75`](https://github.com/castorini/anserini/commit/70ea75314ba570001eb68134f2185b55f6c66044))
-<<<<<<< HEAD
-+ Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2022-05-30 (commit [`a403a2a`](https://github.com/castorini/anserini/commit/a403a2a44af9322c7a2dbdb5240180a62398ab06))
-=======
 + Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2023-06-01 (commit [`a403a2a`](https://github.com/castorini/anserini/commit/a403a2a44af9322c7a2dbdb5240180a62398ab06))
->>>>>>> master

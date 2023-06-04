@@ -33,10 +33,11 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from the [FIRE data page](http://fire.irsi.res.in/fire/static/data):
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+They are downloaded from the [FIRE data page](http://fire.irsi.res.in/fire/static/data):
 
-+ [`topics.fire12hi.176-225.txt`](../tools/topics-and-qrels/topics.fire12hi.176-225.txt): topics for FIRE 2012 Monolingual Hindi (176 to 225)
-+ [`qrels.fire12hi.176-225.txt`](../tools/topics-and-qrels/qrels.fire12hi.176-225.txt): qrels (version II) for FIRE 2012 Monolingual Hindi (176 to 225)
++ [`topics.fire12hi.176-225.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12hi.176-225.txt): topics for FIRE 2012 Monolingual Hindi (176 to 225)
++ [`qrels.fire12hi.176-225.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.fire12hi.176-225.txt): qrels (version II) for FIRE 2012 Monolingual Hindi (176 to 225)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

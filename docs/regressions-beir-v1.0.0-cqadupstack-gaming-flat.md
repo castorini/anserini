@@ -41,7 +41,9 @@ target/appassembler/bin/SearchCollection \
   -bm25 -removeQuery -hits 1000 &
 ```
 
-Evaluation can be performed using `trec_eval`:
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+
+After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt runs/run.beir-v1.0.0-cqadupstack-gaming-flat.bm25.topics.beir-v1.0.0-cqadupstack-gaming.test.txt
