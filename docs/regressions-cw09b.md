@@ -32,16 +32,17 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+They are downloaded from NIST:
 
-+ [`topics.web.1-50.txt`](../tools/topics-and-qrels/topics.web.1-50.txt): [topics for the TREC 2009 Web Track (Topics 1-50)](http://trec.nist.gov/data/web/09/wt09.topics.full.xml)
-+ [`topics.web.51-100.txt`](../tools/topics-and-qrels/topics.web.51-100.txt): [topics for the TREC 2010 Web Track (Topics 51-100)](http://trec.nist.gov/data/web/10/wt2010-topics.xml)
-+ [`topics.web.101-150.txt`](../tools/topics-and-qrels/topics.web.101-150.txt): [topics for the TREC 2011 Web Track (Topics 101-150)](http://trec.nist.gov/data/web/11/full-topics.xml)
-+ [`topics.web.151-200.txt`](../tools/topics-and-qrels/topics.web.151-200.txt): [topics for the TREC 2012 Web Track (Topics 151-200)](http://trec.nist.gov/data/web/12/full-topics.xml)
-+ [`prels.web.1-50.txt`](../tools/topics-and-qrels/prels.web.1-50.txt): [prels for the TREC 2009 Web Track (Topics 1-50, category B runs)](http://trec.nist.gov/data/web/09/prels.catB.1-50.gz)
-+ [`qrels.web.51-100.txt`](../tools/topics-and-qrels/qrels.web.51-100.txt): [qrels for the TREC 2010 Web Track (Topics 51-100)](http://trec.nist.gov/data/web/10/10.adhoc-qrels.final)
-+ [`qrels.web.101-150.txt`](../tools/topics-and-qrels/qrels.web.101-150.txt): [qrels for the TREC 2011 Web Track (Topics 101-150)](http://trec.nist.gov/data/web/11/qrels.adhoc)
-+ [`qrels.web.151-200.txt`](../tools/topics-and-qrels/qrels.web.151-200.txt): [qrels for the TREC 2012 Web Track (Topics 151-200)](http://trec.nist.gov/data/web/12/qrels.adhoc)
++ [`topics.web.1-50.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.1-50.txt): [topics for the TREC 2009 Web Track (Topics 1-50)](http://trec.nist.gov/data/web/09/wt09.topics.full.xml)
++ [`topics.web.51-100.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.51-100.txt): [topics for the TREC 2010 Web Track (Topics 51-100)](http://trec.nist.gov/data/web/10/wt2010-topics.xml)
++ [`topics.web.101-150.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.101-150.txt): [topics for the TREC 2011 Web Track (Topics 101-150)](http://trec.nist.gov/data/web/11/full-topics.xml)
++ [`topics.web.151-200.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.151-200.txt): [topics for the TREC 2012 Web Track (Topics 151-200)](http://trec.nist.gov/data/web/12/full-topics.xml)
++ [`prels.web.1-50.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/prels.web.1-50.txt): [prels for the TREC 2009 Web Track (Topics 1-50, category B runs)](http://trec.nist.gov/data/web/09/prels.catB.1-50.gz)
++ [`qrels.web.51-100.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.web.51-100.txt): [qrels for the TREC 2010 Web Track (Topics 51-100)](http://trec.nist.gov/data/web/10/10.adhoc-qrels.final)
++ [`qrels.web.101-150.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.web.101-150.txt): [qrels for the TREC 2011 Web Track (Topics 101-150)](http://trec.nist.gov/data/web/11/qrels.adhoc)
++ [`qrels.web.151-200.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.web.151-200.txt): [qrels for the TREC 2012 Web Track (Topics 151-200)](http://trec.nist.gov/data/web/12/qrels.adhoc)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

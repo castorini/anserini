@@ -27,10 +27,11 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+They are downloaded from NIST:
 
-+ [`topics.core17.txt`](../tools/topics-and-qrels/topics.core17.txt): [topics for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/core_nist.txt)
-+ [`qrels.core17.txt`](../tools/topics-and-qrels/qrels.core17.txt): [qrels for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/qrels.txt)
++ [`topics.core17.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt): [topics for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/core_nist.txt)
++ [`qrels.core17.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.core17.txt): [qrels for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

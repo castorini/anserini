@@ -61,7 +61,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
 The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 

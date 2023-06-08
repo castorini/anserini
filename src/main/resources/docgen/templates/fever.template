@@ -25,7 +25,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/).
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
 The regression experiments here evaluate on the 9999 claims as part of the dev set for the original FEVER paper.
 The original data can be found [here](https://fever.ai/resources.html).
 
