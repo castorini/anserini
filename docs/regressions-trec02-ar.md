@@ -35,10 +35,11 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST's page for [non-English topics](https://trec.nist.gov/data/topics_noneng/index.html) and [non-English relevance judgments](https://trec.nist.gov/data/qrels_noneng/index.html):
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+They are downloaded from NIST's page for [non-English topics](https://trec.nist.gov/data/topics_noneng/index.html) and [non-English relevance judgments](https://trec.nist.gov/data/qrels_noneng/index.html):
 
-+ [`topics.trec02ar-ar.txt`](../tools/topics-and-qrels/topics.trec02ar-ar.txt): TREC 2002 cross language topics in Arabic
-+ [`qrels.trec02ar.txt`](../tools/topics-and-qrels/qrels.trec02ar.txt): TREC 2002 cross language relevance judgements
++ [`topics.trec02ar-ar.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt): TREC 2002 cross language topics in Arabic
++ [`qrels.trec02ar.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.trec02ar.txt): TREC 2002 cross language relevance judgements
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

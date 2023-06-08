@@ -33,12 +33,13 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+They are downloaded from NIST:
 
-+ [`topics.adhoc.351-400.txt`](../tools/topics-and-qrels/topics.adhoc.351-400.txt): [TREC-7 Ad Hoc Topics 351-400](http://trec.nist.gov/data/topics_eng/)
-+ [`topics.adhoc.401-450.txt`](../tools/topics-and-qrels/topics.adhoc.401-450.txt): [TREC-8 Ad Hoc Topics 401-450](http://trec.nist.gov/data/topics_eng/)
-+ [`qrels.adhoc.351-400.txt`](../tools/topics-and-qrels/qrels.adhoc.351-400.txt): [qrels for TREC-7 Ad Hoc Topics 351-400](http://trec.nist.gov/data/qrels_eng/)
-+ [`qrels.adhoc.401-450.txt`](../tools/topics-and-qrels/qrels.adhoc.401-450.txt): [qrels for TREC-8 Ad Hoc Topics 401-450](http://trec.nist.gov/data/qrels_eng/)
++ [`topics.adhoc.351-400.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt): [TREC-7 Ad Hoc Topics 351-400](http://trec.nist.gov/data/topics_eng/)
++ [`topics.adhoc.401-450.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt): [TREC-8 Ad Hoc Topics 401-450](http://trec.nist.gov/data/topics_eng/)
++ [`qrels.adhoc.351-400.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.adhoc.351-400.txt): [qrels for TREC-7 Ad Hoc Topics 351-400](http://trec.nist.gov/data/qrels_eng/)
++ [`qrels.adhoc.401-450.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.adhoc.401-450.txt): [qrels for TREC-8 Ad Hoc Topics 401-450](http://trec.nist.gov/data/qrels_eng/)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

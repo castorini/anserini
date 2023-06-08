@@ -32,14 +32,15 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in [`tools/topics-and-qrels/`](../tools/topics-and-qrels/), downloaded from NIST:
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+They are downloaded from NIST:
 
-+ [`topics.adhoc.51-100.txt`](../tools/topics-and-qrels/topics.adhoc.51-100.txt): [TREC-1 Ad Hoc Topics 51-100](http://trec.nist.gov/data/topics_eng/)
-+ [`topics.adhoc.101-150.txt`](../tools/topics-and-qrels/topics.adhoc.101-150.txt): [TREC-2 Ad Hoc Topics 101-150](http://trec.nist.gov/data/topics_eng/)
-+ [`topics.adhoc.151-200.txt`](../tools/topics-and-qrels/topics.adhoc.151-200.txt): [TREC-3 Ad Hoc Topics 151-200](http://trec.nist.gov/data/topics_eng/)
-+ [`qrels.adhoc.51-100.txt`](../tools/topics-and-qrels/qrels.adhoc.51-100.txt): [qrels for TREC-1 Ad Hoc Topics 51-100](http://trec.nist.gov/data/qrels_eng/)
-+ [`qrels.adhoc.101-150.txt`](../tools/topics-and-qrels/qrels.adhoc.101-150.txt): [qrels for TREC-2 Ad Hoc Topics 101-150](http://trec.nist.gov/data/qrels_eng/)
-+ [`qrels.adhoc.151-200.txt`](../tools/topics-and-qrels/qrels.adhoc.151-200.txt): [qrels for TREC-3 Ad Hoc Topics 151-200](http://trec.nist.gov/data/qrels_eng/)
++ [`topics.adhoc.51-100.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.51-100.txt): [TREC-1 Ad Hoc Topics 51-100](http://trec.nist.gov/data/topics_eng/)
++ [`topics.adhoc.101-150.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.101-150.txt): [TREC-2 Ad Hoc Topics 101-150](http://trec.nist.gov/data/topics_eng/)
++ [`topics.adhoc.151-200.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.151-200.txt): [TREC-3 Ad Hoc Topics 151-200](http://trec.nist.gov/data/topics_eng/)
++ [`qrels.adhoc.51-100.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.adhoc.51-100.txt): [qrels for TREC-1 Ad Hoc Topics 51-100](http://trec.nist.gov/data/qrels_eng/)
++ [`qrels.adhoc.101-150.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.adhoc.101-150.txt): [qrels for TREC-2 Ad Hoc Topics 101-150](http://trec.nist.gov/data/qrels_eng/)
++ [`qrels.adhoc.151-200.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.adhoc.151-200.txt): [qrels for TREC-3 Ad Hoc Topics 151-200](http://trec.nist.gov/data/qrels_eng/)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

@@ -255,7 +255,7 @@ See individual pages for details!
 + Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions-car17v1.5.md), [v2.0](docs/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions-car17v2.0-doc2query.md)
 + Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions-backgroundlinking18.md), [2019](docs/regressions-backgroundlinking19.md), [2020](docs/regressions-backgroundlinking20.md)
 + Regressions for [FEVER Fact Verification](docs/regressions-fever.md)
-+ Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions-wikipedia-dpr-100w-bm25.md)
++ Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions-wikipedia-dpr-100w-bm25.md), [6/3 sliding window sentences](docs/regressions-wiki-all-6-3-tamber-bm25.md)
 
 </details>
 
