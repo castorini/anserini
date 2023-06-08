@@ -1,8 +1,8 @@
-# Anserini Regressions: QA with wikipedia-dpr-100w Corpus
+# Anserini Regressions: QA on Wikipedia 100-word splits
 
 **Models**: BM25
 
-This page documents QA regression experiments on the wikipedia-dpr-100w corpus, which is integrated into Anserini's regression testing framework.
+This page documents QA regression experiments on the `wikipedia-dpr-100w` corpus, which is integrated into Anserini's regression testing framework.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/wikipedia-dpr-100w-bm25.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/wikipedia-dpr-100w-bm25.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

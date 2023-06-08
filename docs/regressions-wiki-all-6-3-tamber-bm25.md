@@ -1,8 +1,11 @@
-# Anserini Regressions: QA with wiki-all-6-3-tamber Corpus
+# Anserini Regressions: QA on Wikipedia Sliding Windows
 
 **Models**: BM25
 
-This page documents QA regression experiments on the wiki-all-6-3-tamber corpus, which is integrated into Anserini's regression testing framework.
+This page documents QA regression experiments on the `wiki-all-6-3-tamber` corpus, which is integrated into Anserini's regression testing framework.
+The exact configuration here is the 6/3 sentence sliding window corpus described in the following paper:
+
+> Manveer Singh Tamber, Ronak Pradeep, and Jimmy Lin. [Pre-Processing Matters! Improved Wikipedia Corpora for Open-Domain Question Answering.](https://link.springer.com/chapter/10.1007/978-3-031-28241-6_11) _Proceedings of the 45th European Conference on Information Retrieval (ECIR 2023), Part III_, pages 163–176, April 2023, Dublin, Ireland.
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/wiki-all-6-3-tamber-bm25.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/wiki-all-6-3-tamber-bm25.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

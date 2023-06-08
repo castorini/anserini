@@ -1,4 +1,4 @@
-# Anserini Regressions: TREC 2018 News Track (Background Linking)
+# Anserini Regressions: TREC 2018 News Background Linking
 
 **Models**: various bag-of-words approaches
 
