@@ -50,8 +50,9 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium >& logs/log.msmarco-passage-splade-distil-cocodenser-medium &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed >& logs/log.msmarco-passage-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd >& logs/log.msmarco-passage-splade-pp-sd &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx >& logs/log.msmarco-passage-splade-pp-ed-onnx
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx >& logs/log.msmarco-passage-splade-pp-sd-onnx
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx >& logs/log.msmarco-passage-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx >& logs/log.msmarco-passage-splade-pp-sd-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil >& logs/log.msmarco-passage-cos-dpr-distil &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp >& logs/log.msmarco-doc-wp &
@@ -127,9 +128,10 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-d2q-t5 >& logs/log.msmarco-v2-passage-d2q-t5 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented >& logs/log.msmarco-v2-passage-augmented &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented-d2q-t5 >& logs/log.msmarco-v2-passage-augmented-d2q-t5 &
-
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-noexp-0shot >& logs/log.msmarco-v2-passage-unicoil-noexp-0shot &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-0shot >& logs/log.msmarco-v2-passage-unicoil-0shot &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-splade-pp-ed >& logs/log.msmarco-v2-passage-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-splade-pp-sd >& logs/log.msmarco-v2-passage-splade-pp-sd &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc >& logs/log.msmarco-v2-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-d2q-t5 >& logs/log.msmarco-v2-doc-d2q-t5 &
@@ -147,6 +149,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-augmented-d2q-t5 >& logs/log.dl21-passage-augmented-d2q-t5 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-unicoil-noexp-0shot >& logs/log.dl21-passage-unicoil-noexp-0shot &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-unicoil-0shot >& logs/log.dl21-passage-unicoil-0shot &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-splade-pp-ed >& logs/log.dl21-passage-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-splade-pp-sd >& logs/log.dl21-passage-splade-pp-sd &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc >& logs/log.dl21-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-d2q-t5 >& logs/log.dl21-doc-d2q-t5 &
@@ -163,6 +167,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-augmented-d2q-t5 >& logs/log.dl22-passage-augmented-d2q-t5 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-unicoil-noexp-0shot >& logs/log.dl22-passage-unicoil-noexp-0shot &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-unicoil-0shot >& logs/log.dl22-passage-unicoil-0shot &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-splade-pp-ed >& logs/log.dl22-passage-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-splade-pp-sd >& logs/log.dl22-passage-splade-pp-sd &
 ```
 </details>
 
