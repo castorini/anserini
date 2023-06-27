@@ -3,6 +3,19 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### June 27, 2023
+
+Summarizing new regressions since last entry, see [PR #2140](https://github.com/castorini/anserini/pull/2140):
+
+
++ `msmarco-passage-cos-dpr-distil`
++ `msmarco-v2-passage-splade-pp-ed`
++ `msmarco-v2-passage-splade-pp-sd`
++ `dl21-passage-splade-pp-ed`
++ `dl21-passage-splade-pp-sd`
++ `dl22-passage-splade-pp-ed`
++ `dl22-passage-splade-pp-sd`
+
 ### April 5, 2023
 
 + commit [`a7df7f`](https://github.com/castorini/anserini/commit/a7df7fc5d527ede8f34ee60afa41dec4f6b0e93a) (4/5/2023)
