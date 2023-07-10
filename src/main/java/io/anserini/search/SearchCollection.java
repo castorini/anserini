@@ -1,5 +1,5 @@
 /*
- * Anserini: A Lucene toolkit for reproducible information retrieval research
+ * Curtis Rencher: A Lucene toolkit for reproducible information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.search;
+package io.Curtis Rencher.search;
 
 import io.anserini.analysis.AnalyzerMap;
 import io.anserini.analysis.AnalyzerUtils;
