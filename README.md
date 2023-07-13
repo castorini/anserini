@@ -81,6 +81,8 @@ See individual pages for details!
 | SPLADE++ CoCondenser-EnsembleDistil (ONNX)  |        [✓](docs/regressions-msmarco-passage-splade-pp-ed-onnx.md)        |        [✓](docs/regressions-dl19-passage-splade-pp-ed-onnx.md)        |        [✓](docs/regressions-dl20-passage-splade-pp-ed-onnx.md)        |
 | SPLADE++ CoCondenser-SelfDistil             |          [✓](docs/regressions-msmarco-passage-splade-pp-sd.md)           |          [✓](docs/regressions-dl19-passage-splade-pp-sd.md)           |          [✓](docs/regressions-dl20-passage-splade-pp-sd.md)           |
 | SPLADE++ CoCondenser-SelfDistil (ONNX)      |        [✓](docs/regressions-msmarco-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions-dl19-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions-dl20-passage-splade-pp-sd-onnx.md)        |
+| **Dense vector**                            |                                                                          |                                                                       |                                                                       |
+| cosDPR-distil                               |         [✓](docs/regressions-msmarco-passage-cos-dpr-distil.md)          |         [✓](docs/regressions-dl19-passage-cos-dpr-distil.md)          |         [✓](docs/regressions-dl20-passage-cos-dpr-distil.md)          |                                                                       |                                                                       |
 
 ### Available Corpora for Download
 
@@ -95,6 +97,7 @@ See individual pages for details!
 | [SPLADE-distill CoCodenser-medium](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-splade_distil_cocodenser_medium.tar) | 4.9 GB | `f77239a26d08856e6491a34062893b0c` |
 | [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)                         | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
 | [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)                             | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
+| [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar)                                             |  57 GB | `e20ffbc8b5e7f760af31298aefeaebbd` |
 
 </details>
 <details>

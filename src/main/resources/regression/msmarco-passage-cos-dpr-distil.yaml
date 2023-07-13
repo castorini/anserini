@@ -1,5 +1,5 @@
 ---
-corpus: msmarco-passage
+corpus: msmarco-passage-cos-dpr-distil
 corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
 
 index_path: indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/
