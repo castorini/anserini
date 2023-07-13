@@ -2,6 +2,9 @@
 corpus: msmarco-passage-cos-dpr-distil
 corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
 
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
+download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
+
 index_path: indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/
 collection_class: JsonDenseVectorCollection
 generator_class: LuceneDenseVectorDocumentGenerator
