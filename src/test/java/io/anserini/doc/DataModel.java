@@ -26,7 +26,10 @@ import java.util.Map;
 
 public class DataModel {
   private static final String INDEX_COMMAND = "target/appassembler/bin/IndexCollection";
+  private static final String INDEX_HNSW_COMMAND = "target/appassembler/bin/IndexHnswDenseVectors";
+
   private static final String SEARCH_COMMAND = "target/appassembler/bin/SearchCollection";
+  private static final String SEARCH_HNSW_COMMAND = "target/appassembler/bin/SearchHnswDenseVectors";
 
   private String corpus;
   private String corpus_path;
@@ -259,8 +262,13 @@ public class DataModel {
   }
 
   public String generateIndexingCommand(String collection) {
+    String indexCommand = INDEX_COMMAND;
+    if (getCollection_class().equals("JsonDenseVectorCollection")) {
+      indexCommand = INDEX_HNSW_COMMAND;
+    }
+
     StringBuilder builder = new StringBuilder();
-    builder.append(INDEX_COMMAND).append(" \\\n");
+    builder.append(indexCommand).append(" \\\n");
     builder.append("  -collection ").append(getCollection_class()).append(" \\\n");
     builder.append("  -input ").append("/path/to/"+collection).append(" \\\n");
     builder.append("  -index ").append(getIndex_path()).append(" \\\n");
@@ -291,7 +299,11 @@ public class DataModel {
     StringBuilder builder = new StringBuilder();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
-        builder.append(SEARCH_COMMAND).append(" \\\n");
+        String searchCommand = SEARCH_COMMAND;
+        if (model.getParams().contains("VectorQueryGenerator")) {
+          searchCommand = SEARCH_HNSW_COMMAND;
+        }
+        builder.append(searchCommand).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
         builder.append("  -topics").append(" ").append(Paths.get("tools/topics-and-qrels", topic.getPath())).append(" \\\n");
         builder.append("  -topicreader").append(" ").append((topic.getTopic_reader() == null) ? getTopic_reader() : topic.getTopic_reader()).append(" \\\n");
@@ -403,7 +415,12 @@ public class DataModel {
         Topic topic = getTopics().get(i);
         builder.append(String.format("| %1$-109s|", topic.getName()));
         for (Model model : getModels()) {
-          builder.append(String.format(" %-10.4f|", model.getResults().get(eval.getMetric()).get(i)));
+          // 3 digits for HNSW, 4 otherwise:
+          if (getCollection_class().equals("JsonDenseVectorCollection")) {
+            builder.append(String.format(" %-10.3f|", model.getResults().get(eval.getMetric()).get(i)));
+          } else {
+            builder.append(String.format(" %-10.4f|", model.getResults().get(eval.getMetric()).get(i)));
+          }
         }
         builder.append("\n");
       }

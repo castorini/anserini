@@ -50,6 +50,8 @@ public class GenerateRegressionDocsTest {
       valuesMap.put("template", String.format("../src/main/resources/docgen/templates/%s.template", testName));
       valuesMap.put("test_name", testName);
       valuesMap.put("corpus", corpus);
+      valuesMap.put("download_url", data.getDownload_url());
+      valuesMap.put("download_checksum", data.getDownload_checksum());
       valuesMap.put("download_corpus", download_corpus);
       valuesMap.put("index_cmds", data.generateIndexingCommand(corpus));
       valuesMap.put("ranking_cmds", data.generateRankingCommand(corpus));
