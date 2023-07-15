@@ -257,8 +257,6 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     testQuery3.put("more", 1.0f);
 
     results = searcher.search(testQuery3);
-    System.out.println(results[0].contents);
-    System.out.println(results[1].contents);
 
     assertEquals(2, results.length);
     assertEquals("doc1", results[0].docid);
