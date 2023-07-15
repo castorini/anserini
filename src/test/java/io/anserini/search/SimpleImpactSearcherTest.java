@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import io.anserini.search.SimpleImpactSearcher.Result;
+
 
 public class SimpleImpactSearcherTest extends IndexerTestBase {
 
@@ -206,6 +208,15 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
   }
 
   @Test
+  public void testOnnxEncodedQuery() throws Exception {
+    SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
+    Map<String, Float> testQuery1 = new HashMap<>();
+    testQuery1.put("text", 2.0f);
+    String encodedQuery = searcher.encode_with_onnx(testQuery1);
+    assertEquals("text text" ,encodedQuery);
+  }
+
+  @Test
   public void testOnnxEncoder() throws Exception{
     SimpleImpactSearcher searcher = new SimpleImpactSearcher();
     searcher.set_onnx_query_encoder("SpladePlusPlusEnsembleDistil");
@@ -215,4 +226,110 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     assertEquals(encoded_query.get("a"), EXPECTED_ENCODED_QUERY.get("a"), 2e-4);
     assertEquals(encoded_query.get("test"), EXPECTED_ENCODED_QUERY.get("test"), 2e-4);
   }
+
+  @Test
+  public void testSearch3() throws Exception {
+    SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
+    searcher.set_rm3();
+    assertTrue(searcher.use_rm3());
+
+    Result[] results;
+
+    Map<String, Float> testQuery1 = new HashMap<>();
+    testQuery1.put("text", 1.0f);
+
+    results = searcher.search(testQuery1, 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(1.0f, results[0].score, 10e-5);
+
+    Map<String, Float> testQuery2 = new HashMap<>();
+    testQuery2.put("test", 1.0f);
+
+    results = searcher.search(testQuery2);
+    assertEquals(1, results.length);
+    assertEquals("doc3", results[0].docid);
+    assertEquals(2, results[0].lucene_docid);
+    assertEquals(0.5f, results[0].score, 10e-5);
+
+    Map<String, Float> testQuery3 = new HashMap<>();
+    testQuery3.put("more", 1.0f);
+
+    results = searcher.search(testQuery3);
+    System.out.println(results[0].contents);
+    System.out.println(results[1].contents);
+
+    assertEquals(2, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(0.5f, results[0].score, 10e-5);
+    assertEquals("doc2", results[1].docid);
+    assertEquals(1, results[1].lucene_docid);
+    assertEquals(0.5f, results[1].score, 10e-5);
+
+    searcher.unset_rm3();
+    assertFalse(searcher.use_rm3());
+
+    results = searcher.search(testQuery1, 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(2.0f, results[0].score, 10e-5);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearch4() throws Exception {
+    // This adds Rocchio on top of "testSearch1"
+    SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
+    searcher.set_rocchio();
+    assertTrue(searcher.use_rocchio());
+
+    Result[] results;
+
+    Map<String, Float> testQuery1 = new HashMap<>();
+    testQuery1.put("text", 1.0f);
+
+    results = searcher.search(testQuery1, 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(2.0f, results[0].score, 10e-5);
+
+    Map<String, Float> testQuery2 = new HashMap<>();
+    testQuery2.put("test", 1.0f);
+
+    results = searcher.search(testQuery2);
+    assertEquals(1, results.length);
+    assertEquals("doc3", results[0].docid);
+    assertEquals(2, results[0].lucene_docid);
+    assertEquals(1.0f, results[0].score, 10e-5);
+
+    Map<String, Float> testQuery3 = new HashMap<>();
+    testQuery3.put("more", 1.0f);
+
+    results = searcher.search(testQuery3);
+    assertEquals(2, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(1.0f, results[0].score, 10e-5);
+    assertEquals("doc2", results[1].docid);
+    assertEquals(1, results[1].lucene_docid);
+    assertEquals(1.0f, results[1].score, 10e-5);
+
+
+    searcher.unset_rocchio();
+    assertFalse(searcher.use_rocchio());
+
+    results = searcher.search(testQuery1, 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(2.0f, results[0].score, 10e-5);
+
+    searcher.close();
+  }
+
 }

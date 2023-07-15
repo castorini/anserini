@@ -56,7 +56,7 @@ public abstract class QueryEncoder {
     return tokenIds;
   }
 
-  protected String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
+  public String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
     /*
      * This function generates the encoded query.
      */

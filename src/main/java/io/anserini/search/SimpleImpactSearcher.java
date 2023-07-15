@@ -17,10 +17,15 @@
 package io.anserini.search;
 
 import io.anserini.index.Constants;
+import org.apache.lucene.analysis.Analyzer;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
+import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryEncoder;
@@ -38,6 +43,8 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
+import java.util.ArrayList;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 
 import ai.onnxruntime.OrtException;
 
@@ -67,10 +74,13 @@ public class SimpleImpactSearcher implements Closeable {
   protected IndexReader reader;
   protected Similarity similarity;
   protected BagOfWordsQueryGenerator generator;
+  protected Analyzer analyzer;
   protected RerankerCascade cascade;
   protected IndexSearcher searcher = null;
   protected boolean backwardsCompatibilityLucene8;
   private QueryEncoder queryEncoder = null;
+  protected boolean useRM3;
+  protected boolean useRocchio;
   /**
    * This class is meant to serve as the bridge between Anserini and Pyserini.
    * Note that we are adopting Python naming conventions here on purpose.
@@ -103,6 +113,42 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if errors encountered during initialization
    */
   public SimpleImpactSearcher(String indexDir) throws IOException {
+    this(indexDir, IndexCollection.DEFAULT_ANALYZER);
+  }
+
+  /**
+   * Creates a {@code SimpleImpactSearcher}.
+   *
+   * @param indexDir index directory
+   * @param queryEncoder query encoder
+   * @throws IOException if errors encountered during initialization
+   */
+  public SimpleImpactSearcher(String indexDir, String queryEncoder) throws IOException {
+    this(indexDir, IndexCollection.DEFAULT_ANALYZER);
+    this.set_onnx_query_encoder(queryEncoder);
+  }
+
+  /**
+   * Creates a {@code SimpleImpactSearcher}.
+   *
+   * @param indexDir index directory
+   * @param queryEncoder query encoder
+   * @param analyzer Analyzer
+   * @throws IOException if errors encountered during initialization
+   */
+  public SimpleImpactSearcher(String indexDir, String queryEncoder, Analyzer analyzer) throws IOException {
+    this(indexDir, analyzer);
+    this.set_onnx_query_encoder(queryEncoder);
+  }
+
+  /**
+   * Creates a {@code SimpleImpactSearcher}.
+   *
+   * @param indexDir index directory
+   * @param analyzer Analyzer
+   * @throws IOException if errors encountered during initialization
+   */
+  public SimpleImpactSearcher(String indexDir, Analyzer analyzer) throws IOException {
     Path indexPath = Paths.get(indexDir);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -118,7 +164,10 @@ public class SimpleImpactSearcher implements Closeable {
 
     // Default to using ImpactSimilarity.
     this.similarity = new ImpactSimilarity();
+    this.analyzer = analyzer;
     this.generator = new BagOfWordsQueryGenerator();
+    this.useRM3 = false;
+    this.useRocchio = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -143,6 +192,136 @@ public class SimpleImpactSearcher implements Closeable {
     return this.queryEncoder == null;
   }
 
+  /**
+   * Sets the analyzer used.
+   *
+   * @param analyzer analyzer to use
+   */
+  public void set_analyzer(Analyzer analyzer) {
+    this.analyzer = analyzer;
+  }
+
+  /**
+   * Returns the analyzer used.
+   *
+   * @return analyzed used
+   */
+  public Analyzer get_analyzer(){
+    return this.analyzer;
+  }
+
+    /**
+   * Determines if RM3 query expansion is enabled.
+   *
+   * @return true if RM query expansion is enabled; false otherwise.
+   */
+  public boolean use_rm3() {
+    return useRM3;
+  }
+
+  /**
+   * Disables RM3 query expansion.
+   */
+  public void unset_rm3() {
+    this.useRM3 = false;
+    cascade = new RerankerCascade();
+    cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
+    /**
+   * Enables RM3 query expansion with default parameters.
+   */
+  public void set_rm3() {
+    SearchCollection.Args defaults = new SearchCollection.Args();
+    set_rm3(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
+        Float.parseFloat(defaults.rm3_originalQueryWeight[0]));
+  }
+
+  /**
+   * Enables RM3 query expansion with specified parameters.
+   *
+   * @param fbTerms number of expansion terms
+   * @param fbDocs number of expansion documents
+   * @param originalQueryWeight weight to assign to the original query
+   */
+  public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight) {
+    set_rm3(fbTerms, fbDocs, originalQueryWeight, false, true);
+  }
+
+  /**
+   * Enables RM3 query expansion with specified parameters.
+   *
+   * @param fbTerms number of expansion terms
+   * @param fbDocs number of expansion documents
+   * @param originalQueryWeight weight to assign to the original query
+   * @param outputQuery flag to print original and expanded queries
+   * @param filterTerms whether to filter terms to be English only
+   */
+  public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
+    useRM3 = true;
+    cascade = new RerankerCascade("rm3");
+    cascade.add(new Rm3Reranker(this.analyzer, null, Constants.CONTENTS,
+        fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
+    cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
+  /**
+   * Determines if Rocchio query expansion is enabled.
+   *
+   * @return true if Rocchio query expansion is enabled; false otherwise.
+   */
+  public boolean use_rocchio() {
+    return useRocchio;
+  }
+
+  /**
+   * Disables Rocchio query expansion.
+   */
+  public void unset_rocchio() {
+    this.useRocchio = false;
+    cascade = new RerankerCascade();
+    cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
+  /**
+   * Enables Rocchio query expansion with default parameters.
+   */
+  public void set_rocchio() {
+    SearchCollection.Args defaults = new SearchCollection.Args();
+    set_rocchio(Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
+        Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
+        Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]),
+        Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
+  }
+
+  /**
+   * Enables Rocchio query expansion with specified parameters.
+   *
+   * @param topFbTerms number of relevant expansion terms
+   * @param topFbDocs number of relevant expansion documents
+   * @param bottomFbTerms number of nonrelevant expansion terms
+   * @param bottomFbDocs number of nonrelevant expansion documents
+   * @param alpha weight to assign to the original query
+   * @param beta weight to assign to the relevant document vectors
+   * @param gamma weight to assign to the nonrelevant document vectors
+   * @param outputQuery flag to print original and expanded queries
+   */
+  public void set_rocchio(int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+    useRocchio = true;
+    cascade = new RerankerCascade("rocchio");
+    cascade.add(new RocchioReranker(this.analyzer, null, Constants.CONTENTS,
+        topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
+    cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
+  /**
+   * Returns the {@link Similarity} (i.e., scoring function) currently being used.
+   *
+   * @return the {@link Similarity} currently being used
+   */
+  public Similarity get_similarity() {
+    return similarity;
+  }
 
   /**
    * Returns the number of documents in the index.
@@ -203,6 +382,8 @@ public class SimpleImpactSearcher implements Closeable {
           results.put(qid, search(query, k));
         } catch (IOException e) {
           throw new CompletionException(e);
+        } catch (OrtException e) {
+          throw new CompletionException(e);
         }
       });
     }
@@ -241,6 +422,32 @@ public class SimpleImpactSearcher implements Closeable {
     return encodedQ;
   }
 
+  /**
+   * Encodes the weight map using the onnx encoder
+   * 
+   * @param queryWeight query weight map
+   * @throws OrtException if errors encountered during encoding
+   * @return encoded query
+   */
+  public String encode_with_onnx(Map<String, Float> queryWeight) throws OrtException {
+    String encodedQ = "";
+    if (this.queryEncoder != null){
+      encodedQ = this.queryEncoder.generateEncodedQuery(queryWeight);
+    } else {
+      List<String> encodedQuery = new ArrayList<>();
+      for (Map.Entry<String, Float> entry : queryWeight.entrySet()) {
+        String token = entry.getKey();
+        Float tokenWeight = entry.getValue();
+        int weightQuanted = Math.round(tokenWeight);
+        for (int i = 0; i < weightQuanted; ++i) {
+          encodedQuery.add(token);
+        }
+      }
+      encodedQ = String.join(" ", encodedQuery);
+    }
+    return encodedQ;
+  }
+
 
   /**
    * Searches the collection, returning 10 hits by default.
@@ -249,7 +456,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @return array of search results
    * @throws IOException if error encountered during search
    */
-  public Result[] search(Map<String, Float> q) throws IOException {
+  public Result[] search(Map<String, Float> q) throws IOException, OrtException {
     return search(q, 10);
   }
 
@@ -261,13 +468,14 @@ public class SimpleImpactSearcher implements Closeable {
    * @return array of search results
    * @throws IOException if error encountered during search
    */
-  public Result[] search(Map<String, Float> q, int k) throws IOException {
+  public Result[] search(Map<String, Float> q, int k) throws IOException, OrtException {
     Query query = generator.buildQuery(Constants.CONTENTS, q);
-    return _search(query, k);
+    String encodedQuery = encode_with_onnx(q);
+    return _search(query, encodedQuery, k);
   }
 
   // internal implementation
-  protected Result[] _search(Query query, int k) throws IOException {
+  protected Result[] _search(Query query, String encodedQuery, int k) throws IOException, OrtException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
@@ -278,6 +486,10 @@ public class SimpleImpactSearcher implements Closeable {
     searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
     searchArgs.hits = k;
 
+    // encoded query can be tokenized using whitespace analyzer
+    Analyzer whiteSpaceAnalyzer = new WhitespaceAnalyzer();
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, encodedQuery);
+
     TopDocs rs;
     RerankerContext context;
     if (this.backwardsCompatibilityLucene8) {
@@ -286,7 +498,7 @@ public class SimpleImpactSearcher implements Closeable {
       rs = searcher.search(query, k, BREAK_SCORE_TIES_BY_DOCID, true);
     }
     context = new RerankerContext<>(searcher, null, query, null,
-        null, null, null, searchArgs);
+        encodedQuery, queryTokens, null, searchArgs);
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
