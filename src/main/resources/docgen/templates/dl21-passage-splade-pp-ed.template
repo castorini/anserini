@@ -34,11 +34,11 @@ The `run_regression.py` script automates the following steps, but if you want to
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_ed.tar -P collections/
-tar xvf collections/msmarco_v2_passage_splade_pp_ed.tar -C collections/
+wget ${download_url} -P collections/
+tar xvf collections/${download_corpus}.tar -C collections/
 ```
 
-To confirm, `msmarco_v2_passage_splade_pp_ed.tar` is 66 GB and has MD5 checksum `2cdb2adc259b8fa6caf666b20ebdc0e8`.
+To confirm, `${download_corpus}.tar` is 66 GB and has MD5 checksum `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
