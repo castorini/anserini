@@ -36,11 +36,11 @@ The `run_regression.py` script automates the following steps, but if you want to
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar -P collections/
-tar xvf collections/msmarco-doc-segmented-unicoil-noexp.tar -C collections/
+wget ${download_url} -P collections/
+tar xvf collections/${corpus}.tar -C collections/
 ```
 
-To confirm, `msmarco-doc-segmented-unicoil-noexp.tar` is 11 GB and has MD5 checksum `11b226e1cacd9c8ae0a660fd14cdd710`.
+To confirm, `${corpus}.tar` is 11 GB and has MD5 checksum `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
