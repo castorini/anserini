@@ -32,11 +32,11 @@ The `run_regression.py` script automates the following steps, but if you want to
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar -P collections/
-tar xvf collections/msmarco-passage-unicoil-tilde-expansion.tar -C collections/
+wget ${download_url} -P collections/
+tar xvf collections/${corpus}.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-unicoil-tilde-expansion.tar` is 3.9 GB and has MD5 checksum `12a9c289d94e32fd63a7d39c9677d75c`.
+To confirm, `${corpus}.tar` is 3.9 GB and has MD5 checksum `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

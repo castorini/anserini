@@ -31,11 +31,11 @@ The `run_regression.py` script automates the following steps, but if you want to
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar -P collections/
-tar xvf collections/msmarco-passage-deepimpact.tar -C collections/
+wget ${download_url} -P collections/
+tar xvf collections/${corpus}.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-deepimpact.tar` is 3.6 GB and has MD5 checksum `73843885b503af3c8b3ee62e5f5a9900`.
+To confirm, `${corpus}.tar` is 3.6 GB and has MD5 checksum `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
