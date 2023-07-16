@@ -399,4 +399,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@billcui57](https://github.com/billcui57) on 2023-05-11 (commit [`a913b5`](https://github.com/castorini/anserini/commit/a913b52478ae63e4427215e16f58081686f8e8f2))
 + Results reproduced by [@zoehahaha](https://github.com/zoehahaha) on 2023-05-12 (commit [`d82b6f7`](https://github.com/castorini/anserini/commit/d82b6f76cbef009bccb0e67fc2bedc6fa6ae56c6))
 + Results reproduced by [@Singularity-tian](https://github.com/Singularity-tian) on 2023-05-12 (commit ['d82b6f7'](https://github.com/castorini/anserini/commit/d82b6f76cbef009bccb0e67fc2bedc6fa6ae56c6))
-+ Results reproduced by [@pratyushpal](https://github.com/pratyushpal) on 2023-07-14 (commit [`17d5fc7f`](https://github.com/castorini/anserini/commit/17d5fc7f338b511c4dc49de88e9b2ab7ea27f8aa))
++ Results reproduced by [@pratyushpal](https://github.com/pratyushpal) on 2023-07-14 (commit [`17d5fc7`](https://github.com/castorini/anserini/commit/17d5fc7f338b511c4dc49de88e9b2ab7ea27f8aa))
