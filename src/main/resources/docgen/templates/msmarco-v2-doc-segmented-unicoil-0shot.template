@@ -40,16 +40,16 @@ Download, unpack, and prepare the corpus:
 
 ```bash
 # Download
-wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot.tar -P collections/
+wget ${download_url} -P collections/
 
 # Unpack
-tar -xvf collections/msmarco_v2_doc_segmented_unicoil_0shot.tar -C collections/
+tar -xvf collections/${download_corpus}.tar -C collections/
 
 # Rename (indexer is expecting corpus under a slightly different name)
-mv collections/msmarco_v2_doc_segmented_unicoil_0shot collections/msmarco-v2-doc-segmented-unicoil-0shot
+mv collections/${download_corpus} collections/${corpus}
 ```
 
-To confirm, `msmarco_v2_doc_segmented_unicoil_0shot.tar` is 62 GB and has an MD5 checksum of `889db095113cc4fe152382ccff73304a`.
+To confirm, `${download_corpus}.tar` is 62 GB and has an MD5 checksum of `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
