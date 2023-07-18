@@ -28,12 +28,12 @@ import io.anserini.search.SimpleImpactSearcher.Result;
 
 public class SimpleImpactSearcherTest extends IndexerTestBase {
 
-  private static Map<String, Float> EXPECTED_ENCODED_QUERY = new HashMap<>();
+  private static Map<String, Integer> EXPECTED_ENCODED_QUERY = new HashMap<>();
 
   static {
-    EXPECTED_ENCODED_QUERY.put("here", 3.05345f);
-    EXPECTED_ENCODED_QUERY.put("a", 0.59636426f);
-    EXPECTED_ENCODED_QUERY.put("test", 2.9012794f);
+    EXPECTED_ENCODED_QUERY.put("here", 156);
+    EXPECTED_ENCODED_QUERY.put("a", 31);
+    EXPECTED_ENCODED_QUERY.put("test", 149);
   }
 
   @Test
@@ -111,14 +111,14 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
   public void testSearch1() throws Exception {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
 
-    Map<String, Float> testQuery = new HashMap<>();
-    testQuery.put("test", 1.2f);
+    Map<String, Integer> testQuery = new HashMap<>();
+    testQuery.put("test", 1);
 
     SimpleImpactSearcher.Result[] hits = searcher.search(testQuery, 10);
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
     assertEquals(2, hits[0].lucene_docid);
-    assertEquals(1.2f, hits[0].score, 10e-6);
+    assertEquals(1.0f, hits[0].score, 10e-6);
     assertEquals("here is a test", hits[0].contents);
     assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
 
@@ -137,8 +137,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
   public void testSearch2() throws Exception {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
 
-    Map<String, Float> testQuery = new HashMap<>();
-    testQuery.put("text", 1.2f);
+    Map<String, Integer> testQuery = new HashMap<>();
+    testQuery.put("text", 1);
 
     SimpleImpactSearcher.Result[] results;
 
@@ -146,7 +146,7 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     assertEquals(1, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
-    assertEquals(2.4f, results[0].score, 10e-6);
+    assertEquals(2.0f, results[0].score, 10e-6);
     assertEquals("here is some text here is some more text. city.", results[0].contents);
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", results[0].raw);
 
@@ -156,17 +156,17 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     assertEquals(0, results[0].lucene_docid);
     assertEquals("doc2", results[1].docid);
     assertEquals(1, results[1].lucene_docid);
-    assertEquals(2.4f, results[0].score, 10e-6);
-    assertEquals(1.2f, results[1].score, 10e-6);
+    assertEquals(2.0f, results[0].score, 10e-6);
+    assertEquals(1.0f, results[1].score, 10e-6);
 
-    Map<String, Float> testQuery2 = new HashMap<>();
-    testQuery2.put("test", 0.125f);
+    Map<String, Integer> testQuery2 = new HashMap<>();
+    testQuery2.put("test", 1);
 
     results = searcher.search(testQuery2);
     assertEquals(1, results.length);
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
-    assertEquals(0.125f, results[0].score, 10e-6);
+    assertEquals(1.0f, results[0].score, 10e-6);
 
     searcher.close();
   }
@@ -174,13 +174,13 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
   @Test
   public void testBatchSearch() throws Exception {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
-    Map<String, Float> testQuery1 = new HashMap<>();
-    testQuery1.put("tests", 0.1f);
-    testQuery1.put("test", 0.1f);
-    Map<String, Float> testQuery2 = new HashMap<>();
-    testQuery2.put("more", 1.5f);
+    Map<String, Integer> testQuery1 = new HashMap<>();
+    testQuery1.put("tests", 1);
+    testQuery1.put("test", 1);
+    Map<String, Integer> testQuery2 = new HashMap<>();
+    testQuery2.put("more", 3);
 
-    List<Map<String, Float>> queries = new ArrayList<>();
+    List<Map<String, Integer>> queries = new ArrayList<>();
     queries.add(testQuery1);
     queries.add(testQuery2);
 
@@ -210,8 +210,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
   @Test
   public void testOnnxEncodedQuery() throws Exception {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
-    Map<String, Float> testQuery1 = new HashMap<>();
-    testQuery1.put("text", 2.0f);
+    Map<String, Integer> testQuery1 = new HashMap<>();
+    testQuery1.put("text", 2);
     String encodedQuery = searcher.encode_with_onnx(testQuery1);
     assertEquals("text text" ,encodedQuery);
   }
@@ -221,7 +221,7 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher();
     searcher.set_onnx_query_encoder("SpladePlusPlusEnsembleDistil");
 
-    Map<String, Float> encoded_query = searcher.encode_with_onnx("here is a test");
+    Map<String, Integer> encoded_query = searcher.encode_with_onnx("here is a test");
     assertEquals(encoded_query.get("here"), EXPECTED_ENCODED_QUERY.get("here"), 2e-4);
     assertEquals(encoded_query.get("a"), EXPECTED_ENCODED_QUERY.get("a"), 2e-4);
     assertEquals(encoded_query.get("test"), EXPECTED_ENCODED_QUERY.get("test"), 2e-4);
@@ -235,8 +235,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
 
     Result[] results;
 
-    Map<String, Float> testQuery1 = new HashMap<>();
-    testQuery1.put("text", 1.0f);
+    Map<String, Integer> testQuery1 = new HashMap<>();
+    testQuery1.put("text", 1);
 
     results = searcher.search(testQuery1, 1);
     assertEquals(1, results.length);
@@ -244,8 +244,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     assertEquals(0, results[0].lucene_docid);
     assertEquals(1.0f, results[0].score, 10e-5);
 
-    Map<String, Float> testQuery2 = new HashMap<>();
-    testQuery2.put("test", 1.0f);
+    Map<String, Integer> testQuery2 = new HashMap<>();
+    testQuery2.put("test", 1);
 
     results = searcher.search(testQuery2);
     assertEquals(1, results.length);
@@ -253,8 +253,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     assertEquals(2, results[0].lucene_docid);
     assertEquals(0.5f, results[0].score, 10e-5);
 
-    Map<String, Float> testQuery3 = new HashMap<>();
-    testQuery3.put("more", 1.0f);
+    Map<String, Integer> testQuery3 = new HashMap<>();
+    testQuery3.put("more", 1);
 
     results = searcher.search(testQuery3);
 
@@ -287,8 +287,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
 
     Result[] results;
 
-    Map<String, Float> testQuery1 = new HashMap<>();
-    testQuery1.put("text", 1.0f);
+    Map<String, Integer> testQuery1 = new HashMap<>();
+    testQuery1.put("text", 1);
 
     results = searcher.search(testQuery1, 1);
     assertEquals(1, results.length);
@@ -296,8 +296,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     assertEquals(0, results[0].lucene_docid);
     assertEquals(2.0f, results[0].score, 10e-5);
 
-    Map<String, Float> testQuery2 = new HashMap<>();
-    testQuery2.put("test", 1.0f);
+    Map<String, Integer> testQuery2 = new HashMap<>();
+    testQuery2.put("test", 1);
 
     results = searcher.search(testQuery2);
     assertEquals(1, results.length);
@@ -305,8 +305,8 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     assertEquals(2, results[0].lucene_docid);
     assertEquals(1.0f, results[0].score, 10e-5);
 
-    Map<String, Float> testQuery3 = new HashMap<>();
-    testQuery3.put("more", 1.0f);
+    Map<String, Integer> testQuery3 = new HashMap<>();
+    testQuery3.put("more", 1);
 
     results = searcher.search(testQuery3);
     assertEquals(2, results.length);

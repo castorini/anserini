@@ -210,7 +210,7 @@ public class SimpleImpactSearcher implements Closeable {
     return this.analyzer;
   }
 
-    /**
+  /**
    * Determines if RM3 query expansion is enabled.
    *
    * @return true if RM query expansion is enabled; false otherwise.
@@ -228,12 +228,23 @@ public class SimpleImpactSearcher implements Closeable {
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
-    /**
+  /**
    * Enables RM3 query expansion with default parameters.
    */
   public void set_rm3() {
     SearchCollection.Args defaults = new SearchCollection.Args();
     set_rm3(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
+        Float.parseFloat(defaults.rm3_originalQueryWeight[0]));
+  }
+
+  /**
+   * Enables RM3 query expansion with default parameters.
+   *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
+   */
+  public void set_rm3(String collectionClass) {
+    SearchCollection.Args defaults = new SearchCollection.Args();
+    set_rm3(collectionClass, Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
         Float.parseFloat(defaults.rm3_originalQueryWeight[0]));
   }
 
@@ -245,22 +256,44 @@ public class SimpleImpactSearcher implements Closeable {
    * @param originalQueryWeight weight to assign to the original query
    */
   public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight) {
-    set_rm3(fbTerms, fbDocs, originalQueryWeight, false, true);
+    set_rm3(null, fbTerms, fbDocs, originalQueryWeight, false, true);
   }
 
   /**
    * Enables RM3 query expansion with specified parameters.
    *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
+   * @param fbTerms number of expansion terms
+   * @param fbDocs number of expansion documents
+   * @param originalQueryWeight weight to assign to the original query
+   */
+  public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight) {
+    set_rm3(collectionClass, fbTerms, fbDocs, originalQueryWeight, false, true);
+  }
+
+  /**
+   * Enables RM3 query expansion with specified parameters.
+   *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
    * @param fbTerms number of expansion terms
    * @param fbDocs number of expansion documents
    * @param originalQueryWeight weight to assign to the original query
    * @param outputQuery flag to print original and expanded queries
    * @param filterTerms whether to filter terms to be English only
    */
-  public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
+  public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
+    Class clazz = null;
+    try {
+      if (collectionClass != null) {
+        clazz = Class.forName("io.anserini.collection." + collectionClass);
+      }
+    } catch (ClassNotFoundException e) {
+      LOG.error("collectionClass: " + collectionClass + " not found!");
+    }
+
     useRM3 = true;
     cascade = new RerankerCascade("rm3");
-    cascade.add(new Rm3Reranker(this.analyzer, null, Constants.CONTENTS,
+    cascade.add(new Rm3Reranker(this.analyzer, clazz, Constants.CONTENTS,
         fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -288,7 +321,20 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public void set_rocchio() {
     SearchCollection.Args defaults = new SearchCollection.Args();
-    set_rocchio(Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
+    set_rocchio(null, Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
+        Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
+        Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]),
+        Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
+  }
+
+  /**
+   * Enables Rocchio query expansion with default parameters.
+   *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
+   */
+  public void set_rocchio(String collectionClass) {
+    SearchCollection.Args defaults = new SearchCollection.Args();
+    set_rocchio(collectionClass, Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
         Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
         Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]),
         Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
@@ -297,6 +343,7 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Enables Rocchio query expansion with specified parameters.
    *
+   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
    * @param topFbTerms number of relevant expansion terms
    * @param topFbDocs number of relevant expansion documents
    * @param bottomFbTerms number of nonrelevant expansion terms
@@ -305,11 +352,21 @@ public class SimpleImpactSearcher implements Closeable {
    * @param beta weight to assign to the relevant document vectors
    * @param gamma weight to assign to the nonrelevant document vectors
    * @param outputQuery flag to print original and expanded queries
+   * @param useNegative flag to use negative feedback
    */
-  public void set_rocchio(int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+  public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+    Class clazz = null;
+    try {
+      if (collectionClass != null) {
+        clazz = Class.forName("io.anserini.collection." + collectionClass);
+      }
+    } catch (ClassNotFoundException e) {
+      LOG.error("collectionClass: " + collectionClass + " not found!");
+    }
+
     useRocchio = true;
     cascade = new RerankerCascade("rocchio");
-    cascade.add(new RocchioReranker(this.analyzer, null, Constants.CONTENTS,
+    cascade.add(new RocchioReranker(this.analyzer, clazz, Constants.CONTENTS,
         topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -339,6 +396,20 @@ public class SimpleImpactSearcher implements Closeable {
   }
 
   /**
+   * helper function to change Map<String, Int> to Map<String, Float>
+   *
+   * @param Map<String,Int> map needs to be transform
+   * @return a map in the form of Map<String, Float>
+   */
+  private Map<String, Float> intToFloat(Map<String,Integer> input) {
+    Map<String, Float> transformed = new HashMap<>();
+    for (Map.Entry<String, Integer> entry : input.entrySet()) {
+      transformed.put(entry.getKey(), entry.getValue().floatValue()); 
+    }
+    return transformed;
+  }
+
+  /**
    * Closes this searcher.
    */
   @Override
@@ -353,13 +424,13 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Searches in batch using multiple threads.
    *
-   * @param queries list of queries
+   * @param encoded_queries list of queries
    * @param qids    list of unique query ids
    * @param k       number of hits
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public Map<String, Result[]> batch_search(List<Map<String, Float>> queries,
+  public Map<String, Result[]> batch_search(List<Map<String, Integer>> encoded_queries,
                                             List<String> qids,
                                             int k,
                                             int threads) {
@@ -373,9 +444,9 @@ public class SimpleImpactSearcher implements Closeable {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 
-    int queryCnt = queries.size();
+    int queryCnt = encoded_queries.size();
     for (int q = 0; q < queryCnt; ++q) {
-      Map<String, Float> query = queries.get(q);
+      Map<String, Integer> query = encoded_queries.get(q);
       String qid = qids.get(q);
       executor.execute(() -> {
         try {
@@ -417,8 +488,9 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
-  public Map<String, Float> encode_with_onnx(String queryString) throws OrtException {
-    Map<String, Float> encodedQ = this.queryEncoder.getTokenWeightMap(queryString);
+  public Map<String, Integer> encode_with_onnx(String queryString) throws OrtException {
+    Map<String, Float> tokenWeightMap = this.queryEncoder.getTokenWeightMap(queryString);
+    Map<String, Integer> encodedQ = this.queryEncoder.getEncodedQueryMap(tokenWeightMap);
     return encodedQ;
   }
 
@@ -429,22 +501,18 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
-  public String encode_with_onnx(Map<String, Float> queryWeight) throws OrtException {
+  public String encode_with_onnx(Map<String, Integer> queryWeight) throws OrtException {
     String encodedQ = "";
-    if (this.queryEncoder != null){
-      encodedQ = this.queryEncoder.generateEncodedQuery(queryWeight);
-    } else {
-      List<String> encodedQuery = new ArrayList<>();
-      for (Map.Entry<String, Float> entry : queryWeight.entrySet()) {
-        String token = entry.getKey();
-        Float tokenWeight = entry.getValue();
-        int weightQuanted = Math.round(tokenWeight);
-        for (int i = 0; i < weightQuanted; ++i) {
-          encodedQuery.add(token);
-        }
+    List<String> encodedQuery = new ArrayList<>();
+    for (Map.Entry<String, Integer> entry : queryWeight.entrySet()) {
+      String token = entry.getKey();
+      Integer tokenWeight = entry.getValue();
+      for (int i = 0; i < tokenWeight; ++i) {
+        encodedQuery.add(token);
       }
-      encodedQ = String.join(" ", encodedQuery);
     }
+    encodedQ = String.join(" ", encodedQuery);
+    
     return encodedQ;
   }
 
@@ -452,25 +520,28 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Searches the collection, returning 10 hits by default.
    *
-   * @param q query
+   * @param encoded_q query
    * @return array of search results
    * @throws IOException if error encountered during search
+   * @throws OrtException if error encountered during search
    */
-  public Result[] search(Map<String, Float> q) throws IOException, OrtException {
-    return search(q, 10);
+  public Result[] search(Map<String, Integer> encoded_q) throws IOException, OrtException {
+    return search(encoded_q, 10);
   }
 
   /**
    * Searches the collection.
    *
-   * @param q query
+   * @param encoded_q query
    * @param k number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
+   * @throws OrtException if error encountered during search
    */
-  public Result[] search(Map<String, Float> q, int k) throws IOException, OrtException {
-    Query query = generator.buildQuery(Constants.CONTENTS, q);
-    String encodedQuery = encode_with_onnx(q);
+  public Result[] search(Map<String, Integer> encoded_q, int k) throws IOException, OrtException {
+    Map<String, Float> float_encoded_q = intToFloat(encoded_q);
+    Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
+    String encodedQuery = encode_with_onnx(encoded_q);
     return _search(query, encodedQuery, k);
   }
 
