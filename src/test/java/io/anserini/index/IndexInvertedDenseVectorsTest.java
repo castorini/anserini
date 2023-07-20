@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import io.anserini.index.IndexInvertedDenseVectors;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -47,13 +46,43 @@ public class IndexInvertedDenseVectorsTest {
     createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
   }
 
+  @Test
+  public void testLLCollection() throws Exception {
+    List<String> args = new LinkedList<>();
+    args.add("-collection");
+    args.add("JsonDenseVectorCollection");
+    args.add("-encoding");
+    args.add("lexlsh");
+    args.add("-input");
+    args.add("src/test/resources/sample_docs/json_vector/dense_collection1");
+    args.add("-index");
+    args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
+    args.add("-stored");
+    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
+  }
+
+  @Test
+  public void testFWCollection() throws Exception {
+    List<String> args = new LinkedList<>();
+    args.add("-collection");
+    args.add("JsonDenseVectorCollection");
+    args.add("-encoding");
+    args.add("fw");
+    args.add("-input");
+    args.add("src/test/resources/sample_docs/json_vector/dense_collection1");
+    args.add("-index");
+    args.add("target/idx-sample-fw-vector" + System.currentTimeMillis());
+    args.add("-stored");
+    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
+  }
+
   public static void createIndex(String path, String encoding, boolean stored) throws Exception {
     List<String> args = new LinkedList<>();
     args.add("-encoding");
     args.add(encoding);
     args.add("-input");
     args.add("src/test/resources/mini-word-vectors.txt");
-    args.add("-path");
+    args.add("-index");
     args.add(path);
     if (stored) {
       args.add("-stored");

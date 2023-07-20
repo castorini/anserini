@@ -62,7 +62,7 @@ public class EvaluateInvertedDenseVectors {
     @Option(name = "-input", metaVar = "[file]", required = true, usage = "vectors model")
     public File input;
 
-    @Option(name = "-path", metaVar = "[path]", required = true, usage = "index path")
+    @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
     public Path path;
 
     @Option(name = "-topics", metaVar = "[file]", required = true, usage = "path to TREC topics file")
