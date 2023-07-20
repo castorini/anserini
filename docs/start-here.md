@@ -6,7 +6,7 @@ It also serves as an [onboarding path](https://github.com/lintool/guide/blob/mas
 As a high-level tip for anyone going through these exercises: try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blindly copying and pasting commands into a shell).
 By this, I mean, actually _read_ the surrounding explanations, understand the purpose of the commands, and use this guide as a springboard for additional explorations (for example, dig deeper into the code).
 
-**Learning outcomes:**
+**Learning outcomes** for this guide:
 
 + Understand the definition of the retrieval problem in terms of the core concepts of queries, collections, and relevance.
 + Understand at a high level how retrieval systems are evaluated with queries and relevance judgments.
@@ -87,7 +87,24 @@ Oversimplifying (of course), information retrieval is all about making the metri
 Oh, where do these magical relevance judgments (qrels) come from?
 Well, that's the story for another day...
 
-## MS MARCO
+<details>
+<summary>Additional readings...</summary>
+
+This is a very high-level summary of core concepts in information retrieval.
+More nuanced explanations are presented in our book [Pretrained Transformers for Text Ranking: BERT and Beyond](
+https://link.springer.com/book/10.1007/978-3-031-02181-7).
+If you can access the book (e.g., via your university), then please do, since it helps get our page views up.
+However, if you're paywalled, a pre-publication version is available [on arXiv](https://arxiv.org/abs/2010.06467) for free.
+
+The parts you'll want to read are Section 1.1 "Text Ranking Problems" and all of Chapter 2 "Setting the Stage".
+
+When should you do these readings?
+That's a good question:
+If you absolutely want to know more _right now_, then go for it.
+Otherwise, I think it's probably okay to continue along the onboarding path... although you'll need to circle back and get a deeper understanding of these concepts if you want to get into information retrieval research "more seriously".
+</details>
+
+## A Tour of MS MARCO
 
 Bringing together everything we've discussed so far, a test collection consists of three elements:
 
@@ -221,7 +238,7 @@ How big is the MS MARCO passage ranking test collection, btw?
 Well, we've just seen that there are 6980 training queries.
 For those, we have 7437 relevance judgments:
 
-```
+```bash
 $ wc collections/msmarco-passage/qrels.dev.small.tsv  
 7437   29748  143300 collections/msmarco-passage/qrels.dev.small.tsv
 ````
@@ -235,7 +252,7 @@ This is just looking at the development set.
 Now let's look at the training set:
 
 ```bash
-% wc collections/msmarco-passage/qrels.train.tsv               
+$ wc collections/msmarco-passage/qrels.train.tsv               
 532761 2131044 10589532 collections/msmarco-passage/qrels.train.tsv
 ```
 

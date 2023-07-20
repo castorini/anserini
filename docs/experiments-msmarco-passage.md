@@ -7,7 +7,7 @@ This exercise will require a machine with >8 GB RAM and >15 GB free disk space .
 If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
 ).
 
-**Learning outcomes**, building on previous steps in the onboarding path:
+**Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
 + Be able to use Anserini to index the MS MARCO passage collection.
 + Be able to use Anserini to search the MS MARCO passage collection with the dev queries.
@@ -278,6 +278,7 @@ Researchers have been trying to answer the question "how do we know if a search 
 In short, it's complicated.
 
 At this time, look back through the learning outcomes again and make sure you're good.
+As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
 
 ## BM25 Tuning
 
