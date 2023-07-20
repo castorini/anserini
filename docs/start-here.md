@@ -23,7 +23,8 @@ This is the definition I typically give:
 > Given an information need expressed as a query _q_, the text ranking task is to return a ranked list of _k_ texts {_d<sub>1</sub>_, _d<sub>2</sub>_ ... _d<sub>k</sub>_} from an arbitrarily large but finite collection
 of texts _C_ = {_d<sub>i</sub>_} that maximizes a metric of interest, for example, nDCG, AP, etc.
 
-This problem has been given various names, e.g., the search problem, the information retrieval problem, the text ranking problem, etc.
+This problem has been given various names, e.g., the search problem, the information retrieval problem, the text ranking problem, the top-_k_ document retrieval problem, etc.
+In most contexts, "ranking" and "retrieval" is used interchangeably.
 Basically, this is what _search_ (i.e., information retrieval) is all about.
 
 Let's try to unpack the definition a bit.
