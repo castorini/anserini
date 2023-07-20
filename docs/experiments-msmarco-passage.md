@@ -8,7 +8,6 @@ If you're a Waterloo student traversing the [onboarding path](https://github.com
 ).
 
 **Learning outcomes** for this guide, building on previous steps in the onboarding path:
-<<<<<<< HEAD
 
 + Be able to use Anserini to index the MS MARCO passage collection.
 + Be able to use Anserini to search the MS MARCO passage collection with the dev queries.
@@ -25,13 +24,6 @@ Elasticsearch provides "assembly of parts" targeted to production search applica
 Anserini provides an alternative way of composing the same core components together, targeted at information retrieval researchers.
 By building on Lucene, Anserini aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
 That is, most things done with Anserini can be "translated" into Elasticsearch quite easily.
-=======
-
-+ Be able to use Anserini to index the MS MARCO passage collection.
-+ Be able to use Anserini to search the MS MARCO passage collection with the dev queries.
-+ Be able to evaluate the retrieved results above.
-+ Understand the MRR metric.
->>>>>>> master
 
 ## Data Prep
 
@@ -282,14 +274,9 @@ We can find the MRR@10 for `qid` 1048585 above:
 
 ```bash
 $ tools/eval/trec_eval.9.0.4/trec_eval -q -c -M 10 -m recip_rank \
-<<<<<<< HEAD
     collections/msmarco-passage/qrels.dev.small.trec \
     runs/run.msmarco-passage.dev.small.trec | grep 1048585
 
-=======
-  collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec | grep 1048585
->>>>>>> master
 recip_rank            	1048585	1.0000
 ```
 
@@ -304,11 +291,8 @@ In short, it's complicated.
 
 At this time, look back through the learning outcomes again and make sure you're good.
 As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
-<<<<<<< HEAD
 
 Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use a 7-hexadecimal prefix for the link anchor text.
-=======
->>>>>>> master
 
 ## BM25 Tuning
 
