@@ -277,5 +277,4 @@ From here, you're now ready to proceed to try and reproduce the [BM25 Baselines 
 ](experiments-msmarco-passage.md).
 
 ## Reproduction Log[*](reproducibility.md)
-- `sahel-sh` on 2023-07-20
 
