@@ -14,6 +14,17 @@ If you're a Waterloo student traversing the [onboarding path](https://github.com
 + Be able to evaluate the retrieved results above.
 + Understand the MRR metric.
 
+What's Anserini?
+Well, it's the repo that you're in right now.
+Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Luence search library](https://lucene.apache.org/).
+The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
+
+Think of it this way: Lucene provides a "kit of parts".
+Elasticsearch provides "assembly of parts" targeted to production search applications, with a REST-centric API.
+Anserini provides an alternative way of composing the same core components together, targeted at information retrieval researchers.
+By building on Lucene, Anserini aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
+That is, most things done with Anserini can be "translated" into Elasticsearch quite easily.
+
 ## Data Prep
 
 In this guide, we're just going through the mechanical steps of data prep.
@@ -263,8 +274,9 @@ We can find the MRR@10 for `qid` 1048585 above:
 
 ```bash
 $ tools/eval/trec_eval.9.0.4/trec_eval -q -c -M 10 -m recip_rank \
-  collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec | grep 1048585
+    collections/msmarco-passage/qrels.dev.small.trec \
+    runs/run.msmarco-passage.dev.small.trec | grep 1048585
+
 recip_rank            	1048585	1.0000
 ```
 
@@ -279,6 +291,8 @@ In short, it's complicated.
 
 At this time, look back through the learning outcomes again and make sure you're good.
 As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
+
+Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
 
 ## BM25 Tuning
 
