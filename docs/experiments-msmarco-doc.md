@@ -3,8 +3,7 @@
 This page contains instructions for running BM25 baselines on the [MS MARCO *document* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *passage* ranking task](experiments-msmarco-passage.md).
 
-As of July 2023, this exercise has been removed form the Waterloo students [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), which [starts here](start-here.md
-).
+As of July 2023, this exercise has been removed from the Waterloo students [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), which [starts here](start-here.md).
 
 ## Data Prep
 
