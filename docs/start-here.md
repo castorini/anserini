@@ -114,9 +114,14 @@ Bringing together everything we've discussed so far, a test collection consists 
 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
-In these instructions we're going to use Anserini's root directory as the working directory.
-Assuming you've cloned the repo already...
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
+```bash
+git clone https://github.com/castorini/anserini.git
+cd anserini
+git submodule update --init --recursive
+```
 
+In these instructions we're going to use Anserini's root directory as the working directory.
 First, we need to download and extract the data:
 
 ```bash
@@ -130,7 +135,10 @@ wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.t
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
-To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
+To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`:
+```bash
+md5sum collections/msmarco-passage/collectionandqueries.tar.gz
+```
 
 If you peak inside the collection:
 
@@ -269,4 +277,5 @@ From here, you're now ready to proceed to try and reproduce the [BM25 Baselines 
 ](experiments-msmarco-passage.md).
 
 ## Reproduction Log[*](reproducibility.md)
+- `sahel-sh` on 2023-07-20
 
