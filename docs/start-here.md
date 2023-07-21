@@ -269,7 +269,7 @@ By now you should be able to connect the concepts we introduced to how they mani
 From here, you're now ready to proceed to try and reproduce the [BM25 Baselines for MS MARCO Passage Ranking
 ](experiments-msmarco-passage.md).
 
-Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use a 7-hexadecimal prefix for the link anchor text.
+Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
 
 ## Reproduction Log[*](reproducibility.md)
 
