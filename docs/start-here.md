@@ -24,7 +24,7 @@ This is the definition I typically give:
 of texts _C_ = {_d<sub>i</sub>_} that maximizes a metric of interest, for example, nDCG, AP, etc.
 
 This problem has been given various names, e.g., the search problem, the information retrieval problem, the text ranking problem, the top-_k_ document retrieval problem, etc.
-In most contexts, "ranking" and "retrieval" is used interchangeably.
+In most contexts, "ranking" and "retrieval" are used interchangeably.
 Basically, this is what _search_ (i.e., information retrieval) is all about.
 
 Let's try to unpack the definition a bit.
