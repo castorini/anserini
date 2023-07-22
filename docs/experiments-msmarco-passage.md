@@ -85,10 +85,7 @@ On the other hand, retrieval needs to be fast, i.e., low latency, high throughpu
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
 
-If you haven't built Anserini already, build it now:
-```bash
-sh bin/qbuild.sh
-```
+If you haven't built Anserini already, build it now using the instructions in [anserini#-getting-started](https://github.com/castorini/anserini#-getting-started).
 
 We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
@@ -249,7 +246,9 @@ cd tools/eval/trec_eval.9.0.4
 make
 cd ../../.
 ```
-And run the `trec_eval` tool. 
+
+And run the `trec_eval` tool:
+
 ```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
   collections/msmarco-passage/qrels.dev.small.trec \
