@@ -84,6 +84,12 @@ Given a (static) document collection, indexing only needs to be performed once, 
 On the other hand, retrieval needs to be fast, i.e., low latency, high throughput, etc.
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
+
+If you haven't built Anserini already, build it now:
+```bash
+sh bin/qbuild.sh
+```
+
 We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
 ```bash
@@ -236,8 +242,14 @@ python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
   --output collections/msmarco-passage/qrels.dev.small.trec
 ```
 
-And run the `trec_eval` tool:
-
+If you are using the `trec_eval` tool for the first time, you need to extract and build it first:
+```bash
+tar -xvf tools/eval/trec_eval.9.0.4.tar.gz --directory tools/eval/
+cd tools/eval/trec_eval.9.0.4
+make
+cd ../../.
+```
+And run the `trec_eval` tool. 
 ```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
   collections/msmarco-passage/qrels.dev.small.trec \
@@ -413,3 +425,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@Singularity-tian](https://github.com/Singularity-tian) on 2023-05-12 (commit [`d82b6f7`](https://github.com/castorini/anserini/commit/d82b6f76cbef009bccb0e67fc2bedc6fa6ae56c6))
 + Results reproduced by [@Richard5678](https://github.com/Richard5678) on 2023-06-11 (commit [`2d484d3`](https://github.com/castorini/anserini/commit/2d484d330b6218852552901fa4dc62c441e7ff17))
 + Results reproduced by [@pratyushpal](https://github.com/pratyushpal) on 2023-07-14 (commit [`17d5fc7`](https://github.com/castorini/anserini/commit/17d5fc7f338b511c4dc49de88e9b2ab7ea27f8aa))
++ Results reproduced by [@sahel-sh](https://github.com/sahel-sh) on 2023-07-22 (commit [`4b8f051`](https://github.com/castorini/anserini/commit/4b8f051c25992a5d87ecf8d30d45a93aff17abc4))
