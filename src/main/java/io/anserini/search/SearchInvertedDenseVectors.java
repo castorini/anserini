@@ -82,7 +82,7 @@ public final class SearchInvertedDenseVectors implements Closeable {
     @Option(name = "-input", metaVar = "[file]", usage = "vectors model")
     public File input;
 
-    @Option(name = "-word", metaVar = "[word]", required = true, usage = "input word")
+    @Option(name = "-word", metaVar = "[word]", usage = "input word")
     public String word;
 
     @Option(name = "-stored", metaVar = "[boolean]", usage = "fetch stored vectors from index")
