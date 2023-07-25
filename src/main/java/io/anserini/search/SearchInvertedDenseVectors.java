@@ -41,6 +41,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.index.IndexInvertedDenseVectors;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.InvertedDenseVectorQueryGenerator;
@@ -102,6 +103,24 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
     public String encoding;
+
+    @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
+    public int ngrams = 2;
+
+    @Option(name = "-lexlsh.d", metaVar = "[int]", usage = "decimals")
+    public int decimals = 1;
+
+    @Option(name = "-lexlsh.hsize", metaVar = "[int]", usage = "hash set size")
+    public int hashSetSize = 1;
+
+    @Option(name = "-lexlsh.h", metaVar = "[int]", usage = "hash count")
+    public int hashCount = 1;
+
+    @Option(name = "-lexlsh.b", metaVar = "[int]", usage = "bucket count")
+    public int bucketCount = 300;
+
+    @Option(name = "-fw.q", metaVar = "[int]", usage = "quantization factor")
+    public int q = FakeWordsEncoderAnalyzer.DEFAULT_Q;
 
     @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
     public int threads = 1;
@@ -334,7 +353,7 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
   @SuppressWarnings("unchecked")
   public <K> void runTopics() {
-    generator = new InvertedDenseVectorQueryGenerator(args.encoding, true);
+    generator = new InvertedDenseVectorQueryGenerator(args, true);
     TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
     for (String singleTopicsFile : args.topics) {
@@ -444,7 +463,7 @@ public final class SearchInvertedDenseVectors implements Closeable {
   }
 
   private void runWord() throws IOException {
-    generator = new InvertedDenseVectorQueryGenerator(args.encoding, false);
+    generator = new InvertedDenseVectorQueryGenerator(args, false);
     Collection<String> vectorStrings = new LinkedList<>();
     IndexSearcher searcher = new IndexSearcher(reader);
     if (args.encoding.equalsIgnoreCase(FW)) {

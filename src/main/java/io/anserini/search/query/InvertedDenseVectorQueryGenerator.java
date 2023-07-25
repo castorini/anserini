@@ -25,6 +25,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
 import io.anserini.index.IndexInvertedDenseVectors;
+import io.anserini.search.SearchInvertedDenseVectors;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
@@ -39,14 +40,14 @@ public class InvertedDenseVectorQueryGenerator {
   private final Analyzer vectorAnalyzer;
   private final boolean jsonConversion;
 
-  public InvertedDenseVectorQueryGenerator(String encoding, boolean jsonConversion) {
+  public InvertedDenseVectorQueryGenerator(SearchInvertedDenseVectors.Args args, boolean jsonConversion) {
     this.jsonConversion = jsonConversion;
-    if (encoding.equalsIgnoreCase(FW)) {
-      vectorAnalyzer = new FakeWordsEncoderAnalyzer();
-    } else if (encoding.equalsIgnoreCase(LEXLSH)) {
-      vectorAnalyzer = new LexicalLshAnalyzer();
+    if (args.encoding.equalsIgnoreCase(FW)) {
+      vectorAnalyzer = new FakeWordsEncoderAnalyzer(args.q);
+    } else if (args.encoding.equalsIgnoreCase(LEXLSH)) {
+      vectorAnalyzer = new LexicalLshAnalyzer(args.decimals, args.ngrams, args.hashCount, args.bucketCount, args.hashSetSize);
     } else {
-      throw new RuntimeException("unrecognized encoding " + encoding);
+      throw new RuntimeException("unrecognized encoding " + args.encoding);
     }
   }
 
