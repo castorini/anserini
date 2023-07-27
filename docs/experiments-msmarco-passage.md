@@ -2,25 +2,35 @@
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
+This exercise will require a machine with >8 GB RAM and >15 GB free disk space .
 
-This exercise will require a machine with >8 GB RAM and at least 15 GB free disk space .
+If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
+).
 
-If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
-In particular, you'll want to pay attention to the "What's going on here?" sections.
+**Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
-<details>
-<summary>What's going on here?</summary>
++ Be able to use Anserini to index the MS MARCO passage collection.
++ Be able to use Anserini to search the MS MARCO passage collection with the dev queries.
++ Be able to evaluate the retrieved results above.
++ Understand the MRR metric.
 
-As a really high level summary: in the MS MARCO passage ranking task, you're given a bunch of passages to search and a bunch of queries.
-The system's task is to return the best passages for each query (i.e., passages that are relevant).
+What's Anserini?
+Well, it's the repo that you're in right now.
+Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Luence search library](https://lucene.apache.org/).
+The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
 
-Note that "the things you're searching" are called documents (in the generic sense), even though they're actually passages (extracted from web pages) in this case.
-You could be search web pages, PDFs, Excel spreadsheets, and even podcasts.
-Information retrieval researchers refer to these all as "documents".
-</details>
-
+Think of it this way: Lucene provides a "kit of parts".
+Elasticsearch provides "assembly of parts" targeted to production search applications, with a REST-centric API.
+Anserini provides an alternative way of composing the same core components together, targeted at information retrieval researchers.
+By building on Lucene, Anserini aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
+That is, most things done with Anserini can be "translated" into Elasticsearch quite easily.
 
 ## Data Prep
+
+In this guide, we're just going through the mechanical steps of data prep.
+To better understand what you're actually doing, go through the [start here](start-here.md
+) guide.
+The guide contains the same exact instructions, but provide more detailed explanations.
 
 We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO passage dataset:
@@ -38,21 +48,6 @@ tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/
 
 To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
 
-<details>
-<summary>What's going on here?</summary>
-
-If you peak inside the collection:
-
-```bash
-head collections/msmarco-passage/collection.tsv
-```
-
-You'll see that `collection.tsv` contains the passages that we're searching.
-Each line represents a passage:
-the first column contains a unique identifier for the passage (called the `docid`) and the second column contains the text of the passage itself.
-
-</details>
-
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
 ```bash
@@ -63,10 +58,36 @@ python tools/scripts/msmarco/convert_collection_to_jsonl.py \
 
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 
+We need to do a bit of data munging on the queries as well.
+There are queries in the dev set that don't have relevance judgments.
+Let's discard them:
+
+```bash
+python tools/scripts/msmarco/filter_queries.py \
+  --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+  --queries collections/msmarco-passage/queries.dev.tsv \
+  --output collections/msmarco-passage/queries.dev.small.tsv
+```
+
+The output queries file `collections/msmarco-passage/queries.dev.small.tsv` should contain 6980 lines.
 
 ## Indexing
 
-We can now index these docs as a `JsonCollection` using Anserini:
+In building a retrieval system, there are generally two phases:
+
++ In the **indexing** phase, an indexer takes the document collection (i.e., corpus) and builds an index, which is a data structure that supports effcient retrieval.
++ In the **retrieval** (or **search**) phase, the retrieval system returns a ranked list given a query _q_, with the aid of the index constructed in the previous phase.
+
+(There's also a training phase when we start to discuss models that _learn_ from data, but we're not there yet.)
+
+Given a (static) document collection, indexing only needs to be performed once, and hence there are fewer constraints on latency, throughput, and other aspects of performance (just needs to be "reasonable").
+On the other hand, retrieval needs to be fast, i.e., low latency, high throughput, etc.
+
+With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
+
+If you haven't built Anserini already, build it now using the instructions in [anserini#-getting-started](https://github.com/castorini/anserini#-getting-started).
+
+We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
 ```bash
 target/appassembler/bin/IndexCollection \
@@ -77,48 +98,16 @@ target/appassembler/bin/IndexCollection \
   -threads 9 -storePositions -storeDocvectors -storeRaw 
 ```
 
+In this case, Lucene creates what is known as an **inverted index**.
+
 Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
 
 
 ## Retrieval
 
-Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
-
-```bash
-python tools/scripts/msmarco/filter_queries.py \
-  --qrels collections/msmarco-passage/qrels.dev.small.tsv \
-  --queries collections/msmarco-passage/queries.dev.tsv \
-  --output collections/msmarco-passage/queries.dev.small.tsv
-```
-
-The output queries file should contain 6980 lines.
-
-<details>
-<summary>What's going on here?</summary>
-
-Check out the contents of the queries file:
-
-```bash
-$ head collections/msmarco-passage/queries.dev.small.tsv
-1048585	what is paula deen's brother
-2	 Androgen receptor define
-524332	treating tension headaches without medication
-1048642	what is paranoid sc
-524447	treatment of varicose veins in legs
-786674	what is prime rate in canada
-1048876	who plays young dr mallard on ncis
-1048917	what is operating system misconfiguration
-786786	what is priority pass
-524699	tricare service number
-```
-
-These are the queries we're going to feed to the search engine.
-The first field is a unique identifier for the query (called the `qid`) and the second column is the query itself.
-These queries are taken from Bing search logs, so they're "realistic" web queries in that they may be ambiguous, contain typos, etc.
-</details>
-
-We can now perform a retrieval run using this smaller set of queries:
+In the above step, we've built the inverted index.
+Now we can now perform a retrieval run using queries we've prepared:
 
 ```bash
 target/appassembler/bin/SearchCollection \
@@ -130,6 +119,14 @@ target/appassembler/bin/SearchCollection \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
 ```
 
+This is the **retrieval** (or **search**) phase.
+We're performing retrieval _in batch_, on a set of queries.
+
+Retrieval here uses a "bag-of-words" model known as **BM25**.
+A "bag of words" model just means that documents are scored based on the matching of query terms (i.e., words) that appear in the documents, without regard to the structure of the document, the order of the words, etc.
+BM25 is perhaps the most popular bag-of-words retrieval model; it's the default in the popular [Elasticsearch](https://www.elastic.co/) platform.
+We'll discuss retrieval models in much more detail later.
+
 The above command uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
 The option `-hits` specifies the number of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
@@ -138,13 +135,12 @@ Retrieval speed will vary by machine:
 On a reasonably modern desktop with an SSD, with four threads (as specified above), the run takes a couple of minutes.
 Adjust the parallelism by changing the `-parallelism` argument.
 
-<details>
-<summary>What's going on here?</summary>
+Congratulations, you've performed your first **retrieval run**!
 
-Congratulations, you've performed your first retrieval run!
-
-You feed a search engine a bunch of queries, and the retrieval run is the output of the search engine.
-For each query, the search engine gives back a ranked list of results (i.e., a list of hits).
+Recap of what you've done:
+You've fed the retrieval system a bunch of queries and the retrieval run is the output.
+For each query, the retrieval system produced a ranked list of results (i.e., a list of hits).
+The retrieval run contains the ranked lists for all queries you fed to it.
 
 Let's take a look:
 
@@ -174,13 +170,23 @@ $ grep 7187158 collections/msmarco-passage/collection.tsv
 7187158	Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦ Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ
 ```
 
-In this case, the hit seems relevant.
-That is, it answers the query.
-So here, the search engine did well.
+In this case, the document (hit) seems relevant.
+That is, it contains information that addresses the information need.
+So here, the retrieval system "did well".
+Remember that this document was indeed marked relevant in the qrels, as we saw in the [start here](start-here.md
+) guide.
 
-Note that this particular passage is a bit dirty (garbage characters, dups, etc.)... but that's pretty much a fact of life when you're dealing with the web.
+As an additional sanity check, run the following:
 
-</details>
+```bash
+$ cut -f 1 runs/run.msmarco-passage.dev.small.tsv | uniq | wc
+    6980    6980   51039
+```
+
+This tells us that there are 6980 unique tokens in the first column of the run file.
+Since the first column indicates the `qid`, it means that the file contains ranked lists for 6980 queries, which checks out.
+
+## Evaluation
 
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
@@ -198,34 +204,12 @@ QueriesRanked: 6980
 #####################
 ```
 
-<details>
-<summary>What's going on here?</summary>
+(Yea, the number of digits of precision is a bit... excessive)
 
-So how do we know if a search engine is any good?
-One method is manual examination, which is what we did above.
-That is, we actually looked at the results by hand.
+Remember from the [start here](start-here.md
+) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
 
-Obviously, this isn't scalable if we want to evaluate lots of queries...
-If only someone told us which documents were relevant to which queries...
-
-Well, someone has! (Specifically, human editors hired by Microsoft Bing in this case.)
-These are captured in what are known as relevance judgments.
-Take a look:
-
-```bash
-$ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv
-1048585	0	7187158	1
-```
-
-This says that `docid` 7187158 is relevant to `qid` 1048585, which confirms our intuition above.
-The file is in what is known as the qrels format.
-You can ignore the second column.
-The fourth column "1", says that the `docid` is relevant.
-In some cases (though not here), that column might say "0", i.e., that the `docid` is _not_ relevant.
-
-With relevance judgments (qrels), we can now automatically evaluate the search engine output (i.e., the run).
-The final ingredient we need is a metric (i.e., how to score).
-
+The final ingredient is a metric, i.e., how to quantify the "quality" of a ranked list.
 Here, we're using a metric called MRR, or mean reciprocal rank.
 The idea is quite simple:
 We look at where the relevant `docid` appears.
@@ -238,9 +222,8 @@ If the relevant `docid` doesn't appear in the top 10, then the system gets a sco
 
 That's the score of a query.
 We take the average of the scores across all queries (6980 in this case), and we arrive at the score for the entire run.
-</details>
 
-You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
+You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
 So you've just reproduced (part of) a leaderboard submission!
 
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
@@ -260,7 +243,8 @@ And run the `trec_eval` tool:
 
 ```bash
 tools/eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
-  collections/msmarco-passage/qrels.dev.small.trec runs/run.msmarco-passage.dev.small.trec
+  collections/msmarco-passage/qrels.dev.small.trec \
+  runs/run.msmarco-passage.dev.small.trec
 ```
 
 The output should be:
@@ -270,21 +254,52 @@ map                   	all	0.1957
 recall_1000           	all	0.8573
 ```
 
-Average precision and recall@1000 are the two metrics we care about the most.
+In many retrieval applications, average precision and recall@1000 are the two metrics we care about the most.
 
-<details>
-<summary>What's going on here?</summary>
+You can use `trec_eval` to compute the MRR@10 also, which gives results identical to above (just fewer digits of precision):
 
-Don't worry so much about the details here for now.
+```
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank \
+  collections/msmarco-passage/qrels.dev.small.trec \
+  runs/run.msmarco-passage.dev.small.trec
+```
+
+It's a different command-line incantation of `trec_eval` to compute MRR@10.
+And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6908 queries, in addition to the final average).
+
+```
+tools/eval/trec_eval.9.0.4/trec_eval -q -c -M 10 -m recip_rank \
+  collections/msmarco-passage/qrels.dev.small.trec \
+  runs/run.msmarco-passage.dev.small.trec
+```
+
+We can find the MRR@10 for `qid` 1048585 above:
+
+```bash
+$ tools/eval/trec_eval.9.0.4/trec_eval -q -c -M 10 -m recip_rank \
+    collections/msmarco-passage/qrels.dev.small.trec \
+    runs/run.msmarco-passage.dev.small.trec | grep 1048585
+
+recip_rank            	1048585	1.0000
+```
+
+This is consistent with the example we worked through above.
+At this point, make sure that the connections between a query, the relevance judgments for a query, the ranked list, and the metric (MRR@10) are clear in your mind.
+Work through a few more examples (take another query, look at its qrels and ranked list, and compute its MRR@10 by hand) to convince yourself that you understand what's going on.
+
 The tl;dr is that there are different formats for run files and lots of different metrics you can compute.
-`trec_eval` is a standard tool used by information retrieval researchers.
-
-In fact, researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century...
-and the question still has not been fully resolved.
+`trec_eval` is a standard tool used by information retrieval researchers (which has many command-line options that you'll slowly learn over time).
+Researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century... and the question still has not been fully resolved.
 In short, it's complicated.
-</details>
+
+At this time, look back through the learning outcomes again and make sure you're good.
+As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
+
+Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
 
 ## BM25 Tuning
+
+This section is **not** part of the onboarding path, so feel free to skip.
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
@@ -306,7 +321,7 @@ Here's the comparison between the Anserini default and optimized parameters:
 | Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 |      0.8573 |
 | Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 |      0.8555 |
 
-As mentioned above, the BM25 run with `k1=0.82`, `b=0.68` corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/).
+As mentioned above, the BM25 run with `k1=0.82`, `b=0.68` corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/).
 The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 (but Anserini was using Lucene 7.6 at the time).
 
 ## Reproduction Log[*](reproducibility.md)
@@ -401,3 +416,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@Singularity-tian](https://github.com/Singularity-tian) on 2023-05-12 (commit [`d82b6f7`](https://github.com/castorini/anserini/commit/d82b6f76cbef009bccb0e67fc2bedc6fa6ae56c6))
 + Results reproduced by [@Richard5678](https://github.com/Richard5678) on 2023-06-11 (commit [`2d484d3`](https://github.com/castorini/anserini/commit/2d484d330b6218852552901fa4dc62c441e7ff17))
 + Results reproduced by [@pratyushpal](https://github.com/pratyushpal) on 2023-07-14 (commit [`17d5fc7`](https://github.com/castorini/anserini/commit/17d5fc7f338b511c4dc49de88e9b2ab7ea27f8aa))
++ Results reproduced by [@sahel-sh](https://github.com/sahel-sh) on 2023-07-22 (commit [`4b8f051`](https://github.com/castorini/anserini/commit/4b8f051c25992a5d87ecf8d30d45a93aff17abc4))
