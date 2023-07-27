@@ -115,6 +115,14 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     testQuery.put("test", 1);
 
     SimpleImpactSearcher.Result[] hits = searcher.search(testQuery, 10);
+    SimpleImpactSearcher.Result[] hits_string = searcher.search("test", 10);
+    assertEquals(hits_string.length, hits.length);
+    assertEquals(hits_string[0].docid, hits[0].docid);
+    assertEquals(hits_string[0].lucene_docid, hits[0].lucene_docid);
+    assertEquals(hits_string[0].score, hits[0].score, 10e-6);
+    assertEquals(hits_string[0].contents, hits[0].contents);
+    assertEquals(hits_string[0].raw, hits[0].raw);
+
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
     assertEquals(2, hits[0].lucene_docid);

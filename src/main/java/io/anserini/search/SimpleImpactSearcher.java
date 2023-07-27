@@ -61,7 +61,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
+import java.util.stream.Collectors;
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
  * via pyjnius. Note that methods are named according to Python conventions (e.g., snake case instead of camel case).
@@ -482,6 +482,66 @@ public class SimpleImpactSearcher implements Closeable {
   }
 
   /**
+   * Searches in batch using multiple threads.
+   *
+   * @param queries list of String queries
+   * @param qids    list of unique query ids
+   * @param k       number of hits
+   * @param threads number of threads
+   * @return a map of query id to search results
+   */
+  public Map<String, Result[]> batch_search_queries(List<String> queries,
+                                            List<String> qids,
+                                            int k,
+                                            int threads) {
+    // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
+    // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
+    if (searcher == null) {
+      searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(similarity);
+    }
+
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
+    ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
+
+    int queryCnt = queries.size();
+    for (int q = 0; q < queryCnt; ++q) {
+      String query = queries.get(q);
+      String qid = qids.get(q);
+      executor.execute(() -> {
+        try {
+          results.put(qid, search(query, k));
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        } catch (OrtException e) {
+          throw new CompletionException(e);
+        }
+      });
+    }
+
+    executor.shutdown();
+
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+    }
+
+    if (queryCnt != executor.getCompletedTaskCount()) {
+      throw new RuntimeException("queryCount = " + queryCnt +
+          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+    }
+
+    return results;
+  }
+
+  /**
    * Encodes the query using the onnx encoder
    * 
    * @param queryString query string
@@ -489,8 +549,16 @@ public class SimpleImpactSearcher implements Closeable {
    * @return encoded query
    */
   public Map<String, Integer> encode_with_onnx(String queryString) throws OrtException {
-    Map<String, Float> tokenWeightMap = this.queryEncoder.getTokenWeightMap(queryString);
-    Map<String, Integer> encodedQ = this.queryEncoder.getEncodedQueryMap(tokenWeightMap);
+    // if no query encoder, assume its encoded query split by whitespace
+    if (this.queryEncoder == null){
+      Analyzer whiteSpaceAnalyzer = new WhitespaceAnalyzer();
+      List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
+      Map<String, Integer> queryTokensFreq = queryTokens.stream().collect(Collectors.toMap(
+         e->e, (a)->1, Integer::sum));
+      return queryTokensFreq;
+    }
+
+    Map<String, Integer> encodedQ = this.queryEncoder.getEncodedQueryMap(queryString);
     return encodedQ;
   }
 
@@ -530,6 +598,18 @@ public class SimpleImpactSearcher implements Closeable {
   }
 
   /**
+   * Searches the collection, returning 10 hits by default.
+   *
+   * @param q raw string query
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   * @throws OrtException if error encountered during search
+   */
+  public Result[] search(String q) throws IOException, OrtException {
+    return search(q, 10);
+  }
+
+  /**
    * Searches the collection.
    *
    * @param encoded_q query
@@ -539,6 +619,26 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if error encountered during search
    */
   public Result[] search(Map<String, Integer> encoded_q, int k) throws IOException, OrtException {
+    Map<String, Float> float_encoded_q = intToFloat(encoded_q);
+    Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
+    String encodedQuery = encode_with_onnx(encoded_q);
+    return _search(query, encodedQuery, k);
+  }
+
+  /**
+   * Searches the collection.
+   *
+   * @param q string query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   * @throws OrtException if error encountered during search
+   */
+  public Result[] search(String q, int k) throws IOException, OrtException {
+    // make encoded query from raw query
+    Map<String, Integer> encoded_q = encode_with_onnx(q);
+
+    // transform map type for query generator
     Map<String, Float> float_encoded_q = intToFloat(encoded_q);
     Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
     String encodedQuery = encode_with_onnx(encoded_q);

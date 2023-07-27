@@ -83,6 +83,11 @@ public abstract class QueryEncoder {
     return encodedQuery;
   }
 
+  public Map<String, Integer> getEncodedQueryMap(String query) throws OrtException {
+    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
+    return getEncodedQueryMap(tokenWeightMap);
+  }
+
   static Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights, DefaultVocabulary vocab) {
     /*
      * This function returns a map of token to its weight.
@@ -98,5 +103,5 @@ public abstract class QueryEncoder {
     return tokenWeightMap;
   }
 
-  public abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
+  protected abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
 }
