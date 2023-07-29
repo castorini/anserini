@@ -88,7 +88,7 @@ public abstract class QueryEncoder {
     return getEncodedQueryMap(tokenWeightMap);
   }
 
-  static Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights, DefaultVocabulary vocab) {
+  static protected Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights, DefaultVocabulary vocab) {
     /*
      * This function returns a map of token to its weight.
      */

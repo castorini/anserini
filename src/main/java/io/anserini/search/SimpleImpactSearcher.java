@@ -125,7 +125,7 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public SimpleImpactSearcher(String indexDir, String queryEncoder) throws IOException {
     this(indexDir, IndexCollection.DEFAULT_ANALYZER);
-    this.set_onnx_query_encoder(queryEncoder);
+    this.setOnnxQueryEncoder(queryEncoder);
   }
 
   /**
@@ -138,7 +138,7 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public SimpleImpactSearcher(String indexDir, String queryEncoder, Analyzer analyzer) throws IOException {
     this(indexDir, analyzer);
-    this.set_onnx_query_encoder(queryEncoder);
+    this.setOnnxQueryEncoder(queryEncoder);
   }
 
   /**
@@ -177,8 +177,8 @@ public class SimpleImpactSearcher implements Closeable {
    * 
    * @param encoder the query encoder
    */
-  public void set_onnx_query_encoder(String encoder) {
-    if (empty_encoder()) {
+  public void setOnnxQueryEncoder(String encoder) {
+    if (emptyEncoder()) {
       try {
         this.queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + encoder + "QueryEncoder")
           .getConstructor().newInstance();
@@ -188,7 +188,7 @@ public class SimpleImpactSearcher implements Closeable {
     }  
   }
 
-  private boolean empty_encoder(){
+  private boolean emptyEncoder(){
     return this.queryEncoder == null;
   }
 
@@ -548,7 +548,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
-  public Map<String, Integer> encode_with_onnx(String queryString) throws OrtException {
+  public Map<String, Integer> encodeWithOnnx(String queryString) throws OrtException {
     // if no query encoder, assume its encoded query split by whitespace
     if (this.queryEncoder == null){
       Analyzer whiteSpaceAnalyzer = new WhitespaceAnalyzer();
@@ -569,7 +569,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
-  public String encode_with_onnx(Map<String, Integer> queryWeight) throws OrtException {
+  public String encodeWithOnnx(Map<String, Integer> queryWeight) throws OrtException {
     String encodedQ = "";
     List<String> encodedQuery = new ArrayList<>();
     for (Map.Entry<String, Integer> entry : queryWeight.entrySet()) {
@@ -621,7 +621,7 @@ public class SimpleImpactSearcher implements Closeable {
   public Result[] search(Map<String, Integer> encoded_q, int k) throws IOException, OrtException {
     Map<String, Float> float_encoded_q = intToFloat(encoded_q);
     Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
-    String encodedQuery = encode_with_onnx(encoded_q);
+    String encodedQuery = encodeWithOnnx(encoded_q);
     return _search(query, encodedQuery, k);
   }
 
@@ -636,12 +636,12 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public Result[] search(String q, int k) throws IOException, OrtException {
     // make encoded query from raw query
-    Map<String, Integer> encoded_q = encode_with_onnx(q);
+    Map<String, Integer> encoded_q = encodeWithOnnx(q);
 
     // transform map type for query generator
     Map<String, Float> float_encoded_q = intToFloat(encoded_q);
     Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
-    String encodedQuery = encode_with_onnx(encoded_q);
+    String encodedQuery = encodeWithOnnx(encoded_q);
     return _search(query, encodedQuery, k);
   }
 
