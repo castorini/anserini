@@ -125,7 +125,7 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public SimpleImpactSearcher(String indexDir, String queryEncoder) throws IOException {
     this(indexDir, IndexCollection.DEFAULT_ANALYZER);
-    this.setOnnxQueryEncoder(queryEncoder);
+    this.set_onnx_query_encoder(queryEncoder);
   }
 
   /**
@@ -138,7 +138,7 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public SimpleImpactSearcher(String indexDir, String queryEncoder, Analyzer analyzer) throws IOException {
     this(indexDir, analyzer);
-    this.setOnnxQueryEncoder(queryEncoder);
+    this.set_onnx_query_encoder(queryEncoder);
   }
 
   /**
@@ -177,7 +177,7 @@ public class SimpleImpactSearcher implements Closeable {
    * 
    * @param encoder the query encoder
    */
-  public void setOnnxQueryEncoder(String encoder) {
+  public void set_onnx_query_encoder(String encoder) {
     if (emptyEncoder()) {
       try {
         this.queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + encoder + "QueryEncoder")
