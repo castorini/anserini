@@ -6,11 +6,15 @@ This exercise will require a machine with >8 GB RAM and >15 GB free disk space .
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
 ).
+In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
+that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
+Instead, really try to understand what's going on.
+
 
 **Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
-+ Be able to use Anserini to index the MS MARCO passage collection.
-+ Be able to use Anserini to search the MS MARCO passage collection with the dev queries.
++ Be able to use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
++ Be able to use Anserini to perform a batch retrieval run on the MS MARCO passage collection with the dev queries.
 + Be able to evaluate the retrieved results above.
 + Understand the MRR metric.
 
