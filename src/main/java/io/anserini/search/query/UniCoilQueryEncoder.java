@@ -87,7 +87,7 @@ public class UniCoilQueryEncoder extends QueryEncoder {
   }
 
   @Override
-  public Map<String, Float> getTokenWeightMap(String query) throws OrtException {
+  protected Map<String, Float> getTokenWeightMap(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
     queryTokens.add("[CLS]");
     queryTokens.addAll(tokenizer.tokenize(query));
