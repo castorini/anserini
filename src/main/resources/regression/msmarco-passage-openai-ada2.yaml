@@ -2,8 +2,8 @@
 corpus: msmarco-passage-openai-ada2
 corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
 
-download_url:
-download_checksum: 
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar
+download_checksum: dummy-checksum
 
 index_path: indexes/lucene-hnsw.msmarco-passage-openai-ada2/
 collection_class: JsonDenseVectorCollection
@@ -31,7 +31,7 @@ topic_reader: JsonIntVector
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
-    path: 
+    path: topics.msmarco-passage.dev-subset.openai-ada2.jsonl.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:

@@ -2,8 +2,8 @@
 corpus: msmarco-passage-openai-ada2
 corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
 
-download_url:
-download_checksum:
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar
+download_checksum: dummy-checksum
 
 index_path: indexes/lucene-hnsw.msmarco-passage-openai-ada2/
 collection_class: JsonDenseVectorCollection
@@ -38,7 +38,11 @@ topic_reader: JsonIntVector
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
-    path:
+    path: topics.dl20-passage.openai-ada2.jsonl.gz
+    qrel: qrels.dl20-passage.txt
+  - name: "HyDE-[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20-hyde
+    path: topics.dl20-passage.openai-ada2-hyde.jsonl.gz
     qrel: qrels.dl20-passage.txt
 
 models:
