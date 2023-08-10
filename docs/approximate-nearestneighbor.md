@@ -39,7 +39,7 @@ Also, check our [Colab demo](https://colab.research.google.com/drive/1PBrAlthWsl
 Index:
 
 ```bash
-$ target/appassembler/bin/IndexVectors -input glove.6B.300d.txt -path glove300-fw -encoding fw -fw.q 60
+$ target/appassembler/bin/IndexVectors -input glove.6B.300d.txt -index glove300-fw -encoding fw -fw.q 60
 Loading model glove.6B.300d.txt
 Creating index at glove300-fw...
 100000 words added
@@ -55,7 +55,7 @@ Search:
 
 ```bash
 $ target/appassembler/bin/ApproximateNearestNeighborSearch -input glove.6B.300d.txt \
-   -path glove300-fw -encoding fw -fw.q 60 -word italy
+   -index glove300-fw -encoding fw -fw.q 60 -word italy
 Loading model glove.6B.300d.txt
 Reading index at glove300-fw
 10 nearest neighbors of 'italy':
@@ -75,7 +75,7 @@ Search time: 417ms
 Evaluate recall at retrieval depth=100:
 
 ```bash
-$ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -path glove300-fw/ \
+$ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -index glove300-fw/ \
    -encoding fw -fw.q 60 -topics tools/topics-and-qrels/topics.robust04.txt -samples 100 -depth 100
 Loading model glove.6B.300d.txt
 Reading index at glove300-fw
@@ -89,7 +89,7 @@ avg query time: 344.67 ms
 Index:
 
 ```bash
-$ target/appassembler/bin/IndexVectors -input glove.6B.300d.txt -path glove300-ll -encoding lexlsh
+$ target/appassembler/bin/IndexVectors -input glove.6B.300d.txt -index glove300-ll -encoding lexlsh
 Loading model glove.6B.300d.txt
 Creating index at glove300-ll...
 100000 words added
@@ -105,7 +105,7 @@ Search:
 
 ```bash
 $ target/appassembler/bin/ApproximateNearestNeighborSearch -input glove.6B.300d.txt \
-   -path glove300-ll -encoding lexlsh -word italy
+   -index glove300-ll -encoding lexlsh -word italy
 Loading model glove.6B.300d.txt
 Reading index at glove300-ll
 10 nearest neighbors of 'italy':
@@ -125,7 +125,7 @@ Search time: 525ms
 Evaluate recall at retrieval depth=100:
 
 ```bash
-$ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -path glove300-ll/ \
+$ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -index glove300-ll/ \
    -encoding lexlsh -topics tools/topics-and-qrels/topics.robust04.txt -samples 100 -depth 100
 Loading model glove.6B.300d.txt
 Reading index at glove300-ll

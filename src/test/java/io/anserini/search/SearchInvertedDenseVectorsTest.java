@@ -30,7 +30,7 @@ public class SearchInvertedDenseVectorsTest {
     String path = "target/idx-sample-fw" + System.currentTimeMillis();
     String encoding = "fw";
     IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
+    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-index",
         path, "-word", "foo"};
     SearchInvertedDenseVectors.main(args);
   }
@@ -40,7 +40,7 @@ public class SearchInvertedDenseVectorsTest {
     String path = "target/idx-sample-fw-stored" + System.currentTimeMillis();
     String encoding = "fw";
     IndexInvertedDenseVectorsTest.createIndex(path, encoding, true);
-    String[] args = new String[]{"-encoding", encoding, "-stored", "-path", path, "-word", "foo"};
+    String[] args = new String[]{"-encoding", encoding, "-stored", "-index", path, "-word", "foo"};
     SearchInvertedDenseVectors.main(args);
   }
 
@@ -49,7 +49,7 @@ public class SearchInvertedDenseVectorsTest {
     String path = "target/idx-sample-ll" + System.currentTimeMillis();
     String encoding = "lexlsh";
     IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
+    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-index",
         path, "-word", "foo"};
     SearchInvertedDenseVectors.main(args);
   }
@@ -59,7 +59,7 @@ public class SearchInvertedDenseVectorsTest {
     String path = "target/idx-sample-ll" + System.currentTimeMillis();
     String encoding = "lexlsh";
     IndexInvertedDenseVectorsTest.createIndex(path, encoding, true);
-    String[] args = new String[]{"-encoding", encoding, "-stored", "-path", path, "-word", "foo"};
+    String[] args = new String[]{"-encoding", encoding, "-stored", "-index", path, "-word", "foo"};
     SearchInvertedDenseVectors.main(args);
   }
 

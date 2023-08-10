@@ -3,10 +3,7 @@
 This page contains instructions for running BM25 baselines on the [MS MARCO *document* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *passage* ranking task](experiments-msmarco-passage.md).
 
-This exercise will require a machine with >8 GB RAM and at least 40 GB free disk space.
-
-If you're a Waterloo undergraduate going through this guide as the [screening exercise](https://github.com/lintool/guide/blob/master/ura.md) of joining my research group, make sure you do the [passage ranking exercise](experiments-msmarco-passage.md) first.
-Similarly, try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blinding copying and pasting commands into a shell).
+As of July 2023, this exercise has been removed from the Waterloo students [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), which [starts here](start-here.md).
 
 ## Data Prep
 
@@ -289,4 +286,6 @@ That's it!
 + Results reproduced by [@Jocn2020](https://github.com/Jocn2020) on 2023-04-30 (commit [`30269d6`](https://github.com/castorini/anserini/commit/30269d636a556174e3756fe59accab6c22a7c732))
 + Results reproduced by [@zoehahaha](https://github.com/zoehahaha) on 2023-05-12 (commit [`b429218`](https://github.com/castorini/anserini/commit/b429218e52a385eabf3fd81979e221111fbc4a19))
 + Results reproduced by [@billcui57](https://github.com/billcui57) on 2023-05-14 (commit [`d82b6f7`](https://github.com/billcui57/anserini/commit/d82b6f76cbef009bccb0e67fc2bedc6fa6ae56c6))
++ Results reproduced by [@Richard5678](https://github.com/richard5678) on 2023-06-13 (commit [`4aeb3ef`](https://github.com/castorini/anserini/commit/4aeb3ef64738e780f710eaf2d0ed957bec4f6ede))
 + Results reproduced by [@pratyushpal](https://github.com/pratyushpal) on 2023-07-14 (commit [`17d5fc7`](https://github.com/castorini/anserini/commit/17d5fc7f338b511c4dc49de88e9b2ab7ea27f8aa))
++ Results reproduced by [@Mofetoluwa](https://github.com/Mofetoluwa) on 2023-08-04 (commit [`7314128`](https://github.com/castorini/anserini/commit/73141282b62979e189ac3c87d9a902064f34a1c5))
