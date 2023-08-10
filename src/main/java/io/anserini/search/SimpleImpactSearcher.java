@@ -677,9 +677,6 @@ public class SimpleImpactSearcher implements Closeable {
   public Result[] search(String q, int k) throws IOException, OrtException {
     // make encoded query from raw query
     Map<String, Integer> encoded_q = encodeWithOnnx(q);
-    for (Map.Entry<String,Integer> entry : encoded_q.entrySet()) {
-      System.out.println("Key = " + entry.getKey() +", Value = " + entry.getValue());
-    }
     Query query = generator.buildQuery(Constants.CONTENTS, analyzer, q);
 
     // transform map type for query generator
