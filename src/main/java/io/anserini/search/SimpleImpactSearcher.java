@@ -679,9 +679,6 @@ public class SimpleImpactSearcher implements Closeable {
     Map<String, Integer> encoded_q = encodeWithOnnx(q);
     Query query = generator.buildQuery(Constants.CONTENTS, analyzer, q);
 
-    // transform map type for query generator
-    // Map<String, Float> float_encoded_q = intToFloat(encoded_q);
-    // Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
     String encodedQuery = encodeWithOnnx(encoded_q);
     return _search(query, encodedQuery, k);
   }
