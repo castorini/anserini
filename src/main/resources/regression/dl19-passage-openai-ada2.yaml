@@ -1,11 +1,11 @@
 ---
-corpus: msmarco-passage-openai-ada2-hyde
-corpus_path: collections/msmarco/msmarco-passage-openai-ada2-hyde/
+corpus: msmarco-passage-openai-ada2
+corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
 
-download_url: download url
-download_checksum: checksum
+download_url:
+download_checksum: 
 
-index_path: indexes/lucene-hnsw.msmarco-passage-openai-ada2-hyde/
+index_path: indexes/lucene-hnsw.msmarco-passage-openai-ada2/
 collection_class: JsonDenseVectorCollection
 generator_class: LuceneDenseVectorDocumentGenerator
 index_threads: 16
@@ -36,10 +36,10 @@ metrics:
 
 topic_reader: JsonIntVector
 topics:
-  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl20
-    path: topics path in anserini topics-and-qrels
-    qrel: qrels.dl20-passage.txt
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)"
+    id: dl19
+    path: 
+    qrel: qrels.dl19-passage.txt
 
 models:
   - name: openai-ada2
@@ -47,18 +47,18 @@ models:
     params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000
     results:
       AP@1000:
-        - 0.477
+        - 0.479
       nDCG@10:
-        - 0.676
+        - 0.704
       R@1000:
-        - 0.871
+        - 0.863
   - name: openai-ada2-hyde
     display: HyDE-OpenAI-ada2
     params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000
     results:
       AP@1000:
-        - 0.494
+        - 0.512
       nDCG@10:
-        - 0.667
+        - 0.716
       R@1000:
-        - 0.892
+        - 0.897
