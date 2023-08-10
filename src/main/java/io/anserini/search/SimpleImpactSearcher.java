@@ -19,7 +19,6 @@ package io.anserini.search;
 import io.anserini.index.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -29,7 +28,9 @@ import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryEncoder;
+import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.similarity.ImpactSimilarity;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -56,12 +57,25 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
  * via pyjnius. Note that methods are named according to Python conventions (e.g., snake case instead of camel case).
@@ -81,6 +95,33 @@ public class SimpleImpactSearcher implements Closeable {
   private QueryEncoder queryEncoder = null;
   protected boolean useRM3;
   protected boolean useRocchio;
+
+  public static final class Args {
+    @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index.")
+    public String index;
+
+    @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
+    public String[] topics;
+
+    // @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
+    // public String topicReader;
+
+    @Option(name = "-output", metaVar = "[file]", required = true, usage = "Output run file.")
+    public String output;
+
+    @Option(name = "-rm3", usage = "Flag to use RM3.")
+    public Boolean useRM3 = false;
+
+    @Option(name = "-rocchio", usage = "Flag to use RM3.")
+    public Boolean useRocchio = false;
+
+    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
+    public int hits = 1000;
+
+    @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
+    public String topicReader;
+  }
+
   /**
    * This class is meant to serve as the bridge between Anserini and Pyserini.
    * Note that we are adopting Python naming conventions here on purpose.
@@ -113,7 +154,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if errors encountered during initialization
    */
   public SimpleImpactSearcher(String indexDir) throws IOException {
-    this(indexDir, IndexCollection.DEFAULT_ANALYZER);
+    this(indexDir, new WhitespaceAnalyzer());
   }
 
   /**
@@ -124,7 +165,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if errors encountered during initialization
    */
   public SimpleImpactSearcher(String indexDir, String queryEncoder) throws IOException {
-    this(indexDir, IndexCollection.DEFAULT_ANALYZER);
+    this(indexDir, new WhitespaceAnalyzer());
     this.set_onnx_query_encoder(queryEncoder);
   }
 
@@ -551,7 +592,6 @@ public class SimpleImpactSearcher implements Closeable {
   public Map<String, Integer> encodeWithOnnx(String queryString) throws OrtException {
     // if no query encoder, assume its encoded query split by whitespace
     if (this.queryEncoder == null){
-      Analyzer whiteSpaceAnalyzer = new WhitespaceAnalyzer();
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
       Map<String, Integer> queryTokensFreq = queryTokens.stream().collect(Collectors.toMap(
          e->e, (a)->1, Integer::sum));
@@ -637,10 +677,14 @@ public class SimpleImpactSearcher implements Closeable {
   public Result[] search(String q, int k) throws IOException, OrtException {
     // make encoded query from raw query
     Map<String, Integer> encoded_q = encodeWithOnnx(q);
+    for (Map.Entry<String,Integer> entry : encoded_q.entrySet()) {
+      System.out.println("Key = " + entry.getKey() +", Value = " + entry.getValue());
+    }
+    Query query = generator.buildQuery(Constants.CONTENTS, analyzer, q);
 
     // transform map type for query generator
-    Map<String, Float> float_encoded_q = intToFloat(encoded_q);
-    Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
+    // Map<String, Float> float_encoded_q = intToFloat(encoded_q);
+    // Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
     String encodedQuery = encodeWithOnnx(encoded_q);
     return _search(query, encodedQuery, k);
   }
@@ -658,7 +702,6 @@ public class SimpleImpactSearcher implements Closeable {
     searchArgs.hits = k;
 
     // encoded query can be tokenized using whitespace analyzer
-    Analyzer whiteSpaceAnalyzer = new WhitespaceAnalyzer();
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, encodedQuery);
 
     TopDocs rs;
@@ -776,6 +819,57 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public String doc_raw(String docid) {
     return IndexReaderUtils.documentRaw(reader, docid);
+  }
+
+  public static void main(String[] args) throws Exception {
+    Args searchArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example: SimpleImpactSearcher" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
+    }
+
+    final long start = System.nanoTime();
+    SimpleImpactSearcher searcher = new SimpleImpactSearcher(searchArgs.index);
+    TopicReader<Object> tr;
+    SortedMap<Object, Map<String, String>> topics = new TreeMap<>();
+    for (String singleTopicsFile : searchArgs.topics) {
+      Path topicsPath =  Path.of(singleTopicsFile);
+      try {
+        tr = (TopicReader<Object>) Class.forName("io.anserini.search.topicreader." + searchArgs.topicReader + "TopicReader")
+            .getConstructor(Path.class).newInstance(topicsPath);
+        topics.putAll(tr.read());
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new IllegalArgumentException("Unable to load topic reader: " + searchArgs.topicReader);
+      }
+    }   
+
+    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
+
+    if (searchArgs.useRM3) {
+      searcher.set_rm3();
+    } else if (searchArgs.useRocchio) {
+      searcher.set_rocchio();
+    }
+
+    for (Object id : topics.keySet()) {
+      Result[] results = searcher.search(topics.get(id).get("title"), 1000);
+
+      for (int i=0; i<results.length; i++) {
+        out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
+            id, results[i].docid, (i+1), results[i].score));
+      }
+    }
+    out.close();
+
+    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+    LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }
   

@@ -130,6 +130,10 @@
               <id>SimpleSearcher</id>
             </program>
             <program>
+              <mainClass>io.anserini.search.SimpleImpactSearcher</mainClass>
+              <id>SimpleImpactSearcher</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SimpleTweetSearcher</mainClass>
               <id>SimpleTweetSearcher</id>
             </program>
