@@ -96,32 +96,6 @@ public class SimpleImpactSearcher implements Closeable {
   protected boolean useRM3;
   protected boolean useRocchio;
 
-  public static final class Args {
-    @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index.")
-    public String index;
-
-    @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
-    public String[] topics;
-
-    // @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
-    // public String topicReader;
-
-    @Option(name = "-output", metaVar = "[file]", required = true, usage = "Output run file.")
-    public String output;
-
-    @Option(name = "-rm3", usage = "Flag to use RM3.")
-    public Boolean useRM3 = false;
-
-    @Option(name = "-rocchio", usage = "Flag to use RM3.")
-    public Boolean useRocchio = false;
-
-    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
-    public int hits = 1000;
-
-    @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
-    public String topicReader;
-  }
-
   /**
    * This class is meant to serve as the bridge between Anserini and Pyserini.
    * Note that we are adopting Python naming conventions here on purpose.
@@ -813,57 +787,6 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public String doc_raw(String docid) {
     return IndexReaderUtils.documentRaw(reader, docid);
-  }
-
-  public static void main(String[] args) throws Exception {
-    Args searchArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
-
-    try {
-      parser.parseArgument(args);
-    } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: SimpleImpactSearcher" + parser.printExample(OptionHandlerFilter.REQUIRED));
-      return;
-    }
-
-    final long start = System.nanoTime();
-    SimpleImpactSearcher searcher = new SimpleImpactSearcher(searchArgs.index);
-    TopicReader<Object> tr;
-    SortedMap<Object, Map<String, String>> topics = new TreeMap<>();
-    for (String singleTopicsFile : searchArgs.topics) {
-      Path topicsPath =  Path.of(singleTopicsFile);
-      try {
-        tr = (TopicReader<Object>) Class.forName("io.anserini.search.topicreader." + searchArgs.topicReader + "TopicReader")
-            .getConstructor(Path.class).newInstance(topicsPath);
-        topics.putAll(tr.read());
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new IllegalArgumentException("Unable to load topic reader: " + searchArgs.topicReader);
-      }
-    }   
-
-    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
-
-    if (searchArgs.useRM3) {
-      searcher.set_rm3();
-    } else if (searchArgs.useRocchio) {
-      searcher.set_rocchio();
-    }
-
-    for (Object id : topics.keySet()) {
-      Result[] results = searcher.search(topics.get(id).get("title"), 1000);
-
-      for (int i=0; i<results.length; i++) {
-        out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
-            id, results[i].docid, (i+1), results[i].score));
-      }
-    }
-    out.close();
-
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }
   
