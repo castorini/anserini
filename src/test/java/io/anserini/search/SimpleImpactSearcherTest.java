@@ -338,4 +338,36 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     searcher.close();
   }
 
+  @Test
+  public void testSearch5() throws Exception {
+    // pretokenized test case for whitespace analyzer, so stopwords wont be removed
+    SimpleImpactSearcher isearcher_roc = new SimpleImpactSearcher(super.tempDir1.toString());
+    isearcher_roc.set_rocchio();
+    assertTrue(isearcher_roc.use_rocchio());
+
+    SimpleImpactSearcher isearcher_rm3 = new SimpleImpactSearcher(super.tempDir1.toString());
+    isearcher_rm3.set_rm3();
+    assertTrue(isearcher_rm3.use_rm3());
+
+    Result[] iresults;
+
+    String query = "this is a a a a a test";
+    iresults = isearcher_roc.search(query, 1);
+
+    assertEquals(1, iresults.length);
+    assertEquals("doc3", iresults[0].docid);
+    assertEquals(2, iresults[0].lucene_docid);
+    assertEquals(0.18899, iresults[0].score, 10e-5);
+
+    iresults = isearcher_rm3.search(query, 1);
+
+    assertEquals(1, iresults.length);
+    assertEquals("doc3", iresults[0].docid);
+    assertEquals(2, iresults[0].lucene_docid);
+    assertEquals(0.06250, iresults[0].score, 10e-5);
+
+    isearcher_roc.close();
+    isearcher_rm3.close();
+  }
+
 }
