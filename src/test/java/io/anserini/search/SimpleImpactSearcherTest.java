@@ -370,4 +370,23 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     isearcher_rm3.close();
   }
 
+  @Test
+  public void testSearch6() throws Exception {
+    // test the expanded query result should be diff with testSearch5
+    SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
+    searcher.set_onnx_query_encoder("UniCoil");
+
+    Result[] results;
+
+    String query = "this is a a a a a test";
+    results = searcher.search(query, 1);
+
+    assertEquals(1, results.length);
+    assertEquals("doc3", results[0].docid);
+    assertEquals(2, results[0].lucene_docid);
+    assertEquals(130.0, results[0].score, 10e-5);
+
+    searcher.close();
+  }
+
 }
