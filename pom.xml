@@ -129,6 +129,7 @@
               <mainClass>io.anserini.search.SimpleSearcher</mainClass>
               <id>SimpleSearcher</id>
             </program>
+
             <program>
               <mainClass>io.anserini.search.SimpleTweetSearcher</mainClass>
               <id>SimpleTweetSearcher</id>

@@ -19,7 +19,6 @@ package io.anserini.search;
 import io.anserini.index.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -56,12 +55,14 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
  * via pyjnius. Note that methods are named according to Python conventions (e.g., snake case instead of camel case).
@@ -81,6 +82,7 @@ public class SimpleImpactSearcher implements Closeable {
   private QueryEncoder queryEncoder = null;
   protected boolean useRM3;
   protected boolean useRocchio;
+
   /**
    * This class is meant to serve as the bridge between Anserini and Pyserini.
    * Note that we are adopting Python naming conventions here on purpose.
@@ -113,7 +115,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if errors encountered during initialization
    */
   public SimpleImpactSearcher(String indexDir) throws IOException {
-    this(indexDir, IndexCollection.DEFAULT_ANALYZER);
+    this(indexDir, new WhitespaceAnalyzer());
   }
 
   /**
@@ -124,7 +126,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if errors encountered during initialization
    */
   public SimpleImpactSearcher(String indexDir, String queryEncoder) throws IOException {
-    this(indexDir, IndexCollection.DEFAULT_ANALYZER);
+    this(indexDir, new WhitespaceAnalyzer());
     this.set_onnx_query_encoder(queryEncoder);
   }
 
@@ -551,7 +553,6 @@ public class SimpleImpactSearcher implements Closeable {
   public Map<String, Integer> encodeWithOnnx(String queryString) throws OrtException {
     // if no query encoder, assume its encoded query split by whitespace
     if (this.queryEncoder == null){
-      Analyzer whiteSpaceAnalyzer = new WhitespaceAnalyzer();
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
       Map<String, Integer> queryTokensFreq = queryTokens.stream().collect(Collectors.toMap(
          e->e, (a)->1, Integer::sum));
@@ -637,10 +638,8 @@ public class SimpleImpactSearcher implements Closeable {
   public Result[] search(String q, int k) throws IOException, OrtException {
     // make encoded query from raw query
     Map<String, Integer> encoded_q = encodeWithOnnx(q);
+    Query query = generator.buildQuery(Constants.CONTENTS, analyzer, q);
 
-    // transform map type for query generator
-    Map<String, Float> float_encoded_q = intToFloat(encoded_q);
-    Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
     String encodedQuery = encodeWithOnnx(encoded_q);
     return _search(query, encodedQuery, k);
   }
@@ -658,7 +657,6 @@ public class SimpleImpactSearcher implements Closeable {
     searchArgs.hits = k;
 
     // encoded query can be tokenized using whitespace analyzer
-    Analyzer whiteSpaceAnalyzer = new WhitespaceAnalyzer();
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, encodedQuery);
 
     TopDocs rs;
