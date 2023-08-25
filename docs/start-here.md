@@ -227,7 +227,7 @@ the fourth colum provides the relevance judgment itself.
 In this case, 0 means "not relevant" and 1 means "relevant".
 So, this entry says that the document with id 7187158 is relevant to the query with id 1048585.
 
-Well, how do we get the actual contents of document 1048585?
+Well, how do we get the actual contents of document 7187158?
 The simplest way is to grep through the collection itself:
 
 ```bash
