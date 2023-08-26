@@ -308,6 +308,10 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 + v0.21.0: March 31, 2023 [[Release Notes](docs/release-notes/release-notes-v0.21.0.md)]
 + v0.20.0: January 20, 2023 [[Release Notes](docs/release-notes/release-notes-v0.20.0.md)]
+
+<details>
+<summary>older... (and historic notes)</summary>
+
 + v0.16.2: December 12, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.2.md)]
 + v0.16.1: November 2, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.1.md)]
 + v0.16.0: October 23, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.0.md)]
@@ -317,10 +321,6 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 + v0.14.2: March 24, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.2.md)]
 + v0.14.1: February 27, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.1.md)]
 + v0.14.0: January 10, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.0.md)]
-
-<details>
-<summary>older... (and historic notes)</summary>
-
 + v0.13.5: November 2, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.5.md)]
 + v0.13.4: October 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.4.md)]
 + v0.13.3: August 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.3.md)]
