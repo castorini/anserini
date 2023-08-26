@@ -304,7 +304,7 @@ In turn, you'll be recognized as a [contributor](https://github.com/castorini/an
 
 Beyond that, there are always [open issues](https://github.com/castorini/anserini/issues) we would appreciate help on!
 
-## ℹ️ Release History
+## 📜️ Release History
 
 + v0.21.0: March 31, 2023 [[Release Notes](docs/release-notes/release-notes-v0.21.0.md)]
 + v0.20.0: January 20, 2023 [[Release Notes](docs/release-notes/release-notes-v0.20.0.md)]
@@ -349,7 +349,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
 + v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
 
-## Historical Notes
+## 📜️ Historical Notes
 
 + Anserini was upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/2/2022): this upgrade created backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952).
 Anserini will automatically detect Lucene 8 indexes and disable consistent tie-breaking to avoid runtime errors.
