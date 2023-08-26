@@ -1,7 +1,7 @@
 # Solrini: Anserini Integration with Solr
 
 ⁉️ **Important Note:** As part of Anserini's upgrade to Lucene 9, support for Solrini was removed at [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) on August 2, 2022.
-The features documented below no longer work, and this guide is retained only for historical reasons.
+The features documented below are no longer available, and this guide is retained only for historical reasons.
 
 This page documents code for reproducing results from the following paper:
 
