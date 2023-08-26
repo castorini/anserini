@@ -1,5 +1,8 @@
 # Solrini: Anserini Integration with Solr
 
+⁉️ **Important Note:** As part of Anserini's upgrade to Lucene 9, support for Solrini was removed at [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) on August 2, 2022.
+The features documented below no longer work, and this guide is retained only for historical reasons.
+
 This page documents code for reproducing results from the following paper:
 
 > Ryan Clancy, Toke Eskildsen, Nick Ruest, and Jimmy Lin. [Solr Integration in the Anserini Information Retrieval Toolkit.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019a.pdf) _Proceedings of the 42nd Annual International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2019)_, July 2019, Paris, France.
