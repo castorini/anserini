@@ -302,7 +302,7 @@ As a next step in the onboarding path, you basically [do the same thing again in
 Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
 In the description of your pull request, please provide some details on your setup (for example, operating system, environment and configuration, etc.).
 In addition, also provide some indication of success (e.g., everything worked) or document issues you encountered.
-If you think this guide can be improved in any way (e.g., you caught a typo or think a clarification is warranted), feel free to include in the pull request.
+If you think this guide can be improved in any way (e.g., you caught a typo or think a clarification is warranted), feel free to include it in the pull request.
 
 ## BM25 Tuning
 
