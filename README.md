@@ -279,7 +279,6 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
 + [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
-+ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
 
 ### Other Experiments and Features
 
