@@ -335,6 +335,11 @@
       <artifactId>lucene-analysis-morfologik</artifactId>
       <version>${lucene.version}</version>
     </dependency>
+    <dependency> <!-- Korean -->
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analysis-nori</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
     <dependency> <!-- only needed for testing -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>

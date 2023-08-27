@@ -46,6 +46,7 @@ import org.apache.lucene.analysis.hu.HungarianAnalyzer;
 import org.apache.lucene.analysis.id.IndonesianAnalyzer;
 import org.apache.lucene.analysis.it.ItalianAnalyzer;
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.apache.lucene.analysis.ko.KoreanAnalyzer;
 import org.apache.lucene.analysis.morfologik.MorfologikAnalyzer;
 import org.apache.lucene.analysis.nl.DutchAnalyzer;
 import org.apache.lucene.analysis.no.NorwegianAnalyzer;
@@ -220,6 +221,8 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new ItalianAnalyzer();
     } else if (language.equals("ja")) {
       this.analyzer = new JapaneseAnalyzer();
+    } else if (language.equals("ko")) {
+      this.analyzer = new KoreanAnalyzer();
     } else if (language.equals("nl")) {
       this.analyzer = new DutchAnalyzer();
     } else if (language.equals("no")) {
@@ -240,7 +243,7 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new TurkishAnalyzer();
     } else if (language.equals("uk")) {
       this.analyzer = new UkrainianMorfologikAnalyzer();
-    } else if (language.equals("zh") || language.equals("ko")) {
+    } else if (language.equals("zh")) {
       this.analyzer = new CJKAnalyzer();
     } else if (language.equals("sw") || language.equals("te")) {
       this.analyzer = new WhitespaceAnalyzer();
