@@ -284,3 +284,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@sahel-sh](https://github.com/sahel-sh) on 2023-07-21 (commit [`0e759fd`](https://github.com/castorini/anserini/commit/0e759fd3b9161a24f66c56e07f73f16eaf1490c6))
 + Results reproduced by [@Mofetoluwa](https://github.com/Mofetoluwa) on 2023-08-03 (commit [`7314128`](https://github.com/castorini/anserini/commit/73141282b62979e189ac3c87d9a902064f34a1c5))
 + Results reproduced by [@yilinjz](https://github.com/yilinjz) on 2023-08-23 (commit [`862bd27`](https://github.com/castorini/anserini/commit/862bd27d5c1400763e11424a7d44dcbf4cf48c17))
++ Results reproduced by [@Andrwyl](https://github.com/Andrwyl) on 2023-08-26 (commit [`b64a412`](https://github.com/castorini/anserini/commit/b64a412453d0fee1b89179d3b665984651a8b8f8))
