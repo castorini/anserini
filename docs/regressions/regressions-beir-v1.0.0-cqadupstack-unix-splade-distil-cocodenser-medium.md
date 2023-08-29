@@ -59,7 +59,7 @@ The path `/path/to/beir-v1.0.0-cqadupstack-unix-splade_distil_cocodenser_medium/
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 8,674 documents.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 
