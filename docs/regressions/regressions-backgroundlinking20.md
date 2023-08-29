@@ -29,7 +29,7 @@ target/appassembler/bin/IndexCollection \
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus *v3*](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
 should bring up a single JSON file.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 

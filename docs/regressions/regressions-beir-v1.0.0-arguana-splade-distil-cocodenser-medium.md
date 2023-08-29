@@ -59,7 +59,7 @@ The path `/path/to/beir-v1.0.0-arguana-splade_distil_cocodenser_medium/` should 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 8,674 documents.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -97,6 +97,6 @@ With the above commands, you should be able to reproduce the following results:
 | BEIR (v1.0.0): ArguAna                                                                                       | 0.9950    |
 
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-arguana-splade-distil-cocodenser-medium.template) and run `bin/build.sh` to rebuild the documentation.

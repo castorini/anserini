@@ -23,7 +23,7 @@ ${index_cmds}
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
-[This page](experiments-msmarco-passage.md) explains how to perform this conversion.
+[This page](${root_path}/docs/experiments-msmarco-passage.md) explains how to perform this conversion.
 
 For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
 
