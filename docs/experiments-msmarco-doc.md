@@ -289,4 +289,3 @@ That's it!
 + Results reproduced by [@Richard5678](https://github.com/richard5678) on 2023-06-13 (commit [`4aeb3ef`](https://github.com/castorini/anserini/commit/4aeb3ef64738e780f710eaf2d0ed957bec4f6ede))
 + Results reproduced by [@pratyushpal](https://github.com/pratyushpal) on 2023-07-14 (commit [`17d5fc7`](https://github.com/castorini/anserini/commit/17d5fc7f338b511c4dc49de88e9b2ab7ea27f8aa))
 + Results reproduced by [@Mofetoluwa](https://github.com/Mofetoluwa) on 2023-08-04 (commit [`7314128`](https://github.com/castorini/anserini/commit/73141282b62979e189ac3c87d9a902064f34a1c5))
-+ Results reproduced by [@UShivani3](https://github.com/UShivani3) on 2023-08-29 (commit [`24ab292`](https://github.com/castorini/anserini/commit/24ab292c5eaaccd40bbfa13fa7122eeb58261aaa))
