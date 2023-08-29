@@ -46,6 +46,7 @@ public class GenerateRegressionDocsTest {
       String download_corpus = data.getDownload_corpus();
 
       Map<String, String> valuesMap = new HashMap<>();
+      valuesMap.put("root_path", "../..");
       valuesMap.put("yaml", String.format("../../src/main/resources/regression/%s.yaml", testName));
       valuesMap.put("template", String.format("../../src/main/resources/docgen/templates/%s.template", testName));
       valuesMap.put("test_name", testName);
