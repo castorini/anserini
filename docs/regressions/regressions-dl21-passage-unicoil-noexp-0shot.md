@@ -12,8 +12,8 @@ The uniCOIL model is described in the following paper:
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](experiments-msmarco-v2.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl21-passage-unicoil-noexp-0shot.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl21-passage-unicoil-noexp-0shot.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl21-passage-unicoil-noexp-0shot.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl21-passage-unicoil-noexp-0shot.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -150,6 +150,6 @@ The difference is that here we are using pre-encoded queries, whereas the offici
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl21-passage-unicoil-noexp-0shot.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl21-passage-unicoil-noexp-0shot.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

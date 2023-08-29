@@ -6,8 +6,8 @@ This page presents **document translation** regression experiments for the [TREC
 + Documents: Machine-translated documents from Chinese into English (corpus provided by the organizers)
 + Model: [SPLADE CoCondenser SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil)
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/neuclir22-zh-dt-splade.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/neuclir22-zh-dt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/neuclir22-zh-dt-splade.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/neuclir22-zh-dt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 We make available a version of the corpus that has already been encoded with [SPLADE CoCondenser SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil), i.e., we performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is required to reproduce these experiments; see instructions below.
@@ -181,5 +181,5 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/neuclir22-zh-dt-splade.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/neuclir22-zh-dt-splade.template) and run `bin/build.sh` to rebuild the documentation.
 

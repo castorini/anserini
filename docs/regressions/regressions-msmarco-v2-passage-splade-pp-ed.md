@@ -9,8 +9,8 @@ The model can be described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-passage-splade-pp-ed.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-v2-passage-splade-pp-ed.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v2-passage-splade-pp-ed.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v2-passage-splade-pp-ed.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -118,4 +118,4 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-v2-passage-splade-pp-ed.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v2-passage-splade-pp-ed.template) and run `bin/build.sh` to rebuild the documentation.

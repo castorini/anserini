@@ -8,8 +8,8 @@ This page describes regression experiments, integrated into Anserini's regressio
 
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-splade-pp-sd.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-splade-pp-sd.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -106,7 +106,7 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-splade-pp-sd.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@justram](https://github.com/justram) on 2023-03-08 (commit [`03f95a8`](https://github.com/castorini/anserini/commit/03f95a8e1ae09ab09efe046bfcbd3a4cdda691b4))
 + Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2023-06-01 (commit [`a403a2a`](https://github.com/castorini/anserini/commit/a403a2a44af9322c7a2dbdb5240180a62398ab06))

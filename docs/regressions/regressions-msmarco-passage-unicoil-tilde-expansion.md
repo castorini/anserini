@@ -7,8 +7,8 @@ The uniCOIL+TILDE model is described in the following paper:
 
 > Shengyao Zhuang and Guido Zuccon. [Fast Passage Re-ranking with Contextualized Exact Term Matching and Efficient Passage Expansion.](https://arxiv.org/pdf/2108.08513) _arXiv:2108.08513_.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-unicoil-tilde-expansion.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil-tilde-expansion.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-unicoil-tilde-expansion.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-unicoil-tilde-expansion.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -130,7 +130,7 @@ This corresponds to the effectiveness reported in the paper.
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil-tilde-expansion.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-unicoil-tilde-expansion.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@MXueguang](https://github.com/MXueguang) on 2021-09-14 (commit [`a05fc52`](https://github.com/castorini/anserini/commit/a05fc5215a6d9de77bd5f4b8f874f608442024a3))
 + Results reproduced by [@jmmackenzie](https://github.com/jmmackenzie) on 2021-10-15 (commit [`52b76f6`](https://github.com/castorini/anserini/commit/52b76f63b163036e8fad1a6e1b10b431b4ddd06c))

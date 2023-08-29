@@ -6,8 +6,8 @@ This page presents **query translation** regression experiments for the [TREC 20
 + Documents: Original Russian corpus
 + Model: SPLADE NeuCLIR22
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/neuclir22-ru-qt-splade.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/neuclir22-ru-qt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/neuclir22-ru-qt-splade.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/neuclir22-ru-qt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 We make available a version of the corpus that has already been encoded with SPLADE NeuCLIR22, i.e., we performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is required to reproduce these experiments; see instructions below.
@@ -283,5 +283,5 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/neuclir22-ru-qt-splade.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/neuclir22-ru-qt-splade.template) and run `bin/build.sh` to rebuild the documentation.
 

@@ -10,8 +10,8 @@ The uniCOIL model is described in the following paper:
 The experiments on this page are not actually reported in the paper.
 Here, a variant model without expansion is used.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-unicoil-noexp.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil-noexp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-unicoil-noexp.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-unicoil-noexp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -109,7 +109,7 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-unicoil-noexp.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-unicoil-noexp.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@lintool](https://github.com/lintool) on 2021-06-28 (commit [`1550683`](https://github.com/castorini/anserini/commit/1550683e41cefe89b7e67c0a5f0e147bc70dfcda))
 + Results reproduced by [@JMMackenzie](https://github.com/JMMackenzie) on 2021-07-02 (commit [`e4c5127`](https://github.com/castorini/anserini/commit/e4c51278d375ebad9aa2bf9bde66cab32260d6b4))

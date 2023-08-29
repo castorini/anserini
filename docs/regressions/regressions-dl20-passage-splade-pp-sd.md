@@ -11,8 +11,8 @@ In these experiments, we are using pre-encoded queries (i.e., cached results of 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-passage-splade-pp-sd.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-sd.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage-splade-pp-sd.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage-splade-pp-sd.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -138,7 +138,7 @@ The experimental results reported here are directly comparable to the results re
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-sd.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage-splade-pp-sd.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@justram](https://github.com/justram) on 2023-03-08 (commit [`03f95a8`](https://github.com/castorini/anserini/commit/03f95a8e1ae09ab09efe046bfcbd3a4cdda691b4))
 + Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2023-06-01 (commit [`a403a2a`](https://github.com/castorini/anserini/commit/a403a2a44af9322c7a2dbdb5240180a62398ab06))

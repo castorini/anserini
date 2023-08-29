@@ -11,8 +11,8 @@ The experiments on this page are not actually reported in the paper.
 However, the model is the same, applied to the MS MARCO _segmented_ document corpus (with doc2query-T5 expansions).
 Retrieval uses MaxP technique, where we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-segmented-unicoil.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc-segmented-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl19-doc-segmented-unicoil.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl19-doc-segmented-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -152,7 +152,7 @@ However, for these topics, we get the same effectiveness results; that is, the t
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl19-doc-segmented-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-doc-segmented-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
 + Results reproduced by [@mayankanand007](https://github.com/mayankanand007) on 2022-02-28 (commit [`950d7fd`](https://github.com/castorini/anserini/commit/950d7fd88dbb87f39e9c1f6ccf9e41cbb6f04f36))

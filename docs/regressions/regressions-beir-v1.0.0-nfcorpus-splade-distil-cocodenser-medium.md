@@ -5,8 +5,8 @@
 This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; NFCorpus](http://beir.ai/).
 The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -99,4 +99,4 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.template) and run `bin/build.sh` to rebuild the documentation.

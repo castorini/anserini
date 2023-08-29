@@ -8,8 +8,8 @@ The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe]
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-passage-splade-distil-cocodenser-medium.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-splade-distil-cocodenser-medium.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage-splade-distil-cocodenser-medium.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage-splade-distil-cocodenser-medium.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -136,6 +136,6 @@ The experimental results reported here are directly comparable to the results re
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-splade-distil-cocodenser-medium.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage-splade-distil-cocodenser-medium.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-14 (commit [`dc07344`](https://github.com/castorini/anserini/commit/dc073447c8a0c07b53d979c49bf1e2e018200508))

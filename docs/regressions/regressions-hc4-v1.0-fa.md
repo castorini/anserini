@@ -3,8 +3,8 @@
 This page documents BM25 regression experiments for [HC4 (v1.0) &mdash; Persian](https://github.com/hltcoe/HC4) ([paper](https://arxiv.org/pdf/2201.09992.pdf)).
 To be clear, the queries are in Persian (human translations) and the corpus is in Persian.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/hc4-v1.0-fa.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/hc4-v1.0-fa.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/hc4-v1.0-fa.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/hc4-v1.0-fa.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -276,6 +276,6 @@ The above results reproduce the BM25 title queries run in Table 2 of [this paper
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/hc4-v1.0-fa.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/hc4-v1.0-fa.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-07-13 (commit [`500e87`](https://github.com/castorini/anserini/commit/500e872d594a86cbf01adae644479f74a4b4af2d))

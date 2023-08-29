@@ -15,8 +15,8 @@ Note that there are four different bag-of-words regression conditions for this t
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
 In the passage (i.e., segment) indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc-segmented-docTTTTTquery.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc-segmented-docTTTTTquery.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl19-doc-segmented-docTTTTTquery.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl19-doc-segmented-docTTTTTquery.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.

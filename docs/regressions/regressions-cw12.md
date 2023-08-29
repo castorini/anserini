@@ -3,8 +3,8 @@
 **Models**: various bag-of-words approaches
 
 This page describes regressions for the Web Tracks from TREC 2013 and 2014 using the (full) [ClueWeb12 collection](http://lemurproject.org/clueweb12.php/).
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/cw12.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/cw12.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/cw12.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/cw12.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

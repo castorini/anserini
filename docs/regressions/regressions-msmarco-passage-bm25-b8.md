@@ -5,8 +5,8 @@
 This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-bm25-b8.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-bm25-b8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-bm25-b8.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-bm25-b8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -98,6 +98,6 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-bm25-b8.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-bm25-b8.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-14 (commit [`dc07344`](https://github.com/castorini/anserini/commit/dc073447c8a0c07b53d979c49bf1e2e018200508))

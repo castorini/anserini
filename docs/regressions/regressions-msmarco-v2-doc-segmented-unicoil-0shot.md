@@ -14,8 +14,8 @@ Initially, we fed only the segment text, but later we realized that prepending t
 This regression captures segment-only encoding and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
 The version that uses title/segment encoding can be found [here](regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-v2-doc-segmented-unicoil-0shot.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v2-doc-segmented-unicoil-0shot.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -130,6 +130,6 @@ With the above commands, you should be able to reproduce the following results:
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

@@ -2,8 +2,8 @@
 
 This page documents BM25 regression experiments for [MIRACL (v1.0) &mdash; Bengali](https://github.com/project-miracl/miracl).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/miracl-v1.0-bn.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/miracl-v1.0-bn.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/miracl-v1.0-bn.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/miracl-v1.0-bn.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

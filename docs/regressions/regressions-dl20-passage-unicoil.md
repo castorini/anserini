@@ -13,8 +13,8 @@ However, the model is the same.
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-passage-unicoil.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage-unicoil.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage-unicoil.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -141,7 +141,7 @@ The experimental results reported here are directly comparable to the results re
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@manveertamber](https://github.com/manveertamber) on 2022-02-25 (commit [`7472d86`](https://github.com/castorini/anserini/commit/7472d862c7311bc8bbd30655c940d6396e27c223))
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

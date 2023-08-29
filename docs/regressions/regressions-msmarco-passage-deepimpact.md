@@ -7,8 +7,8 @@ The DeepImpact model is described in the following paper:
 
 > Antonio Mallia, Omar Khattab, Nicola Tonellotto, and Torsten Suel. [Learning Passage Impacts for Inverted Indexes.](https://dl.acm.org/doi/10.1145/3404835.3463030) _SIGIR 2021_.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage-deepimpact.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage-deepimpact.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-deepimpact.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-deepimpact.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -129,7 +129,7 @@ The final evaluation metric is very close to the one reported in the paper (0.32
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-deepimpact.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-deepimpact.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@MXueguang](https://github.com/MXueguang) on 2021-06-17 (commit [`ff618db`](https://github.com/castorini/anserini/commit/ff618dbf87feee0ad75dc42c72a361c05984097d))
 + Results reproduced by [@JMMackenzie](https://github.com/jmmackenzie) on 2021-06-22 (commit [`4904341`](https://github.com/castorini/anserini/commit/490434172a035b6eade8c17771aed83cc7f5d996))

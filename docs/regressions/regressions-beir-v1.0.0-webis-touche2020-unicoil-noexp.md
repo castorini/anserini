@@ -7,8 +7,8 @@ The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/beir-v1.0.0-webis-touche2020-unicoil-noexp.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/beir-v1.0.0-webis-touche2020-unicoil-noexp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/beir-v1.0.0-webis-touche2020-unicoil-noexp.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-webis-touche2020-unicoil-noexp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

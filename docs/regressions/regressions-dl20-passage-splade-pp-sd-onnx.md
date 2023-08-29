@@ -11,8 +11,8 @@ In these experiments, we are using ONNX to perform query encoding on the fly.
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-passage-splade-pp-sd-onnx.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-sd-onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage-splade-pp-sd-onnx.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage-splade-pp-sd-onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -138,7 +138,7 @@ The experimental results reported here are directly comparable to the results re
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/dl20-passage-splade-pp-sd-onnx.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage-splade-pp-sd-onnx.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@cadurosar](https://github.com/cadurosar) on 2023-06-01 (commit [`70ea75`](https://github.com/castorini/anserini/commit/70ea75314ba570001eb68134f2185b55f6c66044))
 + Results reproduced by [@ArthurChen189](https://github.com/ArthurChen189) on 2023-06-01 (commit [`a403a2a`](https://github.com/castorini/anserini/commit/a403a2a44af9322c7a2dbdb5240180a62398ab06))

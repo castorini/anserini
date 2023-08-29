@@ -12,8 +12,8 @@ For additional instructions on working with MS MARCO document collection, refer 
 
 In the passage (i.e., segment) indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl20-doc-segmented-ca.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl20-doc-segmented-ca.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-doc-segmented-ca.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-doc-segmented-ca.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.

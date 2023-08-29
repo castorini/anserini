@@ -6,8 +6,8 @@ This page documents regression experiments on the [MS MARCO document ranking tas
 Here we are using **WordPiece tokenization** (i.e., from BERT) on the entire document.
 In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc-wp.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-doc-wp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-doc-wp.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-doc-wp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
