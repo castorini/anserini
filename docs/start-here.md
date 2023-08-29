@@ -20,10 +20,11 @@ What's the problem we're trying to solve?
 
 This is the definition I typically give:
 
-> Given an information need expressed as a query _q_, the text ranking task is to return a ranked list of _k_ texts {_d<sub>1</sub>_, _d<sub>2</sub>_ ... _d<sub>k</sub>_} from an arbitrarily large but finite collection
+> Given an information need expressed as a query _q_, the text retrieval task is to return a ranked list of _k_ texts {_d<sub>1</sub>_, _d<sub>2</sub>_ ... _d<sub>k</sub>_} from an arbitrarily large but finite collection
 of texts _C_ = {_d<sub>i</sub>_} that maximizes a metric of interest, for example, nDCG, AP, etc.
 
-This problem has been given various names, e.g., the search problem, the information retrieval problem, the text ranking problem, etc.
+This problem has been given various names, e.g., the search problem, the information retrieval problem, the text ranking problem, the top-_k_ document retrieval problem, etc.
+In most contexts, "ranking" and "retrieval" are used interchangeably.
 Basically, this is what _search_ (i.e., information retrieval) is all about.
 
 Let's try to unpack the definition a bit.
@@ -114,9 +115,14 @@ Bringing together everything we've discussed so far, a test collection consists 
 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
-In these instructions we're going to use Anserini's root directory as the working directory.
-Assuming you've cloned the repo already...
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
+```bash
+git clone https://github.com/castorini/anserini.git
+cd anserini
+git submodule update --init --recursive
+```
 
+In these instructions we're going to use Anserini's root directory as the working directory.
 First, we need to download and extract the data:
 
 ```bash
@@ -221,7 +227,7 @@ the fourth colum provides the relevance judgment itself.
 In this case, 0 means "not relevant" and 1 means "relevant".
 So, this entry says that the document with id 7187158 is relevant to the query with id 1048585.
 
-Well, how do we get the actual contents of document 1048585?
+Well, how do we get the actual contents of document 7187158?
 The simplest way is to grep through the collection itself:
 
 ```bash
@@ -268,5 +274,14 @@ By now you should be able to connect the concepts we introduced to how they mani
 From here, you're now ready to proceed to try and reproduce the [BM25 Baselines for MS MARCO Passage Ranking
 ](experiments-msmarco-passage.md).
 
+Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
+In the description of your pull request, please provide some details on your setup (e.g., operating system, environment and configuration, etc.).
+In addition, also provide some indication of success (e.g., everything worked) or document issues you encountered.
+If you think this guide can be improved in any way (e.g., you caught a typo or think a clarification is warranted), feel free to include it in the pull request.
+
 ## Reproduction Log[*](reproducibility.md)
 
++ Results reproduced by [@sahel-sh](https://github.com/sahel-sh) on 2023-07-21 (commit [`0e759fd`](https://github.com/castorini/anserini/commit/0e759fd3b9161a24f66c56e07f73f16eaf1490c6))
++ Results reproduced by [@Mofetoluwa](https://github.com/Mofetoluwa) on 2023-08-03 (commit [`7314128`](https://github.com/castorini/anserini/commit/73141282b62979e189ac3c87d9a902064f34a1c5))
++ Results reproduced by [@yilinjz](https://github.com/yilinjz) on 2023-08-23 (commit [`862bd27`](https://github.com/castorini/anserini/commit/862bd27d5c1400763e11424a7d44dcbf4cf48c17))
++ Results reproduced by [@Andrwyl](https://github.com/Andrwyl) on 2023-08-26 (commit [`b64a412`](https://github.com/castorini/anserini/commit/b64a412453d0fee1b89179d3b665984651a8b8f8))

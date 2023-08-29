@@ -33,8 +33,8 @@ public class SimpleImpactSearcherPrebuiltLucene9Test {
 
     SimpleImpactSearcher.Result[] hits;
 
-    Map<String, Float> query = new HashMap<>();
-    query.put("##ing", 1.0f);
+    Map<String, Integer> query = new HashMap<>();
+    query.put("##ing", 1);
 
     hits = searcher.search(query, 10);
     assertEquals(1, hits.length);
@@ -42,7 +42,7 @@ public class SimpleImpactSearcherPrebuiltLucene9Test {
     assertEquals(2, (int) hits[0].score);
 
     query = new HashMap<>();
-    query.put("test", 1.0f);
+    query.put("test", 1);
     hits = searcher.search(query, 10);
     assertEquals(1, hits.length);
     assertEquals("2000000", hits[0].docid);

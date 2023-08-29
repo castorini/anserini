@@ -13,12 +13,6 @@ Among other goals, our effort aims to be [the opposite of this](http://phdcomics
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
 
-**NOTE**: Anserini was upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/2/2022): this upgrade created backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952).
-Anserini will automatically detect Lucene 8 indexes and disable consistent tie-breaking to avoid runtime errors.
-However, Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
-Lucene 8 code will _not_ run on Lucene 9 indexes.
-Pyserini has also been upgraded and similar issues apply: Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
-
 ## 🎬 Getting Started
 
 Many Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
@@ -285,9 +279,8 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
 + [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
-+ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
 
-### Other Experiments
+### Other Experiments and Features
 
 + [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
 + [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
@@ -297,13 +290,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
-
-### Other Features
-
-+ Use Anserini in Python via [Pyserini](http://pyserini.io/)
-+ Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)
-+ Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)
-+ Anserini supports [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on arbitrary dense vectors with Lucene
++ Support for [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on dense vectors with inverted indexes
 
 ## 🙋 How Can I Contribute?
 
@@ -316,10 +303,15 @@ In turn, you'll be recognized as a [contributor](https://github.com/castorini/an
 
 Beyond that, there are always [open issues](https://github.com/castorini/anserini/issues) we would appreciate help on!
 
-## ℹ️ Release History
+## 📜️ Release History
 
++ v0.22.0: August 28, 2023 [[Release Notes](docs/release-notes/release-notes-v0.22.0.md)]
 + v0.21.0: March 31, 2023 [[Release Notes](docs/release-notes/release-notes-v0.21.0.md)]
 + v0.20.0: January 20, 2023 [[Release Notes](docs/release-notes/release-notes-v0.20.0.md)]
+
+<details>
+<summary>older... (and historic notes)</summary>
+
 + v0.16.2: December 12, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.2.md)]
 + v0.16.1: November 2, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.1.md)]
 + v0.16.0: October 23, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.0.md)]
@@ -329,10 +321,6 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 + v0.14.2: March 24, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.2.md)]
 + v0.14.1: February 27, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.1.md)]
 + v0.14.0: January 10, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.0.md)]
-
-<details>
-<summary>older... (and historic notes)</summary>
-
 + v0.13.5: November 2, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.5.md)]
 + v0.13.4: October 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.4.md)]
 + v0.13.3: August 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.3.md)]
@@ -361,9 +349,13 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
 + v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
 
-## Historical Notes
+## 📜️ Historical Notes
 
 + Anserini was upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/2/2022): this upgrade created backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952).
+Anserini will automatically detect Lucene 8 indexes and disable consistent tie-breaking to avoid runtime errors.
+However, Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
+Lucene 8 code will _not_ run on Lucene 9 indexes.
+Pyserini has also been upgraded and similar issues apply: Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
 + Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
 Maven 3.3+ is also required.
 + Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.

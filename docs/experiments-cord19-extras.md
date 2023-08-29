@@ -1,5 +1,8 @@
 # Ingesting CORD-19 into Solr and Elasticsearch
 
+⁉️ **Important Note:** As part of Anserini's upgrade to Lucene 9, support for Solrini was removed at [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) on August 2, 2022.
+The features documented below are no longer available, and this guide is retained only for historical reasons.
+
 This document describes how to ingest the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/) into Solr and Elasticsearch.
 If you want to build or download Lucene indexes for CORD-19, see [this guide](experiments-cord19.md).
 

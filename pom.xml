@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.21.1-SNAPSHOT</version>
+  <version>0.22.1-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -129,6 +129,7 @@
               <mainClass>io.anserini.search.SimpleSearcher</mainClass>
               <id>SimpleSearcher</id>
             </program>
+
             <program>
               <mainClass>io.anserini.search.SimpleTweetSearcher</mainClass>
               <id>SimpleTweetSearcher</id>

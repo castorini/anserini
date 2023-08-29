@@ -6,13 +6,28 @@ This exercise will require a machine with >8 GB RAM and >15 GB free disk space .
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
 ).
+In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
+that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
+Instead, really try to understand what's going on.
+
 
 **Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
-+ Be able to use Anserini to index the MS MARCO passage collection.
-+ Be able to use Anserini to search the MS MARCO passage collection with the dev queries.
++ Be able to use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
++ Be able to use Anserini to perform a batch retrieval run on the MS MARCO passage collection with the dev queries.
 + Be able to evaluate the retrieved results above.
 + Understand the MRR metric.
+
+What's Anserini?
+Well, it's the repo that you're in right now.
+Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Luence search library](https://lucene.apache.org/).
+The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
+
+Think of it this way: Lucene provides a "kit of parts".
+Elasticsearch provides "assembly of parts" targeted to production search applications, with a REST-centric API.
+Anserini provides an alternative way of composing the same core components together, targeted at information retrieval researchers.
+By building on Lucene, Anserini aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
+That is, most things done with Anserini can be "translated" into Elasticsearch quite easily.
 
 ## Data Prep
 
@@ -73,6 +88,9 @@ Given a (static) document collection, indexing only needs to be performed once, 
 On the other hand, retrieval needs to be fast, i.e., low latency, high throughput, etc.
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
+
+If you haven't built Anserini already, build it now using the instructions in [anserini#-getting-started](https://github.com/castorini/anserini#-getting-started).
+
 We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
 ```bash
@@ -209,7 +227,7 @@ If the relevant `docid` doesn't appear in the top 10, then the system gets a sco
 That's the score of a query.
 We take the average of the scores across all queries (6980 in this case), and we arrive at the score for the entire run.
 
-You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
+You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
 So you've just reproduced (part of) a leaderboard submission!
 
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
@@ -263,8 +281,9 @@ We can find the MRR@10 for `qid` 1048585 above:
 
 ```bash
 $ tools/eval/trec_eval.9.0.4/trec_eval -q -c -M 10 -m recip_rank \
-  collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec | grep 1048585
+    collections/msmarco-passage/qrels.dev.small.trec \
+    runs/run.msmarco-passage.dev.small.trec | grep 1048585
+
 recip_rank            	1048585	1.0000
 ```
 
@@ -279,6 +298,11 @@ In short, it's complicated.
 
 At this time, look back through the learning outcomes again and make sure you're good.
 As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
+
+Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
+In the description of your pull request, please provide some details on your setup (e.g., operating system, environment and configuration, etc.).
+In addition, also provide some indication of success (e.g., everything worked) or document issues you encountered.
+If you think this guide can be improved in any way (e.g., you caught a typo or think a clarification is warranted), feel free to include it in the pull request.
 
 ## BM25 Tuning
 
@@ -304,7 +328,7 @@ Here's the comparison between the Anserini default and optimized parameters:
 | Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 |      0.8573 |
 | Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 |      0.8555 |
 
-As mentioned above, the BM25 run with `k1=0.82`, `b=0.68` corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/msmarco/).
+As mentioned above, the BM25 run with `k1=0.82`, `b=0.68` corresponds to the entry "BM25 (Lucene8, tuned)" dated 2019/06/26 on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/).
 The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to the entry "BM25 (Anserini)" dated 2019/04/10 (but Anserini was using Lucene 7.6 at the time).
 
 ## Reproduction Log[*](reproducibility.md)
@@ -399,3 +423,7 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@Singularity-tian](https://github.com/Singularity-tian) on 2023-05-12 (commit [`d82b6f7`](https://github.com/castorini/anserini/commit/d82b6f76cbef009bccb0e67fc2bedc6fa6ae56c6))
 + Results reproduced by [@Richard5678](https://github.com/Richard5678) on 2023-06-11 (commit [`2d484d3`](https://github.com/castorini/anserini/commit/2d484d330b6218852552901fa4dc62c441e7ff17))
 + Results reproduced by [@pratyushpal](https://github.com/pratyushpal) on 2023-07-14 (commit [`17d5fc7`](https://github.com/castorini/anserini/commit/17d5fc7f338b511c4dc49de88e9b2ab7ea27f8aa))
++ Results reproduced by [@sahel-sh](https://github.com/sahel-sh) on 2023-07-22 (commit [`4b8f051`](https://github.com/castorini/anserini/commit/4b8f051c25992a5d87ecf8d30d45a93aff17abc4))
++ Results reproduced by [@Mofetoluwa](https://github.com/Mofetoluwa) on 2023-08-03 (commit [`7314128`](https://github.com/castorini/anserini/commit/73141282b62979e189ac3c87d9a902064f34a1c5))
++ Results reproduced by [@yilinjz](https://github.com/yilinjz) on 2023-08-24 (commit [`d4cb6fd`](https://github.com/castorini/anserini/commit/d4cb6fd1c0b5ed0a7eac4747af919823acc939fa))
++ Results reproduced by [@Andrwyl](https://github.com/Andrwyl) on 2023-08-26 (commit [`b64a412`](https://github.com/castorini/anserini/commit/b64a412453d0fee1b89179d3b665984651a8b8f8))

@@ -1,0 +1,5 @@
+{
+  "docid": "doc1",
+  "contents": "this is the contents 1.",
+  "vector": [0.1, 0.2, 0.3]
+}

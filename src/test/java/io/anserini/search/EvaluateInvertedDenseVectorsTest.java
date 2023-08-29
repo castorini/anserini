@@ -29,7 +29,7 @@ public class EvaluateInvertedDenseVectorsTest {
     String path = "target/idx-sample-fw";
     String encoding = "fw";
     IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
+    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-index",
         path, "-topics", "src/test/resources/sample_topics/Trec"};
     EvaluateInvertedDenseVectors.main(args);
   }
@@ -39,7 +39,7 @@ public class EvaluateInvertedDenseVectorsTest {
     String path = "target/idx-sample-ll";
     String encoding = "lexlsh";
     IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
+    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-index",
         path, "-topics", "src/test/resources/sample_topics/Trec"};
     EvaluateInvertedDenseVectors.main(args);
   }

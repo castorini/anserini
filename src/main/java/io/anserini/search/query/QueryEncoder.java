@@ -56,7 +56,7 @@ public abstract class QueryEncoder {
     return tokenIds;
   }
 
-  protected String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
+  public String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
     /*
      * This function generates the encoded query.
      */
@@ -72,7 +72,23 @@ public abstract class QueryEncoder {
     return String.join(" ", encodedQuery);
   }
 
-  static Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights, DefaultVocabulary vocab) {
+  public Map<String, Integer> getEncodedQueryMap(Map<String, Float> tokenWeightMap) throws OrtException {
+    Map<String, Integer> encodedQuery = new HashMap<>();
+    for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
+      String token = entry.getKey();
+      Float tokenWeight = entry.getValue();
+      int weightQuanted = Math.round(tokenWeight / weightRange * quantRange);
+      encodedQuery.put(token, weightQuanted);
+    }
+    return encodedQuery;
+  }
+
+  public Map<String, Integer> getEncodedQueryMap(String query) throws OrtException {
+    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
+    return getEncodedQueryMap(tokenWeightMap);
+  }
+
+  static protected Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights, DefaultVocabulary vocab) {
     /*
      * This function returns a map of token to its weight.
      */
@@ -87,6 +103,5 @@ public abstract class QueryEncoder {
     return tokenWeightMap;
   }
 
-  public abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
-
+  protected abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
 }
