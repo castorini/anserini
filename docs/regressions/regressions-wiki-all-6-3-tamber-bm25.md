@@ -32,7 +32,7 @@ target/appassembler/bin/IndexCollection \
 
 The directory `/path/to/wiki-all-6-3-tamber/`should be a directory containing the wiki-all-6-3-tamber passages collection retrieved from [here](https://huggingface.co/datasets/castorini/odqa-wiki-corpora).
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 

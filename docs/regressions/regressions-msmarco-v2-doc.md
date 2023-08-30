@@ -32,7 +32,7 @@ target/appassembler/bin/IndexCollection \
 The directory `/path/to/msmarco-v2-doc/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 See [this page](experiments-msmarco-v2.md) for additional details.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 

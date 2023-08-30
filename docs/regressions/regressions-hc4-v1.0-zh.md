@@ -40,7 +40,7 @@ target/appassembler/bin/IndexCollection \
 ```
 
 See [this page](https://github.com/hltcoe/HC4) for more details about the HC4 corpus.
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 

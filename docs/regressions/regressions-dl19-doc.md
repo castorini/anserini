@@ -44,7 +44,7 @@ target/appassembler/bin/IndexCollection \
 The directory `/path/to/msmarco-doc/` should be a directory containing the document corpus in Anserini's jsonl format.
 See [this page](experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 

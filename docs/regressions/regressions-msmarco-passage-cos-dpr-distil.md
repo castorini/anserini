@@ -62,7 +62,7 @@ The path `/path/to/msmarco-passage-cos-dpr-distil/` should point to the corpus d
 
 Upon completion, we should have an index with 8,841,823 documents.
 
-<!-- For additional details, see explanation of [common indexing options](common-indexing-options.md). -->
+<!-- For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md). -->
 
 ## Retrieval
 

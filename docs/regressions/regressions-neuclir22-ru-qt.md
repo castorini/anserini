@@ -40,7 +40,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.neuclir22-ru &
 ```
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 

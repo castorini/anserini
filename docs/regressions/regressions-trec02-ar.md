@@ -31,7 +31,7 @@ Inside the LDC2007T38 distribution, there should be a directory named `transcrip
 The path above `/path/to/trec02-ar/` should point to this `transcripts/` directory.
 The collection contains 383,872 documents.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 
