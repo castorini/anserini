@@ -50,6 +50,7 @@ You don't have to take my word: you can directly read the blog post on [building
 <img src="Prometheus-Model.png" width="500" />
 
 Search comprises "internal queries" to fetch content ("Bing results") that are then fed into an LLM (i.e., stuffed into the prompt) to generate answers.
+If you want more evidence, here's a [NeurIPS 2020 paper](https://arxiv.org/abs/2005.11401) that basically says the same thing.
 
 Thus, retrieval forms the foundation of answer generation with LLMs.
 In fact, it's critical to the quality of the output.
