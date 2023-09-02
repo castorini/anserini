@@ -1,5 +1,8 @@
 # Elastirini: Anserini Integration with Elasticsearch
 
+⁉️ **Important Note:** As part of Anserini's upgrade to Lucene 9, support for Solrini was removed at [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) on August 2, 2022.
+The features documented below are no longer available, and this guide is retained only for historical reasons.
+
 Anserini provides code for indexing into an [ELK stack](https://www.elastic.co/what-is/elk-stack) (i.e., the stack built on top of Elasticsearch), thus providing interoperable support for existing test collections.
 This is the same idea discussed in the following paper:
 

@@ -300,6 +300,9 @@ At this time, look back through the learning outcomes again and make sure you're
 As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
 
 Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
+In the description of your pull request, please provide some details on your setup (e.g., operating system, environment and configuration, etc.).
+In addition, also provide some indication of success (e.g., everything worked) or document issues you encountered.
+If you think this guide can be improved in any way (e.g., you caught a typo or think a clarification is warranted), feel free to include it in the pull request.
 
 ## BM25 Tuning
 
@@ -423,3 +426,5 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@sahel-sh](https://github.com/sahel-sh) on 2023-07-22 (commit [`4b8f051`](https://github.com/castorini/anserini/commit/4b8f051c25992a5d87ecf8d30d45a93aff17abc4))
 + Results reproduced by [@Mofetoluwa](https://github.com/Mofetoluwa) on 2023-08-03 (commit [`7314128`](https://github.com/castorini/anserini/commit/73141282b62979e189ac3c87d9a902064f34a1c5))
 + Results reproduced by [@yilinjz](https://github.com/yilinjz) on 2023-08-24 (commit [`d4cb6fd`](https://github.com/castorini/anserini/commit/d4cb6fd1c0b5ed0a7eac4747af919823acc939fa))
++ Results reproduced by [@Andrwyl](https://github.com/Andrwyl) on 2023-08-26 (commit [`b64a412`](https://github.com/castorini/anserini/commit/b64a412453d0fee1b89179d3b665984651a8b8f8))
++ Results reproduced by [@UShivani3](https://github.com/UShivani3) on 2023-08-29 (commit [`24ab292`](https://github.com/castorini/anserini/commit/24ab292c5eaaccd40bbfa13fa7122eeb58261aaa))
