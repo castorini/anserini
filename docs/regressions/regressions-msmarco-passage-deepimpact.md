@@ -127,7 +127,7 @@ QueriesRanked: 6980
 
 The final evaluation metric is very close to the one reported in the paper (0.326).
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-deepimpact.template) and run `bin/build.sh` to rebuild the documentation.
 

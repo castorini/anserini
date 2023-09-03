@@ -174,6 +174,6 @@ With the above commands, you should be able to reproduce the following results:
 | [TREC 2013 Web Track (Topics 201-250)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.201-250.txt)| 0.0838    | 0.0745    | 0.0951    | 0.0767    | 0.0548    | 0.0761    |
 | [TREC 2014 Web Track (Topics 251-300)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.251-300.txt)| 0.1198    | 0.1064    | 0.0936    | 0.1091    | 0.0926    | 0.0911    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 * Results reproduced by [@matthew-z](https://github.com/matthew-z) on 2019-04-14 (commit [`abaa4c8`](https://github.com/castorini/Anserini/commit/abaa4c8e7cb50e8e4a3677377716f609b7859538))[<sup>*</sup>](https://github.com/castorini/Anserini/pull/590)[<sup>!</sup>](https://github.com/castorini/Anserini/issues/592)

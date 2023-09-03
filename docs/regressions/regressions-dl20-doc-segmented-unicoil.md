@@ -150,7 +150,7 @@ The reasonable settings are:
 
 However, for these topics, we get the same effectiveness results; that is, the tie-breaking affects do not manifest in different scores.
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-doc-segmented-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
 

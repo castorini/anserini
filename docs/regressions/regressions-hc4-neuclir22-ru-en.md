@@ -172,7 +172,7 @@ With the above commands, you should be able to reproduce the following results:
 | [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.6632    | 0.6866    | 0.6721    |
 | [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.6783    | 0.7089    | 0.7427    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/hc4-neuclir22-ru-en.template) and run `bin/build.sh` to rebuild the documentation.
 

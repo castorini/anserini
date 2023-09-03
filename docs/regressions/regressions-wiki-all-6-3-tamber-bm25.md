@@ -157,6 +157,6 @@ With the above commands, you should be able to reproduce the following results:
 | [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.9135    |
 | [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.8166    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/wiki-all-6-3-tamber-bm25.template) and run `bin/build.sh` to rebuild the documentation.

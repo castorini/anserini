@@ -274,7 +274,7 @@ With the above commands, you should be able to reproduce the following results:
 
 The above results reproduce the BM25 title queries run in Table 2 of [this paper](https://arxiv.org/pdf/2201.08471.pdf).
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/hc4-v1.0-fa.template) and run `bin/build.sh` to rebuild the documentation.
 

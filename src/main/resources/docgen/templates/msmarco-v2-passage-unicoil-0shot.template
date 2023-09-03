@@ -89,7 +89,7 @@ With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
 

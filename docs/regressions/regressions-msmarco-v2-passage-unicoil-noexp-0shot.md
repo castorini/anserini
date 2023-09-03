@@ -123,7 +123,7 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.7010    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.7114    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v2-passage-unicoil-noexp-0shot.template) and run `bin/build.sh` to rebuild the documentation.
 

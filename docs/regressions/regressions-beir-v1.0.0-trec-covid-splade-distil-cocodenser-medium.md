@@ -97,6 +97,6 @@ With the above commands, you should be able to reproduce the following results:
 | BEIR (v1.0.0): TREC-COVID                                                                                    | 0.4433    |
 
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.template) and run `bin/build.sh` to rebuild the documentation.

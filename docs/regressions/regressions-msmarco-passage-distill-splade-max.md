@@ -128,7 +128,7 @@ QueriesRanked: 6980
 
 This corresponds to the effectiveness reported in the paper.
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-distill-splade-max.template) and run `bin/build.sh` to rebuild the documentation.
 

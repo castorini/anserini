@@ -154,6 +154,6 @@ With the above commands, you should be able to reproduce the following results:
 | [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.8991    |
 | [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.7922    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/wikipedia-dpr-100w-bm25.template) and run `bin/build.sh` to rebuild the documentation.

@@ -97,6 +97,6 @@ With the above commands, you should be able to reproduce the following results:
 | BEIR (v1.0.0): FiQA-2018                                                                                     | 0.8323    |
 
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-fiqa-splade-distil-cocodenser-medium.template) and run `bin/build.sh` to rebuild the documentation.

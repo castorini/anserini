@@ -65,7 +65,7 @@ For additional details, see explanation of [common indexing options](${root_path
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](${root_path}/docs/experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -85,7 +85,7 @@ With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
 

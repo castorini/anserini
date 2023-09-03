@@ -68,7 +68,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](../../docs/experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -128,7 +128,7 @@ QueriesRanked: 6980
 
 This corresponds to the effectiveness reported in the paper.
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-unicoil-tilde-expansion.template) and run `bin/build.sh` to rebuild the documentation.
 

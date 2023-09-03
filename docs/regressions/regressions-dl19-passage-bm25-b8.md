@@ -99,7 +99,7 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BM25 (default parameters, quantized 8 bits)**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.7639    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-passage-bm25-b8.template) and run `bin/build.sh` to rebuild the documentation.
 

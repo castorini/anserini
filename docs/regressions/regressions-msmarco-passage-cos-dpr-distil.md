@@ -106,6 +106,6 @@ With the above commands, you should be able to reproduce the following results:
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally stable to the third digit after the decimal point.
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-cos-dpr-distil.template) and run `bin/build.sh` to rebuild the documentation.

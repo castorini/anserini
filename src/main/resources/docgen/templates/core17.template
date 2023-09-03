@@ -51,7 +51,7 @@ With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
 + Results reproduced by [@tteofili](https://github.com/tteofili) on 2019-01-27 (commit [`951090`](https://github.com/castorini/Anserini/commit/951090b66230040f037dde46534d896416467337))
 + Results reproduced by [@chriskamphuis](https://github.com/chriskamphuis) on 2019-09-07 (commit [`61f6f20`](https://github.com/castorini/anserini/commit/61f6f20ff6872484966ea1badcdcdcebf1eea852))

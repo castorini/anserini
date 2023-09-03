@@ -128,7 +128,7 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                          | 0.9056    |
 | [MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                         | 0.9097    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot.template) and run `bin/build.sh` to rebuild the documentation.
 

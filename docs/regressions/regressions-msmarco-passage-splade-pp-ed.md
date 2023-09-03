@@ -104,7 +104,7 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9831    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-splade-pp-ed.template) and run `bin/build.sh` to rebuild the documentation.
 

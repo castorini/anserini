@@ -96,7 +96,7 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BM25 (default parameters, quantized 8 bits)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8562    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-bm25-b8.template) and run `bin/build.sh` to rebuild the documentation.
 

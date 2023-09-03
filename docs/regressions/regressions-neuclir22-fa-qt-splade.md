@@ -281,7 +281,7 @@ With the above commands, you should be able to reproduce the following results:
 | [NeuCLIR 2022 (Persian): desc (machine-translated queries)](https://neuclir.github.io/)                      | 0.8172    | 0.8172    | 0.8117    |
 | [NeuCLIR 2022 (Persian): desc+title (machine-translated queries)](https://neuclir.github.io/)                | 0.8437    | 0.8437    | 0.8350    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/neuclir22-fa-qt-splade.template) and run `bin/build.sh` to rebuild the documentation.
 

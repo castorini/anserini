@@ -179,7 +179,7 @@ With the above commands, you should be able to reproduce the following results:
 | [NeuCLIR 2022 (Chinese): desc (original English queries)](https://neuclir.github.io/)                        | 0.7597    | 0.6969    | 0.7623    |
 | [NeuCLIR 2022 (Chinese): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.7922    | 0.7481    | 0.8067    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/neuclir22-zh-dt-splade.template) and run `bin/build.sh` to rebuild the documentation.
 

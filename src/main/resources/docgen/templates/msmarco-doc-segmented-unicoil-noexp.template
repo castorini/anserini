@@ -97,7 +97,7 @@ Because of tie-breaking effects, we get slightly different results:
 | `-hits 10000 -selectMaxPassage.hits 100`             | 0.3409  | 0.3409 | 0.8639 | -      | 0.3410112121151749  |
 | `-hits 1000 -selectMaxPassage.hits 100`              | 0.3409  | 0.3409 | 0.8639 | -      | 0.3410112121151749  |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
 

@@ -150,7 +150,7 @@ Because of tie-breaking effects, we get slightly different results:
 | `-hits 10000 -selectMaxPassage.hits 100`             | 0.3531  | 0.3531 | 0.8860 | -      | 0.352997702662614  |
 | `-hits 1000 -selectMaxPassage.hits 100`              | 0.3531  | 0.3531 | 0.8860 | -      | 0.352997702662614  |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-doc-segmented-unicoil.template) and run `bin/build.sh` to rebuild the documentation.
 

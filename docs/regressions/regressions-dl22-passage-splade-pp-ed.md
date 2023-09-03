@@ -139,6 +139,6 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
 | [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6629    | 0.6367    | 0.6778    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl22-passage-splade-pp-ed.template) and run `bin/build.sh` to rebuild the documentation.

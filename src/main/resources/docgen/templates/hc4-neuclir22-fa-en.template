@@ -59,7 +59,7 @@ ${effectiveness}
 
 The above results reproduce the BM25 title queries run in Table 2 of [this paper](https://arxiv.org/pdf/2201.08471.pdf).
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
 

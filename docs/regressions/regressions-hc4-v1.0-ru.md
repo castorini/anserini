@@ -273,7 +273,7 @@ With the above commands, you should be able to reproduce the following results:
 | [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.7355    | 0.6530    | 0.7680    |
 | [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.7721    | 0.7335    | 0.8271    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/hc4-v1.0-ru.template) and run `bin/build.sh` to rebuild the documentation.
 

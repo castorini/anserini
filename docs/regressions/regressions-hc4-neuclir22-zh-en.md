@@ -171,7 +171,7 @@ With the above commands, you should be able to reproduce the following results:
 | [HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.5573    | 0.6077    | 0.6142    |
 | [HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.6182    | 0.6482    | 0.6516    |
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/hc4-neuclir22-zh-en.template) and run `bin/build.sh` to rebuild the documentation.
 
