@@ -56,12 +56,12 @@ The path `/path/to/${corpus}/` should point to the corpus downloaded above.
 
 Upon completion, we should have an index with 8,841,823 documents.
 
-<!-- For additional details, see explanation of [common indexing options](common-indexing-options.md). -->
+<!-- For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md). -->
 
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](${root_path}/docs/experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
@@ -84,7 +84,7 @@ ${effectiveness}
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally stable to the third digit after the decimal point.
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
 

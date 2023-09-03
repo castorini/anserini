@@ -43,7 +43,7 @@ pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 &&
 Solr should now be available at [http://localhost:8983/](http://localhost:8983/) for browsing.
 
 The Solr index schema can also be modified using the [Schema API](https://lucene.apache.org/solr/guide/8_3/schema-api.html). This is useful for specifying field types and other properties including multiValued fields.
-Schemas for setting up specific Solr index schemas can be found in the [src/main/resources/solr/schemas/](../src/main/resources/solr/schemas/) folder.
+Schemas for setting up specific Solr index schemas can be found in the `src/main/resources/solr/schemas/`folder.
 To set the schema, we can make a request to the Schema API:
 
 ```bash
@@ -61,7 +61,7 @@ Indexing into Solr is similar indexing to disk with Lucene, with a few added par
 Most notably, we replace the `-index` parameter (which specifies the Lucene index path on disk) with Solr parameters.
 Alternatively, Solr can also be configured to read pre-built Lucene indexes, since Solr uses Lucene indexes under the hood (more details below).
 
-We'll index [Robust04](regressions-disk45.md) as an example.
+We'll index Robust04 as an example.
 First, create the `robust04` collection in Solr:
 
 ```bash
@@ -109,9 +109,9 @@ P_30                  	all	0.3102
 
 Solrini has also been verified to work with following collections as well:
 
-+ [TREC Washington Post Corpus](regressions-core18.md)
-+ [MS MARCO passage ranking task](experiments-msmarco-passage.md)
-+ [MS MARCO document ranking task](regressions-msmarco-doc.md)
++ TREC Washington Post Corpus
++ MS MARCO passage ranking task
++ MS MARCO document ranking task
 
 See `run_solr_regression.py` regression script for more details.
 
@@ -119,7 +119,7 @@ See `run_solr_regression.py` regression script for more details.
 
 It is possible for Solr to read pre-built Lucene indexes.
 To achieve this, some housekeeping is required to "install" the pre-built indexes.
-The following uses [Robust04](regressions-disk45.md) as an example. 
+The following uses Robust04 as an example.
 Let's assume the pre-built index is stored at `indexes/lucene-index.disk45/`.
 
 First, a Solr collection must be created to house the index.
@@ -168,7 +168,7 @@ You can confirm that everything works by performing a retrieval run and checking
 ## Solr integration test
 
 We have an end-to-end integration testing script `run_solr_regression.py`.
-See example usage for [Robust04](regressions-disk45.md) below:
+See example usage for Robust04 below:
 
 ```bash
 # Check if Solr server is on
@@ -196,21 +196,21 @@ To run end-to-end, issue the following command:
 python src/main/python/run_solr_regression.py --regression robust04 --input /path/to/disk45
 ```
 
-The regression script has been verified to work for [`robust04`](regressions-disk45.md), [`core18`](regressions-core18.md), [`msmarco-passage`](experiments-msmarco-passage.md), [`msmarco-doc`](regressions-msmarco-doc.md).
+The regression script has been verified to work for `robust04`, `core18`, `msmarco-passage`, `msmarco-doc`.
 
 ## Reproduction Log[*](reproducibility.md)
 
-+ Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`1882d84`](https://github.com/castorini/anserini/commit/1882d84236b13cd4673d2d8fa91003438eea2d82)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-disk45.md)
-+ Results reproduced by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-28 (commit [`a79cb62`](https://github.com/castorini/anserini/commit/a79cb62a57a059113a6c3b1523b582b89dccf0a1)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-disk45.md)
-+ Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-02-12 (commit [`eff7755`](https://github.com/castorini/anserini/commit/eff7755a611bd20ee1d63ac0167f5c8f38cd3074)) for [Washington Post `core18`](regressions-core18.md), [Robust04 `robust04`](regressions-disk45.md), and [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`31d843a`](https://github.com/castorini/anserini/commit/31d843a6073bfd7eff7e326f543e3f11845df7fa)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results reproduced by [@shaneding](https://github.com/shaneding) on 2020-05-26 (commit [`bed8ead`](https://github.com/castorini/anserini/commit/bed8eadad5f2ba859a2ddd2801db4aaeb3c81485)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results reproduced by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS MARCO Passage `msmarco-passage`](regressions-msmarco-passage.md)
-+ Results reproduced by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) and [MS Marco Document `msmarco-doc`](regressions-msmarco-doc.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
-+ Results reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04 `robust04`](regressions-disk45.md), [Washington Post `core18`](regressions-core18.md), and [MS Marco Passage `msmarco-passage`](regressions-msmarco-passage.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
++ Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`1882d84`](https://github.com/castorini/anserini/commit/1882d84236b13cd4673d2d8fa91003438eea2d82)) for both Washington Post and Robust04
++ Results reproduced by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-28 (commit [`a79cb62`](https://github.com/castorini/anserini/commit/a79cb62a57a059113a6c3b1523b582b89dccf0a1)) for both Washington Post and Robust04
++ Results reproduced by [@nikhilro](https://github.com/nikhilro) on 2020-02-12 (commit [`eff7755`](https://github.com/castorini/anserini/commit/eff7755a611bd20ee1d63ac0167f5c8f38cd3074)) for Washington Post `core18`, Robust04 `robust04`, and MS Marco Passage `msmarco-passage` using end-to-end `run_solr_regression`
++ Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`31d843a`](https://github.com/castorini/anserini/commit/31d843a6073bfd7eff7e326f543e3f11845df7fa)) for MS Marco Passage `msmarco-passage` using end-to-end `run_solr_regression`
++ Results reproduced by [@shaneding](https://github.com/shaneding) on 2020-05-26 (commit [`bed8ead`](https://github.com/castorini/anserini/commit/bed8eadad5f2ba859a2ddd2801db4aaeb3c81485)) for MS Marco Passage `msmarco-passage` using end-to-end `run_solr_regression`
++ Results reproduced by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for MS MARCO Passage `msmarco-passage`
++ Results reproduced by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for MS Marco Passage `msmarco-passage` and MS Marco Document `msmarco-doc` using end-to-end `run_solr_regression`
++ Results reproduced by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for Robust04 `robust04`, Washington Post `core18`, and MS Marco Passage `msmarco-passage` using end-to-end `run_solr_regression`
 + Results reproduced by [@lintool](https://github.com/lintool) on 2020-11-10 (commit [`e19755b`](https://github.com/castorini/anserini/commit/e19755b5fa976127830597bc9fbca203b9f5ad24)), all commands and end-to-end regression script for all four collections
-+ Results reproduced by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-10 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for [MS MARCO Passage](regressions-msmarco-passage.md)
-+ Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2021-01-13 (commit [`a62aca0`](https://github.com/castorini/anserini/commit/a62aca06c1603617207c1c148133de0f90f24738)) for [MS MARCO Passage](regressions-msmarco-passage.md) and [MS MARCO Document](regressions-msmarco-doc.md)
-+ Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2022-01-21 (commit [`a81299e`](https://github.com/castorini/anserini/commit/a81299e59eff24512d635e0d49fba6e373286469)) for [MS MARCO Document](regressions-msmarco-doc.md) using end-to-end [`run_solr_regression`](../src/main/python/run_solr_regression.py)
++ Results reproduced by [@jrzhang12](https://github.com/jrzhang12) on 2021-01-10 (commit [`be4e44d`](https://github.com/castorini/anserini/commit/02c52ee606ba0ebe32c130af1e26d24d8f10566a)) for MS MARCO Passage
++ Results reproduced by [@tyao-t](https://github.com/tyao-t) on 2021-01-13 (commit [`a62aca0`](https://github.com/castorini/anserini/commit/a62aca06c1603617207c1c148133de0f90f24738)) for[MS MARCO Passage and MS MARCO Document
++ Results reproduced by [@d1shs0ap](https://github.com/d1shs0ap) on 2022-01-21 (commit [`a81299e`](https://github.com/castorini/anserini/commit/a81299e59eff24512d635e0d49fba6e373286469)) for MS MARCO Document using end-to-end `run_solr_regression`
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-03-21 (commit [`3d1fc34`](https://github.com/castorini/anserini/commit/3d1fc3457b993832b4682c0482b26d8271d02ec6)) for all collections
 + Results reproduced by [@lintool](https://github.com/lintool) on 2022-07-31 (commit [`2a0cb16`](https://github.com/castorini/anserini/commit/2a0cb16829b347e38801b9972b349de498dadf03)) (v0.14.4) for all collections

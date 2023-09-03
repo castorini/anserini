@@ -10,7 +10,7 @@ The uniCOIL model is described in the following paper:
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](experiments-msmarco-v2.md).
+For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -68,7 +68,7 @@ The path `/path/to/${corpus}/` should point to the corpus downloaded above.
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
 Upon completion, we should have an index with 138,364,198 documents.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
 
 ## Retrieval
 

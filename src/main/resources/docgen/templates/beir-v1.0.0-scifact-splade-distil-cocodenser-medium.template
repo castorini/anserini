@@ -53,7 +53,7 @@ The path `/path/to/${corpus}/` should point to the corpus downloaded above.
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 5,183 documents.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -78,6 +78,6 @@ With the above commands, you should be able to reproduce the following results:
 ${effectiveness}
 
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.

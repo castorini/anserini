@@ -23,7 +23,7 @@ ${index_cmds}
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
 should bring up a single JSON file.
 
-For additional details, see explanation of [common indexing options](common-indexing-options.md).
+For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -51,7 +51,7 @@ With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
 + Results reproduced by [@andrewyates](https://github.com/andrewyates) on 2018-11-30 (commit [`c1aac5`](https://github.com/castorini/Anserini/commit/c1aac5e353e2ab77db3e7106cb4c017a09ce0fe9))
 + Results reproduced by [@chriskamphuis](https://github.com/chriskamphuis) on 2019-09-07 (commit [`61f6f20`](https://github.com/castorini/anserini/commit/61f6f20ff6872484966ea1badcdcdcebf1eea852))
