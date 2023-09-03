@@ -15,5 +15,3 @@ For the most part, replicability is not applicable in the context of Anserini, b
 
 At the bottom of many pages you'll find a "Reproduction Log", which keeps track of users who have successfully reproduced the results reported on that page.
 Note that we stretch the meaning of "same team" a bit in these logs: we still consider it a successful reproduction if another member of our research group is able to obtain the same results, as long as the person was not the primary author of the code in question.
-
-
