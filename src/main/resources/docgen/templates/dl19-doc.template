@@ -5,7 +5,7 @@
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
+For additional instructions on working with MS MARCO document collection, refer to [this page](${root_path}/docs/experiments-msmarco-doc.md).
 
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
@@ -17,7 +17,7 @@ All four conditions are described in detail [here](https://github.com/castorini/
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
-Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
+Note that in November 2021 we discovered issues in our regression tests, documented [here](${root_path}/docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
@@ -36,7 +36,7 @@ ${index_cmds}
 ```
 
 The directory `/path/to/msmarco-doc/` should be a directory containing the document corpus in Anserini's jsonl format.
-See [this page](experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
+See [this page](${root_path}/docs/experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
 For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
 
@@ -68,7 +68,7 @@ Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
 + The setting "tuned" refers to `k1=3.44`, `b=0.87`, tuned in 2019/06 using the MS MARCO document sparse judgments to optimize for MAP and used for TREC 2019 Deep Learning Track baseline runs.
-+ The setting "tuned2" refers to `k1=4.46`, `b=0.82`, tuned in 2020/12 using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval); see [this page](experiments-msmarco-doc.md) additional details.
++ The setting "tuned2" refers to `k1=4.46`, `b=0.82`, tuned in 2020/12 using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval); see [this page](${root_path}/docs/experiments-msmarco-doc.md) additional details.
 
 Settings tuned on the MS MARCO document sparse judgments _may not_ work well on the TREC dense judgments.
 

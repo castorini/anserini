@@ -14,7 +14,7 @@ In the passage (i.e., segment) indexing condition, we select the score of the hi
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-doc-segmented-docTTTTTquery.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-doc-segmented-docTTTTTquery.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
-Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
+Note that in November 2021 we discovered issues in our regression tests, documented [here](../../docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
@@ -103,7 +103,7 @@ In these runs, we are retrieving the top 1000 hits for each query and using `tre
 Since we're in the passage condition, we fetch the 10000 passages and select the top 1000 documents using MaxP.
 This lets us measure R@100 and R@1000; the latter is particularly important when these runs are used as first-stage retrieval.
 Beware, an official MS MARCO document ranking task leaderboard submission comprises only 100 hits per query.
-See [this page](experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
+See [this page](../../docs/experiments-msmarco-doc-leaderboard.md) for details on Anserini baseline runs that were submitted to the official leaderboard.
 
 The MaxP passage retrieval functionality is available in `SearchCollection`.
 To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (default)" above:

@@ -15,7 +15,7 @@ This regression captures segment-only encoding and is kept around primarily for 
 The version that uses title/segment encoding can be found [here](regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO V2 document collection, refer to [this page](experiments-msmarco-v2.md).
+For additional instructions on working with MS MARCO V2 document collection, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

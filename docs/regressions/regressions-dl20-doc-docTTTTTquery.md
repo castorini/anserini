@@ -5,7 +5,7 @@
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
+For additional instructions on working with MS MARCO document collection, refer to [this page](../../docs/experiments-msmarco-doc.md).
 
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
@@ -17,7 +17,7 @@ All four conditions are described in detail [here](https://github.com/castorini/
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-doc-docTTTTTquery.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-doc-docTTTTTquery.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
-Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
+Note that in November 2021 we discovered issues in our regression tests, documented [here](../../docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
@@ -42,7 +42,7 @@ target/appassembler/bin/IndexCollection \
 ```
 
 The directory `/path/to/msmarco-doc-docTTTTTquery/` should be a directory containing the expanded document corpus in Anserini's jsonl format.
-See [this page](experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
+See [this page](../../docs/experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 

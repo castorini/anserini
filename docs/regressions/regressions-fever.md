@@ -25,7 +25,7 @@ target/appassembler/bin/IndexCollection \
   >& logs/log.fever &
 ```
 
-The directory `/path/to/fever` should be a directory containing the expanded document collection; see [this link](../docs/experiments-fever.md) for how to prepare this collection.
+The directory `/path/to/fever` should be a directory containing the expanded document collection; see [this page](../../docs/experiments-fever.md) for how to prepare this collection.
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 

@@ -9,7 +9,7 @@ This page describes regression experiments, integrated into Anserini's regressio
 In these experiments, we are using ONNX to perform query encoding on the fly.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](../../docs/experiments-msmarco-passage.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl19-passage-splade-pp-sd-onnx.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl19-passage-splade-pp-sd-onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.

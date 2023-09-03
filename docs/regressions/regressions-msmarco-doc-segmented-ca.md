@@ -5,7 +5,7 @@
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
+For additional instructions on working with MS MARCO document collection, refer to [this page](../../docs/experiments-msmarco-doc.md).
 
 + **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
 + **Expansion Condition:** none
@@ -15,7 +15,7 @@ In the passage (i.e., segment) indexing condition, we select the score of the hi
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-doc-segmented-ca.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-doc-segmented-ca.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
-Note that in November 2021 we discovered issues in our regression tests, documented [here](experiments-msmarco-doc-doc2query-details.md).
+Note that in November 2021 we discovered issues in our regression tests, documented [here](../../docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 

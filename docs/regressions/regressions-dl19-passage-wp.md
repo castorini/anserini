@@ -7,7 +7,7 @@ Here we are using **WordPiece tokenization** (i.e., from BERT).
 In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](../../docs/experiments-msmarco-passage.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl19-passage-wp.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl19-passage-wp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

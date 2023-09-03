@@ -3,7 +3,7 @@
 **Models**: BM25 with quantized weights (8 bits)
 
 This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage.md).
+For more complete instructions on how to run end-to-end experiments, refer to [this page](../../docs/experiments-msmarco-passage.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-bm25-b8.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-bm25-b8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -60,7 +60,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](../../docs/experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

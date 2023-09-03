@@ -11,7 +11,7 @@ The experiments on this page are not actually reported in the paper.
 Here, a variant model without expansion is used.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](../../docs/experiments-msmarco-passage.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage-unicoil-noexp.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage-unicoil-noexp.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.

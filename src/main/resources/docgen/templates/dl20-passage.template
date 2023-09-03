@@ -5,7 +5,7 @@
 This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](${root_path}/docs/experiments-msmarco-passage.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -25,7 +25,7 @@ ${index_cmds}
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
-[This page](experiments-msmarco-passage.md) explains how to perform this conversion.
+[This page](${root_path}/docs/experiments-msmarco-passage.md) explains how to perform this conversion.
 
 For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
 
@@ -56,7 +56,7 @@ ${effectiveness}
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned using the MS MARCO passage sparse judgments, as described in [this page](experiments-msmarco-passage.md).
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned using the MS MARCO passage sparse judgments, as described in [this page](${root_path}/docs/experiments-msmarco-passage.md).
 
 Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
 

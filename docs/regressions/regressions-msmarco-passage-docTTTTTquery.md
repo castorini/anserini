@@ -39,7 +39,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](../../docs/experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -102,7 +102,7 @@ With the above commands, you should be able to reproduce the following results:
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](experiments-msmarco-passage.md).
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](../../docs/experiments-msmarco-passage.md).
 + The setting "tuned2" refers to `k1=2.18`, `b=0.86`, tuned to optimize for recall@1000 directly _on the expanded passages_ (in 2020/12); this is the configuration reported in the Lin et al. (SIGIR 2021) Pyserini paper.
 
 ## Additional Implementation Details

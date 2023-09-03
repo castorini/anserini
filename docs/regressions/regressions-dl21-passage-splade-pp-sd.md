@@ -8,7 +8,7 @@ Here, we cover experiments with the [SPLADE++ CoCondenser-SelfDistil](https://hu
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](experiments-msmarco-v2.md).
+For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl21-passage-splade-pp-sd.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl21-passage-splade-pp-sd.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

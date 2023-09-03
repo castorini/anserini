@@ -7,7 +7,7 @@ This page documents regression experiments on the [MS MARCO passage ranking task
 > Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) arXiv:1904.08375, 2019.
 
 These experiments are integrated into Anserini's regression testing framework.
-For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-doc2query.md).
+For more complete instructions on how to run end-to-end experiments, refer to [this page](../../docs/experiments-doc2query.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-doc2query.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-doc2query.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -33,14 +33,14 @@ target/appassembler/bin/IndexCollection \
 ```
 
 The directory `/path/to/msmarco-passage-doc2query` should be a directory containing `jsonl` files containing the expanded passage collection.
-[This page](experiments-doc2query.md) explains how to perform this data preparation.
+[This page](../../docs/experiments-doc2query.md) explains how to perform this data preparation.
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](../../docs/experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -91,7 +91,7 @@ With the above commands, you should be able to reproduce the following results:
 Explanation of settings:
 
 + The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](experiments-msmarco-passage.md).
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](../../docs/experiments-msmarco-passage.md).
 
 ## Additional Implementation Details
 

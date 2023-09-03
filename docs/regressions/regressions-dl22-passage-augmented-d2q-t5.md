@@ -5,7 +5,7 @@
 This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html) using the _augmented version_ of the MS MARCO V2 Passage Corpus.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](experiments-msmarco-v2.md).
+For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl22-passage-augmented-d2q-t5.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl22-passage-augmented-d2q-t5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -31,7 +31,7 @@ target/appassembler/bin/IndexCollection \
 ```
 
 The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
-See [this page](experiments-msmarco-v2.md) for additional details.
+See [this page](../../docs/experiments-msmarco-v2.md) for additional details.
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
