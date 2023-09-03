@@ -214,7 +214,7 @@ $ wc collections/msmarco-passage/collection_jsonl/*
 ```
 
 As an aside, data munging along these lines is a very common data preparation operation.
-Collections rarely come in _exactly_ the format that your tools except, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
+Collections rarely come in _exactly_ the format that your tools expect, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
 
 Similarly, we'll also have to do a bit of data munging of the queries and the qrels.
 We're going to retain only the queries that are in the qrels file: 
@@ -323,3 +323,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@yilinjz](https://github.com/yilinjz) on 2023-08-23 (commit [`862bd27`](https://github.com/castorini/anserini/commit/862bd27d5c1400763e11424a7d44dcbf4cf48c17))
 + Results reproduced by [@Andrwyl](https://github.com/Andrwyl) on 2023-08-26 (commit [`b64a412`](https://github.com/castorini/anserini/commit/b64a412453d0fee1b89179d3b665984651a8b8f8))
 + Results reproduced by [@UShivani3](https://github.com/UShivani3) on 2023-08-29 (commit [`24ab292`](https://github.com/castorini/anserini/commit/24ab292c5eaaccd40bbfa13fa7122eeb58261aaa))
++ Results reproduced by [@lucedes27](https://github.com/lucedes27) on 2023-09-03
