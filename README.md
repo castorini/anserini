@@ -15,9 +15,13 @@ See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et
 
 ## 🎬 Getting Started
 
-Many Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
+Most Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
+If you're more comfortable with Python, start there, although Anserini forms an important building block of Pyserini, so it remains worthwhile to learn about Anserini.
+
+<!--
 If you're looking for basic indexing and search capabilities, you might want to start there.
 A low-effort way to try out Anserini is to look at our [online notebooks](https://github.com/castorini/anserini-notebooks), which will allow you to get started with just a few clicks.
+-->
 
 You'll need Java 11 and Maven 3.3+ to build Anserini.
 Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned (alternatively, use `git submodule update --init`).
@@ -27,10 +31,6 @@ Then, build using using Maven:
 mvn clean package appassembler:assemble
 ```
 
-Note that on Windows, tests may fail due to encoding issues, see [#1466](https://github.com/castorini/anserini/issues/1466).
-A simple workaround is to skip tests by adding `-Dmaven.test.skip=true` to the above `mvn` command.
-See [#1121](https://github.com/castorini/pyserini/discussions/1121) for additional discussions on debugging Windows build errors.
-
 The `tools/` directory, which contains evaluation tools and other scripts, is actually [this repo](https://github.com/castorini/anserini-tools), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
 Build as follows (you might get warnings, but okay to ignore):
 
@@ -39,7 +39,17 @@ cd tools/eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make &
 cd tools/eval/ndeval && make && cd ../../..
 ```
 
-With that, you should be ready to go!
+With that, you should be ready to go.
+The onboarding path for Anserini starts [here](docs/start-here.md)!
+
+<details>
+<summary>Windows tips</summary>
+
+Note that on Windows, tests may fail due to encoding issues, see [#1466](https://github.com/castorini/anserini/issues/1466).
+A simple workaround is to skip tests by adding `-Dmaven.test.skip=true` to the above `mvn` command.
+See [#1121](https://github.com/castorini/pyserini/discussions/1121) for additional discussions on debugging Windows build errors.
+
+</details>
 
 ## ⚗️ Regression Experiments (+ Reproduction Guides)
 
