@@ -109,3 +109,5 @@ Nevertheless, scores are generally stable to the third digit after the decimal p
 ## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../src/main/resources/docgen/templates/msmarco-passage-cos-dpr-distil.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@yilinjz](https://github.com/yilinjz) on 2023-09-01 (commit [`4ae518b`](https://github.com/castorini/anserini/commit/4ae518bb284ebcba0b273a473bc8774735cb7d19))
