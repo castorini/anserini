@@ -17,6 +17,3 @@ At the bottom of many pages you'll find a "Reproduction Log", which keeps track 
 Note that we stretch the meaning of "same team" a bit in these logs: we still consider it a successful reproduction if another member of our research group is able to obtain the same results, as long as the person was not the primary author of the code in question.
 
 
-
-Results reproduced by @ErrenYeager on 2023-09-02 (commit 4ae518b)
-
