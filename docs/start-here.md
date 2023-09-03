@@ -1,7 +1,7 @@
 # Anserini: Start Here
 
 This page provides the entry point for an introduction to information retrieval (i.e., search).
-It also serves as an [onboarding path](https://github.com/lintool/guide/blob/master/ura.md) for University of Waterloo undergraduate (and graduate) students who wish to join my research group.
+It also serves as an [onboarding path](https://github.com/castorini/onboarding) for University of Waterloo undergraduate and graduate students who wish to join my research group.
 
 As a high-level tip for anyone going through these exercises: try to understand what you're actually doing, instead of simply [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming) (i.e., blindly copying and pasting commands into a shell).
 By this, I mean, actually _read_ the surrounding explanations, understand the purpose of the commands, and use this guide as a springboard for additional explorations (for example, dig deeper into the code).
@@ -27,7 +27,44 @@ This problem has been given various names, e.g., the search problem, the informa
 In most contexts, "ranking" and "retrieval" are used interchangeably.
 Basically, this is what _search_ (i.e., information retrieval) is all about.
 
-Let's try to unpack the definition a bit.
+## Interlude: Who Cares?
+
+At this point, it's worthwhile to pause and answer the question: Who cares?
+
+LLMs are cool.
+ChatGPT is cool.
+Generative AI is cool.
+But _search_?
+That's so... last millennium!
+
+Well, not quite.
+You might have heard of this thing called "retrieval augmentation"?
+That's just a fancy way of describing the technique of fetching pieces of content (e.g., paragraphs) from some external source (e.g., a collection of documents), and stuffing them into the prompt of an LLM to improve its generative capabilities.
+How do we "fetch" those pieces of content?
+Well, that's retrieval!
+(You might have also heard about something called vector search? We'll cover exactly that later in this onboarding path.)
+
+In fact, retrieval augmentation is exactly how the new Bing search works.
+You don't have to take my word: you can directly read the blog post on [building the new Bing](https://blogs.bing.com/search-quality-insights/february-2023/Building-the-New-Bing) and find the following diagram:
+
+<img src="Prometheus-Model.png" width="500" />
+
+Search comprises "internal queries" to fetch content ("Bing results") that are then fed into an LLM (i.e., stuffed into the prompt) to generate answers.
+If you want more evidence, here's a [NeurIPS 2020 paper](https://arxiv.org/abs/2005.11401) that basically says the same thing.
+
+Thus, retrieval forms the foundation of answer generation with LLMs.
+In fact, it's critical to the quality of the output.
+We all know the adage "[garbage in, garbage out](https://en.wikipedia.org/wiki/Garbage_in,_garbage_out)", which highlights the importance of retrieval.
+If the retrieval quality ain't good, the LLM output will be garbage.
+
+How do we do retrieval effectively?
+Well, that's why you should read on.
+Later, we'll also see that transformers (the same neural network model that underlies LLMs) form a fundamental building block of converting content into representation vectors (called "embeddings"), which underlie vector search.
+
+## Back to the Retrieval Problem
+
+Hopefully, you're convinced that retrieval is important, or at least sufficiently so to read on.
+Now, let's get back to the retrieval problem and try to unpack the definition a bit.
 
 A **"query"** is a representation of an information need (i.e., the reason you're looking for information in the first place) that serves as the input to a retrieval system.
 
