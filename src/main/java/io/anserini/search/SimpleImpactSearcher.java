@@ -550,7 +550,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
-  public Map<String, Integer> encodeWithOnnx(String queryString) throws OrtException {
+  public Map<String, Integer> encode_with_onnx(String queryString) throws OrtException {
     // if no query encoder, assume its encoded query split by whitespace
     if (this.queryEncoder == null){
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
@@ -570,7 +570,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
-  public String encodeWithOnnx(Map<String, Integer> queryWeight) throws OrtException {
+  public String encode_with_onnx(Map<String, Integer> queryWeight) throws OrtException {
     String encodedQ = "";
     List<String> encodedQuery = new ArrayList<>();
     for (Map.Entry<String, Integer> entry : queryWeight.entrySet()) {
@@ -622,7 +622,7 @@ public class SimpleImpactSearcher implements Closeable {
   public Result[] search(Map<String, Integer> encoded_q, int k) throws IOException, OrtException {
     Map<String, Float> float_encoded_q = intToFloat(encoded_q);
     Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
-    String encodedQuery = encodeWithOnnx(encoded_q);
+    String encodedQuery = encode_with_onnx(encoded_q);
     return _search(query, encodedQuery, k);
   }
 
@@ -637,8 +637,8 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public Result[] search(String q, int k) throws IOException, OrtException {
     // make encoded query from raw query
-    Map<String, Integer> encoded_q = encodeWithOnnx(q);
-    String encodedQuery = encodeWithOnnx(encoded_q);
+    Map<String, Integer> encoded_q = encode_with_onnx(q);
+    String encodedQuery = encode_with_onnx(encoded_q);
     Query query = generator.buildQuery(Constants.CONTENTS, analyzer, encodedQuery);
     return _search(query, encodedQuery, k);
   }
