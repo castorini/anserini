@@ -75,7 +75,7 @@ In standard parlance, a "document" is used generically to refer to any discrete 
 We call them "documents" even though in reality they may be webpages, passages, PDFs, Powerpoint slides, Excel spreadsheets, or even images, audio, or video.
 
 The output of retrieval is a ranking of documents (i.e., a ranked list, or just a sorted list).
-Documents are identified by unique ids, and so a ranking is simply a list of ids.
+Documents are identified by unique IDs, and so a ranking is simply a list of IDs.
 The document contents can serve as input to downstream processing, e.g., fed into the prompt of a large language model as part of retrieval augmentation or generative question answering.
 
 **Relevance** is perhaps the most important concept in information retrieval.
@@ -104,7 +104,7 @@ q2 doc97 0
 
 That is, for `q1`, `doc23` is not relevant, `doc452` is relevant, and `doc536` is not relevant; for `q2`, `doc97` is not relevant...
 
-Now, given a set of queries, you feed each query into your retrieval system and get back a ranked list of document ids.
+Now, given a set of queries, you feed each query into your retrieval system and get back a ranked list of document IDs.
 
 The final thing you need is a **metric** that quantifies the "goodness" of the ranked list.
 One easy-to-understand metric is precision at 10, often written P@10.
@@ -249,7 +249,7 @@ These are the queries in the development set of the MS MARCO passage ranking tes
 The first field is a unique identifier for the query (called the `qid`) and the second column is the query itself.
 These queries are taken from Bing search logs, so they're "realistic" web queries in that they may be ambiguous, contain typos, etc.
 
-Okay, let's now cross reference the `qid` with the relvance judgments, i.e., the qrels file:
+Okay, let's now cross-reference the `qid` with the relevance judgments, i.e., the qrels file:
 
 ```bash
 $ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv 
@@ -327,3 +327,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@mchlp](https://github.com/mchlp) on 2023-09-03 (commit [`211e74f`](https://github.com/castorini/anserini/commit/211e74f1453b2b100c03ac78d2a130b07b19b780))
 + Results reproduced by [@Edward-J-Xu](https://github.com/Edward-J-Xu) on 2023-09-04 (commit [`6030b1`](https://github.com/castorini/anserini/commit/6030b1886d3b501c69f258f9f716508bf7fb80ff))
 + Results reproduced by [@Sumon-Kanti-Dey](https://github.com/SumonKantiDey) on 2023-09-04 (commit [`a9de13a`](https://github.com/castorini/anserini/commit/a9de13a81194189bbbffa39d294acd59372229a6))
++ Results reproduced by [@MojTabaa4](https://github.com/MojTabaa4) on 2023-09-12 (commit [`adf480b`](https://github.com/castorini/anserini/commit/ae6ff62f1830f8e3f38199a7d8f723940a62fb28))
