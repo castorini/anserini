@@ -75,7 +75,7 @@ In standard parlance, a "document" is used generically to refer to any discrete 
 We call them "documents" even though in reality they may be webpages, passages, PDFs, Powerpoint slides, Excel spreadsheets, or even images, audio, or video.
 
 The output of retrieval is a ranking of documents (i.e., a ranked list, or just a sorted list).
-Documents are identified by unique IDs, and so a ranking is simply a list of IDs.
+Documents are identified by unique ids, and so a ranking is simply a list of ids.
 The document contents can serve as input to downstream processing, e.g., fed into the prompt of a large language model as part of retrieval augmentation or generative question answering.
 
 **Relevance** is perhaps the most important concept in information retrieval.
@@ -104,7 +104,7 @@ q2 doc97 0
 
 That is, for `q1`, `doc23` is not relevant, `doc452` is relevant, and `doc536` is not relevant; for `q2`, `doc97` is not relevant...
 
-Now, given a set of queries, you feed each query into your retrieval system and get back a ranked list of document IDs.
+Now, given a set of queries, you feed each query into your retrieval system and get back a ranked list of document ids.
 
 The final thing you need is a **metric** that quantifies the "goodness" of the ranked list.
 One easy-to-understand metric is precision at 10, often written P@10.
