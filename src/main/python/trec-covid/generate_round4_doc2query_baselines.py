@@ -78,8 +78,8 @@ stored_runs = {
 
 
 def perform_runs(cumulative_qrels):
-    base_topics = 'src/main/resources/topics-and-qrels/topics.covid-round4.xml'
-    udel_topics = 'src/main/resources/topics-and-qrels/topics.covid-round4-udel.xml'
+    base_topics = 'tools/topics-and-qrels/topics.covid-round4.xml'
+    udel_topics = 'tools/topics-and-qrels/topics.covid-round4-udel.xml'
 
     print('')
     print('## Running on abstract index...')
@@ -213,9 +213,9 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    round3_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
-    round4_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4.txt'
-    round4_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    round3_cumulative_qrels = 'tools/topics-and-qrels/qrels.covid-round3-cumulative.txt'
+    round4_qrels = 'tools/topics-and-qrels/qrels.covid-round4.txt'
+    round4_cumulative_qrels = 'tools/topics-and-qrels/qrels.covid-round4-cumulative.txt'
 
     # MD5 checksums don't match anymore, see https://github.com/castorini/anserini/issues/1669
     check_md5_flag = False

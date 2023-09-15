@@ -54,8 +54,8 @@ runs = {
 
 
 def perform_runs():
-    base_topics = f'src/main/resources/topics-and-qrels/topics.covid-round1.xml'
-    udel_topics = f'src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml'
+    base_topics = f'tools/topics-and-qrels/topics.covid-round1.xml'
+    udel_topics = f'tools/topics-and-qrels/topics.covid-round1-udel.xml'
 
     print('')
     print('## Running on abstract index...')
@@ -178,7 +178,7 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    round1_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round1.txt'
+    round1_qrels = 'tools/topics-and-qrels/qrels.covid-round1.txt'
 
     # Note that this script was written after this issue was noted: https://github.com/castorini/anserini/issues/1669
     # Thus, no point in checking MD5.

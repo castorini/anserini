@@ -89,13 +89,13 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    os.system('cat src/main/resources/topics-and-qrels/qrels.covid-round1.txt ' +
-              'src/main/resources/topics-and-qrels/qrels.covid-round2.txt ' +
-              '> src/main/resources/topics-and-qrels/qrels.covid-round2-cumulative.txt')
+    os.system('cat tools/topics-and-qrels/qrels.covid-round1.txt ' +
+              'tools/topics-and-qrels/qrels.covid-round2.txt ' +
+              '> tools/topics-and-qrels/qrels.covid-round2-cumulative.txt')
 
-    round2_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round2-cumulative.txt'
-    round3_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3.txt'
-    round3_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
+    round2_cumulative_qrels = 'tools/topics-and-qrels/qrels.covid-round2-cumulative.txt'
+    round3_qrels = 'tools/topics-and-qrels/qrels.covid-round3.txt'
+    round3_cumulative_qrels = 'tools/topics-and-qrels/qrels.covid-round3-cumulative.txt'
 
     # MD5 checksums don't match anymore, see https://github.com/castorini/anserini/issues/1669
     check_md5_flag = False

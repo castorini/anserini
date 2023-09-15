@@ -89,9 +89,9 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    round4_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
-    complete_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-complete.txt'
-    round5_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round5.txt'
+    round4_cumulative_qrels = 'tools/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    complete_qrels = 'tools/topics-and-qrels/qrels.covid-complete.txt'
+    round5_qrels = 'tools/topics-and-qrels/qrels.covid-round5.txt'
 
     # MD5 checksums don't match anymore, see https://github.com/castorini/anserini/issues/1669
     check_md5_flag = False

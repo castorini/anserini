@@ -87,8 +87,8 @@ stored_runs = {
 
 
 def perform_runs():
-    base_topics = 'src/main/resources/topics-and-qrels/topics.covid-round5.xml'
-    udel_topics = 'src/main/resources/topics-and-qrels/topics.covid-round5-udel.xml'
+    base_topics = 'tools/topics-and-qrels/topics.covid-round5.xml'
+    udel_topics = 'tools/topics-and-qrels/topics.covid-round5-udel.xml'
 
     print('')
     print('## Running on abstract index...')
@@ -109,7 +109,7 @@ def perform_runs():
     os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
               f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
               f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
-              f'-rf.qrels src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt ' +
+              f'-rf.qrels tools/topics-and-qrels/qrels.covid-round4-cumulative.txt ' +
               f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
 
     print('')
@@ -222,9 +222,9 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    round4_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
-    complete_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-complete.txt'
-    round5_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round5.txt'
+    round4_cumulative_qrels = 'tools/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    complete_qrels = 'tools/topics-and-qrels/qrels.covid-complete.txt'
+    round5_qrels = 'tools/topics-and-qrels/qrels.covid-round5.txt'
 
     # MD5 checksums don't match anymore, see https://github.com/castorini/anserini/issues/1669
     check_md5_flag = False
