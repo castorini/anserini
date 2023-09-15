@@ -1,7 +1,7 @@
 ---
 search_command: target/appassembler/bin/SearchCollection
-topic_root: src/main/resources/topics-and-qrels/
-qrels_root: src/main/resources/topics-and-qrels/
+topic_root: tools/topics-and-qrels/
+qrels_root: tools/topics-and-qrels/
 index_roots:
   - ./
 collections:
