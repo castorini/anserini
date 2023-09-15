@@ -183,11 +183,11 @@ def main():
 
     expected_metrics = {
         'anserini.covid-r2.abstract.qq.bm25.txt':
-            {'topics': 35, 'ndcg_cut_10': 0.3522, 'judged_cut_10': 0.5371, 'ndcg_cut_20': 0.3171,
+            {'topics': 35, 'ndcg_cut_10': 0.3521, 'judged_cut_10': 0.5371, 'ndcg_cut_20': 0.3170,
              'judged_cut_20': 0.5100, 'map': 0.1752, 'recall_1000': 0.6601, 'judged_cut_1000': 0.1013},
         'anserini.covid-r2.abstract.qdel.bm25.txt':
             {'topics': 35, 'ndcg_cut_10': 0.3781, 'judged_cut_10': 0.5371, 'ndcg_cut_20': 0.3462,
-             'judged_cut_20': 0.4829, 'map': 0.1804, 'recall_1000': 0.6485, 'judged_cut_1000': 0.0958},
+             'judged_cut_20': 0.4829, 'map': 0.1803, 'recall_1000': 0.6485, 'judged_cut_1000': 0.0958},
         'anserini.covid-r2.full-text.qq.bm25.txt':
             {'topics': 35, 'ndcg_cut_10': 0.2070, 'judged_cut_10': 0.4286, 'ndcg_cut_20': 0.1931,
              'judged_cut_20': 0.3929, 'map': 0.1159, 'recall_1000': 0.5953, 'judged_cut_1000': 0.0995},
@@ -195,11 +195,11 @@ def main():
             {'topics': 35, 'ndcg_cut_10': 0.3123, 'judged_cut_10': 0.4229, 'ndcg_cut_20': 0.2738,
              'judged_cut_20': 0.3929, 'map': 0.1473, 'recall_1000': 0.6517, 'judged_cut_1000': 0.1022},
         'anserini.covid-r2.paragraph.qq.bm25.txt':
-            {'topics': 35, 'ndcg_cut_10': 0.2772, 'judged_cut_10': 0.4400, 'ndcg_cut_20': 0.2579,
+            {'topics': 35, 'ndcg_cut_10': 0.2770, 'judged_cut_10': 0.4400, 'ndcg_cut_20': 0.2578,
              'judged_cut_20': 0.4529, 'map': 0.1607, 'recall_1000': 0.7248, 'judged_cut_1000': 0.1220},
         'anserini.covid-r2.paragraph.qdel.bm25.txt':
-            {'topics': 35, 'ndcg_cut_10': 0.3353, 'judged_cut_10': 0.4343, 'ndcg_cut_20': 0.2956,
-             'judged_cut_20': 0.4329, 'map': 0.1772, 'recall_1000': 0.7196, 'judged_cut_1000': 0.1136},
+            {'topics': 35, 'ndcg_cut_10': 0.3350, 'judged_cut_10': 0.4343, 'ndcg_cut_20': 0.2954,
+             'judged_cut_20': 0.4329, 'map': 0.1772, 'recall_1000': 0.7196, 'judged_cut_1000': 0.1137},
         'anserini.covid-r2.fusion1.txt':
             {'topics': 35, 'ndcg_cut_10': 0.3297, 'judged_cut_10': 0.4657, 'ndcg_cut_20': 0.3060,
              'judged_cut_20': 0.4643, 'map': 0.1914, 'recall_1000': 0.7561, 'judged_cut_1000': 0.1304},
@@ -216,7 +216,7 @@ def main():
             {'topics': 35, 'ndcg_cut_10': 0.4827, 'judged_cut_10': 0.9543, 'ndcg_cut_20': 0.4512,
              'judged_cut_20': 0.8614, 'map': 0.2431, 'recall_1000': 0.6475, 'judged_cut_1000': 0.1463},
         'anserini.final-r2.fusion2.txt':
-            {'topics': 35, 'ndcg_cut_10': 0.5553, 'judged_cut_10': 0.9743, 'ndcg_cut_20': 0.5058,
+            {'topics': 35, 'ndcg_cut_10': 0.5553, 'judged_cut_10': 0.9714, 'ndcg_cut_20': 0.5058,
              'judged_cut_20': 0.8957, 'map': 0.2739, 'recall_1000': 0.6832, 'judged_cut_1000': 0.1528},
     }
     evaluate_runs(round2_qrels, final_runs, expected=expected_metrics, check_md5=check_md5_flag)

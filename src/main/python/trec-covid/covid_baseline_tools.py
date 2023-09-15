@@ -235,10 +235,8 @@ def evaluate_runs(qrels, runs, expected={}, check_md5=True):
             for key in ['topics', 'ndcg_cut_10', 'judged_cut_10', 'ndcg_cut_20',
                         'judged_cut_20', 'map', 'recall_1000', 'judged_cut_1000']:
                 if key in expected[run]:
-                    # assert metrics[key] == expected[run][key],\
-                    #     f'\'{key}\' doesn\'t match, expected {expected[run][key]} got {metrics[key]}!'
-                    if metrics[key] != expected[run][key]:
-                        print(f'\'{key}\' doesn\'t match, expected {expected[run][key]} got {metrics[key]}!')
+                    assert metrics[key] == expected[run][key],\
+                        f'\'{key}\' doesn\'t match, expected {expected[run][key]:.4f} got {metrics[key]:.4f}!'
 
         if check_md5:
             assert metrics['md5'] == runs[run], f'Error in producing {run}!'
