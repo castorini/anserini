@@ -12,7 +12,11 @@ The SIGIR Forum article references commit [`2c8cd7a`](https://github.com/castori
 The SIGIR 2019 paper contains experiments performed post upgrade.
 
 The Anserini upgrade to Lucene 8.0 at commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019) broke the regression tests, which was later fixed at commit [`64bae9c`](https://github.com/castorini/anserini/commit/64bae9c8b87ad56bc8cf6ea0c5405eb2a82b3682) (7/3/2019).
-This commit represents the latest state of the code and the results that can be currently reproduced.
+
+In September 2023, regression results were updated at commit [`6e148c6`](https://github.com/castorini/anserini/commit/6e148c6d22f78cb05ab0284d70701008b719ebc9) (2023/09/16).
+This commit patched effectiveness differences arising from two main sources: (1) the upgrade to Lucene 9 at [`2725655`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (2022/08/02) and (2) a `fastutil` upgrade/bug fix at [#1975](https://github.com/castorini/anserini/pull/1975) that affected relevance feedback results. 
+To our knowledge, this commit represents the latest state of the code where the effectiveness encoded in our scripts can be successfully reproduced.
+
 See summary in "History" section below.
 
 ## Expected Results
@@ -108,6 +112,7 @@ This difference arises from rounding when averaging across the folds.
 
 The following documents commits that have altered effectiveness figures:
 
++ commit [`6e148c6`](https://github.com/castorini/anserini/commit/6e148c6d22f78cb05ab0284d70701008b719ebc9) (2023/09/16) - Regression experiments updated.
 + commit [`64bae9c`](https://github.com/castorini/anserini/commit/64bae9c8b87ad56bc8cf6ea0c5405eb2a82b3682) (7/3/2019) - Regression experiments here fixed.
 + commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019) - Upgrade to Lucene 8.0 breaks regression experiments here.
 + commit [`407f308`](https://github.com/castorini/Anserini/commit/407f308cc543286e39701caf0acd1afab39dde2c) (1/2/2019) - Added results for axiomatic semantic term matching.
