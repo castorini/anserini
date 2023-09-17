@@ -21,6 +21,7 @@ reconstruct the tuned BM25 + RM3 run.
 """
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -38,7 +39,7 @@ if __name__ == '__main__':
     params_file = args.params
 
     # This can be hard coded.
-    topics_file = 'src/main/resources/topics-and-qrels/topics.robust04.txt'
+    topics_file = 'tools/topics-and-qrels/topics.robust04.txt'
 
     # Load folds.
     with open(folds_file) as f:
@@ -68,15 +69,19 @@ if __name__ == '__main__':
         out.close()
 
     # Generate run for each fold using tuned parameters.
-    folds_run_files = []
     for i in range(len(folds)):
+        #print(f'target/appassembler/bin/SearchCollection -topicreader Trec -index {index} '
+        #      f'-topics topics.robust04.fold{i} -output {args.output}.fold{i} -hits 1000 {params[i]}')
         os.system(f'target/appassembler/bin/SearchCollection -topicreader Trec -index {index} '
                   f'-topics topics.robust04.fold{i} -output {args.output}.fold{i} -hits 1000 {params[i]}')
-        folds_run_files.append(f'{args.output}.fold{i}')
 
     # Concatenate all partial run files together.
+    print('Concatenating the following files:')
     with open(args.output, 'w') as outfile:
-        for fname in folds_run_files:
+        for fname in glob.glob(f'{args.output}.fold*'):
+            print(f' - {fname}')
+            #if fname.for fname in folds_run_files:
             with open(fname) as infile:
                 outfile.write(infile.read())
+    print(f'Done! Finished writing {args.output}')
 
