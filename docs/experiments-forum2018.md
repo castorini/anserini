@@ -39,7 +39,7 @@ Here are expected results for various retrieval models:
 | BM25+Ax (default)  | 0.2896  | 0.2896  |
 | BM25+Ax (tuned)    | 0.2940  | 0.2950  |
 
-(Clarification, 2023/09): Note that these effectiveness figures are from our papers, which may not what the code currently produces.
+(Clarification, 2023/09): Note that these effectiveness figures are from our papers, which may not be what the code currently produces.
 See notes about differences in regression results above.
 
 ## Parameter Tuning
