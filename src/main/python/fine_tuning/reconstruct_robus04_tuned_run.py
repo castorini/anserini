@@ -69,19 +69,17 @@ if __name__ == '__main__':
         out.close()
 
     # Generate run for each fold using tuned parameters.
+    folds_run_files = []
     for i in range(len(folds)):
-        #print(f'target/appassembler/bin/SearchCollection -topicreader Trec -index {index} '
-        #      f'-topics topics.robust04.fold{i} -output {args.output}.fold{i} -hits 1000 {params[i]}')
         os.system(f'target/appassembler/bin/SearchCollection -topicreader Trec -index {index} '
                   f'-topics topics.robust04.fold{i} -output {args.output}.fold{i} -hits 1000 {params[i]}')
+        folds_run_files.append(f'{args.output}.fold{i}')
 
     # Concatenate all partial run files together.
     print('Concatenating the following files:')
     with open(args.output, 'w') as outfile:
-        for fname in glob.glob(f'{args.output}.fold*'):
+        for fname in folds_run_files:
             print(f' - {fname}')
-            #if fname.for fname in folds_run_files:
             with open(fname) as infile:
                 outfile.write(infile.read())
-    print(f'Done! Finished writing {args.output}')
-
+    print(f'Finished writing {args.output}')
