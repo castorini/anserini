@@ -1,2 +1,2 @@
-[ "-ql -mu 300",
-  "-ql -mu 300" ]
+[ "-qld -qld.mu 300",
+  "-qld -qld.mu 300" ]
