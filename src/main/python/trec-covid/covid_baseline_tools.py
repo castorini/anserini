@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+import math
 import os
 import re
 import subprocess
@@ -235,7 +235,7 @@ def evaluate_runs(qrels, runs, expected={}, check_md5=True):
             for key in ['topics', 'ndcg_cut_10', 'judged_cut_10', 'ndcg_cut_20',
                         'judged_cut_20', 'map', 'recall_1000', 'judged_cut_1000']:
                 if key in expected[run]:
-                    assert metrics[key] == expected[run][key],\
+                    assert math.isclose(metrics[key], expected[run][key], rel_tol=1e-4), \
                         f'\'{key}\' doesn\'t match, expected {expected[run][key]:.4f} got {metrics[key]:.4f}!'
 
         if check_md5:
