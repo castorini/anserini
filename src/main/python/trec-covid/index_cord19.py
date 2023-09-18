@@ -113,7 +113,7 @@ def build_indexes(date):
 
 
 def evaluate_run(run):
-    qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
+    qrels = 'tools/topics-and-qrels/qrels.covid-round3-cumulative.txt'
     metrics = {}
     output = subprocess.check_output(
         f'tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 {qrels} runs/{run}', shell=True)
@@ -131,8 +131,8 @@ def evaluate_run(run):
 
 
 def verify_indexes(date):
-    topics = 'src/main/resources/topics-and-qrels/topics.covid-round3.xml'
-    whitelist = 'src/main/resources/topics-and-qrels/docids.covid.round3.txt'
+    topics = 'tools/topics-and-qrels/topics.covid-round3.xml'
+    whitelist = 'tools/topics-and-qrels/docids.covid.round3.txt'
 
     print('Verifying abstract index...')
     abstract_index = f'indexes/lucene-index-cord19-abstract-{date} '

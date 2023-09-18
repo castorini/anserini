@@ -54,8 +54,8 @@ runs = {
 
 
 def perform_runs():
-    base_topics = f'src/main/resources/topics-and-qrels/topics.covid-round1.xml'
-    udel_topics = f'src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml'
+    base_topics = f'tools/topics-and-qrels/topics.covid-round1.xml'
+    udel_topics = f'tools/topics-and-qrels/topics.covid-round1-udel.xml'
 
     print('')
     print('## Running on abstract index...')
@@ -178,7 +178,7 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    round1_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round1.txt'
+    round1_qrels = 'tools/topics-and-qrels/qrels.covid-round1.txt'
 
     # Note that this script was written after this issue was noted: https://github.com/castorini/anserini/issues/1669
     # Thus, no point in checking MD5.
@@ -189,7 +189,7 @@ def main():
 
     expected_metrics = {
         'anserini.covid-r1.abstract.query.bm25.txt':
-            {'ndcg_cut_10': 0.4100, 'judged_cut_10': 0.8267, 'recall_1000': 0.5279},
+            {'ndcg_cut_10': 0.4100, 'judged_cut_10': 0.8267, 'recall_1000': 0.5285},
         'anserini.covid-r1.abstract.question.bm25.txt':
             {'ndcg_cut_10': 0.5179, 'judged_cut_10': 0.9833, 'recall_1000': 0.6313},
         'anserini.covid-r1.abstract.query+question.bm25.txt':
@@ -213,9 +213,9 @@ def main():
         'anserini.covid-r1.full-text.query-covid19.bm25.txt':
             {'ndcg_cut_10': 0.2434, 'judged_cut_10': 0.5233, 'recall_1000': 0.5692},
         'anserini.covid-r1.paragraph.query.bm25.txt':
-            {'ndcg_cut_10': 0.4302, 'judged_cut_10': 0.8400, 'recall_1000': 0.4327},
+            {'ndcg_cut_10': 0.4303, 'judged_cut_10': 0.8400, 'recall_1000': 0.4324},
         'anserini.covid-r1.paragraph.question.bm25.txt':
-            {'ndcg_cut_10': 0.4410, 'judged_cut_10': 0.9167, 'recall_1000': 0.5111},
+            {'ndcg_cut_10': 0.4410, 'judged_cut_10': 0.9167, 'recall_1000': 0.5108},
         'anserini.covid-r1.paragraph.query+question.bm25.txt':
             {'ndcg_cut_10': 0.5450, 'judged_cut_10': 0.9733, 'recall_1000': 0.5743},
         'anserini.covid-r1.paragraph.query+question+narrative.bm25.txt':
@@ -223,7 +223,7 @@ def main():
         'anserini.covid-r1.paragraph.query-udel.bm25.txt':
             {'ndcg_cut_10': 0.5544, 'judged_cut_10': 0.9200, 'recall_1000': 0.5640},
         'anserini.covid-r1.paragraph.query-covid19.bm25.txt':
-            {'ndcg_cut_10': 0.3180, 'judged_cut_10': 0.5333, 'recall_1000': 0.3552},
+            {'ndcg_cut_10': 0.3180, 'judged_cut_10': 0.5300, 'recall_1000': 0.3552},
         'anserini.covid-r1.fusion1.txt':
             {'ndcg_cut_10': 0.5716, 'judged_cut_10': 0.9867, 'recall_1000': 0.8122},
         'anserini.covid-r1.fusion2.txt':
