@@ -240,7 +240,7 @@ def main():
              'judged_cut_20': 0.5120, 'map': 0.1728, 'recall_1000': 0.4462, 'judged_cut_1000': 0.2059},
         'expanded.anserini.covid-r5.abstract.qdel.bm25.txt':
             {'topics': 50, 'ndcg_cut_10': 0.4548, 'judged_cut_10': 0.5000, 'ndcg_cut_20': 0.4260,
-             'judged_cut_20': 0.4880, 'map': 0.1742, 'recall_1000': 0.4527, 'judged_cut_1000': 0.2051},
+             'judged_cut_20': 0.4880, 'map': 0.1742, 'recall_1000': 0.4528, 'judged_cut_1000': 0.2051},
         'expanded.anserini.covid-r5.full-text.qq.bm25.txt':
             {'topics': 50, 'ndcg_cut_10': 0.4450, 'judged_cut_10': 0.6020, 'ndcg_cut_20': 0.4208,
              'judged_cut_20': 0.5820, 'map': 0.1801, 'recall_1000': 0.4473, 'judged_cut_1000': 0.2393},

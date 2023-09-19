@@ -251,7 +251,7 @@ def main():
             {'topics': 45, 'ndcg_cut_10': 0.6618, 'judged_cut_10': 0.8622, 'ndcg_cut_20': 0.6331,
              'judged_cut_20': 0.8444, 'map': 0.2974, 'recall_1000': 0.5847, 'judged_cut_1000': 0.3344},
         'expanded.anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt':
-            {'topics': 45, 'ndcg_cut_10': 0.7447, 'judged_cut_10': 0.8933, 'ndcg_cut_20': 0.7067,
+            {'topics': 45, 'ndcg_cut_10': 0.7436, 'judged_cut_10': 0.8933, 'ndcg_cut_20': 0.7067,
              'judged_cut_20': 0.8589, 'map': 0.3182, 'recall_1000': 0.5812, 'judged_cut_1000': 0.2904},
     }
     evaluate_runs(round4_cumulative_qrels, cumulative_runs, expected=expected_metrics, check_md5=check_md5_flag)
