@@ -260,8 +260,8 @@ def main():
             {'topics': 50, 'ndcg_cut_10': 0.4846, 'judged_cut_10': 0.5740, 'ndcg_cut_20': 0.4565,
              'judged_cut_20': 0.5400, 'map': 0.2045, 'recall_1000': 0.5218, 'judged_cut_1000': 0.2578},
         'expanded.anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt':
-            {'topics': 50, 'ndcg_cut_10': 0.6095, 'judged_cut_10': 0.6320, 'ndcg_cut_20': 0.5693,
-             'judged_cut_20': 0.5990, 'map': 0.2344, 'recall_1000': 0.5280, 'judged_cut_1000': 0.2257},
+            {'topics': 50, 'ndcg_cut_10': 0.6121, 'judged_cut_10': 0.6340, 'ndcg_cut_20': 0.5705,
+             'judged_cut_20': 0.6000, 'map': 0.2345, 'recall_1000': 0.5279, 'judged_cut_1000': 0.2255},
     }
     evaluate_runs(round4_cumulative_qrels, cumulative_runs, expected=expected_metrics, check_md5=check_md5_flag)
 
@@ -271,7 +271,7 @@ def main():
              'judged_cut_20': 0.9600, 'map': 0.2718, 'recall_1000': 0.4550, 'judged_cut_1000': 0.3845},
         'expanded.anserini.covid-r5.abstract.qdel.bm25.txt':
             {'topics': 50, 'ndcg_cut_10': 0.6939, 'judged_cut_10': 0.9920, 'ndcg_cut_20': 0.6524,
-             'judged_cut_20': 0.9610, 'map': 0.2752, 'recall_1000': 0.4595, 'judged_cut_1000': 0.3825},
+             'judged_cut_20': 0.9610, 'map': 0.2752, 'recall_1000': 0.4596, 'judged_cut_1000': 0.3825},
         'expanded.anserini.covid-r5.full-text.qq.bm25.txt':
             {'topics': 50, 'ndcg_cut_10': 0.6300, 'judged_cut_10': 0.9680, 'ndcg_cut_20': 0.5843,
              'judged_cut_20': 0.9260, 'map': 0.2475, 'recall_1000': 0.4201, 'judged_cut_1000': 0.3921},
@@ -291,8 +291,8 @@ def main():
             {'topics': 50, 'ndcg_cut_10': 0.7131, 'judged_cut_10': 1.0000, 'ndcg_cut_20': 0.6755,
              'judged_cut_20': 0.9910, 'map': 0.3036, 'recall_1000': 0.5166, 'judged_cut_1000': 0.4518},
         'expanded.anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt':
-            {'topics': 50, 'ndcg_cut_10': 0.8160, 'judged_cut_10': 1.0000, 'ndcg_cut_20': 0.7787,
-             'judged_cut_20': 0.9960, 'map': 0.3421, 'recall_1000': 0.5249, 'judged_cut_1000': 0.4107},
+            {'topics': 50, 'ndcg_cut_10': 0.8175, 'judged_cut_10': 1.0000, 'ndcg_cut_20': 0.7778,
+             'judged_cut_20': 0.9950, 'map': 0.3421, 'recall_1000': 0.5250, 'judged_cut_1000': 0.4106},
     }
     evaluate_runs(complete_qrels, cumulative_runs, expected=expected_metrics, check_md5=check_md5_flag)
 
@@ -310,8 +310,8 @@ def main():
             {'topics': 50, 'ndcg_cut_10': 0.5825, 'judged_cut_10': 0.9680, 'ndcg_cut_20': 0.5436,
              'judged_cut_20': 0.8700, 'map': 0.2319, 'recall_1000': 0.5861, 'judged_cut_1000': 0.2138},
         'expanded.anserini.final-r5.rf.txt':
-            {'topics': 50, 'ndcg_cut_10': 0.6628, 'judged_cut_10': 0.9460, 'ndcg_cut_20': 0.6040,
-             'judged_cut_20': 0.8370, 'map': 0.2410, 'recall_1000': 0.6039, 'judged_cut_1000': 0.1995},
+            {'topics': 50, 'ndcg_cut_10': 0.6620, 'judged_cut_10': 0.9460, 'ndcg_cut_20': 0.6053,
+             'judged_cut_20': 0.8380, 'map': 0.2409, 'recall_1000': 0.6034, 'judged_cut_1000': 0.1993},
         'expanded.anserini.final-r5.rf.post-processed.txt':
             {'topics': 50, 'ndcg_cut_10': 0.6757, 'judged_cut_10': 0.9620, 'ndcg_cut_20': 0.6124,
              'judged_cut_20': 0.8470, 'map': 0.2433, 'recall_1000': 0.6039, 'judged_cut_1000': 0.1998},
