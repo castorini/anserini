@@ -8,7 +8,7 @@ Following the Lucene upgrade, this page is no longer being maintained.
 For reproducibility purposes, however, runs with Lucene 8 (at v0.14.4) and Lucene 9 (at [`5480dc`](https://github.com/castorini/anserini/commit/5480dc88d0bfdd2cb67ef0ca4271223ed13c1ea5)) are captured and stored [here](../src/main/python/trec-covid/logs).
 There are only minor differences in effectiveness between the two sets of runs.
 
-In September 2023, the regression code was refactored such that the following commands run successfully (commit [`88935f`](https://github.com/castorini/anserini/commit/88935fc9431dbb81d55883547c185c4d1f44bf36) and [`444eac`](https://github.com/castorini/anserini/commit/444eacc20e18edec472ad1a673b90f57dc60266d)):
+In September 2023, the regression code was refactored such that the following commands run successfully (commits [`88935f`](https://github.com/castorini/anserini/commit/88935fc9431dbb81d55883547c185c4d1f44bf36) and [`444eac`](https://github.com/castorini/anserini/commit/444eacc20e18edec472ad1a673b90f57dc60266d)):
 
 ```bash
 python src/main/python/trec-covid/download_indexes.py --date 2020-07-16 &
