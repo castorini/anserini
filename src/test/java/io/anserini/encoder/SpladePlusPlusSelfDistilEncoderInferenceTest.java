@@ -1,10 +1,27 @@
-package io.anserini.search.query;
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import ai.onnxruntime.*;
+package io.anserini.encoder;
+
+import ai.onnxruntime.OrtException;
 import org.junit.Test;
+
 import java.io.IOException;
 
-public class SpladePlusPlusSelfDistilEncoderQueryInferenceTest extends SpladePlusPlusEncoderQueryInferenceTest {
+public class SpladePlusPlusSelfDistilEncoderInferenceTest extends SpladePlusPlusEncoderInferenceTest {
 
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd-optimized.onnx";
   static private final String MODEL_NAME = "splade-pp-sd-optimized.onnx";
@@ -201,7 +218,7 @@ public class SpladePlusPlusSelfDistilEncoderQueryInferenceTest extends SpladePlu
               0.2994387f, 0.3522259f, 0.15532349f, 1.4914014f, 0.7453375f } }
   };
 
-  public SpladePlusPlusSelfDistilEncoderQueryInferenceTest() {
+  public SpladePlusPlusSelfDistilEncoderInferenceTest() {
     super(MODEL_NAME, MODEL_URL, EXAMPLES);
   }
 
