@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(356, cnt);
+    assertEquals(359, cnt);
   }
 
   @Test
@@ -713,6 +713,14 @@ public class TopicReaderTest {
     assertEquals(1890, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals(1382, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("[0.013790097087621689", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("[-0.024115752428770065", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -760,6 +768,14 @@ public class TopicReaderTest {
     assertEquals(2168, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1136962, (int) topics.lastKey());
     assertEquals(2075, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2020_DL_COS_DPR_DISTIL);
+    assertNotNull(topics);
+    assertEquals(200, topics.size());
+    assertEquals(3505, (int) topics.firstKey());
+    assertEquals("[0.0012954670237377286", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1136962, (int) topics.lastKey());
+    assertEquals("[0.06602190434932709", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -964,6 +980,14 @@ public class TopicReaderTest {
     assertEquals("term service agreement definition", topics.get(topics.firstKey()).get("title"));
     assertEquals(1136966, (int) topics.lastKey());
     assertEquals("#ffffff color code", topics.get(topics.lastKey()).get("title"));
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    assertNotNull(topics);
+    assertEquals(6980, topics.size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals("[-0.007401271723210812", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1102400, (int) topics.lastKey());
+    assertEquals("[0.05193052813410759", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
