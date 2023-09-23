@@ -16,9 +16,10 @@
 
 package io.anserini.search;
 
-import io.anserini.index.Constants;
-import org.apache.lucene.analysis.Analyzer;
+import ai.onnxruntime.OrtException;
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.encoder.SparseEncoder;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -27,10 +28,11 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.QueryEncoder;
 import io.anserini.search.similarity.ImpactSimilarity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -42,24 +44,21 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
-import java.util.ArrayList;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-
-import ai.onnxruntime.OrtException;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -79,7 +78,7 @@ public class SimpleImpactSearcher implements Closeable {
   protected RerankerCascade cascade;
   protected IndexSearcher searcher = null;
   protected boolean backwardsCompatibilityLucene8;
-  private QueryEncoder queryEncoder = null;
+  private SparseEncoder queryEncoder = null;
   protected boolean useRM3;
   protected boolean useRocchio;
 
@@ -182,8 +181,9 @@ public class SimpleImpactSearcher implements Closeable {
   public void set_onnx_query_encoder(String encoder) {
     if (emptyEncoder()) {
       try {
-        this.queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + encoder + "QueryEncoder")
-          .getConstructor().newInstance();
+        this.queryEncoder = (SparseEncoder) Class
+            .forName(String.format("io.anserini.encoder.%sEncoder", encoder))
+            .getConstructor().newInstance();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
@@ -400,8 +400,8 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * helper function to change Map<String, Int> to Map<String, Float>
    *
-   * @param Map<String,Int> map needs to be transform
-   * @return a map in the form of Map<String, Float>
+   * @param input map to be transformed
+   * @return transformed map
    */
   private Map<String, Float> intToFloat(Map<String,Integer> input) {
     Map<String, Float> transformed = new HashMap<>();
