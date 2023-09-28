@@ -49,7 +49,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command:
+Sample indexing command, building HNSW indexes:
 
 ```bash
 ${index_cmds}
