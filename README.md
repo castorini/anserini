@@ -86,7 +86,7 @@ See individual pages for details!
 | SPLADE++ CoCondenser-SelfDistil             |          [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd.md)           |          [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd.md)           |          [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd.md)           |
 | SPLADE++ CoCondenser-SelfDistil (ONNX)      |        [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd-onnx.md)        |
 | **Learned Dense**                           |                                                                                      |                                                                                   |                                                                                   |
-| cosDPR-distil                               |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil.md)          |                                                                                   |                                                                                   |                                                                       |
+| cosDPR-distil                               |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil.md)          |  
 
 ### Available Corpora for Download
 

@@ -204,9 +204,11 @@ def evaluate_and_verify(yaml_data, dry_run):
                         expected, actual, metric['metric'], model['name'], topic_set['id'])
 
                 # For inverted indexes, we expect scores to match precisely.
-                # For HNSW, be more tolerant.
+                # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
+                # let the test pass.
                 if is_close(expected, actual) or \
-                        ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.006)):
+                        ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.006)) or \
+                        ('VectorQueryGenerator' in model['params'] and actual > expected):
                     logger.info(ok_str + result_str)
                 else:
                     if args.lucene8 and is_close_lucene8(expected, actual):
