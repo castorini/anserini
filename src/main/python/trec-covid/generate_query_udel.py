@@ -95,14 +95,14 @@ if __name__ == '__main__':
     original_query_file_name = f'topics.covid-round{args.round}.xml'
     original_query_file = os.path.join(
         args.anserini_root,
-        'src/main/resources/topics-and-qrels',
+        'tools/topics-and-qrels',
         original_query_file_name
     )
 
     output_query_file_name = f'topics.covid-round{args.round}-udel.xml'
     output_query_file = os.path.join(
         args.anserini_root,
-        'src/main/resources/topics-and-qrels',
+        'tools/topics-and-qrels',
         output_query_file_name
     )
 

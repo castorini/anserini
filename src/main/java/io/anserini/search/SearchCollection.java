@@ -18,11 +18,12 @@ package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerMap;
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.AutoCompositeAnalyzer;
 import io.anserini.analysis.CompositeAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
-import io.anserini.analysis.AutoCompositeAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.encoder.SparseEncoder;
 import io.anserini.index.Constants;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WashingtonPostGenerator;
@@ -35,7 +36,6 @@ import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.query.QueryEncoder;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -752,10 +752,11 @@ public final class SearchCollection implements Closeable {
         AtomicInteger cnt = new AtomicInteger();
 
         // Initialize query encoder if specified
-        QueryEncoder queryEncoder;
+        SparseEncoder queryEncoder;
         if (args.encoder != null) {
-          queryEncoder = (QueryEncoder) Class.forName("io.anserini.search.query." + args.encoder + "QueryEncoder")
-                  .getConstructor().newInstance();
+          queryEncoder = (SparseEncoder) Class
+              .forName(String.format("io.anserini.encoder.%sEncoder", args.encoder))
+              .getConstructor().newInstance();
         } else {
           queryEncoder = null;
         }
