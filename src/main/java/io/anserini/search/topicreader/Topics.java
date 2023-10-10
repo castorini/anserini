@@ -400,6 +400,10 @@ public enum Topics {
   MIRACL_V10_DE_DEV(TsvStringTopicReader.class, "topics.miracl-v1.0-de-dev.tsv"),
   MIRACL_V10_YO_DEV(TsvStringTopicReader.class, "topics.miracl-v1.0-yo-dev.tsv"),
 
+  // AToMiC topics
+  ATOMIC_V021_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.ViT-L-14.laion2b_s32b_b82k.jsonl"),
+  ATOMIC_V021_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.ViT-L-14.laion2b_s32b_b82k.jsonl"),
+
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),
   NTCIR_EN_1(NtcirTopicReader.class,            "topics.www1.english.txt"),

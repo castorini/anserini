@@ -32,13 +32,13 @@ public class TopicReaderTest {
   public void testIterateThroughAllEnums() {
     int cnt = 0;
     for (Topics topic : Topics.values()) {
-      cnt++;
+      cnt++; 
 
       // Verify that we can fetch the TopicReader class given the name of the topic file.
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(359, cnt);
+    assertEquals(361, cnt);
   }
 
   @Test
