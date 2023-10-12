@@ -79,7 +79,7 @@ The output queries file `collections/msmarco-passage/queries.dev.small.tsv` shou
 
 In building a retrieval system, there are generally two phases:
 
-+ In the **indexing** phase, an indexer takes the document collection (i.e., corpus) and builds an index, which is a data structure that supports effcient retrieval.
++ In the **indexing** phase, an indexer takes the document collection (i.e., corpus) and builds an index, which is a data structure that supports efficient retrieval.
 + In the **retrieval** (or **search**) phase, the retrieval system returns a ranked list given a query _q_, with the aid of the index constructed in the previous phase.
 
 (There's also a training phase when we start to discuss models that _learn_ from data, but we're not there yet.)
@@ -439,3 +439,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@dourian](https://github.com/dourian) on 2023-09-25 (commit [`24ab292`](https://github.com/castorini/anserini/commit/24ab292c5eaaccd40bbfa13fa7122eeb58261aaa))
 + Results reproduced by [@ksunisth](https://github.com/ksunisth) on 2023-09-27 (commit [`7c95d91`](https://github.com/castorini/anserini/commit/7c95d9155e59cfc55c573139b3538cc76d0f5371))
 + Results reproduced by [@maizerrr](https://github.com/maizerrr) on 2023-10-01 (commit [`2abdd37`](https://github.com/castorini/anserini/commit/2abdd373d70ae64ff6638c3440d7f0063514d313))
++ Results reproduced by [@shayanbali](https://github.com/shayanbali) on 2023-10-12 (commit [`8194b8e`](https://github.com/castorini/anserini/commit/8194b8e91fe799fcb0d3b4348e9d710a0aa1ad26))
