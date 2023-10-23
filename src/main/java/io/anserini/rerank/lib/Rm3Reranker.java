@@ -164,7 +164,7 @@ public class Rm3Reranker implements Reranker {
             throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
           Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-              reader.document(docs.ids[i]).getField(Constants.RAW).stringValue());
+              reader.storedFields().document(docs.ids[i]).getField(Constants.RAW).stringValue());
           docVector = createdFeatureVectorOnTheFly(termFreqMap, reader, tweetsearch);
         }
 

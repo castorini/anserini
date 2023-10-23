@@ -472,7 +472,7 @@ public final class SearchInvertedDenseVectors implements Closeable {
     if (args.stored) {
       TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexInvertedDenseVectors.FIELD_ID, args.word)), args.hits);
       for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-        vectorStrings.add(reader.document(scoreDoc.doc).get(IndexInvertedDenseVectors.FIELD_VECTOR));
+        vectorStrings.add(reader.storedFields().document(scoreDoc.doc).get(IndexInvertedDenseVectors.FIELD_VECTOR));
       }
     } else {
       System.out.println(String.format("Loading model %s", args.input));
@@ -507,7 +507,7 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
       int rank = 1;
       for (ScoreDoc sd : results.topDocs().scoreDocs) {
-        Document document = reader.document(sd.doc);
+        Document document = reader.storedFields().document(sd.doc);
         String word = document.get(IndexInvertedDenseVectors.FIELD_ID);
         System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
         rank++;

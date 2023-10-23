@@ -184,7 +184,7 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
     for (int i = 0; i < numDocs; i++) {
-      System.out.println(reader.document(i));
+      System.out.println(reader.storedFields().document(i));
       Terms terms = reader.getTermVector(i, "contents");
       TermsEnum te = terms.iterator();
 

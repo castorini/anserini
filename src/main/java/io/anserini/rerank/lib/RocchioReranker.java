@@ -193,7 +193,7 @@ public class RocchioReranker implements Reranker {
           throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.document(docid).getField(Constants.RAW).stringValue());
+            reader.storedFields().document(docid).getField(Constants.RAW).stringValue());
         docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
       }
       vocab.addAll(docVector.getFeatures());

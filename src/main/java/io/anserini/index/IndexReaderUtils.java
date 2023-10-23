@@ -499,7 +499,7 @@ public class IndexReaderUtils {
    */
   public static Document document(IndexReader reader, String docid) {
     try {
-      return reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid));
+      return reader.storedFields().document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid));
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -528,7 +528,7 @@ public class IndexReaderUtils {
         return null;
       }
 
-      return reader.document(hits[0].doc);
+      return reader.storedFields().document(hits[0].doc);
     } catch (IOException e) {
       // Silently eat the error and return null
       return null;
@@ -545,7 +545,7 @@ public class IndexReaderUtils {
    */
   public static String documentRaw(IndexReader reader, String docid) {
     try {
-      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(Constants.RAW);
+      return reader.storedFields().document(convertDocidToLuceneDocid(reader, docid)).get(Constants.RAW);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -562,7 +562,7 @@ public class IndexReaderUtils {
    */
   public static String documentContents(IndexReader reader, String docid) {
     try {
-      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(Constants.CONTENTS);
+      return reader.storedFields().document(convertDocidToLuceneDocid(reader, docid)).get(Constants.CONTENTS);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -766,7 +766,7 @@ public class IndexReaderUtils {
       return null;
 
     try {
-      return reader.document(docid).get(Constants.ID);
+      return reader.storedFields().document(docid).get(Constants.ID);
     } catch (IOException e) {
       // Eat any exceptions and just return null.
       return null;

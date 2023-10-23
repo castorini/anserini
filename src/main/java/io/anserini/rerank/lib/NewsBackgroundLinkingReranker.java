@@ -82,7 +82,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     if (context.getSearchArgs().backgroundlinking_datefilter) {
       try {
         int luceneId = IndexReaderUtils.convertDocidToLuceneDocid(reader, queryDocId);
-        Document queryDoc = reader.document(luceneId);
+        Document queryDoc = reader.storedFields().document(luceneId);
         long queryDocDate = Long.parseLong(queryDoc.getField(PUBLISHED_DATE.name).stringValue());
         for (int i = 0; i < docs.documents.length; i++) {
           long date = Long.parseLong(docs.documents[i].getField(PUBLISHED_DATE.name).stringValue());
@@ -130,7 +130,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
           throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(Constants.RAW).stringValue());
+            reader.storedFields().document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(Constants.RAW).stringValue());
         return termFreqMap;
       }
     } catch (Exception e) {

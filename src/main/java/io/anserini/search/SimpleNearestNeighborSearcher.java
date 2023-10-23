@@ -97,7 +97,7 @@ public class SimpleNearestNeighborSearcher {
     TopDocs wordDocs = searcher.search(new TermQuery(new Term(IndexInvertedDenseVectors.FIELD_ID, id)), k);
 
     for (ScoreDoc scoreDoc : wordDocs.scoreDocs) {
-      Document doc = searcher.doc(scoreDoc.doc);
+      Document doc = searcher.storedFields().document(scoreDoc.doc);
       String vector = doc.get(IndexInvertedDenseVectors.FIELD_VECTOR);
       CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, 0.999f);
       List<String> tokens = AnalyzerUtils.analyze(analyzer, vector);
@@ -108,7 +108,7 @@ public class SimpleNearestNeighborSearcher {
       Result[] neighbors = new Result[nearest.scoreDocs.length];
       int i = 0;
       for (ScoreDoc nn : nearest.scoreDocs) {
-        Document ndoc = searcher.doc(nn.doc);
+        Document ndoc = searcher.storedFields().document(nn.doc);
         neighbors[i] = new Result(ndoc.get(IndexInvertedDenseVectors.FIELD_ID), nn.score);
         i++;
       }

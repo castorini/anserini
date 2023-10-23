@@ -421,7 +421,7 @@ public class AxiomReranker<T> implements Reranker<T> {
           continue;
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.document(docid).getField(Constants.RAW).stringValue());
+            reader.storedFields().document(docid).getField(Constants.RAW).stringValue());
         for (String term : termFreqMap.keySet()) {
           // We do some noisy filtering here ... pure empirical heuristic
           if (term.length() < 2) continue;
