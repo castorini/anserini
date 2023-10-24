@@ -20,7 +20,10 @@ import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
 import org.apache.commons.io.input.ReaderInputStream;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -62,7 +65,7 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
 
     public Segment(Path path) throws IOException {
       super(path);
-      stream = new FileInputStream(new File(path.toString()));
+      stream = new FileInputStream(path.toString());
       iter = DeserializeData.iterableParagraphs(stream).iterator();
     }
 
