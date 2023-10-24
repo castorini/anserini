@@ -365,7 +365,7 @@ public class IndexReaderUtils {
     if (ldocid == -1) {
       return null;
     }
-    Terms terms = reader.getTermVector(ldocid, Constants.CONTENTS);
+    Terms terms = reader.termVectors().get(ldocid, Constants.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -399,7 +399,7 @@ public class IndexReaderUtils {
     String[] tokens = new String[maxPos + 1];
 
     // Go through the terms again, this time to actually build the list of tokens.
-    te = reader.getTermVector(ldocid, Constants.CONTENTS).iterator();
+    te = reader.termVectors().get(ldocid, Constants.CONTENTS).iterator();
     while ((te.next()) != null) {
       postingsEnum = te.postings(postingsEnum);
       postingsEnum.nextDoc();
@@ -430,7 +430,7 @@ public class IndexReaderUtils {
     if (ldocid == -1) {
       return null;
     }
-    Terms terms = reader.getTermVector(ldocid, Constants.CONTENTS);
+    Terms terms = reader.termVectors().get(ldocid, Constants.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -463,7 +463,7 @@ public class IndexReaderUtils {
     if (ldocid == -1) {
       return null;
     }
-    Terms terms = reader.getTermVector(ldocid, Constants.CONTENTS);
+    Terms terms = reader.termVectors().get(ldocid, Constants.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }

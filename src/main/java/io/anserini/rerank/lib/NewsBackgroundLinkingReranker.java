@@ -116,7 +116,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
   private Map<String, Long> convertDocVectorToMap(IndexReader reader, String docid) {
     Map<String, Long> m = new HashMap<>();
     try {
-      Terms terms = reader.getTermVector(
+      Terms terms = reader.termVectors().get(
           IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), Constants.CONTENTS);
       if (terms != null) {
         TermsEnum it = terms.iterator();

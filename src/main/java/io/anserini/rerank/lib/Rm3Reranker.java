@@ -156,7 +156,7 @@ public class Rm3Reranker implements Reranker {
       }
       try {
         FeatureVector docVector;
-        Terms terms = reader.getTermVector(docs.ids[i], field);
+        Terms terms = reader.termVectors().get(docs.ids[i], field);
         if (terms != null) {
           docVector = createdFeatureVector(terms, reader, tweetsearch);
         } else {

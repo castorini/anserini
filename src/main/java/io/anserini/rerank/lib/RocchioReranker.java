@@ -185,7 +185,7 @@ public class RocchioReranker implements Reranker {
       } else {
         docid = docs.ids[docs.ids.length - i - 1];
       }
-      Terms terms = reader.getTermVector(docid, field);
+      Terms terms = reader.termVectors().get(docid, field);
       if (terms != null) {
         docVector = createDocumentVector(terms, reader, tweetsearch);
       } else {

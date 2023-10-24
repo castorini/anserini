@@ -23,11 +23,7 @@ import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.search.DocIdSetIterator;
-import org.apache.lucene.search.DocValuesFieldExistsQuery;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,7 +108,7 @@ public class DocumentFieldContext {
 
     public void updateDoc(int internalId){
         try {
-            Terms termVector = reader.getTermVector(internalId, fieldName);
+            Terms termVector = reader.termVectors().get(internalId, fieldName);
             if(termVector == null) throw new IOException("empty field");
             docSize = termVector.getSumTotalTermFreq();
             termCount = termVector.size();
@@ -234,7 +230,7 @@ public class DocumentFieldContext {
     }
 
     public List<Integer> getAllDocID() {
-        Query q = new DocValuesFieldExistsQuery(fieldName);
+        Query q = new FieldExistsQuery(fieldName);
         List<Integer> DocIDs = new ArrayList<>();
         try {
             ScoreDoc[] scoreDocs = searcher.search(q, reader.maxDoc()).scoreDocs;
@@ -253,7 +249,7 @@ public class DocumentFieldContext {
         Terms terms = null;
         for (int i: docids) {
             try {
-                terms = reader.getTermVector(i, fieldName);
+                terms = reader.termVectors().get(i, fieldName);
                 fieldDocLength.add(terms.getSumTotalTermFreq());
                 fieldTermCount.add(terms.size());
             } catch (IOException e) {
