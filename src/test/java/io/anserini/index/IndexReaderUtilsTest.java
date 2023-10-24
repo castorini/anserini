@@ -300,7 +300,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
       TopDocs rs = searcher.search(new TermQuery(new Term("contents", term)), 3);
       for (int i=0; i<rs.scoreDocs.length; i++) {
-        String docid = reader.document(rs.scoreDocs[i].doc).getField("id").stringValue();
+        String docid = reader.storedFields().document(rs.scoreDocs[i].doc).getField("id").stringValue();
         if (!termDocMatrix.containsKey(term))
           termDocMatrix.put(term, new HashMap<>());
         termDocMatrix.get(term).put(docid, rs.scoreDocs[i].score);
@@ -310,7 +310,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     int numDocs = reader.numDocs();
     // Iterate through the document vectors, and verify that we have the same values as in the term/doc matrix
     for (int i=0; i<numDocs; i++) {
-      Terms termVector = reader.getTermVector(i, "contents");
+      Terms termVector = reader.termVectors().get(i, "contents");
       String docid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
 
       // For this document, iterate through the terms.
