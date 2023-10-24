@@ -187,7 +187,7 @@ public class EvaluateInvertedDenseVectors {
 
             Set<String> observations = new HashSet<>();
             for (ScoreDoc sd : results.topDocs().scoreDocs) {
-              Document document = reader.document(sd.doc);
+              Document document = reader.storedFields().document(sd.doc);
               String wordValue = document.get(IndexInvertedDenseVectors.FIELD_ID);
               observations.add(wordValue);
             }

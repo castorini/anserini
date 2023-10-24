@@ -53,7 +53,7 @@ public class ScoredDocuments {
 
     for (int i=0; i<rs.scoreDocs.length; i++) {
       try {
-        scoredDocs.documents[i] = searcher.doc(rs.scoreDocs[i].doc);
+        scoredDocs.documents[i] = searcher.storedFields().document(rs.scoreDocs[i].doc);
       } catch (IOException e) {
         e.printStackTrace();
         scoredDocs.documents[i] = null;
@@ -80,7 +80,7 @@ public class ScoredDocuments {
       Query q = new TermQuery(new Term(Constants.ID, externalDocid));
       TopDocs rs = searcher.search(q, 1);
       try {
-        documentList.add(searcher.doc(rs.scoreDocs[0].doc));
+        documentList.add(searcher.storedFields().document(rs.scoreDocs[0].doc));
         idList.add(rs.scoreDocs[0].doc);
         scoreList.add(Float.valueOf(qrelsDocScorePair.getValue().floatValue()));
         i++;

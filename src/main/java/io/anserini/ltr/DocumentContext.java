@@ -57,7 +57,7 @@ public class DocumentContext {
 
 
   public void updateDoc(String docId, int internalId) throws IOException {
-    doc = reader.document(internalId);
+    doc = reader.storedFields().document(internalId);
     this.docId = docId;
     String entityJson = doc.get(Constants.ENTITY);
     if (entityJson != null) {

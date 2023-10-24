@@ -78,7 +78,7 @@ public class ExtractDocumentLengths {
 
     out.println("internal_docid\texternal_docid\tdoc_length\tunique_term_count\tlossy_doc_length\tlossy_unique_term_count");
     for (int i = 0; i < numDocs; i++) {
-      Terms terms = reader.getTermVector(i, Constants.CONTENTS);
+      Terms terms = reader.termVectors().get(i, Constants.CONTENTS);
       if (terms == null) {
         // It could be the case that TermVectors weren't stored when constructing the index, or we're just missing a
         // TermVector for a zero-length document. Warn, but don't throw exception.
