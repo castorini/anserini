@@ -39,7 +39,7 @@ import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BoostQuery;
-import org.apache.lucene.search.DocValuesFieldExistsQuery;
+import org.apache.lucene.search.FieldExistsQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -281,10 +281,10 @@ public class AxiomReranker<T> implements Reranker<T> {
     IndexReader reader = DirectoryReader.open(FSDirectory.open(index));
     IndexSearcher searcher = new IndexSearcher(reader);
     if (searchTweets) {
-      return searcher.search(new DocValuesFieldExistsQuery(TweetGenerator.TweetField.ID_LONG.name), reader.maxDoc(),
+      return searcher.search(new FieldExistsQuery(TweetGenerator.TweetField.ID_LONG.name), reader.maxDoc(),
           BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
     }
-    return searcher.search(new DocValuesFieldExistsQuery(Constants.ID), reader.maxDoc(),
+    return searcher.search(new FieldExistsQuery(Constants.ID), reader.maxDoc(),
         BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
   }
 
@@ -413,7 +413,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     }
     Map<String, Set<Integer>> termDocidSets = new HashMap<>();
     for (int docid : docIds) {
-      Terms terms = reader.getTermVector(docid, Constants.CONTENTS);
+      Terms terms = reader.termVectors().get(docid, Constants.CONTENTS);
       if (terms == null) {
         if (parser == null) {
           LOG.warn("Document vector not stored for docid: " + docid + "\n" +
@@ -421,7 +421,7 @@ public class AxiomReranker<T> implements Reranker<T> {
           continue;
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.document(docid).getField(Constants.RAW).stringValue());
+            reader.storedFields().document(docid).getField(Constants.RAW).stringValue());
         for (String term : termFreqMap.keySet()) {
           // We do some noisy filtering here ... pure empirical heuristic
           if (term.length() < 2) continue;

@@ -149,7 +149,7 @@ public class BM25PrfReranker implements Reranker {
         if (useRf && docs.scores[i] <= 0) {
           continue;
         }
-        Terms terms = reader.getTermVector(docs.ids[i], field);
+        Terms terms = reader.termVectors().get(docs.ids[i], field);
         if (terms != null) {
           Set<String> termsStr = getTermsStr(terms);
           docToTermsMap.put(docs.ids[i], termsStr);
@@ -159,7 +159,7 @@ public class BM25PrfReranker implements Reranker {
             throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
           Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-              reader.document(docs.ids[i]).getField(Constants.RAW).stringValue());
+              reader.storedFields().document(docs.ids[i]).getField(Constants.RAW).stringValue());
           docToTermsMap.put(docs.ids[i], termFreqMap.keySet());
           vocab.addAll(termFreqMap.keySet());
         }

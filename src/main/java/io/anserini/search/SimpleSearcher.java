@@ -776,7 +776,7 @@ public class SimpleSearcher implements Closeable {
    */
   public Document doc(int lucene_docid) {
     try {
-      return reader.document(lucene_docid);
+      return reader.storedFields().document(lucene_docid);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -852,7 +852,7 @@ public class SimpleSearcher implements Closeable {
    */
   public String doc_contents(int lucene_docid) {
     try {
-      return reader.document(lucene_docid).get(Constants.CONTENTS);
+      return reader.storedFields().document(lucene_docid).get(Constants.CONTENTS);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;
@@ -877,7 +877,7 @@ public class SimpleSearcher implements Closeable {
    */
   public String doc_raw(int lucene_docid) {
     try {
-      return reader.document(lucene_docid).get(Constants.RAW);
+      return reader.storedFields().document(lucene_docid).get(Constants.RAW);
     } catch (Exception e) {
       // Eat any exceptions and just return null.
       return null;

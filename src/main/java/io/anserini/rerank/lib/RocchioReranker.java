@@ -185,7 +185,7 @@ public class RocchioReranker implements Reranker {
       } else {
         docid = docs.ids[docs.ids.length - i - 1];
       }
-      Terms terms = reader.getTermVector(docid, field);
+      Terms terms = reader.termVectors().get(docid, field);
       if (terms != null) {
         docVector = createDocumentVector(terms, reader, tweetsearch);
       } else {
@@ -193,7 +193,7 @@ public class RocchioReranker implements Reranker {
           throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.document(docid).getField(Constants.RAW).stringValue());
+            reader.storedFields().document(docid).getField(Constants.RAW).stringValue());
         docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
       }
       vocab.addAll(docVector.getFeatures());

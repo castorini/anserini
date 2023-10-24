@@ -20,6 +20,7 @@ import io.anserini.IndexerTestBase;
 import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
@@ -184,8 +185,8 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
     for (int i = 0; i < numDocs; i++) {
-      System.out.println(reader.document(i));
-      Terms terms = reader.getTermVector(i, "contents");
+      System.out.println(reader.storedFields().document(i));
+      Terms terms = reader.termVectors().get(i, "contents");
       TermsEnum te = terms.iterator();
 
       // For this document, iterate through the terms.
@@ -211,10 +212,10 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
     for (int i = 0; i < numDocs; i++) {
-      Terms terms = reader.getTermVector(i, "contents");
+      Terms terms = reader.termVectors().get(i, "contents");
       // Compute Doc Vector without using stored vector
       Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, collectionClass,
-          reader.document(i).getField("raw").stringValue());
+          reader.storedFields().document(i).getField("raw").stringValue());
       TermsEnum te = terms.iterator();
       // For this document, iterate through the terms.
       Term term;
@@ -238,10 +239,11 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
     for (int i = 0; i < numDocs; i++) {
-      String docid = reader.document(i).getField("id").stringValue();
-      System.out.println(reader.document(i));
+      Document document = reader.storedFields().document(i);
+      String docid = document.getField("id").stringValue();
+      System.out.println(document);
       System.out.println(i + ": " + docid);
-      Terms terms = reader.getTermVector(i, "contents");
+      Terms terms = reader.termVectors().get(i, "contents");
       TermsEnum te = terms.iterator();
 
       // For this document, iterate through the terms.

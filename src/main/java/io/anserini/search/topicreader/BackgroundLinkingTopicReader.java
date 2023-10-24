@@ -105,7 +105,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
   public static List<String> extractTerms(IndexReader reader, String docid, int k, Analyzer analyzer)
       throws IOException {
     // Fetch the raw JSON representation of the document.
-    IndexableField rawField = reader.document(
+    IndexableField rawField = reader.storedFields().document(
         IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(Constants.RAW);
     if (rawField == null) {
       throw new RuntimeException("Raw documents not stored!");
