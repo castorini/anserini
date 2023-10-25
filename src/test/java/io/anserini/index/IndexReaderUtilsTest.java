@@ -25,7 +25,9 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermVectors;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.IndexSearcher;
@@ -299,8 +301,9 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
       searcher.setSimilarity(similarity);
 
       TopDocs rs = searcher.search(new TermQuery(new Term("contents", term)), 3);
+      StoredFields storedFields = reader.storedFields();
       for (int i=0; i<rs.scoreDocs.length; i++) {
-        String docid = reader.storedFields().document(rs.scoreDocs[i].doc).getField("id").stringValue();
+        String docid = storedFields.document(rs.scoreDocs[i].doc).getField("id").stringValue();
         if (!termDocMatrix.containsKey(term))
           termDocMatrix.put(term, new HashMap<>());
         termDocMatrix.get(term).put(docid, rs.scoreDocs[i].score);
@@ -309,8 +312,9 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors, and verify that we have the same values as in the term/doc matrix
+    TermVectors termVectors = reader.termVectors();
     for (int i=0; i<numDocs; i++) {
-      Terms termVector = reader.termVectors().get(i, "contents");
+      Terms termVector = termVectors.get(i, "contents");
       String docid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
 
       // For this document, iterate through the terms.

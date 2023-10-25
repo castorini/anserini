@@ -26,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
@@ -178,6 +179,7 @@ public class RocchioReranker implements Reranker {
     numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
 
     List<FeatureVector> docvectors = new ArrayList<>();
+    StoredFields storedFields = reader.storedFields();
     for (int i = 0; i < numdocs; i++) {
       int docid;
       if (relevantFlag) {
@@ -193,7 +195,7 @@ public class RocchioReranker implements Reranker {
           throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.storedFields().document(docid).getField(Constants.RAW).stringValue());
+            storedFields.document(docid).getField(Constants.RAW).stringValue());
         docVector = createDocumentVectorOnTheFly(termFreqMap, reader, tweetsearch);
       }
       vocab.addAll(docVector.getFeatures());

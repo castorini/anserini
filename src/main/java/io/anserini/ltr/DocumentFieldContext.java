@@ -21,6 +21,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermVectors;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.FieldExistsQuery;
@@ -252,7 +253,8 @@ public class DocumentFieldContext {
         Terms terms = null;
         for (int i: docids) {
             try {
-                terms = reader.termVectors().get(i, fieldName);
+                TermVectors termVectors = reader.termVectors();
+                terms = termVectors.get(i, fieldName);
                 fieldDocLength.add(terms.getSumTotalTermFreq());
                 fieldTermCount.add(terms.size());
             } catch (IOException e) {
