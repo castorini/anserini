@@ -20,6 +20,7 @@ import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.TermVectors;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -77,8 +78,9 @@ public class ExtractDocumentLengths {
     long exactTotalTerms = 0;
 
     out.println("internal_docid\texternal_docid\tdoc_length\tunique_term_count\tlossy_doc_length\tlossy_unique_term_count");
+    TermVectors termVectors = reader.termVectors();
     for (int i = 0; i < numDocs; i++) {
-      Terms terms = reader.termVectors().get(i, Constants.CONTENTS);
+      Terms terms = termVectors.get(i, Constants.CONTENTS);
       if (terms == null) {
         // It could be the case that TermVectors weren't stored when constructing the index, or we're just missing a
         // TermVector for a zero-length document. Warn, but don't throw exception.
