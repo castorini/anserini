@@ -28,7 +28,9 @@ import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.NumericDocValues;
 import org.apache.lucene.index.PostingsEnum;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermVectors;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.BooleanClause;
@@ -184,9 +186,11 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
+    StoredFields storedFields = reader.storedFields();
+    TermVectors termVectors = reader.termVectors();
     for (int i = 0; i < numDocs; i++) {
-      System.out.println(reader.storedFields().document(i));
-      Terms terms = reader.termVectors().get(i, "contents");
+      System.out.println(storedFields.document(i));
+      Terms terms = termVectors.get(i, "contents");
       TermsEnum te = terms.iterator();
 
       // For this document, iterate through the terms.
@@ -211,11 +215,13 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
+    StoredFields storedFields = reader.storedFields();
+    TermVectors termVectors = reader.termVectors();
     for (int i = 0; i < numDocs; i++) {
-      Terms terms = reader.termVectors().get(i, "contents");
+      Terms terms = termVectors.get(i, "contents");
       // Compute Doc Vector without using stored vector
       Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, collectionClass,
-          reader.storedFields().document(i).getField("raw").stringValue());
+          storedFields.document(i).getField("raw").stringValue());
       TermsEnum te = terms.iterator();
       // For this document, iterate through the terms.
       Term term;
@@ -238,12 +244,14 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
+    TermVectors termVectors = reader.termVectors();
+    StoredFields storedFields = reader.storedFields();
     for (int i = 0; i < numDocs; i++) {
-      Document document = reader.storedFields().document(i);
+      Document document = storedFields.document(i);
       String docid = document.getField("id").stringValue();
       System.out.println(document);
       System.out.println(i + ": " + docid);
-      Terms terms = reader.termVectors().get(i, "contents");
+      Terms terms = termVectors.get(i, "contents");
       TermsEnum te = terms.iterator();
 
       // For this document, iterate through the terms.

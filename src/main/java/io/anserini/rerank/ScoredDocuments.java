@@ -22,6 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -72,18 +73,16 @@ public class ScoredDocuments {
     List<Integer> idList = new ArrayList<>();
     List<Float> scoreList = new ArrayList<>();
 
-    IndexSearcher searcher;
-    int i = 0;
+    IndexSearcher searcher = new IndexSearcher(reader);
+    StoredFields storedFields = searcher.storedFields();
     for (Map.Entry<String, Integer> qrelsDocScorePair : qrels.entrySet()) {
       String externalDocid = qrelsDocScorePair.getKey();
-      searcher = new IndexSearcher(reader);
       Query q = new TermQuery(new Term(Constants.ID, externalDocid));
       TopDocs rs = searcher.search(q, 1);
       try {
-        documentList.add(searcher.storedFields().document(rs.scoreDocs[0].doc));
+        documentList.add(storedFields.document(rs.scoreDocs[0].doc));
         idList.add(rs.scoreDocs[0].doc);
         scoreList.add(Float.valueOf(qrelsDocScorePair.getValue().floatValue()));
-        i++;
       } catch (IOException e) {
         e.printStackTrace();
         documentList.add(null);
