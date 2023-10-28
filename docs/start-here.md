@@ -335,3 +335,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@maizerrr](https://github.com/maizerrr) on 2023-10-01 (commit [`2abdd37`](https://github.com/castorini/anserini/commit/2abdd373d70ae64ff6638c3440d7f0063514d313))
 + Results reproduced by [@gituserbs](https://github.com/gituserbs) on 2023-10-07 (commit [`d88003c`](https://github.com/castorini/anserini/commit/d88003c71ae7b2e3da65885c709f61aac57611b4))
 + Results reproduced by [@shayanbali](https://github.com/shayanbali) on 2023-10-12 (commit [`8194b8e`](https://github.com/castorini/anserini/commit/8194b8e91fe799fcb0d3b4348e9d710a0aa1ad26))
++ Results reproduced by [@Roodaki](https://github.com/Roodaki) on 2023-10-28 (commit [`824154b`](https://github.com/Roodaki/anserini/commit/824154bf9226b2f44146a5b258f0dfb2042eb583))
