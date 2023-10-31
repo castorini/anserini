@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(361, cnt);
+    assertEquals(379, cnt);
   }
 
   @Test
