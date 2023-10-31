@@ -401,8 +401,26 @@ public enum Topics {
   MIRACL_V10_YO_DEV(TsvStringTopicReader.class, "topics.miracl-v1.0-yo-dev.tsv"),
 
   // AToMiC topics
-  ATOMIC_V021_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.ViT-L-14.laion2b_s32b_b82k.jsonl"),
-  ATOMIC_V021_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.ViT-L-14.laion2b_s32b_b82k.jsonl"),
+  ATOMIC_V021_VIT_L_14_LAION2B_S32B_B82K_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.ViT-L-14.laion2b_s32b_b82k.jsonl"),
+  ATOMIC_V021_VIT_L_14_LAION2B_S32B_B82K_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.ViT-L-14.laion2b_s32b_b82k.jsonl"),
+  ATOMIC_V021_VIT_B_32_LAION2B_E16_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.ViT-B-32.laion2b_e16.jsonl"),
+  ATOMIC_V021_VIT_B_32_LAION2B_E16_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.ViT-B-32.laion2b_e16.jsonl"),
+  ATOMIC_V021_VIT_BIGG_14_LAION2B_S39B_B160K_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.ViT-bigG-14.laion2b_s39b_b160k.jsonl"),
+  ATOMIC_V021_VIT_BIGG_14_LAION2B_S39B_B160K_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.ViT-bigG-14.laion2b_s39b_b160k.jsonl"),
+  ATOMIC_V021_VIT_H_14_LAION2B_S32B_B79K_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.ViT-H-14.laion2b_s32b_b79k.jsonl"),
+  ATOMIC_V021_VIT_H_14_LAION2B_S32B_B79K_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.ViT-H-14.laion2b_s32b_b79k.jsonl"),
+  ATOMIC_V021_VIT_B_32_LAION400M_E32_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.ViT-B-32.laion400m_e32.jsonl"),
+  ATOMIC_V021_VIT_B_32_LAION400M_E32_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.ViT-B-32.laion400m_e32.jsonl"),
+  ATOMIC_V021_SALESFORCE_BLIP_ITM_LARGE_COCO_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.Salesforce.blip-itm-large-coco.jsonl"),
+  ATOMIC_V021_SALESFORCE_BLIP_ITM_LARGE_COCO_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.Salesforce.blip-itm-large-coco.jsonl"),
+  ATOMIC_V021_SALESFORCE_BLIP_ITM_BASE_COCO_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.Salesforce.blip-itm-base-coco.jsonl"),
+  ATOMIC_V021_SALESFORCE_BLIP_ITM_BASE_COCO_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.Salesforce.blip-itm-base-coco.jsonl"),
+  ATOMIC_V021_OPENAI_CLIP_VIT_BASE_PATCH32_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.openai.clip-vit-base-patch32.jsonl"),
+  ATOMIC_V021_OPENAI_CLIP_VIT_BASE_PATCH32_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.openai.clip-vit-base-patch32.jsonl"),
+  ATOMIC_V021_OPENAI_CLIP_VIT_LARGE_PATCH14_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.openai.clip-vit-large-patch14.jsonl"),
+  ATOMIC_V021_OPENAI_CLIP_VIT_LARGE_PATCH14_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.openai.clip-vit-large-patch14.jsonl"),
+  ATOMIC_V021_FACEBOOK_FLAVA_FULL_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.facebook.flava-full.jsonl"),
+  ATOMIC_V021_FACEBOOK_FLAVA_FULL_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.facebook.flava-full.jsonl"),
 
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),
