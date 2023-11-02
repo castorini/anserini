@@ -271,7 +271,10 @@ See individual pages for details!
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of reproducibility.
 For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
 
-### MS MARCO (V1)
+<details>
+<summary>MS MARCO V1</summary>
+
+### MS MARCO V1
 
 + Reproducing [BM25 baselines for MS MARCO Passage Ranking](docs/experiments-msmarco-passage.md)
 + Reproducing [BM25 baselines for MS MARCO Document Ranking](docs/experiments-msmarco-doc.md)
@@ -280,15 +283,27 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO Passage and Document Ranking)
 + Notes about reproduction issues with [MS MARCO Document Ranking w/ docTTTTTquery](docs/experiments-msmarco-doc-doc2query-details.md)
 
-### MS MARCO (V2)
+</details>
+<details>
+<summary>MS MARCO V2</summary>
+
+### MS MARCO V2
 
 + Reproducing [BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
+
+</details>
+<details>
+<summary>TREC-COVID and CORD-19</summary>
 
 ### TREC-COVID and CORD-19
 
 + [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
 + [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
+
+</details>
+<details>
+<summary>Other Experiments and Features</summary>
 
 ### Other Experiments and Features
 
@@ -301,6 +316,8 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
 + Support for [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on dense vectors with inverted indexes
+
+</details>
 
 ## 🙋 How Can I Contribute?
 
