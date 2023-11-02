@@ -103,9 +103,9 @@ With the above commands, you should be able to reproduce the following results:
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.701     |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.714     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.712     |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.844     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.843     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally stable to the third digit after the decimal point.

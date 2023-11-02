@@ -99,13 +99,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.460     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.458     |
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.722     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.717     |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.609     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.605     |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.807     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.805     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally stable to the third digit after the decimal point.
