@@ -1,0 +1,55 @@
+---
+corpus: ciral-somali
+corpus_path: collections/ciral/ciral-passages-somali/
+
+index_path: indexes/lucene-index.ciral-v1.0-so/
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw -pretokenized
+index_stats:
+  documents: 827552
+  documents (non-empty): 827552
+  total terms: 103736362
+
+metrics:
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: MRR@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 10 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[CIRAL Somali: Dev](https://huggingface.co/datasets/CIRAL/ciral)"
+    id: dev
+    path: topics.ciral-v1.0-so-dev-native.tsv
+    qrel: qrels.ciral-v1.0-so-dev.tsv
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -hits 1000 -pretokenized
+    results:
+      nDCG@20:
+        - 0.1500
+      MRR@10:
+        - 0.4000
+      R@100:
+        - 0.1850
