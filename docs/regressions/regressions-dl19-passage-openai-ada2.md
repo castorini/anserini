@@ -103,9 +103,9 @@ With the above commands, you should be able to reproduce the following results:
 | **nDCG@10**                                                                                                  | **OpenAI-ada2**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.704     |
 | **R@100**                                                                                                    | **OpenAI-ada2**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.623     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.624     |
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.862     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.857     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally stable to the third digit after the decimal point.

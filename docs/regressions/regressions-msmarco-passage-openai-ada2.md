@@ -101,7 +101,7 @@ With the above commands, you should be able to reproduce the following results:
 | **R@100**                                                                                                    | **OpenAI-ada2**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.898     |
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.984     |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.985     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally stable to the third digit after the decimal point.
