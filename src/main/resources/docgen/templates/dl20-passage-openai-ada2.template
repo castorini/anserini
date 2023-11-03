@@ -1,10 +1,10 @@
-# Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
+# Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil (using pre-encoded queries) with HNSW indexes
+**Model**: OpenAI-ada2 embeddings (using pre-encoded queries) with HNSW indexes
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+This page describes regression experiments, integrated into Anserini's regression testing framework, using OpenAI-ada2 embeddings on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
-> Xueguang Ma, Tommaso Teofili, and Jimmy Lin. [Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes.](https://arxiv.org/abs/2304.12139) _arXiv:2304.12139_, 2023.
+> Jimmy Lin, Ronak Pradeep, Tommaso Teofili, and Jasper Xian. [Vector Search with OpenAI Embeddings: Lucene Is All You Need.](https://arxiv.org/abs/2308.14963) _arXiv:2308.14963_, 2023.
 
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
@@ -39,7 +39,7 @@ wget ${download_url} -P collections/
 tar xvf collections/${corpus}.tar -C collections/
 ```
 
-To confirm, `${corpus}.tar` is 57 GB and has MD5 checksum `${download_checksum}`.
+To confirm, `${corpus}.tar` is 109 GB and has MD5 checksum `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
@@ -64,8 +64,8 @@ Upon completion, we should have an index with 8,841,823 documents.
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
+The regression experiments here evaluate on the 54 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
