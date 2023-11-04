@@ -86,7 +86,8 @@ See individual pages for details!
 | SPLADE++ CoCondenser-SelfDistil             |          [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd.md)           |          [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd.md)           |          [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd.md)           |
 | SPLADE++ CoCondenser-SelfDistil (ONNX)      |        [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd-onnx.md)        |
 | **Learned Dense**                           |                                                                                      |                                                                                   |                                                                                   |
-| cosDPR-distil                               |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil.md)          |  
+| cosDPR-distil                               |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil.md)          |
+| OpenAI-ada2                                 |           [✓](docs/regressions/regressions-msmarco-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl19-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl20-passage-openai-ada2.md)           |
 
 ### Available Corpora for Download
 
@@ -102,6 +103,7 @@ See individual pages for details!
 | [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)                         | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
 | [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)                             | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
 | [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar)                                             |  57 GB | `e20ffbc8b5e7f760af31298aefeaebbd` |
+| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar)                                                  | 109 GB | `a4d843d522ff3a3af7edbee789a63402` |
 
 </details>
 <details>

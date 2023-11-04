@@ -1,0 +1,63 @@
+---
+corpus: msmarco-passage-openai-ada2
+corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
+
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar
+download_checksum: a4d843d522ff3a3af7edbee789a63402
+
+index_path: indexes/lucene-hnsw.msmarco-passage-openai-ada2/
+collection_class: JsonDenseVectorCollection
+generator_class: LuceneDenseVectorDocumentGenerator
+index_threads: 16
+index_options: -M 16 -efC 100 -memorybuffer 65536
+
+metrics:
+  - metric: AP@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: RR@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 10 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: JsonIntVector
+topics:
+  - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
+    id: dev
+    path: topics.msmarco-passage.dev-subset.openai-ada2.jsonl.gz
+    qrel: qrels.msmarco-passage.dev-subset.txt
+
+models:
+  - name: openai-ada2
+    display: OpenAI-ada2
+    params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000
+    results:
+      AP@1000:
+        - 0.350
+      RR@10:
+        - 0.343
+      R@100:
+        - 0.898
+      R@1000:
+        - 0.985

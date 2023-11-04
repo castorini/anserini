@@ -21,13 +21,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.SourceDocument;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexHnswDenseVectors;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.KnnVectorField;
+import org.apache.lucene.document.KnnFloatVectorField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.VectorSimilarityFunction;
+import org.apache.lucene.util.BytesRef;
 
 import java.util.ArrayList;
 
@@ -78,9 +81,11 @@ public class LuceneDenseVectorDocumentGenerator<T extends SourceDocument> implem
     final Document document = new Document();
 
     // Store the collection docid.
-    document.add(new StringField(IndexHnswDenseVectors.Args.ID, id, Field.Store.YES));
+    document.add(new StringField(Constants.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    document.add(new KnnVectorField(IndexHnswDenseVectors.Args.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
+    document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
+
+    document.add(new KnnFloatVectorField(IndexHnswDenseVectors.Args.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
     if (args.storeRaw) {
       document.add(new StoredField(IndexHnswDenseVectors.Args.RAW, src.raw()));
     }
