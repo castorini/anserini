@@ -46,7 +46,7 @@ def analyze_page(page):
 
     time_difference = end_date - start_date
     print(f' + total: {time_difference.days} days')
-    print(f' + ratel: {time_difference.days/cnt:0.2f}')
+    print(f' + freq:  {time_difference.days/cnt:0.2f} days between reproductions (on avg)')
     print('')
 
 
