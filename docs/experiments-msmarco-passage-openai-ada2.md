@@ -1,4 +1,4 @@
-# Anserini: OpenAI-ada2 Embeddings for MS MARCO Passage Ranking
+# Anserini: OpenAI-ada2 Embeddings for MS MARCO Passage
 
 This guide explains how to reproduce experiments with OpenAI-ada2 emebddings on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 In these experiments, we are using pre-encoded queries (i.e., cached results of query embeddings).
