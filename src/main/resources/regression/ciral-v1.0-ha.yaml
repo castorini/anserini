@@ -1,16 +1,16 @@
 ---
-corpus: ciral-yoruba
-corpus_path: collections/ciral/ciral-passages-yoruba/
+corpus: ciral-hausa
+corpus_path: collections/ciral/ciral-passages-hausa/
 
-index_path: indexes/lucene-index.ciral-v1.0-yo/
+index_path: indexes/lucene-index.ciral-v1.0-ha/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
-index_options: -storePositions -storeDocvectors -storeRaw -pretokenized
+index_options: -storePositions -storeDocvectors -storeRaw -language ha
 index_stats:
-  documents: 82095
-  documents (non-empty): 82095
-  total terms: 13693080
+  documents: 715355
+  documents (non-empty): 715355
+  total terms: 93696543
 
 metrics:
   - metric: nDCG@20
@@ -37,19 +37,19 @@ metrics:
 
 topic_reader: TsvInt
 topics:
-  - name: "[CIRAL Yoruba: Dev](https://huggingface.co/datasets/CIRAL/ciral)"
+  - name: "[CIRAL Hausa: Dev](https://huggingface.co/datasets/CIRAL/ciral)"
     id: dev
-    path: topics.ciral-v1.0-yo-dev-native.tsv
-    qrel: qrels.ciral-v1.0-yo-dev.tsv
+    path: topics.ciral-v1.0-ha-dev-native.tsv
+    qrel: qrels.ciral-v1.0-ha-dev.tsv
 
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25 -hits 1000 -pretokenized
+    params: -bm25 -hits 1000 -language ha
     results:
       nDCG@20:
-        - 0.2797
+        - 0.2039
       MRR@10:
-        - 0.3833
+        - 0.3153
       R@100:
-        - 0.5114
+        - 0.2760
