@@ -662,6 +662,8 @@ public final class SearchCollection implements Closeable {
 
   private Analyzer getAnalyzer() {
     try {
+      // Languages using Whitespace analyzer
+      // String[] whitespaceLanguages = {"ha", "so", "sw", "yo"};
       // Are we searching tweets?
       if (args.searchtweets) {
         return new TweetAnalyzer();
@@ -686,7 +688,7 @@ public final class SearchCollection implements Closeable {
         LOG.info("Using language-specific analyzer");
         LOG.info("Language: " + args.language);
         return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
-      } else if (args.language.equals("sw") || args.language.equals("yo")) {
+      } else if (Arrays.asList("ha","so","sw","yo").contains(args.language)) {
         return new WhitespaceAnalyzer();
       } else if (args.pretokenized) {
         return new WhitespaceAnalyzer();
