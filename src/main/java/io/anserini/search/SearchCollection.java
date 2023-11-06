@@ -686,7 +686,7 @@ public final class SearchCollection implements Closeable {
         LOG.info("Using language-specific analyzer");
         LOG.info("Language: " + args.language);
         return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
-      } else if (args.language.equals("sw") || args.language.equals("yo")) {
+      } else if (Arrays.asList("ha","so","sw","yo").contains(args.language)) {
         return new WhitespaceAnalyzer();
       } else if (args.pretokenized) {
         return new WhitespaceAnalyzer();
