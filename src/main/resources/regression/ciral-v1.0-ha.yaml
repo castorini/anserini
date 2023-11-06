@@ -1,0 +1,55 @@
+---
+corpus: ciral-hausa
+corpus_path: collections/ciral/ciral-passages-hausa/
+
+index_path: indexes/lucene-index.ciral-v1.0-ha/
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw -language ha
+index_stats:
+  documents: 715355
+  documents (non-empty): 715355
+  total terms: 93696543
+
+metrics:
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: MRR@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 10 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[CIRAL Hausa: Dev](https://huggingface.co/datasets/CIRAL/ciral)"
+    id: dev
+    path: topics.ciral-v1.0-ha-dev-native.tsv
+    qrel: qrels.ciral-v1.0-ha-dev.tsv
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -hits 1000 -language ha
+    results:
+      nDCG@20:
+        - 0.2039
+      MRR@10:
+        - 0.3153
+      R@100:
+        - 0.2760

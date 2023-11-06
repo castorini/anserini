@@ -1,0 +1,55 @@
+---
+corpus: ciral-somali
+corpus_path: collections/ciral/ciral-passages-swahili/
+
+index_path: indexes/lucene-index.ciral-v1.0-sw/
+collection_class: MrTyDiCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw -language sw
+index_stats:
+  documents: 949013
+  documents (non-empty): 949013
+  total terms: 115140711
+
+metrics:
+  - metric: nDCG@20
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: MRR@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -M 10 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[CIRAL Swahili: Dev](https://huggingface.co/datasets/CIRAL/ciral)"
+    id: dev
+    path: topics.ciral-v1.0-sw-dev-native.tsv
+    qrel: qrels.ciral-v1.0-sw-dev.tsv
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -hits 1000 -language sw
+    results:
+      nDCG@20:
+        - 0.1812
+      MRR@10:
+        - 0.1681
+      R@100:
+        - 0.4742
