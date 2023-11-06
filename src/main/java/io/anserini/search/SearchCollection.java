@@ -662,8 +662,6 @@ public final class SearchCollection implements Closeable {
 
   private Analyzer getAnalyzer() {
     try {
-      // Languages using Whitespace analyzer
-      // String[] whitespaceLanguages = {"ha", "so", "sw", "yo"};
       // Are we searching tweets?
       if (args.searchtweets) {
         return new TweetAnalyzer();
