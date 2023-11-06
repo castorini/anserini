@@ -1,5 +1,5 @@
-# Anserini <img src="docs/anserini-logo.png" width="300" />
-
+Anserini <img src="docs/anserini-logo.png" width="300" />
+========
 [![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
 [![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
 [![Generic badge](https://img.shields.io/badge/Lucene-v9.5.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/9.5.0/)
@@ -9,8 +9,8 @@
 
 Anserini is a toolkit for reproducible information retrieval research.
 By building on Lucene, we aim to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
-Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).[\*](docs/reproducibility.md)
-Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) (Lin et al., ECIR 2016).
+Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).[*](docs/reproducibility.md)
+Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/doi/10.1145/3077136.3080721) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/doi/10.1145/3239571) for overviews.
 
 ## 🎬 Getting Started
@@ -67,7 +67,7 @@ See individual pages for details!
 ### MS MARCO V1 Passage Regressions
 
 |                                             |                                         dev                                          |                                       DL19                                        |                                       DL20                                        |
-| ------------------------------------------- | :----------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: |
+|---------------------------------------------|:------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
 | **Unsupervised Sparse Lexical**             |                                                                                      |                                                                                   |                                                                                   |
 | BoW baselines                               |                 [+](docs/regressions/regressions-msmarco-passage.md)                 |                 [+](docs/regressions/regressions-dl19-passage.md)                 |                 [+](docs/regressions/regressions-dl20-passage.md)                 |
 | Quantized BM25                              |             [✓](docs/regressions/regressions-msmarco-passage-bm25-b8.md)             |             [✓](docs/regressions/regressions-dl19-passage-bm25-b8.md)             |             [✓](docs/regressions/regressions-dl20-passage-bm25-b8.md)             |
@@ -94,7 +94,7 @@ See individual pages for details!
 ### Available Corpora for Download
 
 | Corpora                                                                                                                                   |   Size | Checksum                           |
-| :---------------------------------------------------------------------------------------------------------------------------------------- | -----: | :--------------------------------- |
+|:------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
 | [Quantized BM25](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar)                                           | 1.2 GB | `0a623e2c97ac6b7e814bf1323a97b435` |
 | [uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar)                                    | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
 | [uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar)                                         | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
@@ -113,27 +113,27 @@ See individual pages for details!
 
 ### MS MARCO V1 Document Regressions
 
-|                                                                                                |                                   dev                                    |                                 DL19                                  |                                 DL20                                  |
-| ---------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------: | :-------------------------------------------------------------------: | :-------------------------------------------------------------------: |
-| **Unsupervised Lexical, Complete Doc**[\*](docs/experiments-msmarco-doc-doc2query-details.md)  |
-| BoW baselines                                                                                  |             [+](docs/regressions/regressions-msmarco-doc.md)             |             [+](docs/regressions/regressions-dl19-doc.md)             |             [+](docs/regressions/regressions-dl20-doc.md)             |
-| WP baselines                                                                                   |           [+](docs/regressions/regressions-msmarco-doc-wp.md)            |           [+](docs/regressions/regressions-dl19-doc-wp.md)            |           [+](docs/regressions/regressions-dl20-doc-wp.md)            |
-| Huggingface WP baselines                                                                       |         [+](docs/regressions/regressions-msmarco-doc-hgf-wp.md)          |         [+](docs/regressions/regressions-dl19-doc-hgf-wp.md)          |         [+](docs/regressions/regressions-dl20-doc-hgf-wp.md)          |
-| doc2query-T5                                                                                   |      [+](docs/regressions/regressions-msmarco-doc-docTTTTTquery.md)      |      [+](docs/regressions/regressions-dl19-doc-docTTTTTquery.md)      |      [+](docs/regressions/regressions-dl20-doc-docTTTTTquery.md)      |
-| **Unsupervised Lexical, Segmented Doc**[\*](docs/experiments-msmarco-doc-doc2query-details.md) |
-| BoW baselines                                                                                  |        [+](docs/regressions/regressions-msmarco-doc-segmented.md)        |        [+](docs/regressions/regressions-dl19-doc-segmented.md)        |        [+](docs/regressions/regressions-dl20-doc-segmented.md)        |
-| WP baselines                                                                                   |      [+](docs/regressions/regressions-msmarco-doc-segmented-wp.md)       |      [+](docs/regressions/regressions-dl19-doc-segmented-wp.md)       |      [+](docs/regressions/regressions-dl20-doc-segmented-wp.md)       |
-| doc2query-T5                                                                                   | [+](docs/regressions/regressions-msmarco-doc-segmented-docTTTTTquery.md) | [+](docs/regressions/regressions-dl19-doc-segmented-docTTTTTquery.md) | [+](docs/regressions/regressions-dl20-doc-segmented-docTTTTTquery.md) |
-| **Learned Sparse Lexical**                                                                     |
-| uniCOIL noexp                                                                                  | [✓](docs/regressions/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions/regressions-dl19-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions/regressions-dl20-doc-segmented-unicoil-noexp.md) |
-| uniCOIL with doc2query-T5                                                                      |    [✓](docs/regressions/regressions-msmarco-doc-segmented-unicoil.md)    |    [✓](docs/regressions/regressions-dl19-doc-segmented-unicoil.md)    |    [✓](docs/regressions/regressions-dl20-doc-segmented-unicoil.md)    |
+|                                                                                               |                                   dev                                    |                                 DL19                                  |                                 DL20                                  |
+|-----------------------------------------------------------------------------------------------|:------------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+| **Unsupervised Lexical, Complete Doc**[*](docs/experiments-msmarco-doc-doc2query-details.md)  |
+| BoW baselines                                                                                 |             [+](docs/regressions/regressions-msmarco-doc.md)             |             [+](docs/regressions/regressions-dl19-doc.md)             |             [+](docs/regressions/regressions-dl20-doc.md)             |
+| WP baselines                                                                                  |           [+](docs/regressions/regressions-msmarco-doc-wp.md)            |           [+](docs/regressions/regressions-dl19-doc-wp.md)            |           [+](docs/regressions/regressions-dl20-doc-wp.md)            |
+| Huggingface WP baselines                                                                      |         [+](docs/regressions/regressions-msmarco-doc-hgf-wp.md)          |         [+](docs/regressions/regressions-dl19-doc-hgf-wp.md)          |         [+](docs/regressions/regressions-dl20-doc-hgf-wp.md)          |
+| doc2query-T5                                                                                  |      [+](docs/regressions/regressions-msmarco-doc-docTTTTTquery.md)      |      [+](docs/regressions/regressions-dl19-doc-docTTTTTquery.md)      |      [+](docs/regressions/regressions-dl20-doc-docTTTTTquery.md)      |
+| **Unsupervised Lexical, Segmented Doc**[*](docs/experiments-msmarco-doc-doc2query-details.md) |
+| BoW baselines                                                                                 |        [+](docs/regressions/regressions-msmarco-doc-segmented.md)        |        [+](docs/regressions/regressions-dl19-doc-segmented.md)        |        [+](docs/regressions/regressions-dl20-doc-segmented.md)        |
+| WP baselines                                                                                  |      [+](docs/regressions/regressions-msmarco-doc-segmented-wp.md)       |      [+](docs/regressions/regressions-dl19-doc-segmented-wp.md)       |      [+](docs/regressions/regressions-dl20-doc-segmented-wp.md)       |
+| doc2query-T5                                                                                  | [+](docs/regressions/regressions-msmarco-doc-segmented-docTTTTTquery.md) | [+](docs/regressions/regressions-dl19-doc-segmented-docTTTTTquery.md) | [+](docs/regressions/regressions-dl20-doc-segmented-docTTTTTquery.md) |
+| **Learned Sparse Lexical**                                                                    |
+| uniCOIL noexp                                                                                 | [✓](docs/regressions/regressions-msmarco-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions/regressions-dl19-doc-segmented-unicoil-noexp.md) | [✓](docs/regressions/regressions-dl20-doc-segmented-unicoil-noexp.md) |
+| uniCOIL with doc2query-T5                                                                     |    [✓](docs/regressions/regressions-msmarco-doc-segmented-unicoil.md)    |    [✓](docs/regressions/regressions-dl19-doc-segmented-unicoil.md)    |    [✓](docs/regressions/regressions-dl20-doc-segmented-unicoil.md)    |
 
 ### Available Corpora for Download
 
-| Corpora                                                                                                                       |  Size | Checksum                           |
-| :---------------------------------------------------------------------------------------------------------------------------- | ----: | :--------------------------------- |
-| [MS MARCO V1 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar) | 11 GB | `11b226e1cacd9c8ae0a660fd14cdd710` |
-| [MS MARCO V1 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar)      | 19 GB | `6a00e2c0c375cb1e52c83ae5ac377ebb` |
+| Corpora                                                                                                                                         |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [MS MARCO V1 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar)                   |  11 GB | `11b226e1cacd9c8ae0a660fd14cdd710` |
+| [MS MARCO V1 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar)                        |  19 GB | `6a00e2c0c375cb1e52c83ae5ac377ebb` |
 
 </details>
 <details>
@@ -142,7 +142,7 @@ See individual pages for details!
 ### MS MARCO V2 Passage Regressions
 
 |                                            |                                     dev                                     |                                 DL21                                  |                                 DL22                                  |
-| ------------------------------------------ | :-------------------------------------------------------------------------: | :-------------------------------------------------------------------: | :-------------------------------------------------------------------: |
+|--------------------------------------------|:---------------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 | **Unsupervised Lexical, Original Corpus**  |
 | baselines                                  |           [+](docs/regressions/regressions-msmarco-v2-passage.md)           |           [+](docs/regressions/regressions-dl21-passage.md)           |           [+](docs/regressions/regressions-dl22-passage.md)           |
 | doc2query-T5                               |       [+](docs/regressions/regressions-msmarco-v2-passage-d2q-t5.md)        |       [+](docs/regressions/regressions-dl21-passage-d2q-t5.md)        |       [+](docs/regressions/regressions-dl22-passage-d2q-t5.md)        |
@@ -158,7 +158,7 @@ See individual pages for details!
 ### Available Corpora for Download
 
 | Corpora                                                                                                              |  Size | Checksum                           |
-| :------------------------------------------------------------------------------------------------------------------- | ----: | :--------------------------------- |
+|:---------------------------------------------------------------------------------------------------------------------|------:|:-----------------------------------|
 | [uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar)      | 24 GB | `d9cc1ed3049746e68a2c91bf90e5212d` |
 | [uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar)           | 41 GB | `1949a00bfd5e1f1a230a04bbc1f01539` |
 | [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_ed.tar) | 66 GB | `2cdb2adc259b8fa6caf666b20ebdc0e8` |
@@ -171,7 +171,7 @@ See individual pages for details!
 ### MS MARCO V2 Document Regressions
 
 |                                         |                                         dev                                          |                                      DL21                                      |
-| --------------------------------------- | :----------------------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
+|-----------------------------------------|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
 | **Unsupervised Lexical, Complete Doc**  |
 | baselines                               |                 [+](docs/regressions/regressions-msmarco-v2-doc.md)                  |                 [+](docs/regressions/regressions-dl21-doc.md)                  |
 | doc2query-T5                            |              [+](docs/regressions/regressions-msmarco-v2-doc-d2q-t5.md)              |              [+](docs/regressions/regressions-dl21-doc-d2q-t5.md)              |
@@ -184,10 +184,10 @@ See individual pages for details!
 
 ### Available Corpora for Download
 
-| Corpora                                                                                                                                   |  Size | Checksum                           |
-| :---------------------------------------------------------------------------------------------------------------------------------------- | ----: | :--------------------------------- |
-| [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar) | 55 GB | `97ba262c497164de1054f357caea0c63` |
-| [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)      | 72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
+| Corpora                                                                                                                                         |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar)       |  55 GB | `97ba262c497164de1054f357caea0c63` |
+| [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)            |  72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
 
 </details>
 <details>
@@ -195,13 +195,13 @@ See individual pages for details!
 
 ### BEIR (v1.0.0) Regressions
 
-- F = "flat" baseline
-- MF = "multifield" baseline
-- UCx = uniCOIL (noexp)
-- SPLADE = SPLADE-distill CoCodenser-medium
++ F = "flat" baseline
++ MF = "multifield" baseline
++ UCx = uniCOIL (noexp)
++ SPLADE = SPLADE-distill CoCodenser-medium
 
 | Corpus                  |                                     flat                                      |                                     flat-wp                                      |                                     multifield                                      |                                          UCx                                           |                                                  SPLADE                                                  |
-| ----------------------- | :---------------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------: |
+|-------------------------|:-----------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:|
 | TREC-COVID              |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-flat.md)        |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-flat-wp.md)        |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-multifield.md)        |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-unicoil-noexp.md)        |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md)        |
 | BioASQ                  |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-flat.md)          |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-flat-wp.md)          |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-multifield.md)          |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-unicoil-noexp.md)          |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-splade-distil-cocodenser-medium.md)          |
 | NFCorpus                |        [+](docs/regressions/regressions-beir-v1.0.0-nfcorpus-flat.md)         |        [+](docs/regressions/regressions-beir-v1.0.0-nfcorpus-flat-wp.md)         |        [+](docs/regressions/regressions-beir-v1.0.0-nfcorpus-multifield.md)         |        [+](docs/regressions/regressions-beir-v1.0.0-nfcorpus-unicoil-noexp.md)         |        [+](docs/regressions/regressions-beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium.md)         |
@@ -259,15 +259,15 @@ See individual pages for details!
 
 ### Other Regressions
 
-- Regressions for [Disks 1 &amp; 2 (TREC 1-3)](docs/regressions/regressions-disk12.md), [Disks 4 &amp; 5 (TREC 7-8, Robust04)](docs/regressions/regressions-disk45.md), [AQUAINT (Robust05)](docs/regressions/regressions-robust05.md)
-- Regressions for [the New York Times Corpus (Core17)](docs/regressions/regressions-core17.md), [the Washington Post Corpus (Core18)](docs/regressions/regressions-core18.md)
-- Regressions for [Wt10g](docs/regressions/regressions-wt10g.md), [Gov2](docs/regressions/regressions-gov2.md)
-- Regressions for [ClueWeb09 (Category B)](docs/regressions/regressions-cw09b.md), [ClueWeb12-B13](docs/regressions/regressions-cw12b13.md), [ClueWeb12](docs/regressions/regressions-cw12.md)
-- Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions/regressions-mb13.md)
-- Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions/regressions-car17v1.5.md), [v2.0](docs/regressions/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions/regressions-car17v2.0-doc2query.md)
-- Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions/regressions-backgroundlinking18.md), [2019](docs/regressions/regressions-backgroundlinking19.md), [2020](docs/regressions/regressions-backgroundlinking20.md)
-- Regressions for [FEVER Fact Verification](docs/regressions/regressions-fever.md)
-- Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions/regressions-wikipedia-dpr-100w-bm25.md), [6/3 sliding window sentences](docs/regressions/regressions-wiki-all-6-3-tamber-bm25.md)
++ Regressions for [Disks 1 &amp; 2 (TREC 1-3)](docs/regressions/regressions-disk12.md), [Disks 4 &amp; 5 (TREC 7-8, Robust04)](docs/regressions/regressions-disk45.md), [AQUAINT (Robust05)](docs/regressions/regressions-robust05.md)
++ Regressions for [the New York Times Corpus (Core17)](docs/regressions/regressions-core17.md), [the Washington Post Corpus (Core18)](docs/regressions/regressions-core18.md)
++ Regressions for [Wt10g](docs/regressions/regressions-wt10g.md), [Gov2](docs/regressions/regressions-gov2.md)
++ Regressions for [ClueWeb09 (Category B)](docs/regressions/regressions-cw09b.md), [ClueWeb12-B13](docs/regressions/regressions-cw12b13.md), [ClueWeb12](docs/regressions/regressions-cw12.md)
++ Regressions for [Tweets2011 (MB11 &amp; MB12)](docs/regressions/regressions-mb11.md), [Tweets2013 (MB13 &amp; MB14)](docs/regressions/regressions-mb13.md)
++ Regressions for Complex Answer Retrieval (CAR17): [v1.5](docs/regressions/regressions-car17v1.5.md), [v2.0](docs/regressions/regressions-car17v2.0.md), [v2.0 with doc2query](docs/regressions/regressions-car17v2.0-doc2query.md)
++ Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions/regressions-backgroundlinking18.md), [2019](docs/regressions/regressions-backgroundlinking19.md), [2020](docs/regressions/regressions-backgroundlinking20.md)
++ Regressions for [FEVER Fact Verification](docs/regressions/regressions-fever.md)
++ Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions/regressions-wikipedia-dpr-100w-bm25.md), [6/3 sliding window sentences](docs/regressions/regressions-wiki-all-6-3-tamber-bm25.md)
 
 </details>
 
@@ -281,12 +281,12 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 ### MS MARCO V1
 
-- Reproducing [BM25 baselines for MS MARCO Passage Ranking](docs/experiments-msmarco-passage.md)
-- Reproducing [BM25 baselines for MS MARCO Document Ranking](docs/experiments-msmarco-doc.md)
-- Reproducing [baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
-- Reproducing [doc2query results](docs/experiments-doc2query.md) (MS MARCO Passage Ranking and TREC-CAR)
-- Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO Passage and Document Ranking)
-- Notes about reproduction issues with [MS MARCO Document Ranking w/ docTTTTTquery](docs/experiments-msmarco-doc-doc2query-details.md)
++ Reproducing [BM25 baselines for MS MARCO Passage Ranking](docs/experiments-msmarco-passage.md)
++ Reproducing [BM25 baselines for MS MARCO Document Ranking](docs/experiments-msmarco-doc.md)
++ Reproducing [baselines for the MS MARCO Document Ranking Leaderboard](docs/experiments-msmarco-doc-leaderboard.md)
++ Reproducing [doc2query results](docs/experiments-doc2query.md) (MS MARCO Passage Ranking and TREC-CAR)
++ Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO Passage and Document Ranking)
++ Notes about reproduction issues with [MS MARCO Document Ranking w/ docTTTTTquery](docs/experiments-msmarco-doc-doc2query-details.md)
 
 </details>
 <details>
@@ -294,7 +294,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 ### MS MARCO V2
 
-- Reproducing [BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
++ Reproducing [BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
 
 </details>
 <details>
@@ -302,9 +302,9 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 ### TREC-COVID and CORD-19
 
-- [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
-- [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
-- [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
++ [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
++ [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
++ [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
 
 </details>
 <details>
@@ -312,15 +312,15 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 ### Other Experiments and Features
 
-- [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
-- [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
-- [Guide to reproducing "Neural Hype" Experiments](docs/experiments-forum2018.md)
-- [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
-- [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
-- Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
-- Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
-- Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
-- Support for [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on dense vectors with inverted indexes
++ [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
++ [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
++ [Guide to reproducing "Neural Hype" Experiments](docs/experiments-forum2018.md)
++ [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
++ [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
++ Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
++ Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
++ Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
++ Support for [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on dense vectors with inverted indexes
 
 </details>
 
@@ -337,72 +337,72 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
-- v0.22.1: October 18, 2023 [[Release Notes](docs/release-notes/release-notes-v0.22.1.md)]
-- v0.22.0: August 28, 2023 [[Release Notes](docs/release-notes/release-notes-v0.22.0.md)]
-- v0.21.0: March 31, 2023 [[Release Notes](docs/release-notes/release-notes-v0.21.0.md)]
-- v0.20.0: January 20, 2023 [[Release Notes](docs/release-notes/release-notes-v0.20.0.md)]
++ v0.22.1: October 18, 2023 [[Release Notes](docs/release-notes/release-notes-v0.22.1.md)]
++ v0.22.0: August 28, 2023 [[Release Notes](docs/release-notes/release-notes-v0.22.0.md)]
++ v0.21.0: March 31, 2023 [[Release Notes](docs/release-notes/release-notes-v0.21.0.md)]
++ v0.20.0: January 20, 2023 [[Release Notes](docs/release-notes/release-notes-v0.20.0.md)]
 
 <details>
 <summary>older... (and historic notes)</summary>
 
-- v0.16.2: December 12, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.2.md)]
-- v0.16.1: November 2, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.1.md)]
-- v0.16.0: October 23, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.0.md)]
-- v0.15.0: September 22, 2022 [[Release Notes](docs/release-notes/release-notes-v0.15.0.md)]
-- v0.14.4: July 31, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.4.md)]
-- v0.14.3: May 9, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.3.md)]
-- v0.14.2: March 24, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.2.md)]
-- v0.14.1: February 27, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.1.md)]
-- v0.14.0: January 10, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.0.md)]
-- v0.13.5: November 2, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.5.md)]
-- v0.13.4: October 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.4.md)]
-- v0.13.3: August 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.3.md)]
-- v0.13.2: July 20, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.2.md)]
-- v0.13.1: June 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.1.md)]
-- v0.13.0: June 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.0.md)]
-- v0.12.0: April 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.12.0.md)]
-- v0.11.0: February 13, 2021 [[Release Notes](docs/release-notes/release-notes-v0.11.0.md)]
-- v0.10.1: January 8, 2021 [[Release Notes](docs/release-notes/release-notes-v0.10.1.md)]
-- v0.10.0: November 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.10.0.md)]
-- v0.9.4: June 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.4.md)]
-- v0.9.3: May 26, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.3.md)]
-- v0.9.2: May 14, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.2.md)]
-- v0.9.1: May 6, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.1.md)]
-- v0.9.0: April 18, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.0.md)]
-- v0.8.1: March 22, 2020 [[Release Notes](docs/release-notes/release-notes-v0.8.1.md)]
-- v0.8.0: March 11, 2020 [[Release Notes](docs/release-notes/release-notes-v0.8.0.md)]
-- v0.7.2: January 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.7.2.md)]
-- v0.7.1: January 9, 2020 [[Release Notes](docs/release-notes/release-notes-v0.7.1.md)]
-- v0.7.0: December 13, 2019 [[Release Notes](docs/release-notes/release-notes-v0.7.0.md)]
-- v0.6.0: September 6, 2019 [[Release Notes](docs/release-notes/release-notes-v0.6.0.md)][[Known Issues](docs/known-issues/known-issues-v0.6.0.md)]
-- v0.5.1: June 11, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.1.md)]
-- v0.5.0: June 5, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.0.md)]
-- v0.4.0: March 4, 2019 [[Release Notes](docs/release-notes/release-notes-v0.4.0.md)]
-- v0.3.0: December 16, 2018 [[Release Notes](docs/release-notes/release-notes-v0.3.0.md)]
-- v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
-- v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
++ v0.16.2: December 12, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.2.md)]
++ v0.16.1: November 2, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.1.md)]
++ v0.16.0: October 23, 2022 [[Release Notes](docs/release-notes/release-notes-v0.16.0.md)]
++ v0.15.0: September 22, 2022 [[Release Notes](docs/release-notes/release-notes-v0.15.0.md)]
++ v0.14.4: July 31, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.4.md)]
++ v0.14.3: May 9, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.3.md)]
++ v0.14.2: March 24, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.2.md)]
++ v0.14.1: February 27, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.1.md)]
++ v0.14.0: January 10, 2022 [[Release Notes](docs/release-notes/release-notes-v0.14.0.md)]
++ v0.13.5: November 2, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.5.md)]
++ v0.13.4: October 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.4.md)]
++ v0.13.3: August 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.3.md)]
++ v0.13.2: July 20, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.2.md)]
++ v0.13.1: June 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.1.md)]
++ v0.13.0: June 22, 2021 [[Release Notes](docs/release-notes/release-notes-v0.13.0.md)]
++ v0.12.0: April 29, 2021 [[Release Notes](docs/release-notes/release-notes-v0.12.0.md)]
++ v0.11.0: February 13, 2021 [[Release Notes](docs/release-notes/release-notes-v0.11.0.md)]
++ v0.10.1: January 8, 2021 [[Release Notes](docs/release-notes/release-notes-v0.10.1.md)]
++ v0.10.0: November 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.10.0.md)]
++ v0.9.4: June 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.4.md)]
++ v0.9.3: May 26, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.3.md)]
++ v0.9.2: May 14, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.2.md)]
++ v0.9.1: May 6, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.1.md)]
++ v0.9.0: April 18, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.0.md)]
++ v0.8.1: March 22, 2020 [[Release Notes](docs/release-notes/release-notes-v0.8.1.md)]
++ v0.8.0: March 11, 2020 [[Release Notes](docs/release-notes/release-notes-v0.8.0.md)]
++ v0.7.2: January 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.7.2.md)]
++ v0.7.1: January 9, 2020 [[Release Notes](docs/release-notes/release-notes-v0.7.1.md)]
++ v0.7.0: December 13, 2019 [[Release Notes](docs/release-notes/release-notes-v0.7.0.md)]
++ v0.6.0: September 6, 2019 [[Release Notes](docs/release-notes/release-notes-v0.6.0.md)][[Known Issues](docs/known-issues/known-issues-v0.6.0.md)]
++ v0.5.1: June 11, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.1.md)]
++ v0.5.0: June 5, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.0.md)]
++ v0.4.0: March 4, 2019 [[Release Notes](docs/release-notes/release-notes-v0.4.0.md)]
++ v0.3.0: December 16, 2018 [[Release Notes](docs/release-notes/release-notes-v0.3.0.md)]
++ v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
++ v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
 
 ## 📜️ Historical Notes
 
-- Anserini was upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/2/2022): this upgrade created backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952).
-  Anserini will automatically detect Lucene 8 indexes and disable consistent tie-breaking to avoid runtime errors.
-  However, Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
-  Lucene 8 code will _not_ run on Lucene 9 indexes.
-  Pyserini has also been upgraded and similar issues apply: Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
-- Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
-  Maven 3.3+ is also required.
-- Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
-  Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
-  As a result of this upgrade, results of all regressions have changed slightly.
-  To reproducible old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
++ Anserini was upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/2/2022): this upgrade created backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952).
+Anserini will automatically detect Lucene 8 indexes and disable consistent tie-breaking to avoid runtime errors.
+However, Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
+Lucene 8 code will _not_ run on Lucene 9 indexes.
+Pyserini has also been upgraded and similar issues apply: Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
++ Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
+Maven 3.3+ is also required.
++ Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
+Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
+As a result of this upgrade, results of all regressions have changed slightly.
+To reproducible old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
 
 </details>
 
 ## ✨ References
 
-- Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) _ECIR 2016_.
-- Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/doi/10.1145/3077136.3080721) _SIGIR 2017_.
-- Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/doi/10.1145/3239571) _Journal of Data and Information Quality_, 10(4), Article 16, 2018.
++ Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) _ECIR 2016_.
++ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/doi/10.1145/3077136.3080721) _SIGIR 2017_.
++ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/doi/10.1145/3239571) _Journal of Data and Information Quality_, 10(4), Article 16, 2018.
 
 ## 🙏 Acknowledgments
 
