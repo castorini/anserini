@@ -53,6 +53,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx >& logs/log.msmarco-passage-splade-pp-ed-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx >& logs/log.msmarco-passage-splade-pp-sd-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil >& logs/log.msmarco-passage-cos-dpr-distil &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2 >& logs/log.msmarco-passage-openai-ada2 &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp >& logs/log.msmarco-doc-wp &
@@ -80,6 +81,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl19-passage-splade-pp-ed-onnx >& logs/log.dl19-passage-splade-pp-ed-onnx &
 nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl19-passage-splade-pp-sd-onnx >& logs/log.dl19-passage-splade-pp-sd-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-cos-dpr-distil >& logs/log.dl19-passage-cos-dpr-distil &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-openai-ada2 >& logs/log.dl19-passage-openai-ada2 &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc >& logs/log.dl19-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-wp >& logs/log.dl19-doc-wp &
@@ -107,6 +109,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl20-passage-splade-pp-ed-onnx >& logs/log.dl20-passage-splade-pp-ed-onnx &
 nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl20-passage-splade-pp-sd-onnx >& logs/log.dl20-passage-splade-pp-sd-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-cos-dpr-distil >& logs/log.dl20-passage-cos-dpr-distil &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-openai-ada2 >& logs/log.dl20-passage-openai-ada2 &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-wp >& logs/log.dl20-doc-wp &
@@ -464,6 +467,11 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt-splade >& logs/log.neuclir22-zh-qt-splade &
 nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt-splade >& logs/log.neuclir22-zh-dt-splade &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-ha >& logs/log.ciral-v1.0-ha &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-so >& logs/log.ciral-v1.0-so &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-sw >& logs/log.ciral-v1.0-sw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-yo >& logs/log.ciral-v1.0-yo &
 ```
 </details>
 
