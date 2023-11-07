@@ -17,29 +17,10 @@ import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
 
-abstract class DenseEncoderInferenceTest {
-  private final String MODEL_NAME;
-  private final String MODEL_URL;
-  private final Object[][] EXAMPLES;
+abstract class DenseEncoderInferenceTest extends EncoderInferenceTest {
 
   public DenseEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples) {
-    this.MODEL_NAME = modelName;
-    this.MODEL_URL = modelUrl;
-    this.EXAMPLES = examples;
-  }
-
-  protected String getCacheDir() {
-    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
-    if (!cacheDir.exists()) {
-      cacheDir.mkdir();
-    }
-    return cacheDir.getPath();
-  }
-
-  protected Path getEncoderModelPath() throws IOException {
-    File modelFile = new File(getCacheDir(), MODEL_NAME);
-    FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
-    return modelFile.toPath();
+    super(modelName, modelUrl, examples);
   }
 
   protected void basicTest() throws IOException, OrtException {
@@ -48,7 +29,7 @@ abstract class DenseEncoderInferenceTest {
         OrtSession.SessionOptions options = new OrtSession.SessionOptions();
         OrtSession session = env.createSession(modelPath, options)) {
 
-      for (Object[] example : EXAMPLES) {
+      for (Object[] example : examples) {
         long[] inputIds = (long[]) example[0];
         float[] expectedWeights = (float[]) example[1];
 

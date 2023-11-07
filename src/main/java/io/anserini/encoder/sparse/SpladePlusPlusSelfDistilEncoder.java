@@ -16,10 +16,7 @@
 
 package io.anserini.encoder.sparse;
 
-import ai.djl.modality.nlp.DefaultVocabulary;
-import ai.djl.modality.nlp.bert.BertFullTokenizer;
 import ai.onnxruntime.OnnxTensor;
-import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 
@@ -39,24 +36,8 @@ public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
 
   static private final String VOCAB_NAME = "splade-pp-sd-vocab.txt";
 
-  private final BertFullTokenizer tokenizer;
-
-  private final DefaultVocabulary vocab;
-
-  private final OrtEnvironment environment;
-
-  private final OrtSession session;
   public SpladePlusPlusSelfDistilEncoder() throws IOException, OrtException {
-    super(5, 256);
-    this.vocab = DefaultVocabulary.builder()
-        .addFromTextFile(getVocabPath(VOCAB_NAME, VOCAB_URL))
-        .optUnknownToken("[UNK]")
-        .build();
-    this.tokenizer = new BertFullTokenizer(vocab, true);
-    this.environment = OrtEnvironment.getEnvironment();
-    this.session = environment.createSession(getModelPath(MODEL_NAME, MODEL_URL).toString(),
-        new OrtSession.SessionOptions());
-    System.out.println("Model loaded.");
+    super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 
   @Override
