@@ -468,10 +468,10 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt-splade >& logs/log.neuclir22-zh-qt-splade &
 nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt-splade >& logs/log.neuclir22-zh-dt-splade &
 
-nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-ha >& logs/log.ciral-v1.0-ha
-nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-so >& logs/log.ciral-v1.0-so
-nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-sw >& logs/log.ciral-v1.0-sw
-nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-yo >& logs/log.ciral-v1.0-yo
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-ha >& logs/log.ciral-v1.0-ha &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-so >& logs/log.ciral-v1.0-so &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-sw >& logs/log.ciral-v1.0-sw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-yo >& logs/log.ciral-v1.0-yo &
 ```
 </details>
 

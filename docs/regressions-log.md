@@ -5,7 +5,7 @@ This documentation is useful for figuring why results may have changed over time
 
 ### November 7, 2023
 
-+ commit [`cf459b`](https://github.com/castorini/anserini/commit/cf459b39ecc2c92a400210a9ba84736bdb5d4422) (11/4/2023)
++ commit [`d2fb8a`](https://github.com/castorini/anserini/commit/d2fb8a51f130c40aed99eee10ce34fc3f66869c7) (11/5/2023)
 + commit [`d76bb4`](https://github.com/castorini/anserini/commit/d76bb4caa7059f0a613836d812e494f383bf128a) (11/4/2023)
 
 Added OpenAI-ada2 and CIRAL regressions.

@@ -2,7 +2,7 @@
 
 ⁉️ As of commit [`d76bb4`](https://github.com/castorini/anserini/commit/d76bb4caa7059f0a613836d812e494f383bf128a) (2023/11/04), this page is defunct.
 With an upgrade to Lucene 9.8, the jank described here is no longer necessary.
-See, for example, [this page](regressions/regressions-msmarco-passage-openai-ada2.md), which has experiments with OpenAI-ada2 embeddings on the MS MARCO passage ranking task integrated, into Anserini's regression framework.
+See, for example, [this page](regressions/regressions-msmarco-passage-openai-ada2.md), which has experiments with OpenAI-ada2 embeddings on the MS MARCO passage ranking task integrated into Anserini's regression framework.
 
 ---
 
