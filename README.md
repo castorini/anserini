@@ -45,7 +45,10 @@ The onboarding path for Anserini starts [here](docs/start-here.md)!
 <details>
 <summary>Windows tips</summary>
 
-Note that on Windows, tests may fail due to encoding issues, see [#1466](https://github.com/castorini/anserini/issues/1466).
+If you are using Windows, please use WSL2 to build Anserini. 
+Please refer to the [WSL2 Installation](https://learn.microsoft.com/en-us/windows/wsl/install) document to install WSL2 if you haven't already.
+
+Note that on Windows without WSL2, tests may fail due to encoding issues, see [#1466](https://github.com/castorini/anserini/issues/1466).
 A simple workaround is to skip tests by adding `-Dmaven.test.skip=true` to the above `mvn` command.
 See [#1121](https://github.com/castorini/pyserini/discussions/1121) for additional discussions on debugging Windows build errors.
 
@@ -249,6 +252,7 @@ See individual pages for details!
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions/regressions-trec02-ar.md)
 + Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions/regressions-fire12-hi.md), [Monolingual English](docs/regressions/regressions-fire12-en.md)
++ Regressions for CIRAL (v1.0) baselines: [Monolingual Hausa](docs/regressions/regressions-ciral-v1.0-ha.md), [Monolingual Somali](docs/regressions/regressions-ciral-v1.0-so.md), [Monolingual Swahili](docs/regressions/regressions-ciral-v1.0-sw.md), [Monolingual Yoruba](docs/regressions/regressions-ciral-v1.0-yo.md)
 
 </details>
 <details>
