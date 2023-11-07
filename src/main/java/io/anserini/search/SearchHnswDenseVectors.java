@@ -16,6 +16,8 @@
 
 package io.anserini.search;
 
+import io.anserini.encoder.dense.DenseEncoder;
+import io.anserini.encoder.sparse.SparseEncoder;
 import io.anserini.index.IndexHnswDenseVectors;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.VectorQueryGenerator;
@@ -26,6 +28,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.KnnFloatVectorQuery;
 import org.apache.lucene.search.KnnVectorQuery;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
@@ -40,6 +43,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+import ai.onnxruntime.OrtException;
 
 import java.io.Closeable;
 import java.io.File;
@@ -129,6 +133,9 @@ public final class SearchHnswDenseVectors implements Closeable {
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
 
+    @Option(name ="-encoder", metaVar = "[encoder]", usage = "Dense encoder to use.")
+    public String encoder = null;
+
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
     // ---------------------------------------------
@@ -187,7 +194,14 @@ public final class SearchHnswDenseVectors implements Closeable {
         // will go into the final run file) as the value.
         ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
         AtomicInteger cnt = new AtomicInteger();
-
+        DenseEncoder queryEncoder;
+        if (args.encoder != null) {
+          queryEncoder = (DenseEncoder) Class
+            .forName(String.format("io.anserini.encoder.dense.%sEncoder", args.encoder))
+            .getConstructor().newInstance();
+        } else {
+          queryEncoder = null;
+        }
         final long start = System.nanoTime();
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
@@ -198,8 +212,21 @@ public final class SearchHnswDenseVectors implements Closeable {
             StringBuilder out = new StringBuilder();
             String queryString = entry.getValue().get(args.topicfield);
             ScoredDocuments docs;
+
+            float[] queryFloat = null;
+            if (queryEncoder != null) {
+              try {
+                queryFloat = queryEncoder.encode(queryString);
+              } catch (OrtException e) {
+                e.printStackTrace();
+              }
+            }
             try {
-              docs = search(this.searcher, queryString);
+              if (queryFloat != null) {
+                docs = search(this.searcher, queryFloat);
+              }else{
+                docs = search(this.searcher, queryString);
+              }
             } catch (IOException e) {
               throw new CompletionException(e);
             }
@@ -362,8 +389,19 @@ public final class SearchHnswDenseVectors implements Closeable {
     }
   }
 
+  public ScoredDocuments search(IndexSearcher searcher, float[] queryFloat) throws IOException {
+    KnnFloatVectorQuery query = new KnnFloatVectorQuery(IndexHnswDenseVectors.Args.VECTOR, queryFloat, args.efSearch);
+    
+    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
+    rs = searcher.search(query, args.hits);
+    ScoredDocuments scoredDocs;
+    scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+
+    return scoredDocs;
+  }
+
   public ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
-    KnnVectorQuery query;
+    KnnFloatVectorQuery query;
     VectorQueryGenerator generator;
     try {
       generator = (VectorQueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)

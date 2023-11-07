@@ -18,7 +18,7 @@ package io.anserini.search;
 
 import ai.onnxruntime.OrtException;
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.encoder.SparseEncoder;
+import io.anserini.encoder.sparse.SparseEncoder;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
@@ -182,7 +182,7 @@ public class SimpleImpactSearcher implements Closeable {
     if (emptyEncoder()) {
       try {
         this.queryEncoder = (SparseEncoder) Class
-            .forName(String.format("io.anserini.encoder.%sEncoder", encoder))
+            .forName(String.format("io.anserini.encoder.sparse.%sEncoder", encoder))
             .getConstructor().newInstance();
       } catch (Exception e) {
         throw new RuntimeException(e);

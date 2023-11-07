@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.sparse;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.djl.modality.nlp.Vocabulary;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class SparseEncoder {
-  static private final String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/encoders").toString();
+  static private final String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/encoders/sparse").toString();
 
   protected int weightRange;
 

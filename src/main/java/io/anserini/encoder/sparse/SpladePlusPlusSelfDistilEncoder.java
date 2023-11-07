@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.sparse;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
@@ -30,14 +30,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-ed-optimized.onnx";
+public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
+  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd-optimized.onnx";
 
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
-  static private final String MODEL_NAME = "splade-pp-ed-optimized.onnx";
+  static private final String MODEL_NAME = "splade-pp-sd-optimized.onnx";
 
-  static private final String VOCAB_NAME = "splade-pp-ed-vocab.txt";
+  static private final String VOCAB_NAME = "splade-pp-sd-vocab.txt";
 
   private final BertFullTokenizer tokenizer;
 
@@ -46,8 +46,7 @@ public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
   private final OrtEnvironment environment;
 
   private final OrtSession session;
-
-  public SpladePlusPlusEnsembleDistilEncoder() throws IOException, OrtException {
+  public SpladePlusPlusSelfDistilEncoder() throws IOException, OrtException {
     super(5, 256);
     this.vocab = DefaultVocabulary.builder()
         .addFromTextFile(getVocabPath(VOCAB_NAME, VOCAB_URL))
@@ -81,7 +80,7 @@ public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
     long[][] attentionMask = new long[1][queryTokenIds.length];
     long[][] tokenTypeIds = new long[1][queryTokenIds.length];
 
-    // initialize attention mask with all 1s 
+    // initialize attention mask with all 1s
     Arrays.fill(attentionMask[0], 1);
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
     inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
