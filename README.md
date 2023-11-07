@@ -2,7 +2,7 @@ Anserini <img src="docs/anserini-logo.png" width="300" />
 ========
 [![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
 [![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
-[![Generic badge](https://img.shields.io/badge/Lucene-v9.5.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/9.5.0/)
+[![Generic badge](https://img.shields.io/badge/Lucene-v9.8.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/9.5.0/)
 [![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini?color=brightgreen)](https://central.sonatype.com/namespace/io.anserini)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
