@@ -1,6 +1,6 @@
 # Anserini Regressions: CIRAL (v1.0) &mdash; Swahili
 
-This page documents BM25 monolingual regression experiments for [CIRAL (v1.0) &mdash; Swahili](https://github.com/ciralproject/ciral).
+This page documents BM25 monolingual regression experiments on the dev set of [CIRAL (v1.0) &mdash; Swahili](https://github.com/ciralproject/ciral).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
