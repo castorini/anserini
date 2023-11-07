@@ -224,7 +224,7 @@ public final class SearchHnswDenseVectors implements Closeable {
             try {
               if (queryFloat != null) {
                 docs = search(this.searcher, queryFloat);
-              }else{
+              } else {
                 docs = search(this.searcher, queryString);
               }
             } catch (IOException e) {

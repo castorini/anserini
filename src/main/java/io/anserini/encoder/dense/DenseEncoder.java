@@ -9,16 +9,39 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
+import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.djl.modality.nlp.Vocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
+import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
+import ai.onnxruntime.OrtSession;
 
 /**
  * DenseEncoder
  */
 public abstract class DenseEncoder {
+  protected final BertFullTokenizer tokenizer;
+
+  protected final DefaultVocabulary vocab;
+
+  protected final OrtEnvironment environment;
+
+  protected final OrtSession session;
+
   static private final String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/encoders/dense")
       .toString();
+
+  public DenseEncoder(String modelName, String modelURL, String vocabName, String vocabURL) throws IOException, OrtException {
+    this.vocab = DefaultVocabulary.builder()
+      .addFromTextFile(getVocabPath(vocabName, vocabURL))
+      .optUnknownToken("[UNK]")
+      .build();
+    this.tokenizer = new BertFullTokenizer(vocab, true);
+    this.environment = OrtEnvironment.getEnvironment();
+    this.session = environment.createSession(getModelPath(modelName, modelURL).toString(),
+        new OrtSession.SessionOptions());
+    System.out.println("Model loaded.");
+  }
 
   public abstract float[] encode(String query) throws OrtException;
 

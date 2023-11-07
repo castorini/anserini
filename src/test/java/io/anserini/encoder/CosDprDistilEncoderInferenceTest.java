@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import ai.onnxruntime.OrtException;
 
-public class CosDPRDistilEncoderInferenceTest extends DenseEncoderInferenceTest {
+public class CosDprDistilEncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cos-dpr-distil-optimized.onnx";
   static private final String MODEL_NAME = "cos-dpr-distil-optimized.onnx";
   static private final Object[][] EXAMPLES = new Object[][] {
@@ -1132,7 +1132,7 @@ public class CosDPRDistilEncoderInferenceTest extends DenseEncoderInferenceTest 
 
   };
 
-  public CosDPRDistilEncoderInferenceTest() {
+  public CosDprDistilEncoderInferenceTest() {
     super(MODEL_NAME, MODEL_URL, EXAMPLES);
   }
 
