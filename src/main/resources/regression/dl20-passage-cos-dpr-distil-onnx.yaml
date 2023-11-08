@@ -41,7 +41,7 @@ metrics:
     metric_precision: 4
     can_combine: false
 
-topic_reader: JsonIntVector
+topic_reader: TsvInt
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
@@ -51,7 +51,7 @@ topics:
 models:
   - name: cos-dpr-distil
     display: cosDPR-distil
-    params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil
+    params: -querygenerator VectorQueryGenerator -topicfield title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil
     results:
       AP@1000:
         - 0.481

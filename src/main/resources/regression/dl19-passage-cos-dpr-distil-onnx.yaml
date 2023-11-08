@@ -41,7 +41,7 @@ metrics:
     metric_precision: 4
     can_combine: false
 
-topic_reader: JsonIntVector
+topic_reader: TsvInt
 topics:
   - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl19

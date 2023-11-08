@@ -79,9 +79,9 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader JsonIntVector \
+  -topicreader TsvInt \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil.topics.dl20.txt \
-  -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
+  -querygenerator VectorQueryGenerator -topicfield title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
 ```
 
 Evaluation can be performed using `trec_eval`:
