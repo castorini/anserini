@@ -21,13 +21,9 @@ import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +31,12 @@ import java.util.Map;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public class UniCoilEncoderInferenceTest {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/unicoil.onnx";
+public class UniCoilEncoderInferenceTest extends EncoderInferenceTest {
 
-  Object[][] examples = new Object[][] {
+  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/unicoil.onnx";
+  static private final String MODEL_NAME = "unicoil.onnx";
+
+  static private final Object[][] EXAMPLES = new Object[][] {
       { new long[] { 101, 2029, 18714, 7457, 13853, 3798, 1999, 1996, 2668, 1029, 102 },
           new float[] { 1.429669f, 0.36941767f, 2.2388394f, 1.39695f, 3.4305687f, 0.72433805f, 0.26170823f, 0.6414263f,
               2.0127833f, 0.9524705f, 0.0f } },
@@ -96,23 +94,13 @@ public class UniCoilEncoderInferenceTest {
               0.7945211f, 0.0f } },
   };
 
-  static private String getCacheDir() {
-    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
-    if (!cacheDir.exists()) {
-      cacheDir.mkdir();
-    }
-    return cacheDir.getPath();
-  }
-
-  static private Path getUnicoilEncoderModelPath() throws IOException {
-    File modelFile = new File(getCacheDir(), "unicoil.onnx");
-    FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
-    return modelFile.toPath();
+  public UniCoilEncoderInferenceTest() {
+    super(MODEL_NAME, MODEL_URL, EXAMPLES);
   }
 
   @Test
   public void basic() throws OrtException, IOException {
-    String modelPath = getUnicoilEncoderModelPath().toString();
+    String modelPath = getEncoderModelPath().toString();
     try (OrtEnvironment env = OrtEnvironment.getEnvironment();
         OrtSession.SessionOptions options = new OrtSession.SessionOptions();
         OrtSession session = env.createSession(modelPath, options)) {
