@@ -75,19 +75,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-sd/ \
-  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-pp-sd.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicreader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt \
-  -impact -pretokenized &
+  -output runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.txt \
+  -impact -pretokenized -encoder SpladePlusPlusSelfDistil &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness
@@ -96,9 +96,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3837    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3835    |
 | **RR@10**                                                                                                    | **SPLADE++ CoCondenser-SelfDistil**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3778    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3776    |
 | **R@100**                                                                                                    | **SPLADE++ CoCondenser-SelfDistil**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9118    |
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-SelfDistil**|

@@ -49,18 +49,18 @@ topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
-    path: topics.msmarco-passage.dev-subset.splade-pp-sd.tsv.gz
+    path: topics.msmarco-passage.dev-subset.txt
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
   - name: splade-pp-sd
     display: SPLADE++ CoCondenser-SelfDistil
-    params: -impact -pretokenized
+    params: -impact -pretokenized -encoder SpladePlusPlusSelfDistil
     results:
       AP@1000:
-        - 0.3837
+        - 0.3835
       RR@10:
-        - 0.3778
+        - 0.3776
       R@100:
         - 0.9118
       R@1000:
