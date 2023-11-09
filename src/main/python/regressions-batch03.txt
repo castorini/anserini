@@ -11,6 +11,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 # ONNX runs write to the same indexes as the encoded queries, so we need to spread out
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx > logs/log.msmarco-passage-splade-pp-ed-onnx 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx > logs/log.msmarco-passage-splade-pp-sd-onnx 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-onnx > logs/log.msmarco-passage-cos-dpr-distil-onnx 2>&1
 
 # MS MARCO V1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc > logs/log.msmarco-doc 2>&1
@@ -30,6 +31,9 @@ python src/main/python/run_regression.py --verify --search --regression dl20-pas
 
 python src/main/python/run_regression.py --verify --search --regression dl19-passage-cos-dpr-distil > logs/log.dl19-passage-cos-dpr-distil 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage-cos-dpr-distil > logs/log.dl20-passage-cos-dpr-distil 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-cos-dpr-distil-onnx > logs/log.dl19-passage-cos-dpr-distil-onnx 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-cos-dpr-distil-onnx > logs/log.dl20-passage-cos-dpr-distil-onnx 2>&1
 
 python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-ed-onnx > logs/log.dl19-passage-splade-pp-ed-onnx 2>&1
 python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-sd-onnx > logs/log.dl19-passage-splade-pp-sd-onnx 2>&1
