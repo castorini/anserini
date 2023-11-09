@@ -16,12 +16,16 @@
 
 package io.anserini.index;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,31 +38,29 @@ public class IndexInvertedDenseVectorsTest {
 
   @Test
   public void indexFWTest() throws Exception {
-    String output = createIndex("target/idx-sample-fw" + System.currentTimeMillis(), "fw", false);
-    System.out.println(output);
-    assertTrue(output.contains("Indexing Complete! 4 documents indexed"));
+    createIndex("target/idx-sample-fw" + System.currentTimeMillis(), "fw", false);
+    assertTrue(APPENDER.getLastLog().contains("Total 4 documents indexed"));
   }
 
   @Test
   public void indexFWStoredTest() throws Exception {
-    String output = createIndex("target/idx-sample-fw" + System.currentTimeMillis(), "fw", false);
-    //System.out.println(output);
-    assertTrue(output.contains("Indexing Complete! 4 documents indexed"));
+    createIndex("target/idx-sample-fw" + System.currentTimeMillis(), "fw", false);
+    assertTrue(APPENDER.getLastLog().contains("Total 4 documents indexed"));
   }
 
   @Test
   public void indexLLTest() throws Exception {
-    String output = createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
-    assertTrue(output.contains("Indexing Complete! 4 documents indexed"));
+    createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
+    assertTrue(APPENDER.getLastLog().contains("Total 4 documents indexed"));
   }
 
   @Test
   public void indexLLStoredTest() throws Exception {
-    String output = createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
-    assertTrue(output.contains("Indexing Complete! 4 documents indexed"));
+    createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
+    assertTrue(APPENDER.getLastLog().contains("Total 4 documents indexed"));
   }
 
-  public static String createIndex(String path, String encoding, boolean stored) throws Exception {
+  public static void createIndex(String path, String encoding, boolean stored) throws Exception {
     List<String> args = new LinkedList<>();
     args.add("-encoding");
     args.add(encoding);
@@ -70,34 +72,26 @@ public class IndexInvertedDenseVectorsTest {
       args.add("-stored");
     }
 
-    final ByteArrayOutputStream redirectedStdout = new ByteArrayOutputStream();
-    PrintStream savedStdout = System.out;
-    redirectedStdout.reset();
-    System.setOut(new PrintStream(redirectedStdout));
+    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
+  }
+
+  @Test
+  public void testLLCollection() throws Exception {
+    List<String> args = new LinkedList<>();
+    args.add("-collection");
+    args.add("JsonDenseVectorCollection");
+    args.add("-encoding");
+    args.add("lexlsh");
+    args.add("-input");
+    args.add("src/test/resources/sample_docs/json_vector/dense_collection1");
+    args.add("-index");
+    args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
+    args.add("-stored");
 
     IndexInvertedDenseVectors.main(args.toArray(new String[0]));
 
-    System.setOut(savedStdout);
-
-    return redirectedStdout.toString();
+    assertTrue(APPENDER.getLastLog().contains("Total 2 documents indexed"));
   }
-
-//  @Test
-//  public void testLLCollection() throws Exception {
-//    List<String> args = new LinkedList<>();
-//    args.add("-collection");
-//    args.add("JsonDenseVectorCollection");
-//    args.add("-encoding");
-//    args.add("lexlsh");
-//    args.add("-input");
-//    args.add("src/test/resources/sample_docs/json_vector/dense_collection1");
-//    args.add("-index");
-//    args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
-//    args.add("-stored");
-//
-//    String output = wrapIndexerCall(args);
-//    assertTrue(output.contains("Indexing Complete! 2 documents indexed"));
-//  }
 
   @Test
   public void testFWCollection() throws Exception {
@@ -112,31 +106,43 @@ public class IndexInvertedDenseVectorsTest {
     args.add("target/idx-sample-fw-vector" + System.currentTimeMillis());
     args.add("-stored");
 
-    ByteArrayOutputStream redirectedStdout = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(redirectedStdout, true));
     IndexInvertedDenseVectors.main(args.toArray(new String[0]));
-    System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 
-    assertTrue(redirectedStdout.toString().contains("Indexing Complete! 2 documents indexed"));
+    assertTrue(APPENDER.getLastLog().contains("Total 2 documents indexed"));
   }
 
-  public static String wrapIndexerCall(List<String> args) throws Exception {
-    ByteArrayOutputStream redirectedStdout = new ByteArrayOutputStream();
-    System.out.flush();
+  private static final Logger LOGGER = LogManager.getLogger(IndexInvertedDenseVectors.class);
+  private static CustomAppender APPENDER;
 
-    //PrintStream savedStdout = System.out;
-    //redirectedStdout.reset();
-    System.setOut(new PrintStream(redirectedStdout, true));
+  @BeforeClass
+  public static void setupClass() {
+    APPENDER = new CustomAppender("CustomAppender");
+    APPENDER.start();
 
-    System.out.println("RUNNING COMMAND!");
+    ((org.apache.logging.log4j.core.Logger) LOGGER).addAppender(APPENDER);
 
-    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
-    System.out.flush();
-
-    System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-
-    System.out.println("!@#");
-    return redirectedStdout.toString();
+    Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.INFO);
   }
 
+  @AfterClass
+  public static void teardownClass() {
+    ((org.apache.logging.log4j.core.Logger) LOGGER).removeAppender(APPENDER);
+  }
+
+  private static class CustomAppender extends AbstractAppender {
+    private String lastLog = null;
+
+    protected CustomAppender(String name) {
+      super(name, null, null, true, null);
+    }
+
+    public String getLastLog() {
+      return lastLog;
+    }
+
+    @Override
+    public void append(LogEvent event) {
+      lastLog = event.getMessage().getFormattedMessage();
+    }
+  }
 }
