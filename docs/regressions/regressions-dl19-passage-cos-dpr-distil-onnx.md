@@ -97,13 +97,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.463     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.458     |
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.725     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.717     |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.615     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.605     |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.813     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.805     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage-cos-dpr-distil-onnx.yaml).
