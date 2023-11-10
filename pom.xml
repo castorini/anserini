@@ -93,7 +93,8 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <argLine>-Xmx8192m</argLine>
+          <!-- Need to add @{argLine} for JaCoCo to work; see https://stackoverflow.com/questions/71568474/getting-skipping-jacoco-execution-due-to-missing-execution-data-file-with-jaco -->
+          <argLine>@{argLine} -Xmx8192m</argLine>
         </configuration>
       </plugin>
       <plugin>
