@@ -62,8 +62,6 @@ The path `/path/to/msmarco-passage-openai-ada2/` should point to the corpus down
 
 Upon completion, we should have an index with 8,841,823 documents.
 
-<!-- For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md). -->
-
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
@@ -104,7 +102,7 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.985     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally stable to the third digit after the decimal point.
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-passage-openai-ada2.yaml).
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
