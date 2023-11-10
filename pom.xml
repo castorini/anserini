@@ -119,6 +119,10 @@
               <id>IndexHnswDenseVectors</id>
             </program>
             <program>
+              <mainClass>io.anserini.index.IndexInvertedDenseVectors</mainClass>
+              <id>IndexInvertedDenseVector</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
@@ -127,10 +131,13 @@
               <id>SearchHnswDenseVectors</id>
             </program>
             <program>
+              <mainClass>io.anserini.search.SearchInvertedDenseVectors</mainClass>
+              <id>SearchInvertedDenseVectors</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SimpleSearcher</mainClass>
               <id>SimpleSearcher</id>
             </program>
-
             <program>
               <mainClass>io.anserini.search.SimpleTweetSearcher</mainClass>
               <id>SimpleTweetSearcher</id>
@@ -158,14 +165,6 @@
             <program>
                <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
                <id>ExtractTopDfTerms</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.index.IndexInvertedDenseVectors</mainClass>
-              <id>IndexVectors</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchInvertedDenseVectors</mainClass>
-              <id>ApproximateNearestNeighborSearch</id>
             </program>
             <program>
               <mainClass>io.anserini.search.EvaluateInvertedDenseVectors</mainClass>
