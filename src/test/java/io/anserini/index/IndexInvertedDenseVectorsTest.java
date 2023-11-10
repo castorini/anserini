@@ -16,11 +16,10 @@
 
 package io.anserini.index;
 
+import io.anserini.CustomAppender;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LogEvent;
-import org.apache.logging.log4j.core.appender.AbstractAppender;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -35,6 +34,18 @@ import static org.junit.Assert.assertTrue;
  * Tests for {@link IndexInvertedDenseVectors}
  */
 public class IndexInvertedDenseVectorsTest {
+  private static final Logger LOGGER = LogManager.getLogger(IndexInvertedDenseVectors.class);
+  private static CustomAppender APPENDER;
+
+  @BeforeClass
+  public static void setupClass() {
+    APPENDER = new CustomAppender("CustomAppender");
+    APPENDER.start();
+
+    ((org.apache.logging.log4j.core.Logger) LOGGER).addAppender(APPENDER);
+
+    Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.INFO);
+  }
 
   @Test
   public void indexFWTest() throws Exception {
@@ -83,14 +94,14 @@ public class IndexInvertedDenseVectorsTest {
     args.add("-encoding");
     args.add("lexlsh");
     args.add("-input");
-    args.add("src/test/resources/sample_docs/json_vector/dense_collection1");
+    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
     args.add("-index");
     args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
     args.add("-stored");
 
     IndexInvertedDenseVectors.main(args.toArray(new String[0]));
 
-    assertTrue(APPENDER.getLastLog().contains("Total 2 documents indexed"));
+    assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
   }
 
   @Test
@@ -101,48 +112,18 @@ public class IndexInvertedDenseVectorsTest {
     args.add("-encoding");
     args.add("fw");
     args.add("-input");
-    args.add("src/test/resources/sample_docs/json_vector/dense_collection1");
+    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
     args.add("-index");
     args.add("target/idx-sample-fw-vector" + System.currentTimeMillis());
     args.add("-stored");
 
     IndexInvertedDenseVectors.main(args.toArray(new String[0]));
 
-    assertTrue(APPENDER.getLastLog().contains("Total 2 documents indexed"));
-  }
-
-  private static final Logger LOGGER = LogManager.getLogger(IndexInvertedDenseVectors.class);
-  private static CustomAppender APPENDER;
-
-  @BeforeClass
-  public static void setupClass() {
-    APPENDER = new CustomAppender("CustomAppender");
-    APPENDER.start();
-
-    ((org.apache.logging.log4j.core.Logger) LOGGER).addAppender(APPENDER);
-
-    Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.INFO);
+    assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
   }
 
   @AfterClass
   public static void teardownClass() {
     ((org.apache.logging.log4j.core.Logger) LOGGER).removeAppender(APPENDER);
-  }
-
-  private static class CustomAppender extends AbstractAppender {
-    private String lastLog = null;
-
-    protected CustomAppender(String name) {
-      super(name, null, null, true, null);
-    }
-
-    public String getLastLog() {
-      return lastLog;
-    }
-
-    @Override
-    public void append(LogEvent event) {
-      lastLog = event.getMessage().getFormattedMessage();
-    }
   }
 }
