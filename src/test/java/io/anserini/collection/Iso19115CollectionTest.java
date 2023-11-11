@@ -43,7 +43,6 @@ public class Iso19115CollectionTest extends DocumentCollectionTest<Iso19115Colle
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    // System.out.println(((Iso19115Collection.Document) doc).getThesaurusName());
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("title"), ((Iso19115Collection.Document) doc).getTitle());

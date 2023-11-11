@@ -26,6 +26,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
 import org.apache.lucene.search.IndexSearcher;
@@ -156,6 +157,7 @@ public class EvaluateInvertedDenseVectors {
     TrecTopicReader trecTopicReader = new TrecTopicReader(indexArgs.topicsPath);
     Collection<String> words = new LinkedList<>();
     trecTopicReader.read().values().forEach(e -> words.addAll(AnalyzerUtils.analyze(standardAnalyzer, e.get("title"))));
+    StoredFields storedFields = reader.storedFields();
     int queryCount = 0;
     for (String word : words) {
       if (wordVectors.containsKey(word)) {
@@ -187,7 +189,7 @@ public class EvaluateInvertedDenseVectors {
 
             Set<String> observations = new HashSet<>();
             for (ScoreDoc sd : results.topDocs().scoreDocs) {
-              Document document = reader.storedFields().document(sd.doc);
+              Document document = storedFields.document(sd.doc);
               String wordValue = document.get(IndexInvertedDenseVectors.FIELD_ID);
               observations.add(wordValue);
             }

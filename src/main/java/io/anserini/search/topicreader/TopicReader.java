@@ -45,7 +45,7 @@ public abstract class TopicReader<K> {
   protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
   final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
-  final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  final private static String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
 
   static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = new HashMap<>();
@@ -232,13 +232,13 @@ public abstract class TopicReader<K> {
    * @throws IOException if error encountered downloading topics
    */
   public static Path getTopicsFromCloud(Path topicPath) throws IOException{
-    String topicURL = CLOUD_PATH + topicPath.getFileName().toString();
-    System.out.println("Downloading topics from cloud " + topicURL.toString());
+    String topicURL = SERVER_PATH + topicPath.getFileName().toString();
+    System.out.println("Downloading topics from " + topicURL);
     File topicFile = new File(getCacheDir(), topicPath.getFileName().toString());
     try{
       FileUtils.copyURLToFile(new URL(topicURL), topicFile);
     }catch (Exception e){
-      System.out.println("Error downloading topics from cloud " + topicURL.toString());
+      System.out.println("Error downloading topics from " + topicURL);
       throw e;
     }
     return topicFile.toPath();

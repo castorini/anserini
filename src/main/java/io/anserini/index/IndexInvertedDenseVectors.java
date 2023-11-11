@@ -546,15 +546,13 @@ public final class IndexInvertedDenseVectors {
       }
 
       writer.commit();
-      System.out.println(String.format("%s docs indexed", counters.indexed.get()));
-      long space = FileUtils.sizeOfDirectory(indexPath.toFile()) / (1024L * 1024L);
-      System.out.println(String.format("Index size: %dMB", space));
       writer.close();
 
-      final long durationMillis =
-          TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-      System.out.println(String.format("Total time: %s",
-                                       DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
+      LOG.info(String.format("Indexing Complete! %,d documents indexed", counters.indexed.get()));
+
+      final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+      LOG.info(String.format("Total %,d documents indexed in %s", counters.indexed.get(),
+          DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
     }
 
     return counters;

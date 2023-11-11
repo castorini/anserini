@@ -3,10 +3,22 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### November 9, 2023
+
++ commit [`d152e5`](https://github.com/castorini/anserini/commit/d152e5a3233483e97aa733a6d18c8b83811d7aff) (11/9/2023)
+
+Added ONNX variant of cosDPR-distil regressions.
+
+### November 7, 2023
+
++ commit [`d2fb8a`](https://github.com/castorini/anserini/commit/d2fb8a51f130c40aed99eee10ce34fc3f66869c7) (11/5/2023)
++ commit [`d76bb4`](https://github.com/castorini/anserini/commit/d76bb4caa7059f0a613836d812e494f383bf128a) (11/4/2023)
+
+Added OpenAI-ada2 and CIRAL regressions.
+
 ### June 27, 2023
 
 Summarizing new regressions since last entry, see [PR #2140](https://github.com/castorini/anserini/pull/2140):
-
 
 + `msmarco-passage-cos-dpr-distil`
 + `msmarco-v2-passage-splade-pp-ed`

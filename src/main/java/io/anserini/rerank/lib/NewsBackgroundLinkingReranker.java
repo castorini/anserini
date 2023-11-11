@@ -25,6 +25,7 @@ import io.anserini.rerank.ScoredDocuments;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 
@@ -116,6 +117,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
   private Map<String, Long> convertDocVectorToMap(IndexReader reader, String docid) {
     Map<String, Long> m = new HashMap<>();
     try {
+      StoredFields storedFields = reader.storedFields();
       Terms terms = reader.termVectors().get(
           IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), Constants.CONTENTS);
       if (terms != null) {
@@ -130,7 +132,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
           throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.storedFields().document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(Constants.RAW).stringValue());
+            storedFields.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(Constants.RAW).stringValue());
         return termFreqMap;
       }
     } catch (Exception e) {

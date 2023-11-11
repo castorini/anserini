@@ -21,7 +21,7 @@ This means that anyone with the document collection should be able to reproduce 
 We hold this ideal in such high esteem and are so dedicated to reproducibility that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
 
 Here's how you can help:
-In the course of reproducing one of our results, please let us know you've been successful by sending a pull request with a simple note, like what appears at the bottom of [the regressions for Disks 4 &amp; 5 page](regressions-disk45.md).
+In the course of reproducing one of our results, please let us know you've been successful by sending a pull request with a simple note, like what appears at the bottom of [the regressions for Disks 4 &amp; 5 page](regressions/regressions-disk45.md).
 Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](../src/main/resources/docgen/templates).
 In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
@@ -53,6 +53,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx >& logs/log.msmarco-passage-splade-pp-ed-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx >& logs/log.msmarco-passage-splade-pp-sd-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil >& logs/log.msmarco-passage-cos-dpr-distil &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-onnx >& logs/log.msmarco-passage-cos-dpr-distil-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2 >& logs/log.msmarco-passage-openai-ada2 &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp >& logs/log.msmarco-doc-wp &
@@ -77,9 +79,12 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-distil-cocodenser-medium >& logs/log.dl19-passage-splade-distil-cocodenser-medium &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-pp-ed >& logs/log.dl19-passage-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-pp-sd >& logs/log.dl19-passage-splade-pp-sd &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-cos-dpr-distil >& logs/log.dl19-passage-cos-dpr-distil &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-openai-ada2 >& logs/log.dl19-passage-openai-ada2 &
+
 nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl19-passage-splade-pp-ed-onnx >& logs/log.dl19-passage-splade-pp-ed-onnx &
 nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl19-passage-splade-pp-sd-onnx >& logs/log.dl19-passage-splade-pp-sd-onnx &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-cos-dpr-distil >& logs/log.dl19-passage-cos-dpr-distil &
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl19-passage-cos-dpr-distil-onnx >& logs/log.dl19-passage-cos-dpr-distil-onnx &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc >& logs/log.dl19-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-wp >& logs/log.dl19-doc-wp &
@@ -104,9 +109,12 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-distil-cocodenser-medium >& logs/log.dl20-passage-splade-distil-cocodenser-medium &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-ed >& logs/log.dl20-passage-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-sd >& logs/log.dl20-passage-splade-pp-sd &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-cos-dpr-distil >& logs/log.dl20-passage-cos-dpr-distil &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-openai-ada2 >& logs/log.dl20-passage-openai-ada2 &
+
 nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl20-passage-splade-pp-ed-onnx >& logs/log.dl20-passage-splade-pp-ed-onnx &
 nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl20-passage-splade-pp-sd-onnx >& logs/log.dl20-passage-splade-pp-sd-onnx &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-cos-dpr-distil >& logs/log.dl20-passage-cos-dpr-distil &
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression dl20-passage-cos-dpr-distil-onnx >& logs/log.dl20-passage-cos-dpr-distil-onnx &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-wp >& logs/log.dl20-doc-wp &
@@ -464,6 +472,11 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt-splade >& logs/log.neuclir22-zh-qt-splade &
 nohup python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt-splade >& logs/log.neuclir22-zh-dt-splade &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-ha >& logs/log.ciral-v1.0-ha &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-so >& logs/log.ciral-v1.0-so &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-sw >& logs/log.ciral-v1.0-sw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-yo >& logs/log.ciral-v1.0-yo &
 ```
 </details>
 

@@ -280,46 +280,4 @@ public class SimpleIndexer {
       }
     }
   }
-
-  // Main here exists only as a convenience. Once we're happy with the APIs, there should *not* be
-  // a separate code entry point; one less thing to debug, one less thing to go wrong.
-  public static void main(String[] argv) throws Exception {
-    Args args = new Args();
-    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(100));
-
-    try {
-      parser.parseArgument(argv);
-    } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: " + SimpleIndexer.class.getSimpleName() +
-          parser.printExample(OptionHandlerFilter.REQUIRED));
-      return;
-    }
-
-    final long start = System.nanoTime();
-    JsonCollection collection = new JsonCollection(Paths.get(args.input));
-
-    int cnt = 0;
-    SimpleIndexer indexer = new SimpleIndexer(args);
-
-    LOG.info("input: " + args.input);
-    LOG.info("collection: " + args.index);
-
-    for (FileSegment<JsonCollection.Document> segment : collection ) {
-      for (JsonCollection.Document doc : segment) {
-        indexer.addRawDocument(doc.raw());
-        cnt++;
-        if (cnt % 100000 == 0) {
-          LOG.info(cnt + " docs indexed");
-        }
-      }
-      segment.close();
-    }
-
-    indexer.close();
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info(String.format("Total %,d documents indexed in %s", cnt,
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
-  }
 }

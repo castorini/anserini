@@ -34,7 +34,7 @@ import org.apache.commons.io.FileUtils;
 public class RelevanceJudgments {
   final private Map<String, Map<String, Integer>> qrels;
   final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
-  final private static String CLOUD_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  final private static String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException {
     return new RelevanceJudgments("src/main/resources/" + qrels.path);
@@ -46,7 +46,7 @@ public class RelevanceJudgments {
     try {
       qrelsPath = getQrelsPath(qrelsPath);
     } catch (IOException e) {
-      System.out.println("Qrels file not found at " + qrelsPath.toString());
+      System.out.println("Qrels file not found at " + qrelsPath);
     }
 
     try (BufferedReader br = new BufferedReader(new FileReader(qrelsPath.toString()))) {
@@ -66,7 +66,7 @@ public class RelevanceJudgments {
         }
       }
     } catch (IOException e) {
-      throw new IOException("Could not read qrels file");
+      throw new IOException("Could not read qrels file!");
     }
   }
 
@@ -136,7 +136,7 @@ public class RelevanceJudgments {
     try {
       resultPath = getQrelsPath(qrelsPath);
     } catch (Exception e) {
-      throw new IOException("Could not get qrels file from cloud or local file system");
+      throw new IOException("Could not get qrels file either from server or local file system!");
     }
 
     InputStream inputStream = Files.newInputStream(resultPath);
@@ -184,13 +184,13 @@ public class RelevanceJudgments {
    * @throws IOException if qrels file is not found
    */
   public static Path downloadQrels(Path qrelsPath) throws IOException {
-    String qrelsURL = CLOUD_PATH + qrelsPath.getFileName().toString().toString();
-    System.out.println("Downloading qrels from cloud " + qrelsURL.toString());
+    String qrelsURL = SERVER_PATH + qrelsPath.getFileName().toString();
+    System.out.println("Downloading qrels from " + qrelsURL);
     File qrelsFile = new File(getCacheDir(), qrelsPath.getFileName().toString());
     try {
       FileUtils.copyURLToFile(new URL(qrelsURL), qrelsFile);
     } catch (Exception e) {
-      System.out.println("Error downloading topics from cloud " + qrelsURL.toString());
+      System.out.println("Error downloading topics from " + qrelsURL);
       throw e;
     }
     return qrelsFile.toPath();

@@ -23,6 +23,7 @@ import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
 import org.apache.lucene.search.IndexSearcher;
@@ -96,8 +97,9 @@ public class SimpleNearestNeighborSearcher {
     List<Result[]> results = new ArrayList<>();
     TopDocs wordDocs = searcher.search(new TermQuery(new Term(IndexInvertedDenseVectors.FIELD_ID, id)), k);
 
+    StoredFields storedFields = searcher.storedFields();
     for (ScoreDoc scoreDoc : wordDocs.scoreDocs) {
-      Document doc = searcher.storedFields().document(scoreDoc.doc);
+      Document doc = storedFields.document(scoreDoc.doc);
       String vector = doc.get(IndexInvertedDenseVectors.FIELD_VECTOR);
       CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, 0.999f);
       List<String> tokens = AnalyzerUtils.analyze(analyzer, vector);
@@ -108,7 +110,7 @@ public class SimpleNearestNeighborSearcher {
       Result[] neighbors = new Result[nearest.scoreDocs.length];
       int i = 0;
       for (ScoreDoc nn : nearest.scoreDocs) {
-        Document ndoc = searcher.storedFields().document(nn.doc);
+        Document ndoc = storedFields.document(nn.doc);
         neighbors[i] = new Result(ndoc.get(IndexInvertedDenseVectors.FIELD_ID), nn.score);
         i++;
       }

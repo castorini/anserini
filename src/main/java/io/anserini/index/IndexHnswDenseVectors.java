@@ -30,12 +30,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.codecs.KnnVectorsFormat;
+import org.apache.lucene.codecs.KnnVectorsReader;
+import org.apache.lucene.codecs.KnnVectorsWriter;
 import org.apache.lucene.codecs.lucene95.Lucene95Codec;
 import org.apache.lucene.codecs.lucene95.Lucene95HnswVectorsFormat;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.SegmentReadState;
+import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -76,8 +80,7 @@ public final class IndexHnswDenseVectors {
     public static final String VECTOR = "vector";
   
     private static final int TIMEOUT = 600 * 1000;
-  
-  
+
     // required arguments
     @Option(name = "-M", metaVar = "[num]", required = true,
         usage = "HNSW parameters M")
@@ -374,6 +377,35 @@ public final class IndexHnswDenseVectors {
     this.counters = new Counters();
   }
 
+  // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
+  // This class exists because Lucene95HnswVectorsFormat's getMaxDimensions method is final and we
+  // need to workaround that constraint to allow more than the default number of dimensions
+  private static final class OpenAiDelegatingKnnVectorsFormat extends KnnVectorsFormat {
+    private final KnnVectorsFormat delegate;
+    private final int maxDimensions;
+
+    public OpenAiDelegatingKnnVectorsFormat(KnnVectorsFormat delegate, int maxDimensions) {
+      super(delegate.getName());
+      this.delegate = delegate;
+      this.maxDimensions = maxDimensions;
+    }
+
+    @Override
+    public KnnVectorsWriter fieldsWriter(SegmentWriteState state) throws IOException {
+      return delegate.fieldsWriter(state);
+    }
+
+    @Override
+    public KnnVectorsReader fieldsReader(SegmentReadState state) throws IOException {
+      return delegate.fieldsReader(state);
+    }
+
+    @Override
+    public int getMaxDimensions(String fieldName) {
+      return maxDimensions;
+    }
+  }
+
   public Counters run() throws IOException {
     final long start = System.nanoTime();
     LOG.info("============ Indexing Collection ============");
@@ -387,7 +419,8 @@ public final class IndexHnswDenseVectors {
       final IndexWriterConfig config = new IndexWriterConfig().setCodec(new Lucene95Codec(){
         @Override
         public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-          return new Lucene95HnswVectorsFormat(args.M, args.efC);
+          return new OpenAiDelegatingKnnVectorsFormat(
+              new Lucene95HnswVectorsFormat(args.M, args.efC), 4096);
         }
       });
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);

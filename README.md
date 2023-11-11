@@ -2,7 +2,7 @@ Anserini <img src="docs/anserini-logo.png" width="300" />
 ========
 [![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
 [![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
-[![Generic badge](https://img.shields.io/badge/Lucene-v9.5.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/9.5.0/)
+[![Generic badge](https://img.shields.io/badge/Lucene-v9.8.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/9.5.0/)
 [![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini?color=brightgreen)](https://central.sonatype.com/namespace/io.anserini)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
@@ -45,7 +45,10 @@ The onboarding path for Anserini starts [here](docs/start-here.md)!
 <details>
 <summary>Windows tips</summary>
 
-Note that on Windows, tests may fail due to encoding issues, see [#1466](https://github.com/castorini/anserini/issues/1466).
+If you are using Windows, please use WSL2 to build Anserini. 
+Please refer to the [WSL2 Installation](https://learn.microsoft.com/en-us/windows/wsl/install) document to install WSL2 if you haven't already.
+
+Note that on Windows without WSL2, tests may fail due to encoding issues, see [#1466](https://github.com/castorini/anserini/issues/1466).
 A simple workaround is to skip tests by adding `-Dmaven.test.skip=true` to the above `mvn` command.
 See [#1121](https://github.com/castorini/pyserini/discussions/1121) for additional discussions on debugging Windows build errors.
 
@@ -86,7 +89,9 @@ See individual pages for details!
 | SPLADE++ CoCondenser-SelfDistil             |          [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd.md)           |          [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd.md)           |          [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd.md)           |
 | SPLADE++ CoCondenser-SelfDistil (ONNX)      |        [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd-onnx.md)        |
 | **Learned Dense**                           |                                                                                      |                                                                                   |                                                                                   |
-| cosDPR-distil                               |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil.md)          |  
+| cosDPR-distil                               |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil.md)          |         [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil.md)          |
+| cosDPR-distil (ONNX)                        |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-onnx.md)     |         [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-onnx.md)     |         [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-onnx.md)     |
+| OpenAI-ada2                                 |           [✓](docs/regressions/regressions-msmarco-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl19-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl20-passage-openai-ada2.md)           |
 
 ### Available Corpora for Download
 
@@ -102,6 +107,7 @@ See individual pages for details!
 | [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)                         | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
 | [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)                             | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
 | [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar)                                             |  57 GB | `e20ffbc8b5e7f760af31298aefeaebbd` |
+| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar)                                                  | 109 GB | `a4d843d522ff3a3af7edbee789a63402` |
 
 </details>
 <details>
@@ -246,7 +252,8 @@ See individual pages for details!
 + Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions/regressions-ntcir8-zh.md)
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions/regressions-trec02-ar.md)
-+ Regressions for FIRE 2012: [Monolingual Bengali](docs/regressions/regressions-fire12-bn.md), [Monolingual Hindi](docs/regressions/regressions-fire12-hi.md), [Monolingual English](docs/regressions/regressions-fire12-en.md)
++ Regressions for FIRE 2012 monolingual baselines: [Bengali](docs/regressions/regressions-fire12-bn.md), [Hindi](docs/regressions/regressions-fire12-hi.md), [English](docs/regressions/regressions-fire12-en.md)
++ Regressions for CIRAL (v1.0) monolingual baselines on dev set: [Hausa](docs/regressions/regressions-ciral-v1.0-ha.md), [Somali](docs/regressions/regressions-ciral-v1.0-so.md), [Swahili](docs/regressions/regressions-ciral-v1.0-sw.md), [Yoruba](docs/regressions/regressions-ciral-v1.0-yo.md)
 
 </details>
 <details>
@@ -271,7 +278,10 @@ See individual pages for details!
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of reproducibility.
 For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
 
-### MS MARCO (V1)
+<details>
+<summary>MS MARCO V1</summary>
+
+### MS MARCO V1
 
 + Reproducing [BM25 baselines for MS MARCO Passage Ranking](docs/experiments-msmarco-passage.md)
 + Reproducing [BM25 baselines for MS MARCO Document Ranking](docs/experiments-msmarco-doc.md)
@@ -280,15 +290,27 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO Passage and Document Ranking)
 + Notes about reproduction issues with [MS MARCO Document Ranking w/ docTTTTTquery](docs/experiments-msmarco-doc-doc2query-details.md)
 
-### MS MARCO (V2)
+</details>
+<details>
+<summary>MS MARCO V2</summary>
+
+### MS MARCO V2
 
 + Reproducing [BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
+
+</details>
+<details>
+<summary>TREC-COVID and CORD-19</summary>
 
 ### TREC-COVID and CORD-19
 
 + [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
 + [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
+
+</details>
+<details>
+<summary>Other Experiments and Features</summary>
 
 ### Other Experiments and Features
 
@@ -301,6 +323,8 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
 + Support for [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on dense vectors with inverted indexes
+
+</details>
 
 ## 🙋 How Can I Contribute?
 

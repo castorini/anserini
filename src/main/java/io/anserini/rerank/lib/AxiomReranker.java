@@ -33,7 +33,9 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermVectors;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.BooleanClause;
@@ -412,8 +414,10 @@ public class AxiomReranker<T> implements Reranker<T> {
       reader = searcher.getIndexReader();
     }
     Map<String, Set<Integer>> termDocidSets = new HashMap<>();
+    StoredFields storedFields = reader.storedFields();
+    TermVectors termVectors = reader.termVectors();
     for (int docid : docIds) {
-      Terms terms = reader.termVectors().get(docid, Constants.CONTENTS);
+      Terms terms = termVectors.get(docid, Constants.CONTENTS);
       if (terms == null) {
         if (parser == null) {
           LOG.warn("Document vector not stored for docid: " + docid + "\n" +
@@ -421,7 +425,7 @@ public class AxiomReranker<T> implements Reranker<T> {
           continue;
         }
         Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-            reader.storedFields().document(docid).getField(Constants.RAW).stringValue());
+            storedFields.document(docid).getField(Constants.RAW).stringValue());
         for (String term : termFreqMap.keySet()) {
           // We do some noisy filtering here ... pure empirical heuristic
           if (term.length() < 2) continue;

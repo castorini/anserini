@@ -21,41 +21,18 @@ import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertArrayEquals;
 
-abstract class SpladePlusPlusEncoderInferenceTest {
-  private final String MODEL_NAME;
-  private final String MODEL_URL;
-  private final Object[][] EXAMPLES;
+abstract class SpladePlusPlusEncoderInferenceTest extends EncoderInferenceTest {
 
   public SpladePlusPlusEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples) {
-    this.MODEL_NAME = modelName;
-    this.MODEL_URL = modelUrl;
-    this.EXAMPLES = examples;
-  }
-
-  protected String getCacheDir() {
-    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
-    if (!cacheDir.exists()) {
-      cacheDir.mkdir();
-    }
-    return cacheDir.getPath();
-  }
-
-  protected Path getEncoderModelPath() throws IOException {
-    File modelFile = new File(getCacheDir(), MODEL_NAME);
-    FileUtils.copyURLToFile(new URL(MODEL_URL), modelFile);
-    return modelFile.toPath();
+    super(modelName, modelUrl, examples);
   }
 
   protected void basicTest() throws IOException, OrtException {
@@ -64,7 +41,7 @@ abstract class SpladePlusPlusEncoderInferenceTest {
         OrtSession.SessionOptions options = new OrtSession.SessionOptions();
         OrtSession session = env.createSession(modelPath, options)) {
 
-      for (Object[] example : EXAMPLES) {
+      for (Object[] example : examples) {
         long[] inputIds = (long[]) example[0];
         long[] expectedIdx = (long[]) example[1];
         float[] expectedWeights = (float[]) example[2];
