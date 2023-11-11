@@ -54,6 +54,7 @@ public class MrTyDiCollection extends DocumentCollection<MrTyDiCollection.Docume
     return new Segment(p);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MrTyDiCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment(bufferedReader);

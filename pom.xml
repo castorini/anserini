@@ -127,15 +127,6 @@
               <id>SearchHnswDenseVectors</id>
             </program>
             <program>
-              <mainClass>io.anserini.search.SimpleSearcher</mainClass>
-              <id>SimpleSearcher</id>
-            </program>
-
-            <program>
-              <mainClass>io.anserini.search.SimpleTweetSearcher</mainClass>
-              <id>SimpleTweetSearcher</id>
-            </program>
-            <program>
               <mainClass>io.anserini.index.IndexReaderUtils</mainClass>
               <id>IndexReaderUtils</id>
             </program>
@@ -435,16 +426,6 @@
       <groupId>com.github.TREMA-UNH</groupId>
       <artifactId>trec-car-tools-java</artifactId>
       <version>19</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-pool2</artifactId>
-      <version>2.11.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-compress</artifactId>
-      <version>1.21</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>

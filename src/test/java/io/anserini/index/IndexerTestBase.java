@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini;
+package io.anserini.index;
 
 import io.anserini.index.Constants;
 import org.apache.lucene.analysis.Analyzer;
@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Locale;
 
-public class IndexerWithoutDocvectorsTestBase extends LuceneTestCase {
+public class IndexerTestBase extends LuceneTestCase {
   protected Path tempDir1;
 
   // A very simple example of how to build an index.
@@ -56,8 +56,8 @@ public class IndexerWithoutDocvectorsTestBase extends LuceneTestCase {
     textOptions.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
     textOptions.setStored(true);
     textOptions.setTokenized(true);
-    //textOptions.setStoreTermVectors(true);
-    //textOptions.setStoreTermVectorPositions(true);
+    textOptions.setStoreTermVectors(true);
+    textOptions.setStoreTermVectorPositions(true);
 
     Document doc1 = new Document();
     String doc1Text = "here is some text here is some more text. city.";

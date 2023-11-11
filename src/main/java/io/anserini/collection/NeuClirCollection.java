@@ -57,6 +57,7 @@ public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Docu
     return new Segment(p);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<NeuClirCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment(bufferedReader);

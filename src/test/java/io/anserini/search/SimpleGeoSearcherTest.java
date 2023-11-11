@@ -1,6 +1,6 @@
 package io.anserini.search;
 
-import io.anserini.GeoIndexerTestBase;
+import io.anserini.index.GeoIndexerTestBase;
 import org.apache.lucene.document.LatLonDocValuesField;
 import org.apache.lucene.document.LatLonShape;
 import org.apache.lucene.document.ShapeField;

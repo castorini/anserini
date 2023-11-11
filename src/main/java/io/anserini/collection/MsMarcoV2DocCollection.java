@@ -54,6 +54,7 @@ public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocColle
     return new Segment(p);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MsMarcoV2DocCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment(bufferedReader);

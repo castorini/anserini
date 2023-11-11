@@ -55,6 +55,7 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
     return new Segment(p);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<AfribertaCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment(bufferedReader);
