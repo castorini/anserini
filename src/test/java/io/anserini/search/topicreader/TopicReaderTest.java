@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(379, cnt);
+    assertEquals(383, cnt);
   }
 
   @Test
@@ -1946,5 +1946,13 @@ public class TopicReaderTest {
     assertEquals(393, TopicReader.getTopics(Topics.MIRACL_V10_ZH_DEV).keySet().size());
     assertEquals(305, TopicReader.getTopics(Topics.MIRACL_V10_DE_DEV).keySet().size());
     assertEquals(119, TopicReader.getTopics(Topics.MIRACL_V10_YO_DEV).keySet().size());
+  }
+
+  @Test
+  public void testCIRALTopics() throws IOException {
+    assertEquals(10, TopicReader.getTopics(Topics.CIRAL_V10_HA_DEV_MONO).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.CIRAL_V10_SO_DEV_MONO).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.CIRAL_V10_SW_DEV_MONO).keySet().size());
+    assertEquals(10, TopicReader.getTopics(Topics.CIRAL_V10_YO_DEV_MONO).keySet().size());
   }
 }
