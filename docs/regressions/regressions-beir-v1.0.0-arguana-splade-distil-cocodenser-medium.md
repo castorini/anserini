@@ -4,7 +4,7 @@
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on [BEIR (v1.0.0) &mdash; ArguAna](http://beir.ai/).
 SPLADE-distil CoCodenser Medium is an intermediate model version between [SPLADEv2](https://arxiv.org/abs/2109.10086) and [SPLADE++](https://arxiv.org/abs/2205.04733), where the model used distillation (as in SPLADEv2), but started with the CoCondenser pre-trained model.
-See the [official SPLADE repo](https://github.com/naver/splade) for more details.
+See the [official SPLADE repo](https://github.com/naver/splade) for more details; the model itself can be download [here](http://download-de.europe.naverlabs.com/Splade_Release_Jan22/splade_distil_CoCodenser_medium.tar.gz).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/beir-v1.0.0-arguana-splade-distil-cocodenser-medium.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-arguana-splade-distil-cocodenser-medium.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
