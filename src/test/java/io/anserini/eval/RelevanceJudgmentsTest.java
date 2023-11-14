@@ -1299,7 +1299,7 @@ public class RelevanceJudgmentsTest{
   }
 
   @Test
-  public void testsCIRAL() throws IOException{
+  public void testCIRAL() throws IOException{
     RelevanceJudgments qrels;
 
     qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_HA_DEV);
