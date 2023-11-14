@@ -173,6 +173,7 @@ def evaluate_and_verify(yaml_data, dry_run):
     ok_str = '   [OK] '
     okish_str = '  \033[94m[OK*]\033[0m '
     failures = False
+    okish = False
 
     logger.info('='*10 + ' Verifying Results: ' + yaml_data['corpus'] + ' ' + '='*10)
     for model in yaml_data['models']:
@@ -210,6 +211,10 @@ def evaluate_and_verify(yaml_data, dry_run):
                         ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.006)) or \
                         ('VectorQueryGenerator' in model['params'] and actual > expected):
                     logger.info(ok_str + result_str)
+                # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
+                elif '-encoder' in model['params'] and is_close(expected, actual, abs_tol=0.001):
+                    logger.info(okish_str + result_str)
+                    okish = True
                 else:
                     if args.lucene8 and is_close_lucene8(expected, actual):
                         logger.info(okish_str + result_str)
@@ -221,7 +226,9 @@ def evaluate_and_verify(yaml_data, dry_run):
 
     if not dry_run:
         if failures:
-            logger.info(f'\033[91mFailed tests!\033[0m Total elapsed time: {end - start:.0f}s')
+            logger.info(f'{fail_str}Total elapsed time: {end - start:.0f}s')
+        elif okish:
+            logger.info(f'{okish_str}Total elapsed time: {end - start:.0f}s')
         else:
             logger.info(f'All Tests Passed! Total elapsed time: {end - start:.0f}s')
 
