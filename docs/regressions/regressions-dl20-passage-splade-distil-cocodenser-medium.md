@@ -3,7 +3,8 @@
 **Model**: SPLADE-distil CoCodenser Medium
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using SPLADE-distil CoCodenser Medium on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
-The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
+SPLADE-distil CoCodenser Medium is an intermediate model version between [SPLADEv2](https://arxiv.org/abs/2109.10086) and [SPLADE++](https://arxiv.org/abs/2205.04733), where the model used distillation (as in SPLADEv2), but started with the CoCondenser pre-trained model.
+See the [official SPLADE repo](https://github.com/naver/splade) for more details; the model itself can be download [here](http://download-de.europe.naverlabs.com/Splade_Release_Jan22/splade_distil_CoCodenser_medium.tar.gz).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](../../docs/experiments-msmarco-passage.md).

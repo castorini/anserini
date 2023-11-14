@@ -74,6 +74,7 @@ public class Rm3Reranker implements Reranker {
     this.filterTerms = filterTerms;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     assert (docs.documents.length == docs.scores.length);

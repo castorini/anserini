@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import io.anserini.IndexerTestBase;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.codecs.FieldsProducer;
 import org.apache.lucene.index.CodecReader;
@@ -37,7 +36,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Iterator;
 
 public class CloneIndexTest extends IndexerTestBase {

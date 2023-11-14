@@ -89,6 +89,7 @@ public class BM25PrfReranker implements Reranker {
     this.newTermWeight = newTermWeight;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexSearcher existingSearcher = context.getIndexSearcher();
@@ -101,7 +102,7 @@ public class BM25PrfReranker implements Reranker {
     searcher.setSimilarity(new BM25PrfSimilarity(k1, b));
 
     boolean useRf = (context.getSearchArgs().rf_qrels != null);
-    PrfFeatures fv = expandQuery(context.getQueryTokens(), docs, reader, useRf);
+    PrfFeatures fv = expandQuery((List<String>) context.getQueryTokens(), docs, reader, useRf);
     Query newQuery = fv.toQuery();
 
     if (this.outputQuery) {

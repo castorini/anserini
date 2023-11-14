@@ -75,7 +75,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
 
     public Segment(BufferedReader bufferedReader) throws IOException {
       super(bufferedReader);
-      inputStream = new TarArchiveInputStream(new ReaderInputStream(bufferedReader));
+      inputStream = new TarArchiveInputStream(new ReaderInputStream(bufferedReader, StandardCharsets.UTF_8));
     }
 
     @Override
