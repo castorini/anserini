@@ -226,9 +226,9 @@ def evaluate_and_verify(yaml_data, dry_run):
 
     if not dry_run:
         if failures:
-            logger.info(f'\033[91mFailed tests!\033[0m Total elapsed time: {end - start:.0f}s')
+            logger.info(f'{fail_str}Total elapsed time: {end - start:.0f}s')
         elif okish:
-            logger.info(f'\033[94m[OK*]\033[0m Total elapsed time: {end - start:.0f}s')
+            logger.info(f'{okish_str}Total elapsed time: {end - start:.0f}s')
         else:
             logger.info(f'All Tests Passed! Total elapsed time: {end - start:.0f}s')
 
