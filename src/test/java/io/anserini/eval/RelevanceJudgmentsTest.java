@@ -1297,4 +1297,29 @@ public class RelevanceJudgmentsTest{
     assertEquals(393, qrels.getQids().size());
     assertEquals(3928, getQrelsCount(qrels));
   }
+
+  @Test
+  public void testsCIRAL() throws IOException{
+    RelevanceJudgments qrels;
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_HA_DEV);
+    assertNotNull(qrels);
+    assertEquals(10, qrels.getQids().size());
+    assertEquals(165, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_SO_DEV);
+    assertNotNull(qrels);
+    assertEquals(10, qrels.getQids().size());
+    assertEquals(187, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_SW_DEV);
+    assertNotNull(qrels);
+    assertEquals(10, qrels.getQids().size());
+    assertEquals(196, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_YO_DEV);
+    assertNotNull(qrels);
+    assertEquals(10, qrels.getQids().size());
+    assertEquals(185, getQrelsCount(qrels));
+  }
 }
