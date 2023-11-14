@@ -90,6 +90,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     return new Segment(p);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<JsonCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment(bufferedReader);

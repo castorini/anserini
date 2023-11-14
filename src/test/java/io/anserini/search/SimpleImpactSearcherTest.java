@@ -16,7 +16,7 @@
 
 package io.anserini.search;
 
-import io.anserini.IndexerTestBase;
+import io.anserini.index.IndexerTestBase;
 import io.anserini.index.Constants;
 import org.junit.Test;
 import java.util.ArrayList;

@@ -58,6 +58,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
       super(bufferedReader);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws IOException, ParseException {
       if (rawContent != null) {

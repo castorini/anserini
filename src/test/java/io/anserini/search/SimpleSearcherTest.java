@@ -16,7 +16,7 @@
 
 package io.anserini.search;
 
-import io.anserini.IndexerTestBase;
+import io.anserini.index.IndexerTestBase;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.index.Constants;
 import io.anserini.search.SimpleSearcher.Result;

@@ -16,21 +16,11 @@
 
 package io.anserini.search;
 
-import io.anserini.IndexerTestBase;
-import io.anserini.IndexerWithoutDocvectorsTestBase;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.index.Constants;
+import io.anserini.index.IndexerWithoutDocvectorsTestBase;
 import io.anserini.search.SimpleSearcher.Result;
-import org.apache.lucene.analysis.ar.ArabicAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

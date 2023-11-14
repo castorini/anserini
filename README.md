@@ -197,12 +197,15 @@ See individual pages for details!
 
 ### BEIR (v1.0.0) Regressions
 
-+ F = "flat" baseline
-+ MF = "multifield" baseline
-+ UCx = uniCOIL (noexp)
-+ SPLADE = SPLADE-distill CoCodenser-medium
+Key:
 
-| Corpus                  |                                     flat                                      |                                     flat-wp                                      |                                     multifield                                      |                                          UCx                                           |                                                  SPLADE                                                  |
++ F1 = "flat" baseline (Lucene analyzer)
++ F2 = "flat" baselinse (pre-tokenized with `bert-base-uncased` tokenizer)
++ MF = "multifield" baseline (Lucene analyzer)
++ U1 = uniCOIL (noexp)
++ S1 = SPLADE-distill CoCodenser-medium
+
+| Corpus                  |                                      F1                                       |                                        F2                                        |                                         MF                                          |                                           U1                                           |                                                    S1                                                    |
 |-------------------------|:-----------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:|
 | TREC-COVID              |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-flat.md)        |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-flat-wp.md)        |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-multifield.md)        |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-unicoil-noexp.md)        |       [+](docs/regressions/regressions-beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium.md)        |
 | BioASQ                  |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-flat.md)          |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-flat-wp.md)          |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-multifield.md)          |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-unicoil-noexp.md)          |         [+](docs/regressions/regressions-beir-v1.0.0-bioasq-splade-distil-cocodenser-medium.md)          |

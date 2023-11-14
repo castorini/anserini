@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini;
+package io.anserini.index;
 
 import io.anserini.index.Constants;
 import org.apache.lucene.analysis.Analyzer;
@@ -35,14 +35,42 @@ import org.apache.lucene.util.BytesRef;
 import org.junit.After;
 import org.junit.Before;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.Locale;
 
-public class IndexerTestBase extends LuceneTestCase {
+public class IndexerWithEmptyDocumentTestBase extends LuceneTestCase {
   protected Path tempDir1;
 
+  protected final ByteArrayOutputStream redirectedStdout = new ByteArrayOutputStream();
+  private PrintStream savedStdout;
+
+  protected final ByteArrayOutputStream redirectedStderr = new ByteArrayOutputStream();
+  private PrintStream savedStderr;
+
+  protected void redirectStdout() {
+    savedStdout = System.out;
+    redirectedStdout.reset();
+    System.setOut(new PrintStream(redirectedStdout));
+  }
+
+  protected void restoreStdout() {
+    System.setOut(savedStdout);
+  }
+
+  protected void redirectStderr() {
+    savedStderr = System.err;
+    redirectedStderr.reset();
+    System.setErr(new PrintStream(redirectedStderr));
+  }
+
+  protected void restoreStderr() {
+    System.setErr(savedStderr);
+  }
+
   // A very simple example of how to build an index.
+  // Creates an index similar to IndexerTestBase, but adds an empty document to test error handling.
   private void buildTestIndex() throws IOException {
     Directory dir = FSDirectory.open(tempDir1);
 
@@ -64,8 +92,7 @@ public class IndexerTestBase extends LuceneTestCase {
     doc1.add(new StringField(Constants.ID, "doc1", Field.Store.YES));
     doc1.add(new BinaryDocValuesField(Constants.ID, new BytesRef("doc1".getBytes())));
     doc1.add(new Field(Constants.CONTENTS, doc1Text , textOptions));
-    // specifically demonstrate how "contents" and "raw" might diverge:
-    doc1.add(new StoredField(Constants.RAW, String.format("{\"contents\": \"%s\"}", doc1Text)));
+    doc1.add(new StoredField(Constants.RAW, doc1Text));
     writer.addDocument(doc1);
 
     Document doc2 = new Document();
@@ -73,8 +100,7 @@ public class IndexerTestBase extends LuceneTestCase {
     doc2.add(new StringField(Constants.ID, "doc2", Field.Store.YES));
     doc2.add(new BinaryDocValuesField(Constants.ID, new BytesRef("doc2".getBytes())));
     doc2.add(new Field(Constants.CONTENTS, doc2Text, textOptions));  // Note plural, to test stemming
-    // specifically demonstrate how "contents" and "raw" might diverge:
-    doc2.add(new StoredField(Constants.RAW, String.format("{\"contents\": \"%s\"}", doc2Text)));
+    doc2.add(new StoredField(Constants.RAW, doc2Text));
     writer.addDocument(doc2);
 
     Document doc3 = new Document();
@@ -82,9 +108,16 @@ public class IndexerTestBase extends LuceneTestCase {
     doc3.add(new StringField(Constants.ID, "doc3", Field.Store.YES));
     doc3.add(new BinaryDocValuesField(Constants.ID, new BytesRef("doc3".getBytes())));
     doc3.add(new Field(Constants.CONTENTS, doc3Text, textOptions));
-    // specifically demonstrate how "contents" and "raw" might diverge:
-    doc3.add(new StoredField(Constants.RAW, String.format("{\"contents\": \"%s\"}", doc3Text)));
+    doc3.add(new StoredField(Constants.RAW, doc3Text));
     writer.addDocument(doc3);
+
+    Document doc4 = new Document();
+    String doc4Text = "";
+    doc4.add(new StringField(Constants.ID, "doc4", Field.Store.YES));
+    doc4.add(new BinaryDocValuesField(Constants.ID, new BytesRef("doc4".getBytes())));
+    doc4.add(new Field(Constants.CONTENTS, doc4Text, textOptions));
+    doc4.add(new StoredField(Constants.RAW, doc4Text));
+    writer.addDocument(doc4);
 
     writer.commit();
     writer.forceMerge(1);
@@ -97,8 +130,6 @@ public class IndexerTestBase extends LuceneTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-
-    Locale.setDefault(Locale.US);
 
     tempDir1 = createTempDir();
     buildTestIndex();

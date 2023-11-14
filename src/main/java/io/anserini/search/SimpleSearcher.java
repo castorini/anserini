@@ -702,6 +702,7 @@ public class SimpleSearcher implements Closeable {
 
   // internal implementation:
   // This initial implementation is very janky. We basically still perform retrieval, but just throw away the results.
+  @SuppressWarnings("unchecked")
   protected Map<String, Float> _get_feedback_terms(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
