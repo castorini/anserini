@@ -34,7 +34,6 @@ import java.util.ArrayList;
  * @param <T> type of the source document
  */
 public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-
   protected IndexInvertedDenseVectors.Args args;
 
   protected InvertedDenseVectorDocumentGenerator() {
@@ -51,7 +50,7 @@ public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> impl
 
   private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<ArrayList<Float>>(){});
+    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<>() {});
     int length = denseVector.size();
     float[] vector = new float[length];
     int i = 0;
@@ -71,6 +70,7 @@ public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> impl
     } catch (Exception e) {
       throw new InvalidDocumentException();
     }
+
     StringBuilder sb = new StringBuilder();
     for (double fv : contents) {
       if (sb.length() > 0) {
@@ -78,12 +78,10 @@ public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> impl
       }
       sb.append(fv);
     }
-    // Make a new, empty document.
-    final Document document = new Document();
 
-    // Store the collection docid.
+    final Document document = new Document();
     document.add(new StringField(IndexInvertedDenseVectors.FIELD_ID, id, Field.Store.YES));
-    document.add(new TextField(IndexInvertedDenseVectors.FIELD_VECTOR, sb.toString(), args.stored ? Field.Store.YES : Field.Store.NO));
+    document.add(new TextField(IndexInvertedDenseVectors.FIELD_VECTOR, sb.toString(), Field.Store.NO));
 
     return document;
   }

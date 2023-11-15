@@ -33,7 +33,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.backward_codecs.lucene94.Lucene94Codec;
+import org.apache.lucene.codecs.lucene95.Lucene95Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -56,7 +56,6 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 
 public final class IndexInvertedDenseVectors {
@@ -68,104 +67,62 @@ public final class IndexInvertedDenseVectors {
   public static final String FW = "fw";
   public static final String LEXLSH = "lexlsh";
 
-
   public static final class Args {
-    @Option(name = "-input", metaVar = "[path]", required = true,
-        usage = "Location of input collection.")
-    public String input;
-
-    @Option(name = "-threads", metaVar = "[num]",
-        usage = "Number of indexing threads.")
-    public int threads = 1;
-
-    @Option(name = "-collection", metaVar = "[class]",
-        usage = "Collection class in package 'io.anserini.collection'.")
+    @Option(name = "-collection", metaVar = "[class]", required = true, usage = "Collection class in io.anserini.collection.")
     public String collectionClass;
 
-    @Option(name = "-generator", metaVar = "[class]",
-        usage = "Document generator class in package 'io.anserini.index.generator'.")
+    @Option(name = "-input", metaVar = "[path]", required = true, usage = "Input collection.")
+    public String input;
+
+    @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
     public String generatorClass = "InvertedDenseVectorDocumentGenerator";
 
-    @Option(name = "-index", metaVar = "[path]", usage = "Index path.", required = true)
+    @Option(name = "-index", metaVar = "[path]", required = true, usage = "Index path.")
     public String index;
 
-    @Option(name = "-verbose", forbids = {"-quiet"},
-        usage = "Enables verbose logging for each indexing thread; can be noisy if collection has many small file segments.")
-    public boolean verbose = false;
-
-    @Option(name = "-quiet", forbids = {"-verbose"},
-        usage = "Turns off all logging.")
-    public boolean quiet = false;
-
-    @Option(name = "-optimize",
-        usage = "Boolean switch to optimize index (i.e., force merge) into a single segment; costly for large collections.")
-    public boolean optimize = false;
-
-    @Option(name = "-memorybuffer", metaVar = "[mb]",
-        usage = "Memory buffer size (in MB).")
-    public int memorybufferSize = 2048;
-
-    @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
+    @Option(name = "-encoding", metaVar = "[word]", usage = "Encoding method: {'fw', 'lexlsh'}.")
     public String encoding = FW;
 
-    @Option(name = "-stored", metaVar = "[boolean]", usage = "store vectors")
-    public boolean stored = false;
+    @Option(name = "-fw.q", metaVar = "[int]", usage = "Fake Words encoding: quantization factor.")
+    public int q = FakeWordsEncoderAnalyzer.DEFAULT_Q;
 
-    @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
+    @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "LexLSH encoding: n-gram size.")
     public int ngrams = 2;
 
-    @Option(name = "-lexlsh.d", metaVar = "[int]", usage = "decimals")
+    @Option(name = "-lexlsh.d", metaVar = "[int]", usage = "LexLSH encoding: decimal digits.")
     public int decimals = 1;
 
-    @Option(name = "-lexlsh.hsize", metaVar = "[int]", usage = "hash set size")
+    @Option(name = "-lexlsh.hsize", metaVar = "[int]", usage = "LexLSH encoding: hash set size.")
     public int hashSetSize = 1;
 
-    @Option(name = "-lexlsh.h", metaVar = "[int]", usage = "hash count")
+    @Option(name = "-lexlsh.h", metaVar = "[int]", usage = "LexLSH encoding: hash count.")
     public int hashCount = 1;
 
-    @Option(name = "-lexlsh.b", metaVar = "[int]", usage = "bucket count")
+    @Option(name = "-lexlsh.b", metaVar = "[int]", usage = "LexLSH encoding: bucket count.")
     public int bucketCount = 300;
 
-    @Option(name = "-fw.q", metaVar = "[int]", usage = "quantization factor")
-    public int q = FakeWordsEncoderAnalyzer.DEFAULT_Q;
-  }
+    @Option(name = "-memorybuffer", metaVar = "[mb]", usage = "Memory buffer size in MB.")
+    public int memorybufferSize = 4096;
 
-  public static final class Counters {
-    /**
-     * Counter for successfully indexed documents.
-     */
-    public AtomicLong indexed = new AtomicLong();
+    @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
+    public int threads = 4;
 
-    /**
-     * Counter for empty documents that are not indexed. Empty documents are not necessary errors;
-     * it could be the case, for example, that a document is comprised solely of stopwords.
-     */
-    public AtomicLong empty = new AtomicLong();
+    @Option(name = "-verbose", forbids = {"-quiet"}, usage = "Enables verbose logging for each indexing thread.")
+    public boolean verbose = false;
 
-    /**
-     * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
-     * returns false.
-     */
-    public AtomicLong unindexable = new AtomicLong();
+    @Option(name = "-quiet", forbids = {"-verbose"}, usage = "Turns off all logging.")
+    public boolean quiet = false;
 
-    /**
-     * Counter for skipped documents. These are cases documents are skipped as part of normal
-     * processing logic, e.g., using a whitelist, not indexing retweets or deleted tweets.
-     */
-    public AtomicLong skipped = new AtomicLong();
-
-    /**
-     * Counter for unexpected errors.
-     */
-    public AtomicLong errors = new AtomicLong();
+    @Option(name = "-optimize", usage = "Optimizes index by merging into a single index segment.")
+    public boolean optimize = false;
   }
 
   private final class LocalIndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
-    final private DocumentCollection collection;
+    final private DocumentCollection<? extends SourceDocument> collection;
 
-    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) {
+    private LocalIndexerThread(IndexWriter writer, DocumentCollection<? extends SourceDocument> collection, Path inputFile) {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
@@ -173,12 +130,13 @@ public final class IndexInvertedDenseVectors {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void run() {
-      FileSegment<SourceDocument> segment = null;
+      FileSegment<? extends SourceDocument> segment = null;
 
       try {
-        LuceneDocumentGenerator generator = generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+            generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
@@ -247,11 +205,10 @@ public final class IndexInvertedDenseVectors {
 
   private final Args args;
   private final Path collectionPath;
-  private final Class<? extends LuceneDocumentGenerator<?>> generatorClass;
-  private Class<? extends DocumentCollection<?>> collectionClass;
-  private DocumentCollection<? extends SourceDocument> collection;
+  private final Class<LuceneDocumentGenerator<? extends SourceDocument>> generatorClass;
+  private final DocumentCollection<? extends SourceDocument> collection;
   private final Counters counters;
-  private Path indexPath;
+  private final Path indexPath;
 
   @SuppressWarnings("unchecked")
   public IndexInvertedDenseVectors(Args args) throws Exception {
@@ -272,65 +229,51 @@ public final class IndexInvertedDenseVectors {
 
     LOG.info("Starting indexer...");
     LOG.info("============ Loading Parameters ============");
-    LOG.info("Index path: " + args.index);
-    LOG.info("DocumentCollection path: " + args.input);
-    LOG.info("CollectionClass: " + args.collectionClass);
+    LOG.info("Collection class: " + args.collectionClass);
+    LOG.info("Collection path: " + args.input);
     LOG.info("Generator: " + args.generatorClass);
+    LOG.info("Index path: " + args.index);
+    LOG.info("Encoding: " + args.encoding);
     LOG.info("Threads: " + args.threads);
-    LOG.info("Optimize (merge segments)? " + args.optimize);
+    LOG.info("Optimize? " + args.optimize);
 
-    if (args.index != null) {
-      this.indexPath = Paths.get(args.index);
-      if (!Files.exists(this.indexPath)) {
-        Files.createDirectories(this.indexPath);
-      }
+    this.indexPath = Paths.get(args.index);
+    if (!Files.exists(this.indexPath)) {
+      Files.createDirectories(this.indexPath);
     }
 
-    // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work, we assume
-    // collections/ as the path location.
+    // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work,
+    // we assume collections/ as the path location.
     String pathStr = args.input;
     if (pathStr.startsWith("/path/to")) {
       pathStr = pathStr.replace("/path/to", "collections");
     }
-    collectionPath = Paths.get(pathStr);
+    this.collectionPath = Paths.get(pathStr);
     if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath)) {
-      throw new RuntimeException("Document directory " + collectionPath + " does not exist or is not readable, please check the path");
+      throw new RuntimeException("Collection path " + collectionPath + " does not exist or is not readable!");
     }
 
-    if (Files.isDirectory(collectionPath) && args.collectionClass == null) {
-      throw new RuntimeException("Collection class must be defined, got `null` instead");
-    }
+    Class<? extends DocumentCollection<?>> collectionClass = (Class<? extends DocumentCollection<?>>)
+        Class.forName("io.anserini.collection." + args.collectionClass);
+    this.collection = collectionClass.getConstructor(Path.class).newInstance(collectionPath);
 
-    this.generatorClass = (Class<? extends LuceneDocumentGenerator<?>>)
+    this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
         Class.forName("io.anserini.index.generator." + args.generatorClass);
-    if (args.collectionClass != null) {
-      this.collectionClass = (Class<? extends DocumentCollection<?>>)
-          Class.forName("io.anserini.collection." + args.collectionClass);
-      collection = this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
-    }
 
     this.counters = new Counters();
   }
 
   public Counters run() throws IOException {
+    LOG.info("============ Indexing Collection ============");
     final long start = System.nanoTime();
 
-    LOG.info("============ Indexing Collection ============");
-
-    int numThreads = args.threads;
     Analyzer vectorAnalyzer;
-
-    if (indexPath == null) {
-      throw new RuntimeException(indexPath + " can't be null!");
-    }
-
     if (args.encoding.equalsIgnoreCase(FW)) {
       vectorAnalyzer = new FakeWordsEncoderAnalyzer(args.q);
     } else if (args.encoding.equalsIgnoreCase(LEXLSH)) {
-      vectorAnalyzer = new LexicalLshAnalyzer(args.decimals, args.ngrams, args.hashCount,
-          args.bucketCount, args.hashSetSize);
+      vectorAnalyzer = new LexicalLshAnalyzer(args.decimals, args.ngrams, args.hashCount, args.bucketCount, args.hashSetSize);
     } else {
-      throw new RuntimeException("Must specify encoding scheme!");
+      throw new RuntimeException("Invalid encoding scheme!");
     }
 
     Map<String, Analyzer> map = new HashMap<>();
@@ -338,32 +281,29 @@ public final class IndexInvertedDenseVectors {
     Analyzer analyzer = new PerFieldAnalyzerWrapper(new StandardAnalyzer(), map);
 
     final Directory dir = FSDirectory.open(indexPath);
-    //// LUCENE 94 or 95???
-    final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene94Codec());
+    final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene95Codec());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(args.memorybufferSize);
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());
     IndexWriter writer = new IndexWriter(dir, config);
 
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    LOG.info("Thread pool with " + numThreads + " threads initialized.");
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    LOG.info("Thread pool with " + args.threads + " threads initialized.");
     LOG.info("Initializing collection in " + collectionPath);
 
-    List<?> segmentPaths = collection.getSegmentPaths();
+    List<Path> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
 
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files")));
     LOG.info("Starting to index...");
 
-    for (Object segmentPath : segmentPaths) {
-      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPath));
-    }
+    segmentPaths.forEach((segmentPath) -> executor.execute(new LocalIndexerThread(writer, collection, segmentPath)));
 
     executor.shutdown();
 
     try {
-      // Wait for existing tasks to terminate
+      // Wait for existing tasks to terminate.
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
         if (segmentCnt == 1) {
           LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
@@ -373,9 +313,9 @@ public final class IndexInvertedDenseVectors {
         }
       }
     } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
+      // (Re-)Cancel if current thread also interrupted.
       executor.shutdownNow();
-      // Preserve interrupt status
+      // Preserve interrupt status.
       Thread.currentThread().interrupt();
     }
 
@@ -386,7 +326,7 @@ public final class IndexInvertedDenseVectors {
 
     long numIndexed = writer.getDocStats().maxDoc;
 
-    // Do a final commit
+    // Do a final commit.
     try {
       writer.commit();
       if (args.optimize) {
