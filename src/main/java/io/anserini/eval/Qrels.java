@@ -163,7 +163,11 @@ public enum Qrels {
   MIRACL_V10_DE_DEV("qrels.miracl-v1.0-de-dev.tsv"),
   MIRACL_V10_YO_DEV("qrels.miracl-v1.0-yo-dev.tsv"),
   ATOMIC_VAL_T2I("qrels.atomic.validation.t2i.trec"),
-  ATOMIC_VAL_I2T("qrels.atomic.validation.i2t.trec");
+  ATOMIC_VAL_I2T("qrels.atomic.validation.i2t.trec"),
+  CIRAL_V10_HA_DEV("qrels.ciral-v1.0-ha-dev.tsv"),
+  CIRAL_V10_SO_DEV("qrels.ciral-v1.0-so-dev.tsv"),
+  CIRAL_V10_SW_DEV("qrels.ciral-v1.0-sw-dev.tsv"),
+  CIRAL_V10_YO_DEV("qrels.ciral-v1.0-yo-dev.tsv");
 
   public final String path;
 
