@@ -25,6 +25,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,6 +39,19 @@ public class IndexInvertedDenseVectorsTest {
   private static final Logger LOGGER = LogManager.getLogger(IndexInvertedDenseVectors.class);
   private static CustomAppender APPENDER;
 
+  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
+  private PrintStream save;
+
+  private void redirectStderr() {
+    save = System.err;
+    err.reset();
+    System.setErr(new PrintStream(err));
+  }
+
+  private void restoreStderr() {
+    System.setErr(save);
+  }
+
   @BeforeClass
   public static void setupClass() {
     APPENDER = new CustomAppender("CustomAppender");
@@ -47,109 +62,95 @@ public class IndexInvertedDenseVectorsTest {
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.INFO);
   }
 
+  @Test
+  public void testEmptyInvocation() throws Exception {
+    redirectStderr();
+    String[] indexArgs = new String[] {};
+
+    err.reset();
+    IndexInvertedDenseVectors.main(indexArgs);
+    assertTrue(err.toString().contains("Example: IndexInvertedDenseVectors"));
+
+    restoreStderr();
+  }
+
   @Test(expected = ClassNotFoundException.class)
   public void testInvalidCollection() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("FakeCollection");
-    args.add("-input");
-    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
-    args.add("-generator");
-    args.add("InvertedDenseVectorDocumentGenerator");
-    args.add("-index");
-    args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
-    args.add("-encoding");
-    args.add("lexlsh");
+    String[] indexArgs = new String[] {
+        "-collection", "FakeCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
+        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-encoding", "lexlsh"
+    };
 
-    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
+    IndexInvertedDenseVectors.main(indexArgs);
   }
 
   @Test(expected = RuntimeException.class)
   public void testCollectionPath() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("JsonDenseVectorCollection");
-    args.add("-input");
-    args.add("invalid/path");
-    args.add("-generator");
-    args.add("InvertedDenseVectorDocumentGenerator");
-    args.add("-index");
-    args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
-    args.add("-encoding");
-    args.add("lexlsh");
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "invalid/path",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
+        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-encoding", "lexlsh"
+    };
 
-    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
+    IndexInvertedDenseVectors.main(indexArgs);
   }
 
   @Test(expected = ClassNotFoundException.class)
   public void testInvalidGenerator() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("JsonDenseVectorCollection");
-    args.add("-input");
-    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
-    args.add("-generator");
-    args.add("FakeGenerator");
-    args.add("-index");
-    args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
-    args.add("-encoding");
-    args.add("lexlsh");
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-generator", "FakeGenerator",
+        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-encoding", "lexlsh"
+    };
 
-    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
+    IndexInvertedDenseVectors.main(indexArgs);
   }
 
   @Test(expected = RuntimeException.class)
   public void testInvalidEncoding() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("JsonDenseVectorCollection");
-    args.add("-input");
-    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
-    args.add("-generator");
-    args.add("InvertedDenseVectorDocumentGenerator");
-    args.add("-index");
-    args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
-    args.add("-encoding");
-    args.add("xxx");
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
+        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-encoding", "xxx"
+    };
 
-    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
+    IndexInvertedDenseVectors.main(indexArgs);
   }
 
   @Test
   public void testLLCollection() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("JsonDenseVectorCollection");
-    args.add("-input");
-    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
-    args.add("-generator");
-    args.add("InvertedDenseVectorDocumentGenerator");
-    args.add("-index");
-    args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
-    args.add("-encoding");
-    args.add("lexlsh");
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
+        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-encoding", "lexlsh"
+    };
 
-    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
-
+    IndexInvertedDenseVectors.main(indexArgs);
     assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
   }
 
   @Test
   public void testFWCollection() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("JsonDenseVectorCollection");
-    args.add("-input");
-    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
-    args.add("-generator");
-    args.add("InvertedDenseVectorDocumentGenerator");
-    args.add("-index");
-    args.add("target/idx-sample-fw-vector" + System.currentTimeMillis());
-    args.add("-encoding");
-    args.add("fw");
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
+        "-index", "target/idx-sample-fw-vector" + System.currentTimeMillis(),
+        "-encoding", "fw"
+    };
 
-    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
-
+    IndexInvertedDenseVectors.main(indexArgs);
     assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
   }
 

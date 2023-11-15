@@ -70,13 +70,6 @@ public final class SearchInvertedDenseVectors implements Closeable {
   private static final Logger LOG = LogManager.getLogger(SearchInvertedDenseVectors.class);
 
   public static class Args {
-
-    @Option(name = "-input", metaVar = "[file]", usage = "vectors model")
-    public File input;
-
-    @Option(name = "-stored", metaVar = "[boolean]", usage = "fetch stored vectors from index")
-    public boolean stored;
-
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
     public String index;
 
@@ -88,6 +81,10 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
     @Option(name = "-topicreader", usage = "TopicReader to use.")
     public String topicReader;
+
+    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
+        " For TREC ad hoc topics, description or narrative can be used.")
+    public String topicfield = "title";
 
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
     public String encoding;
@@ -135,10 +132,6 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
-
-    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
-        " For TREC ad hoc topics, description or narrative can be used.")
-    public String topicfield = "title";
 
     @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
     public String runtag = null;
