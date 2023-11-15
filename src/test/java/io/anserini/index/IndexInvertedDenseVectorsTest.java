@@ -59,7 +59,7 @@ public class IndexInvertedDenseVectorsTest {
     args.add("-index");
     args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
     args.add("-encoding");
-    args.add("fw");
+    args.add("lexlsh");
 
     IndexInvertedDenseVectors.main(args.toArray(new String[0]));
   }
@@ -76,7 +76,7 @@ public class IndexInvertedDenseVectorsTest {
     args.add("-index");
     args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
     args.add("-encoding");
-    args.add("fw");
+    args.add("lexlsh");
 
     IndexInvertedDenseVectors.main(args.toArray(new String[0]));
   }
@@ -93,7 +93,7 @@ public class IndexInvertedDenseVectorsTest {
     args.add("-index");
     args.add("target/idx-sample-ll-vector" + System.currentTimeMillis());
     args.add("-encoding");
-    args.add("fw");
+    args.add("lexlsh");
 
     IndexInvertedDenseVectors.main(args.toArray(new String[0]));
   }

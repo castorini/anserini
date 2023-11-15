@@ -172,36 +172,6 @@ public final class IndexHnswDenseVectors {
   
   }
 
-  public final class Counters {
-    /**
-     * Counter for successfully indexed documents.
-     */
-    public AtomicLong indexed = new AtomicLong();
-
-    /**
-     * Counter for empty documents that are not indexed. Empty documents are not necessary errors;
-     * it could be the case, for example, that a document is comprised solely of stopwords.
-     */
-    public AtomicLong empty = new AtomicLong();
-
-    /**
-     * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
-     * returns false.
-     */
-    public AtomicLong unindexable = new AtomicLong();
-
-    /**
-     * Counter for skipped documents. These are cases documents are skipped as part of normal
-     * processing logic, e.g., using a whitelist, not indexing retweets or deleted tweets.
-     */
-    public AtomicLong skipped = new AtomicLong();
-
-    /**
-     * Counter for unexpected errors.
-     */
-    public AtomicLong errors = new AtomicLong();
-  }
-
   private final class LocalIndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
