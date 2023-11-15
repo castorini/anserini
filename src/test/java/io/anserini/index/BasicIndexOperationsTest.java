@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import io.anserini.IndexerTestBase;
 import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;

@@ -1,10 +1,10 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil-onnx (encode on-the-fly) with HNSW indexes
+**Model**: cosDPR-distil with HNSW indexes (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
-> Xueguang Ma, Tommaso Teofili, and Jimmy Lin. [Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes.](https://arxiv.org/abs/2304.12139) _arXiv:2304.12139_, 2023.
+> Xueguang Ma, Tommaso Teofili, and Jimmy Lin. [Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes.](https://dl.acm.org/doi/10.1145/3583780.3615112) _Proceedings of the 32nd International Conference on Information and Knowledge Management (CIKM 2023)_, October 2023, pages 5366–5370, Birmingham, the United Kingdom.
 
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
@@ -65,8 +65,6 @@ The path `/path/to/msmarco-passage-cos-dpr-distil/` should point to the corpus d
 
 Upon completion, we should have an index with 8,841,823 documents.
 
-<!-- For additional details, see explanation of [common indexing options](common-indexing-options.md). -->
-
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
@@ -99,16 +97,16 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.463     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.458     |
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.725     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.717     |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.615     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.605     |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.813     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.805     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally stable to the third digit after the decimal point.
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage-cos-dpr-distil-onnx.yaml).
 
 Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

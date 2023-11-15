@@ -422,6 +422,12 @@ public enum Topics {
   ATOMIC_V021_FACEBOOK_FLAVA_FULL_TEXT_VAL(JsonStringTopicReader.class, "topics.atomic.validation.text.facebook.flava-full.jsonl"),
   ATOMIC_V021_FACEBOOK_FLAVA_FULL_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.facebook.flava-full.jsonl"),
 
+  // CIRAL Queries
+  CIRAL_V10_HA_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-ha-dev-native.tsv"),
+  CIRAL_V10_SO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-so-dev-native.tsv"),
+  CIRAL_V10_SW_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-dev-native.tsv"),
+  CIRAL_V10_YO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-dev-native.tsv"),
+
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),
   NTCIR_EN_1(NtcirTopicReader.class,            "topics.www1.english.txt"),

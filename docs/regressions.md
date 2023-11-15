@@ -50,11 +50,12 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium >& logs/log.msmarco-passage-splade-distil-cocodenser-medium &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed >& logs/log.msmarco-passage-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd >& logs/log.msmarco-passage-splade-pp-sd &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx >& logs/log.msmarco-passage-splade-pp-ed-onnx &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx >& logs/log.msmarco-passage-splade-pp-sd-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil >& logs/log.msmarco-passage-cos-dpr-distil &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-onnx >& logs/log.msmarco-passage-cos-dpr-distil-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2 >& logs/log.msmarco-passage-openai-ada2 &
+
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx >& logs/log.msmarco-passage-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx >& logs/log.msmarco-passage-splade-pp-sd-onnx &
+nohup python src/main/python/run_regression.py --search-pool 1 --index --verify --search --regression msmarco-passage-cos-dpr-distil-onnx >& logs/log.msmarco-passage-cos-dpr-distil-onnx &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp >& logs/log.msmarco-doc-wp &

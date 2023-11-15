@@ -103,6 +103,7 @@ public class SimpleIndexer {
             "-collection", "JsonCollection", "-threads", threads + ""});
   }
 
+  @SuppressWarnings("unchecked")
   public SimpleIndexer(Args args) throws Exception {
     this.threads = args.threads;
     this.indexPath = Paths.get(args.index);
@@ -217,6 +218,7 @@ public class SimpleIndexer {
     return addToIndex(nodes, JsonCollection.Document::new);
   }
 
+  @SuppressWarnings("unchecked")
   private <T> int addToIndex(T[] objects, Function<T, JsonCollection.Document> func) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     AtomicInteger cnt = new AtomicInteger();
