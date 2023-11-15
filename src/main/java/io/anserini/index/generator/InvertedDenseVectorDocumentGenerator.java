@@ -16,24 +16,20 @@
 
 package io.anserini.index.generator;
 
-import java.util.ArrayList;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexInvertedDenseVectors;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 
-import static io.anserini.index.IndexInvertedDenseVectors.Args.RAW;
+import java.util.ArrayList;
 
 /**
- * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed for ANN search.
+ * Converts a {@link SourceDocument} into a Lucene {@link Document}.
  *
  * @param <T> type of the source document
  */
@@ -53,7 +49,7 @@ public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> impl
     this.args = args;
   }
 
-  private float[] convertJsonArray(String vectorString) throws JsonMappingException, JsonProcessingException {
+  private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<ArrayList<Float>>(){});
     int length = denseVector.size();
@@ -88,9 +84,7 @@ public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> impl
     // Store the collection docid.
     document.add(new StringField(IndexInvertedDenseVectors.FIELD_ID, id, Field.Store.YES));
     document.add(new TextField(IndexInvertedDenseVectors.FIELD_VECTOR, sb.toString(), args.stored ? Field.Store.YES : Field.Store.NO));
-    if (args.storeRaw) {
-      document.add(new StoredField(RAW, src.raw()));
-    }
+
     return document;
   }
 }

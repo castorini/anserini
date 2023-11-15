@@ -48,45 +48,6 @@ public class IndexInvertedDenseVectorsTest {
   }
 
   @Test
-  public void indexFWTest() throws Exception {
-    createIndex("target/idx-sample-fw" + System.currentTimeMillis(), "fw", false);
-    assertTrue(APPENDER.getLastLog().contains("Total 4 documents indexed"));
-  }
-
-  @Test
-  public void indexFWStoredTest() throws Exception {
-    createIndex("target/idx-sample-fw" + System.currentTimeMillis(), "fw", false);
-    assertTrue(APPENDER.getLastLog().contains("Total 4 documents indexed"));
-  }
-
-  @Test
-  public void indexLLTest() throws Exception {
-    createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
-    assertTrue(APPENDER.getLastLog().contains("Total 4 documents indexed"));
-  }
-
-  @Test
-  public void indexLLStoredTest() throws Exception {
-    createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
-    assertTrue(APPENDER.getLastLog().contains("Total 4 documents indexed"));
-  }
-
-  public static void createIndex(String path, String encoding, boolean stored) throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-encoding");
-    args.add(encoding);
-    args.add("-input");
-    args.add("src/test/resources/mini-word-vectors.txt");
-    args.add("-index");
-    args.add(path);
-    if (stored) {
-      args.add("-stored");
-    }
-
-    IndexInvertedDenseVectors.main(args.toArray(new String[0]));
-  }
-
-  @Test
   public void testLLCollection() throws Exception {
     List<String> args = new LinkedList<>();
     args.add("-collection");

@@ -64,6 +64,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexHnswDenseVectors {
+  private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
 
   public static final class Args {
 
@@ -171,9 +172,6 @@ public final class IndexHnswDenseVectors {
   
   }
 
-  private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
-
-  // This is the default analyzer used, unless another stemming algorithm or language is specified.
   public final class Counters {
     /**
      * Counter for successfully indexed documents.

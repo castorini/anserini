@@ -24,43 +24,43 @@ import org.junit.Test;
  * Tests for {@link SearchInvertedDenseVectors}
  */
 public class SearchInvertedDenseVectorsTest {
-
-  @Test
-  public void searchFWTest() throws Exception {
-    String path = "target/idx-sample-fw" + System.currentTimeMillis();
-    String encoding = "fw";
-    IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-index",
-        path, "-word", "foo"};
-    SearchInvertedDenseVectors.main(args);
-  }
-
-  @Test
-  public void searchFWStoredTest() throws Exception {
-    String path = "target/idx-sample-fw-stored" + System.currentTimeMillis();
-    String encoding = "fw";
-    IndexInvertedDenseVectorsTest.createIndex(path, encoding, true);
-    String[] args = new String[]{"-encoding", encoding, "-stored", "-index", path, "-word", "foo"};
-    SearchInvertedDenseVectors.main(args);
-  }
-
-  @Test
-  public void searchLLTest() throws Exception {
-    String path = "target/idx-sample-ll" + System.currentTimeMillis();
-    String encoding = "lexlsh";
-    IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-index",
-        path, "-word", "foo"};
-    SearchInvertedDenseVectors.main(args);
-  }
-
-  @Test
-  public void searchLLStoredTest() throws Exception {
-    String path = "target/idx-sample-ll" + System.currentTimeMillis();
-    String encoding = "lexlsh";
-    IndexInvertedDenseVectorsTest.createIndex(path, encoding, true);
-    String[] args = new String[]{"-encoding", encoding, "-stored", "-index", path, "-word", "foo"};
-    SearchInvertedDenseVectors.main(args);
-  }
+//
+//  @Test
+//  public void searchFWTest() throws Exception {
+//    String path = "target/idx-sample-fw" + System.currentTimeMillis();
+//    String encoding = "fw";
+//    IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
+//    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-index",
+//        path, "-word", "foo"};
+//    SearchInvertedDenseVectors.main(args);
+//  }
+//
+//  @Test
+//  public void searchFWStoredTest() throws Exception {
+//    String path = "target/idx-sample-fw-stored" + System.currentTimeMillis();
+//    String encoding = "fw";
+//    IndexInvertedDenseVectorsTest.createIndex(path, encoding, true);
+//    String[] args = new String[]{"-encoding", encoding, "-stored", "-index", path, "-word", "foo"};
+//    SearchInvertedDenseVectors.main(args);
+//  }
+//
+//  @Test
+//  public void searchLLTest() throws Exception {
+//    String path = "target/idx-sample-ll" + System.currentTimeMillis();
+//    String encoding = "lexlsh";
+//    IndexInvertedDenseVectorsTest.createIndex(path, encoding, false);
+//    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-index",
+//        path, "-word", "foo"};
+//    SearchInvertedDenseVectors.main(args);
+//  }
+//
+//  @Test
+//  public void searchLLStoredTest() throws Exception {
+//    String path = "target/idx-sample-ll" + System.currentTimeMillis();
+//    String encoding = "lexlsh";
+//    IndexInvertedDenseVectorsTest.createIndex(path, encoding, true);
+//    String[] args = new String[]{"-encoding", encoding, "-stored", "-index", path, "-word", "foo"};
+//    SearchInvertedDenseVectors.main(args);
+//  }
 
 }

@@ -131,6 +131,10 @@
               <id>SearchHnswDenseVectors</id>
             </program>
             <program>
+              <mainClass>io.anserini.search.SearchInvertedDenseVectors</mainClass>
+              <id>SearchInvertedDenseVectors</id>
+            </program>
+            <program>
               <mainClass>io.anserini.index.IndexReaderUtils</mainClass>
               <id>IndexReaderUtils</id>
             </program>
@@ -153,10 +157,6 @@
             <program>
                <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
                <id>ExtractTopDfTerms</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.EvaluateInvertedDenseVectors</mainClass>
-              <id>ApproximateNearestNeighborEval</id>
             </program>
           </programs>
         </configuration>
