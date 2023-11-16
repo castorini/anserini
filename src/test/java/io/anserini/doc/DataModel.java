@@ -27,9 +27,11 @@ import java.util.Map;
 public class DataModel {
   private static final String INDEX_COMMAND = "target/appassembler/bin/IndexCollection";
   private static final String INDEX_HNSW_COMMAND = "target/appassembler/bin/IndexHnswDenseVectors";
+  private static final String INDEX_INVERTED_DENSE_COMMAND = "target/appassembler/bin/IndexInvertedDenseVectors";
 
   private static final String SEARCH_COMMAND = "target/appassembler/bin/SearchCollection";
   private static final String SEARCH_HNSW_COMMAND = "target/appassembler/bin/SearchHnswDenseVectors";
+  private static final String SEARCH_INVERTED_DENSE_COMMAND = "target/appassembler/bin/SearchInvertedDenseVectors";
 
   private String corpus;
   private String corpus_path;
@@ -276,8 +278,10 @@ public class DataModel {
 
   public String generateIndexingCommand(String collection) {
     String indexCommand = INDEX_COMMAND;
-    if (getCollection_class().equals("JsonDenseVectorCollection")) {
+    if ("hnsw".equals(getIndex_type())) {
       indexCommand = INDEX_HNSW_COMMAND;
+    } else if ("inverted-dense".equals(getIndex_type())) {
+      indexCommand = INDEX_INVERTED_DENSE_COMMAND;
     }
 
     StringBuilder builder = new StringBuilder();
@@ -313,8 +317,10 @@ public class DataModel {
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         String searchCommand = SEARCH_COMMAND;
-        if (model.getParams().contains("VectorQueryGenerator")) {
+        if ("hnsw".equals(model.getType())) {
           searchCommand = SEARCH_HNSW_COMMAND;
+        } else if ("inverted-dense".equals(model.getType())) {
+          searchCommand = SEARCH_INVERTED_DENSE_COMMAND;
         }
         builder.append(searchCommand).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");

@@ -51,7 +51,7 @@ topics:
 
 models:
   - name: cos-dpr-distil-hnsw
-    display: cosDPR-distil (HNSW)
+    display: cosDPR-distil
     type: hnsw
     params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000
     results:

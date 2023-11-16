@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil with inverted indexes "LexLSH" technique (b=600), using pre-encoded queries
+**Model**: cosDPR-distil with inverted indexes using the "LexLSH" technique (b=600); pre-encoded queries
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
@@ -46,10 +46,10 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, applying inverted indexes to dense vectors using the "fake-words" technique:
 
 ```bash
-target/appassembler/bin/IndexHnswDenseVectors \
+target/appassembler/bin/IndexInvertedDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/ \
@@ -71,7 +71,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+target/appassembler/bin/SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
   -topicreader JsonIntVector \
@@ -92,14 +92,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qre
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **cosDPR-distill (LexLSH b=600)**|
+| **AP@1000**                                                                                                  | **cosDPR-distill**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.412     |
-| **nDCG@10**                                                                                                  | **cosDPR-distill (LexLSH b=600)**|
+| **nDCG@10**                                                                                                  | **cosDPR-distill**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.672     |
-| **R@100**                                                                                                    | **cosDPR-distill (LexLSH b=600)**|
+| **R@100**                                                                                                    | **cosDPR-distill**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.554     |
-| **R@1000**                                                                                                   | **cosDPR-distill (LexLSH b=600)**|
+| **R@1000**                                                                                                   | **cosDPR-distill**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.761     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.

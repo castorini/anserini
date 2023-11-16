@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil with inverted indexes "LexLSH" technique (b=600), using pre-encoded queries
+**Model**: cosDPR-distil with inverted indexes using the "LexLSH" technique (b=600); pre-encoded queries
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
@@ -46,7 +46,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, applying inverted indexes to dense vectors using the "fake-words" technique:
 
 ```bash
 ${index_cmds}

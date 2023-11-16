@@ -55,7 +55,7 @@ topics:
 
 models:
   - name: cos-dpr-distil-fw-40
-    display: cosDPR-distill (FW q=40)
+    display: cosDPR-distill
     type: inverted-dense
     params: -topicfield vector -encoding fw -fw.q 40 -hits 1000
     results:

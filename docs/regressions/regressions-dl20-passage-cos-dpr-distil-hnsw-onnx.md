@@ -95,14 +95,14 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qre
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **cosDPR-distil (HNSW)**|
+| **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.482     |
-| **nDCG@10**                                                                                                  | **cosDPR-distil (HNSW)**|
+| **nDCG@10**                                                                                                  | **cosDPR-distil**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.701     |
-| **R@100**                                                                                                    | **cosDPR-distil (HNSW)**|
+| **R@100**                                                                                                    | **cosDPR-distil**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.712     |
-| **R@1000**                                                                                                   | **cosDPR-distil (HNSW)**|
+| **R@1000**                                                                                                   | **cosDPR-distil**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.843     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
