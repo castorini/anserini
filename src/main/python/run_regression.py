@@ -117,9 +117,9 @@ def construct_indexing_command(yaml_data, args):
     if not os.path.exists('indexes'):
         os.makedirs('indexes')
 
-    if yaml_data['index_type'] == 'inverted-dense':
+    if yaml_data.get('index_type') == 'inverted-dense':
         root_cmd = INDEX_INVERTED_DENSE_COMMAND
-    elif yaml_data['index_type'] == 'hnsw':
+    elif yaml_data.get('index_type') == 'hnsw':
         root_cmd = INDEX_HNSW_COMMAND
     else:
         root_cmd = INDEX_COMMAND
@@ -144,7 +144,7 @@ def construct_runfile_path(corpus, id, model_name):
 def construct_search_commands(yaml_data):
     ranking_commands = [
         [
-            SEARCH_INVERTED_DENSE_COMMAND if model['type'] == 'inverted-dense' else SEARCH_HNSW_COMMAND if model['type'] == 'hnsw' else SEARCH_COMMAND,
+            SEARCH_INVERTED_DENSE_COMMAND if model.get('type') == 'inverted-dense' else SEARCH_HNSW_COMMAND if model.get('type') == 'hnsw' else SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
             '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],

@@ -93,7 +93,7 @@ See individual pages for details!
 | cosDPR-distil w/ HSNW (ONNX)                |    [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw-onnx.md)     |    [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw-onnx.md)     |    [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw-onnx.md)     |
 | cosDPR-distil w/ "fake words"               |        [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-fw.md)        |        [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-fw.md)        |        [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-fw.md)        |
 | cosDPR-distil w/ "LexLSH"                   |      [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-lexlsh.md)      |      [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-lexlsh.md)      |      [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-lexlsh.md)      |
-| OpenAI-ada2                                 |           [✓](docs/regressions/regressions-msmarco-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl19-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl20-passage-openai-ada2.md)           |
+| OpenAI-ada2 w/ HNSW                         |           [✓](docs/regressions/regressions-msmarco-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl19-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl20-passage-openai-ada2.md)           |
 
 ### Available Corpora for Download
 

@@ -10,7 +10,7 @@ index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: LuceneDenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -encoder CosDprDistil
+index_options: -M 16 -efC 100
 
 metrics:
   - metric: AP@1000

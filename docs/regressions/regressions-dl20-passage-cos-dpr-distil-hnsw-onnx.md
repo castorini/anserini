@@ -57,7 +57,7 @@ target/appassembler/bin/IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
   -generator LuceneDenseVectorDocumentGenerator \
-  -threads 16 -M 16 -efC 100 -encoder CosDprDistil \
+  -threads 16 -M 16 -efC 100 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
