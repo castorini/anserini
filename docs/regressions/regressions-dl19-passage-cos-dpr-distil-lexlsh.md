@@ -94,13 +94,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distill**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.412     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4118    |
 | **nDCG@10**                                                                                                  | **cosDPR-distill**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.672     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6716    |
 | **R@100**                                                                                                    | **cosDPR-distill**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.554     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5545    |
 | **R@1000**                                                                                                   | **cosDPR-distill**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.761     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7610    |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage-cos-dpr-distil-lexlsh.yaml).

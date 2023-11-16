@@ -435,7 +435,7 @@ public class DataModel {
         builder.append(String.format("| %1$-109s|", topic.getName()));
         for (Model model : getModels()) {
           // 3 digits for HNSW, 4 otherwise:
-          if (getCollection_class().equals("JsonDenseVectorCollection")) {
+          if ("hnsw".equals(getIndex_type())) {
             builder.append(String.format(" %-10.3f|", model.getResults().get(eval.getMetric()).get(i)));
           } else {
             builder.append(String.format(" %-10.4f|", model.getResults().get(eval.getMetric()).get(i)));
