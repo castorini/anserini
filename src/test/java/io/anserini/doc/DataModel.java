@@ -79,6 +79,7 @@ public class DataModel {
   }
 
   private String index_path;
+  private String index_type;
   private String collection_class;
   private String generator_class;
   private int index_threads;
@@ -91,6 +92,14 @@ public class DataModel {
 
   public void setIndex_path(String index_path) {
     this.index_path = index_path;
+  }
+
+  public String getIndex_type() {
+    return index_type;
+  }
+
+  public void setIndex_type(String index_type) {
+    this.index_type = index_type;
   }
 
   public String getCollection_class() {
@@ -205,14 +214,18 @@ public class DataModel {
   static class Model {
     private String name;
     private String display;
+    private String type;
     private String params;
     private Map<String, List<Float>> results;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public Map<String, List<Float>> getResults() { return results; }
-    public void setDisplay(String display) { this.display = display; }
     public String getDisplay() { return display; }
+    public void setDisplay(String display) { this.display = display; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public Map<String, List<Float>> getResults() { return results; }
     public void setResults(Map<String, List<Float>> results) { this.results = results; }
     public String getParams() { return params; }
     public void setParams(String params) { this.params = params; }

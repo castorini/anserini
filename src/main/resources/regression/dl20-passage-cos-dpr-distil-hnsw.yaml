@@ -6,6 +6,7 @@ download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-
 download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
 
 index_path: indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/
+index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: LuceneDenseVectorDocumentGenerator
 index_threads: 16
@@ -43,21 +44,22 @@ metrics:
 
 topic_reader: JsonIntVector
 topics:
-  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl19
-    path: topics.dl19-passage.cos-dpr-distil.jsonl.gz
-    qrel: qrels.dl19-passage.txt
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.cos-dpr-distil.jsonl.gz
+    qrel: qrels.dl20-passage.txt
 
 models:
-  - name: cos-dpr-distil
-    display: cosDPR-distil
+  - name: cos-dpr-distil-hnsw
+    display: cosDPR-distil (HNSW)
+    type: hnsw
     params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000
     results:
       AP@1000:
-        - 0.458
+        - 0.482
       nDCG@10:
-        - 0.717
+        - 0.701
       R@100:
-        - 0.605
+        - 0.712
       R@1000:
-        - 0.805
+        - 0.843

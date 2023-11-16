@@ -779,20 +779,24 @@ public class IndexReaderUtils {
    * @param reader index reader
    * @return map from name of statistic to its value
    */
-  public static Map<String, Object> getIndexStats(IndexReader reader) {
+  public static Map<String, Object> getIndexStats(IndexReader reader, String field) {
     Map<String, Object> indexStats = new HashMap<>();
     try {
-      Terms terms = MultiTerms.getTerms(reader, Constants.CONTENTS);
+      Terms terms = MultiTerms.getTerms(reader, field);
 
       indexStats.put("documents", reader.numDocs());
-      indexStats.put("non_empty_documents", reader.getDocCount(Constants.CONTENTS));
+      indexStats.put("non_empty_documents", reader.getDocCount(field));
       indexStats.put("unique_terms", terms.size());
-      indexStats.put("total_terms", reader.getSumTotalTermFreq(Constants.CONTENTS));
+      indexStats.put("total_terms", reader.getSumTotalTermFreq(field));
     } catch (IOException e) {
       // Eat any exceptions and just return null.
       return null;
     }
     return indexStats;
+  }
+
+  public static Map<String, Object> getIndexStats(IndexReader reader) {
+    return getIndexStats(reader, Constants.CONTENTS);
   }
 
   /**
@@ -835,6 +839,9 @@ public class IndexReaderUtils {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
     String index;
 
+    @Option(name = "-field", metaVar = "[field]", usage = "field")
+    String field = Constants.CONTENTS;
+
     @Option(name = "-stats", usage = "print index statistics")
     boolean stats;
   }
@@ -851,11 +858,9 @@ public class IndexReaderUtils {
     }
 
     IndexReader reader = IndexReaderUtils.getReader(args.index);
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader);
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, args.field);
 
     if (args.stats) {
-      Terms terms = MultiTerms.getTerms(reader, Constants.CONTENTS);
-
       System.out.println("Index statistics");
       System.out.println("----------------");
       System.out.println("documents:             " + results.get("documents"));

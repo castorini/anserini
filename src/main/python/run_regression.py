@@ -55,11 +55,13 @@ CORPUS_ROOTS = [
 
 INDEX_COMMAND = 'target/appassembler/bin/IndexCollection'
 INDEX_HNSW_COMMAND = 'target/appassembler/bin/IndexHnswDenseVectors'
+INDEX_INVERTED_DENSE_COMMAND = 'target/appassembler/bin/IndexInvertedDenseVectors'
 
 INDEX_STATS_COMMAND = 'target/appassembler/bin/IndexReaderUtils'
 
 SEARCH_COMMAND = 'target/appassembler/bin/SearchCollection'
 SEARCH_HNSW_COMMAND = 'target/appassembler/bin/SearchHnswDenseVectors'
+SEARCH_INVERTED_DENSE_COMMAND = 'target/appassembler/bin/SearchInvertedDenseVectors'
 
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
@@ -115,7 +117,9 @@ def construct_indexing_command(yaml_data, args):
     if not os.path.exists('indexes'):
         os.makedirs('indexes')
 
-    if yaml_data['collection_class'] == 'JsonDenseVectorCollection':
+    if yaml_data['index_type'] == 'inverted-dense':
+        root_cmd = INDEX_INVERTED_DENSE_COMMAND
+    elif yaml_data['index_type'] == 'hnsw':
         root_cmd = INDEX_HNSW_COMMAND
     else:
         root_cmd = INDEX_COMMAND
@@ -140,7 +144,7 @@ def construct_runfile_path(corpus, id, model_name):
 def construct_search_commands(yaml_data):
     ranking_commands = [
         [
-            SEARCH_HNSW_COMMAND if 'VectorQueryGenerator' in model['params'] else SEARCH_COMMAND,
+            SEARCH_INVERTED_DENSE_COMMAND if model['type'] == 'inverted-dense' else SEARCH_HNSW_COMMAND if model['type'] == 'hnsw' else SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
             '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
@@ -368,10 +372,12 @@ if __name__ == '__main__':
     # Verify index statistics.
     if args.verify:
         logger.info('='*10 + ' Verifying Index ' + '='*10)
-        if yaml_data['collection_class'] == 'JsonDenseVectorCollection':
+        if 'index_type' in yaml_data and yaml_data['index_type'] == 'hnsw':
             logger.info('Skipping verification step for HNSW dense indexes.')
         else:
             index_utils_command = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
+            if yaml_data['index_type'] == 'inverted-dense':
+                index_utils_command.extend(['-field', 'vector'])
             verification_command = ' '.join(index_utils_command)
             logger.info(verification_command)
             if not args.dry_run:

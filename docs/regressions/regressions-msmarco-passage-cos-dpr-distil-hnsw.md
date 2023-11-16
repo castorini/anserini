@@ -14,7 +14,7 @@ Note that this page is automatically generated from [this template](../../src/ma
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
@@ -22,7 +22,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-cos-dpr-distil
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -40,7 +40,7 @@ To confirm, `msmarco-passage-cos-dpr-distil.tar` is 57 GB and has MD5 checksum `
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil \
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw \
   --corpus-path collections/msmarco-passage-cos-dpr-distil
 ```
 
@@ -74,31 +74,31 @@ target/appassembler/bin/SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicreader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
   -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **cosDPR-distil**|
+| **AP@1000**                                                                                                  | **cosDPR-distil (HNSW)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.393     |
-| **RR@10**                                                                                                    | **cosDPR-distil**|
+| **RR@10**                                                                                                    | **cosDPR-distil (HNSW)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.388     |
-| **R@100**                                                                                                    | **cosDPR-distil**|
+| **R@100**                                                                                                    | **cosDPR-distil (HNSW)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.903     |
-| **R@1000**                                                                                                   | **cosDPR-distil**|
+| **R@1000**                                                                                                   | **cosDPR-distil (HNSW)**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.974     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.

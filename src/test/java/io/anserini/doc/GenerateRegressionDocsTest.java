@@ -35,7 +35,6 @@ public class GenerateRegressionDocsTest {
     URL templatesRoot = GenerateRegressionDocsTest.class.getResource("/docgen/templates/");
 
     for (final File fileEntry : new File(templatesRoot.toURI()).listFiles()) {
-      String fileName = fileEntry.getName();
       // This is the name of the test, which can be different from the name of the collection,
       // e.g., multiple topics run on the same collection.
       String testName = fileEntry.getName().replaceAll(".template", "");
