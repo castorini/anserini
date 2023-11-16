@@ -50,7 +50,7 @@ topic_reader: JsonIntVector
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
-    path: topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz
+    path: topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
