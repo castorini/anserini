@@ -372,16 +372,16 @@ if __name__ == '__main__':
     # Verify index statistics.
     if args.verify:
         logger.info('='*10 + ' Verifying Index ' + '='*10)
-        if 'index_type' in yaml_data and yaml_data['index_type'] == 'hnsw':
+        if yaml_data.get('index_type') == 'hnsw':
             logger.info('Skipping verification step for HNSW dense indexes.')
         else:
-            index_utils_command = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
-            if yaml_data['index_type'] == 'inverted-dense':
-                index_utils_command.extend(['-field', 'vector'])
-            verification_command = ' '.join(index_utils_command)
+            verification_command_args = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
+            if yaml_data.get('index_type') == 'inverted-dense':
+                verification_command_args.extend(['-field', 'vector'])
+            verification_command = ' '.join(verification_command_args)
             logger.info(verification_command)
             if not args.dry_run:
-                out = check_output(' '.join(index_utils_command)).decode('utf-8').split('\n')
+                out = check_output(verification_command).decode('utf-8').split('\n')
                 for line in out:
                     stat = line.split(':')[0]
                     if stat in yaml_data['index_stats']:

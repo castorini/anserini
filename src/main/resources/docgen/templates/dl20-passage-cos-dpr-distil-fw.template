@@ -1,8 +1,8 @@
-# Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
+# Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil with inverted indexes using the "LexLSH" technique (b=600); pre-encoded queries
+**Model**: cosDPR-distil with inverted indexes using the "fake-words" technique (q=40); pre-encoded queries
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
@@ -46,7 +46,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, applying inverted indexes to dense vectors using the "LexLSH" technique:
+Sample indexing command, applying inverted indexes to dense vectors using the "fake-words" technique:
 
 ```bash
 ${index_cmds}
@@ -59,8 +59,8 @@ Upon completion, we should have an index with 8,841,823 documents.
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
+The regression experiments here evaluate on the 54 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
