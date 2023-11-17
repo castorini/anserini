@@ -2,7 +2,7 @@ Anserini <img src="docs/anserini-logo.png" width="300" />
 ========
 [![build](https://github.com/castorini/anserini/actions/workflows/maven.yml/badge.svg)](https://github.com/castorini/anserini/actions)
 [![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
-[![Generic badge](https://img.shields.io/badge/Lucene-v9.8.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/9.5.0/)
+[![Generic badge](https://img.shields.io/badge/Lucene-v9.8.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/9.8.0/)
 [![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini?color=brightgreen)](https://central.sonatype.com/namespace/io.anserini)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
@@ -344,6 +344,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
++ v0.23.0: November 16, 2023 [[Release Notes](docs/release-notes/release-notes-v0.23.0.md)]
 + v0.22.1: October 18, 2023 [[Release Notes](docs/release-notes/release-notes-v0.22.1.md)]
 + v0.22.0: August 28, 2023 [[Release Notes](docs/release-notes/release-notes-v0.22.0.md)]
 + v0.21.0: March 31, 2023 [[Release Notes](docs/release-notes/release-notes-v0.21.0.md)]
