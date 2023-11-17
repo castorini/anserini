@@ -69,19 +69,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/ \
-  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicreader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.splade-pp-ed.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
   -topicfield vector -encoding lexlsh -lexlsh.b 600 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness
@@ -90,13 +90,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distill**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3884    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3509    |
 | **RR@10**                                                                                                    | **cosDPR-distill**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3830    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3457    |
 | **R@100**                                                                                                    | **cosDPR-distill**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9095    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8615    |
 | **R@1000**                                                                                                   | **cosDPR-distill**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9831    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9596    |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-passage-cos-dpr-distil-lexlsh.yaml).

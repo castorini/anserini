@@ -60,10 +60,10 @@ models:
     params: -topicfield vector -encoding lexlsh -lexlsh.b 600 -hits 1000
     results:
       AP@1000:
-        - 0.3884
+        - 0.3509
       RR@10:
-        - 0.3830
+        - 0.3457
       R@100:
-        - 0.9095
+        - 0.8615
       R@1000:
-        - 0.9831
+        - 0.9596

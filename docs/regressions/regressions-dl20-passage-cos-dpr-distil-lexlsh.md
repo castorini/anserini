@@ -73,19 +73,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 target/appassembler/bin/SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/ \
-  -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz \
   -topicreader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.splade-pp-ed.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.cos-dpr-distil.jsonl.txt \
   -topicfield vector -encoding lexlsh -lexlsh.b 600 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.splade-pp-ed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.splade-pp-ed.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.cos-dpr-distil.jsonl.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl20.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness
@@ -94,13 +94,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distill**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4118    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4486    |
 | **nDCG@10**                                                                                                  | **cosDPR-distill**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6716    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6569    |
 | **R@100**                                                                                                    | **cosDPR-distill**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5545    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6662    |
 | **R@1000**                                                                                                   | **cosDPR-distill**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7610    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8131    |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage-cos-dpr-distil-lexlsh.yaml).
