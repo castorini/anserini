@@ -23,7 +23,6 @@ import io.anserini.index.generator.EmptyDocumentException;
 import io.anserini.index.generator.InvalidDocumentException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.SkippedDocumentException;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -34,151 +33,77 @@ import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
 import org.apache.lucene.codecs.lucene95.Lucene95Codec;
 import org.apache.lucene.codecs.lucene95.Lucene95HnswVectorsFormat;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexHnswDenseVectors {
   private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
 
   public static final class Args {
+    @Option(name = "-collection", metaVar = "[class]", required = true, usage = "Collection class in io.anserini.collection.")
+    public String collectionClass;
 
-    // This is the name of the field in the Lucene document where the docid is stored.
-    public static final String ID = "id";
-  
-    // This is the name of the field in the Lucene document that should be searched by default.
-    public static final String CONTENTS = "contents";
-  
-    // This is the name of the field in the Lucene document where the raw document is stored.
-    public static final String RAW = "raw";
-  
-    // This is the name of the field in the Lucene document where the vector document is stored.
-    public static final String VECTOR = "vector";
-  
-    private static final int TIMEOUT = 600 * 1000;
+    @Option(name = "-input", metaVar = "[path]", required = true, usage = "Input collection.")
+    public String input;
 
-    // required arguments
-    @Option(name = "-M", metaVar = "[num]", required = true,
-        usage = "HNSW parameters M")
+    @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
+    public String generatorClass = "HnswDenseVectorDocumentGenerator";
+
+    @Option(name = "-index", metaVar = "[path]", required = true, usage = "Index path.")
+    public String index;
+
+    @Option(name = "-M", metaVar = "[num]", usage = "HNSW parameters M")
     public int M = 16;
   
-    @Option(name = "-efC", metaVar = "[num]", required = true,
-        usage = "HNSW parameters ef Construction")
+    @Option(name = "-efC", metaVar = "[num]", usage = "HNSW parameters ef Construction")
     public int efC = 100;
-  
-    @Option(name = "-input", metaVar = "[path]", required = true,
-        usage = "Location of input collection.")
-    public String input;
-  
-    @Option(name = "-threads", metaVar = "[num]", required = true,
-        usage = "Number of indexing threads.")
-    public int threads;
-  
-    @Option(name = "-collection", metaVar = "[class]", required = true,
-        usage = "Collection class in package 'io.anserini.collection'.")
-    public String collectionClass;
-  
-    @Option(name = "-generator", metaVar = "[class]",
-        usage = "Document generator class in package 'io.anserini.index.generator'.")
-    public String generatorClass = "DefaultLuceneDocumentGenerator";
-  
-    // optional general arguments
-  
-    @Option(name = "-verbose", forbids = {"-quiet"},
-        usage = "Enables verbose logging for each indexing thread; can be noisy if collection has many small file segments.")
-    public boolean verbose = false;
-  
-    @Option(name = "-quiet", forbids = {"-verbose"},
-        usage = "Turns off all logging.")
-    public boolean quiet = false;
-  
-    // optional arguments
-  
-    @Option(name = "-index", metaVar = "[path]", usage = "Index path.")
-    public String index;
-  
-    @Option(name = "-fields", handler = StringArrayOptionHandler.class,
-        usage = "List of fields to index (space separated), in addition to the default 'contents' field.")
-    public String[] fields = new String[]{};
-  
-    @Option(name = "-storePositions",
-        usage = "Boolean switch to index store term positions; needed for phrase queries.")
-    public boolean storePositions = false;
-  
-    @Option(name = "-storeDocvectors",
-        usage = "Boolean switch to store document vectors; needed for (pseudo) relevance feedback.")
-    public boolean storeDocvectors = false;
-  
-    @Option(name = "-storeContents",
-        usage = "Boolean switch to store document contents.")
-    public boolean storeContents = false;
-  
-    @Option(name = "-storeRaw",
-        usage = "Boolean switch to store raw source documents.")
-    public boolean storeRaw = false;
-  
-    @Option(name = "-optimize",
-        usage = "Boolean switch to optimize index (i.e., force merge) into a single segment; costly for large collections.")
+
+    @Option(name = "-optimize", usage = "Optimizes index by merging into a single index segment.")
     public boolean optimize = false;
-  
-    @Option(name = "-uniqueDocid",
-        usage = "Removes duplicate documents with the same docid during indexing. This significantly slows indexing throughput " +
-                "but may be needed for tweet collections since the streaming API might deliver a tweet multiple times.")
-    public boolean uniqueDocid = false;
-  
-    @Option(name = "-memorybuffer", metaVar = "[mb]",
-        usage = "Memory buffer size (in MB).")
-    public int memorybufferSize = 2048;
-  
-    @Option(name = "-whitelist", metaVar = "[file]",
-        usage = "File containing list of docids, one per line; only these docids will be indexed.")
-    public String whitelist = null;
-  
-  
-    // Sharding options
-  
-    @Option(name = "-shard.count", metaVar = "[n]",
-        usage = "Number of shards to partition the document collection into.")
-    public int shardCount = -1;
-  
-    @Option(name = "-shard.current", metaVar = "[n]",
-        usage = "The current shard number to generate (indexed from 0).")
-    public int shardCurrent = -1;
-  
+
+    @Option(name = "-memorybuffer", metaVar = "[mb]", usage = "Memory buffer size in MB.")
+    public int memorybufferSize = 4096;
+
+    @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
+    public boolean storeVectors = false;
+
+    @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
+    public int threads = 4;
+
+    @Option(name = "-verbose", forbids = {"-quiet"}, usage = "Enables verbose logging for each indexing thread.")
+    public boolean verbose = false;
+
+    @Option(name = "-quiet", forbids = {"-verbose"}, usage = "Turns off all logging.")
+    public boolean quiet = false;
+
   }
 
   private final class LocalIndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
-    final private DocumentCollection collection;
-    private FileSegment fileSegment;
+    final private DocumentCollection<? extends SourceDocument> collection;
 
-    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) {
+    private LocalIndexerThread(IndexWriter writer, DocumentCollection<? extends SourceDocument> collection, Path inputFile) {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
@@ -186,10 +111,12 @@ public final class IndexHnswDenseVectors {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void run() {
+      FileSegment<? extends SourceDocument> segment = null;
+
       try {
-        LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
             generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
@@ -199,9 +126,7 @@ public final class IndexHnswDenseVectors {
         int cnt = 0;
         int batch = 0;
 
-        FileSegment<SourceDocument> segment = collection.createFileSegment(inputFile);
-        // in order to call close() and clean up resources in case of exception
-        this.fileSegment = segment;
+        segment = collection.createFileSegment(inputFile);
 
         for (SourceDocument d : segment) {
           if (!d.indexable()) {
@@ -209,9 +134,11 @@ public final class IndexHnswDenseVectors {
             continue;
           }
 
-          Document doc;
           try {
-            doc = generator.createDocument(d);
+            writer.addDocument(generator.createDocument(d));
+
+            cnt++;
+            batch++;
           } catch (EmptyDocumentException e1) {
             counters.empty.incrementAndGet();
             continue;
@@ -222,19 +149,6 @@ public final class IndexHnswDenseVectors {
             counters.errors.incrementAndGet();
             continue;
           }
-
-          if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
-            counters.skipped.incrementAndGet();
-            continue;
-          }
-
-          if (args.uniqueDocid) {
-            writer.updateDocument(new Term("id", d.id()), doc);
-          } else {
-            writer.addDocument(doc);
-          }
-          cnt++;
-          batch++;
 
           // And the counts from this batch, reset batch counter.
           if (batch % 10000 == 0) {
@@ -266,21 +180,17 @@ public final class IndexHnswDenseVectors {
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
-        if (fileSegment != null) {
-            fileSegment.close();
-        }
+        segment.close();
       }
     }
   }
 
   private final Args args;
   private final Path collectionPath;
-  private final Set whitelistDocids;
-  private final Class collectionClass;
-  private final Class generatorClass;
-  private final DocumentCollection collection;
+  private final Class<LuceneDocumentGenerator<? extends SourceDocument>> generatorClass;
+  private final DocumentCollection<? extends SourceDocument> collection;
   private final Counters counters;
-  private Path indexPath;
+  private final Path indexPath;
 
   @SuppressWarnings("unchecked")
   public IndexHnswDenseVectors(Args args) throws Exception {
@@ -305,17 +215,13 @@ public final class IndexHnswDenseVectors {
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
-    LOG.info("Store document \"contents\" field? " + args.storeContents);
-    LOG.info("Store document \"raw\" field? " + args.storeRaw);
+    LOG.info("Store document vectors? " + args.storeVectors);
     LOG.info("Optimize (merge segments)? " + args.optimize);
-    LOG.info("Whitelist: " + args.whitelist);
     LOG.info("Index path: " + args.index);
 
-    if (args.index != null) {
-      this.indexPath = Paths.get(args.index);
-      if (!Files.exists(this.indexPath)) {
+    this.indexPath = Paths.get(args.index);
+    if (!Files.exists(this.indexPath)) {
         Files.createDirectories(this.indexPath);
-      }
     }
 
     // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work, we assume
@@ -324,23 +230,17 @@ public final class IndexHnswDenseVectors {
     if (pathStr.startsWith("/path/to")) {
       pathStr = pathStr.replace("/path/to", "collections");
     }
-    collectionPath = Paths.get(pathStr);
+    this.collectionPath = Paths.get(pathStr);
     if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
-      throw new RuntimeException("Document directory " + collectionPath.toString() + " does not exist or is not readable, please check the path");
+      throw new RuntimeException("Invalid collection path " + collectionPath + "!");
     }
 
-    this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
-    this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
+    Class<? extends DocumentCollection<?>> collectionClass = (Class<? extends DocumentCollection<?>>)
+        Class.forName("io.anserini.collection." + args.collectionClass);
+    this.collection = collectionClass.getConstructor(Path.class).newInstance(collectionPath);
 
-    // Initialize the collection.
-    collection = (DocumentCollection) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
-
-    if (args.whitelist != null) {
-      List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
-      this.whitelistDocids = new HashSet<>(lines);
-    } else {
-      this.whitelistDocids = null;
-    }
+    this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
+        Class.forName("io.anserini.index.generator." + args.generatorClass);
 
     this.counters = new Counters();
   }
@@ -378,44 +278,32 @@ public final class IndexHnswDenseVectors {
     final long start = System.nanoTime();
     LOG.info("============ Indexing Collection ============");
 
-    int numThreads = args.threads;
-    IndexWriter writer = null;
+    final Directory dir = FSDirectory.open(indexPath);
+    final IndexWriterConfig config = new IndexWriterConfig().setCodec(
+        new Lucene95Codec() {
+          @Override
+          public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
+            return new OpenAiDelegatingKnnVectorsFormat(
+                new Lucene95HnswVectorsFormat(args.M, args.efC), 4096);
+          }
+        });
+    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    config.setRAMBufferSizeMB(args.memorybufferSize);
+    config.setUseCompoundFile(false);
+    config.setMergeScheduler(new ConcurrentMergeScheduler());
+    IndexWriter writer = new IndexWriter(dir, config);
 
-    // Used for LocalIndexThread
-    if (indexPath != null) {
-      final Directory dir = FSDirectory.open(indexPath);
-      final IndexWriterConfig config = new IndexWriterConfig().setCodec(new Lucene95Codec(){
-        @Override
-        public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-          return new OpenAiDelegatingKnnVectorsFormat(
-              new Lucene95HnswVectorsFormat(args.M, args.efC), 4096);
-        }
-      });
-      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-      config.setRAMBufferSizeMB(args.memorybufferSize);
-      config.setUseCompoundFile(false);
-      config.setMergeScheduler(new ConcurrentMergeScheduler());
-      writer = new IndexWriter(dir, config);
-    }
-
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    LOG.info("Thread pool with " + numThreads + " threads initialized.");
-
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    LOG.info("Thread pool with " + args.threads + " threads initialized.");
     LOG.info("Initializing collection in " + collectionPath.toString());
 
-    List<?> segmentPaths = collection.getSegmentPaths();
-    // when we want sharding to be done
-    if (args.shardCount > 1) {
-      segmentPaths = collection.getSegmentPaths(args.shardCount, args.shardCurrent);
-    }
+    List<Path> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
 
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");
 
-    for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
-    }
+    segmentPaths.forEach((segmentPath) -> executor.execute(new LocalIndexerThread(writer, collection, segmentPath)));
 
     executor.shutdown();
 
@@ -445,17 +333,13 @@ public final class IndexHnswDenseVectors {
 
     // Do a final commit
     try {
-      if (writer != null) {
-        writer.commit();
-        if (args.optimize) {
-          writer.forceMerge(1);
-        }
+      writer.commit();
+      if (args.optimize) {
+        writer.forceMerge(1);
       }
     } finally {
       try {
-        if (writer != null) {
-          writer.close();
-        }
+        writer.close();
       } catch (IOException e) {
         // It is possible that this happens... but nothing much we can do at this point,
         // so just log the error and move on.

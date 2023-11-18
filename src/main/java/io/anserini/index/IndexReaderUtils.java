@@ -782,12 +782,15 @@ public class IndexReaderUtils {
   public static Map<String, Object> getIndexStats(IndexReader reader, String field) {
     Map<String, Object> indexStats = new HashMap<>();
     try {
-      Terms terms = MultiTerms.getTerms(reader, field);
 
       indexStats.put("documents", reader.numDocs());
       indexStats.put("non_empty_documents", reader.getDocCount(field));
-      indexStats.put("unique_terms", terms.size());
       indexStats.put("total_terms", reader.getSumTotalTermFreq(field));
+
+      Terms terms = MultiTerms.getTerms(reader, field);
+      if (terms != null) {
+        indexStats.put("unique_terms", terms.size());
+      }
     } catch (IOException e) {
       // Eat any exceptions and just return null.
       return null;

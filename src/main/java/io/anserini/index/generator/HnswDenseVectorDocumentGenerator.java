@@ -39,10 +39,10 @@ import java.util.ArrayList;
  *
  * @param <T> type of the source document
  */
-public class LuceneDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
+public class HnswDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
   protected IndexHnswDenseVectors.Args args;
 
-  protected LuceneDenseVectorDocumentGenerator() {
+  protected HnswDenseVectorDocumentGenerator() {
   }
 
   /**
@@ -50,19 +50,20 @@ public class LuceneDenseVectorDocumentGenerator<T extends SourceDocument> implem
    *
    * @param args configuration arguments
    */
-  public LuceneDenseVectorDocumentGenerator(IndexHnswDenseVectors.Args args) {
+  public HnswDenseVectorDocumentGenerator(IndexHnswDenseVectors.Args args) {
     this.args = args;
   }
 
-  private float[] convertJsonArray(String vectorString) throws JsonMappingException, JsonProcessingException {
+  private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
-    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<ArrayList<Float>>(){});
+    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<>(){});
+
     int length = denseVector.size();
     float[] vector = new float[length];
-    int i = 0;
-    for (Float f : denseVector) {
-      vector[i++] = f;
+    for (int i=0; i<length; i++) {
+      vector[i] = denseVector.get(i);
     }
+
     return vector;
   }
 
@@ -85,9 +86,9 @@ public class LuceneDenseVectorDocumentGenerator<T extends SourceDocument> implem
     // This is needed to break score ties by docid.
     document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
-    document.add(new KnnFloatVectorField(IndexHnswDenseVectors.Args.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
-    if (args.storeRaw) {
-      document.add(new StoredField(IndexHnswDenseVectors.Args.RAW, src.raw()));
+    document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
+    if (args.storeVectors) {
+      document.add(new StoredField(Constants.RAW, src.raw()));
     }
     return document;
   }

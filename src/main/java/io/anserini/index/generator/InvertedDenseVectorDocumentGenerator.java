@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.SourceDocument;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexInvertedDenseVectors;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -80,8 +81,8 @@ public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> impl
     }
 
     final Document document = new Document();
-    document.add(new StringField(IndexInvertedDenseVectors.FIELD_ID, id, Field.Store.YES));
-    document.add(new TextField(IndexInvertedDenseVectors.FIELD_VECTOR, sb.toString(), Field.Store.NO));
+    document.add(new StringField(Constants.ID, id, Field.Store.YES));
+    document.add(new TextField(Constants.VECTOR, sb.toString(), Field.Store.NO));
 
     return document;
   }

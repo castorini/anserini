@@ -21,13 +21,15 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.index.IndexReader;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -49,26 +51,26 @@ public class IndexHnswDenseVectorsTest {
 
   @Test
   public void test1() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("JsonDenseVectorCollection");
-    args.add("-input");
-    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
-    args.add("-index");
-    args.add("target/idx-sample-hnsw" + System.currentTimeMillis());
-    args.add("-generator");
-    args.add("LuceneDenseVectorDocumentGenerator");
-    args.add("-threads");
-    args.add("1");
-    args.add("-M");
-    args.add("16");
-    args.add("-efC");
-    args.add("100");
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
 
-    IndexHnswDenseVectors.main(args.toArray(new String[0]));
+    IndexHnswDenseVectors.main(indexArgs);
 
     System.out.println(APPENDER.getLastLog());
     assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertEquals(100, results.get("documents"));
   }
 
   @AfterClass

@@ -18,6 +18,7 @@ package io.anserini.search;
 
 import io.anserini.encoder.dense.DenseEncoder;
 import io.anserini.encoder.sparse.SparseEncoder;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexHnswDenseVectors;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.VectorQueryGenerator;
@@ -75,7 +76,7 @@ public final class SearchHnswDenseVectors implements Closeable {
   // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
   // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchVectorArgs.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexHnswDenseVectors.Args.ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
 
   private static final Logger LOG = LogManager.getLogger(SearchHnswDenseVectors.class);
 
@@ -236,7 +237,7 @@ public final class SearchHnswDenseVectors implements Closeable {
 
             int rank = 1;
             for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(IndexHnswDenseVectors.Args.ID);
+              String docid = docs.documents[i].get(Constants.ID);
 
               if (args.selectMaxPassage) {
                 docid = docid.split(args.selectMaxPassage_delimiter)[0];
@@ -390,7 +391,7 @@ public final class SearchHnswDenseVectors implements Closeable {
   }
 
   public ScoredDocuments search(IndexSearcher searcher, float[] queryFloat) throws IOException {
-    KnnFloatVectorQuery query = new KnnFloatVectorQuery(IndexHnswDenseVectors.Args.VECTOR, queryFloat, args.efSearch);
+    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
     
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     rs = searcher.search(query, args.hits);
@@ -413,7 +414,7 @@ public final class SearchHnswDenseVectors implements Closeable {
 
     // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
     // multiple fields with the associated boosts.
-    query = generator.buildQuery(IndexHnswDenseVectors.Args.VECTOR, queryString, args.efSearch);
+    query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     rs = searcher.search(query, args.hits);

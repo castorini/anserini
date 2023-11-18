@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -144,8 +145,9 @@ public class IndexInvertedDenseVectorsTest {
     assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
 
     IndexReader reader = IndexReaderUtils.getReader(indexPath);
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, IndexInvertedDenseVectors.FIELD_VECTOR);
+    assertNotNull(reader);
 
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertEquals(100, results.get("documents"));
     assertEquals(100, results.get("non_empty_documents"));
     assertEquals(4081, (int) ((Long) results.get("unique_terms")).longValue());
@@ -167,8 +169,9 @@ public class IndexInvertedDenseVectorsTest {
     assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
 
     IndexReader reader = IndexReaderUtils.getReader(indexPath);
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, IndexInvertedDenseVectors.FIELD_VECTOR);
+    assertNotNull(reader);
 
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertEquals(100, results.get("documents"));
     assertEquals(100, results.get("non_empty_documents"));
     assertEquals(1460, (int) ((Long) results.get("unique_terms")).longValue());
