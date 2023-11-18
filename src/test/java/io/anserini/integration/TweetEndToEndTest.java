@@ -19,10 +19,18 @@ package io.anserini.integration;
 import io.anserini.collection.TweetCollection;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.TweetGenerator;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
 
 import java.util.Map;
 
 public class TweetEndToEndTest extends EndToEndTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
+  }
+
   // Note that in the test cases, we have:
   // {... "id":1,"id_str":"1","text":"RT This is a Retweet and will NOT NOT be indexed!" ... }
   // {... "id":10,"id_str":"10","text":"This tweet won't be indexed since the maxId is 9" ... }

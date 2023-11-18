@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AutoCompositeAnalyzer {
-  private static final Logger LOG = LogManager.getLogger(CompositeAnalyzer.class);
+  private static final Logger LOG = LogManager.getLogger(AutoCompositeAnalyzer.class);
 
   private static final Map<String, String> tokenizerMap = new HashMap<>() {
     {
