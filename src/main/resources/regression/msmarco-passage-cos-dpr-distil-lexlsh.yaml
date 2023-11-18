@@ -5,11 +5,16 @@ corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
 download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
 
-index_path: indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/
+index_path: indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/
+index_type: inverted-dense
 collection_class: JsonDenseVectorCollection
-generator_class: LuceneDenseVectorDocumentGenerator
+generator_class: InvertedDenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100
+index_options: -encoding lexlsh -lexlsh.b 600
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 5305093800
 
 metrics:
   - metric: AP@1000
@@ -49,15 +54,16 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: cos-dpr-distil
-    display: cosDPR-distil
-    params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000
+  - name: cos-dpr-distil-lexlsh-600
+    display: cosDPR-distill
+    type: inverted-dense
+    params: -topicfield vector -encoding lexlsh -lexlsh.b 600 -hits 1000
     results:
       AP@1000:
-        - 0.393
+        - 0.3509
       RR@10:
-        - 0.388
+        - 0.3457
       R@100:
-        - 0.903
+        - 0.8615
       R@1000:
-        - 0.974
+        - 0.9596

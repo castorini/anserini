@@ -1,16 +1,20 @@
 ---
-corpus: msmarco-passage-openai-ada2
-corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
+corpus: msmarco-passage-cos-dpr-distil
+corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar
-download_checksum: a4d843d522ff3a3af7edbee789a63402
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
+download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
 
-index_path: indexes/lucene-hnsw.msmarco-passage-openai-ada2/
-index_type: hnsw
+index_path: indexes/lucene-index.msmarco-passage-cos-dpr-distil.fw-40/
+index_type: inverted-dense
 collection_class: JsonDenseVectorCollection
-generator_class: LuceneDenseVectorDocumentGenerator
+generator_class: InvertedDenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memorybuffer 65536
+index_options: -encoding fw -fw.q 40
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 2358948522
 
 metrics:
   - metric: AP@1000
@@ -44,22 +48,22 @@ metrics:
 
 topic_reader: JsonIntVector
 topics:
-  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl19
-    path: topics.dl19-passage.openai-ada2.jsonl.gz
-    qrel: qrels.dl19-passage.txt
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.cos-dpr-distil.jsonl.gz
+    qrel: qrels.dl20-passage.txt
 
 models:
-  - name: openai-ada2
-    display: OpenAI-ada2
-    type: hnsw
-    params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000
+  - name: cos-dpr-distil-fw-40
+    display: cosDPR-distill
+    type: inverted-dense
+    params: -topicfield vector -encoding fw -fw.q 40 -hits 1000
     results:
       AP@1000:
-        - 0.479
+        - 0.4597
       nDCG@10:
-        - 0.704
+        - 0.6666
       R@100:
-        - 0.624
+        - 0.6909
       R@1000:
-        - 0.857
+        - 0.8194

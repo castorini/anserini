@@ -27,9 +27,11 @@ import java.util.Map;
 public class DataModel {
   private static final String INDEX_COMMAND = "target/appassembler/bin/IndexCollection";
   private static final String INDEX_HNSW_COMMAND = "target/appassembler/bin/IndexHnswDenseVectors";
+  private static final String INDEX_INVERTED_DENSE_COMMAND = "target/appassembler/bin/IndexInvertedDenseVectors";
 
   private static final String SEARCH_COMMAND = "target/appassembler/bin/SearchCollection";
   private static final String SEARCH_HNSW_COMMAND = "target/appassembler/bin/SearchHnswDenseVectors";
+  private static final String SEARCH_INVERTED_DENSE_COMMAND = "target/appassembler/bin/SearchInvertedDenseVectors";
 
   private String corpus;
   private String corpus_path;
@@ -79,6 +81,7 @@ public class DataModel {
   }
 
   private String index_path;
+  private String index_type;
   private String collection_class;
   private String generator_class;
   private int index_threads;
@@ -91,6 +94,14 @@ public class DataModel {
 
   public void setIndex_path(String index_path) {
     this.index_path = index_path;
+  }
+
+  public String getIndex_type() {
+    return index_type;
+  }
+
+  public void setIndex_type(String index_type) {
+    this.index_type = index_type;
   }
 
   public String getCollection_class() {
@@ -205,14 +216,18 @@ public class DataModel {
   static class Model {
     private String name;
     private String display;
+    private String type;
     private String params;
     private Map<String, List<Float>> results;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public Map<String, List<Float>> getResults() { return results; }
-    public void setDisplay(String display) { this.display = display; }
     public String getDisplay() { return display; }
+    public void setDisplay(String display) { this.display = display; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public Map<String, List<Float>> getResults() { return results; }
     public void setResults(Map<String, List<Float>> results) { this.results = results; }
     public String getParams() { return params; }
     public void setParams(String params) { this.params = params; }
@@ -263,8 +278,10 @@ public class DataModel {
 
   public String generateIndexingCommand(String collection) {
     String indexCommand = INDEX_COMMAND;
-    if (getCollection_class().equals("JsonDenseVectorCollection")) {
+    if ("hnsw".equals(getIndex_type())) {
       indexCommand = INDEX_HNSW_COMMAND;
+    } else if ("inverted-dense".equals(getIndex_type())) {
+      indexCommand = INDEX_INVERTED_DENSE_COMMAND;
     }
 
     StringBuilder builder = new StringBuilder();
@@ -300,8 +317,10 @@ public class DataModel {
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         String searchCommand = SEARCH_COMMAND;
-        if (model.getParams().contains("VectorQueryGenerator")) {
+        if ("hnsw".equals(model.getType())) {
           searchCommand = SEARCH_HNSW_COMMAND;
+        } else if ("inverted-dense".equals(model.getType())) {
+          searchCommand = SEARCH_INVERTED_DENSE_COMMAND;
         }
         builder.append(searchCommand).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
@@ -416,7 +435,7 @@ public class DataModel {
         builder.append(String.format("| %1$-109s|", topic.getName()));
         for (Model model : getModels()) {
           // 3 digits for HNSW, 4 otherwise:
-          if (getCollection_class().equals("JsonDenseVectorCollection")) {
+          if ("hnsw".equals(getIndex_type())) {
             builder.append(String.format(" %-10.3f|", model.getResults().get(eval.getMetric()).get(i)));
           } else {
             builder.append(String.format(" %-10.4f|", model.getResults().get(eval.getMetric()).get(i)));

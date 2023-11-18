@@ -64,6 +64,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexHnswDenseVectors {
+  private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
 
   public static final class Args {
 
@@ -169,39 +170,6 @@ public final class IndexHnswDenseVectors {
         usage = "The current shard number to generate (indexed from 0).")
     public int shardCurrent = -1;
   
-  }
-
-  private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
-
-  // This is the default analyzer used, unless another stemming algorithm or language is specified.
-  public final class Counters {
-    /**
-     * Counter for successfully indexed documents.
-     */
-    public AtomicLong indexed = new AtomicLong();
-
-    /**
-     * Counter for empty documents that are not indexed. Empty documents are not necessary errors;
-     * it could be the case, for example, that a document is comprised solely of stopwords.
-     */
-    public AtomicLong empty = new AtomicLong();
-
-    /**
-     * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
-     * returns false.
-     */
-    public AtomicLong unindexable = new AtomicLong();
-
-    /**
-     * Counter for skipped documents. These are cases documents are skipped as part of normal
-     * processing logic, e.g., using a whitelist, not indexing retweets or deleted tweets.
-     */
-    public AtomicLong skipped = new AtomicLong();
-
-    /**
-     * Counter for unexpected errors.
-     */
-    public AtomicLong errors = new AtomicLong();
   }
 
   private final class LocalIndexerThread extends Thread {
