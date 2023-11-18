@@ -5,59 +5,65 @@ corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
 download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
 
-index_path: indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/
+index_path: indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/
+index_type: inverted-dense
 collection_class: JsonDenseVectorCollection
-generator_class: LuceneDenseVectorDocumentGenerator
+generator_class: InvertedDenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 
+index_options: -encoding lexlsh -lexlsh.b 600
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 5305093800
 
 metrics:
   - metric: AP@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m map
+    params: -m map -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
-  - metric: RR@10
+  - metric: nDCG@10
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -M 10 -m recip_rank
+    params: -m ndcg_cut.10 -c
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@100
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recall.100
+    params: -m recall.100 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@1000
     command: tools/eval/trec_eval.9.0.4/trec_eval
-    params: -c -m recall.1000
+    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
 
-topic_reader: TsvInt
+topic_reader: JsonIntVector
 topics:
-  - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
-    id: dev
-    path: topics.msmarco-passage.dev-subset.txt
-    qrel: qrels.msmarco-passage.dev-subset.txt
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.cos-dpr-distil.jsonl.gz
+    qrel: qrels.dl20-passage.txt
 
 models:
-  - name: cos-dpr-distil-onnx
-    display: cosDPR-distil (ONNX)
-    params: -querygenerator VectorQueryGenerator -topicfield title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil
+  - name: cos-dpr-distil-lexlsh-600
+    display: cosDPR-distill
+    type: inverted-dense
+    params: -topicfield vector -encoding lexlsh -lexlsh.b 600 -hits 1000
     results:
       AP@1000:
-        - 0.393
-      RR@10:
-        - 0.388
+        - 0.4486
+      nDCG@10:
+        - 0.6569
       R@100:
-        - 0.903
+        - 0.6662
       R@1000:
-        - 0.974
+        - 0.8131

@@ -16,6 +16,29 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.index.Constants;
+import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.query.InvertedDenseVectorQueryGenerator;
+import io.anserini.search.topicreader.TopicReader;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.search.similarities.ClassicSimilarity;
+import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -24,10 +47,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -41,55 +61,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.index.IndexInvertedDenseVectors;
-import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.query.InvertedDenseVectorQueryGenerator;
-import io.anserini.search.topicreader.TopicReader;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.StoredFields;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TopScoreDocCollector;
-import org.apache.lucene.search.similarities.ClassicSimilarity;
-import org.apache.lucene.search.similarities.Similarity;
-import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.spi.StringArrayOptionHandler;
-
 import static io.anserini.index.IndexInvertedDenseVectors.FW;
 
 /**
  * Main entry point for inverted dense vector search.
  */
 public final class SearchInvertedDenseVectors implements Closeable {
-
   private static final Logger LOG = LogManager.getLogger(SearchInvertedDenseVectors.class);
 
   public static class Args {
-
-    @Option(name = "-input", metaVar = "[file]", usage = "vectors model")
-    public File input;
-
-    @Option(name = "-word", metaVar = "[word]", usage = "input word")
-    public String word;
-
-    @Option(name = "-stored", metaVar = "[boolean]", usage = "fetch stored vectors from index")
-    public boolean stored;
-
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
     public String index;
 
@@ -101,6 +81,10 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
     @Option(name = "-topicreader", usage = "TopicReader to use.")
     public String topicReader;
+
+    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
+        " For TREC ad hoc topics, description or narrative can be used.")
+    public String topicfield = "title";
 
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
     public String encoding;
@@ -148,10 +132,6 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
-
-    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
-        " For TREC ad hoc topics, description or narrative can be used.")
-    public String topicfield = "title";
 
     @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
     public String runtag = null;
@@ -246,7 +226,7 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
             int rank = 1;
             for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(IndexInvertedDenseVectors.Args.ID);
+              String docid = docs.documents[i].get(Constants.ID);
 
               if (args.selectMaxPassage) {
                 docid = docid.split(args.selectMaxPassage_delimiter)[0];
@@ -452,70 +432,11 @@ public final class SearchInvertedDenseVectors implements Closeable {
     }
     if (searchArgs.topicReader != null && searchArgs.topics != null) {
       searcher.runTopics();
-    } else if (searchArgs.word != null) {
-      searcher.runWord();
-    } else {
-      System.err.println("Either " + searchArgs.word + " or " + searchArgs.topicReader + " must be set");
-      return;
     }
+
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 
-  private void runWord() throws IOException {
-    generator = new InvertedDenseVectorQueryGenerator(args, false);
-    Collection<String> vectorStrings = new LinkedList<>();
-    IndexSearcher searcher = new IndexSearcher(reader);
-    if (args.encoding.equalsIgnoreCase(FW)) {
-      searcher.setSimilarity(new ClassicSimilarity());
-    }
-    StoredFields storedFields = reader.storedFields();
-    if (args.stored) {
-      TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexInvertedDenseVectors.FIELD_ID, args.word)), args.hits);
-      for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-        vectorStrings.add(storedFields.document(scoreDoc.doc).get(IndexInvertedDenseVectors.FIELD_VECTOR));
-      }
-    } else {
-      System.out.println(String.format("Loading model %s", args.input));
-
-      Map<String, List<float[]>> wordVectors = IndexInvertedDenseVectors.readGloVe(args.input);
-
-      if (wordVectors.containsKey(args.word)) {
-        List<float[]> vectors = wordVectors.get(args.word);
-        for (float[] vector : vectors) {
-          StringBuilder sb = new StringBuilder();
-          for (double fv : vector) {
-            if (sb.length() > 0) {
-              sb.append(' ');
-            }
-            sb.append(fv);
-          }
-          String vectorString = sb.toString();
-          vectorStrings.add(vectorString);
-        }
-      }
-    }
-
-    for (String vectorString : vectorStrings) {
-      Query query = generator.buildQuery(vectorString);
-
-      long start = System.currentTimeMillis();
-      TopScoreDocCollector results = TopScoreDocCollector.create(args.hits, Integer.MAX_VALUE);
-      searcher.search(query, results);
-      long time = System.currentTimeMillis() - start;
-
-      System.out.println(String.format("%d nearest neighbors of '%s':", args.hits, args.word));
-
-      int rank = 1;
-      for (ScoreDoc sd : results.topDocs().scoreDocs) {
-        Document document = storedFields.document(sd.doc);
-        String word = document.get(IndexInvertedDenseVectors.FIELD_ID);
-        System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
-        rank++;
-      }
-      System.out.println(String.format("Search time: %dms", time));
-    }
-    reader.close();
-  }
 }
