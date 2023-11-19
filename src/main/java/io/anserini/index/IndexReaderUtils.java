@@ -20,6 +20,8 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.search.SearchCollection;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.PhraseQueryGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -65,6 +67,7 @@ import java.util.Map;
  * This class provides a lot of functionality that is exposed in Python via Pyserini.
  */
 public class IndexReaderUtils {
+  private static final Logger LOG = LogManager.getLogger(IndexReaderUtils.class);
 
   /**
    * An individual posting in a postings list. Note that this class is used primarily for inspecting
@@ -726,7 +729,129 @@ public class IndexReaderUtils {
     return rs.scoreDocs.length == 0 ? 0 : rs.scoreDocs[0].score - 1;
   }
 
-  // TODO: Write a variant of computeQueryDocumentScore that takes a set of documents.
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScore(
+          IndexReader reader, List<String> docids, String q)
+          throws IOException {
+
+    SearchArgs args = new SearchArgs();
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q,
+            new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0])),
+            IndexCollection.DEFAULT_ANALYZER);
+  }
+
+
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param similarity scoring function
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScore(
+          IndexReader reader, List<String> docids, String q, Similarity similarity)
+          throws IOException {
+
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q, similarity,
+            IndexCollection.DEFAULT_ANALYZER);
+  }
+
+
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param analyzer analyzer to use
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScore(
+          IndexReader reader, List<String> docids, String q, Analyzer analyzer)
+          throws IOException {
+
+    SearchArgs args = new SearchArgs();
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q,
+            new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0])),
+            analyzer);
+  }
+
+
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param similarity scoring function
+   * @param analyzer analyzer to use
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScore(
+          IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer)
+          throws IOException {
+    return batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docids, q, similarity, analyzer);
+  }
+
+
+  /**
+   * Computes the scores of a batch of documents with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docids A list of docids of the documents to score
+   * @param q query
+   * @param similarity scoring function
+   * @param analyzer analyzer to use
+   * @return a map of document ids to their scores with respect to the query
+   * @throws IOException if error encountered during query
+   */
+  public static Map<String, Float> batchComputeQueryDocumentScoreWithSimilarityAndAnalyzer(
+          IndexReader reader, List<String> docids, String q, Similarity similarity, Analyzer analyzer)
+          throws IOException {
+    // We compute the query-document score by issuing the query with additional filters that restricts
+    // consideration to the set of docids provided, and then returning the retrieval score.
+
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
+
+    HashMap<String, Float> results = new HashMap<>();
+
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (String docid: docids){
+      // Setting default result value for all docids.
+      results.put(docid, 0.0f);
+      Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
+      builder.add(filterQuery, BooleanClause.Occur.SHOULD);
+    }
+    builder.add(query, BooleanClause.Occur.MUST);
+    Query finalQuery = builder.build();
+
+    TopDocs rs = searcher.search(finalQuery, docids.size());
+
+    for (int i=0; i < rs.scoreDocs.length; i++){
+      String docid = convertLuceneDocidToDocid(reader, rs.scoreDocs[i].doc);
+      // Removing 1 for the ConstantScoreQuery.
+      float result = rs.scoreDocs[i].score -1;
+      results.put(docid, result);
+    }
+
+    return results;
+  }
 
   /**
    * Converts a collection docid to a Lucene internal docid.
