@@ -22,10 +22,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexInvertedDenseVectors;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.util.BytesRef;
 
 import java.util.ArrayList;
 
@@ -81,7 +83,11 @@ public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> impl
     }
 
     final Document document = new Document();
+    // Store the collection docid.
     document.add(new StringField(Constants.ID, id, Field.Store.YES));
+    // This is needed to break score ties by docid.
+    document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
+
     document.add(new TextField(Constants.VECTOR, sb.toString(), Field.Store.NO));
 
     return document;

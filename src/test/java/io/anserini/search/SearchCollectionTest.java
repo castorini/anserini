@@ -56,10 +56,10 @@ public class SearchCollectionTest {
 
     err.reset();
     SearchCollection.main(new String[] {"-index", "foo", "-output", "bar"});
-    assertTrue(err.toString().contains("Option \"-topicreader\" is required"));
+    assertTrue(err.toString().contains("Option \"-topicReader\" is required"));
 
     err.reset();
-    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicreader", "baz"});
+    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz"});
     assertTrue(err.toString().contains("Option \"-topics\" is required"));
 
     restoreStderr();
@@ -70,7 +70,7 @@ public class SearchCollectionTest {
     redirectStderr();
 
     err.reset();
-    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicreader", "baz", "-topics", "topic",});
+    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",});
     assertTrue(err.toString().contains("Index path 'foo' does not exist or is not a directory."));
 
     restoreStderr();
@@ -83,27 +83,27 @@ public class SearchCollectionTest {
     // We can't exhaustively test all combinations, so we just sample a few combinations.
 
     err.reset();
-    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicreader", "baz", "-topics", "topic",
+    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",
         "-bm25", "-qld"});
     assertTrue(err.toString().contains("cannot be used with the option"));
 
     err.reset();
-    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicreader", "baz", "-topics", "topic",
+    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",
         "-bm25", "-qljm"});
     assertTrue(err.toString().contains("cannot be used with the option"));
 
     err.reset();
-    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicreader", "baz", "-topics", "topic",
+    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",
         "-qljm", "-spl"});
     assertTrue(err.toString().contains("cannot be used with the option"));
 
     err.reset();
-    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicreader", "baz", "-topics", "topic",
+    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",
         "-inl2", "-f2exp"});
     assertTrue(err.toString().contains("cannot be used with the option"));
 
     err.reset();
-    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicreader", "baz", "-topics", "topic",
+    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",
         "-f2log", "-f2exp"});
     assertTrue(err.toString().contains("cannot be used with the option"));
 
@@ -115,7 +115,7 @@ public class SearchCollectionTest {
     SearchCollection.main(
         new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
             "-topics", "src/test/resources/sample_topics/Trec",
-            "-topicreader", "Trec", "-output", "run.test", "-bm25"});
+            "-topicReader", "Trec", "-output", "run.test", "-bm25"});
     check("run.test", new String[]{
         "1 Q0 DOC222 1 0.343200 Anserini",
         "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
@@ -125,7 +125,7 @@ public class SearchCollectionTest {
     SearchCollection.main(
         new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_json_collection_tokenized/",
             "-topics", "src/test/resources/sample_topics/json_topics1.tsv",
-            "-topicreader", "TsvInt", "-output", "run.test", "-pretokenized", "-impact"});
+            "-topicReader", "TsvInt", "-output", "run.test", "-pretokenized", "-impact"});
     check("run.test", new String[]{
         "1 Q0 2000001 1 4.000000 Anserini",});
     new File("run.test").delete();
@@ -136,7 +136,7 @@ public class SearchCollectionTest {
     SearchCollection.main(
         new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_trec_collection2/",
             "-topics", "src/test/resources/sample_topics/Trec",
-            "-topicreader", "Trec", "-output", "run.test", "-bm25"});
+            "-topicReader", "Trec", "-output", "run.test", "-bm25"});
     check("run.test", new String[]{
         "1 Q0 DOC222 1 0.343192 Anserini",
         "1 Q0 TREC_DOC_1 2 0.333445 Anserini",
@@ -146,7 +146,7 @@ public class SearchCollectionTest {
     SearchCollection.main(
         new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_json_collection_tokenized/",
             "-topics", "src/test/resources/sample_topics/json_topics1.tsv",
-            "-topicreader", "TsvInt", "-output", "run.test", "-pretokenized", "-impact"});
+            "-topicReader", "TsvInt", "-output", "run.test", "-pretokenized", "-impact"});
     check("run.test", new String[]{
         "1 Q0 2000001 1 4.000000 Anserini",});
     new File("run.test").delete();

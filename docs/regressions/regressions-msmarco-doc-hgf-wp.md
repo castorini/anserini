@@ -24,8 +24,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc \
-  -index indexes/lucene-index.msmarco-doc-hgf-wp/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-doc-hgf-wp/ \
   -threads 7 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased \
   >& logs/log.msmarco-doc &
 ```
@@ -45,7 +45,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-hgf-wp/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 -analyzeWithHuggingFaceTokenizer  bert-base-uncased &
 ```

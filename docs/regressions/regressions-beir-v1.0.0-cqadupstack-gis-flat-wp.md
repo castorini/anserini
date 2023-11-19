@@ -21,8 +21,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection BeirFlatCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-gis-flat-wp \
-  -index indexes/lucene-index.beir-v1.0.0-cqadupstack-gis-flat-wp/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.beir-v1.0.0-cqadupstack-gis-flat-wp/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw -pretokenized \
   >& logs/log.beir-v1.0.0-cqadupstack-gis-flat-wp &
 ```
@@ -39,7 +39,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-cqadupstack-gis-flat-wp/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-gis.test.wp.tsv.gz \
-  -topicreader TsvString \
+  -topicReader TsvString \
   -output runs/run.beir-v1.0.0-cqadupstack-gis-flat-wp.bm25.topics.beir-v1.0.0-cqadupstack-gis.test.wp.txt \
   -bm25 -removeQuery -pretokenized &
 ```

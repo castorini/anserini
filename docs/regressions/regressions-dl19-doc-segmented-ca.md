@@ -33,8 +33,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-segmented \
-  -index indexes/lucene-index.msmarco-doc-segmented-ca/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-doc-segmented-ca/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-doc-segmented &
 ```
@@ -56,7 +56,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-ca/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-default.topics.dl19-doc.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
 ```

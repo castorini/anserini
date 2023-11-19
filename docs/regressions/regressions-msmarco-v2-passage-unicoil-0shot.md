@@ -60,8 +60,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-unicoil-0shot \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-passage-unicoil-0shot &
 ```
@@ -83,13 +83,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-passage.dev.unicoil.0shot.txt \
   -parallelism 16 -impact -pretokenized &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.msmarco-v2-passage.dev2.unicoil.0shot.txt \
   -parallelism 16 -impact -pretokenized &
 ```

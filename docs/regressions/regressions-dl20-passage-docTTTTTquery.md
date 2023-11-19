@@ -25,8 +25,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-passage-docTTTTTquery \
-  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -threads 9 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage-docTTTTTquery &
 ```
@@ -48,84 +48,84 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.dl20.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt \
   -bm25 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rocchio-neg.topics.dl20.txt \
   -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rocchio-neg.topics.dl20.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned2+rocchio-neg.topics.dl20.txt \
   -bm25 -bm25.k1 2.18 -bm25.b 0.86 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 ```

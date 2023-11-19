@@ -52,8 +52,8 @@ public class SearchInvertedDenseVectorsTest {
         "-index", indexPath,
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
         "-output", runfile,
-        "-topicreader", "JsonIntVector",
-        "-topicfield", "vector",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
         "-hits", "5",
         "-encoding", "fw"};
     SearchInvertedDenseVectors.main(searchArgs);
@@ -91,8 +91,8 @@ public class SearchInvertedDenseVectorsTest {
         "-index", indexPath,
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
         "-output", runfile,
-        "-topicreader", "JsonIntVector",
-        "-topicfield", "vector",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
         "-hits", "5",
         "-encoding", "lexlsh"};
     SearchInvertedDenseVectors.main(searchArgs);

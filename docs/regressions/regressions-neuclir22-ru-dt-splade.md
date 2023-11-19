@@ -43,8 +43,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/neuclir22-ru-en-splade \
-  -index indexes/lucene-index.neuclir22-ru-en-splade \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.neuclir22-ru-en-splade \
   -threads 8 -impact -pretokenized -storeRaw \
   >& logs/log.neuclir22-ru-en-splade &
 ```
@@ -59,57 +59,57 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-title.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade.topics.neuclir22-en.splade.original-title.txt \
   -impact -pretokenized &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-desc.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade.topics.neuclir22-en.splade.original-desc.txt \
   -impact -pretokenized &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-desc_title.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade.topics.neuclir22-en.splade.original-desc_title.txt \
   -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-title.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade+rm3.topics.neuclir22-en.splade.original-title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-desc.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade+rm3.topics.neuclir22-en.splade.original-desc.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-desc_title.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade+rm3.topics.neuclir22-en.splade.original-desc_title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-title.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade+rocchio.topics.neuclir22-en.splade.original-title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-desc.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade+rocchio.topics.neuclir22-en.splade.original-desc.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-en.splade.original-desc_title.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en-splade.splade+rocchio.topics.neuclir22-en.splade.original-desc_title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```

@@ -127,10 +127,10 @@ def construct_indexing_command(yaml_data, args):
     index_command = [
         root_cmd,
         '-collection', yaml_data['collection_class'],
-        '-generator', yaml_data['generator_class'],
-        '-threads', str(threads),
         '-input', corpus_path,
+        '-generator', yaml_data['generator_class'],
         '-index', yaml_data['index_path'],
+        '-threads', str(threads),
         yaml_data['index_options']
     ]
 
@@ -147,7 +147,7 @@ def construct_search_commands(yaml_data):
             SEARCH_INVERTED_DENSE_COMMAND if model.get('type') == 'inverted-dense' else SEARCH_HNSW_COMMAND if model.get('type') == 'hnsw' else SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
-            '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
+            '-topicReader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
             '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
             model['params']
         ]

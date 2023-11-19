@@ -55,9 +55,9 @@ public class SearchHnswDenseVectorsTest {
         "-index", indexPath,
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
         "-output", runfile,
-        "-querygenerator", "VectorQueryGenerator",
-        "-topicreader", "JsonIntVector",
-        "-topicfield", "vector",
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
         "-efSearch", "1000",
         "-hits", "5"};
     SearchHnswDenseVectors.main(searchArgs);
@@ -75,7 +75,7 @@ public class SearchHnswDenseVectorsTest {
         "867490 Q0 97 5 0.844905 Anserini"
     });
 
-    //new File(runfile).delete();
+    new File(runfile).delete();
   }
 
   protected void check(String output, String[] ref) throws IOException {

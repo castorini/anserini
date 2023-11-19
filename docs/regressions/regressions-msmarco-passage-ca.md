@@ -22,8 +22,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-wp \
-  -index indexes/lucene-index.msmarco-passage-ca/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-ca/ \
   -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-wp &
 ```
@@ -43,7 +43,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-ca/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt \
   -bm25  -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
 ```

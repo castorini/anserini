@@ -21,8 +21,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection BeirMultifieldCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-physics-multifield \
-  -index indexes/lucene-index.beir-v1.0.0-cqadupstack-physics-multifield/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.beir-v1.0.0-cqadupstack-physics-multifield/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw -fields title \
   >& logs/log.beir-v1.0.0-cqadupstack-physics-multifield &
 ```
@@ -39,7 +39,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-cqadupstack-physics-multifield/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-physics.test.tsv.gz \
-  -topicreader TsvString \
+  -topicReader TsvString \
   -output runs/run.beir-v1.0.0-cqadupstack-physics-multifield.bm25.topics.beir-v1.0.0-cqadupstack-physics.test.txt \
   -bm25 -removeQuery -hits 1000 -fields contents=1.0 title=1.0 &
 ```

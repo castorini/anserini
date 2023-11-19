@@ -54,8 +54,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-splade-pp-sd \
-  -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-passage-splade-pp-sd &
 ```
@@ -79,21 +79,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl21.splade-pp-sd.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl21.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl21.splade-pp-sd.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl21.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl21.splade-pp-sd.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl21.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```

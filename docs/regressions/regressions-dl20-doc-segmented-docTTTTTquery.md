@@ -36,8 +36,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-segmented-docTTTTTquery \
-  -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-segmented-docTTTTTquery &
 ```
@@ -59,42 +59,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl20.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl20.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl20.txt \
   -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl20.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl20.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl20.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```

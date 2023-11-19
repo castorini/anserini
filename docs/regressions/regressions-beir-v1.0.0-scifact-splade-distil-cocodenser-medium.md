@@ -49,8 +49,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/beir-v1.0.0-scifact-splade_distil_cocodenser_medium \
-  -index indexes/lucene-index.beir-v1.0.0-scifact-splade_distil_cocodenser_medium/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.beir-v1.0.0-scifact-splade_distil_cocodenser_medium/ \
   -threads 16 -impact -pretokenized \
   >& logs/log.beir-v1.0.0-scifact-splade_distil_cocodenser_medium &
 ```
@@ -72,7 +72,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-scifact-splade_distil_cocodenser_medium/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-scifact.test.splade_distil_cocodenser_medium.tsv.gz \
-  -topicreader TsvString \
+  -topicReader TsvString \
   -output runs/run.beir-v1.0.0-scifact-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.beir-v1.0.0-scifact.test.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized -removeQuery -hits 1000 &
 ```

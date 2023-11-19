@@ -58,8 +58,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-unicoil-noexp \
-  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-unicoil-noexp &
 ```
@@ -83,21 +83,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.unicoil-noexp.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-unicoil-noexp.unicoil.topics.dl19-passage.unicoil-noexp.0shot.txt \
   -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.unicoil-noexp.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-unicoil-noexp.rm3.topics.dl19-passage.unicoil-noexp.0shot.txt \
   -impact -pretokenized -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.unicoil-noexp.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-unicoil-noexp.rocchio.topics.dl19-passage.unicoil-noexp.0shot.txt \
   -impact -pretokenized -rocchio &
 ```
