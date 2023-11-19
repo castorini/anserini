@@ -777,6 +777,7 @@ public class IndexReaderUtils {
    * Returns index statistics.
    *
    * @param reader index reader
+   * @param field Lucene field
    * @return map from name of statistic to its value
    */
   public static Map<String, Object> getIndexStats(IndexReader reader, String field) {

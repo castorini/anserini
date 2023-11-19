@@ -17,17 +17,15 @@
 package io.anserini.search;
 
 import io.anserini.index.IndexHnswDenseVectors;
-import io.anserini.index.IndexInvertedDenseVectors;
-import io.anserini.index.IndexInvertedDenseVectorsTest;
-import io.anserini.search.SearchInvertedDenseVectors;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,9 +33,14 @@ import static org.junit.Assert.assertEquals;
  * Tests for {@link SearchHnswDenseVectors}
  */
 public class SearchHnswDenseVectorsTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(SearchHnswDenseVectors.class.getName(), Level.ERROR);
+  }
 
   @Test
-  public void searchFWTest() throws Exception {
+  public void test1() throws Exception {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",

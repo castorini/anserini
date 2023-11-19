@@ -45,13 +45,24 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.SmallFloat;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BasicIndexOperationsTest extends IndexerTestBase {
+  private final static PrintStream standardOut = System.out;
+  private final static ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+  @BeforeClass
+  public static void setupClass() {
+    System.setOut(new PrintStream(output));
+  }
 
   // A very simple example of how to iterate through terms in an index and dump out postings.
   private void dumpPostings(IndexReader reader) throws IOException {
@@ -272,5 +283,10 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
         System.out.println(term + " " + tf + " " + (rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score - 1));
       }
     }
+  }
+
+  @AfterClass
+  public static void teardownClass() {
+    System.setOut(standardOut);
   }
 }
