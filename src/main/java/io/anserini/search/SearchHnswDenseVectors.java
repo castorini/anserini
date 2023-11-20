@@ -382,7 +382,7 @@ public final class SearchHnswDenseVectors implements Closeable {
   public ScoredDocuments search(IndexSearcher searcher, float[] queryFloat) throws IOException {
     KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
 
-    TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID);
+    TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
     ScoredDocuments scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     return scoredDocs;
@@ -400,8 +400,7 @@ public final class SearchHnswDenseVectors implements Closeable {
     }
 
     query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
-
-    TopDocs rs = searcher.search(query, args.hits);
+    TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
     ScoredDocuments scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     return scoredDocs;
