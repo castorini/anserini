@@ -22,8 +22,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2-doc-segmented-d2q-t5 \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
   -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-doc-segmented-d2q-t5 &
 ```
@@ -43,13 +43,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.msmarco-v2-doc.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.msmarco-v2-doc.dev2.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```

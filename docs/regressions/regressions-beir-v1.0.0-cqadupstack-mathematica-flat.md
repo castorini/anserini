@@ -20,8 +20,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection BeirFlatCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-mathematica-flat \
-  -index indexes/lucene-index.beir-v1.0.0-cqadupstack-mathematica-flat/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.beir-v1.0.0-cqadupstack-mathematica-flat/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.beir-v1.0.0-cqadupstack-mathematica-flat &
 ```
@@ -38,7 +38,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-cqadupstack-mathematica-flat/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-mathematica.test.tsv.gz \
-  -topicreader TsvString \
+  -topicReader TsvString \
   -output runs/run.beir-v1.0.0-cqadupstack-mathematica-flat.bm25.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt \
   -bm25 -removeQuery -hits 1000 &
 ```

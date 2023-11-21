@@ -61,9 +61,6 @@ import java.util.concurrent.TimeUnit;
 public final class IndexInvertedDenseVectors {
   private static final Logger LOG = LogManager.getLogger(IndexInvertedDenseVectors.class);
 
-  public static final String FIELD_ID = "id";
-  public static final String FIELD_VECTOR = "vector";
-
   public static final String FW = "fw";
   public static final String LEXLSH = "lexlsh";
 
@@ -101,6 +98,9 @@ public final class IndexInvertedDenseVectors {
     @Option(name = "-lexlsh.b", metaVar = "[int]", usage = "LexLSH encoding: bucket count.")
     public int bucketCount = 300;
 
+    @Option(name = "-optimize", usage = "Optimizes index by merging into a single index segment.")
+    public boolean optimize = false;
+
     @Option(name = "-memorybuffer", metaVar = "[mb]", usage = "Memory buffer size in MB.")
     public int memorybufferSize = 4096;
 
@@ -112,9 +112,6 @@ public final class IndexInvertedDenseVectors {
 
     @Option(name = "-quiet", forbids = {"-verbose"}, usage = "Turns off all logging.")
     public boolean quiet = false;
-
-    @Option(name = "-optimize", usage = "Optimizes index by merging into a single index segment.")
-    public boolean optimize = false;
   }
 
   private final class LocalIndexerThread extends Thread {
@@ -249,8 +246,8 @@ public final class IndexInvertedDenseVectors {
       pathStr = pathStr.replace("/path/to", "collections");
     }
     this.collectionPath = Paths.get(pathStr);
-    if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath)) {
-      throw new RuntimeException("Collection path " + collectionPath + " does not exist or is not readable!");
+    if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
+      throw new RuntimeException("Invalid collection path " + collectionPath + "!");
     }
 
     Class<? extends DocumentCollection<?>> collectionClass = (Class<? extends DocumentCollection<?>>)
@@ -277,7 +274,7 @@ public final class IndexInvertedDenseVectors {
     }
 
     Map<String, Analyzer> map = new HashMap<>();
-    map.put(FIELD_VECTOR, vectorAnalyzer);
+    map.put(Constants.VECTOR, vectorAnalyzer);
     Analyzer analyzer = new PerFieldAnalyzerWrapper(new StandardAnalyzer(), map);
 
     final Directory dir = FSDirectory.open(indexPath);

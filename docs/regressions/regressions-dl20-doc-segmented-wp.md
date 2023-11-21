@@ -26,8 +26,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-segmented-wp \
-  -index indexes/lucene-index.msmarco-doc-segmented-wp/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-doc-segmented-wp/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw -pretokenized \
   >& logs/log.msmarco-doc-segmented-wp &
 ```
@@ -49,7 +49,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-wp/ \
   -topics tools/topics-and-qrels/topics.dl20.wp.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt \
   -bm25 -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```

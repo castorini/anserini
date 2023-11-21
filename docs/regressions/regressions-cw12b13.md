@@ -20,8 +20,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection ClueWeb12Collection \
   -input /path/to/cw12b13 \
-  -index indexes/lucene-index.cw12b13/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.cw12b13/ \
   -threads 44 -storeRaw \
   >& logs/log.cw12b13 &
 ```
@@ -46,78 +46,78 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.201-250.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.bm25.topics.web.201-250.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.251-300.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.bm25.topics.web.251-300.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.201-250.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.bm25+rm3.topics.web.201-250.txt \
   -bm25 -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.251-300.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.bm25+rm3.topics.web.251-300.txt \
   -bm25 -rm3 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.201-250.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.bm25+ax.topics.web.201-250.txt \
   -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.251-300.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.bm25+ax.topics.web.251-300.txt \
   -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.201-250.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.ql.topics.web.201-250.txt \
   -qld &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.251-300.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.ql.topics.web.251-300.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.201-250.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.ql+rm3.topics.web.201-250.txt \
   -qld -rm3 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.251-300.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.ql+rm3.topics.web.251-300.txt \
   -qld -rm3 -collection ClueWeb09Collection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.201-250.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.ql+ax.topics.web.201-250.txt \
   -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.251-300.txt \
-  -topicreader Webxml \
+  -topicReader Webxml \
   -output runs/run.cw12b13.ql+ax.topics.web.251-300.txt \
   -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 ```

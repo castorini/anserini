@@ -47,11 +47,9 @@ public abstract class OnnxEncoder<T> {
   static protected Path getVocabPath(String vocabName, String vocabURL) throws IOException {
     File vocabFile = new File(getCacheDir(), vocabName);
     if (!vocabFile.exists()) {
-      System.out.println("Downloading vocab");
       FileUtils.copyURLToFile(new URL(vocabURL), vocabFile);
-    } else {
-      System.out.println("Vocab already exists");
     }
+
     return vocabFile.toPath();
   }
 
@@ -66,11 +64,9 @@ public abstract class OnnxEncoder<T> {
   static protected Path getModelPath(String modelName, String modelURL) throws IOException {
     File modelFile = new File(getCacheDir(), modelName);
     if (!modelFile.exists()) {
-      System.out.println("Downloading model");
       FileUtils.copyURLToFile(new URL(modelURL), modelFile);
-    } else {
-      System.out.println("Model already exists");
     }
+
     return modelFile.toPath();
   }
 
@@ -95,7 +91,6 @@ public abstract class OnnxEncoder<T> {
     this.environment = OrtEnvironment.getEnvironment();
     this.session = environment.createSession(getModelPath(modelName, modelURL).toString(),
         new OrtSession.SessionOptions());
-    System.out.println("Model loaded.");
   }
 
 }

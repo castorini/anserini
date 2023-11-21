@@ -19,8 +19,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection FeverParagraphCollection \
   -input /path/to/fever \
-  -index indexes/lucene-index.fever-paragraph/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.fever-paragraph/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.fever &
 ```
@@ -41,14 +41,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fever-paragraph/ \
   -topics tools/topics-and-qrels/topics.fever.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.fever.bm25-default.topics.fever.dev.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.fever-paragraph/ \
   -topics tools/topics-and-qrels/topics.fever.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.fever.bm25-tuned.topics.fever.dev.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.1 &
 ```

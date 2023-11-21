@@ -8,7 +8,7 @@ download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
 index_path: indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
-generator_class: LuceneDenseVectorDocumentGenerator
+generator_class: HnswDenseVectorDocumentGenerator
 index_threads: 16
 index_options: -M 16 -efC 100
 
@@ -53,7 +53,7 @@ models:
   - name: cos-dpr-distil-hnsw
     display: cosDPR-distil
     type: hnsw
-    params: -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000
+    params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
     results:
       AP@1000:
         - 0.482

@@ -55,8 +55,8 @@ Sample indexing command, building HNSW indexes:
 target/appassembler/bin/IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
+  -generator HnswDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
-  -generator LuceneDenseVectorDocumentGenerator \
   -threads 16 -M 16 -efC 100 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
@@ -77,9 +77,9 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz \
-  -topicreader JsonIntVector \
+  -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl20.cos-dpr-distil.jsonl.txt \
-  -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000 &
+  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -21,8 +21,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/wikipedia-dpr-100w \
-  -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -threads 43 -storeRaw \
   >& logs/log.wikipedia-dpr-100w &
 ```
@@ -42,37 +42,37 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.nq.test.txt \
-  -topicreader DprNq \
+  -topicReader DprNq \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.nq.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.trivia.test.txt \
-  -topicreader DprNq \
+  -topicReader DprNq \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.trivia.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.squad.test.txt \
-  -topicreader DprJsonl \
+  -topicReader DprJsonl \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.squad.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.wq.test.txt \
-  -topicreader DprJsonl \
+  -topicReader DprJsonl \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.wq.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.curated.test.txt \
-  -topicreader DprJsonl \
+  -topicReader DprJsonl \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.curated.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.nq.test.txt \
-  -topicreader DprNq \
+  -topicReader DprNq \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.nq.test.txt \
   -bm25 &
 ```

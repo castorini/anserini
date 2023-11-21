@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexInvertedDenseVectors;
 import io.anserini.search.SearchInvertedDenseVectors;
 import org.apache.lucene.analysis.Analyzer;
@@ -74,7 +75,7 @@ public class InvertedDenseVectorQueryGenerator {
     float cutoff = 0.999f;
     CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, cutoff);
     for (String token : AnalyzerUtils.analyze(vectorAnalyzer, queryText)) {
-      simQuery.add(new Term(IndexInvertedDenseVectors.FIELD_VECTOR, token));
+      simQuery.add(new Term(Constants.VECTOR, token));
     }
     return simQuery;
   }

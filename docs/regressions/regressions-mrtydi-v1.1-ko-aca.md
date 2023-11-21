@@ -21,8 +21,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-ko \
-  -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw -language ko -useAutoCompositeAnalyzer \
   >& logs/log.mrtydi-v1.1-ko &
 ```
@@ -38,19 +38,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-ko.train.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.train.txt \
   -bm25 -hits 100 -language ko -useAutoCompositeAnalyzer &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-ko.dev.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.dev.txt \
   -bm25 -hits 100 -language ko -useAutoCompositeAnalyzer &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-ko.test.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.test.txt \
   -bm25 -hits 100 -language ko -useAutoCompositeAnalyzer &
 ```

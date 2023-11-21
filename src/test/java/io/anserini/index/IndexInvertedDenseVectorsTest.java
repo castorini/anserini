@@ -16,32 +16,24 @@
 
 package io.anserini.index;
 
-import io.anserini.CustomAppender;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.index.IndexReader;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link IndexInvertedDenseVectors}
  */
 public class IndexInvertedDenseVectorsTest {
-  private static final Logger LOGGER = LogManager.getLogger(IndexInvertedDenseVectors.class);
-  private static CustomAppender APPENDER;
-
   private final ByteArrayOutputStream err = new ByteArrayOutputStream();
   private PrintStream save;
 
@@ -57,12 +49,7 @@ public class IndexInvertedDenseVectorsTest {
 
   @BeforeClass
   public static void setupClass() {
-    APPENDER = new CustomAppender("CustomAppender");
-    APPENDER.start();
-
-    ((org.apache.logging.log4j.core.Logger) LOGGER).addAppender(APPENDER);
-
-    Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.INFO);
+    Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
   }
 
   @Test
@@ -141,11 +128,11 @@ public class IndexInvertedDenseVectorsTest {
     };
 
     IndexInvertedDenseVectors.main(indexArgs);
-    assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
 
     IndexReader reader = IndexReaderUtils.getReader(indexPath);
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, IndexInvertedDenseVectors.FIELD_VECTOR);
+    assertNotNull(reader);
 
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertEquals(100, results.get("documents"));
     assertEquals(100, results.get("non_empty_documents"));
     assertEquals(4081, (int) ((Long) results.get("unique_terms")).longValue());
@@ -164,19 +151,14 @@ public class IndexInvertedDenseVectorsTest {
     };
 
     IndexInvertedDenseVectors.main(indexArgs);
-    assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
 
     IndexReader reader = IndexReaderUtils.getReader(indexPath);
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, IndexInvertedDenseVectors.FIELD_VECTOR);
+    assertNotNull(reader);
 
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertEquals(100, results.get("documents"));
     assertEquals(100, results.get("non_empty_documents"));
     assertEquals(1460, (int) ((Long) results.get("unique_terms")).longValue());
     assertEquals(53817, (int) ((Long) results.get("total_terms")).longValue());
-  }
-
-  @AfterClass
-  public static void teardownClass() {
-    ((org.apache.logging.log4j.core.Logger) LOGGER).removeAppender(APPENDER);
   }
 }

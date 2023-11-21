@@ -19,8 +19,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-bn \
-  -index indexes/lucene-index.mrtydi-v1.1-bengali/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.mrtydi-v1.1-bengali/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw -language bn \
   >& logs/log.mrtydi-v1.1-bn &
 ```
@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-bengali/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-bn.train.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.train.txt \
   -bm25 -hits 100 -language bn &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-bengali/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-bn.dev.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.dev.txt \
   -bm25 -hits 100 -language bn &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-bengali/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-bn.test.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.test.txt \
   -bm25 -hits 100 -language bn &
 ```

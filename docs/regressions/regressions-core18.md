@@ -20,8 +20,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v2 \
-  -index indexes/lucene-index.wapo.v2/ \
   -generator WashingtonPostGenerator \
+  -index indexes/lucene-index.wapo.v2/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.wapo.v2 &
 ```
@@ -45,42 +45,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.wapo.v2.bm25.topics.core18.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.wapo.v2.bm25+rm3.topics.core18.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.wapo.v2.ql.topics.core18.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.wapo.v2.ql+rm3.topics.core18.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.wapo.v2.ql+ax.topics.core18.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```

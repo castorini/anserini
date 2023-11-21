@@ -26,8 +26,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-passage-doc2query \
-  -index indexes/lucene-index.msmarco-passage-doc2query/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-doc2query/ \
   -threads 9 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage-doc2query &
 ```
@@ -48,14 +48,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-doc2query/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 ```

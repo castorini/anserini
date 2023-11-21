@@ -58,8 +58,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-unicoil \
-  -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-unicoil &
 ```
@@ -83,21 +83,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-unicoil.unicoil.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-unicoil.rm3.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-unicoil.rocchio.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized -rocchio &
 ```

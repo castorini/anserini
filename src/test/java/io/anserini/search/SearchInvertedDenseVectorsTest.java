@@ -17,16 +17,15 @@
 package io.anserini.search;
 
 import io.anserini.index.IndexInvertedDenseVectors;
-import io.anserini.index.IndexInvertedDenseVectorsTest;
-import io.anserini.search.SearchInvertedDenseVectors;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,6 +33,11 @@ import static org.junit.Assert.assertEquals;
  * Tests for {@link SearchInvertedDenseVectors}
  */
 public class SearchInvertedDenseVectorsTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(SearchInvertedDenseVectors.class.getName(), Level.ERROR);
+  }
 
   @Test
   public void searchFWTest() throws Exception {
@@ -50,25 +54,25 @@ public class SearchInvertedDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.jsonl",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
         "-output", runfile,
-        "-topicreader", "JsonIntVector",
-        "-topicfield", "vector",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
         "-hits", "5",
         "-encoding", "fw"};
     SearchInvertedDenseVectors.main(searchArgs);
 
     check(runfile, new String[] {
-        "2 Q0 26 1 21.478451 Anserini",
-        "2 Q0 122 2 19.947021 Anserini",
-        "2 Q0 71 3 19.537197 Anserini",
-        "2 Q0 80 4 19.263186 Anserini",
-        "2 Q0 74 5 19.188883 Anserini",
-        "1048585 Q0 30 1 21.119457 Anserini",
-        "1048585 Q0 114 2 20.725464 Anserini",
-        "1048585 Q0 36 3 20.413668 Anserini",
-        "1048585 Q0 4 4 20.092403 Anserini",
-        "1048585 Q0 13 5 20.087444 Anserini"
+        "160885 Q0 40 1 32.355999 Anserini",
+        "160885 Q0 44 2 31.581369 Anserini",
+        "160885 Q0 48 3 30.734432 Anserini",
+        "160885 Q0 43 4 30.215816 Anserini",
+        "160885 Q0 41 5 30.153873 Anserini",
+        "867490 Q0 97 1 33.122585 Anserini",
+        "867490 Q0 95 2 32.564468 Anserini",
+        "867490 Q0 43 3 31.937614 Anserini",
+        "867490 Q0 10 4 31.408100 Anserini",
+        "867490 Q0 45 5 30.429819 Anserini",
     });
 
     new File(runfile).delete();
@@ -89,25 +93,25 @@ public class SearchInvertedDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.jsonl",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
         "-output", runfile,
-        "-topicreader", "JsonIntVector",
-        "-topicfield", "vector",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
         "-hits", "5",
         "-encoding", "lexlsh"};
     SearchInvertedDenseVectors.main(searchArgs);
 
     check(runfile, new String[] {
-        "2 Q0 14 1 43.783421 Anserini",
-        "2 Q0 17 2 42.912968 Anserini",
-        "2 Q0 5 3 42.801838 Anserini",
-        "2 Q0 6 4 41.686707 Anserini",
-        "2 Q0 65 5 41.679508 Anserini",
-        "1048585 Q0 99 1 44.071457 Anserini",
-        "1048585 Q0 50 2 40.613106 Anserini",
-        "1048585 Q0 4 3 39.676960 Anserini",
-        "1048585 Q0 10 4 39.406578 Anserini",
-        "1048585 Q0 6 5 38.794933 Anserini"
+        "160885 Q0 97 1 82.128540 Anserini",
+        "160885 Q0 4 2 79.793037 Anserini",
+        "160885 Q0 118 3 77.931618 Anserini",
+        "160885 Q0 43 4 75.614052 Anserini",
+        "160885 Q0 65 5 74.778358 Anserini",
+        "867490 Q0 45 1 84.916107 Anserini",
+        "867490 Q0 13 2 82.500229 Anserini",
+        "867490 Q0 10 3 82.364830 Anserini",
+        "867490 Q0 44 4 79.369530 Anserini",
+        "867490 Q0 67 5 78.378647 Anserini",
     });
 
     new File(runfile).delete();

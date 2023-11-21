@@ -55,8 +55,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-splade-pp-ed \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade-pp-ed &
 ```
@@ -80,21 +80,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.dl19-passage.txt \
   -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.rm3.topics.dl19-passage.txt \
   -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.rocchio.topics.dl19-passage.txt \
   -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil -rocchio &
 ```

@@ -33,8 +33,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection NeuClirCollection \
   -input /path/to/hc4-v1.0-fa \
-  -index indexes/lucene-index.hc4-v1.0-fa \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.hc4-v1.0-fa \
   -threads 8 -storePositions -storeDocvectors -storeRaw -language fa \
   >& logs/log.hc4-v1.0-fa &
 ```
@@ -50,111 +50,111 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt \
   -bm25 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt \
   -bm25 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt \
   -bm25 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -language fa &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt \
   -bm25 -rm3 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt \
   -bm25 -rm3 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt \
   -bm25 -rm3 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -rm3 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -rm3 -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -rm3 -language fa &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt \
   -bm25 -rocchio -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt \
   -bm25 -rocchio -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt \
   -bm25 -rocchio -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -rocchio -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -rocchio -language fa &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -rocchio -language fa &
 ```

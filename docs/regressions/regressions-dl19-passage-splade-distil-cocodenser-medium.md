@@ -54,8 +54,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-splade_distil_cocodenser_medium \
-  -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade_distil_cocodenser_medium &
 ```
@@ -79,21 +79,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.splade_distil_cocodenser_medium.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl19-passage.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.splade_distil_cocodenser_medium.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl19-passage.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.splade_distil_cocodenser_medium.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl19-passage.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized -rocchio &
 ```

@@ -20,8 +20,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection NewYorkTimesCollection \
   -input /path/to/nyt \
-  -index indexes/lucene-index.nyt/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.nyt/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.nyt &
 ```
@@ -45,42 +45,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
   -topics tools/topics-and-qrels/topics.core17.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.nyt.bm25.topics.core17.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
   -topics tools/topics-and-qrels/topics.core17.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.nyt.bm25+rm3.topics.core17.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
   -topics tools/topics-and-qrels/topics.core17.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.nyt.bm25+ax.topics.core17.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
   -topics tools/topics-and-qrels/topics.core17.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.nyt.ql.topics.core17.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
   -topics tools/topics-and-qrels/topics.core17.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.nyt.ql+rm3.topics.core17.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.nyt/ \
   -topics tools/topics-and-qrels/topics.core17.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.nyt.ql+ax.topics.core17.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
