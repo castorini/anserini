@@ -16,10 +16,9 @@
 
 package io.anserini.search;
 
+import ai.onnxruntime.OrtException;
 import io.anserini.encoder.dense.DenseEncoder;
-import io.anserini.encoder.sparse.SparseEncoder;
 import io.anserini.index.Constants;
-import io.anserini.index.IndexHnswDenseVectors;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.VectorQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
@@ -30,12 +29,9 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.KnnFloatVectorQuery;
-import org.apache.lucene.search.KnnVectorQuery;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TotalHits;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -44,10 +40,8 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
-import ai.onnxruntime.OrtException;
 
 import java.io.Closeable;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -70,7 +64,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Main entry point for search.
  */
-public final class SearchHnswDenseVectors implements Closeable {
+public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
@@ -91,14 +85,15 @@ public final class SearchHnswDenseVectors implements Closeable {
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader = "JsonIntVector";
 
+    @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
+        " For TREC ad hoc topics, description or narrative can be used.")
+    public String topicField = "vector";
+
     @Option(name = "-generator", usage = "QueryGenerator to use.")
     public String queryGenerator = "VectorQueryGenerator";
 
     @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
-    public int threads = 1;
-
-    @Option(name = "-parallelism", metaVar = "[int]", usage = "Number of threads to use for each individual parameter configuration.")
-    public int parallelism = 8;
+    public int threads = 4;
 
     @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
     public Boolean removeQuery = false;
@@ -108,21 +103,17 @@ public final class SearchHnswDenseVectors implements Closeable {
     @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
     public Boolean removedups = false;
 
-    @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
+    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 1000;
 
-    @Option(name = "-efSearch", metaVar = "[number]", required = false, usage = "efSearch parameter for HNSW search")
+    @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
     public int efSearch = 100;
 
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
 
-    @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
-        " For TREC ad hoc topics, description or narrative can be used.")
-    public String topicfield = "vector";
-
     @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
-    public String runtag = null;
+    public String runtag = "Anserini";
 
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
@@ -160,160 +151,11 @@ public final class SearchHnswDenseVectors implements Closeable {
 
   private final Args args;
   private final IndexReader reader;
+  private final IndexSearcher searcher;
 
-  private final class SearcherThread<K> extends Thread {
-    final private IndexReader reader;
-    final private IndexSearcher searcher;
-    final private SortedMap<K, Map<String, String>> topics;
-    final private String outputPath;
-    final private String runTag;
-
-    private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, String outputPath, String runTag) {
-      this.reader = reader;
-      this.topics = topics;
-      this.runTag = runTag;
-      this.outputPath = outputPath;
-      this.searcher = new IndexSearcher(this.reader);
-      setName(outputPath);
-    }
-
-    @Override
-    public void run() {
-      try {
-        // A short descriptor of the ranking setup.
-        final String desc = String.format("ranker: kNN");
-        // ThreadPool for parallelizing the execution of individual queries:
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
-        // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
-        // will go into the final run file) as the value.
-        ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
-        AtomicInteger cnt = new AtomicInteger();
-        DenseEncoder queryEncoder;
-        if (args.encoder != null) {
-          queryEncoder = (DenseEncoder) Class
-            .forName(String.format("io.anserini.encoder.dense.%sEncoder", args.encoder))
-            .getConstructor().newInstance();
-        } else {
-          queryEncoder = null;
-        }
-        final long start = System.nanoTime();
-        for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
-          K qid = entry.getKey();
-
-          // This is the per-query execution, in parallel.
-          executor.execute(() -> {
-            // This is for holding the results.
-            StringBuilder out = new StringBuilder();
-            String queryString = entry.getValue().get(args.topicfield);
-            ScoredDocuments docs;
-
-            float[] queryFloat = null;
-            if (queryEncoder != null) {
-              try {
-                queryFloat = queryEncoder.encode(queryString);
-              } catch (OrtException e) {
-                e.printStackTrace();
-              }
-            }
-            try {
-              if (queryFloat != null) {
-                docs = search(this.searcher, queryFloat);
-              } else {
-                docs = search(this.searcher, queryString);
-              }
-            } catch (IOException e) {
-              throw new CompletionException(e);
-            }
-
-            // For removing duplicate docids.
-            Set<String> docids = new HashSet<>();
-
-            int rank = 1;
-            for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(Constants.ID);
-
-              if (args.selectMaxPassage) {
-                docid = docid.split(args.selectMaxPassage_delimiter)[0];
-              }
-
-              if (docids.contains(docid))
-                continue;
-
-              // Remove docids that are identical to the query id if flag is set.
-              if (args.removeQuery && docid.equals(qid))
-                continue;
-
-              if ("msmarco".equals(args.format)) {
-                // MS MARCO output format:
-                out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, docid, rank));
-              } else {
-                // Standard TREC format:
-                // + the first column is the topic number.
-                // + the second column is currently unused and should always be "Q0".
-                // + the third column is the official document identifier of the retrieved document.
-                // + the fourth column is the rank the document is retrieved.
-                // + the fifth column shows the score (integer or floating point) that generated the ranking.
-                // + the sixth column is called the "run tag" and should be a unique identifier for your
-                out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n",
-                    qid, docid, rank, docs.scores[i], runTag));
-              }
-
-              // Note that this option is set to false by default because duplicate documents usually indicate some
-              // underlying indexing issues, and we don't want to just eat errors silently.
-              //
-              // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
-              // duplicates.
-              if (args.removedups || args.selectMaxPassage) {
-                docids.add(docid);
-              }
-
-              rank++;
-
-              if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
-                break;
-              }
-            }
-
-            results.put(qid, out.toString());
-            int n = cnt.incrementAndGet();
-            if (n % 100 == 0) {
-              LOG.info(String.format("%s: %d queries processed", desc, n));
-            }
-          });
-        }
-
-        executor.shutdown();
-
-        try {
-          // Wait for existing tasks to terminate.
-          while (!executor.awaitTermination(1, TimeUnit.MINUTES));
-        } catch (InterruptedException ie) {
-          // (Re-)Cancel if current thread also interrupted.
-          executor.shutdownNow();
-          // Preserve interrupt status.
-          Thread.currentThread().interrupt();
-        }
-        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-
-        LOG.info(desc + ": " + topics.size() + " queries processed in " +
-            DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-            String.format(" = ~%.2f q/s", topics.size()/(durationMillis/1000.0)));
-
-        // Now we write the results to a run file.
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
-
-        // This is the default case: just dump out the qids by their natural order.
-        for (K qid : results.keySet()) {
-          out.print(results.get(qid));
-        }
-        out.flush();
-        out.close();
-
-      } catch (Exception e) {
-        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception: ", e);
-      }
-    }
-  }
+  VectorQueryGenerator generator;
+  private final DenseEncoder queryEncoder;
+  ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
 
   public SearchHnswDenseVectors(Args args) throws IOException {
     this.args = args;
@@ -323,12 +165,38 @@ public final class SearchHnswDenseVectors implements Closeable {
       throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", args.index));
     }
 
-    LOG.info("============ Initializing Searcher ============");
+    LOG.info("============ Initializing HNSW Searcher ============");
     LOG.info("Index: " + indexPath);
+    LOG.info("Query generator: " + args.queryGenerator);
+    LOG.info("Encoder: " + args.encoder);
+    LOG.info("Threads: " + args.threads);
+
     this.reader = args.inmem ? DirectoryReader.open(MMapDirectory.open(indexPath)) :
         DirectoryReader.open(FSDirectory.open(indexPath));
-    LOG.info("Vector Search:");
-    LOG.info("Number of threads for running different parameter configurations: " + args.threads);
+    this.searcher = new IndexSearcher(this.reader);
+
+    try {
+      this.generator = (VectorQueryGenerator) Class
+          .forName(String.format("io.anserini.search.query.%s", args.queryGenerator))
+          .getConstructor().newInstance();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.queryGenerator);
+    }
+
+    if (args.encoder != null) {
+      try {
+        queryEncoder = (DenseEncoder) Class
+            .forName(String.format("io.anserini.encoder.dense.%sEncoder", args.encoder))
+            .getConstructor().newInstance();
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new IllegalArgumentException("Unable to load encoder: " + args.encoder);
+      }
+    } else {
+      queryEncoder = null;
+    }
+
   }
 
   @Override
@@ -337,11 +205,12 @@ public final class SearchHnswDenseVectors implements Closeable {
   }
 
   @SuppressWarnings("unchecked")
-  public <K> void runTopics() throws IOException {
+  @Override
+  public void run() {
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
 
-    for (String singleTopicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(singleTopicsFile);
+    for (String file : args.topics) {
+      Path topicsFilePath = Paths.get(file);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
         throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
       }
@@ -356,56 +225,87 @@ public final class SearchHnswDenseVectors implements Closeable {
       }
     }
 
-    final String runTag = args.runtag == null ? "Anserini" : args.runtag;
-    LOG.info("runtag: " + runTag);
-
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-
     LOG.info("============ Launching Search Threads ============");
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
+    // will go into the final run file) as the value.
+    AtomicInteger cnt = new AtomicInteger();
 
-    String outputPath = args.output;
-    executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag));
+    final long start = System.nanoTime();
+    for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+      K qid = entry.getKey();
+
+      // This is the per-query execution, in parallel.
+      executor.execute(() -> {
+        String queryString = entry.getValue().get(args.topicField);
+        ScoredDocuments docs;
+
+        try {
+          docs = queryEncoder != null ?
+              search(this.searcher, queryEncoder.encode(queryString)) :
+              search(this.searcher, queryString);
+        } catch (IOException|OrtException e) {
+          throw new CompletionException(e);
+        }
+
+        String runOutput = SearchCollection.generateRunOutput(docs, qid, args.format, args.runtag, args.removedups,
+            args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
+
+        results.put(qid, runOutput);
+        int n = cnt.incrementAndGet();
+        if (n % 100 == 0) {
+          LOG.info(String.format("%d queries processed", n));
+        }
+      });
+    }
+
     executor.shutdown();
 
     try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-      }
+      // Wait for existing tasks to terminate.
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES));
     } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
+      // (Re-)Cancel if current thread also interrupted.
       executor.shutdownNow();
-      // Preserve interrupt status
+      // Preserve interrupt status.
       Thread.currentThread().interrupt();
     }
+    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+
+    LOG.info(topics.size() + " queries processed in " +
+        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+        String.format(" = ~%.2f q/s", topics.size()/(durationMillis/1000.0)));
+
+    // Now we write the results to a run file.
+    PrintWriter out = null;
+    try {
+      out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
+
+      // This is the default case: just dump out the qids by their natural order.
+      for (K qid : results.keySet()) {
+        out.print(results.get(qid));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    out.flush();
+    out.close();
   }
 
   public ScoredDocuments search(IndexSearcher searcher, float[] queryFloat) throws IOException {
     KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
-
     TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-    ScoredDocuments scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
 
-    return scoredDocs;
+    return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
   public ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
-    KnnFloatVectorQuery query;
-    VectorQueryGenerator generator;
-    try {
-      generator = (VectorQueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
-          .getConstructor().newInstance();
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
-    }
-
-    query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
+    KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
     TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-    ScoredDocuments scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
 
-    return scoredDocs;
+    return ScoredDocuments.fromTopDocs(rs, searcher);
   }
-
 
   public static void main(String[] args) throws Exception {
     Args searchArgs = new Args();
@@ -416,7 +316,7 @@ public final class SearchHnswDenseVectors implements Closeable {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: SearchCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: SearchHnswDenseVectors" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
@@ -432,7 +332,7 @@ public final class SearchHnswDenseVectors implements Closeable {
       return;
     }
 
-    searcher.runTopics();
+    searcher.run();
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
