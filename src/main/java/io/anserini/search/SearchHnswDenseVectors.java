@@ -33,7 +33,6 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.MMapDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -48,10 +47,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletionException;
@@ -62,7 +58,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Main entry point for search.
+ * Main entry point for HNSW search.
  */
 public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
@@ -85,14 +81,13 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader = "JsonIntVector";
 
-    @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
-        " For TREC ad hoc topics, description or narrative can be used.")
+    @Option(name = "-topicField", usage = "Topic field that should be used as the query.")
     public String topicField = "vector";
 
     @Option(name = "-generator", usage = "QueryGenerator to use.")
     public String queryGenerator = "VectorQueryGenerator";
 
-    @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
+    @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads for running queries in parallel.")
     public int threads = 4;
 
     @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
@@ -108,9 +103,6 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
 
     @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
     public int efSearch = 100;
-
-    @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
-    public Boolean inmem = false;
 
     @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
     public String runtag = "Anserini";
@@ -152,10 +144,9 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
   private final Args args;
   private final IndexReader reader;
   private final IndexSearcher searcher;
-
-  VectorQueryGenerator generator;
+  private final VectorQueryGenerator generator;
   private final DenseEncoder queryEncoder;
-  ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
+  private final ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
 
   public SearchHnswDenseVectors(Args args) throws IOException {
     this.args = args;
@@ -171,8 +162,7 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     LOG.info("Encoder: " + args.encoder);
     LOG.info("Threads: " + args.threads);
 
-    this.reader = args.inmem ? DirectoryReader.open(MMapDirectory.open(indexPath)) :
-        DirectoryReader.open(FSDirectory.open(indexPath));
+    this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.searcher = new IndexSearcher(this.reader);
 
     try {
@@ -208,7 +198,6 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
   @Override
   public void run() {
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-
     for (String file : args.topics) {
       Path topicsFilePath = Paths.get(file);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
@@ -226,10 +215,8 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     }
 
     LOG.info("============ Launching Search Threads ============");
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-    // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
-    // will go into the final run file) as the value.
-    AtomicInteger cnt = new AtomicInteger();
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    final AtomicInteger cnt = new AtomicInteger();
 
     final long start = System.nanoTime();
     for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
@@ -277,30 +264,29 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
         String.format(" = ~%.2f q/s", topics.size()/(durationMillis/1000.0)));
 
     // Now we write the results to a run file.
-    PrintWriter out = null;
     try {
-      out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
+      PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
 
       // This is the default case: just dump out the qids by their natural order.
       for (K qid : results.keySet()) {
         out.print(results.get(qid));
       }
+
+      out.flush();
+      out.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-    out.flush();
-    out.close();
   }
 
-  public ScoredDocuments search(IndexSearcher searcher, float[] queryFloat) throws IOException {
+  private ScoredDocuments search(IndexSearcher searcher, float[] queryFloat) throws IOException {
     KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
     TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  public ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
+  private ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
     KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
     TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
@@ -309,7 +295,7 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
 
   public static void main(String[] args) throws Exception {
     Args searchArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
@@ -321,19 +307,18 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     }
 
     final long start = System.nanoTime();
-    SearchHnswDenseVectors searcher;
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
     try {
-      searcher = new SearchHnswDenseVectors(searchArgs);
+      SearchHnswDenseVectors searcher = new SearchHnswDenseVectors(searchArgs);
+      searcher.run();
+      searcher.close();
     } catch (IllegalArgumentException e) {
       System.err.println(e.getMessage());
       return;
     }
 
-    searcher.run();
-    searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
