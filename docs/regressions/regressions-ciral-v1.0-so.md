@@ -19,8 +19,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/ciral-somali \
-  -index indexes/lucene-index.ciral-v1.0-so/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.ciral-v1.0-so/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw -language so \
   >& logs/log.ciral-somali &
 ```
@@ -36,7 +36,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so/ \
   -topics tools/topics-and-qrels/topics.ciral-v1.0-so-dev-native.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-dev-native.txt \
   -bm25 -hits 1000 -language so &
 ```

@@ -24,8 +24,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/wiki-all-6-3-tamber \
-  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
   -threads 20 -storeRaw \
   >& logs/log.wiki-all-6-3-tamber &
 ```
@@ -45,37 +45,37 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
   -topics tools/topics-and-qrels/topics.dpr.nq.test.txt \
-  -topicreader DprNq \
+  -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
   -topics tools/topics-and-qrels/topics.dpr.trivia.test.txt \
-  -topicreader DprNq \
+  -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
   -topics tools/topics-and-qrels/topics.dpr.squad.test.txt \
-  -topicreader DprJsonl \
+  -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
   -topics tools/topics-and-qrels/topics.dpr.wq.test.txt \
-  -topicreader DprJsonl \
+  -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
   -topics tools/topics-and-qrels/topics.dpr.curated.test.txt \
-  -topicreader DprJsonl \
+  -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
   -topics tools/topics-and-qrels/topics.nq.test.txt \
-  -topicreader DprNq \
+  -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt \
   -bm25 &
 ```

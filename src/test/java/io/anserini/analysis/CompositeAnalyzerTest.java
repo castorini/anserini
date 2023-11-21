@@ -75,8 +75,6 @@ public class CompositeAnalyzerTest {
     tokenStream.end();
     tokenStream.close();
 
-    System.out.println(list);
-    
     return list;
   }
 

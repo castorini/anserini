@@ -145,7 +145,7 @@ public final class SearchCollection implements Closeable {
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
 
-    @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
+    @Option(name = "-topicReader", required = true, usage = "TopicReader to use.")
     public String topicReader;
 
     // optional arguments
@@ -153,7 +153,7 @@ public final class SearchCollection implements Closeable {
         usage = "If doc vector is not stored in the index, this need to be provided as collection class in package 'io.anserini.collection'.")
     public String collectionClass;
 
-    @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
+    @Option(name = "-generator", usage = "QueryGenerator to use.")
     public String queryGenerator = "BagOfWordsQueryGenerator";
 
     @Option(name = "-fields", metaVar = "[file]", handler = StringArrayOptionHandler.class, usage = "Fields")
@@ -184,9 +184,9 @@ public final class SearchCollection implements Closeable {
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
 
-    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
+    @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
         " For TREC ad hoc topics, description or narrative can be used.")
-    public String topicfield = "title";
+    public String topicField = "title";
 
     @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
     public Boolean removeQuery = false;
@@ -275,7 +275,7 @@ public final class SearchCollection implements Closeable {
 
     @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
         usage = "Maximum number of hits to return per topic after segment id removal. " +
-            "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+            "Note that this is different from '-hits', which specifies the number of hits including the segment id.")
     public int selectMaxPassage_hits = Integer.MAX_VALUE;
     // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
@@ -771,12 +771,12 @@ public final class SearchCollection implements Closeable {
             StringBuilder out = new StringBuilder();
 
             String queryString = "";
-            if (args.topicfield.contains("+")) {
-              for (String field : args.topicfield.split("\\+")) {
+            if (args.topicField.contains("+")) {
+              for (String field : args.topicField.split("\\+")) {
                 queryString += " " + entry.getValue().get(field);
               }
             } else {
-              queryString = entry.getValue().get(args.topicfield);
+              queryString = entry.getValue().get(args.topicField);
             }
 
             if (queryEncoder != null) {

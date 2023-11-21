@@ -19,8 +19,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-sw \
-  -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw -language sw \
   >& logs/log.mrtydi-v1.1-sw &
 ```
@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-sw.train.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.train.txt \
   -bm25 -hits 100 -language sw &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-sw.dev.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.dev.txt \
   -bm25 -hits 100 -language sw &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-sw.test.txt.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.test.txt \
   -bm25 -hits 100 -language sw &
 ```

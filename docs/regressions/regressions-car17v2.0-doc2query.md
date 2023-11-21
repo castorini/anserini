@@ -26,8 +26,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/car-paragraphCorpus.v2.0-doc2query \
-  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -threads 30 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.car-paragraphCorpus.v2.0-doc2query &
 ```
@@ -52,42 +52,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
-  -topicreader Car \
+  -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
-  -topicreader Car \
+  -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
-  -topicreader Car \
+  -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
-  -topicreader Car \
+  -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql.topics.car17v2.0.benchmarkY1test.txt \
   -qld &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
-  -topicreader Car \
+  -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt \
   -qld -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
-  -topicreader Car \
+  -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```

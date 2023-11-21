@@ -24,8 +24,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/beir-v1.0.0-dbpedia-entity-unicoil-noexp \
-  -index indexes/lucene-index.beir-v1.0.0-dbpedia-entity-unicoil-noexp/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.beir-v1.0.0-dbpedia-entity-unicoil-noexp/ \
   -threads 16 -impact -pretokenized \
   >& logs/log.beir-v1.0.0-dbpedia-entity-unicoil-noexp &
 ```
@@ -42,7 +42,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-dbpedia-entity-unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-dbpedia-entity.test.unicoil-noexp.tsv.gz \
-  -topicreader TsvString \
+  -topicReader TsvString \
   -output runs/run.beir-v1.0.0-dbpedia-entity-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-dbpedia-entity.test.unicoil-noexp.txt \
   -impact -pretokenized -removeQuery -hits 1000 &
 ```

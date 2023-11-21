@@ -33,7 +33,6 @@ public class PhraseQueryGeneratorTest {
     Query query = queryGenerator.buildQuery("contents", analyzer, "sample query");
 
     assertTrue(query instanceof PhraseQuery);
-    System.out.println(query.toString());
     assertEquals("contents:\"sampl queri\"", query.toString());
   }
 }

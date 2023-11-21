@@ -34,8 +34,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection NeuClirCollection \
   -input /path/to/neuclir22-zh \
-  -index indexes/lucene-index.neuclir22-zh \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.neuclir22-zh \
   -threads 8 -storePositions -storeDocvectors -storeRaw -language zh \
   >& logs/log.neuclir22-zh &
 ```
@@ -51,57 +51,57 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default.topics.hc4-v1.0-zh.test.desc.title.txt \
   -bm25 -language zh &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -rm3 -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default+rm3.topics.hc4-v1.0-zh.test.desc.title.txt \
   -bm25 -rm3 -language zh &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.title.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.txt \
   -bm25 -rocchio -language zh &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.neuclir22-zh \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.test.desc.title.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.neuclir22-zh.bm25-default+rocchio.topics.hc4-v1.0-zh.test.desc.title.txt \
   -bm25 -rocchio -language zh &
 ```

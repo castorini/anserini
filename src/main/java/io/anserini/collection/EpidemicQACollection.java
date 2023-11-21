@@ -65,9 +65,7 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
 
     public Segment(Path path) throws IOException {
       super(path);
-      this.bufferedReader = new BufferedReader(new InputStreamReader(
-          new FileInputStream(path.toString())));
-      LOG.info("Path: " + path.toString());
+      this.bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
     }
 
     public Segment(BufferedReader bufferedReader) throws IOException {

@@ -52,8 +52,8 @@ Sample indexing command, applying inverted indexes to dense vectors using the "f
 target/appassembler/bin/IndexInvertedDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
-  -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.fw-40/ \
   -generator InvertedDenseVectorDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.fw-40/ \
   -threads 16 -encoding fw -fw.q 40 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
@@ -74,9 +74,9 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.fw-40/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
-  -topicreader JsonIntVector \
+  -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
-  -topicfield vector -encoding fw -fw.q 40 -hits 1000 &
+  -topicField vector -encoding fw -fw.q 40 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:

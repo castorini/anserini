@@ -52,8 +52,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-splade-pp-ed \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade-pp-ed &
 ```
@@ -76,7 +76,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.splade-pp-ed.txt \
   -impact -pretokenized &
 ```

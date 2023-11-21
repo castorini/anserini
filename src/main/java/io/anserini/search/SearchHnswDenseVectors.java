@@ -18,6 +18,7 @@ package io.anserini.search;
 
 import io.anserini.encoder.dense.DenseEncoder;
 import io.anserini.encoder.sparse.SparseEncoder;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexHnswDenseVectors;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.VectorQueryGenerator;
@@ -71,16 +72,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class SearchHnswDenseVectors implements Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
-  // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
-  // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
-  // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchVectorArgs.
+  // For most collections, docids are strings, and we break ties by lexicographic sort order.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexHnswDenseVectors.Args.ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
 
   private static final Logger LOG = LogManager.getLogger(SearchHnswDenseVectors.class);
 
   public static class Args {
-    // required arguments
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
     public String index;
 
@@ -90,12 +88,11 @@ public final class SearchHnswDenseVectors implements Closeable {
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
 
-    @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
-    public String topicReader;
+    @Option(name = "-topicReader", usage = "TopicReader to use.")
+    public String topicReader = "JsonIntVector";
 
-    // optional arguments
-    @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
-    public String queryGenerator = "BagOfWordsQueryGenerator";
+    @Option(name = "-generator", usage = "QueryGenerator to use.")
+    public String queryGenerator = "VectorQueryGenerator";
 
     @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
     public int threads = 1;
@@ -111,9 +108,6 @@ public final class SearchHnswDenseVectors implements Closeable {
     @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
     public Boolean removedups = false;
 
-    @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
-    public Boolean skipexists = false;
-
     @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
     public int hits = 1000;
 
@@ -123,9 +117,9 @@ public final class SearchHnswDenseVectors implements Closeable {
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
 
-    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
+    @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
         " For TREC ad hoc topics, description or narrative can be used.")
-    public String topicfield = "title";
+    public String topicfield = "vector";
 
     @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
     public String runtag = null;
@@ -160,7 +154,7 @@ public final class SearchHnswDenseVectors implements Closeable {
 
     @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
         usage = "Maximum number of hits to return per topic after segment id removal. " +
-            "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+            "Note that this is different from '-hits', which specifies the number of hits including the segment id.")
     public int selectMaxPassage_hits = Integer.MAX_VALUE;
   }
 
@@ -236,7 +230,7 @@ public final class SearchHnswDenseVectors implements Closeable {
 
             int rank = 1;
             for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(IndexHnswDenseVectors.Args.ID);
+              String docid = docs.documents[i].get(Constants.ID);
 
               if (args.selectMaxPassage) {
                 docid = docid.split(args.selectMaxPassage_delimiter)[0];
@@ -344,15 +338,16 @@ public final class SearchHnswDenseVectors implements Closeable {
 
   @SuppressWarnings("unchecked")
   public <K> void runTopics() throws IOException {
-    TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
+
     for (String singleTopicsFile : args.topics) {
       Path topicsFilePath = Paths.get(singleTopicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
         throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
       }
       try {
-        tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
+        TopicReader<K> tr = (TopicReader<K>) Class
+            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
             .getConstructor(Path.class).newInstance(topicsFilePath);
         topics.putAll(tr.read());
       } catch (Exception e) {
@@ -366,16 +361,11 @@ public final class SearchHnswDenseVectors implements Closeable {
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
 
-
     LOG.info("============ Launching Search Threads ============");
 
     String outputPath = args.output;
-    if (args.skipexists && new File(outputPath).exists()) {
-      LOG.info("Run already exists, skipping: " + outputPath);
-    } else {
-      executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag));
-      executor.shutdown();
-    }
+    executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag));
+    executor.shutdown();
 
     try {
       // Wait for existing tasks to terminate
@@ -390,12 +380,10 @@ public final class SearchHnswDenseVectors implements Closeable {
   }
 
   public ScoredDocuments search(IndexSearcher searcher, float[] queryFloat) throws IOException {
-    KnnFloatVectorQuery query = new KnnFloatVectorQuery(IndexHnswDenseVectors.Args.VECTOR, queryFloat, args.efSearch);
-    
-    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    rs = searcher.search(query, args.hits);
-    ScoredDocuments scoredDocs;
-    scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
+
+    TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    ScoredDocuments scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     return scoredDocs;
   }
@@ -411,14 +399,9 @@ public final class SearchHnswDenseVectors implements Closeable {
       throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
     }
 
-    // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
-    // multiple fields with the associated boosts.
-    query = generator.buildQuery(IndexHnswDenseVectors.Args.VECTOR, queryString, args.efSearch);
-
-    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    rs = searcher.search(query, args.hits);
-    ScoredDocuments scoredDocs;
-    scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+    query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
+    TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    ScoredDocuments scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     return scoredDocs;
   }

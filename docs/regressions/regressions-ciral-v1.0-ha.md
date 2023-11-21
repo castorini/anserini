@@ -19,8 +19,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/ciral-hausa \
-  -index indexes/lucene-index.ciral-v1.0-ha/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.ciral-v1.0-ha/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw -language ha \
   >& logs/log.ciral-hausa &
 ```
@@ -36,7 +36,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-ha/ \
   -topics tools/topics-and-qrels/topics.ciral-v1.0-ha-dev-native.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.ciral-hausa.bm25-default.topics.ciral-v1.0-ha-dev-native.txt \
   -bm25 -hits 1000 -language ha &
 ```

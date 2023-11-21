@@ -28,6 +28,9 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
@@ -67,6 +70,11 @@ import static io.anserini.index.IndexInvertedDenseVectors.FW;
  * Main entry point for inverted dense vector search.
  */
 public final class SearchInvertedDenseVectors implements Closeable {
+  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
+  // For most collections, docids are strings, and we break ties by lexicographic sort order.
+  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
+      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
+
   private static final Logger LOG = LogManager.getLogger(SearchInvertedDenseVectors.class);
 
   public static class Args {
@@ -79,12 +87,11 @@ public final class SearchInvertedDenseVectors implements Closeable {
     @Option(name = "-output", metaVar = "[file]", usage = "output file")
     public String output;
 
-    @Option(name = "-topicreader", usage = "TopicReader to use.")
+    @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader;
 
-    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
-        " For TREC ad hoc topics, description or narrative can be used.")
-    public String topicfield = "title";
+    @Option(name = "-topicField", usage = "Which field of topic should be used as the query.")
+    public String topicField = "title";
 
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
     public String encoding;
@@ -124,9 +131,6 @@ public final class SearchInvertedDenseVectors implements Closeable {
     @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
     public Boolean removedups = false;
 
-    @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
-    public Boolean skipexists = false;
-
     @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
     public int hits = 1000;
 
@@ -163,7 +167,7 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
     @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
         usage = "Maximum number of hits to return per topic after segment id removal. " +
-            "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+            "Note that this is different from '-hits', which specifies the number of hits including the segment id.")
     public int selectMaxPassage_hits = Integer.MAX_VALUE;
   }
 
@@ -213,7 +217,7 @@ public final class SearchInvertedDenseVectors implements Closeable {
           executor.execute(() -> {
             // This is for holding the results.
             StringBuilder out = new StringBuilder();
-            String queryString = entry.getValue().get(args.topicfield);
+            String queryString = entry.getValue().get(args.topicField);
             ScoredDocuments docs;
             try {
               docs = search(this.searcher, queryString);
@@ -369,15 +373,9 @@ public final class SearchInvertedDenseVectors implements Closeable {
       similarity = new ClassicSimilarity();
     }
     String outputPath = args.output;
-    if (args.skipexists && new File(outputPath).exists()) {
-      LOG.info("Run already exists, skipping: " + outputPath);
-    } else {
-      executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag, queryExecutor, similarity));
-      executor.shutdown();
-      if (queryExecutor != null) {
-        queryExecutor.shutdown();
-      }
-    }
+
+    executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag, queryExecutor, similarity));
+    executor.shutdown();
 
     try {
       // Wait for existing tasks to terminate
@@ -396,19 +394,15 @@ public final class SearchInvertedDenseVectors implements Closeable {
   }
 
   public ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
-    // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
-    // multiple fields with the associated boosts.
     Query query = generator.buildQuery(queryString);
+    TopDocs results = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    TopScoreDocCollector results = TopScoreDocCollector.create(args.hits, Integer.MAX_VALUE);
-    searcher.search(query, results);
-
-    return ScoredDocuments.fromTopDocs(results.topDocs(), searcher);
+    return ScoredDocuments.fromTopDocs(results, searcher);
   }
 
   public static void main(String[] args) throws Exception {
     Args searchArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);

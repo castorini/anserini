@@ -288,8 +288,8 @@ public class DataModel {
     builder.append(indexCommand).append(" \\\n");
     builder.append("  -collection ").append(getCollection_class()).append(" \\\n");
     builder.append("  -input ").append("/path/to/"+collection).append(" \\\n");
-    builder.append("  -index ").append(getIndex_path()).append(" \\\n");
     builder.append("  -generator ").append(getGenerator_class()).append(" \\\n");
+    builder.append("  -index ").append(getIndex_path()).append(" \\\n");
     builder.append("  -threads ").append(getIndex_threads());
     builder.append(" ").append(getIndex_options()).append(" \\\n");
     builder.append(String.format("  >& logs/log.%s &", collection));
@@ -325,7 +325,7 @@ public class DataModel {
         builder.append(searchCommand).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
         builder.append("  -topics").append(" ").append(Paths.get("tools/topics-and-qrels", topic.getPath())).append(" \\\n");
-        builder.append("  -topicreader").append(" ").append((topic.getTopic_reader() == null) ? getTopic_reader() : topic.getTopic_reader()).append(" \\\n");
+        builder.append("  -topicReader").append(" ").append((topic.getTopic_reader() == null) ? getTopic_reader() : topic.getTopic_reader()).append(" \\\n");
         builder.append("  -output").append(" ").append(generateRunFile(collection, model, topic)).append(" \\\n");
         if (model.getParams() != null) {
           builder.append("  ").append(model.getParams());

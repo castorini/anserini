@@ -31,15 +31,27 @@ import org.apache.lucene.index.Terms;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.Iterator;
 
 public class CloneIndexTest extends IndexerTestBase {
+  private final static PrintStream standardOut = System.out;
+  private final static ByteArrayOutputStream output = new ByteArrayOutputStream();
+
   private static Path tempDir2;
+
+  @BeforeClass
+  public static void setupClass() {
+    System.setOut(new PrintStream(output));
+  }
 
   @Before
   @Override
@@ -153,6 +165,10 @@ public class CloneIndexTest extends IndexerTestBase {
     public int size() {
       return fieldsProducer.size();
     }
+  }
 
+  @AfterClass
+  public static void teardownClass() {
+    System.setOut(standardOut);
   }
 }

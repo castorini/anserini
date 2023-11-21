@@ -35,8 +35,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc \
-  -index indexes/lucene-index.msmarco-doc/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-doc/ \
   -threads 7 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc &
 ```
@@ -58,126 +58,126 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.dl19-doc.txt \
   -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+rocchio.topics.dl19-doc.txt \
   -bm25 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+rocchio-neg.topics.dl19-doc.txt \
   -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+prf.topics.dl19-doc.txt \
   -bm25 -bm25prf &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+rocchio.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+rocchio-neg.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+prf.topics.dl19-doc.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2+rocchio.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2+rocchio-neg.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2+ax.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2+prf.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -bm25prf &
 ```
