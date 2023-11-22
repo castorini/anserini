@@ -57,7 +57,7 @@ models:
   - name: cos-dpr-distil-fw-40
     display: cosDPR-distill
     type: inverted-dense
-    params: -topicField vector -encoding fw -fw.q 40 -hits 1000
+    params: -topicField vector -threads 16 -encoding fw -fw.q 40 -hits 1000
     results:
       AP@1000:
         - 0.4271
