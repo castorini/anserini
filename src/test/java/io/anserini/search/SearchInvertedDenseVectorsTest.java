@@ -16,18 +16,14 @@
 
 package io.anserini.search;
 
+import io.anserini.TestUtils;
 import io.anserini.index.IndexInvertedDenseVectors;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link SearchInvertedDenseVectors}
@@ -62,7 +58,7 @@ public class SearchInvertedDenseVectorsTest {
         "-encoding", "fw"};
     SearchInvertedDenseVectors.main(searchArgs);
 
-    check(runfile, new String[] {
+    TestUtils.checkFile(runfile, new String[] {
         "160885 Q0 40 1 32.355999 Anserini",
         "160885 Q0 44 2 31.581369 Anserini",
         "160885 Q0 48 3 30.734432 Anserini",
@@ -101,7 +97,7 @@ public class SearchInvertedDenseVectorsTest {
         "-encoding", "lexlsh"};
     SearchInvertedDenseVectors.main(searchArgs);
 
-    check(runfile, new String[] {
+    TestUtils.checkFile(runfile, new String[] {
         "160885 Q0 97 1 82.128540 Anserini",
         "160885 Q0 4 2 79.793037 Anserini",
         "160885 Q0 118 3 77.931618 Anserini",
@@ -116,18 +112,4 @@ public class SearchInvertedDenseVectorsTest {
 
     new File(runfile).delete();
   }
-
-  protected void check(String output, String[] ref) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(output));
-
-    int cnt = 0;
-    String s;
-    while ((s = br.readLine()) != null) {
-      assertEquals(ref[cnt], s);
-      cnt++;
-    }
-
-    assertEquals(cnt, ref.length);
-  }
-
 }

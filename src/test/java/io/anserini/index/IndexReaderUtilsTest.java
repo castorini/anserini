@@ -20,6 +20,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.search.SearchCollection;
 import io.anserini.search.SimpleSearcher;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexReader;
@@ -156,7 +157,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(2, term.getDF());
     assertEquals(3, term.getTotalTF());
 
-    assertEquals(false, iter.hasNext());
+    assertFalse(iter.hasNext());
 
     reader.close();
     dir.close();
@@ -331,8 +332,6 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void computeBM25Weights() throws Exception {
-    SearchCollection.Args args = new SearchCollection.Args();
-
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
@@ -363,6 +362,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Map<String, Long> documentVector;
 
     documentVector = IndexReaderUtils.getDocumentVector(reader, "doc1");
+    assertNotNull(documentVector);
     assertEquals(Long.valueOf(2), documentVector.get("here"));
     assertEquals(Long.valueOf(1), documentVector.get("more"));
     assertEquals(Long.valueOf(2), documentVector.get("some"));
@@ -370,15 +370,17 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(Long.valueOf(1), documentVector.get("citi"));
 
     documentVector = IndexReaderUtils.getDocumentVector(reader, "doc2");
+    assertNotNull(documentVector);
     assertEquals(Long.valueOf(1), documentVector.get("more"));
     assertEquals(Long.valueOf(1), documentVector.get("text"));
 
     documentVector = IndexReaderUtils.getDocumentVector(reader, "doc3");
+    assertNotNull(documentVector);
     assertEquals(Long.valueOf(1), documentVector.get("here"));
     assertEquals(Long.valueOf(1), documentVector.get("test"));
 
     // Invalid docid.
-    assertTrue(IndexReaderUtils.getDocumentVector(reader, "foo") == null);
+    assertNull(IndexReaderUtils.getDocumentVector(reader, "foo"));
 
     reader.close();
     dir.close();
@@ -392,6 +394,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Map<String, List<Integer>> termPositions;
 
     termPositions = IndexReaderUtils.getTermPositions(reader, "doc1");
+    assertNotNull(termPositions);
     assertEquals(Integer.valueOf(0), termPositions.get("here").get(0));
     assertEquals(Integer.valueOf(4), termPositions.get("here").get(1));
     assertEquals(Integer.valueOf(2), termPositions.get("some").get(0));
@@ -402,15 +405,17 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(Integer.valueOf(9), termPositions.get("citi").get(0));
 
     termPositions = IndexReaderUtils.getTermPositions(reader, "doc2");
+    assertNotNull(termPositions);
     assertEquals(Integer.valueOf(0), termPositions.get("more").get(0));
     assertEquals(Integer.valueOf(1), termPositions.get("text").get(0));
 
     termPositions = IndexReaderUtils.getTermPositions(reader, "doc3");
+    assertNotNull(termPositions);
     assertEquals(Integer.valueOf(0), termPositions.get("here").get(0));
     assertEquals(Integer.valueOf(3), termPositions.get("test").get(0));
 
     // Invalid docid.
-    assertTrue(IndexReaderUtils.getDocumentVector(reader, "foo") == null);
+    assertNull(IndexReaderUtils.getDocumentVector(reader, "foo"));
 
     reader.close();
     dir.close();
@@ -478,13 +483,19 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   public void testGetDocumentByField() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
+    Document doc;
 
-    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
-        IndexReaderUtils.documentByField(reader, "id","doc1").get("raw"));
-    assertEquals("{\"contents\": \"more texts\"}",
-        IndexReaderUtils.documentByField(reader, "id", "doc2").get("raw"));
-    assertEquals("{\"contents\": \"here is a test\"}",
-        IndexReaderUtils.documentByField(reader, "id", "doc3").get("raw"));
+    doc = IndexReaderUtils.documentByField(reader, "id","doc1");
+    assertNotNull(doc);
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", doc.get("raw"));
+
+    doc = IndexReaderUtils.documentByField(reader, "id", "doc2");
+    assertNotNull(doc);
+    assertEquals("{\"contents\": \"more texts\"}", doc.get("raw"));
+
+    doc = IndexReaderUtils.documentByField(reader, "id", "doc3");
+    assertNotNull(doc);
+    assertEquals("{\"contents\": \"here is a test\"}", doc.get("raw"));
 
     reader.close();
     dir.close();
@@ -498,7 +509,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals("doc1", IndexReaderUtils.convertLuceneDocidToDocid(reader, 0));
     assertEquals("doc2", IndexReaderUtils.convertLuceneDocidToDocid(reader, 1));
     assertEquals("doc3", IndexReaderUtils.convertLuceneDocidToDocid(reader, 2));
-    assertEquals(null, IndexReaderUtils.convertLuceneDocidToDocid(reader, 42));
+    assertNull(IndexReaderUtils.convertLuceneDocidToDocid(reader, 42));
 
     assertEquals(0, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc1"));
     assertEquals(1, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc2"));
@@ -523,10 +534,10 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
       SimpleSearcher.Result[] results = searcher.search(query);
 
       // Strategy is to loop over the results, compute query-document score individually, and compare.
-      for (int i = 0; i < results.length; i++) {
+      for (SimpleSearcher.Result result : results) {
         float score = IndexReaderUtils.computeQueryDocumentScoreWithSimilarity(
-            reader, results[i].docid, query, similarity);
-        assertEquals(score, results[i].score, 10e-5);
+            reader, result.docid, query, similarity);
+        assertEquals(score, result.score, 10e-5);
       }
 
       // This is hard coded - doc3 isn't retrieved by any of the queries.
@@ -544,7 +555,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     IndexReader reader = DirectoryReader.open(dir);
 
     assertEquals(3, IndexReaderUtils.getIndexStats(reader).get("documents"));
-    assertEquals(Long.valueOf(6), IndexReaderUtils.getIndexStats(reader).get("unique_terms"));
+    assertEquals(6L, IndexReaderUtils.getIndexStats(reader).get("unique_terms"));
 
     reader.close();
     dir.close();

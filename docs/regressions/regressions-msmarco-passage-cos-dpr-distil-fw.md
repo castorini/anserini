@@ -72,7 +72,7 @@ target/appassembler/bin/SearchInvertedDenseVectors \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
-  -topicField vector -encoding fw -fw.q 40 -hits 1000 &
+  -topicField vector -threads 16 -encoding fw -fw.q 40 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:

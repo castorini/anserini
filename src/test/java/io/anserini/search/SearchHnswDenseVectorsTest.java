@@ -16,18 +16,14 @@
 
 package io.anserini.search;
 
+import io.anserini.TestUtils;
 import io.anserini.index.IndexHnswDenseVectors;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link SearchHnswDenseVectors}
@@ -65,7 +61,7 @@ public class SearchHnswDenseVectorsTest {
         "-hits", "5"};
     SearchHnswDenseVectors.main(searchArgs);
 
-    check(runfile, new String[] {
+    TestUtils.checkFile(runfile, new String[] {
         "160885 Q0 45 1 0.863064 Anserini",
         "160885 Q0 44 2 0.861596 Anserini",
         "160885 Q0 40 3 0.858651 Anserini",
@@ -79,19 +75,6 @@ public class SearchHnswDenseVectorsTest {
     });
 
     new File(runfile).delete();
-  }
-
-  protected void check(String output, String[] ref) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(output));
-
-    int cnt = 0;
-    String s;
-    while ((s = br.readLine()) != null) {
-      assertEquals(ref[cnt], s);
-      cnt++;
-    }
-
-    assertEquals(cnt, ref.length);
   }
 
 }
