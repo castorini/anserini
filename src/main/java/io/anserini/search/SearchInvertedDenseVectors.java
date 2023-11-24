@@ -36,9 +36,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.Closeable;

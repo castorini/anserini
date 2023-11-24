@@ -27,6 +27,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests for {@link SearchHnswDenseVectors}
  */
@@ -53,12 +56,224 @@ public class SearchHnswDenseVectorsTest {
   @Test
   public void testEmptyInvocation() throws Exception {
     redirectStderr();
-    String[] indexArgs = new String[] {};
 
-    SearchHnswDenseVectors.main(indexArgs);
-    System.out.println(err);
-    //assertTrue(err.toString().contains("Example: IndexHnswDenseVectors"));
+    SearchHnswDenseVectors.main(new String[] {});
+    assertTrue(err.toString().contains("Error"));
+    assertTrue(err.toString().contains("is required"));
 
+    restoreStderr();
+  }
+
+  @Test
+  public void testAskForHelp() throws Exception {
+    redirectStderr();
+
+    SearchHnswDenseVectors.main(new String[] {"-options"});
+    assertTrue(err.toString().contains("Options for"));
+
+    restoreStderr();
+  }
+
+  @Test
+  public void testInvalidIndex1() throws Exception {
+    redirectStderr();
+
+    // Fake path that doesn't exist.
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", "/fake/path",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
+        "-output", "target/run-" + System.currentTimeMillis(),
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5"};
+    SearchHnswDenseVectors.main(searchArgs);
+
+    assertEquals("Error: \"/fake/path\" does not appear to be a valid index.\n", err.toString());
+    restoreStderr();
+  }
+
+  @Test
+  public void testInvalidIndex2() throws Exception {
+    redirectStderr();
+
+    // Path that does exist, but isn't an index.
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", "/fake/path",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
+        "-output", "target/run-" + System.currentTimeMillis(),
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5"};
+    SearchHnswDenseVectors.main(searchArgs);
+
+    assertEquals("Error: \"/fake/path\" does not appear to be a valid index.\n", err.toString());
+    restoreStderr();
+  }
+
+  @Test
+  public void searchInvalidTopics() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "fake/topics/here",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5"};
+
+    redirectStderr();
+    SearchHnswDenseVectors.main(searchArgs);
+
+    assertEquals("Error: \"fake/topics/here\" does not appear to be a valid topics file.\n", err.toString());
+    restoreStderr();
+  }
+
+  @Test
+  public void searchInvalidReader() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "FakeJsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5"};
+
+    redirectStderr();
+    SearchHnswDenseVectors.main(searchArgs);
+
+    assertEquals("Error: Unable to load topic reader \"FakeJsonIntVector\".\n", err.toString());
+    restoreStderr();
+  }
+
+  @Test
+  public void searchInvalidTopicField() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "fake_field",
+        "-efSearch", "1000",
+        "-hits", "5"};
+
+    redirectStderr();
+    SearchHnswDenseVectors.main(searchArgs);
+
+    assertEquals("Error: Unable to read topic field \"fake_field\".\n", err.toString());
+    restoreStderr();
+  }
+
+  @Test
+  public void searchInvalidGenerator() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
+        "-output", runfile,
+        "-generator", "FakeVectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5"};
+
+    redirectStderr();
+    SearchHnswDenseVectors.main(searchArgs);
+
+    assertEquals("Error: Unable to load QueryGenerator \"FakeVectorQueryGenerator\".\n", err.toString());
+    restoreStderr();
+  }
+
+  @Test
+  public void searchInvalidEncoder() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        "-encoder", "FakeEncoder",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5"};
+
+    redirectStderr();
+    SearchHnswDenseVectors.main(searchArgs);
+
+    assertEquals("Error: Unable to load Encoder \"FakeEncoder\".\n", err.toString());
     restoreStderr();
   }
 

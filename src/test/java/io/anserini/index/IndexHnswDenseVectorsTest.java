@@ -58,7 +58,6 @@ public class IndexHnswDenseVectorsTest {
     String[] indexArgs = new String[] {};
 
     IndexHnswDenseVectors.main(indexArgs);
-    System.out.println(err);
     assertTrue(err.toString().contains("Example: IndexHnswDenseVectors"));
 
     restoreStderr();
