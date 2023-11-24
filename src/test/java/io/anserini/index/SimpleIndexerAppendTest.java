@@ -22,13 +22,12 @@ import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SimpleIndexerAppendTest extends LuceneTestCase {
 
-  private class JsonCollectionWrapper {
+  private static class JsonCollectionWrapper {
     JsonCollection collection;
 
     public JsonCollectionWrapper(String collectionPath) {

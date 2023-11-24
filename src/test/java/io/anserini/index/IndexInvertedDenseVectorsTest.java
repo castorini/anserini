@@ -57,7 +57,6 @@ public class IndexInvertedDenseVectorsTest {
     redirectStderr();
     String[] indexArgs = new String[] {};
 
-    err.reset();
     IndexInvertedDenseVectors.main(indexArgs);
     assertTrue(err.toString().contains("Example: IndexInvertedDenseVectors"));
 

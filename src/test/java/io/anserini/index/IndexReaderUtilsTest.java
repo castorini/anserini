@@ -459,20 +459,23 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   public void testGetDocument() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
+    Document doc;
 
-    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
-        IndexReaderUtils.document(reader, "doc1").get("raw"));
-    assertEquals("{\"contents\": \"more texts\"}",
-        IndexReaderUtils.document(reader, "doc2").get("raw"));
-    assertEquals("{\"contents\": \"here is a test\"}",
-        IndexReaderUtils.document(reader, "doc3").get("raw"));
+    doc = IndexReaderUtils.document(reader, "doc1");
+    assertNotNull(doc);
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", doc.get("raw"));
+    assertEquals("here is some text here is some more text. city.", doc.get("contents"));
 
-    assertEquals("here is some text here is some more text. city.",
-        IndexReaderUtils.document(reader, "doc1").get("contents"));
-    assertEquals("more texts",
-        IndexReaderUtils.document(reader, "doc2").get("contents"));
-    assertEquals("here is a test",
-        IndexReaderUtils.document(reader, "doc3").get("contents"));
+    doc = IndexReaderUtils.document(reader, "doc2");
+    assertNotNull(doc);
+    assertEquals("{\"contents\": \"more texts\"}", doc.get("raw"));
+    assertEquals("more texts", doc.get("contents"));
+
+    doc = IndexReaderUtils.document(reader, "doc3");
+    assertNotNull(doc);
+    assertEquals("{\"contents\": \"here is a test\"}", doc.get("raw"));
+    assertEquals("here is a test", doc.get("contents"));
+
     assertNull(IndexReaderUtils.document(reader, "fake"));
 
     reader.close();

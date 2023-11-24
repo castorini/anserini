@@ -23,16 +23,43 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 
 /**
  * Tests for {@link SearchHnswDenseVectors}
  */
 public class SearchHnswDenseVectorsTest {
+  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
+  private PrintStream save;
+
+  private void redirectStderr() {
+    save = System.err;
+    err.reset();
+    System.setErr(new PrintStream(err));
+  }
+
+  private void restoreStderr() {
+    System.setErr(save);
+  }
+
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchHnswDenseVectors.class.getName(), Level.ERROR);
+  }
+
+  @Test
+  public void testEmptyInvocation() throws Exception {
+    redirectStderr();
+    String[] indexArgs = new String[] {};
+
+    SearchHnswDenseVectors.main(indexArgs);
+    System.out.println(err);
+    //assertTrue(err.toString().contains("Example: IndexHnswDenseVectors"));
+
+    restoreStderr();
   }
 
   @Test
