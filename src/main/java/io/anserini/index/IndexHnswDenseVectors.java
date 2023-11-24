@@ -38,6 +38,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
+import org.apache.lucene.index.TieredMergePolicy;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -82,7 +83,7 @@ public final class IndexHnswDenseVectors {
     public boolean optimize = false;
 
     @Option(name = "-memorybuffer", metaVar = "[mb]", usage = "Memory buffer size in MB.")
-    public int memorybufferSize = 4096;
+    public int memorybufferSize = 16384;
 
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
@@ -291,7 +292,16 @@ public final class IndexHnswDenseVectors {
     config.setRAMBufferSizeMB(args.memorybufferSize);
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());
+
+    if (args.optimize) {
+      TieredMergePolicy mergePolicy = new TieredMergePolicy();
+      mergePolicy.setMaxMergeAtOnce(256);
+      mergePolicy.setSegmentsPerTier(256);
+      config.setMergePolicy(mergePolicy);
+    }
+
     IndexWriter writer = new IndexWriter(dir, config);
+
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     LOG.info("Thread pool with " + args.threads + " threads initialized.");
