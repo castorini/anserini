@@ -117,7 +117,7 @@ Now we can now perform a retrieval run using queries we've prepared:
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -topics collections/msmarco-passage/queries.dev.small.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
