@@ -109,7 +109,7 @@ The MaxP passage retrieval functionality is available in `SearchCollection`.
 To generate an MS MARCO submission with the BM25 default parameters, corresponding to "BM25 (default)" above:
 
 ```bash
-$ sh target/appassembler/bin/SearchCollection -topicReader TsvString \
+$ sh target/appassembler/bin/SearchCollection -topicreader TsvString \
     -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
     -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.txt -format msmarco \
@@ -131,7 +131,7 @@ Note that the above command uses `-format msmarco` to directly generate a run in
 To generate an MS MARCO submission with the BM25 tuned parameters, corresponding to "BM25 (tuned)" above:
 
 ```bash
-$ sh target/appassembler/bin/SearchCollection -topicReader TsvString \
+$ sh target/appassembler/bin/SearchCollection -topicreader TsvString \
     -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
     -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
     -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.txt -format msmarco \

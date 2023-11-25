@@ -138,7 +138,7 @@ For default parameters (`k1=0.9`, `b=0.4`):
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
     -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-    -topicReader TsvInt \
+    -topicreader TsvInt \
     -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.txt \
     -format msmarco \
     -bm25 -hits 100
@@ -159,7 +159,7 @@ For tuned parameters (`k1=4.68`, `b=0.87`):
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
     -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-    -topicReader TsvInt \
+    -topicreader TsvInt \
     -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.txt \
     -format msmarco \
     -bm25 -bm25.k1 4.68 -bm25.b 0.87 -hits 100

@@ -36,7 +36,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
@@ -47,6 +46,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -74,7 +76,7 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
     public String index;
 
-    @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, usage = "topics file")
+    @Option(name = "-topics", metaVar = "[file]", required = true, handler = StringArrayOptionHandler.class, usage = "topics file")
     public String[] topics;
 
     @Option(name = "-output", metaVar = "[file]", usage = "output file")
@@ -127,6 +129,9 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
 
+    @Option(name = "-options", usage = "Print information about options.")
+    public Boolean options = false;
+
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
     // ---------------------------------------------
@@ -159,28 +164,66 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
   private final IndexReader reader;
   private final IndexSearcher searcher;
   private final InvertedDenseVectorQueryGenerator generator;
+  private final SortedMap<K, String> queries = new TreeMap<>();
   private final ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
 
-  public SearchInvertedDenseVectors(Args args) throws IOException {
+  public SearchInvertedDenseVectors(Args args) {
     this.args = args;
-    Path indexPath = Paths.get(args.index);
-
-    if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", args.index));
-    }
 
     LOG.info("============ Initializing InvertedDenseVector Searcher ============");
-    LOG.info("Index: " + indexPath);
+    LOG.info("Index: " + args.index);
+    LOG.info("Topics: " + Arrays.toString(args.topics));
     LOG.info("Encoding: " + args.encoding);
     LOG.info("Threads: " + args.threads);
 
-    this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    // We might not be able to successfully create a reader for a variety of reasons, anything from path doesn't exist
+    // to corrupt index. Gather all possible exceptions together as an unchecked exception to make initialization and
+    // error reporting clearer.
+    try {
+      this.reader = DirectoryReader.open(FSDirectory.open(Paths.get(args.index)));
+    } catch (IOException e) {
+      throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));
+    }
+
     this.searcher = new IndexSearcher(this.reader);
     if (args.encoding.equalsIgnoreCase(FW)) {
       searcher.setSimilarity(new ClassicSimilarity());
     }
 
     this.generator = new InvertedDenseVectorQueryGenerator(args, true);
+
+    // Same as above: we might not be able to successfully read topics for a variety of reasons. Gather all possible
+    // exceptions together as an unchecked exception to make initialization and error reporting clearer.
+    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
+    for (String singleTopicsFile : args.topics) {
+      Path topicsFilePath = Paths.get(singleTopicsFile);
+      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
+        throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
+      }
+      try {
+        @SuppressWarnings("unchecked")
+        TopicReader<K> tr = (TopicReader<K>) Class
+            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
+            .getConstructor(Path.class).newInstance(topicsFilePath);
+
+        topics.putAll(tr.read());
+      } catch (Exception e) {
+        throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
+      }
+    }
+
+    // Now iterate through all the topics to pick out the right field with proper exception handling.
+    try {
+      for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+        K qid = entry.getKey();
+        String query = entry.getValue().get(args.topicField);
+        assert query != null;
+
+        this.queries.put(qid, query);
+      }
+    } catch (AssertionError|Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
+    }
   }
 
   @Override
@@ -188,39 +231,21 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
     reader.close();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void run() {
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String singleTopicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(singleTopicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
-      }
-      try {
-        TopicReader<K> tr = (TopicReader<K>) Class
-            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-            .getConstructor(Path.class).newInstance(topicsFilePath);
-        topics.putAll(tr.read());
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
-      }
-    }
-
     LOG.info("============ Launching Search Threads ============");
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     final AtomicInteger cnt = new AtomicInteger();
 
     final long start = System.nanoTime();
-    for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+    for (Map.Entry<K, String> entry : queries.entrySet()) {
       K qid = entry.getKey();
 
       // This is the per-query execution, in parallel.
       executor.execute(() -> {
         ScoredDocuments docs;
         try {
-          docs = search(this.searcher, entry.getValue().get(args.topicField));
+          docs = search(this.searcher, entry.getValue());
         } catch (IOException e) {
           throw new CompletionException(e);
         }
@@ -240,7 +265,7 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
 
     try {
       // Wait for existing tasks to terminate.
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) ;
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES));
     } catch (InterruptedException ie) {
       // (Re-)Cancel if current thread also interrupted.
       executor.shutdownNow();
@@ -249,9 +274,9 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
     }
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
-    LOG.info(topics.size() + " queries processed in " +
+    LOG.info(queries.size() + " queries processed in " +
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-        String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
+        String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
 
     // Now we write the results to a run file.
     try {
@@ -283,9 +308,22 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: SearchInvertedDenseVectors" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      if (searchArgs.options) {
+        System.err.printf("Options for %s:\n\n", SearchInvertedDenseVectors.class.getSimpleName());
+        parser.printUsage(System.err);
+
+        List<String> required = new ArrayList<>();
+        parser.getOptions().forEach((option) -> {
+          if (option.option.required()) {
+            required.add(option.option.toString());
+          }
+        });
+
+        System.err.printf("\nRequired options are %s\n", required);
+      } else {
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
+      }
+
       return;
     }
 
@@ -298,7 +336,7 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
       searcher.run();
       searcher.close();
     } catch (IllegalArgumentException e) {
-      System.err.println(e.getMessage());
+      System.err.printf("Error: %s\n", e.getMessage());
       return;
     }
 

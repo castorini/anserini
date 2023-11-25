@@ -76,7 +76,7 @@ target/appassembler/bin/SearchInvertedDenseVectors \
   -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
-  -topicField vector -encoding lexlsh -lexlsh.b 600 -hits 1000 &
+  -topicField vector -threads 16 -encoding lexlsh -lexlsh.b 600 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:

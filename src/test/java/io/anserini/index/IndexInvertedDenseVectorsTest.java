@@ -57,7 +57,6 @@ public class IndexInvertedDenseVectorsTest {
     redirectStderr();
     String[] indexArgs = new String[] {};
 
-    err.reset();
     IndexInvertedDenseVectors.main(indexArgs);
     assertTrue(err.toString().contains("Example: IndexInvertedDenseVectors"));
 
@@ -133,6 +132,7 @@ public class IndexInvertedDenseVectorsTest {
     assertNotNull(reader);
 
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
     assertEquals(100, results.get("documents"));
     assertEquals(100, results.get("non_empty_documents"));
     assertEquals(4081, (int) ((Long) results.get("unique_terms")).longValue());
@@ -156,6 +156,7 @@ public class IndexInvertedDenseVectorsTest {
     assertNotNull(reader);
 
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
     assertEquals(100, results.get("documents"));
     assertEquals(100, results.get("non_empty_documents"));
     assertEquals(1460, (int) ((Long) results.get("unique_terms")).longValue());

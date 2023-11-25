@@ -51,6 +51,9 @@ public class SimpleIndexerTest extends LuceneTestCase {
                     .put("id", "0")
                     .put("contents", "Document 0"));
 
+    assertNotNull(doc1);
+    assertNotNull(doc2);
+    assertNotNull(doc3);
     assertEquals(doc1.raw(), doc2.raw());
     assertEquals(doc2.raw(), doc3.raw());
   }
