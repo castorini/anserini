@@ -165,7 +165,7 @@ For parameters `k1=0.82`, `b=0.68`:
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
     -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-    -topicReader TsvInt \
+    -topicreader TsvInt \
     -output runs/run.msmarco-passage-docTTTTTquery.1 \
     -format msmarco \
     -bm25 -bm25.k1 0.82 -bm25.b 0.68
@@ -185,7 +185,7 @@ For parameters `k1=2.18`, `b=0.86`:
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-passage-docTTTTTquery/ \
     -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-    -topicReader TsvInt \
+    -topicreader TsvInt \
     -output runs/run.msmarco-passage-docTTTTTquery.2 \
     -format msmarco \
     -bm25 -bm25.k1 2.18 -bm25.b 0.86

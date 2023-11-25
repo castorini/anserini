@@ -117,7 +117,7 @@ The following command generates a comparable run:
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
-  -topicReader TsvInt \
+  -topicreader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil.msmarco-doc.dev.txt \
   -format msmarco \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100

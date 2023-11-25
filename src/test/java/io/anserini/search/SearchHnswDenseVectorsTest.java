@@ -79,7 +79,6 @@ public class SearchHnswDenseVectorsTest {
     redirectStderr();
 
     // Fake path that doesn't exist.
-    String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", "/fake/path",
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
@@ -100,7 +99,6 @@ public class SearchHnswDenseVectorsTest {
     redirectStderr();
 
     // Path that does exist, but isn't an index.
-    String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", "/fake/path",
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
