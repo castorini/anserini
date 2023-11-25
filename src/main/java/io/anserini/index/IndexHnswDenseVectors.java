@@ -38,6 +38,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
+import org.apache.lucene.index.TieredMergePolicy;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -82,7 +83,7 @@ public final class IndexHnswDenseVectors {
     public boolean optimize = false;
 
     @Option(name = "-memorybuffer", metaVar = "[mb]", usage = "Memory buffer size in MB.")
-    public int memorybufferSize = 4096;
+    public int memorybufferSize = 65536;
 
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
@@ -95,7 +96,6 @@ public final class IndexHnswDenseVectors {
 
     @Option(name = "-quiet", forbids = {"-verbose"}, usage = "Turns off all logging.")
     public boolean quiet = false;
-
   }
 
   private final class LocalIndexerThread extends Thread {
@@ -247,7 +247,7 @@ public final class IndexHnswDenseVectors {
 
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
   // This class exists because Lucene95HnswVectorsFormat's getMaxDimensions method is final and we
-  // need to workaround that constraint to allow more than the default number of dimensions
+  // need to workaround that constraint to allow more than the default number of dimensions.
   private static final class OpenAiDelegatingKnnVectorsFormat extends KnnVectorsFormat {
     private final KnnVectorsFormat delegate;
     private final int maxDimensions;
@@ -287,10 +287,21 @@ public final class IndexHnswDenseVectors {
                 new Lucene95HnswVectorsFormat(args.M, args.efC), 4096);
           }
         });
+
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(args.memorybufferSize);
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());
+
+    if (args.optimize) {
+      // If we're going to merge down into a single segment at the end, skip intermediate merges,
+      // since they are a waste of time.
+      TieredMergePolicy mergePolicy = new TieredMergePolicy();
+      mergePolicy.setMaxMergeAtOnce(256);
+      mergePolicy.setSegmentsPerTier(256);
+      config.setMergePolicy(mergePolicy);
+    }
+
     IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
