@@ -117,7 +117,7 @@ Now we can now perform a retrieval run using queries we've prepared:
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -topics collections/msmarco-passage/queries.dev.small.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
@@ -446,3 +446,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@aliranjbari](https://github.com/aliranjbari) on 2023-11-06 (commit [`d2fb8a5`](https://github.com/castorini/anserini/commit/d2fb8a51f130c40aed99eee10ce34fc3f66869c7))
 + Results reproduced by [@salinaria](https://github.com/salinaria) on 2023-11-08 (commit [`75c553f`](https://github.com/castorini/anserini/commit/75c553fd9d31390adb4ceedda0da5730a0a34ec0))
 + Results reproduced by [@Seun-Ajayi](https://github.com/Seun-Ajayi) on 2023-11-13 (commit [`d9ea781`](https://github.com/castorini/anserini/commit/d9ea7812324fd631623726a1162a031395934fb5))
++ Results reproduced by [@alimt1992](https://github.com/alimt1992) on 2023-11-25 (commit [`ae498aa`](https://github.com/castorini/anserini/commit/ae498aa997155945ff24adb45454183e5afe93d9))

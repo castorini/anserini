@@ -50,7 +50,7 @@ The dev queries are already stored in our repo:
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.dev.bm25.txt \
   -parallelism 4 \
   -bm25 -hits 1000
@@ -101,7 +101,7 @@ A few minor details to pay attention to: the official metric is MRR@100, so we w
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 100
@@ -128,7 +128,7 @@ Here's the invocation for BM25 with parameters optimized for recall@100 (`k1=4.4
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100
@@ -181,7 +181,7 @@ So, we need to use different search programs, for example:
 $ target/appassembler/bin/SearchCollection \
     -index indexes/msmarco-doc/lucene-index-msmarco \
     -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-    -topicreader TsvInt \
+    -topicReader TsvInt \
     -output runs/run.msmarco-doc.dev.opt-mrr.txt \
     -parallelism 4 \
     -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 1000
@@ -194,7 +194,7 @@ recall_1000           	all	0.9326
 $ target/appassembler/bin/SearchCollection \
     -index indexes/msmarco-doc/lucene-index-msmarco \
     -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-    -topicreader TsvInt \
+    -topicReader TsvInt \
     -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -format msmarco \
     -parallelism 4 \
     -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 100
