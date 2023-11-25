@@ -72,7 +72,7 @@ We can now perform a retrieval run:
 ```bash
 sh target/appassembler/bin/SearchCollection \
  -index indexes/fever/lucene-index-fever-paragraph \
- -topicreader TsvInt -topics collections/fever/queries.paragraph.dev.tsv \
+ -topicReader TsvInt -topics collections/fever/queries.paragraph.dev.tsv \
  -output runs/run.fever-paragraph.dev.txt -bm25
 ```
 
@@ -166,7 +166,7 @@ From the grid search, we observe that the parameters `k1=0.9`, `b=0.1` perform f
 ```bash
 sh target/appassembler/bin/SearchCollection \
  -index indexes/fever/lucene-index-fever-paragraph \
- -topicreader TsvInt -topics collections/fever/queries.paragraph.dev.tsv \
+ -topicReader TsvInt -topics collections/fever/queries.paragraph.dev.tsv \
  -output runs/run.fever-paragraph-0.9-0.1.dev.txt -bm25 -bm25.k1 0.9 -bm25.b 0.1
 ```
 

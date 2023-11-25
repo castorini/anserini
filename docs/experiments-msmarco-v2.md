@@ -40,11 +40,11 @@ Perform runs on the dev queries (both sets):
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
- -topicreader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
+ -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
  -output runs/run.msmarco-v2-passage.dev.txt -bm25 -hits 1000
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
- -topicreader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
+ -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
  -output runs/run.msmarco-v2-passage.dev2.txt -bm25 -hits 1000
 ```
 
@@ -100,11 +100,11 @@ Perform runs on the dev queries (both sets):
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
- -topicreader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
+ -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
  -output runs/run.msmarco-v2-passage-augmented.dev.txt -bm25 -hits 1000
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
- -topicreader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
+ -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
  -output runs/run.msmarco-v2-passage-augmented.dev2.txt -bm25 -hits 1000
 ```
 
@@ -158,11 +158,11 @@ Perform runs on the dev queries (both sets):
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
- -topicreader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+ -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
  -output runs/run.msmarco-v2-doc.dev.txt -bm25 -hits 1000
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
- -topicreader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+ -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
  -output runs/run.msmarco-v2-doc.dev2.txt -bm25 -hits 1000
 ```
 
@@ -227,12 +227,12 @@ Perform runs on the dev queries (both sets):
 
 ```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
-  -topicreader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc-segmented.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
-  -topicreader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc-segmented.dev2.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 ```

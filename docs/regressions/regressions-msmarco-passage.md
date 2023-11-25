@@ -142,7 +142,7 @@ For default parameters (`k1=0.9`, `b=0.4`):
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-passage/ \
     -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-    -topicreader TsvInt \
+    -topicReader TsvInt \
     -output runs/run.msmarco-passage.bm25.default.tsv \
     -format msmarco \
     -bm25
@@ -162,7 +162,7 @@ For tuned parameters (`k1=0.82`, `b=0.68`):
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-passage/ \
     -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-    -topicreader TsvInt \
+    -topicReader TsvInt \
     -output runs/run.msmarco-passage.bm25.tuned.tsv \
     -format msmarco \
     -bm25 -bm25.k1 0.82 -bm25.b 0.68

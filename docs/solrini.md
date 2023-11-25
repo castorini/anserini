@@ -90,7 +90,7 @@ You can also run the following command to reproduce Anserini BM25 retrieval:
 ```bash
 sh target/appassembler/bin/SearchSolr \
   -topics tools/topics-and-qrels/topics.robust04.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -solr.index robust04 \
   -solr.zkUrl localhost:9983 \
   -output runs/run.solr.robust04.bm25.topics.robust04.txt
