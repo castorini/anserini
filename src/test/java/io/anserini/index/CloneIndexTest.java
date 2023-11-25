@@ -145,7 +145,7 @@ public class CloneIndexTest extends IndexerTestBase {
     }
 
     @Override
-    public void checkIntegrity() throws IOException {
+    public void checkIntegrity() {
       fieldsProducer.iterator();
     }
 

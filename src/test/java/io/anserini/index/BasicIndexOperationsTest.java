@@ -79,14 +79,14 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
       System.out.print(token + " (df = " + reader.docFreq(term) + "):");
       PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
       while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        System.out.print(String.format(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq()));
+        System.out.printf(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq());
         System.out.print(" [");
         for (int j = 0; j < postingsEnum.freq(); j++) {
           System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
         }
         System.out.print("]");
       }
-      System.out.println("");
+      System.out.println();
 
       bytesRef = termsEnum.next();
     }
@@ -221,7 +221,7 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
     Analyzer analyzer = new EnglishAnalyzer();
-    Class collectionClass = Class.forName("io.anserini.collection.JsonCollection");
+    Class<?> collectionClass = Class.forName("io.anserini.collection.JsonCollection");
 
     int numDocs = reader.numDocs();
     // Iterate through the document vectors

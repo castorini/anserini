@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import io.anserini.index.Constants;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LatLonDocValuesField;

@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import io.anserini.index.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.BinaryDocValuesField;
