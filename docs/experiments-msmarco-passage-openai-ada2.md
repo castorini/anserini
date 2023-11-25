@@ -65,7 +65,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-openai-ada2/ \
   -topics tools/topics-and-qrels/topics.{SETTING}.jsonl.gz \
-  -topicreader JsonIntVector \
+  -topicReader JsonIntVector \
   -output runs/run.{SETTING}.txt \
   -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000 &
 ```

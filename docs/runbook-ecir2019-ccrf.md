@@ -83,49 +83,49 @@ nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollect
 Retrieve the top-ranked documents using BM25, BM25 with RM3 (BM25+RM3), and BM25 with axiomatic semantic term matching (BM25+AX) for the three collections:
 
 ```bash
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust04.301-450.601-700.txt \
  -output run.robust04.bm25.topics.robust04.301-450.601-700.txt -bm25 -hits 10000 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust04.301-450.601-700.txt \
  -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 -hits 10000 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust04.301-450.601-700.txt \
  -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt \
  -bm25 -axiom -rerankCutoff 20 -axiom.deterministic  -hits 10000 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust05.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust05.txt \
  -output run.robust05.bm25.topics.robust05.txt -bm25 -hits 10000 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust05.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust05.txt \
  -output run.robust05.bm25+rm3.topics.robust05.txt -bm25 -rm3 -hits 10000 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust05.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust05.txt \
  -output run.robust05.bm25+ax.topics.robust05.txt \
  -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.core17.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.core17.txt \
  -output run.core17.bm25.topics.core17.txt -bm25 -hits 10000 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.core17.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.core17.txt \
  -output run.core17.bm25+rm3.topics.core17.txt -bm25 -rm3 -hits 10000 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec \
+nohup target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.core17.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.core17.txt \
  -output run.core17.bm25+ax.topics.core17.txt \
