@@ -171,6 +171,10 @@
               <mainClass>io.anserini.search.EvaluateInvertedDenseVectors</mainClass>
               <id>ApproximateNearestNeighborEval</id>
             </program>
+            <program>
+              <mainClass>io.anserini.eval.TrecEval</mainClass>
+              <id>TrecEval</id>
+            </program>
           </programs>
         </configuration>
       </plugin>
@@ -485,6 +489,11 @@
       <groupId>ai.djl</groupId>
       <artifactId>api</artifactId>
       <version>0.21.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
     </dependency>
   </dependencies>
 </project>
