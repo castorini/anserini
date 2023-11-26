@@ -52,8 +52,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-unicoil-tilde-expansion \
-  -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion/ \
   -threads 16 -impact -pretokenized \
   >& logs/log.msmarco-passage-unicoil-tilde-expansion &
 ```
@@ -76,7 +76,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt \
   -impact -pretokenized &
 ```

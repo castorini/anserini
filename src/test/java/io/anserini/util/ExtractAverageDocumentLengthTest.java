@@ -16,7 +16,7 @@
 
 package io.anserini.util;
 
-import io.anserini.IndexerWithEmptyDocumentTestBase;
+import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 import org.junit.Test;
 
 import java.util.Locale;

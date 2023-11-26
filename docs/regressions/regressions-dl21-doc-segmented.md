@@ -29,8 +29,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2-doc-segmented \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-doc-segmented &
 ```
@@ -52,21 +52,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl21.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl21.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl21.txt \
   -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```

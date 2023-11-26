@@ -21,8 +21,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/miracl-v1.0-ja \
-  -index indexes/lucene-index.miracl-v1.0-ja-aca/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.miracl-v1.0-ja-aca/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw -language ja -useAutoCompositeAnalyzer \
   >& logs/log.miracl-v1.0-ja &
 ```
@@ -38,7 +38,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.miracl-v1.0-ja-aca/ \
   -topics tools/topics-and-qrels/topics.miracl-v1.0-ja-dev.tsv \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.miracl-v1.0-ja.bm25.topics.miracl-v1.0-ja-dev.txt \
   -bm25 -hits 100 -language ja -useAutoCompositeAnalyzer &
 ```

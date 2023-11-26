@@ -20,8 +20,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/trec02-ar \
-  -index indexes/lucene-index.trec02-ar/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.trec02-ar/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw -language ar \
   >& logs/log.trec02-ar &
 ```
@@ -47,7 +47,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.trec02-ar/ \
   -topics tools/topics-and-qrels/topics.trec02ar-ar.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -output runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt \
   -bm25 -language ar &
 ```

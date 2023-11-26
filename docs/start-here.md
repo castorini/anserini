@@ -333,6 +333,7 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@dourian](https://github.com/dourian) on 2023-09-24 (commit [`88935fc`](https://github.com/castorini/anserini/commit/88935fc9431dbb81d55883547c185c4d1f44bf36))
 + Results reproduced by [@ksunisth](https://github.com/ksunisth) on 2023-09-27 (commit [`7c95d91`](https://github.com/castorini/anserini/commit/7c95d9155e59cfc55c573139b3538cc76d0f5371))
 + Results reproduced by [@maizerrr](https://github.com/maizerrr) on 2023-10-01 (commit [`2abdd37`](https://github.com/castorini/anserini/commit/2abdd373d70ae64ff6638c3440d7f0063514d313))
++ Results reproduced by [@Seun-Ajayi](https://github.com/Seun-Ajayi) on 2023-10-05 (commit [`f5f5050`](https://github.com/castorini/anserini/commit/f5f505087f188d2a82de04108bebe746ef7c141b))
 + Results reproduced by [@gituserbs](https://github.com/gituserbs) on 2023-10-07 (commit [`d88003c`](https://github.com/castorini/anserini/commit/d88003c71ae7b2e3da65885c709f61aac57611b4))
 + Results reproduced by [@shayanbali](https://github.com/shayanbali) on 2023-10-12 (commit [`8194b8e`](https://github.com/castorini/anserini/commit/8194b8e91fe799fcb0d3b4348e9d710a0aa1ad26))
 + Results reproduced by [@oscarbelda86](https://github.com/oscarbelda86) on 2023-10-30 (commit [`824154b`](https://github.com/castorini/anserini/commit/824154bf9226b2f44146a5b258f0dfb2042eb583))
@@ -341,3 +342,5 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@Melissa1412](https://github.com/Melissa1412) on 2023-11-04 (commit [`cf459b3`](https://github.com/castorini/anserini/commit/cf459b39ecc2c92a400210a9ba84736bdb5d4422))
 + Results reproduced by [@aliranjbari](https://github.com/AliRanjbari) on 2023-11-05 (commit [`f053e81`](https://github.com/AliRanjbari/anserini/commit/f053e81f1c9343863b613c03fe722a091033d7b8))
 + Results reproduced by [@salinaria](https://github.com/salinaria) on 2023-11-08 (commit [`75c553f`](https://github.com/castorini/anserini/commit/75c553fd9d31390adb4ceedda0da5730a0a34ec0))
++ Results reproduced by [@golnooshasefi](https://github.com/golnooshasefi) on 2023-11-21 (commit [`6369184`](https://github.com/castorini/anserini/commit/6369184625c84dfa45b775ddedeb2bc31ceb84c7))
++ Results reproduced by [@alimt1992](https://github.com/alimt1992) on 2023-11-24 (commit [`ae498aa`](https://github.com/castorini/anserini/commit/ae498aa997155945ff24adb45454183e5afe93d9))

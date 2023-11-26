@@ -25,8 +25,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-passage \
-  -index indexes/lucene-index.msmarco-passage-ca/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-ca/ \
   -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-passage &
 ```
@@ -47,7 +47,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-ca/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-default.topics.dl19-passage.txt \
   -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
 ```

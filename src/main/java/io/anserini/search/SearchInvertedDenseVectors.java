@@ -16,93 +16,79 @@
 
 package io.anserini.search;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.index.IndexInvertedDenseVectors;
+import io.anserini.index.Constants;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.InvertedDenseVectorQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.StoredFields;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
-import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.anserini.index.IndexInvertedDenseVectors.FW;
 
 /**
  * Main entry point for inverted dense vector search.
  */
-public final class SearchInvertedDenseVectors implements Closeable {
+public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable {
+  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
+  // For most collections, docids are strings, and we break ties by lexicographic sort order.
+  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
+      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
 
   private static final Logger LOG = LogManager.getLogger(SearchInvertedDenseVectors.class);
 
   public static class Args {
-
-    @Option(name = "-input", metaVar = "[file]", usage = "vectors model")
-    public File input;
-
-    @Option(name = "-word", metaVar = "[word]", usage = "input word")
-    public String word;
-
-    @Option(name = "-stored", metaVar = "[boolean]", usage = "fetch stored vectors from index")
-    public boolean stored;
-
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
     public String index;
 
-    @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, usage = "topics file")
+    @Option(name = "-topics", metaVar = "[file]", required = true, handler = StringArrayOptionHandler.class, usage = "topics file")
     public String[] topics;
 
     @Option(name = "-output", metaVar = "[file]", usage = "output file")
     public String output;
 
-    @Option(name = "-topicreader", usage = "TopicReader to use.")
+    @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader;
 
-    @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
+    @Option(name = "-topicField", usage = "Topic field that should be used as the query.")
+    public String topicField = "title";
+
+    @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "Encoding, must be one of {fw, lexlsh}")
     public String encoding;
 
     @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
@@ -123,14 +109,8 @@ public final class SearchInvertedDenseVectors implements Closeable {
     @Option(name = "-fw.q", metaVar = "[int]", usage = "quantization factor")
     public int q = FakeWordsEncoderAnalyzer.DEFAULT_Q;
 
-    @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
-    public int threads = 1;
-
-    @Option(name = "-parallelism", metaVar = "[int]", usage = "Number of threads to use for each individual parameter configuration.")
-    public int parallelism = 8;
-
-    @Option(name = "-threadsPerQuery", metaVar = "[int]", usage = "Number of threads used to execute each query.")
-    public int threadsPerQuery = 1;
+    @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads for running queries in parallel.")
+    public int threads = 4;
 
     @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
     public Boolean removeQuery = false;
@@ -140,24 +120,17 @@ public final class SearchInvertedDenseVectors implements Closeable {
     @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
     public Boolean removedups = false;
 
-    @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
-    public Boolean skipexists = false;
-
-    @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
+    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 1000;
 
-    @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
-    public Boolean inmem = false;
-
-    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
-        " For TREC ad hoc topics, description or narrative can be used.")
-    public String topicfield = "title";
-
     @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
-    public String runtag = null;
+    public String runtag = "Anserini";
 
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
+
+    @Option(name = "-options", usage = "Print information about options.")
+    public Boolean options = false;
 
     // ---------------------------------------------
     // Simple built-in support for passage retrieval
@@ -183,168 +156,74 @@ public final class SearchInvertedDenseVectors implements Closeable {
 
     @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
         usage = "Maximum number of hits to return per topic after segment id removal. " +
-            "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+            "Note that this is different from '-hits', which specifies the number of hits including the segment id.")
     public int selectMaxPassage_hits = Integer.MAX_VALUE;
   }
 
   private final Args args;
   private final IndexReader reader;
+  private final IndexSearcher searcher;
+  private final InvertedDenseVectorQueryGenerator generator;
+  private final SortedMap<K, String> queries = new TreeMap<>();
+  private final ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
 
-  private InvertedDenseVectorQueryGenerator generator;
-
-  private final class SearcherThread<K> extends Thread {
-
-    final private IndexReader reader;
-    final private IndexSearcher searcher;
-    final private SortedMap<K, Map<String, String>> topics;
-    final private String outputPath;
-    final private String runTag;
-
-    private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, String outputPath, String runTag,
-                           ExecutorService executorService, Similarity similarity) {
-      this.reader = reader;
-      this.topics = topics;
-      this.runTag = runTag;
-      this.outputPath = outputPath;
-      this.searcher = executorService != null ? new IndexSearcher(this.reader, executorService) : new IndexSearcher(this.reader);
-      if (similarity != null) {
-        searcher.setSimilarity(similarity);
-      }
-      setName(outputPath);
-    }
-
-    @Override
-    public void run() {
-      try {
-        // A short descriptor of the ranking setup.
-        final String desc = String.format("ranker: kNN");
-        // ThreadPool for parallelizing the execution of individual queries:
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
-        // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
-        // will go into the final run file) as the value.
-        ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
-        AtomicInteger cnt = new AtomicInteger();
-
-        final long start = System.nanoTime();
-        for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
-          K qid = entry.getKey();
-
-          // This is the per-query execution, in parallel.
-          executor.execute(() -> {
-            // This is for holding the results.
-            StringBuilder out = new StringBuilder();
-            String queryString = entry.getValue().get(args.topicfield);
-            ScoredDocuments docs;
-            try {
-              docs = search(this.searcher, queryString);
-            } catch (IOException e) {
-              throw new CompletionException(e);
-            }
-
-            // For removing duplicate docids.
-            Set<String> docids = new HashSet<>();
-
-            int rank = 1;
-            for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(IndexInvertedDenseVectors.Args.ID);
-
-              if (args.selectMaxPassage) {
-                docid = docid.split(args.selectMaxPassage_delimiter)[0];
-              }
-
-              if (docids.contains(docid)) {
-                continue;
-              }
-
-              // Remove docids that are identical to the query id if flag is set.
-              if (args.removeQuery && docid.equals(qid)) {
-                continue;
-              }
-
-              if ("msmarco".equals(args.format)) {
-                // MS MARCO output format:
-                out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, docid, rank));
-              } else {
-                // Standard TREC format:
-                // + the first column is the topic number.
-                // + the second column is currently unused and should always be "Q0".
-                // + the third column is the official document identifier of the retrieved document.
-                // + the fourth column is the rank the document is retrieved.
-                // + the fifth column shows the score (integer or floating point) that generated the ranking.
-                // + the sixth column is called the "run tag" and should be a unique identifier for your
-                out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n",
-                                         qid, docid, rank, docs.scores[i], runTag));
-              }
-
-              // Note that this option is set to false by default because duplicate documents usually indicate some
-              // underlying indexing issues, and we don't want to just eat errors silently.
-              //
-              // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
-              // duplicates.
-              if (args.removedups || args.selectMaxPassage) {
-                docids.add(docid);
-              }
-
-              rank++;
-
-              if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
-                break;
-              }
-            }
-
-            results.put(qid, out.toString());
-            int n = cnt.incrementAndGet();
-            if (n % 100 == 0) {
-              LOG.info(String.format("%s: %d queries processed", desc, n));
-            }
-          });
-        }
-
-        executor.shutdown();
-
-        try {
-          // Wait for existing tasks to terminate.
-          while (!executor.awaitTermination(1, TimeUnit.MINUTES)) ;
-        } catch (InterruptedException ie) {
-          // (Re-)Cancel if current thread also interrupted.
-          executor.shutdownNow();
-          // Preserve interrupt status.
-          Thread.currentThread().interrupt();
-        }
-        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-
-        LOG.info(desc + ": " + topics.size() + " queries processed in " +
-                     DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-                     String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
-
-        // Now we write the results to a run file.
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
-
-        // This is the default case: just dump out the qids by their natural order.
-        for (K qid : results.keySet()) {
-          out.print(results.get(qid));
-        }
-        out.flush();
-        out.close();
-      } catch (Exception e) {
-        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception: ", e);
-      }
-    }
-  }
-
-  public SearchInvertedDenseVectors(Args args) throws IOException {
+  public SearchInvertedDenseVectors(Args args) {
     this.args = args;
-    Path indexPath = Paths.get(args.index);
 
-    if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", args.index));
+    LOG.info("============ Initializing InvertedDenseVector Searcher ============");
+    LOG.info("Index: " + args.index);
+    LOG.info("Topics: " + Arrays.toString(args.topics));
+    LOG.info("Encoding: " + args.encoding);
+    LOG.info("Threads: " + args.threads);
+
+    // We might not be able to successfully create a reader for a variety of reasons, anything from path doesn't exist
+    // to corrupt index. Gather all possible exceptions together as an unchecked exception to make initialization and
+    // error reporting clearer.
+    try {
+      this.reader = DirectoryReader.open(FSDirectory.open(Paths.get(args.index)));
+    } catch (IOException e) {
+      throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));
     }
 
-    LOG.info("============ Initializing Searcher ============");
-    LOG.info("Index: " + indexPath);
-    this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    LOG.info("Vector Search:");
-    LOG.info("Number of threads for running different parameter configurations: " + args.threads);
+    this.searcher = new IndexSearcher(this.reader);
+    if (args.encoding.equalsIgnoreCase(FW)) {
+      searcher.setSimilarity(new ClassicSimilarity());
+    }
+
+    this.generator = new InvertedDenseVectorQueryGenerator(args, true);
+
+    // Same as above: we might not be able to successfully read topics for a variety of reasons. Gather all possible
+    // exceptions together as an unchecked exception to make initialization and error reporting clearer.
+    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
+    for (String singleTopicsFile : args.topics) {
+      Path topicsFilePath = Paths.get(singleTopicsFile);
+      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
+        throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
+      }
+      try {
+        @SuppressWarnings("unchecked")
+        TopicReader<K> tr = (TopicReader<K>) Class
+            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
+            .getConstructor(Path.class).newInstance(topicsFilePath);
+
+        topics.putAll(tr.read());
+      } catch (Exception e) {
+        throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
+      }
+    }
+
+    // Now iterate through all the topics to pick out the right field with proper exception handling.
+    try {
+      for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+        K qid = entry.getKey();
+        String query = entry.getValue().get(args.topicField);
+        assert query != null;
+
+        this.queries.put(qid, query);
+      }
+    } catch (AssertionError|Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
+    }
   }
 
   @Override
@@ -352,170 +231,116 @@ public final class SearchInvertedDenseVectors implements Closeable {
     reader.close();
   }
 
-  @SuppressWarnings("unchecked")
-  public <K> void runTopics() {
-    generator = new InvertedDenseVectorQueryGenerator(args, true);
-    TopicReader<K> tr;
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String singleTopicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(singleTopicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
-      }
-      try {
-        tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
-            .getConstructor(Path.class).newInstance(topicsFilePath);
-        topics.putAll(tr.read());
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
-      }
-    }
-
-    final String runTag = args.runtag == null ? "Anserini" : args.runtag;
-    LOG.info("runtag: " + runTag);
-
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-
+  @Override
+  public void run() {
     LOG.info("============ Launching Search Threads ============");
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    final AtomicInteger cnt = new AtomicInteger();
 
-    ExecutorService queryExecutor = null;
-    if (args.threadsPerQuery > 1) {
-      queryExecutor = Executors.newFixedThreadPool(args.threadsPerQuery);
+    final long start = System.nanoTime();
+    for (Map.Entry<K, String> entry : queries.entrySet()) {
+      K qid = entry.getKey();
+
+      // This is the per-query execution, in parallel.
+      executor.execute(() -> {
+        ScoredDocuments docs;
+        try {
+          docs = search(this.searcher, entry.getValue());
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
+
+        String runOutput = SearchCollection.generateRunOutput(docs, qid, args.format, args.runtag, args.removedups,
+            args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
+
+        results.put(qid, runOutput);
+        int n = cnt.incrementAndGet();
+        if (n % 100 == 0) {
+          LOG.info(String.format("%d queries processed", n));
+        }
+      });
     }
 
-    Similarity similarity = null;
-    if (args.encoding.equalsIgnoreCase(FW)) {
-      similarity = new ClassicSimilarity();
-    }
-    String outputPath = args.output;
-    if (args.skipexists && new File(outputPath).exists()) {
-      LOG.info("Run already exists, skipping: " + outputPath);
-    } else {
-      executor.execute(new SearcherThread<>(reader, topics, outputPath, runTag, queryExecutor, similarity));
-      executor.shutdown();
-      if (queryExecutor != null) {
-        queryExecutor.shutdown();
-      }
-    }
+    executor.shutdown();
 
     try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-      }
-      if (queryExecutor != null) {
-        while (!queryExecutor.awaitTermination(1, TimeUnit.MINUTES)) {
-        }
-      }
+      // Wait for existing tasks to terminate.
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES));
     } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
+      // (Re-)Cancel if current thread also interrupted.
       executor.shutdownNow();
-      // Preserve interrupt status
+      // Preserve interrupt status.
       Thread.currentThread().interrupt();
+    }
+    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+
+    LOG.info(queries.size() + " queries processed in " +
+        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+        String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+
+    // Now we write the results to a run file.
+    try {
+      PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
+
+      // This is the default case: just dump out the qids by their natural order.
+      for (K qid : results.keySet()) {
+        out.print(results.get(qid));
+      }
+
+      out.flush();
+      out.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
-  public ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
-    // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
-    // multiple fields with the associated boosts.
+  private ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
     Query query = generator.buildQuery(queryString);
+    TopDocs results = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    TopScoreDocCollector results = TopScoreDocCollector.create(args.hits, Integer.MAX_VALUE);
-    searcher.search(query, results);
-
-    return ScoredDocuments.fromTopDocs(results.topDocs(), searcher);
+    return ScoredDocuments.fromTopDocs(results, searcher);
   }
 
   public static void main(String[] args) throws Exception {
     Args searchArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: SearchCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      if (searchArgs.options) {
+        System.err.printf("Options for %s:\n\n", SearchInvertedDenseVectors.class.getSimpleName());
+        parser.printUsage(System.err);
+
+        List<String> required = new ArrayList<>();
+        parser.getOptions().forEach((option) -> {
+          if (option.option.required()) {
+            required.add(option.option.toString());
+          }
+        });
+
+        System.err.printf("\nRequired options are %s\n", required);
+      } else {
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
+      }
+
       return;
     }
 
     final long start = System.nanoTime();
-    SearchInvertedDenseVectors searcher;
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
     try {
-      searcher = new SearchInvertedDenseVectors(searchArgs);
+      SearchInvertedDenseVectors searcher = new SearchInvertedDenseVectors(searchArgs);
+      searcher.run();
+      searcher.close();
     } catch (IllegalArgumentException e) {
-      System.err.println(e.getMessage());
+      System.err.printf("Error: %s\n", e.getMessage());
       return;
     }
-    if (searchArgs.topicReader != null && searchArgs.topics != null) {
-      searcher.runTopics();
-    } else if (searchArgs.word != null) {
-      searcher.runWord();
-    } else {
-      System.err.println("Either " + searchArgs.word + " or " + searchArgs.topicReader + " must be set");
-      return;
-    }
-    searcher.close();
+
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
-  }
-
-  private void runWord() throws IOException {
-    generator = new InvertedDenseVectorQueryGenerator(args, false);
-    Collection<String> vectorStrings = new LinkedList<>();
-    IndexSearcher searcher = new IndexSearcher(reader);
-    if (args.encoding.equalsIgnoreCase(FW)) {
-      searcher.setSimilarity(new ClassicSimilarity());
-    }
-    StoredFields storedFields = reader.storedFields();
-    if (args.stored) {
-      TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexInvertedDenseVectors.FIELD_ID, args.word)), args.hits);
-      for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-        vectorStrings.add(storedFields.document(scoreDoc.doc).get(IndexInvertedDenseVectors.FIELD_VECTOR));
-      }
-    } else {
-      System.out.println(String.format("Loading model %s", args.input));
-
-      Map<String, List<float[]>> wordVectors = IndexInvertedDenseVectors.readGloVe(args.input);
-
-      if (wordVectors.containsKey(args.word)) {
-        List<float[]> vectors = wordVectors.get(args.word);
-        for (float[] vector : vectors) {
-          StringBuilder sb = new StringBuilder();
-          for (double fv : vector) {
-            if (sb.length() > 0) {
-              sb.append(' ');
-            }
-            sb.append(fv);
-          }
-          String vectorString = sb.toString();
-          vectorStrings.add(vectorString);
-        }
-      }
-    }
-
-    for (String vectorString : vectorStrings) {
-      Query query = generator.buildQuery(vectorString);
-
-      long start = System.currentTimeMillis();
-      TopScoreDocCollector results = TopScoreDocCollector.create(args.hits, Integer.MAX_VALUE);
-      searcher.search(query, results);
-      long time = System.currentTimeMillis() - start;
-
-      System.out.println(String.format("%d nearest neighbors of '%s':", args.hits, args.word));
-
-      int rank = 1;
-      for (ScoreDoc sd : results.topDocs().scoreDocs) {
-        Document document = storedFields.document(sd.doc);
-        String word = document.get(IndexInvertedDenseVectors.FIELD_ID);
-        System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
-        rank++;
-      }
-      System.out.println(String.format("Search time: %dms", time));
-    }
-    reader.close();
   }
 }

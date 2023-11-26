@@ -69,8 +69,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 &
 ```
@@ -94,21 +94,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot+rm3.topics.dl21.unicoil-noexp.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot+rocchio.topics.dl21.unicoil-noexp.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```

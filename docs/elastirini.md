@@ -70,7 +70,7 @@ Run the following command to reproduce Anserini BM25 retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic \
   -topics tools/topics-and-qrels/topics.robust04.txt \
-  -topicreader Trec -es.index robust04 \
+  -topicReader Trec -es.index robust04 \
   -output runs/run.es.robust04.bm25.topics.robust04.txt
 ```
 
@@ -115,7 +115,7 @@ Retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic \
   -topics tools/topics-and-qrels/topics.core18.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -es.index core18 \
   -output runs/run.es.core18.bm25.topics.core18.txt
 ```
@@ -161,7 +161,7 @@ Retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvString \
+  -topicReader TsvString \
   -es.index msmarco-passage \
   -output runs/run.es.msmacro-passage.txt
 ```
@@ -207,7 +207,7 @@ Retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic \
  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -topicreader TsvInt \
+ -topicReader TsvInt \
  -es.index msmarco-doc \
  -output runs/run.es.msmarco-doc.txt
 ```

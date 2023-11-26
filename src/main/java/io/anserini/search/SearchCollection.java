@@ -145,7 +145,7 @@ public final class SearchCollection implements Closeable {
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
 
-    @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
+    @Option(name = "-topicReader", required = true, usage = "TopicReader to use.")
     public String topicReader;
 
     // optional arguments
@@ -153,7 +153,7 @@ public final class SearchCollection implements Closeable {
         usage = "If doc vector is not stored in the index, this need to be provided as collection class in package 'io.anserini.collection'.")
     public String collectionClass;
 
-    @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
+    @Option(name = "-generator", usage = "QueryGenerator to use.")
     public String queryGenerator = "BagOfWordsQueryGenerator";
 
     @Option(name = "-fields", metaVar = "[file]", handler = StringArrayOptionHandler.class, usage = "Fields")
@@ -184,9 +184,9 @@ public final class SearchCollection implements Closeable {
     @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
     public Boolean inmem = false;
 
-    @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
+    @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
         " For TREC ad hoc topics, description or narrative can be used.")
-    public String topicfield = "title";
+    public String topicField = "title";
 
     @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
     public Boolean removeQuery = false;
@@ -275,7 +275,7 @@ public final class SearchCollection implements Closeable {
 
     @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
         usage = "Maximum number of hits to return per topic after segment id removal. " +
-            "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+            "Note that this is different from '-hits', which specifies the number of hits including the segment id.")
     public int selectMaxPassage_hits = Integer.MAX_VALUE;
     // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
@@ -713,6 +713,68 @@ public final class SearchCollection implements Closeable {
   private Map<String, ScoredDocuments> qrels;
   private Set<String> queriesWithRel;
 
+  public static <K> String generateRunOutput(ScoredDocuments docs,
+                                         K qid,
+                                         String format,
+                                         String runtag,
+                                         boolean removedups,
+                                         boolean removeQuery,
+                                         boolean selectMaxPassage,
+                                         String selectMaxPassage_delimiter,
+                                         int selectMaxPassage_hits) {
+    StringBuilder out = new StringBuilder();
+    // For removing duplicate docids.
+    Set<String> docids = new HashSet<>();
+
+    int rank = 1;
+    for (int i = 0; i < docs.documents.length; i++) {
+      String docid = docs.documents[i].get(Constants.ID);
+
+      if (selectMaxPassage) {
+        docid = docid.split(selectMaxPassage_delimiter)[0];
+      }
+
+      if (docids.contains(docid))
+        continue;
+
+      // Remove docids that are identical to the query id if flag is set.
+      if (removeQuery && docid.equals(qid))
+        continue;
+
+      if ("msmarco".equals(format)) {
+        // MS MARCO output format:
+        out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, docid, rank));
+      } else {
+        // Standard TREC format:
+        // + the first column is the topic number.
+        // + the second column is currently unused and should always be "Q0".
+        // + the third column is the official document identifier of the retrieved document.
+        // + the fourth column is the rank the document is retrieved.
+        // + the fifth column shows the score (integer or floating point) that generated the ranking.
+        // + the sixth column is called the "run tag" and should be a unique identifier for your
+        out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n",
+            qid, docid, rank, docs.scores[i], runtag));
+      }
+
+      // Note that this option is set to false by default because duplicate documents usually indicate some
+      // underlying indexing issues, and we don't want to just eat errors silently.
+      //
+      // However, when we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
+      // duplicates.
+      if (removedups || selectMaxPassage) {
+        docids.add(docid);
+      }
+
+      rank++;
+
+      if (selectMaxPassage && rank > selectMaxPassage_hits) {
+        break;
+      }
+    }
+
+    return out.toString();
+  }
+
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
     final private IndexSearcher searcher;
@@ -767,16 +829,13 @@ public final class SearchCollection implements Closeable {
 
           // This is the per-query execution, in parallel.
           executor.execute(() -> {
-            // This is for holding the results.
-            StringBuilder out = new StringBuilder();
-
             String queryString = "";
-            if (args.topicfield.contains("+")) {
-              for (String field : args.topicfield.split("\\+")) {
+            if (args.topicField.contains("+")) {
+              for (String field : args.topicField.split("\\+")) {
                 queryString += " " + entry.getValue().get(field);
               }
             } else {
-              queryString = entry.getValue().get(args.topicfield);
+              queryString = entry.getValue().get(args.topicField);
             }
 
             if (queryEncoder != null) {
@@ -811,56 +870,10 @@ public final class SearchCollection implements Closeable {
               throw new CompletionException(e);
             }
 
-            // For removing duplicate docids.
-            Set<String> docids = new HashSet<>();
+            String runOutput = generateRunOutput(docs, qid, args.format, runTag, args.removedups, args.removeQuery,
+                args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
 
-            int rank = 1;
-            for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(Constants.ID);
-
-              if (args.selectMaxPassage) {
-                docid = docid.split(args.selectMaxPassage_delimiter)[0];
-              }
-
-              if (docids.contains(docid))
-                continue;
-
-              // Remove docids that are identical to the query id if flag is set.
-              if (args.removeQuery && docid.equals(qid))
-                continue;
-
-              if ("msmarco".equals(args.format)) {
-                // MS MARCO output format:
-                out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, docid, rank));
-              } else {
-                // Standard TREC format:
-                // + the first column is the topic number.
-                // + the second column is currently unused and should always be "Q0".
-                // + the third column is the official document identifier of the retrieved document.
-                // + the fourth column is the rank the document is retrieved.
-                // + the fifth column shows the score (integer or floating point) that generated the ranking.
-                // + the sixth column is called the "run tag" and should be a unique identifier for your
-                out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n",
-                    qid, docid, rank, docs.scores[i], runTag));
-              }
-
-              // Note that this option is set to false by default because duplicate documents usually indicate some
-              // underlying indexing issues, and we don't want to just eat errors silently.
-              //
-              // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
-              // duplicates.
-              if (args.removedups || args.selectMaxPassage) {
-                docids.add(docid);
-              }
-
-              rank++;
-
-              if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
-                break;
-              }
-            }
-
-            results.put(qid, out.toString());
+            results.put(qid, runOutput);
             int n = cnt.incrementAndGet();
             if (n % 100 == 0) {
               LOG.info(String.format("%s: %d queries processed", desc, n));

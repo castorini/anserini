@@ -17,9 +17,12 @@
 package io.anserini.analysis;
 
 import junit.framework.JUnit4TestAdapter;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -32,6 +35,11 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class AutoCompositeAnalyzerTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(AutoCompositeAnalyzer.class.getName(), Level.ERROR);
+  }
+
   private static final Map<String, Object[][]> examples = new HashMap<>() {
     {
       // Case (1): Both Lucene analyzer & monolingual tokenizer exist
@@ -69,7 +77,6 @@ public class AutoCompositeAnalyzerTest {
 
     for (int i = 0; i < example.length; i++) {
       List<String> tokens = parseKeywords(analyzer, (String) example[i][0]);
-      System.out.println(tokens);
       verify((String[]) example[i][1], tokens);
     }
   }

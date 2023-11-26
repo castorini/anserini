@@ -55,8 +55,8 @@ Sample indexing command, building HNSW indexes:
 target/appassembler/bin/IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-openai-ada2 \
+  -generator HnswDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-passage-openai-ada2/ \
-  -generator LuceneDenseVectorDocumentGenerator \
   -threads 16 -M 16 -efC 100 -memorybuffer 65536 \
   >& logs/log.msmarco-passage-openai-ada2 &
 ```
@@ -77,9 +77,9 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-openai-ada2/ \
   -topics tools/topics-and-qrels/topics.dl20-passage.openai-ada2.jsonl.gz \
-  -topicreader JsonIntVector \
+  -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt \
-  -querygenerator VectorQueryGenerator -topicfield vector -threads 16 -hits 1000 -efSearch 1000 &
+  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:

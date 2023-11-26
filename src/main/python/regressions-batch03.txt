@@ -1,36 +1,10 @@
-# CIRAL
-python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-ha > logs/log.ciral-v1.0-ha 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-so > logs/log.ciral-v1.0-so 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-sw > logs/log.ciral-v1.0-sw 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-yo > logs/log.ciral-v1.0-yo 2>&1
-
-# HNSW
+# MS MARCO V1 passage
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2 > logs/log.msmarco-passage-openai-ada2 2>&1
-
-# ONNX runs write to the same indexes as the encoded queries, so we need to spread out
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx > logs/log.msmarco-passage-splade-pp-ed-onnx 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx > logs/log.msmarco-passage-splade-pp-sd-onnx 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-onnx > logs/log.msmarco-passage-cos-dpr-distil-onnx 2>&1
-
-# MS MARCO V1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc > logs/log.msmarco-doc 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp > logs/log.msmarco-doc-wp 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-hgf-wp > logs/log.msmarco-doc-hgf-wp 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-ca > logs/log.msmarco-doc-ca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-docTTTTTquery > logs/log.msmarco-doc-docTTTTTquery 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented > logs/log.msmarco-doc-segmented 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-wp > logs/log.msmarco-doc-segmented-wp 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-ca > logs/log.msmarco-doc-segmented-ca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-docTTTTTquery > logs/log.msmarco-doc-segmented-docTTTTTquery 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil > logs/log.msmarco-doc-segmented-unicoil 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp > logs/log.msmarco-doc-segmented-unicoil-noexp 2>&1
-
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-openai-ada2 > logs/log.dl19-passage-openai-ada2 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-openai-ada2 > logs/log.dl20-passage-openai-ada2 2>&1
-
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-ed-onnx > logs/log.dl19-passage-splade-pp-ed-onnx 2>&1
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-sd-onnx > logs/log.dl19-passage-splade-pp-sd-onnx 2>&1
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-cos-dpr-distil-onnx > logs/log.dl19-passage-cos-dpr-distil-onnx 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw > logs/log.msmarco-passage-cos-dpr-distil-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-fw > logs/log.msmarco-passage-cos-dpr-distil-fw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-lexlsh > logs/log.msmarco-passage-cos-dpr-distil-lexlsh 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage > logs/log.msmarco-passage 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bm25-b8 > logs/log.msmarco-passage-bm25-b8 2>&1
@@ -46,89 +20,23 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-distill-splade-max > logs/log.msmarco-passage-distill-splade-max 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium > logs/log.msmarco-passage-splade-distil-cocodenser-medium 2>&1
 
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-ed-onnx > logs/log.dl20-passage-splade-pp-ed-onnx 2>&1
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-sd-onnx > logs/log.dl20-passage-splade-pp-sd-onnx 2>&1
-python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-cos-dpr-distil-onnx > logs/log.dl20-passage-cos-dpr-distil-onnx 2>&1
+# MS MARCO V1 doc
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc > logs/log.msmarco-doc 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp > logs/log.msmarco-doc-wp 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-hgf-wp > logs/log.msmarco-doc-hgf-wp 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-ca > logs/log.msmarco-doc-ca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-docTTTTTquery > logs/log.msmarco-doc-docTTTTTquery 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented > logs/log.msmarco-doc-segmented 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-wp > logs/log.msmarco-doc-segmented-wp 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-ca > logs/log.msmarco-doc-segmented-ca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-docTTTTTquery > logs/log.msmarco-doc-segmented-docTTTTTquery 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil > logs/log.msmarco-doc-segmented-unicoil 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-segmented-unicoil-noexp > logs/log.msmarco-doc-segmented-unicoil-noexp 2>&1
 
-# MS MARCO V2
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc > logs/log.msmarco-v2-doc 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-d2q-t5 > logs/log.msmarco-v2-doc-d2q-t5 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented > logs/log.msmarco-v2-doc-segmented 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-d2q-t5 > logs/log.msmarco-v2-doc-segmented-d2q-t5 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot > logs/log.msmarco-v2-doc-segmented-unicoil-0shot 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-0shot-v2 2>&1
-
-# spread out wrt ONNX version
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil > logs/log.msmarco-passage-cos-dpr-distil 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-splade-pp-ed > logs/log.msmarco-v2-passage-splade-pp-ed 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-splade-pp-sd > logs/log.msmarco-v2-passage-splade-pp-sd 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage > logs/log.msmarco-v2-passage 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-d2q-t5 > logs/log.msmarco-v2-passage-d2q-t5 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented > logs/log.msmarco-v2-passage-augmented 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented-d2q-t5 > logs/log.msmarco-v2-passage-augmented-d2q-t5 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-noexp-0shot > logs/log.msmarco-v2-passage-unicoil-noexp-0shot 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-0shot > logs/log.msmarco-v2-passage-unicoil-0shot 2>&1
-
-# TREC 2019/2022 DL, non-wp
-python src/main/python/run_regression.py --verify --search --regression dl19-passage > logs/log.dl19-passage 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-bm25-b8 > logs/log.dl19-passage-bm25-b8 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-ca > logs/log.dl19-passage-ca 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-docTTTTTquery > logs/log.dl19-passage-docTTTTTquery 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-unicoil > logs/log.dl19-passage-unicoil 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-unicoil-noexp > logs/log.dl19-passage-unicoil-noexp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-distil-cocodenser-medium > logs/log.dl19-passage-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-pp-ed > logs/log.dl19-passage-splade-pp-ed 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-pp-sd > logs/log.dl19-passage-splade-pp-sd 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-cos-dpr-distil > logs/log.dl19-passage-cos-dpr-distil 2>&1
-
-python src/main/python/run_regression.py --verify --search --regression dl19-doc > logs/log.dl19-doc 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-ca > logs/log.dl19-doc-ca 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-docTTTTTquery > logs/log.dl19-doc-docTTTTTquery 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented > logs/log.dl19-doc-segmented 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-ca > logs/log.dl19-doc-segmented-ca 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-docTTTTTquery > logs/log.dl19-doc-segmented-docTTTTTquery 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-unicoil > logs/log.dl19-doc-segmented-unicoil 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-unicoil-noexp > logs/log.dl19-doc-segmented-unicoil-noexp 2>&1
-
-python src/main/python/run_regression.py --verify --search --regression dl20-passage > logs/log.dl20-passage 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-bm25-b8 > logs/log.dl20-passage-bm25-b8 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-ca > logs/log.dl20-passage-ca 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-docTTTTTquery > logs/log.dl20-passage-docTTTTTquery 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-unicoil > logs/log.dl20-passage-unicoil 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-unicoil-noexp > logs/log.dl20-passage-unicoil-noexp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-distil-cocodenser-medium > logs/log.dl20-passage-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-pp-ed > logs/log.dl20-passage-splade-pp-ed 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-pp-sd > logs/log.dl20-passage-splade-pp-sd 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-cos-dpr-distil > logs/log.dl20-passage-cos-dpr-distil 2>&1
-
-python src/main/python/run_regression.py --verify --search --regression dl20-doc > logs/log.dl20-doc 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-ca > logs/log.dl20-doc-ca 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-docTTTTTquery > logs/log.dl20-doc-docTTTTTquery 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented > logs/log.dl20-doc-segmented 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-ca > logs/log.dl20-doc-segmented-ca 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-docTTTTTquery > logs/log.dl20-doc-segmented-docTTTTTquery 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-unicoil > logs/log.dl20-doc-segmented-unicoil 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-unicoil-noexp > logs/log.dl20-doc-segmented-unicoil-noexp 2>&1
-
-# TREC 2019/2022 DL, do wp separately
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-wp > logs/log.dl19-passage-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-passage-hgf-wp > logs/log.dl19-passage-hgf-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-wp > logs/log.dl19-doc-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-hgf-wp > logs/log.dl19-doc-hgf-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-wp > logs/log.dl19-doc-segmented-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-wp > logs/log.dl20-passage-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-passage-hgf-wp > logs/log.dl20-passage-hgf-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-wp > logs/log.dl20-doc-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-hgf-wp > logs/log.dl20-doc-hgf-wp 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-wp > logs/log.dl20-doc-segmented-wp 2>&1
+# MS MARCO V1 passage ONNX runs - uses same index, so need to make sure previous runs finish
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression msmarco-passage-splade-pp-ed-onnx > logs/log.msmarco-passage-splade-pp-ed-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression msmarco-passage-splade-pp-sd-onnx > logs/log.msmarco-passage-splade-pp-sd-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw-onnx > logs/log.msmarco-passage-cos-dpr-distil-hnsw-onnx 2>&1
 
 # MIRACL
 python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-ar > logs/log.miracl-v1.0-ar 2>&1
@@ -165,7 +73,127 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th-aca > logs/log.miracl-v1.0-th-aca 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh-aca > logs/log.miracl-v1.0-zh-aca 2>&1
 
-# TREC 2021/2022 DL; spread out a bit, just to make sure indexing finishes
+# MS MARCO V2 passage
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-splade-pp-ed > logs/log.msmarco-v2-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-splade-pp-sd > logs/log.msmarco-v2-passage-splade-pp-sd 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage > logs/log.msmarco-v2-passage 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-d2q-t5 > logs/log.msmarco-v2-passage-d2q-t5 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented > logs/log.msmarco-v2-passage-augmented 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented-d2q-t5 > logs/log.msmarco-v2-passage-augmented-d2q-t5 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-noexp-0shot > logs/log.msmarco-v2-passage-unicoil-noexp-0shot 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-unicoil-0shot > logs/log.msmarco-v2-passage-unicoil-0shot 2>&1
+
+# MS MARCO V2 doc
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc > logs/log.msmarco-v2-doc 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-d2q-t5 > logs/log.msmarco-v2-doc-d2q-t5 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented > logs/log.msmarco-v2-doc-segmented 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-d2q-t5 > logs/log.msmarco-v2-doc-segmented-d2q-t5 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot > logs/log.msmarco-v2-doc-segmented-unicoil-0shot 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented-unicoil-0shot-v2 > logs/log.msmarco-v2-doc-segmented-unicoil-0shot-v2 2>&1
+
+# Mr.TyDi
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar > logs/log.mrtydi-v1.1-ar 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn > logs/log.mrtydi-v1.1-bn 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en > logs/log.mrtydi-v1.1-en 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi > logs/log.mrtydi-v1.1-fi 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id > logs/log.mrtydi-v1.1-id 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja > logs/log.mrtydi-v1.1-ja 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko > logs/log.mrtydi-v1.1-ko 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru > logs/log.mrtydi-v1.1-ru 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw > logs/log.mrtydi-v1.1-sw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te > logs/log.mrtydi-v1.1-te 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th > logs/log.mrtydi-v1.1-th 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar-aca > logs/log.mrtydi-v1.1-ar-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-aca > logs/log.mrtydi-v1.1-bn-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en-aca > logs/log.mrtydi-v1.1-en-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi-aca > logs/log.mrtydi-v1.1-fi-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id-aca > logs/log.mrtydi-v1.1-id-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja-aca > logs/log.mrtydi-v1.1-ja-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko-aca > logs/log.mrtydi-v1.1-ko-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru-aca > logs/log.mrtydi-v1.1-ru-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw-aca > logs/log.mrtydi-v1.1-sw-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-aca > logs/log.mrtydi-v1.1-te-aca 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-aca > logs/log.mrtydi-v1.1-th-aca 2>&1
+
+# DL19 - ONNX
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-ed-onnx > logs/log.dl19-passage-splade-pp-ed-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-splade-pp-sd-onnx > logs/log.dl19-passage-splade-pp-sd-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl19-passage-cos-dpr-distil-hnsw-onnx > logs/log.dl19-passage-cos-dpr-distil-hnsw-onnx 2>&1
+
+# Other DL19
+python src/main/python/run_regression.py --verify --search --regression dl19-passage > logs/log.dl19-passage 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-bm25-b8 > logs/log.dl19-passage-bm25-b8 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-ca > logs/log.dl19-passage-ca 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-wp > logs/log.dl19-passage-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-hgf-wp > logs/log.dl19-passage-hgf-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-docTTTTTquery > logs/log.dl19-passage-docTTTTTquery 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-unicoil > logs/log.dl19-passage-unicoil 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-unicoil-noexp > logs/log.dl19-passage-unicoil-noexp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-distil-cocodenser-medium > logs/log.dl19-passage-splade-distil-cocodenser-medium 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-pp-ed > logs/log.dl19-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-splade-pp-sd > logs/log.dl19-passage-splade-pp-sd 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-cos-dpr-distil-hnsw > logs/log.dl19-passage-cos-dpr-distil-hnsw 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-cos-dpr-distil-fw > logs/log.dl19-passage-cos-dpr-distil-fw 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-cos-dpr-distil-lexlsh > logs/log.dl19-passage-cos-dpr-distil-lexlsh 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage-openai-ada2 > logs/log.dl19-passage-openai-ada2 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl19-doc > logs/log.dl19-doc 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-ca > logs/log.dl19-doc-ca 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-wp > logs/log.dl19-doc-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-hgf-wp > logs/log.dl19-doc-hgf-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-wp > logs/log.dl19-doc-segmented-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-docTTTTTquery > logs/log.dl19-doc-docTTTTTquery 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented > logs/log.dl19-doc-segmented 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-ca > logs/log.dl19-doc-segmented-ca 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-docTTTTTquery > logs/log.dl19-doc-segmented-docTTTTTquery 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-unicoil > logs/log.dl19-doc-segmented-unicoil 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-doc-segmented-unicoil-noexp > logs/log.dl19-doc-segmented-unicoil-noexp 2>&1
+
+# DL20 - ONNX
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-ed-onnx > logs/log.dl20-passage-splade-pp-ed-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-splade-pp-sd-onnx > logs/log.dl20-passage-splade-pp-sd-onnx 2>&1
+python src/main/python/run_regression.py --search-pool 1 --verify --search --regression dl20-passage-cos-dpr-distil-hnsw-onnx > logs/log.dl20-passage-cos-dpr-distil-hnsw-onnx 2>&1
+
+# Other DL20
+python src/main/python/run_regression.py --verify --search --regression dl20-passage > logs/log.dl20-passage 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-bm25-b8 > logs/log.dl20-passage-bm25-b8 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-ca > logs/log.dl20-passage-ca 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-wp > logs/log.dl20-passage-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-hgf-wp > logs/log.dl20-passage-hgf-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-docTTTTTquery > logs/log.dl20-passage-docTTTTTquery 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-unicoil > logs/log.dl20-passage-unicoil 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-unicoil-noexp > logs/log.dl20-passage-unicoil-noexp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-distil-cocodenser-medium > logs/log.dl20-passage-splade-distil-cocodenser-medium 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-pp-ed > logs/log.dl20-passage-splade-pp-ed 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-splade-pp-sd > logs/log.dl20-passage-splade-pp-sd 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-cos-dpr-distil-hnsw > logs/log.dl20-passage-cos-dpr-distil-hnsw 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-cos-dpr-distil-fw > logs/log.dl20-passage-cos-dpr-distil-fw 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-cos-dpr-distil-lexlsh > logs/log.dl20-passage-cos-dpr-distil-lexlsh 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage-openai-ada2 > logs/log.dl20-passage-openai-ada2 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl20-doc > logs/log.dl20-doc 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-ca > logs/log.dl20-doc-ca 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-wp > logs/log.dl20-doc-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-hgf-wp > logs/log.dl20-doc-hgf-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-docTTTTTquery > logs/log.dl20-doc-docTTTTTquery 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented > logs/log.dl20-doc-segmented 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-ca > logs/log.dl20-doc-segmented-ca 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-wp > logs/log.dl20-doc-segmented-wp 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-docTTTTTquery > logs/log.dl20-doc-segmented-docTTTTTquery 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-unicoil > logs/log.dl20-doc-segmented-unicoil 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented-unicoil-noexp > logs/log.dl20-doc-segmented-unicoil-noexp 2>&1
+
+# DL21/22
 python src/main/python/run_regression.py --verify --search --regression dl21-passage > logs/log.dl21-passage 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl21-passage-d2q-t5 > logs/log.dl21-passage-d2q-t5 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl21-passage-augmented > logs/log.dl21-passage-augmented 2>&1
@@ -195,27 +223,8 @@ python src/main/python/run_regression.py --verify --search --regression dl22-pas
 python src/main/python/run_regression.py --verify --search --regression dl22-passage-splade-pp-ed > logs/log.dl22-passage-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl22-passage-splade-pp-sd > logs/log.dl22-passage-splade-pp-sd 2>&1
 
-# Mr.TyDi
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar > logs/log.mrtydi-v1.1-ar 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn > logs/log.mrtydi-v1.1-bn 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en > logs/log.mrtydi-v1.1-en 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi > logs/log.mrtydi-v1.1-fi 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id > logs/log.mrtydi-v1.1-id 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja > logs/log.mrtydi-v1.1-ja 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko > logs/log.mrtydi-v1.1-ko 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru > logs/log.mrtydi-v1.1-ru 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw > logs/log.mrtydi-v1.1-sw 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te > logs/log.mrtydi-v1.1-te 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th > logs/log.mrtydi-v1.1-th 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ar-aca > logs/log.mrtydi-v1.1-ar-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-aca > logs/log.mrtydi-v1.1-bn-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-en-aca > logs/log.mrtydi-v1.1-en-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-fi-aca > logs/log.mrtydi-v1.1-fi-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-id-aca > logs/log.mrtydi-v1.1-id-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ja-aca > logs/log.mrtydi-v1.1-ja-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ko-aca > logs/log.mrtydi-v1.1-ko-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-ru-aca > logs/log.mrtydi-v1.1-ru-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-sw-aca > logs/log.mrtydi-v1.1-sw-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-aca > logs/log.mrtydi-v1.1-te-aca 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-aca > logs/log.mrtydi-v1.1-th-aca 2>&1
+# CIRAL
+python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-ha > logs/log.ciral-v1.0-ha 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-so > logs/log.ciral-v1.0-so 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-sw > logs/log.ciral-v1.0-sw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-yo > logs/log.ciral-v1.0-yo 2>&1

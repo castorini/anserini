@@ -29,8 +29,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2-doc \
-  -index indexes/lucene-index.msmarco-v2-doc/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-v2-doc/ \
   -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-doc &
 ```
@@ -52,21 +52,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc.bm25-default.topics.dl21.txt \
   -hits 1000 -bm25 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc.bm25-default+rm3.topics.dl21.txt \
   -hits 1000 -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc.bm25-default+rocchio.topics.dl21.txt \
   -hits 1000 -bm25 -rocchio -collection MsMarcoV2DocCollection &
 ```

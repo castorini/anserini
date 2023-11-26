@@ -81,6 +81,7 @@ public class RocchioReranker implements Reranker {
     this.useNegative = useNegative;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     assert (docs.documents.length == docs.scores.length);
@@ -135,7 +136,6 @@ public class RocchioReranker implements Reranker {
 
     Query feedbackQuery = feedbackQueryBuilder.build();
     context.feedbackTerms = feedbackTerms;
-
 
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());

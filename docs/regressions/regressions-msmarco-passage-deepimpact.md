@@ -51,8 +51,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-deepimpact \
-  -index indexes/lucene-index.msmarco-passage-deepimpact/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-deepimpact/ \
   -threads 16 -impact -pretokenized \
   >& logs/log.msmarco-passage-deepimpact &
 ```
@@ -75,7 +75,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-deepimpact/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-deepimpact.deepimpact.topics.msmarco-passage.dev-subset.deepimpact.txt \
   -impact -pretokenized &
 ```

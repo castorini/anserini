@@ -68,8 +68,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
   -threads 24 -impact -pretokenized \
   >& logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot &
 ```
@@ -93,7 +93,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot.topics.dl21.unicoil-noexp.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized &
 ```

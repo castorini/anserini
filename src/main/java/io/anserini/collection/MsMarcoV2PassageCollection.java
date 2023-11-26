@@ -53,6 +53,7 @@ public class MsMarcoV2PassageCollection extends DocumentCollection<MsMarcoV2Pass
     return new Segment(p);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MsMarcoV2PassageCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment(bufferedReader);
@@ -63,7 +64,6 @@ public class MsMarcoV2PassageCollection extends DocumentCollection<MsMarcoV2Pass
    */
   public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
-    private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
     public Segment(Path path) throws IOException {

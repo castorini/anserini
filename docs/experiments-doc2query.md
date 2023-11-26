@@ -171,7 +171,7 @@ sh target/appassembler/bin/IndexCollection -collection JsonCollection \
 And perform retrieval on the test queries:
 
 ```
-sh target/appassembler/bin/SearchCollection -topicreader Car \
+sh target/appassembler/bin/SearchCollection -topicReader Car \
  -index indexes/trec_car/lucene-index.car17v2.0-expanded-topk10 \
  -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
  -output runs/run.car17v2.0.bm25.expanded-topk10.txt -bm25

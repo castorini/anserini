@@ -84,11 +84,10 @@ public class AnalyzerUtils {
     return termFreqMap;
   }
 
+  @SuppressWarnings("unchecked")
   static public Map<String, Long> computeDocumentVector(Analyzer analyzer, Class parser, String s) {
-    ObjectMapper mapper = new ObjectMapper();
     String content = "";
 
-    // TODO: analyze each collection case more carefully to catch as many case as possible
     try {
       DocumentCollection collection = (DocumentCollection) parser.getConstructor().newInstance();
       Reader inputString = new StringReader(s);
@@ -100,7 +99,6 @@ public class AnalyzerUtils {
         break;
       }
       segment.close();
-//      System.out.println("computeDocumentVector: " + content);
     } catch (Exception e) {
       return computeDocumentVector(analyzer, s);
     }

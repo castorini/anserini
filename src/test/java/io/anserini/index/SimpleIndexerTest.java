@@ -21,7 +21,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
 import io.anserini.search.SimpleSearcher;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.tests.util.LuceneTestCase;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.nio.file.Path;
@@ -30,6 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleIndexerTest extends LuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(SimpleIndexer.class.getName(), Level.ERROR);
+  }
 
   @Test
   public void testJsonDoc() throws Exception {
@@ -44,6 +51,9 @@ public class SimpleIndexerTest extends LuceneTestCase {
                     .put("id", "0")
                     .put("contents", "Document 0"));
 
+    assertNotNull(doc1);
+    assertNotNull(doc2);
+    assertNotNull(doc3);
     assertEquals(doc1.raw(), doc2.raw());
     assertEquals(doc2.raw(), doc3.raw());
   }

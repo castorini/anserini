@@ -74,13 +74,15 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
   public TrecCollection() {
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public FileSegment<Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<TrecCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment<>(p);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public FileSegment<Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
+  public FileSegment<TrecCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment<>(bufferedReader);
   }
 
@@ -116,6 +118,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
       rawContent = bufferedReader.lines().collect(Collectors.joining("\n"));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws IOException, ParseException {
       if (rawContent != null) {

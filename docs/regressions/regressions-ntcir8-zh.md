@@ -20,8 +20,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/ntcir8-zh \
-  -index indexes/lucene-index.ntcir8-zh/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.ntcir8-zh/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize \
   >& logs/log.ntcir8-zh &
 ```
@@ -47,7 +47,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ntcir8-zh/ \
   -topics tools/topics-and-qrels/topics.ntcir8zh.eval.txt \
-  -topicreader TsvString \
+  -topicReader TsvString \
   -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
   -bm25 -language zh &
 ```

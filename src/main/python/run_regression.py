@@ -55,11 +55,13 @@ CORPUS_ROOTS = [
 
 INDEX_COMMAND = 'target/appassembler/bin/IndexCollection'
 INDEX_HNSW_COMMAND = 'target/appassembler/bin/IndexHnswDenseVectors'
+INDEX_INVERTED_DENSE_COMMAND = 'target/appassembler/bin/IndexInvertedDenseVectors'
 
 INDEX_STATS_COMMAND = 'target/appassembler/bin/IndexReaderUtils'
 
 SEARCH_COMMAND = 'target/appassembler/bin/SearchCollection'
 SEARCH_HNSW_COMMAND = 'target/appassembler/bin/SearchHnswDenseVectors'
+SEARCH_INVERTED_DENSE_COMMAND = 'target/appassembler/bin/SearchInvertedDenseVectors'
 
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
@@ -115,7 +117,9 @@ def construct_indexing_command(yaml_data, args):
     if not os.path.exists('indexes'):
         os.makedirs('indexes')
 
-    if yaml_data['collection_class'] == 'JsonDenseVectorCollection':
+    if yaml_data.get('index_type') == 'inverted-dense':
+        root_cmd = INDEX_INVERTED_DENSE_COMMAND
+    elif yaml_data.get('index_type') == 'hnsw':
         root_cmd = INDEX_HNSW_COMMAND
     else:
         root_cmd = INDEX_COMMAND
@@ -123,10 +127,10 @@ def construct_indexing_command(yaml_data, args):
     index_command = [
         root_cmd,
         '-collection', yaml_data['collection_class'],
-        '-generator', yaml_data['generator_class'],
-        '-threads', str(threads),
         '-input', corpus_path,
+        '-generator', yaml_data['generator_class'],
         '-index', yaml_data['index_path'],
+        '-threads', str(threads),
         yaml_data['index_options']
     ]
 
@@ -140,10 +144,10 @@ def construct_runfile_path(corpus, id, model_name):
 def construct_search_commands(yaml_data):
     ranking_commands = [
         [
-            SEARCH_HNSW_COMMAND if 'VectorQueryGenerator' in model['params'] else SEARCH_COMMAND,
+            SEARCH_INVERTED_DENSE_COMMAND if model.get('type') == 'inverted-dense' else SEARCH_HNSW_COMMAND if model.get('type') == 'hnsw' else SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
-            '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
+            '-topicReader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
             '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
             model['params']
         ]
@@ -173,6 +177,7 @@ def evaluate_and_verify(yaml_data, dry_run):
     ok_str = '   [OK] '
     okish_str = '  \033[94m[OK*]\033[0m '
     failures = False
+    okish = False
 
     logger.info('='*10 + ' Verifying Results: ' + yaml_data['corpus'] + ' ' + '='*10)
     for model in yaml_data['models']:
@@ -210,6 +215,10 @@ def evaluate_and_verify(yaml_data, dry_run):
                         ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.006)) or \
                         ('VectorQueryGenerator' in model['params'] and actual > expected):
                     logger.info(ok_str + result_str)
+                # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
+                elif '-encoder' in model['params'] and is_close(expected, actual, abs_tol=0.001):
+                    logger.info(okish_str + result_str)
+                    okish = True
                 else:
                     if args.lucene8 and is_close_lucene8(expected, actual):
                         logger.info(okish_str + result_str)
@@ -221,7 +230,9 @@ def evaluate_and_verify(yaml_data, dry_run):
 
     if not dry_run:
         if failures:
-            logger.info(f'\033[91mFailed tests!\033[0m Total elapsed time: {end - start:.0f}s')
+            logger.info(f'{fail_str}Total elapsed time: {end - start:.0f}s')
+        elif okish:
+            logger.info(f'{okish_str}Total elapsed time: {end - start:.0f}s')
         else:
             logger.info(f'All Tests Passed! Total elapsed time: {end - start:.0f}s')
 
@@ -361,14 +372,16 @@ if __name__ == '__main__':
     # Verify index statistics.
     if args.verify:
         logger.info('='*10 + ' Verifying Index ' + '='*10)
-        if yaml_data['collection_class'] == 'JsonDenseVectorCollection':
+        if yaml_data.get('index_type') == 'hnsw':
             logger.info('Skipping verification step for HNSW dense indexes.')
         else:
-            index_utils_command = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
-            verification_command = ' '.join(index_utils_command)
+            verification_command_args = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
+            if yaml_data.get('index_type') == 'inverted-dense':
+                verification_command_args.extend(['-field', 'vector'])
+            verification_command = ' '.join(verification_command_args)
             logger.info(verification_command)
             if not args.dry_run:
-                out = check_output(' '.join(index_utils_command)).decode('utf-8').split('\n')
+                out = check_output(verification_command).decode('utf-8').split('\n')
                 for line in out:
                     stat = line.split(':')[0]
                     if stat in yaml_data['index_stats']:

@@ -16,7 +16,7 @@
 
 package io.anserini.util;
 
-import io.anserini.IndexerWithEmptyDocumentTestBase;
+import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

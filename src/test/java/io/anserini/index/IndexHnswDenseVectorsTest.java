@@ -16,63 +16,114 @@
 
 package io.anserini.index;
 
-import io.anserini.CustomAppender;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.AfterClass;
+import org.apache.lucene.index.IndexReader;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link IndexHnswDenseVectors}
  */
 public class IndexHnswDenseVectorsTest {
-  private static final Logger LOGGER = LogManager.getLogger(IndexHnswDenseVectors.class);
-  private static CustomAppender APPENDER;
+  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
+  private PrintStream save;
+
+  private void redirectStderr() {
+    save = System.err;
+    err.reset();
+    System.setErr(new PrintStream(err));
+  }
+
+  private void restoreStderr() {
+    System.setErr(save);
+  }
 
   @BeforeClass
   public static void setupClass() {
-    APPENDER = new CustomAppender("CustomAppender");
-    APPENDER.start();
+    Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
+  }
 
-    ((org.apache.logging.log4j.core.Logger) LOGGER).addAppender(APPENDER);
+  @Test
+  public void testEmptyInvocation() throws Exception {
+    redirectStderr();
+    String[] indexArgs = new String[] {};
 
-    Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.INFO);
+    IndexHnswDenseVectors.main(indexArgs);
+    assertTrue(err.toString().contains("Example: IndexHnswDenseVectors"));
+
+    restoreStderr();
+  }
+
+  @Test(expected = ClassNotFoundException.class)
+  public void testInvalidCollection() throws Exception {
+    String[] indexArgs = new String[] {
+        "-collection", "FakeJsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void testCollectionPath() throws Exception {
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_fake_path",
+        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+  }
+
+  @Test(expected = ClassNotFoundException.class)
+  public void testInvalidGenerator() throws Exception {
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-generator", "FakeHnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
   }
 
   @Test
   public void test1() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("JsonDenseVectorCollection");
-    args.add("-input");
-    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
-    args.add("-index");
-    args.add("target/idx-sample-hnsw" + System.currentTimeMillis());
-    args.add("-generator");
-    args.add("LuceneDenseVectorDocumentGenerator");
-    args.add("-threads");
-    args.add("1");
-    args.add("-M");
-    args.add("16");
-    args.add("-efC");
-    args.add("100");
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
 
-    IndexHnswDenseVectors.main(args.toArray(new String[0]));
+    IndexHnswDenseVectors.main(indexArgs);
 
-    System.out.println(APPENDER.getLastLog());
-    assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
-  }
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
 
-  @AfterClass
-  public static void teardownClass() {
-    ((org.apache.logging.log4j.core.Logger) LOGGER).removeAppender(APPENDER);
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(100, results.get("documents"));
   }
 }

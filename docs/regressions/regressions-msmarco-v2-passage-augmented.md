@@ -23,8 +23,8 @@ Typical indexing command:
 target/appassembler/bin/IndexCollection \
   -collection MsMarcoV2PassageCollection \
   -input /path/to/msmarco-v2-passage-augmented \
-  -index indexes/lucene-index.msmarco-v2-passage-augmented/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-v2-passage-augmented/ \
   -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-passage-augmented &
 ```
@@ -44,13 +44,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev.txt \
   -bm25 &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev2.txt \
   -bm25 &
 ```

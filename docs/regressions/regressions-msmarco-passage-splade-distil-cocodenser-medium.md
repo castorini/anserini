@@ -3,7 +3,8 @@
 **Model**: SPLADE-distil CoCodenser Medium
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the SPLADE-distil CoCodenser Medium model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
-The SPLADE-distil CoCodenser Medium model is open-sourced by [Naver Labs Europe](https://europe.naverlabs.com/research/machine-learning-and-optimization/splade-models).
+SPLADE-distil CoCodenser Medium is an intermediate model version between [SPLADEv2](https://arxiv.org/abs/2109.10086) and [SPLADE++](https://arxiv.org/abs/2205.04733), where the model used distillation (as in SPLADEv2), but started with the CoCondenser pre-trained model.
+See the [official SPLADE repo](https://github.com/naver/splade) for more details; the model itself can be download [here](http://download-de.europe.naverlabs.com/Splade_Release_Jan22/splade_distil_CoCodenser_medium.tar.gz).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-splade-distil-cocodenser-medium.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-splade-distil-cocodenser-medium.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
@@ -50,8 +51,8 @@ Sample indexing command:
 target/appassembler/bin/IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-splade_distil_cocodenser_medium \
-  -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade_distil_cocodenser_medium &
 ```
@@ -74,7 +75,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade_distil_cocodenser_medium/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.tsv.gz \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.txt \
   -impact -pretokenized &
 ```
