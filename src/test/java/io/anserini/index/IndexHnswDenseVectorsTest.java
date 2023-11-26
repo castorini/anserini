@@ -49,6 +49,7 @@ public class IndexHnswDenseVectorsTest {
 
   @BeforeClass
   public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
   }
 
@@ -74,7 +75,7 @@ public class IndexHnswDenseVectorsTest {
     restoreStderr();
   }
 
-  @Test(expected = ClassNotFoundException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testInvalidCollection() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "FakeJsonDenseVectorCollection",
@@ -102,7 +103,7 @@ public class IndexHnswDenseVectorsTest {
     IndexHnswDenseVectors.main(indexArgs);
   }
 
-  @Test(expected = ClassNotFoundException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testInvalidGenerator() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",

@@ -49,6 +49,7 @@ public class IndexInvertedDenseVectorsTest {
 
   @BeforeClass
   public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
   }
 
