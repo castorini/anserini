@@ -42,14 +42,15 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +58,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
-public final class IndexInvertedDenseVectors {
+public final class IndexInvertedDenseVectors implements Runnable {
   private static final Logger LOG = LogManager.getLogger(IndexInvertedDenseVectors.class);
 
   public static final String FW = "fw";
@@ -112,37 +112,43 @@ public final class IndexInvertedDenseVectors {
 
     @Option(name = "-quiet", forbids = {"-verbose"}, usage = "Turns off all logging.")
     public boolean quiet = false;
+
+    @Option(name = "-options", usage = "Print information about options.")
+    public Boolean options = false;
   }
 
   private final class LocalIndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
     final private DocumentCollection<? extends SourceDocument> collection;
+    final private LuceneDocumentGenerator<SourceDocument> generator;
 
+    @SuppressWarnings("unchecked")
     private LocalIndexerThread(IndexWriter writer, DocumentCollection<? extends SourceDocument> collection, Path inputFile) {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
+
+      // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+      try {
+        this.generator = (LuceneDocumentGenerator<SourceDocument>)
+            generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+      } catch (InstantiationException|IllegalAccessException|InvocationTargetException|NoSuchMethodException e) {
+        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+      }
+
       setName(inputFile.getFileName().toString());
     }
 
     @Override
     public void run() {
-      FileSegment<? extends SourceDocument> segment = null;
-
-      try {
-        @SuppressWarnings("unchecked")
-        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
-            generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
-
+      try(FileSegment<? extends SourceDocument> segment = collection.createFileSegment(inputFile)) {
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
         // 10k documents: this is so that we get intermediate updates, which is informative if a collection
         // has only one file segment; see https://github.com/castorini/anserini/issues/683
         int cnt = 0;
         int batch = 0;
-
-        segment = collection.createFileSegment(inputFile);
 
         for (SourceDocument d : segment) {
           if (!d.indexable()) {
@@ -193,22 +199,20 @@ public final class IndexInvertedDenseVectors {
         LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
       } catch (Exception e) {
-        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
-      } finally {
-        segment.close();
+        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e.getMessage());
       }
     }
   }
 
+  private final Counters counters = new Counters();
   private final Args args;
   private final Path collectionPath;
-  private final Class<LuceneDocumentGenerator<? extends SourceDocument>> generatorClass;
   private final DocumentCollection<? extends SourceDocument> collection;
-  private final Counters counters;
-  private final Path indexPath;
+  private final Class<LuceneDocumentGenerator<? extends SourceDocument>> generatorClass;
+  private final IndexWriter writer;
 
   @SuppressWarnings("unchecked")
-  public IndexInvertedDenseVectors(Args args) throws Exception {
+  public IndexInvertedDenseVectors(Args args) {
     this.args = args;
 
     if (args.verbose) {
@@ -234,11 +238,6 @@ public final class IndexInvertedDenseVectors {
     LOG.info("Threads: " + args.threads);
     LOG.info("Optimize? " + args.optimize);
 
-    this.indexPath = Paths.get(args.index);
-    if (!Files.exists(this.indexPath)) {
-      Files.createDirectories(this.indexPath);
-    }
-
     // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work,
     // we assume collections/ as the path location.
     String pathStr = args.input;
@@ -247,22 +246,23 @@ public final class IndexInvertedDenseVectors {
     }
     this.collectionPath = Paths.get(pathStr);
     if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
-      throw new RuntimeException("Invalid collection path " + collectionPath + "!");
+      throw new IllegalArgumentException(String.format("Invalid collection path \"%s\".", collectionPath));
     }
 
-    Class<? extends DocumentCollection<?>> collectionClass = (Class<? extends DocumentCollection<?>>)
-        Class.forName("io.anserini.collection." + args.collectionClass);
-    this.collection = collectionClass.getConstructor(Path.class).newInstance(collectionPath);
+    try {
+      Class<? extends DocumentCollection<?>> collectionClass = (Class<? extends DocumentCollection<?>>)
+          Class.forName("io.anserini.collection." + args.collectionClass);
+      this.collection = collectionClass.getConstructor(Path.class).newInstance(collectionPath);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to load collection class \"%s\".", args.collectionClass));
+    }
 
-    this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
-        Class.forName("io.anserini.index.generator." + args.generatorClass);
-
-    this.counters = new Counters();
-  }
-
-  public Counters run() throws IOException {
-    LOG.info("============ Indexing Collection ============");
-    final long start = System.nanoTime();
+    try {
+      this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
+          Class.forName("io.anserini.index.generator." + args.generatorClass);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
+    }
 
     Analyzer vectorAnalyzer;
     if (args.encoding.equalsIgnoreCase(FW)) {
@@ -270,29 +270,37 @@ public final class IndexInvertedDenseVectors {
     } else if (args.encoding.equalsIgnoreCase(LEXLSH)) {
       vectorAnalyzer = new LexicalLshAnalyzer(args.decimals, args.ngrams, args.hashCount, args.bucketCount, args.hashSetSize);
     } else {
-      throw new RuntimeException("Invalid encoding scheme!");
+      throw new IllegalArgumentException("Invalid encoding scheme.");
     }
 
     Map<String, Analyzer> map = new HashMap<>();
     map.put(Constants.VECTOR, vectorAnalyzer);
     Analyzer analyzer = new PerFieldAnalyzerWrapper(new StandardAnalyzer(), map);
 
-    final Directory dir = FSDirectory.open(indexPath);
-    final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene95Codec());
-    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    config.setRAMBufferSizeMB(args.memorybufferSize);
-    config.setUseCompoundFile(false);
-    config.setMergeScheduler(new ConcurrentMergeScheduler());
-    IndexWriter writer = new IndexWriter(dir, config);
+    try {
+      final Directory dir = FSDirectory.open(Paths.get(args.index));
+      final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene95Codec());
+      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+      config.setRAMBufferSizeMB(args.memorybufferSize);
+      config.setUseCompoundFile(false);
+      config.setMergeScheduler(new ConcurrentMergeScheduler());
+      writer = new IndexWriter(dir, config);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
+    }
+  }
 
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-    LOG.info("Thread pool with " + args.threads + " threads initialized.");
-    LOG.info("Initializing collection in " + collectionPath);
+  @Override
+  public void run() {
+    LOG.info("============ Indexing Collection ============");
+    final long start = System.nanoTime();
 
-    List<Path> segmentPaths = collection.getSegmentPaths();
+    final List<Path> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
 
-    LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files")));
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    LOG.info(String.format("Thread pool with %s threads initialized.", args.threads));
+    LOG.info(String.format("%,d %s found in %s ", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
     LOG.info("Starting to index...");
 
     segmentPaths.forEach((segmentPath) -> executor.execute(new LocalIndexerThread(writer, collection, segmentPath)));
@@ -321,14 +329,16 @@ public final class IndexInvertedDenseVectors {
           " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
     }
 
-    long numIndexed = writer.getDocStats().maxDoc;
-
     // Do a final commit.
     try {
       writer.commit();
       if (args.optimize) {
         writer.forceMerge(1);
       }
+    } catch (IOException e) {
+      // It is possible that this happens... but nothing much we can do at this point,
+      // so just log the error and move on.
+      LOG.error(e);
     } finally {
       try {
         writer.close();
@@ -339,6 +349,7 @@ public final class IndexInvertedDenseVectors {
       }
     }
 
+    long numIndexed = writer.getDocStats().maxDoc;
     if (numIndexed != counters.indexed.get()) {
       LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
     }
@@ -354,24 +365,38 @@ public final class IndexInvertedDenseVectors {
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
+  }
 
-    return counters;
+  public Counters getCounters() {
+    return this.counters;
   }
 
   public static void main(String[] args) throws Exception {
-    Args indexCollectionArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(100));
+    Args indexArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: " + IndexInvertedDenseVectors.class.getSimpleName() +
-          parser.printExample(OptionHandlerFilter.REQUIRED));
+      if (indexArgs.options) {
+        System.err.printf("Options for %s:\n\n", IndexInvertedDenseVectors.class.getSimpleName());
+        parser.printUsage(System.err);
+
+        List<String> required = new ArrayList<>();
+        parser.getOptions().forEach((option) -> {
+          if (option.option.required()) {
+            required.add(option.option.toString());
+          }
+        });
+
+        System.err.printf("\nRequired options are %s\n", required);
+      } else {
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
+      }
+
       return;
     }
 
-    new IndexInvertedDenseVectors(indexCollectionArgs).run();
+    new IndexInvertedDenseVectors(indexArgs).run();
   }
 }

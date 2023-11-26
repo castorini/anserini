@@ -66,7 +66,6 @@ import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
@@ -75,9 +74,6 @@ public final class IndexCollection {
   public static final Analyzer DEFAULT_ANALYZER = DefaultEnglishAnalyzer.newDefaultInstance();
 
   public static class Args {
-
-    private static final int TIMEOUT = 600 * 1000;
-
     // required arguments
 
     @Option(name = "-input", metaVar = "[path]", required = true,

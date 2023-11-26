@@ -44,7 +44,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
@@ -52,6 +51,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -96,6 +96,9 @@ public final class IndexHnswDenseVectors {
 
     @Option(name = "-quiet", forbids = {"-verbose"}, usage = "Turns off all logging.")
     public boolean quiet = false;
+
+    @Option(name = "-options", usage = "Print information about options.")
+    public Boolean options = false;
   }
 
   private final class LocalIndexerThread extends Thread {
@@ -311,7 +314,7 @@ public final class IndexHnswDenseVectors {
     List<Path> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
 
-    LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
+    LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files")));
     LOG.info("Starting to index...");
 
     segmentPaths.forEach((segmentPath) -> executor.execute(new LocalIndexerThread(writer, collection, segmentPath)));
@@ -378,19 +381,31 @@ public final class IndexHnswDenseVectors {
   }
 
   public static void main(String[] args) throws Exception {
-    Args indexCollectionArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(100));
+    Args indexArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: " + IndexHnswDenseVectors.class.getSimpleName() +
-          parser.printExample(OptionHandlerFilter.REQUIRED));
+      if (indexArgs.options) {
+        System.err.printf("Options for %s:\n\n", IndexHnswDenseVectors.class.getSimpleName());
+        parser.printUsage(System.err);
+
+        List<String> required = new ArrayList<>();
+        parser.getOptions().forEach((option) -> {
+          if (option.option.required()) {
+            required.add(option.option.toString());
+          }
+        });
+
+        System.err.printf("\nRequired options are %s\n", required);
+      } else {
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
+      }
+
       return;
     }
 
-    new IndexHnswDenseVectors(indexCollectionArgs).run();
+    new IndexHnswDenseVectors(indexArgs).run();
   }
 }

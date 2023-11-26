@@ -58,7 +58,18 @@ public class IndexHnswDenseVectorsTest {
     String[] indexArgs = new String[] {};
 
     IndexHnswDenseVectors.main(indexArgs);
-    assertTrue(err.toString().contains("Example: IndexHnswDenseVectors"));
+    assertTrue(err.toString().contains("Error"));
+    assertTrue(err.toString().contains("is required"));
+
+    restoreStderr();
+  }
+
+  @Test
+  public void testAskForHelp() throws Exception {
+    redirectStderr();
+
+    IndexHnswDenseVectors.main(new String[] {"-options"});
+    assertTrue(err.toString().contains("Options for"));
 
     restoreStderr();
   }
