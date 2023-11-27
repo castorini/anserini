@@ -56,6 +56,7 @@ import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -67,41 +68,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public final class IndexCollection {
+public final class IndexCollection extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
 
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
   public static final Analyzer DEFAULT_ANALYZER = DefaultEnglishAnalyzer.newDefaultInstance();
 
-  public static class Args {
-    // required arguments
-
-    @Option(name = "-input", metaVar = "[path]", required = true,
-        usage = "Location of input collection.")
-    public String input;
-
-    @Option(name = "-collection", metaVar = "[class]", required = true,
-        usage = "Collection class in package 'io.anserini.collection'.")
-    public String collectionClass;
-
-    @Option(name = "-index", metaVar = "[path]", usage = "Index path.", required = true)
-    public String index;
-
-    // optional general arguments
-
-    @Option(name = "-verbose", forbids = {"-quiet"},
-        usage = "Enables verbose logging for each indexing thread; can be noisy if collection has many small file segments.")
-    public boolean verbose = false;
-
-    @Option(name = "-quiet", forbids = {"-verbose"},
-        usage = "Turns off all logging.")
-    public boolean quiet = false;
-
-    // optional arguments
-
-    @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
-    public int threads = 8;
-
+  public static class Args extends AbstractIndexer.Args {
     @Option(name = "-append", usage = "Append documents.")
     public boolean append = false;
 
@@ -129,10 +102,6 @@ public final class IndexCollection {
         usage = "Boolean switch to store raw source documents.")
     public boolean storeRaw = false;
 
-    @Option(name = "-optimize",
-        usage = "Boolean switch to optimize index (i.e., force merge) into a single segment; costly for large collections.")
-    public boolean optimize = false;
-
     @Option(name = "-keepStopwords",
         usage = "Boolean switch to keep stopwords.")
     public boolean keepStopwords = false;
@@ -149,10 +118,6 @@ public final class IndexCollection {
         usage = "Removes duplicate documents with the same docid during indexing. This significantly slows indexing throughput " +
             "but may be needed for tweet collections since the streaming API might deliver a tweet multiple times.")
     public boolean uniqueDocid = false;
-
-    @Option(name = "-memorybuffer", metaVar = "[mb]",
-        usage = "Memory buffer size (in MB).")
-    public int memorybufferSize = 2048;
 
     @Option(name = "-whitelist", metaVar = "[file]",
         usage = "File containing list of docids, one per line; only these docids will be indexed.")
@@ -219,132 +184,134 @@ public final class IndexCollection {
     public int shardCurrent = -1;
   }
 
-  private final class LocalIndexerThread extends Thread {
-    final private Path inputFile;
-    final private IndexWriter writer;
-    final private DocumentCollection collection;
-    private FileSegment fileSegment;
-
-    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) {
-      this.writer = writer;
-      this.collection = collection;
-      this.inputFile = inputFile;
-      setName(inputFile.getFileName().toString());
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void run() {
-      try {
-        LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
-            generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
-
-        // We keep track of two separate counts: the total count of documents in this file segment (cnt),
-        // and the number of documents in this current "batch" (batch). We update the global counter every
-        // 10k documents: this is so that we get intermediate updates, which is informative if a collection
-        // has only one file segment; see https://github.com/castorini/anserini/issues/683
-        int cnt = 0;
-        int batch = 0;
-
-        FileSegment<SourceDocument> segment = collection.createFileSegment(inputFile);
-        // in order to call close() and clean up resources in case of exception
-        this.fileSegment = segment;
-
-        for (SourceDocument d : segment) {
-          if (!d.indexable()) {
-            counters.unindexable.incrementAndGet();
-            continue;
-          }
-
-          Document doc;
-          try {
-            doc = generator.createDocument(d);
-          } catch (EmptyDocumentException e1) {
-            counters.empty.incrementAndGet();
-            continue;
-          } catch (SkippedDocumentException e2) {
-            counters.skipped.incrementAndGet();
-            continue;
-          } catch (InvalidDocumentException e3) {
-            counters.errors.incrementAndGet();
-            continue;
-          }
-
-          if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
-            counters.skipped.incrementAndGet();
-            continue;
-          }
-
-          if (args.uniqueDocid) {
-            writer.updateDocument(new Term("id", d.id()), doc);
-          } else {
-            writer.addDocument(doc);
-          }
-          cnt++;
-          batch++;
-
-          // And the counts from this batch, reset batch counter.
-          if (batch % 10000 == 0) {
-            counters.indexed.addAndGet(batch);
-            batch = 0;
-          }
-        }
-
-        // Add the remaining documents.
-        counters.indexed.addAndGet(batch);
-
-        int skipped = segment.getSkippedCount();
-        if (skipped > 0) {
-          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
-          counters.skipped.addAndGet(skipped);
-          LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": " + skipped + " docs skipped.");
-        }
-
-        if (segment.getErrorStatus()) {
-          counters.errors.incrementAndGet();
-          LOG.error(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": error iterating through segment.");
-        }
-
-        // Log at the debug level because this can be quite noisy if there are lots of file segments.
-        LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
-            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
-      } catch (Exception e) {
-        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
-      } finally {
-        if (fileSegment != null) {
-            fileSegment.close();
-        }
-      }
-    }
-  }
+//  private final class LocalIndexerThread extends Thread {
+//    final private Path inputFile;
+//    final private IndexWriter writer;
+//    final private DocumentCollection collection;
+//    private FileSegment fileSegment;
+//
+//    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) {
+//      this.writer = writer;
+//      this.collection = collection;
+//      this.inputFile = inputFile;
+//      setName(inputFile.getFileName().toString());
+//    }
+//
+//    @Override
+//    @SuppressWarnings("unchecked")
+//    public void run() {
+//      try {
+//        LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
+//            generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+//
+//        // We keep track of two separate counts: the total count of documents in this file segment (cnt),
+//        // and the number of documents in this current "batch" (batch). We update the global counter every
+//        // 10k documents: this is so that we get intermediate updates, which is informative if a collection
+//        // has only one file segment; see https://github.com/castorini/anserini/issues/683
+//        int cnt = 0;
+//        int batch = 0;
+//
+//        FileSegment<SourceDocument> segment = collection.createFileSegment(inputFile);
+//        // in order to call close() and clean up resources in case of exception
+//        this.fileSegment = segment;
+//
+//        for (SourceDocument d : segment) {
+//          if (!d.indexable()) {
+//            counters.unindexable.incrementAndGet();
+//            continue;
+//          }
+//
+//          Document doc;
+//          try {
+//            doc = generator.createDocument(d);
+//          } catch (EmptyDocumentException e1) {
+//            counters.empty.incrementAndGet();
+//            continue;
+//          } catch (SkippedDocumentException e2) {
+//            counters.skipped.incrementAndGet();
+//            continue;
+//          } catch (InvalidDocumentException e3) {
+//            counters.errors.incrementAndGet();
+//            continue;
+//          }
+//
+//          if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
+//            counters.skipped.incrementAndGet();
+//            continue;
+//          }
+//
+//          if (args.uniqueDocid) {
+//            writer.updateDocument(new Term("id", d.id()), doc);
+//          } else {
+//            writer.addDocument(doc);
+//          }
+//          cnt++;
+//          batch++;
+//
+//          // And the counts from this batch, reset batch counter.
+//          if (batch % 10000 == 0) {
+//            counters.indexed.addAndGet(batch);
+//            batch = 0;
+//          }
+//        }
+//
+//        // Add the remaining documents.
+//        counters.indexed.addAndGet(batch);
+//
+//        int skipped = segment.getSkippedCount();
+//        if (skipped > 0) {
+//          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
+//          counters.skipped.addAndGet(skipped);
+//          LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
+//              inputFile.getFileName().toString() + ": " + skipped + " docs skipped.");
+//        }
+//
+//        if (segment.getErrorStatus()) {
+//          counters.errors.incrementAndGet();
+//          LOG.error(inputFile.getParent().getFileName().toString() + File.separator +
+//              inputFile.getFileName().toString() + ": error iterating through segment.");
+//        }
+//
+//        // Log at the debug level because this can be quite noisy if there are lots of file segments.
+//        LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
+//            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
+//      } catch (Exception e) {
+//        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+//      } finally {
+//        if (fileSegment != null) {
+//            fileSegment.close();
+//        }
+//      }
+//    }
+//  }
 
   private final Args args;
-  private final Path collectionPath;
+  //private final Path collectionPath;
   private final Set whitelistDocids;
-  private final Class collectionClass;
+  //private final Class collectionClass;
   private final Class generatorClass;
-  private final DocumentCollection collection;
+  //private final DocumentCollection collection;
   private final Counters counters;
   private Path indexPath;
+  private final IndexWriter writer;
 
   @SuppressWarnings("unchecked")
   public IndexCollection(Args args) throws Exception {
+    super(args);
     this.args = args;
 
-    if (args.verbose) {
-      // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
-      Configurator.setRootLevel(Level.DEBUG);
-      LOG.info("Setting log level to " + Level.DEBUG);
-    } else if (args.quiet) {
-      // If quiet mode enabled, only report warnings and above.
-      Configurator.setRootLevel(Level.WARN);
-    } else {
-      // Otherwise, we get the standard set of log messages.
-      Configurator.setRootLevel(Level.INFO);
-      LOG.info("Setting log level to " + Level.INFO);
-    }
+//    if (args.verbose) {
+//      // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
+//      Configurator.setRootLevel(Level.DEBUG);
+//      LOG.info("Setting log level to " + Level.DEBUG);
+//    } else if (args.quiet) {
+//      // If quiet mode enabled, only report warnings and above.
+//      Configurator.setRootLevel(Level.WARN);
+//    } else {
+//      // Otherwise, we get the standard set of log messages.
+//      Configurator.setRootLevel(Level.INFO);
+//      LOG.info("Setting log level to " + Level.INFO);
+//    }
 
     LOG.info("Starting indexer...");
     LOG.info("============ Loading Parameters ============");
@@ -366,29 +333,29 @@ public final class IndexCollection {
     LOG.info("Pretokenized?: " + args.pretokenized);
     LOG.info("Index path: " + args.index);
 
-    if (args.index != null) {
-      this.indexPath = Paths.get(args.index);
-      if (!Files.exists(this.indexPath)) {
-        Files.createDirectories(this.indexPath);
-      }
-    }
-
-    // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work, we assume
-    // collections/ as the path location.
-    String pathStr = args.input;
-    if (pathStr.startsWith("/path/to")) {
-      pathStr = pathStr.replace("/path/to", "collections");
-    }
-    collectionPath = Paths.get(pathStr);
-    if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
-      throw new RuntimeException("Document directory " + collectionPath.toString() + " does not exist or is not readable, please check the path");
-    }
+//    if (args.index != null) {
+//      this.indexPath = Paths.get(args.index);
+//      if (!Files.exists(this.indexPath)) {
+//        Files.createDirectories(this.indexPath);
+//      }
+//    }
+//
+//    // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work, we assume
+//    // collections/ as the path location.
+//    String pathStr = args.input;
+//    if (pathStr.startsWith("/path/to")) {
+//      pathStr = pathStr.replace("/path/to", "collections");
+//    }
+//    collectionPath = Paths.get(pathStr);
+//    if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
+//      throw new RuntimeException("Document directory " + collectionPath.toString() + " does not exist or is not readable, please check the path");
+//    }
 
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
-    this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
-
-    // Initialize the collection.
-    collection = (DocumentCollection) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
+//    this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
+//
+//    // Initialize the collection.
+//    collection = (DocumentCollection) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
 
     if (args.whitelist != null) {
       List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
@@ -398,6 +365,31 @@ public final class IndexCollection {
     }
 
     this.counters = new Counters();
+
+
+    int numThreads = args.threads;
+    //final IndexWriter writer;
+
+    this.indexPath = Paths.get(args.index);
+    final Directory dir = FSDirectory.open(indexPath);
+    final IndexWriterConfig config;
+    final Analyzer analyzer;
+    analyzer = getAnalyzer();
+    config = new IndexWriterConfig(analyzer);
+
+    if (args.bm25Accurate) {
+      config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
+    } if (args.impact ) {
+      config.setSimilarity(new ImpactSimilarity());
+    } else {
+      config.setSimilarity(new BM25Similarity());
+    }
+    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    config.setRAMBufferSizeMB(args.memorybufferSize);
+    config.setUseCompoundFile(false);
+    config.setMergeScheduler(new ConcurrentMergeScheduler());
+
+    this.writer = new IndexWriter(dir, config);
   }
 
   private Analyzer getAnalyzer() {
@@ -442,42 +434,17 @@ public final class IndexCollection {
     }
   }
 
-  public Counters run() throws IOException {
+  @Override
+  public void run() {
     final long start = System.nanoTime();
     LOG.info("============ Indexing Collection ============");
 
-    int numThreads = args.threads;
-    IndexWriter writer = null;
-
-    // Used for LocalIndexThread
-    if (indexPath != null) {
-      final Directory dir = FSDirectory.open(indexPath);
-      final IndexWriterConfig config;
-      final Analyzer analyzer;
-      analyzer = getAnalyzer();
-      config = new IndexWriterConfig(analyzer);
-
-      if (args.bm25Accurate) {
-        config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
-      } if (args.impact ) {
-        config.setSimilarity(new ImpactSimilarity());
-      } else {
-        config.setSimilarity(new BM25Similarity());
-      }
-      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-      config.setRAMBufferSizeMB(args.memorybufferSize);
-      config.setUseCompoundFile(false);
-      config.setMergeScheduler(new ConcurrentMergeScheduler());
-
-      writer = new IndexWriter(dir, config);
-    }
-
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    LOG.info("Thread pool with " + numThreads + " threads initialized.");
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    LOG.info("Thread pool with " + args.threads + " threads initialized.");
 
     LOG.info("Initializing collection in " + collectionPath.toString());
 
-    List<?> segmentPaths = collection.getSegmentPaths();
+    List<Path> segmentPaths = collection.getSegmentPaths();
     // when we want sharding to be done
     if (args.shardCount > 1) {
       segmentPaths = collection.getSegmentPaths(args.shardCount, args.shardCurrent);
@@ -487,9 +454,28 @@ public final class IndexCollection {
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");
 
-    for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
-    }
+    segmentPaths.forEach((segmentPath) -> {
+      try {
+        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+                generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
+
+        AbstractIndexer.IndexerThread thread =
+                new AbstractIndexer.IndexerThread(writer, collection, segmentPath, generator, counters);
+        if (whitelistDocids != null) {
+          thread.setWhitelist(whitelistDocids);
+        }
+
+        executor.execute(thread);
+      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+      }
+    });
+
+//    for (int i = 0; i < segmentCnt; i++) {
+//      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
+//    }
 
     executor.shutdown();
 
@@ -525,6 +511,10 @@ public final class IndexCollection {
           writer.forceMerge(1);
         }
       }
+    } catch (IOException e) {
+      // It is possible that this happens... but nothing much we can do at this point,
+      // so just log the error and move on.
+      LOG.error(e);
     } finally {
       try {
         if (writer != null) {
@@ -552,8 +542,6 @@ public final class IndexCollection {
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
-
-    return counters;
   }
 
   public static void main(String[] args) throws Exception {

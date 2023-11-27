@@ -38,6 +38,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -81,6 +82,8 @@ public abstract class AbstractIndexer implements Runnable {
     private final LuceneDocumentGenerator<SourceDocument> generator;
     private final Counters counters;
 
+    private Set whitelistDocids;
+
     public IndexerThread(IndexWriter writer,
                          DocumentCollection<? extends SourceDocument> collection,
                          Path inputFile,
@@ -93,6 +96,10 @@ public abstract class AbstractIndexer implements Runnable {
       this.counters = counters;
 
       setName(inputFile.getFileName().toString());
+    }
+
+    public void setWhitelist(Set<String> docids) {
+      this.whitelistDocids = docids;
     }
 
     @Override
@@ -112,6 +119,11 @@ public abstract class AbstractIndexer implements Runnable {
           }
 
           try {
+            if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
+              counters.skipped.incrementAndGet();
+              continue;
+            }
+
             writer.addDocument(generator.createDocument(d));
 
             cnt++;
