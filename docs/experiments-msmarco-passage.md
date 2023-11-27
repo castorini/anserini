@@ -269,7 +269,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank \
 ```
 
 It's a different command-line incantation of `trec_eval` to compute MRR@10.
-And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6908 queries, in addition to the final average).
+And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6980 queries, in addition to the final average).
 
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -q -c -M 10 -m recip_rank \
