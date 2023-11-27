@@ -88,7 +88,7 @@ public class IndexInvertedDenseVectorsTest {
     IndexInvertedDenseVectors.main(indexArgs);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testCollectionPath() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -112,6 +112,19 @@ public class IndexInvertedDenseVectorsTest {
     };
 
     IndexInvertedDenseVectors.main(indexArgs);
+  }
+
+  @Test
+  public void testDefaultGenerator() throws Exception {
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-encoding", "lexlsh"
+    };
+
+    IndexInvertedDenseVectors.main(indexArgs);
+    // If this succeeded, then the default -generator of InvertedDenseVectorDocumentGenerator must have worked.
   }
 
   @Test(expected = IllegalArgumentException.class)

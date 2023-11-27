@@ -89,7 +89,7 @@ public class IndexHnswDenseVectorsTest {
     IndexHnswDenseVectors.main(indexArgs);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testCollectionPath() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -115,6 +115,20 @@ public class IndexHnswDenseVectorsTest {
     };
 
     IndexHnswDenseVectors.main(indexArgs);
+  }
+
+  @Test
+  public void testDefaultGenerator() throws Exception {
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+    // If this succeeded, then the default -generator of HnswDenseVectorDocumentGenerator must have worked.
   }
 
   @Test

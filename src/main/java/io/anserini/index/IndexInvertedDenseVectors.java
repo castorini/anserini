@@ -18,6 +18,8 @@ package io.anserini.index;
 
 import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
+import io.anserini.collection.SourceDocument;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -47,6 +49,9 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
   public static final String LEXLSH = "lexlsh";
 
   public static final class InvertedDenseArgs extends AbstractIndexer.Args {
+    @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
+    public String generatorClass = "InvertedDenseVectorDocumentGenerator";
+
     @Option(name = "-encoding", metaVar = "[word]", usage = "Encoding method: {'fw', 'lexlsh'}.")
     public String encoding = FW;
 
@@ -73,7 +78,15 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
     super(args);
 
     LOG.info("InvertedDenseIndexer settings:");
+    LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + Encoding: " + args.encoding);
+
+    try {
+      this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
+          Class.forName("io.anserini.index.generator." + args.generatorClass);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
+    }
 
     Analyzer vectorAnalyzer;
     if (args.encoding.equalsIgnoreCase(FW)) {

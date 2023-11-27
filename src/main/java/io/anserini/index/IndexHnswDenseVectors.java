@@ -16,6 +16,8 @@
 
 package io.anserini.index;
 
+import io.anserini.collection.SourceDocument;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
@@ -45,6 +47,9 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
 
   public static final class HnswArgs extends AbstractIndexer.Args {
+    @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
+    public String generatorClass = "HnswDenseVectorDocumentGenerator";
+
     @Option(name = "-M", metaVar = "[num]", usage = "HNSW parameters M")
     public int M = 16;
   
@@ -59,9 +64,17 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     super(args);
 
     LOG.info("HnswIndexer settings:");
+    LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + M: " + args.M);
     LOG.info(" + efC: " + args.efC);
     LOG.info(" + Store document vectors? " + args.storeVectors);
+
+    try {
+      this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
+          Class.forName("io.anserini.index.generator." + args.generatorClass);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
+    }
 
     try {
       final Directory dir = FSDirectory.open(Paths.get(args.index));

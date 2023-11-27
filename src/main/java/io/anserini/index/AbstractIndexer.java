@@ -52,9 +52,6 @@ public abstract class AbstractIndexer implements Runnable {
     @Option(name = "-input", metaVar = "[path]", required = true, usage = "Input collection.")
     public String input;
 
-    @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
-    public String generatorClass = "InvertedDenseVectorDocumentGenerator";
-
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Index path.")
     public String index;
 
@@ -189,7 +186,6 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info("AbstractIndexer settings:");
     LOG.info(" + DocumentCollection path: " + args.input);
     LOG.info(" + CollectionClass: " + args.collectionClass);
-    LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + Index path: " + args.index);
     LOG.info(" + Threads: " + args.threads);
     LOG.info(" + Optimize (merge segments)? " + args.optimize);
@@ -211,13 +207,6 @@ public abstract class AbstractIndexer implements Runnable {
       this.collection = collectionClass.getConstructor(Path.class).newInstance(collectionPath);
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to load collection class \"%s\".", args.collectionClass));
-    }
-
-    try {
-      this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
-          Class.forName("io.anserini.index.generator." + args.generatorClass);
-    } catch (Exception e) {
-      throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
     }
   }
 
@@ -312,5 +301,4 @@ public abstract class AbstractIndexer implements Runnable {
   public Counters getCounters() {
     return this.counters;
   }
-
 }
