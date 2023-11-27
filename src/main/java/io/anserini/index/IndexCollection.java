@@ -17,33 +17,23 @@
 package io.anserini.index;
 
 import io.anserini.analysis.AnalyzerMap;
-import io.anserini.analysis.CompositeAnalyzer;
-import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.AutoCompositeAnalyzer;
+import io.anserini.analysis.CompositeAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.generator.EmptyDocumentException;
-import io.anserini.index.generator.InvalidDocumentException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import io.anserini.index.generator.SkippedDocumentException;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.ImpactSimilarity;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -55,18 +45,14 @@ import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public final class IndexCollection extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
@@ -172,113 +158,8 @@ public final class IndexCollection extends AbstractIndexer {
     @Option(name = "-tweet.deletedIdsFile", metaVar = "[file]",
         usage = "File that contains deleted tweet ids (longs), one per line; these tweets will be skipped during indexing.")
     public String tweetDeletedIdsFile = "";
-
-    // Sharding options
   }
 
-//  private final class LocalIndexerThread extends Thread {
-//    final private Path inputFile;
-//    final private IndexWriter writer;
-//    final private DocumentCollection collection;
-//    private FileSegment fileSegment;
-//
-//    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) {
-//      this.writer = writer;
-//      this.collection = collection;
-//      this.inputFile = inputFile;
-//      setName(inputFile.getFileName().toString());
-//    }
-//
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    public void run() {
-//      try {
-//        LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
-//            generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
-//
-//        // We keep track of two separate counts: the total count of documents in this file segment (cnt),
-//        // and the number of documents in this current "batch" (batch). We update the global counter every
-//        // 10k documents: this is so that we get intermediate updates, which is informative if a collection
-//        // has only one file segment; see https://github.com/castorini/anserini/issues/683
-//        int cnt = 0;
-//        int batch = 0;
-//
-//        FileSegment<SourceDocument> segment = collection.createFileSegment(inputFile);
-//        // in order to call close() and clean up resources in case of exception
-//        this.fileSegment = segment;
-//
-//        for (SourceDocument d : segment) {
-//          if (!d.indexable()) {
-//            counters.unindexable.incrementAndGet();
-//            continue;
-//          }
-//
-//          Document doc;
-//          try {
-//            doc = generator.createDocument(d);
-//          } catch (EmptyDocumentException e1) {
-//            counters.empty.incrementAndGet();
-//            continue;
-//          } catch (SkippedDocumentException e2) {
-//            counters.skipped.incrementAndGet();
-//            continue;
-//          } catch (InvalidDocumentException e3) {
-//            counters.errors.incrementAndGet();
-//            continue;
-//          }
-//
-//          if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
-//            counters.skipped.incrementAndGet();
-//            continue;
-//          }
-//
-//          if (args.uniqueDocid) {
-//            writer.updateDocument(new Term("id", d.id()), doc);
-//          } else {
-//            writer.addDocument(doc);
-//          }
-//          cnt++;
-//          batch++;
-//
-//          // And the counts from this batch, reset batch counter.
-//          if (batch % 10000 == 0) {
-//            counters.indexed.addAndGet(batch);
-//            batch = 0;
-//          }
-//        }
-//
-//        // Add the remaining documents.
-//        counters.indexed.addAndGet(batch);
-//
-//        int skipped = segment.getSkippedCount();
-//        if (skipped > 0) {
-//          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
-//          counters.skipped.addAndGet(skipped);
-//          LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
-//              inputFile.getFileName().toString() + ": " + skipped + " docs skipped.");
-//        }
-//
-//        if (segment.getErrorStatus()) {
-//          counters.errors.incrementAndGet();
-//          LOG.error(inputFile.getParent().getFileName().toString() + File.separator +
-//              inputFile.getFileName().toString() + ": error iterating through segment.");
-//        }
-//
-//        // Log at the debug level because this can be quite noisy if there are lots of file segments.
-//        LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
-//            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
-//      } catch (Exception e) {
-//        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
-//      } finally {
-//        if (fileSegment != null) {
-//            fileSegment.close();
-//        }
-//      }
-//    }
-//  }
-
-  private final Args args;
-  //private final Path collectionPath;
   private final Set whitelistDocids;
   //private final Class collectionClass;
   private final Class generatorClass;
@@ -290,20 +171,6 @@ public final class IndexCollection extends AbstractIndexer {
   @SuppressWarnings("unchecked")
   public IndexCollection(Args args) throws Exception {
     super(args);
-    this.args = args;
-
-//    if (args.verbose) {
-//      // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
-//      Configurator.setRootLevel(Level.DEBUG);
-//      LOG.info("Setting log level to " + Level.DEBUG);
-//    } else if (args.quiet) {
-//      // If quiet mode enabled, only report warnings and above.
-//      Configurator.setRootLevel(Level.WARN);
-//    } else {
-//      // Otherwise, we get the standard set of log messages.
-//      Configurator.setRootLevel(Level.INFO);
-//      LOG.info("Setting log level to " + Level.INFO);
-//    }
 
     LOG.info("Starting indexer...");
     LOG.info("============ Loading Parameters ============");
@@ -325,29 +192,7 @@ public final class IndexCollection extends AbstractIndexer {
     LOG.info("Pretokenized?: " + args.pretokenized);
     LOG.info("Index path: " + args.index);
 
-//    if (args.index != null) {
-//      this.indexPath = Paths.get(args.index);
-//      if (!Files.exists(this.indexPath)) {
-//        Files.createDirectories(this.indexPath);
-//      }
-//    }
-//
-//    // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work, we assume
-//    // collections/ as the path location.
-//    String pathStr = args.input;
-//    if (pathStr.startsWith("/path/to")) {
-//      pathStr = pathStr.replace("/path/to", "collections");
-//    }
-//    collectionPath = Paths.get(pathStr);
-//    if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
-//      throw new RuntimeException("Document directory " + collectionPath.toString() + " does not exist or is not readable, please check the path");
-//    }
-
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
-//    this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
-//
-//    // Initialize the collection.
-//    collection = (DocumentCollection) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
 
     if (args.whitelist != null) {
       List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
@@ -355,12 +200,6 @@ public final class IndexCollection extends AbstractIndexer {
     } else {
       this.whitelistDocids = null;
     }
-
-    //this.counters = new Counters();
-
-
-    int numThreads = args.threads;
-    //final IndexWriter writer;
 
     this.indexPath = Paths.get(args.index);
     final Directory dir = FSDirectory.open(indexPath);
@@ -386,146 +225,46 @@ public final class IndexCollection extends AbstractIndexer {
 
   private Analyzer getAnalyzer() {
     try {
-      if (args.collectionClass.equals("TweetCollection")) {
-        return new TweetAnalyzer(args.tweetStemming);
-      } else if (args.useAutoCompositeAnalyzer) {
+      Args castedArgs = (Args) super.args;
+      if (castedArgs.collectionClass.equals("TweetCollection")) {
+        return new TweetAnalyzer(castedArgs.tweetStemming);
+      } else if (castedArgs.useAutoCompositeAnalyzer) {
         LOG.info("Using AutoCompositeAnalyzer");
-        return AutoCompositeAnalyzer.getAnalyzer(args.language, args.analyzeWithHuggingFaceTokenizer);
-      } else if (args.useCompositeAnalyzer) {
+        return AutoCompositeAnalyzer.getAnalyzer(castedArgs.language, castedArgs.analyzeWithHuggingFaceTokenizer);
+      } else if (castedArgs.useCompositeAnalyzer) {
         final Analyzer languageSpecificAnalyzer;
-        if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
-          languageSpecificAnalyzer = AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
-        } else if (args.language.equals("en")) {
-          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
+        if (AnalyzerMap.analyzerMap.containsKey(castedArgs.language)) {
+          languageSpecificAnalyzer = AnalyzerMap.getLanguageSpecificAnalyzer(castedArgs.language);
+        } else if (castedArgs.language.equals("en")) {
+          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(castedArgs.stemmer, castedArgs.keepStopwords, castedArgs.stopwords);
         } else {
           languageSpecificAnalyzer = new WhitespaceAnalyzer();
         }
         String message = "Using CompositeAnalyzer with HF Tokenizer: %s & Analyzer %s";
-        LOG.info(String.format(message, args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer.getClass().getName()));
-        return new CompositeAnalyzer(args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer);
-      } else if (args.analyzeWithHuggingFaceTokenizer!= null) {
-        return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
-      } else if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
+        LOG.info(String.format(message, castedArgs.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer.getClass().getName()));
+        return new CompositeAnalyzer(castedArgs.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer);
+      } else if (castedArgs.analyzeWithHuggingFaceTokenizer!= null) {
+        return new HuggingFaceTokenizerAnalyzer(castedArgs.analyzeWithHuggingFaceTokenizer);
+      } else if (AnalyzerMap.analyzerMap.containsKey(castedArgs.language)) {
         LOG.info("Using language-specific analyzer");
-        LOG.info("Language: " + args.language);
-        return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
-      } else if ( Arrays.asList("ha","so","sw","yo").contains(args.language)) {
+        LOG.info("Language: " + castedArgs.language);
+        return AnalyzerMap.getLanguageSpecificAnalyzer(castedArgs.language);
+      } else if ( Arrays.asList("ha","so","sw","yo").contains(castedArgs.language)) {
         return new WhitespaceAnalyzer();
-      } else if (args.pretokenized) {
+      } else if (castedArgs.pretokenized) {
         return new WhitespaceAnalyzer();
       } else {
         // Default to English
         LOG.info("Using DefaultEnglishAnalyzer");
-        LOG.info("Stemmer: " + args.stemmer);
-        LOG.info("Keep stopwords? " + args.keepStopwords);
-        LOG.info("Stopwords file: " + args.stopwords);
-        return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
+        LOG.info("Stemmer: " + castedArgs.stemmer);
+        LOG.info("Keep stopwords? " + castedArgs.keepStopwords);
+        LOG.info("Stopwords file: " + castedArgs.stopwords);
+        return DefaultEnglishAnalyzer.fromArguments(castedArgs.stemmer, castedArgs.keepStopwords, castedArgs.stopwords);
       }
     } catch (Exception e) {
       return null;
     }
   }
-
-  //@Override
-//  public void runx() {
-//    LOG.info("============ Indexing Collection ============");
-//    final long start = System.nanoTime();
-//
-//    final List<Path> segmentPaths = args.shardCount > 1 ?
-//            collection.getSegmentPaths(args.shardCount, args.shardCurrent) :
-//            collection.getSegmentPaths();
-//    final int segmentCnt = segmentPaths.size();
-//
-//    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-//    LOG.info(String.format("Thread pool with %s threads initialized.", args.threads));
-//    LOG.info(String.format("%,d %s found in %s ", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
-//    LOG.info("Starting to index...");
-//
-//    processSegments(executor, segmentPaths);
-////    segmentPaths.forEach((segmentPath) -> {
-////      try {
-////        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
-////        @SuppressWarnings("unchecked")
-////        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
-////                generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
-////
-////        AbstractIndexer.IndexerThread thread =
-////                new AbstractIndexer.IndexerThread(writer, collection, segmentPath, generator, counters);
-////        if (whitelistDocids != null) {
-////          thread.setWhitelist(whitelistDocids);
-////        }
-////
-////        executor.execute(thread);
-////      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-////        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
-////      }
-////    });
-//
-////    for (int i = 0; i < segmentCnt; i++) {
-////      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
-////    }
-//
-//    executor.shutdown();
-//
-//    try {
-//      // Wait for existing tasks to terminate
-//      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-//        if (segmentCnt == 1) {
-//          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
-//        } else {
-//          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
-//              (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
-//        }
-//      }
-//    } catch (InterruptedException ie) {
-//      // (Re-)Cancel if current thread also interrupted
-//      executor.shutdownNow();
-//      // Preserve interrupt status
-//      Thread.currentThread().interrupt();
-//    }
-//
-//    if (segmentCnt != executor.getCompletedTaskCount()) {
-//      throw new RuntimeException("totalFiles = " + segmentCnt +
-//          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
-//    }
-//
-//    long numIndexed = writer.getDocStats().maxDoc;
-//    if (numIndexed != counters.indexed.get()) {
-//      LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
-//    }
-//
-//    // Do a final commit
-//    try {
-//      writer.commit();
-//      if (args.optimize) {
-//        writer.forceMerge(1);
-//      }
-//    } catch (IOException e) {
-//      // It is possible that this happens... but nothing much we can do at this point,
-//      // so just log the error and move on.
-//      LOG.error(e);
-//    } finally {
-//      try {
-//        writer.close();
-//      } catch (IOException e) {
-//        // It is possible that this happens... but nothing much we can do at this point,
-//        // so just log the error and move on.
-//        LOG.error(e);
-//      }
-//    }
-//
-//    LOG.info(String.format("Indexing Complete! %,d documents indexed", numIndexed));
-//    LOG.info("============ Final Counter Values ============");
-//    LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
-//    LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
-//    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
-//    LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
-//    LOG.info(String.format("errors:      %,12d", counters.errors.get()));
-//
-//    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-//    LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
-//        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
-//  }
 
   protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
     segmentPaths.forEach((segmentPath) -> {

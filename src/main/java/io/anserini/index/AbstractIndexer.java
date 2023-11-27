@@ -90,7 +90,7 @@ public abstract class AbstractIndexer implements Runnable {
     private final LuceneDocumentGenerator<SourceDocument> generator;
     private final Counters counters;
 
-    private Set whitelistDocids;
+    private Set<String> whitelistDocids;
 
     public IndexerThread(IndexWriter writer,
                          DocumentCollection<? extends SourceDocument> collection,
@@ -179,13 +179,12 @@ public abstract class AbstractIndexer implements Runnable {
     }
   }
 
-  private Args args;
+  protected final Args args;
   protected Counters counters = new Counters();
   protected Path collectionPath;
   protected DocumentCollection<? extends SourceDocument> collection;
   protected Class<LuceneDocumentGenerator<? extends SourceDocument>> generatorClass;
   protected IndexWriter writer;
-  //protected boolean optimize = false;
 
   @SuppressWarnings("unchecked")
   public AbstractIndexer(Args args) {
@@ -248,19 +247,6 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info("Starting to index...");
 
     processSegments(executor, segmentPaths);
-//    segmentPaths.forEach((segmentPath) -> {
-//      try {
-//        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
-//        @SuppressWarnings("unchecked")
-//        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
-//            generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
-//
-//        executor.execute(new IndexerThread(writer, collection, segmentPath, generator, counters));
-//      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-//        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
-//      }
-//    });
-
     executor.shutdown();
 
     try {
