@@ -174,14 +174,6 @@ public final class IndexCollection extends AbstractIndexer {
     public String tweetDeletedIdsFile = "";
 
     // Sharding options
-
-    @Option(name = "-shard.count", metaVar = "[n]",
-        usage = "Number of shards to partition the document collection into.")
-    public int shardCount = -1;
-
-    @Option(name = "-shard.current", metaVar = "[n]",
-        usage = "The current shard number to generate (indexed from 0).")
-    public int shardCurrent = -1;
   }
 
 //  private final class LocalIndexerThread extends Thread {
@@ -291,9 +283,9 @@ public final class IndexCollection extends AbstractIndexer {
   //private final Class collectionClass;
   private final Class generatorClass;
   //private final DocumentCollection collection;
-  private final Counters counters;
+  //private final Counters counters;
   private Path indexPath;
-  private final IndexWriter writer;
+  //private final IndexWriter writer;
 
   @SuppressWarnings("unchecked")
   public IndexCollection(Args args) throws Exception {
@@ -364,7 +356,7 @@ public final class IndexCollection extends AbstractIndexer {
       this.whitelistDocids = null;
     }
 
-    this.counters = new Counters();
+    //this.counters = new Counters();
 
 
     int numThreads = args.threads;
@@ -389,7 +381,7 @@ public final class IndexCollection extends AbstractIndexer {
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());
 
-    this.writer = new IndexWriter(dir, config);
+    super.writer = new IndexWriter(dir, config);
   }
 
   private Analyzer getAnalyzer() {
@@ -434,26 +426,108 @@ public final class IndexCollection extends AbstractIndexer {
     }
   }
 
-  @Override
-  public void run() {
-    final long start = System.nanoTime();
-    LOG.info("============ Indexing Collection ============");
+  //@Override
+//  public void runx() {
+//    LOG.info("============ Indexing Collection ============");
+//    final long start = System.nanoTime();
+//
+//    final List<Path> segmentPaths = args.shardCount > 1 ?
+//            collection.getSegmentPaths(args.shardCount, args.shardCurrent) :
+//            collection.getSegmentPaths();
+//    final int segmentCnt = segmentPaths.size();
+//
+//    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+//    LOG.info(String.format("Thread pool with %s threads initialized.", args.threads));
+//    LOG.info(String.format("%,d %s found in %s ", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
+//    LOG.info("Starting to index...");
+//
+//    processSegments(executor, segmentPaths);
+////    segmentPaths.forEach((segmentPath) -> {
+////      try {
+////        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+////        @SuppressWarnings("unchecked")
+////        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+////                generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
+////
+////        AbstractIndexer.IndexerThread thread =
+////                new AbstractIndexer.IndexerThread(writer, collection, segmentPath, generator, counters);
+////        if (whitelistDocids != null) {
+////          thread.setWhitelist(whitelistDocids);
+////        }
+////
+////        executor.execute(thread);
+////      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+////        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+////      }
+////    });
+//
+////    for (int i = 0; i < segmentCnt; i++) {
+////      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
+////    }
+//
+//    executor.shutdown();
+//
+//    try {
+//      // Wait for existing tasks to terminate
+//      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+//        if (segmentCnt == 1) {
+//          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
+//        } else {
+//          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
+//              (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
+//        }
+//      }
+//    } catch (InterruptedException ie) {
+//      // (Re-)Cancel if current thread also interrupted
+//      executor.shutdownNow();
+//      // Preserve interrupt status
+//      Thread.currentThread().interrupt();
+//    }
+//
+//    if (segmentCnt != executor.getCompletedTaskCount()) {
+//      throw new RuntimeException("totalFiles = " + segmentCnt +
+//          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+//    }
+//
+//    long numIndexed = writer.getDocStats().maxDoc;
+//    if (numIndexed != counters.indexed.get()) {
+//      LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
+//    }
+//
+//    // Do a final commit
+//    try {
+//      writer.commit();
+//      if (args.optimize) {
+//        writer.forceMerge(1);
+//      }
+//    } catch (IOException e) {
+//      // It is possible that this happens... but nothing much we can do at this point,
+//      // so just log the error and move on.
+//      LOG.error(e);
+//    } finally {
+//      try {
+//        writer.close();
+//      } catch (IOException e) {
+//        // It is possible that this happens... but nothing much we can do at this point,
+//        // so just log the error and move on.
+//        LOG.error(e);
+//      }
+//    }
+//
+//    LOG.info(String.format("Indexing Complete! %,d documents indexed", numIndexed));
+//    LOG.info("============ Final Counter Values ============");
+//    LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
+//    LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
+//    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
+//    LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
+//    LOG.info(String.format("errors:      %,12d", counters.errors.get()));
+//
+//    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+//    LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
+//        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
+//  }
 
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-    LOG.info("Thread pool with " + args.threads + " threads initialized.");
-
-    LOG.info("Initializing collection in " + collectionPath.toString());
-
-    List<Path> segmentPaths = collection.getSegmentPaths();
-    // when we want sharding to be done
-    if (args.shardCount > 1) {
-      segmentPaths = collection.getSegmentPaths(args.shardCount, args.shardCurrent);
-    }
-    final int segmentCnt = segmentPaths.size();
-
-    LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
-    LOG.info("Starting to index...");
-
+  protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
     segmentPaths.forEach((segmentPath) -> {
       try {
         // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
@@ -472,76 +546,6 @@ public final class IndexCollection extends AbstractIndexer {
         throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
       }
     });
-
-//    for (int i = 0; i < segmentCnt; i++) {
-//      executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
-//    }
-
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        if (segmentCnt == 1) {
-          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
-        } else {
-          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
-              (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
-        }
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
-      Thread.currentThread().interrupt();
-    }
-
-    if (segmentCnt != executor.getCompletedTaskCount()) {
-      throw new RuntimeException("totalFiles = " + segmentCnt +
-          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
-    }
-
-    long numIndexed = writer.getDocStats().maxDoc;
-
-    // Do a final commit
-    try {
-      if (writer != null) {
-        writer.commit();
-        if (args.optimize) {
-          writer.forceMerge(1);
-        }
-      }
-    } catch (IOException e) {
-      // It is possible that this happens... but nothing much we can do at this point,
-      // so just log the error and move on.
-      LOG.error(e);
-    } finally {
-      try {
-        if (writer != null) {
-          writer.close();
-        }
-      } catch (IOException e) {
-        // It is possible that this happens... but nothing much we can do at this point,
-        // so just log the error and move on.
-        LOG.error(e);
-      }
-    }
-
-    if (numIndexed != counters.indexed.get()) {
-      LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
-    }
-
-    LOG.info(String.format("Indexing Complete! %,d documents indexed", numIndexed));
-    LOG.info("============ Final Counter Values ============");
-    LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
-    LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
-    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
-    LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
-    LOG.info(String.format("errors:      %,12d", counters.errors.get()));
-
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
   public static void main(String[] args) throws Exception {

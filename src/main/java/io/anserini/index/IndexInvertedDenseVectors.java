@@ -36,11 +36,13 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public final class IndexInvertedDenseVectors extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexInvertedDenseVectors.class);
@@ -112,9 +114,6 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
     }
-
-    this.threads = args.threads;
-    this.optimize = args.optimize;
   }
 
   public static void main(String[] args) throws Exception {

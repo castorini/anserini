@@ -73,6 +73,14 @@ public abstract class AbstractIndexer implements Runnable {
 
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
+
+    @Option(name = "-shard.count", metaVar = "[n]",
+            usage = "Number of shards to partition the document collection into.")
+    public int shardCount = -1;
+
+    @Option(name = "-shard.current", metaVar = "[n]",
+            usage = "The current shard number to generate (indexed from 0).")
+    public int shardCurrent = -1;
   }
 
   public static class IndexerThread extends Thread {
@@ -171,16 +179,18 @@ public abstract class AbstractIndexer implements Runnable {
     }
   }
 
+  private Args args;
   protected Counters counters = new Counters();
   protected Path collectionPath;
   protected DocumentCollection<? extends SourceDocument> collection;
   protected Class<LuceneDocumentGenerator<? extends SourceDocument>> generatorClass;
   protected IndexWriter writer;
-  protected int threads = 16;
-  protected boolean optimize = false;
+  //protected boolean optimize = false;
 
   @SuppressWarnings("unchecked")
   public AbstractIndexer(Args args) {
+    this.args = args;
+
     if (args.verbose) {
       // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
       Configurator.setRootLevel(Level.DEBUG);
@@ -227,26 +237,29 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info("============ Indexing Collection ============");
     final long start = System.nanoTime();
 
-    final List<Path> segmentPaths = collection.getSegmentPaths();
+    final List<Path> segmentPaths = args.shardCount > 1 ?
+            collection.getSegmentPaths(args.shardCount, args.shardCurrent) :
+            collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
 
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
-    LOG.info(String.format("Thread pool with %s threads initialized.", threads));
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    LOG.info(String.format("Thread pool with %s threads initialized.", args.threads));
     LOG.info(String.format("%,d %s found in %s ", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
     LOG.info("Starting to index...");
 
-    segmentPaths.forEach((segmentPath) -> {
-      try {
-        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
-        @SuppressWarnings("unchecked")
-        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
-            generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
-
-        executor.execute(new IndexerThread(writer, collection, segmentPath, generator, counters));
-      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
-      }
-    });
+    processSegments(executor, segmentPaths);
+//    segmentPaths.forEach((segmentPath) -> {
+//      try {
+//        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+//        @SuppressWarnings("unchecked")
+//        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+//            generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
+//
+//        executor.execute(new IndexerThread(writer, collection, segmentPath, generator, counters));
+//      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+//      }
+//    });
 
     executor.shutdown();
 
@@ -274,13 +287,14 @@ public abstract class AbstractIndexer implements Runnable {
 
     long numIndexed = writer.getDocStats().maxDoc;
     if (numIndexed != counters.indexed.get()) {
-      LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
+      throw new RuntimeException("Unexpected difference between number of indexed documents and index maxDoc.");
+      //LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
     }
 
     // Do a final commit.
     try {
       writer.commit();
-      if (optimize) {
+      if (args.optimize) {
         writer.forceMerge(1);
       }
     } catch (IOException e) {
@@ -308,6 +322,21 @@ public abstract class AbstractIndexer implements Runnable {
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
+  }
+
+  protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
+    segmentPaths.forEach((segmentPath) -> {
+      try {
+        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+                generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
+
+        executor.execute(new IndexerThread(writer, collection, segmentPath, generator, counters));
+      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+      }
+    });
   }
 
   public Counters getCounters() {

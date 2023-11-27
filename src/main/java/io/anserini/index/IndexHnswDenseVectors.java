@@ -39,9 +39,11 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public final class IndexHnswDenseVectors extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
@@ -105,9 +107,6 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
     }
-
-    this.threads = args.threads;
-    this.optimize = args.optimize;
   }
 
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
