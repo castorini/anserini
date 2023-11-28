@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### November 24, 2023
+
++ commit [`d88446`](https://github.com/castorini/anserini/commit/d88446c7e0ef344d2e185a7280a999a28ff70662) (11/24/2023)
+
+Added regressions for SPLADE++ CoCondenser-EnsembleDistil on BEIR (v1.0.0),
+
 ### November 9, 2023
 
 + commit [`d152e5`](https://github.com/castorini/anserini/commit/d152e5a3233483e97aa733a6d18c8b83811d7aff) (11/9/2023)

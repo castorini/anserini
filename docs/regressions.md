@@ -190,6 +190,42 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 </details>
 
 <details>
+<summary>BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-pp-ed >& logs/log.beir-v1.0.0-trec-covid-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-splade-pp-ed >& logs/log.beir-v1.0.0-bioasq-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-splade-pp-ed >& logs/log.beir-v1.0.0-nfcorpus-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-splade-pp-ed >& logs/log.beir-v1.0.0-nq-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-splade-pp-ed >& logs/log.beir-v1.0.0-hotpotqa-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-splade-pp-ed >& logs/log.beir-v1.0.0-fiqa-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-splade-pp-ed >& logs/log.beir-v1.0.0-signal1m-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-splade-pp-ed >& logs/log.beir-v1.0.0-trec-news-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-splade-pp-ed >& logs/log.beir-v1.0.0-robust04-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-splade-pp-ed >& logs/log.beir-v1.0.0-arguana-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-splade-pp-ed >& logs/log.beir-v1.0.0-webis-touche2020-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-android-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-english-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-gaming-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-gis-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-mathematica-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-physics-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-programmers-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-stats-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-tex-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-unix-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-webmasters-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-wordpress-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-splade-pp-ed >& logs/log.beir-v1.0.0-quora-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-splade-pp-ed >& logs/log.beir-v1.0.0-dbpedia-entity-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-splade-pp-ed >& logs/log.beir-v1.0.0-scidocs-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-splade-pp-ed >& logs/log.beir-v1.0.0-fever-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-splade-pp-ed >& logs/log.beir-v1.0.0-climate-fever-splade-pp-ed &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-splade-pp-ed >& logs/log.beir-v1.0.0-scifact-splade-pp-ed &
+```
+</details>
+
+<details>
 <summary>BEIR (v1.0.0): SPLADE-distill CoCodenser-medium</summary>
 
 ```bash
