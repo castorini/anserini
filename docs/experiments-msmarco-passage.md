@@ -269,7 +269,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank \
 ```
 
 It's a different command-line incantation of `trec_eval` to compute MRR@10.
-And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6908 queries, in addition to the final average).
+And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6980 queries, in addition to the final average).
 
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -q -c -M 10 -m recip_rank \
@@ -448,3 +448,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@Seun-Ajayi](https://github.com/Seun-Ajayi) on 2023-11-13 (commit [`d9ea781`](https://github.com/castorini/anserini/commit/d9ea7812324fd631623726a1162a031395934fb5))
 + Results reproduced by [@golnooshasefi](https://github.com/golnooshasefi) on 2023-11-21 (commit [`6369184`](https://github.com/castorini/anserini/commit/6369184625c84dfa45b775ddedeb2bc31ceb84c7))
 + Results reproduced by [@alimt1992](https://github.com/alimt1992) on 2023-11-25 (commit [`ae498aa`](https://github.com/castorini/anserini/commit/ae498aa997155945ff24adb45454183e5afe93d9))
++ Results reproduced by [@AndreSlavescu](https://github.com/AndreSlavescu) on 2023-11-27 (commit [`3435e8a`](https://github.com/castorini/anserini/commit/3435e8a76360f6803c825ff07deeecf389ac9278))
