@@ -7,7 +7,7 @@ This documentation is useful for figuring why results may have changed over time
 
 + commit [`d88446`](https://github.com/castorini/anserini/commit/d88446c7e0ef344d2e185a7280a999a28ff70662) (11/24/2023)
 
-Add regressions for SPLADE++ CoCondenser-EnsembleDistil on BEIR (v1.0.0),
+Added regressions for SPLADE++ CoCondenser-EnsembleDistil on BEIR (v1.0.0),
 
 ### November 9, 2023
 
