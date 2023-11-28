@@ -46,7 +46,7 @@ import java.util.List;
 public final class IndexHnswDenseVectors extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
 
-  public static final class HnswArgs extends AbstractIndexer.Args {
+  public static final class Args extends AbstractIndexer.Args {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
     public String generatorClass = "HnswDenseVectorDocumentGenerator";
 
@@ -60,7 +60,8 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     public boolean storeVectors = false;
   }
 
-  public IndexHnswDenseVectors(HnswArgs args) throws Exception {
+  @SuppressWarnings("unchecked")
+  public IndexHnswDenseVectors(Args args) throws Exception {
     super(args);
 
     LOG.info("HnswIndexer settings:");
@@ -70,7 +71,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     LOG.info(" + Store document vectors? " + args.storeVectors);
 
     try {
-      this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
+      super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
           Class.forName("io.anserini.index.generator." + args.generatorClass);
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
@@ -137,7 +138,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
   }
 
   public static void main(String[] args) throws Exception {
-    HnswArgs indexArgs = new HnswArgs();
+    Args indexArgs = new Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {

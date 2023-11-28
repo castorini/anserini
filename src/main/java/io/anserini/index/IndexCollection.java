@@ -40,7 +40,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
@@ -48,6 +47,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -99,11 +99,6 @@ public final class IndexCollection extends AbstractIndexer {
     @Option(name = "-stemmer", metaVar = "[stemmer]",
         usage = "Stemmer: one of the following {porter, krovetz, none}; defaults to 'porter'.")
     public String stemmer = "porter";
-
-    @Option(name = "-uniqueDocid",
-        usage = "Removes duplicate documents with the same docid during indexing. This significantly slows indexing throughput " +
-            "but may be needed for tweet collections since the streaming API might deliver a tweet multiple times.")
-    public boolean uniqueDocid = false;
 
     @Option(name = "-whitelist", metaVar = "[file]",
         usage = "File containing list of docids, one per line; only these docids will be indexed.")
@@ -160,39 +155,32 @@ public final class IndexCollection extends AbstractIndexer {
     public String tweetDeletedIdsFile = "";
   }
 
-  private final Set whitelistDocids;
-  //private final Class collectionClass;
-  private final Class generatorClass;
-  //private final DocumentCollection collection;
-  //private final Counters counters;
-  private Path indexPath;
-  //private final IndexWriter writer;
+  private final Set<String> whitelistDocids;
 
   @SuppressWarnings("unchecked")
   public IndexCollection(Args args) throws Exception {
     super(args);
 
-    LOG.info("Starting indexer...");
-    LOG.info("============ Loading Parameters ============");
-    LOG.info("DocumentCollection path: " + args.input);
-    LOG.info("CollectionClass: " + args.collectionClass);
-    LOG.info("Generator: " + args.generatorClass);
-    LOG.info("Threads: " + args.threads);
-    LOG.info("Language: " + args.language);
-    LOG.info("Stemmer: " + args.stemmer);
-    LOG.info("Keep stopwords? " + args.keepStopwords);
-    LOG.info("Stopwords: " + args.stopwords);
-    LOG.info("Store positions? " + args.storePositions);
-    LOG.info("Store docvectors? " + args.storeDocvectors);
-    LOG.info("Store document \"contents\" field? " + args.storeContents);
-    LOG.info("Store document \"raw\" field? " + args.storeRaw);
-    LOG.info("Additional fields to index: " + Arrays.toString(args.fields));
-    LOG.info("Optimize (merge segments)? " + args.optimize);
-    LOG.info("Whitelist: " + args.whitelist);
-    LOG.info("Pretokenized?: " + args.pretokenized);
-    LOG.info("Index path: " + args.index);
+    LOG.info("IndexCollection settings:");
+    LOG.info(" + Generator: " + args.generatorClass);
+    LOG.info(" + Language: " + args.language);
+    LOG.info(" + Stemmer: " + args.stemmer);
+    LOG.info(" + Keep stopwords? " + args.keepStopwords);
+    LOG.info(" + Stopwords: " + args.stopwords);
+    LOG.info(" + Store positions? " + args.storePositions);
+    LOG.info(" + Store docvectors? " + args.storeDocvectors);
+    LOG.info(" + Store document \"contents\" field? " + args.storeContents);
+    LOG.info(" + Store document \"raw\" field? " + args.storeRaw);
+    LOG.info(" + Additional fields to index: " + Arrays.toString(args.fields));
+    LOG.info(" + Whitelist: " + args.whitelist);
+    LOG.info(" + Pretokenized?: " + args.pretokenized);
 
-    this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
+    try {
+      super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
+              Class.forName("io.anserini.index.generator." + args.generatorClass);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
+    }
 
     if (args.whitelist != null) {
       List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
@@ -201,15 +189,12 @@ public final class IndexCollection extends AbstractIndexer {
       this.whitelistDocids = null;
     }
 
-    this.indexPath = Paths.get(args.index);
-    final Directory dir = FSDirectory.open(indexPath);
-    final IndexWriterConfig config;
-    final Analyzer analyzer;
-    analyzer = getAnalyzer();
-    config = new IndexWriterConfig(analyzer);
+    final Directory dir = FSDirectory.open(Paths.get(args.index));
+    final IndexWriterConfig config = new IndexWriterConfig(getAnalyzer());
 
     if (args.bm25Accurate) {
-      config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
+      config.setSimilarity(new AccurateBM25Similarity());
+      // necessary during indexing as the norm used in BM25 is already determined at index time.
     } if (args.impact ) {
       config.setSimilarity(new ImpactSimilarity());
     } else {
@@ -225,6 +210,7 @@ public final class IndexCollection extends AbstractIndexer {
 
   private Analyzer getAnalyzer() {
     try {
+      // args is stored in the super-class; here, explicitly get from super-class and down-cast.
       Args castedArgs = (Args) super.args;
       if (castedArgs.collectionClass.equals("TweetCollection")) {
         return new TweetAnalyzer(castedArgs.tweetStemming);
@@ -288,19 +274,31 @@ public final class IndexCollection extends AbstractIndexer {
   }
 
   public static void main(String[] args) throws Exception {
-    Args indexCollectionArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(100));
+    Args indexArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: " + IndexCollection.class.getSimpleName() +
-          parser.printExample(OptionHandlerFilter.REQUIRED));
+      if (indexArgs.options) {
+        System.err.printf("Options for %s:\n\n", IndexCollection.class.getSimpleName());
+        parser.printUsage(System.err);
+
+        List<String> required = new ArrayList<>();
+        parser.getOptions().forEach((option) -> {
+          if (option.option.required()) {
+            required.add(option.option.toString());
+          }
+        });
+
+        System.err.printf("\nRequired options are %s\n", required);
+      } else {
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
+      }
+
       return;
     }
 
-    new IndexCollection(indexCollectionArgs).run();
+    new IndexCollection(indexArgs).run();
   }
 }

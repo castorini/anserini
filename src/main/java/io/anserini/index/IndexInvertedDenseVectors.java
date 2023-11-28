@@ -48,7 +48,7 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
   public static final String FW = "fw";
   public static final String LEXLSH = "lexlsh";
 
-  public static final class InvertedDenseArgs extends AbstractIndexer.Args {
+  public static final class Args extends AbstractIndexer.Args {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
     public String generatorClass = "InvertedDenseVectorDocumentGenerator";
 
@@ -74,7 +74,8 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
     public int bucketCount = 300;
   }
 
-  public IndexInvertedDenseVectors(InvertedDenseArgs args) {
+  @SuppressWarnings("unchecked")
+  public IndexInvertedDenseVectors(Args args) {
     super(args);
 
     LOG.info("InvertedDenseIndexer settings:");
@@ -82,7 +83,7 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
     LOG.info(" + Encoding: " + args.encoding);
 
     try {
-      this.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
+      super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
           Class.forName("io.anserini.index.generator." + args.generatorClass);
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
@@ -115,7 +116,7 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
   }
 
   public static void main(String[] args) throws Exception {
-    InvertedDenseArgs indexArgs = new InvertedDenseArgs();
+    Args indexArgs = new Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
