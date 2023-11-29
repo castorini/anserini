@@ -28,7 +28,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.Term;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
@@ -55,6 +57,9 @@ public abstract class AbstractIndexer implements Runnable {
 
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Index path.")
     public String index;
+
+    @Option(name = "-uniqueDocid", usage = "Removes duplicate documents with the same docid during indexing.")
+    public boolean uniqueDocid = false;
 
     @Option(name = "-optimize", usage = "Optimizes index by merging into a single index segment.")
     public boolean optimize = false;
@@ -88,6 +93,7 @@ public abstract class AbstractIndexer implements Runnable {
     private final DocumentCollection<? extends SourceDocument> collection;
     private final Path inputFile;
     private final LuceneDocumentGenerator<SourceDocument> generator;
+    private final boolean uniqueDocid;
     private final Counters counters;
 
     private Set<String> whitelistDocids;
@@ -96,11 +102,13 @@ public abstract class AbstractIndexer implements Runnable {
                          DocumentCollection<? extends SourceDocument> collection,
                          Path inputFile,
                          LuceneDocumentGenerator<SourceDocument> generator,
+                         boolean uniqueDocid,
                          Counters counters) {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
       this.generator = generator;
+      this.uniqueDocid = uniqueDocid;
       this.counters = counters;
 
       setName(inputFile.getFileName().toString());
@@ -132,7 +140,12 @@ public abstract class AbstractIndexer implements Runnable {
               continue;
             }
 
-            writer.addDocument(generator.createDocument(d));
+            Document doc = generator.createDocument(d);
+            if (uniqueDocid) {
+              writer.updateDocument(new Term("id", d.id()), doc);
+            } else {
+              writer.addDocument(doc);
+            }
 
             cnt++;
             batch++;
@@ -274,7 +287,6 @@ public abstract class AbstractIndexer implements Runnable {
     long numIndexed = writer.getDocStats().maxDoc;
     if (numIndexed != counters.indexed.get()) {
       throw new RuntimeException("Unexpected difference between number of indexed documents and index maxDoc.");
-      //LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
     }
 
     // Do a final commit.
@@ -318,7 +330,7 @@ public abstract class AbstractIndexer implements Runnable {
         LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
                 generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
 
-        executor.execute(new IndexerThread(writer, collection, segmentPath, generator, counters));
+        executor.execute(new IndexerThread(writer, collection, segmentPath, generator, args.uniqueDocid, counters));
       } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
         throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
       }

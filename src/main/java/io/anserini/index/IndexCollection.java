@@ -261,7 +261,7 @@ public final class IndexCollection extends AbstractIndexer {
                 generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
 
         AbstractIndexer.IndexerThread thread =
-                new AbstractIndexer.IndexerThread(writer, collection, segmentPath, generator, counters);
+                new AbstractIndexer.IndexerThread(writer, collection, segmentPath, generator, super.args.uniqueDocid, counters);
         if (whitelistDocids != null) {
           thread.setWhitelist(whitelistDocids);
         }
