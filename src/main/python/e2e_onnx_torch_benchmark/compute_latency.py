@@ -1,16 +1,14 @@
-import glob
 import os
-import datetime
 import numpy as np
 import scipy.stats as st
 import argparse
-from pyserini.search import get_topics
-from transformers import AutoTokenizer, AutoModel
-import os
 import torch
 import numpy as np
 import onnxruntime as rt
 import time
+from transformers import AutoTokenizer, AutoModel
+
+from pyserini.search import get_topics
 
 LOCAL_CACHE_PATH_FOR_ONNX = os.path.join(os.path.expanduser('~'), "anserini/encoders")
 MODEL_MAP = {'cosdprdistil': 
