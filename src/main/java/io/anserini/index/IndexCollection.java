@@ -260,13 +260,7 @@ public final class IndexCollection extends AbstractIndexer {
         LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
                 generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
 
-        AbstractIndexer.IndexerThread thread =
-                new AbstractIndexer.IndexerThread(writer, collection, segmentPath, generator, super.args.uniqueDocid, counters);
-        if (whitelistDocids != null) {
-          thread.setWhitelist(whitelistDocids);
-        }
-
-        executor.execute(thread);
+        executor.execute(new AbstractIndexer.IndexerThread(segmentPath, generator, whitelistDocids));
       } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
         throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
       }

@@ -88,34 +88,21 @@ public abstract class AbstractIndexer implements Runnable {
     public int shardCurrent = -1;
   }
 
-  public static class IndexerThread extends Thread {
-    private final IndexWriter writer;
-    private final DocumentCollection<? extends SourceDocument> collection;
+  public class IndexerThread extends Thread {
     private final Path inputFile;
     private final LuceneDocumentGenerator<SourceDocument> generator;
-    private final boolean uniqueDocid;
-    private final Counters counters;
+    private final Set<String> whitelistDocids;
 
-    private Set<String> whitelistDocids;
-
-    public IndexerThread(IndexWriter writer,
-                         DocumentCollection<? extends SourceDocument> collection,
-                         Path inputFile,
-                         LuceneDocumentGenerator<SourceDocument> generator,
-                         boolean uniqueDocid,
-                         Counters counters) {
-      this.writer = writer;
-      this.collection = collection;
-      this.inputFile = inputFile;
-      this.generator = generator;
-      this.uniqueDocid = uniqueDocid;
-      this.counters = counters;
-
-      setName(inputFile.getFileName().toString());
+    public IndexerThread(Path inputFile, LuceneDocumentGenerator<SourceDocument> generator) {
+      this(inputFile, generator, null);
     }
 
-    public void setWhitelist(Set<String> docids) {
+    public IndexerThread(Path inputFile, LuceneDocumentGenerator<SourceDocument> generator, Set<String> docids) {
+      this.inputFile = inputFile;
+      this.generator = generator;
       this.whitelistDocids = docids;
+
+      setName(inputFile.getFileName().toString());
     }
 
     @Override
@@ -141,7 +128,8 @@ public abstract class AbstractIndexer implements Runnable {
             }
 
             Document doc = generator.createDocument(d);
-            if (uniqueDocid) {
+            if (args.uniqueDocid) {
+              // Note that we're reading the config directly, which is within scope.
               writer.updateDocument(new Term("id", d.id()), doc);
             } else {
               writer.addDocument(doc);
@@ -287,7 +275,12 @@ public abstract class AbstractIndexer implements Runnable {
 
     long numIndexed = writer.getDocStats().maxDoc;
     if (numIndexed != counters.indexed.get()) {
-      throw new RuntimeException("Unexpected difference between number of indexed documents and index maxDoc.");
+      // We want to log a warning here, as opposed to throw an exception, because for certain collections,
+      // this might be expected. For example, when indexing tweets - if a tweet is delivered multiple times
+      // (i.e., same docid), with -uniqueDocid we're going to update the doc in the index in place, leading
+      // to differences between the counts.
+      LOG.warn(String.format("Unexpected difference between number of indexed documents (%d) and index maxDoc (%d).",
+          numIndexed, counters.indexed.get()));
     }
 
     // Do a final commit.
@@ -332,7 +325,7 @@ public abstract class AbstractIndexer implements Runnable {
         LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
                 generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
 
-        executor.execute(new IndexerThread(writer, collection, segmentPath, generator, args.uniqueDocid, counters));
+        executor.execute(new IndexerThread(segmentPath, generator));
       } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
         throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
       }
