@@ -64,8 +64,8 @@ public abstract class AbstractIndexer implements Runnable {
     @Option(name = "-optimize", usage = "Optimizes index by merging into a single index segment.")
     public boolean optimize = false;
 
-    @Option(name = "-memorybuffer", metaVar = "[mb]", usage = "Memory buffer size in MB.")
-    public int memorybufferSize = 4096;
+    @Option(name = "-memoryBuffer", metaVar = "[mb]", usage = "Memory buffer size in MB.")
+    public int memoryBuffer = 16384;
 
     @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
     public int threads = 4;
@@ -259,6 +259,7 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info(String.format("%,d %s found in %s ", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
     LOG.info("Starting to index...");
 
+    // Dispatch to default method to process the segments; subclasses can override this method if desired.
     processSegments(executor, segmentPaths);
     executor.shutdown();
 
@@ -322,6 +323,7 @@ public abstract class AbstractIndexer implements Runnable {
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
+  // Default method to process the segments; subclasses can override this method if desired.
   protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
     segmentPaths.forEach((segmentPath) -> {
       try {

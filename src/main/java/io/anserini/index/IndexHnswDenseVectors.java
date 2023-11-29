@@ -89,7 +89,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
           });
 
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-      config.setRAMBufferSizeMB(args.memorybufferSize);
+      config.setRAMBufferSizeMB(args.memoryBuffer);
       config.setUseCompoundFile(false);
       config.setMergeScheduler(new ConcurrentMergeScheduler());
 

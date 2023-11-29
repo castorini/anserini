@@ -193,15 +193,15 @@ public final class IndexCollection extends AbstractIndexer {
     final IndexWriterConfig config = new IndexWriterConfig(getAnalyzer());
 
     if (args.bm25Accurate) {
+      // Necessary during indexing as the norm used in BM25 is already determined at index time.
       config.setSimilarity(new AccurateBM25Similarity());
-      // necessary during indexing as the norm used in BM25 is already determined at index time.
     } if (args.impact ) {
       config.setSimilarity(new ImpactSimilarity());
     } else {
       config.setSimilarity(new BM25Similarity());
     }
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    config.setRAMBufferSizeMB(args.memorybufferSize);
+    config.setRAMBufferSizeMB(args.memoryBuffer);
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());
 
