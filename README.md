@@ -54,6 +54,31 @@ See [#1121](https://github.com/castorini/pyserini/discussions/1121) for addition
 
 </details>
 
+<details>
+<summary>Memory shortage tips</summary>
+
+This project requires a lot of memory to test, build, and run.
+
+- If you run out of memory during tests, and see an error message like the one below, use: `-Dtests.verbose=true`
+
+    ```
+    ...
+    [ERROR] Failures: 
+    [ERROR]   AclAnthologyTest The test or suite printed 13940 bytes to stdout and stderr, even though the limit was set to 8192 bytes. Increase the limit with @Limit, ignore it completely with @SuppressSysoutChecks or run with -Dtests.verbose=true
+    ...
+    ```
+
+- If your stack gets corrupted when running the binary, and you see an error message like the one below, try increasing the memory limit with `-Xms` and `-Xmx` options. For example, `export MAVEN_OPTS="-Xms16G -Xmx16G"` in bash, depending on your system.
+
+    ```
+    ...
+    [0.008s][warning][os,thread] Attempt to protect stack guard pages failed (0x000000016d2a4000-0x000000016d2b0000).
+    [0.008s][warning][os,thread] Attempt to deallocate stack guard pages failed.
+    ...
+    ```
+
+</details>
+
 ## ⚗️ Regression Experiments (+ Reproduction Guides)
 
 Anserini is designed to support experiments on various standard IR test collections out of the box.
