@@ -33,7 +33,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.codecs.lucene95.Lucene95Codec;
+import org.apache.lucene.codecs.lucene99.Lucene99Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -278,7 +278,7 @@ public final class IndexInvertedDenseVectors {
     Analyzer analyzer = new PerFieldAnalyzerWrapper(new StandardAnalyzer(), map);
 
     final Directory dir = FSDirectory.open(indexPath);
-    final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene95Codec());
+    final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene99Codec());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(args.memorybufferSize);
     config.setUseCompoundFile(false);
