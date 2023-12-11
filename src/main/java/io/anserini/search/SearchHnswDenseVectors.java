@@ -78,8 +78,9 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
 
   public SearchHnswDenseVectors(Args args) throws IOException {
     this.args = args;
+    this.searcher = new HnswDenseSearcher<>(args);
 
-    LOG.info("============ Initializing HNSW Searcher ============");
+    LOG.info(String.format("============ Initializing %s ============", this.getClass().getSimpleName()));
     LOG.info("Index: " + args.index);
     LOG.info("Topics: " + Arrays.toString(args.topics));
     LOG.info("Query generator: " + args.queryGenerator);
@@ -89,8 +90,8 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     // We might not be able to successfully read topics for a variety of reasons. Gather all possible
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String singleTopicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(singleTopicsFile);
+    for (String topicsFile : args.topics) {
+      Path topicsFilePath = Paths.get(topicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
         throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
       }
@@ -117,8 +118,6 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     } catch (AssertionError|Exception e) {
       throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
     }
-
-    searcher = new HnswDenseSearcher<>(args);
   }
 
   @Override

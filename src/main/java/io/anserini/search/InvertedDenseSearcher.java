@@ -39,6 +39,10 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends AbstractSear
 
   private static final Logger LOG = LogManager.getLogger(InvertedDenseSearcher.class);
 
+  /**
+   * This class holds arguments for configuring the inverted dense searcher. Note that, explicitly, there are no
+   * arguments that define queries and outputs, since this class is meant to be called interactively.
+   */
   public static class Args extends BaseSearchArgs {
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "Encoding, must be one of {fw, lexlsh}")
     public String encoding;

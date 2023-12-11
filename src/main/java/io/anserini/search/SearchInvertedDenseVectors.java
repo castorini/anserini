@@ -78,18 +78,19 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
 
   public SearchInvertedDenseVectors(Args args) {
     this.args = args;
+    this.searcher = new InvertedDenseSearcher<>(args);
 
-    LOG.info("============ Initializing InvertedDenseVector Searcher ============");
+    LOG.info(String.format("============ Initializing %s ============", this.getClass().getSimpleName()));
     LOG.info("Index: " + args.index);
     LOG.info("Topics: " + Arrays.toString(args.topics));
     LOG.info("Encoding: " + args.encoding);
     LOG.info("Threads: " + args.threads);
 
-    // Same as above: we might not be able to successfully read topics for a variety of reasons. Gather all possible
+    // We might not be able to successfully read topics for a variety of reasons. Gather all possible
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String singleTopicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(singleTopicsFile);
+    for (String topicsFile : args.topics) {
+      Path topicsFilePath = Paths.get(topicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
         throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
       }
@@ -116,8 +117,6 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
     } catch (AssertionError|Exception e) {
       throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
     }
-
-    searcher = new InvertedDenseSearcher<>(args);
   }
 
   @Override
