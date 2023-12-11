@@ -28,15 +28,12 @@ import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -48,10 +45,7 @@ import java.util.concurrent.TimeUnit;
 public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Runnable, Closeable {
   private static final Logger LOG = LogManager.getLogger(SearchHnswDenseVectors.class);
 
-  public static class Args {
-    @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
-    public String index;
-
+  public static class Args extends HnswDenseSearcher.Args {
     @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
     public String[] topics;
 
@@ -64,25 +58,8 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     @Option(name = "-topicField", usage = "Topic field that should be used as the query.")
     public String topicField = "vector";
 
-    @Option(name = "-generator", usage = "QueryGenerator to use.")
-    public String queryGenerator = "VectorQueryGenerator";
-
-    @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads for running queries in parallel.")
-    public int threads = 4;
-
-    @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
-    public Boolean removeQuery = false;
-
-    // Note that this option is set to false by default because duplicate documents usually indicate some underlying
-    // indexing issues, and we don't want to just eat errors silently.
-    @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
-    public Boolean removedups = false;
-
     @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 1000;
-
-    @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
-    public int efSearch = 100;
 
     @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
     public String runtag = "Anserini";
@@ -90,38 +67,8 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
 
-    @Option(name ="-encoder", metaVar = "[encoder]", usage = "Dense encoder to use.")
-    public String encoder = null;
-
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
-
-    // ---------------------------------------------
-    // Simple built-in support for passage retrieval
-    // ---------------------------------------------
-
-    // A simple approach to passage retrieval is to pre-segment documents in the corpus into passages and index those
-    // passages. At retrieval time, we retain only the max scoring passage from each document; this is often called MaxP,
-    // from Dai and Callan (SIGIR 2019) in the context of BERT, although the general approach dates back to Callan
-    // (SIGIR 1994), Hearst and Plaunt (SIGIR 1993), and lots of other papers from the 1990s and even earlier.
-    //
-    // One common convention is to label the passages of a docid as "docid.00000", "docid.00001", "docid.00002", ...
-    // We use this convention in CORD-19. Alternatively, in document expansion for the MS MARCO document corpus, we use
-    // '#' as the delimiter.
-    //
-    // The options below control various aspects of this behavior.
-
-    @Option(name = "-selectMaxPassage", usage = "Select and retain only the max scoring segment from each document.")
-    public Boolean selectMaxPassage = false;
-
-    @Option(name = "-selectMaxPassage.delimiter", metaVar = "[regexp]",
-        usage = "The delimiter (as a regular regression) for splitting the segment id from the doc id.")
-    public String selectMaxPassage_delimiter = "\\.";
-
-    @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
-        usage = "Maximum number of hits to return per topic after segment id removal. " +
-            "Note that this is different from '-hits', which specifies the number of hits including the segment id.")
-    public int selectMaxPassage_hits = Integer.MAX_VALUE;
   }
 
   private final Args args;
@@ -161,14 +108,12 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
 
     // Now iterate through all the topics to pick out the right field with proper exception handling.
     try {
-      for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
-        K qid = entry.getKey();
-        String query = entry.getValue().get(args.topicField);
+      topics.forEach((qid, topic) -> {
+        String query = topic.get(args.topicField);
         assert query != null;
-
         qids.add(qid);
         queries.add(query);
-      }
+      });
     } catch (AssertionError|Exception e) {
       throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
     }
@@ -184,35 +129,10 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
   @Override
   public void run() {
     LOG.info("============ Launching Search Threads ============");
-    SortedMap<K, Result[]> results = searcher.batch_search(qids, queries, args.hits);
+    SortedMap<K, ScoredDoc[]> results = searcher.batch_search(qids, queries, args.hits);
 
-    // Write the results to a run file.
-    try {
-      PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
-
-      // This is the default case: just dump out the qids by their natural order.
-      for (K qid : results.keySet()) {
-        int rank = 1;
-        for (Result r : results.get(qid)) {
-          if ("msmarco".equals(args.format)) {
-            // MS MARCO output format:
-            out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, r.docid, rank));
-          } else {
-            // Standard TREC format:
-            // + the first column is the topic number.
-            // + the second column is currently unused and should always be "Q0".
-            // + the third column is the official document identifier of the retrieved document.
-            // + the fourth column is the rank the document is retrieved.
-            // + the fifth column shows the score (integer or floating point) that generated the ranking.
-            // + the sixth column is called the "run tag" and should be a unique identifier for your
-            out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n", qid, r.docid, rank, r.score, args.runtag));
-          }
-          rank++;
-        }
-      }
-
-      out.flush();
-      out.close();
+    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag)) {
+      results.forEach((qid, hits) -> out.writeTopic(qid, results.get(qid)));
     } catch (IOException e) {
       e.printStackTrace();
     }

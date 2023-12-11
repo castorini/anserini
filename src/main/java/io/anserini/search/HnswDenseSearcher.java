@@ -31,6 +31,7 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.Option;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -44,7 +45,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HnswDenseSearcher<K> implements Closeable {
+public class HnswDenseSearcher<K extends Comparable<K>> extends AbstractSearcher<K> implements Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
@@ -52,13 +53,26 @@ public class HnswDenseSearcher<K> implements Closeable {
 
   private static final Logger LOG = LogManager.getLogger(HnswDenseSearcher.class);
 
+  /**
+   * This class holds arguments for configuring the HNSW searcher. Note that, explicitly, there are no arguments that
+   * define queries and outputs, since this class is meant to be called interactively.
+   */
+  public static class Args extends BaseSearchArgs {
+    @Option(name ="-encoder", metaVar = "[encoder]", usage = "Dense encoder to use.")
+    public String encoder = null;
+
+    @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
+    public int efSearch = 100;
+  }
+
   private final IndexReader reader;
   private final IndexSearcher searcher;
   private final VectorQueryGenerator generator;
   private final DenseEncoder encoder;
-  private final SearchHnswDenseVectors.Args args;
 
-  public HnswDenseSearcher(SearchHnswDenseVectors.Args args) {
+  public HnswDenseSearcher(Args args) {
+    super(args);
+
     // We might not be able to successfully create a reader for a variety of reasons, anything from path doesn't exist
     // to corrupt index. Gather all possible exceptions together as an unchecked exception to make initialization and
     // error reporting clearer.
@@ -89,12 +103,10 @@ public class HnswDenseSearcher<K> implements Closeable {
     } else {
       encoder = null;
     }
-
-    this.args = args;
   }
 
-  public SortedMap<K, Result[]> batch_search(List<K> qids, List<String> queries, int hits) {
-    final SortedMap<K, Result[]> results = new ConcurrentSkipListMap<>();
+  public SortedMap<K, ScoredDoc[]> batch_search(List<K> qids, List<String> queries, int hits) {
+    final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     final AtomicInteger cnt = new AtomicInteger();
 
@@ -107,7 +119,7 @@ public class HnswDenseSearcher<K> implements Closeable {
       // This is the per-query execution, in parallel.
       executor.execute(() -> {
         try {
-          Result[] rs = encoder != null ?
+          ScoredDoc[] rs = encoder != null ?
               search(qid, encoder.encode(queryString), hits) :
               search(qid, queryString, hits);
 
@@ -143,20 +155,18 @@ public class HnswDenseSearcher<K> implements Closeable {
     return results;
   }
 
-  public Result[] search(K qid, float[] queryFloat, int hits) throws IOException {
-    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
+  public ScoredDoc[] search(K qid, float[] queryFloat, int hits) throws IOException {
+    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, ((Args) args).efSearch);
     TopDocs topDocs = searcher.search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
-        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
+    return super.processLuceneTopDocs(this.searcher, qid, topDocs);
   }
 
-  public Result[] search(K qid, String queryString, int hits) throws IOException {
-    KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
+  public ScoredDoc[] search(K qid, String queryString, int hits) throws IOException {
+    KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, ((Args) args).efSearch);
     TopDocs topDocs = searcher.search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
-        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
+    return super.processLuceneTopDocs(this.searcher, qid, topDocs);
   }
 
   @Override
