@@ -50,6 +50,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -153,7 +154,7 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
   private final VectorQueryGenerator generator;
   private final DenseEncoder queryEncoder;
   private final SortedMap<K, String> queries = new TreeMap<>();
-  private final ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
+  private final ConcurrentSkipListMap<K, Result[]> results = new ConcurrentSkipListMap<>();
 
   public SearchHnswDenseVectors(Args args) throws IOException {
     this.args = args;
@@ -249,20 +250,18 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
       // This is the per-query execution, in parallel.
       executor.execute(() -> {
         String queryString = entry.getValue();
-        ScoredDocuments docs;
+        TopDocs docs;
 
         try {
-          docs = queryEncoder != null ?
-              search(this.searcher, queryEncoder.encode(queryString)) :
-              search(this.searcher, queryString);
+          Result[] rs = queryEncoder != null ?
+              search(this.searcher, qid, queryEncoder.encode(queryString)) :
+              search(this.searcher, qid, queryString);
+
+          results.put(qid, rs);
         } catch (IOException|OrtException e) {
           throw new CompletionException(e);
         }
 
-        String runOutput = SearchCollection.generateRunOutput(docs, qid, args.format, args.runtag, args.removedups,
-            args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
-
-        results.put(qid, runOutput);
         int n = cnt.incrementAndGet();
         if (n % 100 == 0) {
           LOG.info(String.format("%d queries processed", n));
@@ -293,7 +292,23 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
 
       // This is the default case: just dump out the qids by their natural order.
       for (K qid : results.keySet()) {
-        out.print(results.get(qid));
+        int rank = 1;
+        for (Result r : results.get(qid)) {
+          if ("msmarco".equals(args.format)) {
+            // MS MARCO output format:
+            out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, r.docid, rank));
+          } else {
+            // Standard TREC format:
+            // + the first column is the topic number.
+            // + the second column is currently unused and should always be "Q0".
+            // + the third column is the official document identifier of the retrieved document.
+            // + the fourth column is the rank the document is retrieved.
+            // + the fifth column shows the score (integer or floating point) that generated the ranking.
+            // + the sixth column is called the "run tag" and should be a unique identifier for your
+            out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n", qid, r.docid, rank, r.score, args.runtag));
+          }
+          rank++;
+        }
       }
 
       out.flush();
@@ -303,18 +318,20 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     }
   }
 
-  private ScoredDocuments search(IndexSearcher searcher, float[] queryFloat) throws IOException {
+  private Result[] search(IndexSearcher searcher, K qid, float[] queryFloat) throws IOException {
     KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
-    TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    TopDocs topDocs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
+        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
   }
 
-  private ScoredDocuments search(IndexSearcher searcher, String queryString) throws IOException {
+  private Result[] search(IndexSearcher searcher, K qid, String queryString) throws IOException {
     KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
-    TopDocs rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    TopDocs topDocs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
+        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
   }
 
   public static void main(String[] args) throws Exception {
