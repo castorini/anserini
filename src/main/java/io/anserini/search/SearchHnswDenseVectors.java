@@ -16,27 +16,13 @@
 
 package io.anserini.search;
 
-import ai.onnxruntime.OrtException;
-import io.anserini.encoder.dense.DenseEncoder;
-import io.anserini.index.Constants;
-import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.query.VectorQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.KnnFloatVectorQuery;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
@@ -54,22 +40,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Main entry point for HNSW search.
  */
-public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
-  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
-  // For most collections, docids are strings, and we break ties by lexicographic sort order.
-  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
-
+public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Runnable, Closeable {
   private static final Logger LOG = LogManager.getLogger(SearchHnswDenseVectors.class);
 
   public static class Args {
@@ -149,13 +125,9 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
   }
 
   private final Args args;
-  private final IndexReader reader;
-  private final IndexSearcher searcher;
-  private final VectorQueryGenerator generator;
-  private final DenseEncoder queryEncoder;
-  private final SortedMap<K, String> queries = new TreeMap<>();
-  private SortedMap<K, Result[]> results = new ConcurrentSkipListMap<>();
-  private final SimpleHnswSearcher hnswSearcher;
+  private final HnswDenseSearcher<K> searcher;
+  private final List<K> qids= new ArrayList<>();
+  private final List<String> queries = new ArrayList<>();
 
   public SearchHnswDenseVectors(Args args) throws IOException {
     this.args = args;
@@ -167,38 +139,7 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     LOG.info("Encoder: " + args.encoder);
     LOG.info("Threads: " + args.threads);
 
-    // We might not be able to successfully create a reader for a variety of reasons, anything from path doesn't exist
-    // to corrupt index. Gather all possible exceptions together as an unchecked exception to make initialization and
-    // error reporting clearer.
-    try {
-      this.reader = DirectoryReader.open(FSDirectory.open(Paths.get(args.index)));
-    } catch (IOException e) {
-      throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));
-    }
-
-    this.searcher = new IndexSearcher(this.reader);
-
-    try {
-      this.generator = (VectorQueryGenerator) Class
-          .forName(String.format("io.anserini.search.query.%s", args.queryGenerator))
-          .getConstructor().newInstance();
-    } catch (Exception e) {
-      throw new IllegalArgumentException(String.format("Unable to load QueryGenerator \"%s\".", args.queryGenerator));
-    }
-
-    if (args.encoder != null) {
-      try {
-        queryEncoder = (DenseEncoder) Class
-            .forName(String.format("io.anserini.encoder.dense.%sEncoder", args.encoder))
-            .getConstructor().newInstance();
-      } catch (Exception e) {
-        throw new IllegalArgumentException(String.format("Unable to load Encoder \"%s\".", args.encoder));
-      }
-    } else {
-      queryEncoder = null;
-    }
-
-    // Same as above: we might not be able to successfully read topics for a variety of reasons. Gather all possible
+    // We might not be able to successfully read topics for a variety of reasons. Gather all possible
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
     for (String singleTopicsFile : args.topics) {
@@ -225,73 +166,27 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
         String query = entry.getValue().get(args.topicField);
         assert query != null;
 
-        this.queries.put(qid, query);
+        qids.add(qid);
+        queries.add(query);
       }
     } catch (AssertionError|Exception e) {
       throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
     }
 
-    hnswSearcher = new SimpleHnswSearcher(searcher, generator, queryEncoder, args);
+    searcher = new HnswDenseSearcher<>(args);
   }
 
   @Override
   public void close() throws IOException {
-    reader.close();
+    searcher.close();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void run() {
     LOG.info("============ Launching Search Threads ============");
-//    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-//    final AtomicInteger cnt = new AtomicInteger();
-//
-//    final long start = System.nanoTime();
-//    for (Map.Entry<K, String> entry : queries.entrySet()) {
-//      K qid = entry.getKey();
-//
-//      // This is the per-query execution, in parallel.
-//      executor.execute(() -> {
-//        String queryString = entry.getValue();
-//        TopDocs docs;
-//
-//        try {
-//          Result[] rs = queryEncoder != null ?
-//              hnswSearcher.search(qid, queryEncoder.encode(queryString), args.hits) :
-//              hnswSearcher.search(qid, queryString, args.hits);
-//
-//          results.put(qid, rs);
-//        } catch (IOException|OrtException e) {
-//          throw new CompletionException(e);
-//        }
-//
-//        int n = cnt.incrementAndGet();
-//        if (n % 100 == 0) {
-//          LOG.info(String.format("%d queries processed", n));
-//        }
-//      });
-//    }
-//
-//    executor.shutdown();
-//
-//    try {
-//      // Wait for existing tasks to terminate.
-//      while (!executor.awaitTermination(1, TimeUnit.MINUTES));
-//    } catch (InterruptedException ie) {
-//      // (Re-)Cancel if current thread also interrupted.
-//      executor.shutdownNow();
-//      // Preserve interrupt status.
-//      Thread.currentThread().interrupt();
-//    }
-//    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-//
-//    LOG.info(queries.size() + " queries processed in " +
-//        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-//        String.format(" = ~%.2f q/s", queries.size()/(durationMillis/1000.0)));
+    SortedMap<K, Result[]> results = searcher.batch_search(qids, queries, args.hits);
 
-    results = hnswSearcher.batch_search(queries, args.hits);
-
-    // Now we write the results to a run file.
+    // Write the results to a run file.
     try {
       PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
 
@@ -323,22 +218,6 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     }
   }
 
-//  private Result[] search(IndexSearcher searcher, K qid, float[] queryFloat) throws IOException {
-//    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
-//    TopDocs topDocs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-//
-//    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
-//        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
-//  }
-//
-//  private Result[] search(IndexSearcher searcher, K qid, String queryString) throws IOException {
-//    KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
-//    TopDocs topDocs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-//
-//    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
-//        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
-//  }
-
   public static void main(String[] args) throws Exception {
     Args searchArgs = new Args();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
@@ -369,10 +248,8 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
-    try {
-      SearchHnswDenseVectors searcher = new SearchHnswDenseVectors(searchArgs);
+    try(SearchHnswDenseVectors searcher = new SearchHnswDenseVectors(searchArgs)) {
       searcher.run();
-      searcher.close();
     } catch (IllegalArgumentException e) {
       System.err.printf("Error: %s\n", e.getMessage());
       return;
