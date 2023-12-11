@@ -154,7 +154,8 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
   private final VectorQueryGenerator generator;
   private final DenseEncoder queryEncoder;
   private final SortedMap<K, String> queries = new TreeMap<>();
-  private final ConcurrentSkipListMap<K, Result[]> results = new ConcurrentSkipListMap<>();
+  private SortedMap<K, Result[]> results = new ConcurrentSkipListMap<>();
+  private final SimpleHnswSearcher hnswSearcher;
 
   public SearchHnswDenseVectors(Args args) throws IOException {
     this.args = args;
@@ -229,6 +230,8 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     } catch (AssertionError|Exception e) {
       throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
     }
+
+    hnswSearcher = new SimpleHnswSearcher(searcher, generator, queryEncoder, args);
   }
 
   @Override
@@ -240,51 +243,53 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
   @Override
   public void run() {
     LOG.info("============ Launching Search Threads ============");
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-    final AtomicInteger cnt = new AtomicInteger();
+//    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+//    final AtomicInteger cnt = new AtomicInteger();
+//
+//    final long start = System.nanoTime();
+//    for (Map.Entry<K, String> entry : queries.entrySet()) {
+//      K qid = entry.getKey();
+//
+//      // This is the per-query execution, in parallel.
+//      executor.execute(() -> {
+//        String queryString = entry.getValue();
+//        TopDocs docs;
+//
+//        try {
+//          Result[] rs = queryEncoder != null ?
+//              hnswSearcher.search(qid, queryEncoder.encode(queryString), args.hits) :
+//              hnswSearcher.search(qid, queryString, args.hits);
+//
+//          results.put(qid, rs);
+//        } catch (IOException|OrtException e) {
+//          throw new CompletionException(e);
+//        }
+//
+//        int n = cnt.incrementAndGet();
+//        if (n % 100 == 0) {
+//          LOG.info(String.format("%d queries processed", n));
+//        }
+//      });
+//    }
+//
+//    executor.shutdown();
+//
+//    try {
+//      // Wait for existing tasks to terminate.
+//      while (!executor.awaitTermination(1, TimeUnit.MINUTES));
+//    } catch (InterruptedException ie) {
+//      // (Re-)Cancel if current thread also interrupted.
+//      executor.shutdownNow();
+//      // Preserve interrupt status.
+//      Thread.currentThread().interrupt();
+//    }
+//    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+//
+//    LOG.info(queries.size() + " queries processed in " +
+//        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+//        String.format(" = ~%.2f q/s", queries.size()/(durationMillis/1000.0)));
 
-    final long start = System.nanoTime();
-    for (Map.Entry<K, String> entry : queries.entrySet()) {
-      K qid = entry.getKey();
-
-      // This is the per-query execution, in parallel.
-      executor.execute(() -> {
-        String queryString = entry.getValue();
-        TopDocs docs;
-
-        try {
-          Result[] rs = queryEncoder != null ?
-              search(this.searcher, qid, queryEncoder.encode(queryString)) :
-              search(this.searcher, qid, queryString);
-
-          results.put(qid, rs);
-        } catch (IOException|OrtException e) {
-          throw new CompletionException(e);
-        }
-
-        int n = cnt.incrementAndGet();
-        if (n % 100 == 0) {
-          LOG.info(String.format("%d queries processed", n));
-        }
-      });
-    }
-
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate.
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES));
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted.
-      executor.shutdownNow();
-      // Preserve interrupt status.
-      Thread.currentThread().interrupt();
-    }
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-
-    LOG.info(queries.size() + " queries processed in " +
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-        String.format(" = ~%.2f q/s", queries.size()/(durationMillis/1000.0)));
+    results = hnswSearcher.batch_search(queries, args.hits);
 
     // Now we write the results to a run file.
     try {
@@ -318,21 +323,21 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     }
   }
 
-  private Result[] search(IndexSearcher searcher, K qid, float[] queryFloat) throws IOException {
-    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
-    TopDocs topDocs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-
-    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
-        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
-  }
-
-  private Result[] search(IndexSearcher searcher, K qid, String queryString) throws IOException {
-    KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
-    TopDocs topDocs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-
-    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
-        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
-  }
+//  private Result[] search(IndexSearcher searcher, K qid, float[] queryFloat) throws IOException {
+//    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, args.efSearch);
+//    TopDocs topDocs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+//
+//    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
+//        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
+//  }
+//
+//  private Result[] search(IndexSearcher searcher, K qid, String queryString) throws IOException {
+//    KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, args.efSearch);
+//    TopDocs topDocs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+//
+//    return RunOutputWriter.generateRunOutput(this.searcher, topDocs, qid, args.removedups,
+//        args.removeQuery, args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
+//  }
 
   public static void main(String[] args) throws Exception {
     Args searchArgs = new Args();
