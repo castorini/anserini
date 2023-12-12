@@ -51,6 +51,7 @@ public class SearchHnswDenseVectorsTest {
   public static void setupClass() {
     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchHnswDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(HnswDenseSearcher.class.getName(), Level.ERROR);
   }
 
   @Test
@@ -276,7 +277,7 @@ public class SearchHnswDenseVectorsTest {
   }
 
   @Test
-  public void test1() throws Exception {
+  public void testBasic() throws Exception {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -317,4 +318,88 @@ public class SearchHnswDenseVectorsTest {
     new File(runfile).delete();
   }
 
+  @Test
+  public void testRemoveQuery() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2a.jsonl",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonStringVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5",
+        "-removeQuery"};
+    SearchHnswDenseVectors.main(searchArgs);
+
+    TestUtils.checkFile(runfile, new String[] {
+        "10 Q0 45 1 0.846281 Anserini",
+        "10 Q0 44 2 0.845236 Anserini",
+        "10 Q0 95 3 0.845013 Anserini",
+        "10 Q0 97 4 0.844905 Anserini",
+        "45 Q0 44 1 0.861596 Anserini",
+        "45 Q0 40 2 0.858651 Anserini",
+        "45 Q0 48 3 0.858514 Anserini",
+        "45 Q0 41 4 0.856264 Anserini",
+    });
+
+    new File(runfile).delete();
+  }
+
+  @Test
+  public void testPassage() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector2",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-selectMaxPassage",
+        "-selectMaxPassage.hits", "5",
+        "-hits", "10"};
+    SearchHnswDenseVectors.main(searchArgs);
+
+    TestUtils.checkFile(runfile, new String[] {
+        "160885 Q0 44 1 0.863064 Anserini",
+        "160885 Q0 40 2 0.858651 Anserini",
+        "160885 Q0 48 3 0.858514 Anserini",
+        "160885 Q0 a 4 0.856264 Anserini",
+        "160885 Q0 46 5 0.849332 Anserini",
+        "867490 Q0 10 1 0.850332 Anserini",
+        "867490 Q0 44 2 0.846281 Anserini",
+        "867490 Q0 b 3 0.845013 Anserini",
+        "867490 Q0 40 4 0.837815 Anserini",
+        "867490 Q0 46 5 0.837050 Anserini"
+    });
+
+    new File(runfile).delete();
+  }
 }

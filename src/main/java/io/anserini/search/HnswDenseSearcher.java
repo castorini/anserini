@@ -119,12 +119,8 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends AbstractSearcher
       // This is the per-query execution, in parallel.
       executor.execute(() -> {
         try {
-          ScoredDoc[] rs = encoder != null ?
-              search(qid, encoder.encode(queryString), hits) :
-              search(qid, queryString, hits);
-
-          results.put(qid, rs);
-        } catch (IOException| OrtException e) {
+          results.put(qid, search(qid, queryString, hits));
+        } catch (IOException e) {
           throw new CompletionException(e);
         }
 
@@ -150,7 +146,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends AbstractSearcher
 
     LOG.info(queries.size() + " queries processed in " +
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-        String.format(" = ~%.2f q/s", queries.size()/(durationMillis/1000.0)));
+        String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
 
     return results;
   }
@@ -163,6 +159,14 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends AbstractSearcher
   }
 
   public ScoredDoc[] search(K qid, String queryString, int hits) throws IOException {
+    if (encoder != null) {
+      try {
+        return search(qid, encoder.encode(queryString), hits);
+      } catch (OrtException e) {
+        throw new RuntimeException("Error encoding query.");
+      }
+    }
+
     KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, ((Args) args).efSearch);
     TopDocs topDocs = searcher.search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
 

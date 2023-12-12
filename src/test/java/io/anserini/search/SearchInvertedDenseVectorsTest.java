@@ -51,6 +51,7 @@ public class SearchInvertedDenseVectorsTest {
   public static void setupClass() {
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchInvertedDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(InvertedDenseSearcher.class.getName(), Level.ERROR);
   }
 
   @Test
