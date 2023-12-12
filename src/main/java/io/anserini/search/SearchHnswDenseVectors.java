@@ -167,7 +167,7 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
-    try(SearchHnswDenseVectors searcher = new SearchHnswDenseVectors(searchArgs)) {
+    try(SearchHnswDenseVectors<?> searcher = new SearchHnswDenseVectors<>(searchArgs)) {
       searcher.run();
     } catch (RuntimeException e) {
       System.err.printf("Error: %s\n", e.getMessage());

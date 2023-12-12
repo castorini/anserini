@@ -230,6 +230,7 @@ public class SearchInvertedDenseVectorsTest {
   }
 
   @Test
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void searchFWTest() throws Exception {
     String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
@@ -269,6 +270,7 @@ public class SearchInvertedDenseVectorsTest {
   }
 
   @Test
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void searchLLTest() throws Exception {
     String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
     String[] indexArgs = new String[] {

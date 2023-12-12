@@ -74,6 +74,6 @@ public class AbstractSearcher<K extends Comparable<K>> {
       }
     }
 
-    return results.toArray(new ScoredDoc[results.size()]);
+    return results.toArray(new ScoredDoc[0]);
   }
 }

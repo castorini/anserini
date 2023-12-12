@@ -166,7 +166,7 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
-    try(SearchInvertedDenseVectors searcher = new SearchInvertedDenseVectors(searchArgs)) {
+    try(SearchInvertedDenseVectors<?> searcher = new SearchInvertedDenseVectors<>(searchArgs)) {
       searcher.run();
     } catch (RuntimeException e) {
       System.err.printf("Error: %s\n", e.getMessage());

@@ -33,6 +33,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.Option;
 
+import javax.annotation.Nullable;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -151,14 +152,22 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends AbstractSearcher
     return results;
   }
 
-  public ScoredDoc[] search(K qid, float[] queryFloat, int hits) throws IOException {
+  public ScoredDoc[] search(float[] queryFloat, int hits) throws IOException {
+    return search(null, queryFloat, hits);
+  }
+
+  public ScoredDoc[] search(@Nullable K qid, float[] queryFloat, int hits) throws IOException {
     KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, ((Args) args).efSearch);
     TopDocs topDocs = searcher.search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
     return super.processLuceneTopDocs(this.searcher, qid, topDocs);
   }
 
-  public ScoredDoc[] search(K qid, String queryString, int hits) throws IOException {
+  public ScoredDoc[] search(String queryString, int hits) throws IOException {
+    return search(null, queryString, hits);
+  }
+
+  public ScoredDoc[] search(@Nullable K qid, String queryString, int hits) throws IOException {
     if (encoder != null) {
       try {
         return search(qid, encoder.encode(queryString), hits);
