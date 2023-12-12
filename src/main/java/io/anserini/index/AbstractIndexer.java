@@ -65,7 +65,7 @@ public abstract class AbstractIndexer implements Runnable {
     public boolean optimize = false;
 
     @Option(name = "-memoryBuffer", metaVar = "[mb]", usage = "Memory buffer size in MB.")
-    public int memoryBuffer = 16384;
+    public int memoryBuffer = 4096;
 
     @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
     public int threads = 4;
