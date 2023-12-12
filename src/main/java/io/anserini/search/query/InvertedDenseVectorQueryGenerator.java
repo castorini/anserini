@@ -49,7 +49,7 @@ public class InvertedDenseVectorQueryGenerator {
     } else if (args.encoding.equalsIgnoreCase(LEXLSH)) {
       vectorAnalyzer = new LexicalLshAnalyzer(args.decimals, args.ngrams, args.hashCount, args.bucketCount, args.hashSetSize);
     } else {
-      throw new RuntimeException("unrecognized encoding " + args.encoding);
+      throw new RuntimeException(String.format("Invalid encoding scheme \"%s\".", args.encoding));
     }
   }
 

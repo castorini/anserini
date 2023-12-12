@@ -169,7 +169,7 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     // exception messages and display on console.
     try(SearchHnswDenseVectors searcher = new SearchHnswDenseVectors(searchArgs)) {
       searcher.run();
-    } catch (IllegalArgumentException e) {
+    } catch (RuntimeException e) {
       System.err.printf("Error: %s\n", e.getMessage());
       return;
     }

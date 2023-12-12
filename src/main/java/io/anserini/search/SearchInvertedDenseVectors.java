@@ -168,7 +168,7 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
     // exception messages and display on console.
     try(SearchInvertedDenseVectors searcher = new SearchInvertedDenseVectors(searchArgs)) {
       searcher.run();
-    } catch (IllegalArgumentException e) {
+    } catch (RuntimeException e) {
       System.err.printf("Error: %s\n", e.getMessage());
       return;
     }
