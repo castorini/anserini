@@ -44,7 +44,7 @@ import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
-import io.anserini.util.IndexHandler;
+import io.anserini.util.PrebuiltIndexHandler;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -958,7 +958,7 @@ public final class SearchCollection implements Closeable {
   public SearchCollection(Args args) throws IOException {
     this.args = args;
     Path indexPath = Path.of(args.index);
-    IndexHandler indexHandler = new IndexHandler(args.index);
+    PrebuiltIndexHandler indexHandler = new PrebuiltIndexHandler(args.index);
     if (!Files.exists(indexPath)) {
       // it doesn't exist locally, we try to download it from remote
       try {

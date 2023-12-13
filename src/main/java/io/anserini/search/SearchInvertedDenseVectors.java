@@ -21,7 +21,7 @@ import io.anserini.index.Constants;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.query.InvertedDenseVectorQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
-import io.anserini.util.IndexHandler;
+import io.anserini.util.PrebuiltIndexHandler;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -183,7 +183,7 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
     // error reporting clearer.
 
     Path indexPath = Path.of(args.index);
-    IndexHandler indexHandler = new IndexHandler(args.index);
+    PrebuiltIndexHandler indexHandler = new PrebuiltIndexHandler(args.index);
     if (!Files.exists(indexPath)) {
       // it doesn't exist locally, we try to download it from remote
       try {
