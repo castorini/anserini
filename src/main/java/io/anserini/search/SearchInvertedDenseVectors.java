@@ -17,7 +17,6 @@
 package io.anserini.search;
 
 import io.anserini.search.topicreader.TopicReader;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
@@ -37,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Main entry point for inverted dense vector search.
