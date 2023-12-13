@@ -6,7 +6,7 @@ index_path: indexes/lucene-index.mb11/
 collection_class: TweetCollection
 generator_class: TweetGenerator
 index_threads: 44
-index_options: -storePositions -storeDocvectors -storeRaw -uniqueDocid -tweet.keepUrls -tweet.stemming
+index_options: -storePositions -storeDocvectors -storeRaw -tweet.keepUrls -tweet.stemming
 index_stats:
   documents: 14950477
   documents (non-empty): 14950449
