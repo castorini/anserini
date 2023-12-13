@@ -966,11 +966,9 @@ public final class SearchCollection implements Closeable {
         indexHandler.download();
         indexPath = Path.of(indexHandler.decompressIndex());
       } catch (IOException e) {
-        e.printStackTrace();
         throw new RuntimeException("MD5 checksum does not match!");
       } catch (Exception e) {
-        e.printStackTrace();
-        throw new RuntimeException("Error downloading index.");
+        throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", args.index));
       }
     } else {
       // if it exists locally, we use it
