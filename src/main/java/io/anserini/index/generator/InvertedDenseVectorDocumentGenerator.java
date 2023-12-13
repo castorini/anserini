@@ -37,18 +37,7 @@ import java.util.ArrayList;
  * @param <T> type of the source document
  */
 public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  protected IndexInvertedDenseVectors.Args args;
-
-  protected InvertedDenseVectorDocumentGenerator() {
-  }
-
-  /**
-   * Constructor with config and counters
-   *
-   * @param args configuration arguments
-   */
-  public InvertedDenseVectorDocumentGenerator(IndexInvertedDenseVectors.Args args) {
-    this.args = args;
+  public InvertedDenseVectorDocumentGenerator() {
   }
 
   private float[] convertJsonArray(String vectorString) throws JsonProcessingException {

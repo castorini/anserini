@@ -57,7 +57,7 @@ target/appassembler/bin/IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-openai-ada2 \
   -generator HnswDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-passage-openai-ada2/ \
-  -threads 16 -M 16 -efC 100 -memorybuffer 65536 \
+  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 \
   >& logs/log.msmarco-passage-openai-ada2 &
 ```
 

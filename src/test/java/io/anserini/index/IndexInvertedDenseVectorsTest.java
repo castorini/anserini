@@ -49,6 +49,7 @@ public class IndexInvertedDenseVectorsTest {
 
   @BeforeClass
   public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
   }
 
@@ -58,12 +59,23 @@ public class IndexInvertedDenseVectorsTest {
     String[] indexArgs = new String[] {};
 
     IndexInvertedDenseVectors.main(indexArgs);
-    assertTrue(err.toString().contains("Example: IndexInvertedDenseVectors"));
+    assertTrue(err.toString().contains("Error"));
+    assertTrue(err.toString().contains("is required"));
 
     restoreStderr();
   }
 
-  @Test(expected = ClassNotFoundException.class)
+  @Test
+  public void testAskForHelp() throws Exception {
+    redirectStderr();
+
+    IndexInvertedDenseVectors.main(new String[] {"-options"});
+    assertTrue(err.toString().contains("Options for"));
+
+    restoreStderr();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
   public void testInvalidCollection() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "FakeCollection",
@@ -76,7 +88,7 @@ public class IndexInvertedDenseVectorsTest {
     IndexInvertedDenseVectors.main(indexArgs);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testCollectionPath() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -89,7 +101,7 @@ public class IndexInvertedDenseVectorsTest {
     IndexInvertedDenseVectors.main(indexArgs);
   }
 
-  @Test(expected = ClassNotFoundException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testInvalidGenerator() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -102,7 +114,20 @@ public class IndexInvertedDenseVectorsTest {
     IndexInvertedDenseVectors.main(indexArgs);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
+  public void testDefaultGenerator() throws Exception {
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-encoding", "lexlsh"
+    };
+
+    IndexInvertedDenseVectors.main(indexArgs);
+    // If this succeeded, then the default -generator of InvertedDenseVectorDocumentGenerator must have worked.
+  }
+
+  @Test(expected = IllegalArgumentException.class)
   public void testInvalidEncoding() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",

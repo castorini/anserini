@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.TestUtils;
+import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexInvertedDenseVectors;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -49,6 +50,7 @@ public class SearchInvertedDenseVectorsTest {
 
   @BeforeClass
   public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchInvertedDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(InvertedDenseSearcher.class.getName(), Level.ERROR);

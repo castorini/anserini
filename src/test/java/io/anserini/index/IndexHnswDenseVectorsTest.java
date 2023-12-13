@@ -49,6 +49,7 @@ public class IndexHnswDenseVectorsTest {
 
   @BeforeClass
   public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
   }
 
@@ -58,12 +59,23 @@ public class IndexHnswDenseVectorsTest {
     String[] indexArgs = new String[] {};
 
     IndexHnswDenseVectors.main(indexArgs);
-    assertTrue(err.toString().contains("Example: IndexHnswDenseVectors"));
+    assertTrue(err.toString().contains("Error"));
+    assertTrue(err.toString().contains("is required"));
 
     restoreStderr();
   }
 
-  @Test(expected = ClassNotFoundException.class)
+  @Test
+  public void testAskForHelp() throws Exception {
+    redirectStderr();
+
+    IndexHnswDenseVectors.main(new String[] {"-options"});
+    assertTrue(err.toString().contains("Options for"));
+
+    restoreStderr();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
   public void testInvalidCollection() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "FakeJsonDenseVectorCollection",
@@ -77,7 +89,7 @@ public class IndexHnswDenseVectorsTest {
     IndexHnswDenseVectors.main(indexArgs);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testCollectionPath() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -91,7 +103,7 @@ public class IndexHnswDenseVectorsTest {
     IndexHnswDenseVectors.main(indexArgs);
   }
 
-  @Test(expected = ClassNotFoundException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testInvalidGenerator() throws Exception {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -103,6 +115,20 @@ public class IndexHnswDenseVectorsTest {
     };
 
     IndexHnswDenseVectors.main(indexArgs);
+  }
+
+  @Test
+  public void testDefaultGenerator() throws Exception {
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+    // If this succeeded, then the default -generator of HnswDenseVectorDocumentGenerator must have worked.
   }
 
   @Test

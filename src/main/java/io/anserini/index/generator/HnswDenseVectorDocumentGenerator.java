@@ -40,18 +40,7 @@ import java.util.ArrayList;
  * @param <T> type of the source document
  */
 public class HnswDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  protected IndexHnswDenseVectors.Args args;
-
-  protected HnswDenseVectorDocumentGenerator() {
-  }
-
-  /**
-   * Constructor with config and counters
-   *
-   * @param args configuration arguments
-   */
-  public HnswDenseVectorDocumentGenerator(IndexHnswDenseVectors.Args args) {
-    this.args = args;
+  public HnswDenseVectorDocumentGenerator() {
   }
 
   private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
@@ -87,9 +76,7 @@ public class HnswDenseVectorDocumentGenerator<T extends SourceDocument> implemen
     document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
     document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
-    if (args.storeVectors) {
-      document.add(new StoredField(Constants.RAW, src.raw()));
-    }
+
     return document;
   }
 }

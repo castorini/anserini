@@ -17,6 +17,7 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TweetCollection;
+import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.TweetGenerator;
 import org.apache.logging.log4j.Level;
@@ -28,6 +29,7 @@ import java.util.Map;
 public class TweetEndToEndTest extends EndToEndTest {
   @BeforeClass
   public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
   }
 
