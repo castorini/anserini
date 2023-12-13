@@ -23,8 +23,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
-import org.apache.lucene.codecs.lucene95.Lucene95Codec;
-import org.apache.lucene.codecs.lucene95.Lucene95HnswVectorsFormat;
+import org.apache.lucene.codecs.lucene99.Lucene99Codec;
+import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -80,11 +80,11 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     try {
       final Directory dir = FSDirectory.open(Paths.get(args.index));
       final IndexWriterConfig config = new IndexWriterConfig().setCodec(
-          new Lucene95Codec() {
+          new Lucene99Codec() {
             @Override
             public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
               return new DelegatingKnnVectorsFormat(
-                  new Lucene95HnswVectorsFormat(args.M, args.efC), 4096);
+                  new Lucene99HnswVectorsFormat(args.M, args.efC), 4096);
             }
           });
 
