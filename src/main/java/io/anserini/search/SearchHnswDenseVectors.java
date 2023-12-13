@@ -36,7 +36,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
@@ -235,7 +234,6 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
     reader.close();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void run() {
     LOG.info("============ Launching Search Threads ============");
@@ -343,20 +341,13 @@ public final class SearchHnswDenseVectors<K> implements Runnable, Closeable {
       return;
     }
 
-    final long start = System.nanoTime();
-
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
-    try {
-      SearchHnswDenseVectors searcher = new SearchHnswDenseVectors(searchArgs);
+    try (SearchHnswDenseVectors searcher = new SearchHnswDenseVectors(searchArgs)) {
       searcher.run();
-      searcher.close();
     } catch (IllegalArgumentException e) {
       System.err.printf("Error: %s\n", e.getMessage());
       return;
     }
-
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }

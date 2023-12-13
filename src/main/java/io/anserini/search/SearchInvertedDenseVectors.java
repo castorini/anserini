@@ -327,20 +327,13 @@ public final class SearchInvertedDenseVectors<K> implements Runnable, Closeable 
       return;
     }
 
-    final long start = System.nanoTime();
-
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
-    try {
-      SearchInvertedDenseVectors searcher = new SearchInvertedDenseVectors(searchArgs);
+    try (SearchInvertedDenseVectors searcher = new SearchInvertedDenseVectors(searchArgs)) {
       searcher.run();
-      searcher.close();
     } catch (IllegalArgumentException e) {
       System.err.printf("Error: %s\n", e.getMessage());
       return;
     }
-
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }
