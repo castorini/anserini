@@ -101,17 +101,23 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       config.setRAMBufferSizeMB(args.memoryBuffer);
+      config.setRAMPerThreadHardLimitMB(2047);
       config.setUseCompoundFile(false);
       config.setMergeScheduler(new ConcurrentMergeScheduler());
 
+      TieredMergePolicy mergePolicy = new TieredMergePolicy();
       if (args.optimize) {
         // If we're going to merge down into a single segment at the end, skip intermediate merges,
         // since they are a waste of time.
-        TieredMergePolicy mergePolicy = new TieredMergePolicy();
         mergePolicy.setMaxMergeAtOnce(256);
         mergePolicy.setSegmentsPerTier(256);
-        config.setMergePolicy(mergePolicy);
+      } else {
+        mergePolicy.setMaxMergedSegmentMB(1024 * 16);
+        mergePolicy.setFloorSegmentMB(1024);
+        mergePolicy.setSegmentsPerTier(16);
+        mergePolicy.setMaxMergeAtOnce(16);
       }
+      config.setMergePolicy(mergePolicy);
 
       this.writer = new IndexWriter(dir, config);
     } catch (Exception e) {
@@ -124,6 +130,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     LOG.info(" + efC: " + args.efC);
     LOG.info(" + Store document vectors? " + args.storeVectors);
     LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
+    LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
   }
 
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
