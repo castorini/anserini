@@ -78,10 +78,6 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
   public IndexInvertedDenseVectors(Args args) {
     super(args);
 
-    LOG.info("InvertedDenseIndexer settings:");
-    LOG.info(" + Generator: " + args.generatorClass);
-    LOG.info(" + Encoding: " + args.encoding);
-
     try {
       super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
           Class.forName("io.anserini.index.generator." + args.generatorClass);
@@ -113,6 +109,11 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
     }
+
+    LOG.info("InvertedDenseIndexer settings:");
+    LOG.info(" + Generator: " + args.generatorClass);
+    LOG.info(" + Encoding: " + args.encoding);
+    LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
   }
 
   public static void main(String[] args) throws Exception {

@@ -68,12 +68,6 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
   public IndexHnswDenseVectors(Args args) throws Exception {
     super(args);
 
-    LOG.info("HnswIndexer settings:");
-    LOG.info(" + Generator: " + args.generatorClass);
-    LOG.info(" + M: " + args.M);
-    LOG.info(" + efC: " + args.efC);
-    LOG.info(" + Store document vectors? " + args.storeVectors);
-
     try {
       super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
           Class.forName("io.anserini.index.generator." + args.generatorClass);
@@ -123,6 +117,13 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
     }
+
+    LOG.info("HnswIndexer settings:");
+    LOG.info(" + Generator: " + args.generatorClass);
+    LOG.info(" + M: " + args.M);
+    LOG.info(" + efC: " + args.efC);
+    LOG.info(" + Store document vectors? " + args.storeVectors);
+    LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
   }
 
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
