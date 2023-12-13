@@ -62,6 +62,15 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
+
+    @Option(name = "-maxMergedSegmentSize", metaVar = "[num]", usage = "Maximum sized segment to produce during normal merging (in MB).")
+    public int maxMergedSegmentSize = 1024 * 16;
+
+    @Option(name = "-segmentsPerTier", metaVar = "[num]", usage = "Allowed number of segments per tier.")
+    public int segmentsPerTier = 10;
+
+    @Option(name = "-maxMergeAtOnce", metaVar = "[num]", usage = "Maximum number of segments to be merged at a time during \"normal\" merging.")
+    public int maxMergeAtOnce = 10;
   }
 
   @SuppressWarnings("unchecked")
@@ -101,7 +110,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       config.setRAMBufferSizeMB(args.memoryBuffer);
-      config.setRAMPerThreadHardLimitMB(2047);
+      config.setRAMPerThreadHardLimitMB(2047); // Max possible value.
       config.setUseCompoundFile(false);
       config.setMergeScheduler(new ConcurrentMergeScheduler());
 
@@ -112,10 +121,10 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
         mergePolicy.setMaxMergeAtOnce(256);
         mergePolicy.setSegmentsPerTier(256);
       } else {
-        mergePolicy.setMaxMergedSegmentMB(1024 * 16);
         mergePolicy.setFloorSegmentMB(1024);
-        mergePolicy.setSegmentsPerTier(16);
-        mergePolicy.setMaxMergeAtOnce(16);
+        mergePolicy.setMaxMergedSegmentMB(args.maxMergedSegmentSize);
+        mergePolicy.setSegmentsPerTier(args.segmentsPerTier);
+        mergePolicy.setMaxMergeAtOnce(args.maxMergeAtOnce);
       }
       config.setMergePolicy(mergePolicy);
 
@@ -131,6 +140,9 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     LOG.info(" + Store document vectors? " + args.storeVectors);
     LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
     LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
+    LOG.info(" + MaxMergedSegmentSize: " + args.maxMergedSegmentSize);
+    LOG.info(" + SegmentsPerTier: " + args.segmentsPerTier);
+    LOG.info(" + MaxMergeAtOnce: " + args.maxMergeAtOnce);
   }
 
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
