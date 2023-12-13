@@ -29,6 +29,8 @@ import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.MergePolicy;
+import org.apache.lucene.index.NoMergePolicy;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.index.TieredMergePolicy;
@@ -62,6 +64,9 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
+
+    @Option(name = "-noMerge", usage = "Do not merge segments (fast indexing, slow retrieval).")
+    public boolean noMerge = false;
 
     @Option(name = "-maxMergedSegmentSize", metaVar = "[num]", usage = "Maximum sized segment to produce during normal merging (in MB).")
     public int maxMergedSegmentSize = 1024 * 16;
@@ -114,19 +119,23 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
       config.setUseCompoundFile(false);
       config.setMergeScheduler(new ConcurrentMergeScheduler());
 
-      TieredMergePolicy mergePolicy = new TieredMergePolicy();
-      if (args.optimize) {
-        // If we're going to merge down into a single segment at the end, skip intermediate merges,
-        // since they are a waste of time.
-        mergePolicy.setMaxMergeAtOnce(256);
-        mergePolicy.setSegmentsPerTier(256);
+      if (args.noMerge) {
+        config.setMergePolicy(NoMergePolicy.INSTANCE);
       } else {
-        mergePolicy.setFloorSegmentMB(1024);
-        mergePolicy.setMaxMergedSegmentMB(args.maxMergedSegmentSize);
-        mergePolicy.setSegmentsPerTier(args.segmentsPerTier);
-        mergePolicy.setMaxMergeAtOnce(args.maxMergeAtOnce);
+        TieredMergePolicy mergePolicy = new TieredMergePolicy();
+        if (args.optimize) {
+          // If we're going to merge down into a single segment at the end, skip intermediate merges,
+          // since they are a waste of time.
+          mergePolicy.setMaxMergeAtOnce(256);
+          mergePolicy.setSegmentsPerTier(256);
+        } else {
+          mergePolicy.setFloorSegmentMB(1024);
+          mergePolicy.setMaxMergedSegmentMB(args.maxMergedSegmentSize);
+          mergePolicy.setSegmentsPerTier(args.segmentsPerTier);
+          mergePolicy.setMaxMergeAtOnce(args.maxMergeAtOnce);
+        }
+        config.setMergePolicy(mergePolicy);
       }
-      config.setMergePolicy(mergePolicy);
 
       this.writer = new IndexWriter(dir, config);
     } catch (Exception e) {
@@ -140,9 +149,15 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     LOG.info(" + Store document vectors? " + args.storeVectors);
     LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
     LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
-    LOG.info(" + MaxMergedSegmentSize: " + args.maxMergedSegmentSize);
-    LOG.info(" + SegmentsPerTier: " + args.segmentsPerTier);
-    LOG.info(" + MaxMergeAtOnce: " + args.maxMergeAtOnce);
+
+    if (args.noMerge) {
+      LOG.info(" + MergePolicy: NoMerge");
+    } else {
+      LOG.info(" + MergePolicy: TieredMergePolicy");
+      LOG.info(" + MaxMergedSegmentSize: " + args.maxMergedSegmentSize);
+      LOG.info(" + SegmentsPerTier: " + args.segmentsPerTier);
+      LOG.info(" + MaxMergeAtOnce: " + args.maxMergeAtOnce);
+    }
   }
 
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
