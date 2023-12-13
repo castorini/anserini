@@ -16,6 +16,8 @@
 
 package io.anserini.index;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,16 +32,19 @@ public class PrebuiltIndexHandlerTest {
     try {
       handler.download();
       handler.decompressIndex();
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new Exception("Failed to download index.", e);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new Exception("Failed to download or decompress index.");
+      throw new Exception("Failed to decompress index.", e);
     }
   }
 
   @Before
   public void setUp() throws Exception {
     handler = new PrebuiltIndexHandler("msmarco-v1-passage"); // this is too big, need to find a smaller one for testing
-                                                                        // purposes
+                                                              // purposes
     handler.initialize();
   }
 

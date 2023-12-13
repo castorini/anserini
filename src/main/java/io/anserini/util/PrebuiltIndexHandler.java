@@ -90,6 +90,14 @@ public class PrebuiltIndexHandler {
       return;
     }
     info = getIndexInfo(indexName);
+    // check if saveRootPath exists
+    if (!checkFileExist(Paths.get(saveRootPath))) {
+      try {
+        Files.createDirectories(Paths.get(saveRootPath));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
     savePath = Paths.get(saveRootPath, info.filename);
     initialized = true;
   }
