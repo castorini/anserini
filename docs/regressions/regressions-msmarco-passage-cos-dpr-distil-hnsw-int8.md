@@ -8,13 +8,13 @@ This page describes regression experiments, integrated into Anserini's regressio
 
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-cos-dpr-distil-hnsw.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-cos-dpr-distil-hnsw.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-cos-dpr-distil-hnsw-int8.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-cos-dpr-distil-hnsw-int8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw-int8
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
@@ -22,7 +22,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw-int8
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -40,7 +40,7 @@ To confirm, `msmarco-passage-cos-dpr-distil.tar` is 57 GB and has MD5 checksum `
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw \
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw-int8 \
   --corpus-path collections/msmarco-passage-cos-dpr-distil
 ```
 
@@ -53,8 +53,8 @@ target/appassembler/bin/IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator HnswDenseVectorDocumentGenerator \
-  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge \
+  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil-int8/ \
+  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
@@ -63,6 +63,8 @@ Upon completion, we should have an index with 8,841,823 documents.
 
 Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
 This is because merging index segments is a costly operation and not worthwhile given our query set.
+Furthermore, we are using Lucene's [Automatic Byte Quantization](https://www.elastic.co/search-labs/blog/articles/scalar-quantization-in-lucene) feature, which increase the on-disk footprint of the indexes since we're storing both the int8 quantized vectors and the float32 vectors, but only the int8 quantized vectors need to be loaded into memory.
+See [issue #2292](https://github.com/castorini/anserini/issues/2292) for some experiments reporting the performance impact.
 
 ## Retrieval
 
@@ -73,7 +75,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 target/appassembler/bin/SearchHnswDenseVectors \
-  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
+  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil-int8/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
@@ -104,10 +106,10 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.974     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-passage-cos-dpr-distil-hnsw.yaml).
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-passage-cos-dpr-distil-hnsw-int8.yaml).
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-cos-dpr-distil-hnsw.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-cos-dpr-distil-hnsw-int8.template) and run `bin/build.sh` to rebuild the documentation.
 
 + Results reproduced by [@yilinjz](https://github.com/yilinjz) on 2023-09-01 (commit [`4ae518b`](https://github.com/castorini/anserini/commit/4ae518bb284ebcba0b273a473bc8774735cb7d19))
