@@ -29,7 +29,6 @@ import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.MergePolicy;
 import org.apache.lucene.index.NoMergePolicy;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
@@ -67,6 +66,11 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
     @Option(name = "-noMerge", usage = "Do not merge segments (fast indexing, slow retrieval).")
     public boolean noMerge = false;
+
+    @Option(name = "-maxThreadMemoryBeforeFlush", metaVar = "[num]", usage = "Maximum memory consumption per thread before triggering a forced flush (in MB); must be smaller than 2048.")
+    public int maxThreadMemoryBeforeFlush = 2047;
+    // This is the most aggressive possible setting; default is 1945.
+    // If the setting is too aggressive, may result in GCLocker issues.
 
     @Option(name = "-maxMergedSegmentSize", metaVar = "[num]", usage = "Maximum sized segment to produce during normal merging (in MB).")
     public int maxMergedSegmentSize = 1024 * 16;
@@ -115,7 +119,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       config.setRAMBufferSizeMB(args.memoryBuffer);
-      config.setRAMPerThreadHardLimitMB(2047); // Max possible value.
+      config.setRAMPerThreadHardLimitMB(args.maxThreadMemoryBeforeFlush);
       config.setUseCompoundFile(false);
       config.setMergeScheduler(new ConcurrentMergeScheduler());
 
@@ -149,6 +153,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     LOG.info(" + Store document vectors? " + args.storeVectors);
     LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
     LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
+    LOG.info(" + MaxThreadMemoryBeforeFlush: " + args.maxThreadMemoryBeforeFlush);
 
     if (args.noMerge) {
       LOG.info(" + MergePolicy: NoMerge");
