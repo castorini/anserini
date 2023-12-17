@@ -775,9 +775,171 @@ public final class SearchCollection implements Closeable {
     return out.toString();
   }
 
+  private final class Searcher<K> {
+    final IndexSearcher searcher;
+    final QueryGenerator generator;
+    final SdmQueryGenerator sdmQueryGenerator;
+
+    public Searcher(IndexSearcher searcher, TaggedSimilarity taggedSimilarity) {
+      this.searcher = searcher;
+      this.searcher.setSimilarity(taggedSimilarity.getSimilarity());
+      this.sdmQueryGenerator = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw);
+
+      try {
+        generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
+            .getConstructor().newInstance();
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
+      }
+    }
+
+    public ScoredDocuments search(K qid, String queryString,
+                                  RerankerCascade cascade,
+                                  ScoredDocuments queryQrels,
+                                  boolean hasRelDocs) throws IOException {
+      Query query;
+
+      if (args.sdm) {
+        query = sdmQueryGenerator.buildQuery(Constants.CONTENTS, analyzer, queryString);
+      } else {
+        // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
+        // multiple fields with the associated boosts.
+        query = args.fields.length == 0 ? generator.buildQuery(Constants.CONTENTS, analyzer, queryString) :
+            generator.buildQuery(args.fieldsMap, analyzer, queryString);
+      }
+
+      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
+      if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
+        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+          rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
+        } else {
+          rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+        }
+      }
+
+      List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
+      RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
+      ScoredDocuments scoredFbDocs;
+      if (isRerank && args.rf_qrels != null) {
+        if (hasRelDocs) {
+          scoredFbDocs = queryQrels;
+        } else {//if no relevant documents, only perform score based tie breaking next
+          LOG.info("No relevant documents for " + qid.toString());
+          scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+          cascade = new RerankerCascade();
+          cascade.add(new ScoreTiesAdjusterReranker());
+        }
+      } else {
+        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+      }
+
+      return cascade.run(scoredFbDocs, context);
+    }
+
+    public ScoredDocuments searchBackgroundLinking(K qid,
+                                                   String docid,
+                                                   RerankerCascade cascade) throws IOException {
+      // Extract a list of analyzed terms from the document to compose a query.
+      List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundlinking_k, analyzer);
+      // Since the terms are already analyzed, we just join them together and use the StandardQueryParser.
+      Query docQuery;
+      try {
+        docQuery = new StandardQueryParser().parse(StringUtils.join(terms, " "), Constants.CONTENTS);
+      } catch (QueryNodeException e) {
+        throw new RuntimeException("Unable to create a Lucene query comprised of terms extracted from query document!");
+      }
+
+      // Per track guidelines, no opinion or editorials. Filter out articles of these types.
+      Query filter = new TermInSetQuery(
+          WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
+          new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
+
+      BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      builder.add(filter, BooleanClause.Occur.MUST_NOT);
+      builder.add(docQuery, BooleanClause.Occur.MUST);
+      Query query = builder.build();
+
+      // Search using constructed query.
+      TopDocs rs;
+      if (args.arbitraryScoreTieBreak) {
+        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
+      } else {
+        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
+            args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+      }
+
+      RerankerContext context = new RerankerContext<>(searcher, qid, query, docid,
+          StringUtils.join(", ", terms), terms, null, args);
+
+      // Run the existing cascade.
+      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+
+      // Perform post-processing (e.g., date filter, dedupping, etc.) as a final step.
+      return new NewsBackgroundLinkingReranker(analyzer, collectionClass).rerank(docs, context);
+    }
+
+    public ScoredDocuments searchTweets(K qid,
+                                        String queryString,
+                                        long t,
+                                        RerankerCascade cascade,
+                                        ScoredDocuments queryQrels,
+                                        boolean hasRelDocs) throws IOException {
+      Query keywordQuery;
+      if (args.sdm) {
+        keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(Constants.CONTENTS, analyzer, queryString);
+      } else {
+        try {
+          QueryGenerator generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
+              .getConstructor().newInstance();
+          keywordQuery = generator.buildQuery(Constants.CONTENTS, analyzer, queryString);
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
+        }
+      }
+      List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
+
+      // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
+      // <querytweettime> tag contains the timestamp of the query in terms of the
+      // chronologically nearest tweet id within the corpus
+      Query filter = LongPoint.newRangeQuery(TweetGenerator.TweetField.ID_LONG.name, 0L, t);
+      BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      builder.add(filter, BooleanClause.Occur.FILTER);
+      builder.add(keywordQuery, BooleanClause.Occur.MUST);
+      Query compositeQuery = builder.build();
+
+      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
+      if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
+        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+          rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
+        } else {
+          rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
+              BREAK_SCORE_TIES_BY_TWEETID, true);
+        }
+      }
+
+      RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
+      ScoredDocuments scoredFbDocs;
+      if (isRerank && args.rf_qrels != null) {
+        if (hasRelDocs) {
+          scoredFbDocs = queryQrels;
+        } else {//if no relevant documents, only perform score based tie breaking next
+          scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+          cascade = new RerankerCascade();
+          cascade.add(new ScoreTiesAdjusterReranker());
+        }
+      } else {
+        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+      }
+
+      return cascade.run(scoredFbDocs, context);
+    }
+  }
+
   private final class SearcherThread<K> extends Thread {
-    final private IndexReader reader;
-    final private IndexSearcher searcher;
+    //final private IndexReader reader;
+    //final private IndexSearcher searcher;
+    final private Searcher searcher;
     final private SortedMap<K, Map<String, String>> topics;
     final private TaggedSimilarity taggedSimilarity;
     final private RerankerCascade cascade;
@@ -785,15 +947,15 @@ public final class SearchCollection implements Closeable {
     final private String runTag;
 
     private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
-                           RerankerCascade cascade, Map<String, ScoredDocuments> qrels, String outputPath, String runTag) {
-      this.reader = reader;
+                           RerankerCascade cascade, String outputPath, String runTag) {
+      //this.reader = reader;
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
       this.cascade = cascade;
       this.runTag = runTag;
       this.outputPath = outputPath;
-      this.searcher = new IndexSearcher(this.reader);
-      this.searcher.setSimilarity(this.taggedSimilarity.getSimilarity());
+      this.searcher = new Searcher(new IndexSearcher(reader), taggedSimilarity);
+      //this.searcher.setSimilarity(this.taggedSimilarity.getSimilarity());
       setName(outputPath);
     }
 
@@ -859,12 +1021,12 @@ public final class SearchCollection implements Closeable {
             ScoredDocuments docs;
             try {
               if (args.searchtweets) {
-                docs = searchTweets(this.searcher, qid, queryString,
+                docs = searcher.searchTweets(qid, queryString,
                     Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
               } else if (args.backgroundlinking) {
-                docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
+                docs = searcher.searchBackgroundLinking(qid, queryString, cascade);
               } else {
-                docs = search(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
+                docs = searcher.search(qid, queryString, cascade, queryQrels, hasRelDocs);
               }
             } catch (IOException e) {
               throw new CompletionException(e);
@@ -1260,7 +1422,7 @@ public final class SearchCollection implements Closeable {
           LOG.info("Run already exists, skipping: " + outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, this.qrels, outputPath, runTag));
+        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath, runTag));
       }
     }
     executor.shutdown();
@@ -1275,151 +1437,6 @@ public final class SearchCollection implements Closeable {
       // Preserve interrupt status
       Thread.currentThread().interrupt();
     }
-  }
-
-  public <K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade, ScoredDocuments queryQrels,
-                                    boolean hasRelDocs) throws IOException {
-    Query query;
-
-    if (args.sdm) {
-      query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(Constants.CONTENTS, analyzer, queryString);
-    } else {
-      QueryGenerator generator;
-      try {
-        generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
-            .getConstructor().newInstance();
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
-      }
-
-      // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
-      // multiple fields with the associated boosts.
-      query = args.fields.length == 0 ? generator.buildQuery(Constants.CONTENTS, analyzer, queryString) :
-          generator.buildQuery(args.fieldsMap, analyzer, queryString);
-    }
-
-    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-      } else {
-        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-      }
-    }
-
-    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-    RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
-    ScoredDocuments scoredFbDocs;
-    if (isRerank && args.rf_qrels != null) {
-      if (hasRelDocs) {
-        scoredFbDocs = queryQrels;
-      } else {//if no relevant documents, only perform score based tie breaking next
-        LOG.info("No relevant documents for " + qid.toString());
-        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
-        cascade = new RerankerCascade();
-        cascade.add(new ScoreTiesAdjusterReranker());
-      }
-    } else {
-      scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
-    }
-
-    return cascade.run(scoredFbDocs, context);
-  }
-
-  public <K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String docid,
-                                                     RerankerCascade cascade) throws IOException {
-    // Extract a list of analyzed terms from the document to compose a query.
-    List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundlinking_k, analyzer);
-    // Since the terms are already analyzed, we just join them together and use the StandardQueryParser.
-    Query docQuery;
-    try {
-      docQuery = new StandardQueryParser().parse(StringUtils.join(terms, " "), Constants.CONTENTS);
-    } catch (QueryNodeException e) {
-      throw new RuntimeException("Unable to create a Lucene query comprised of terms extracted from query document!");
-    }
-
-    // Per track guidelines, no opinion or editorials. Filter out articles of these types.
-    Query filter = new TermInSetQuery(
-        WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
-        new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
-
-    BooleanQuery.Builder builder = new BooleanQuery.Builder();
-    builder.add(filter, BooleanClause.Occur.MUST_NOT);
-    builder.add(docQuery, BooleanClause.Occur.MUST);
-    Query query = builder.build();
-
-    // Search using constructed query.
-    TopDocs rs;
-    if (args.arbitraryScoreTieBreak) {
-      rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-    } else {
-      rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
-          args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-    }
-
-    RerankerContext context = new RerankerContext<>(searcher, qid, query, docid,
-        StringUtils.join(", ", terms), terms, null, args);
-
-    // Run the existing cascade.
-    ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
-
-    // Perform post-processing (e.g., date filter, dedupping, etc.) as a final step.
-    return new NewsBackgroundLinkingReranker(analyzer, collectionClass).rerank(docs, context);
-  }
-
-  public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade,
-                                          ScoredDocuments queryQrels, boolean hasRelDocs) throws IOException {
-    Query keywordQuery;
-    if (args.sdm) {
-      keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(Constants.CONTENTS, analyzer, queryString);
-    } else {
-      try {
-        QueryGenerator generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
-            .getConstructor().newInstance();
-        keywordQuery = generator.buildQuery(Constants.CONTENTS, analyzer, queryString);
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
-      }
-    }
-    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-
-    // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
-    // <querytweettime> tag contains the timestamp of the query in terms of the
-    // chronologically nearest tweet id within the corpus
-    Query filter = LongPoint.newRangeQuery(TweetGenerator.TweetField.ID_LONG.name, 0L, t);
-    BooleanQuery.Builder builder = new BooleanQuery.Builder();
-    builder.add(filter, BooleanClause.Occur.FILTER);
-    builder.add(keywordQuery, BooleanClause.Occur.MUST);
-    Query compositeQuery = builder.build();
-
-
-    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-        rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-      } else {
-        rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
-            BREAK_SCORE_TIES_BY_TWEETID, true);
-      }
-    }
-
-    RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
-    ScoredDocuments scoredFbDocs;
-    if (isRerank && args.rf_qrels != null) {
-      if (hasRelDocs) {
-        scoredFbDocs = queryQrels;
-      } else {//if no relevant documents, only perform score based tie breaking next
-        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
-        cascade = new RerankerCascade();
-        cascade.add(new ScoreTiesAdjusterReranker());
-      }
-    } else {
-      scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
-    }
-
-    return cascade.run(scoredFbDocs, context);
   }
 
   public static void main(String[] args) throws Exception {
