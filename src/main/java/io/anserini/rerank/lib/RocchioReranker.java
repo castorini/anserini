@@ -84,7 +84,7 @@ public class RocchioReranker implements Reranker {
   @SuppressWarnings("unchecked")
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    assert (docs.documents.length == docs.scores.length);
+    assert (docs.lucene_documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
@@ -176,16 +176,16 @@ public class RocchioReranker implements Reranker {
     Set<String> vocab = new HashSet<>();
     int numdocs;
     FeatureVector docVector;
-    numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    numdocs = docs.lucene_documents.length < fbDocs ? docs.lucene_documents.length : fbDocs;
 
     List<FeatureVector> docvectors = new ArrayList<>();
     StoredFields storedFields = reader.storedFields();
     for (int i = 0; i < numdocs; i++) {
       int docid;
       if (relevantFlag) {
-        docid = docs.ids[i];
+        docid = docs.lucene_docids[i];
       } else {
-        docid = docs.ids[docs.ids.length - i - 1];
+        docid = docs.lucene_docids[docs.lucene_docids.length - i - 1];
       }
       Terms terms = reader.termVectors().get(docid, field);
       if (terms != null) {

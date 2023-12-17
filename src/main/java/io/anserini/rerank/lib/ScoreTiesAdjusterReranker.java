@@ -33,7 +33,7 @@ public class ScoreTiesAdjusterReranker implements Reranker {
     }
 
     int dup = 0;
-    for (int i=0; i<docs.documents.length; i++) {
+    for (int i = 0; i<docs.lucene_documents.length; i++) {
       // Double here because otherwise we might run into overflow issues; this was encountered with SPLADEv2.
       docs.scores[i] = (float) (Math.round(docs.scores[i] * 1e4d) / 1e4d);
 

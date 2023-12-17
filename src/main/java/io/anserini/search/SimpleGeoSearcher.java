@@ -53,13 +53,13 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
       rs = searcher.search(query, k, sort);
     }
     ScoredDocuments hits = ScoredDocuments.fromTopDocs(rs, searcher);
-    ScoredDoc[] results = new ScoredDoc[hits.ids.length];
+    ScoredDoc[] results = new ScoredDoc[hits.lucene_docids.length];
 
-    for (int i = 0; i < hits.ids.length; i++) {
-      Document doc = hits.documents[i];
+    for (int i = 0; i < hits.lucene_docids.length; i++) {
+      Document doc = hits.lucene_documents[i];
       String docid = doc.getField(Constants.ID).stringValue();
 
-      results[i] = new ScoredDoc(docid, hits.ids[i], hits.scores[i], doc);
+      results[i] = new ScoredDoc(docid, hits.lucene_docids[i], hits.scores[i], doc);
     }
 
     return results;

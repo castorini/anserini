@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.index.Constants;
+import io.anserini.rerank.ScoredDocuments;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
@@ -62,6 +63,47 @@ public class AbstractSearcher<K extends Comparable<K>> {
       // underlying indexing issues, and we don't want to just eat errors silently.
       //
       // However, when we're performing passage retrieval, i.e., with "selectMaxPassage", we *do* want to remove
+      // duplicates.
+      if (args.removeDuplicates || args.selectMaxPassage) {
+        docids.add(docid);
+      }
+
+      rank++;
+
+      if (args.selectMaxPassage && rank > args.selectMaxPassageHits) {
+        break;
+      }
+    }
+
+    return results.toArray(new ScoredDoc[0]);
+  }
+
+  public ScoredDoc[] processScoredDocs(K qid, ScoredDocuments docs) {
+    List<ScoredDoc> results = new ArrayList<>();
+    // For removing duplicate docids.
+    Set<String> docids = new HashSet<>();
+
+    int rank = 1;
+    for (int i = 0; i < docs.lucene_documents.length; i++) {
+      String docid = docs.docids[i];
+
+      if (args.selectMaxPassage) {
+        docid = docid.split(args.selectMaxPassageDelimiter)[0];
+      }
+
+      if (docids.contains(docid))
+        continue;
+
+      // Remove docids that are identical to the query id if flag is set.
+      if (args.removeQuery && docid.equals(qid))
+        continue;
+
+      results.add(new ScoredDoc(docid, docs.lucene_docids[i], docs.scores[i], docs.lucene_documents[i]));
+
+      // Note that this option is set to false by default because duplicate documents usually indicate some
+      // underlying indexing issues, and we don't want to just eat errors silently.
+      //
+      // However, when we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
       // duplicates.
       if (args.removeDuplicates || args.selectMaxPassage) {
         docids.add(docid);

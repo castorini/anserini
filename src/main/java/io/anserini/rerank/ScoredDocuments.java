@@ -39,28 +39,28 @@ import java.util.Map;
  */
 public class ScoredDocuments {
   private static final Logger LOG = LogManager.getLogger(ScoredDocuments.class);
-  // Array of document objects
-  public Document[] documents;
-  // The docIds as used by the index reader
-  public int[] ids;
-  // Scores returned from the searcher's similarity
+
+  public String[] docids;
+  public int[] lucene_docids;
+  public Document[] lucene_documents;
   public float[] scores;
-  
+
   public static ScoredDocuments fromTopDocs(TopDocs rs, IndexSearcher searcher) {
     ScoredDocuments scoredDocs = new ScoredDocuments();
-    scoredDocs.documents = new Document[rs.scoreDocs.length];
-    scoredDocs.ids = new int[rs.scoreDocs.length];
+    scoredDocs.docids = new String[rs.scoreDocs.length];
+    scoredDocs.lucene_documents = new Document[rs.scoreDocs.length];
+    scoredDocs.lucene_docids = new int[rs.scoreDocs.length];
     scoredDocs.scores = new float[rs.scoreDocs.length];
 
     for (int i=0; i<rs.scoreDocs.length; i++) {
       try {
-        scoredDocs.documents[i] = searcher.storedFields().document(rs.scoreDocs[i].doc);
+        scoredDocs.lucene_documents[i] = searcher.storedFields().document(rs.scoreDocs[i].doc);
+        scoredDocs.docids[i] = scoredDocs.lucene_documents[i].get(Constants.ID);
       } catch (IOException e) {
-        e.printStackTrace();
-        scoredDocs.documents[i] = null;
+        throw new RuntimeException();
       }
       scoredDocs.scores[i] = rs.scoreDocs[i].score;
-      scoredDocs.ids[i] = rs.scoreDocs[i].doc;
+      scoredDocs.lucene_docids[i] = rs.scoreDocs[i].doc;
     }
 
     return scoredDocs;
@@ -93,11 +93,11 @@ public class ScoredDocuments {
     }
 
     int length = documentList.size();
-    scoredDocs.documents = new Document[length];
-    scoredDocs.ids = new int[length];
+    scoredDocs.lucene_documents = new Document[length];
+    scoredDocs.lucene_docids = new int[length];
     scoredDocs.scores = new float[length];
-    scoredDocs.documents = documentList.toArray(scoredDocs.documents);
-    scoredDocs.ids = ArrayUtils.toPrimitive(idList.toArray(new Integer[length]));
+    scoredDocs.lucene_documents = documentList.toArray(scoredDocs.lucene_documents);
+    scoredDocs.lucene_docids = ArrayUtils.toPrimitive(idList.toArray(new Integer[length]));
     scoredDocs.scores = ArrayUtils.toPrimitive(scoreList.toArray(new Float[length]), Float.NaN);
 
     return scoredDocs;

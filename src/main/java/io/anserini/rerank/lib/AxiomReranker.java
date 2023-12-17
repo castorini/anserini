@@ -171,7 +171,7 @@ public class AxiomReranker<T> implements Reranker<T> {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context) {
-    assert (docs.documents.length == docs.scores.length);
+    assert (docs.lucene_documents.length == docs.scores.length);
 
     try {
       // First to search against external index if it is not null
@@ -340,15 +340,15 @@ public class AxiomReranker<T> implements Reranker<T> {
     long targetSize;
     if (useRf) {
       docidSet = new HashSet<>();
-      for (int i = 0; i < docs.ids.length; i++) {
+      for (int i = 0; i < docs.lucene_docids.length; i++) {
         if (docs.scores[i] > 0) {
-          docidSet.add(docs.ids[i]);
+          docidSet.add(docs.lucene_docids[i]);
         }
       }
       targetSize = docidSet.size() * this.N;
     } else {
       docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
-          Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
+          Arrays.copyOfRange(docs.lucene_docids, 0, Math.min(this.R, docs.lucene_docids.length)))));
       targetSize = this.R * this.N;
     }
     if (docidSet.size() < targetSize) {

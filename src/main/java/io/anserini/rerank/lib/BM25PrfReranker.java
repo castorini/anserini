@@ -139,9 +139,9 @@ public class BM25PrfReranker implements Reranker {
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
     int numFbDocs;
     if (useRf) {
-      numFbDocs = docs.documents.length;
+      numFbDocs = docs.lucene_documents.length;
     } else {
-      numFbDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+      numFbDocs = docs.lucene_documents.length < fbDocs ? docs.lucene_documents.length : fbDocs;
     }
     int numDocs = reader.numDocs();
 
@@ -150,18 +150,18 @@ public class BM25PrfReranker implements Reranker {
         if (useRf && docs.scores[i] <= 0) {
           continue;
         }
-        Terms terms = reader.termVectors().get(docs.ids[i], field);
+        Terms terms = reader.termVectors().get(docs.lucene_docids[i], field);
         if (terms != null) {
           Set<String> termsStr = getTermsStr(terms);
-          docToTermsMap.put(docs.ids[i], termsStr);
+          docToTermsMap.put(docs.lucene_docids[i], termsStr);
           vocab.addAll(termsStr);
         } else {
           if (parser == null) {
             throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
           Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-              reader.storedFields().document(docs.ids[i]).getField(Constants.RAW).stringValue());
-          docToTermsMap.put(docs.ids[i], termFreqMap.keySet());
+              reader.storedFields().document(docs.lucene_docids[i]).getField(Constants.RAW).stringValue());
+          docToTermsMap.put(docs.lucene_docids[i], termFreqMap.keySet());
           vocab.addAll(termFreqMap.keySet());
         }
       } catch (IOException e) {

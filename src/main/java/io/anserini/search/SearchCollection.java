@@ -95,8 +95,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -106,7 +104,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -134,10 +131,9 @@ public final class SearchCollection implements Closeable {
 
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
-  public static class Args {
-    // required arguments
-    @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
-    public String index;
+  public static class Args extends BaseSearchArgs {
+    @Option(name = "-generator", metaVar = "[class]", usage = "QueryGenerator to use.")
+    public String queryGenerator = "BagOfWordsQueryGenerator";
 
     @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
     public String[] topics;
@@ -153,18 +149,12 @@ public final class SearchCollection implements Closeable {
         usage = "If doc vector is not stored in the index, this need to be provided as collection class in package 'io.anserini.collection'.")
     public String collectionClass;
 
-    @Option(name = "-generator", usage = "QueryGenerator to use.")
-    public String queryGenerator = "BagOfWordsQueryGenerator";
-
     @Option(name = "-fields", metaVar = "[file]", handler = StringArrayOptionHandler.class, usage = "Fields")
     public String[] fields = new String[]{};
     public Map<String, Float> fieldsMap = new HashMap<>();
 
-    @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads to use for running different parameter configurations.")
-    public int threads = 1;
-
     @Option(name = "-parallelism", metaVar = "[int]", usage = "Number of threads to use for each individual parameter configuration.")
-    public int parallelism = 8;
+    public int parallelism = 1;
 
     @Option(name = "-language", usage = "Analyzer Language")
     public String language = "en";
@@ -187,14 +177,6 @@ public final class SearchCollection implements Closeable {
     @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
         " For TREC ad hoc topics, description or narrative can be used.")
     public String topicField = "title";
-
-    @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
-    public Boolean removeQuery = false;
-
-    // Note that this option is set to false by default because duplicate documents usually indicate some underlying
-    // indexing issues, and we don't want to just eat errors silently.
-    @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
-    public Boolean removedups = false;
 
     @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
     public Boolean skipexists = false;
@@ -250,34 +232,6 @@ public final class SearchCollection implements Closeable {
 
     @Option(name = "-encoder", usage = "Query encoder for supervised sparse retrieval tasks")
     public String encoder = null;
-
-    // ---------------------------------------------
-    // Simple built-in support for passage retrieval
-    // ---------------------------------------------
-
-    // A simple approach to passage retrieval is to pre-segment documents in the corpus into passages and index those
-    // passages. At retrieval time, we retain only the max scoring passage from each document; this is often called MaxP,
-    // from Dai and Callan (SIGIR 2019) in the context of BERT, although the general approach dates back to Callan
-    // (SIGIR 1994), Hearst and Plaunt (SIGIR 1993), and lots of other papers from the 1990s and even earlier.
-    //
-    // One common convention is to label the passages of a docid as "docid.00000", "docid.00001", "docid.00002", ...
-    // We use this convention in CORD-19. Alternatively, in document expansion for the MS MARCO document corpus, we use
-    // '#' as the delimiter.
-    //
-    // The options below control various aspects of this behavior.
-
-    @Option(name = "-selectMaxPassage", usage = "Select and retain only the max scoring segment from each document.")
-    public Boolean selectMaxPassage = false;
-
-    @Option(name = "-selectMaxPassage.delimiter", metaVar = "[regexp]",
-        usage = "The delimiter (as a regular regression) for splitting the segment id from the doc id.")
-    public String selectMaxPassage_delimiter = "\\.";
-
-    @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
-        usage = "Maximum number of hits to return per topic after segment id removal. " +
-            "Note that this is different from '-hits', which specifies the number of hits including the segment id.")
-    public int selectMaxPassage_hits = Integer.MAX_VALUE;
-    // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
     // ----------------------------------------------------------
     // ranking model: impact scores (basically, just sum of tf's)
@@ -713,84 +667,26 @@ public final class SearchCollection implements Closeable {
   private Map<String, ScoredDocuments> qrels;
   private Set<String> queriesWithRel;
 
-  public static <K> String generateRunOutput(ScoredDocuments docs,
-                                         K qid,
-                                         String format,
-                                         String runtag,
-                                         boolean removedups,
-                                         boolean removeQuery,
-                                         boolean selectMaxPassage,
-                                         String selectMaxPassage_delimiter,
-                                         int selectMaxPassage_hits) {
-    StringBuilder out = new StringBuilder();
-    // For removing duplicate docids.
-    Set<String> docids = new HashSet<>();
-
-    int rank = 1;
-    for (int i = 0; i < docs.documents.length; i++) {
-      String docid = docs.documents[i].get(Constants.ID);
-
-      if (selectMaxPassage) {
-        docid = docid.split(selectMaxPassage_delimiter)[0];
-      }
-
-      if (docids.contains(docid))
-        continue;
-
-      // Remove docids that are identical to the query id if flag is set.
-      if (removeQuery && docid.equals(qid))
-        continue;
-
-      if ("msmarco".equals(format)) {
-        // MS MARCO output format:
-        out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, docid, rank));
-      } else {
-        // Standard TREC format:
-        // + the first column is the topic number.
-        // + the second column is currently unused and should always be "Q0".
-        // + the third column is the official document identifier of the retrieved document.
-        // + the fourth column is the rank the document is retrieved.
-        // + the fifth column shows the score (integer or floating point) that generated the ranking.
-        // + the sixth column is called the "run tag" and should be a unique identifier for your
-        out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n",
-            qid, docid, rank, docs.scores[i], runtag));
-      }
-
-      // Note that this option is set to false by default because duplicate documents usually indicate some
-      // underlying indexing issues, and we don't want to just eat errors silently.
-      //
-      // However, when we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
-      // duplicates.
-      if (removedups || selectMaxPassage) {
-        docids.add(docid);
-      }
-
-      rank++;
-
-      if (selectMaxPassage && rank > selectMaxPassage_hits) {
-        break;
-      }
-    }
-
-    return out.toString();
-  }
-
-  private final class Searcher<K> {
+  private final class Searcher<K> extends AbstractSearcher {
     final IndexSearcher searcher;
     final QueryGenerator generator;
     final SdmQueryGenerator sdmQueryGenerator;
+    final Args args;
 
-    public Searcher(IndexSearcher searcher, TaggedSimilarity taggedSimilarity) {
+    public Searcher(IndexSearcher searcher, TaggedSimilarity taggedSimilarity, BaseSearchArgs args) {
+      super(args);
+
       this.searcher = searcher;
       this.searcher.setSimilarity(taggedSimilarity.getSimilarity());
-      this.sdmQueryGenerator = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw);
+      this.sdmQueryGenerator = new SdmQueryGenerator(((Args) args).sdm_tw, ((Args) args).sdm_ow, ((Args) args).sdm_uw);
 
       try {
-        generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
+        generator = (QueryGenerator) Class.forName("io.anserini.search.query." + ((Args) args).queryGenerator)
             .getConstructor().newInstance();
       } catch (Exception e) {
-        throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
+        throw new IllegalArgumentException("Unable to load QueryGenerator: " + ((Args) args).queryGenerator);
       }
+      this.args = (Args) args;
     }
 
     public ScoredDocuments search(K qid, String queryString,
@@ -936,61 +832,59 @@ public final class SearchCollection implements Closeable {
     }
   }
 
-  private final class SearcherThread<K> extends Thread {
-    //final private IndexReader reader;
-    //final private IndexSearcher searcher;
+  private final class SearcherThread<K extends Comparable<K>> extends Thread {
     final private Searcher searcher;
     final private SortedMap<K, Map<String, String>> topics;
     final private TaggedSimilarity taggedSimilarity;
     final private RerankerCascade cascade;
     final private String outputPath;
     final private String runTag;
+    final private SparseEncoder queryEncoder;
 
     private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
                            RerankerCascade cascade, String outputPath, String runTag) {
-      //this.reader = reader;
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
       this.cascade = cascade;
       this.runTag = runTag;
       this.outputPath = outputPath;
-      this.searcher = new Searcher(new IndexSearcher(reader), taggedSimilarity);
-      //this.searcher.setSimilarity(this.taggedSimilarity.getSimilarity());
+      this.searcher = new Searcher(new IndexSearcher(reader), taggedSimilarity, args);
+
       setName(outputPath);
+
+      // Initialize query encoder if specified
+      if (args.encoder != null) {
+        try {
+          this.queryEncoder = (SparseEncoder) Class
+              .forName(String.format("io.anserini.encoder.sparse.%sEncoder", args.encoder))
+              .getConstructor().newInstance();
+        } catch (Exception e) {
+          throw new RuntimeException();
+        }
+      } else {
+        this.queryEncoder = null;
+      }
     }
 
     @Override
     public void run() {
-      try {
-        // A short descriptor of the ranking setup.
-        final String desc = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
+      // A short descriptor of the ranking setup.
+      final String desc = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
 
-        // This is the number of threads that we're going to devote to running the queries in parallel.
-        int parallelism = args.parallelism;
+      // ThreadPool for parallelizing the execution of individual queries:
+      ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+      // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
+      // will go into the final run file) as the value.
+      ConcurrentSkipListMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
+      AtomicInteger cnt = new AtomicInteger();
 
-        // ThreadPool for parallelizing the execution of individual queries:
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(parallelism);
-        // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
-        // will go into the final run file) as the value.
-        ConcurrentSkipListMap<K, String> results = new ConcurrentSkipListMap<>();
-        AtomicInteger cnt = new AtomicInteger();
+      final long start = System.nanoTime();
+      for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+        K qid = entry.getKey();
 
-        // Initialize query encoder if specified
-        SparseEncoder queryEncoder;
-        if (args.encoder != null) {
-          queryEncoder = (SparseEncoder) Class
-              .forName(String.format("io.anserini.encoder.sparse.%sEncoder", args.encoder))
-              .getConstructor().newInstance();
-        } else {
-          queryEncoder = null;
-        }
-
-        final long start = System.nanoTime();
-        for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
-          K qid = entry.getKey();
-
-          // This is the per-query execution, in parallel.
-          executor.execute(() -> {
+        // This is the per-query execution, in parallel.
+        executor.execute(() -> {
+          try {
             String queryString = "";
             if (args.topicField.contains("+")) {
               for (String field : args.topicField.split("\\+")) {
@@ -1001,12 +895,7 @@ public final class SearchCollection implements Closeable {
             }
 
             if (queryEncoder != null) {
-              try {
-                queryString = queryEncoder.encode(queryString);
-              } catch (Exception e) {
-                e.printStackTrace();
-                throw new CompletionException(e);
-              }
+              queryString = queryEncoder.encode(queryString);
             }
 
             ScoredDocuments queryQrels = null;
@@ -1018,50 +907,47 @@ public final class SearchCollection implements Closeable {
                 hasRelDocs = true;
               }
             }
+
             ScoredDocuments docs;
-            try {
-              if (args.searchtweets) {
-                docs = searcher.searchTweets(qid, queryString,
-                    Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
-              } else if (args.backgroundlinking) {
-                docs = searcher.searchBackgroundLinking(qid, queryString, cascade);
-              } else {
-                docs = searcher.search(qid, queryString, cascade, queryQrels, hasRelDocs);
-              }
-            } catch (IOException e) {
-              throw new CompletionException(e);
+            if (args.searchtweets) {
+              docs = searcher.searchTweets(qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
+            } else if (args.backgroundlinking) {
+              docs = searcher.searchBackgroundLinking(qid, queryString, cascade);
+            } else {
+              docs = searcher.search(qid, queryString, cascade, queryQrels, hasRelDocs);
             }
 
-            String runOutput = generateRunOutput(docs, qid, args.format, runTag, args.removedups, args.removeQuery,
-                args.selectMaxPassage, args.selectMaxPassage_delimiter, args.selectMaxPassage_hits);
+            results.put(qid, searcher.processScoredDocs(qid, docs));
 
-            results.put(qid, runOutput);
             int n = cnt.incrementAndGet();
             if (n % 100 == 0) {
               LOG.info(String.format("%s: %d queries processed", desc, n));
             }
-          });
-        }
+          }  catch (Exception e) {
+            throw new CompletionException(e);
+          }
+        });
+      }
 
-        executor.shutdown();
+      executor.shutdown();
 
-        try {
-          // Wait for existing tasks to terminate.
-          while (!executor.awaitTermination(1, TimeUnit.MINUTES)) ;
-        } catch (InterruptedException ie) {
-          // (Re-)Cancel if current thread also interrupted.
-          executor.shutdownNow();
-          // Preserve interrupt status.
-          Thread.currentThread().interrupt();
-        }
-        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+      try {
+        // Wait for existing tasks to terminate.
+        while (!executor.awaitTermination(1, TimeUnit.MINUTES)) ;
+      } catch (InterruptedException ie) {
+        // (Re-)Cancel if current thread also interrupted.
+        executor.shutdownNow();
+        // Preserve interrupt status.
+        Thread.currentThread().interrupt();
+      }
+      final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
-        LOG.info(desc + ": " + topics.size() + " queries processed in " +
-            DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
-            String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
+      LOG.info(desc + ": " + topics.size() + " queries processed in " +
+          DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+          String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
 
-        // Now we write the results to a run file.
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.UTF_8));
+      // Now we write the results to a run file.
+      try(RunOutputWriter<K> out = new RunOutputWriter<>(outputPath, args.format, runTag)) {
 
         // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
         // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
@@ -1079,38 +965,24 @@ public final class SearchCollection implements Closeable {
             topics.keySet().size() == 5193;
 
         if (isMSMARCOv1_passage || isMAMARCOv1_doc) {
-          String raw = "";
-          try {
-            InputStream inputStream = null;
-            if (isMSMARCOv1_passage) {
-              inputStream = Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)), StandardOpenOption.READ);
-            } else {
-              inputStream = Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)), StandardOpenOption.READ);
-            }
-
+          try(InputStream inputStream = isMSMARCOv1_passage ?
+              Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)), StandardOpenOption.READ):
+              Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)), StandardOpenOption.READ) ) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {
               line = line.trim();
               String[] arr = line.split("\\t");
-              out.print(results.get(Integer.parseInt(arr[0])));
+              out.writeTopic((K) arr[0], results.get(Integer.parseInt(arr[0])));
             }
-
-            inputStream.close();
           } catch (IOException e) {
             e.printStackTrace();
           }
         } else {
-          // This is the default case: just dump out the qids by their natural order.
-          for (K qid : results.keySet()) {
-            out.print(results.get(qid));
-          }
+          results.forEach((qid, hits) -> out.writeTopic(qid, results.get(qid)));
         }
-        out.flush();
-        out.close();
-
-      } catch (Exception e) {
-        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception: ", e);
+      } catch (IOException e) {
+        e.printStackTrace();
       }
     }
   }
@@ -1402,7 +1274,7 @@ public final class SearchCollection implements Closeable {
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;
     LOG.info("runtag: " + runTag);
 
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
     this.similarities = constructSimilarities();
     this.cascades = constructRerankers();
 
@@ -1422,7 +1294,7 @@ public final class SearchCollection implements Closeable {
           LOG.info("Run already exists, skipping: " + outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath, runTag));
+        executor.execute(new SearcherThread(reader, topics, taggedSimilarity, cascade, outputPath, runTag));
       }
     }
     executor.shutdown();

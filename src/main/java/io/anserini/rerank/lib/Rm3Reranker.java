@@ -77,7 +77,7 @@ public class Rm3Reranker implements Reranker {
   @SuppressWarnings("unchecked")
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    assert (docs.documents.length == docs.scores.length);
+    assert (docs.lucene_documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
@@ -144,9 +144,9 @@ public class Rm3Reranker implements Reranker {
     Set<String> vocab = new HashSet<>();
     int numdocs;
     if (useRf) {
-      numdocs = docs.documents.length;
+      numdocs = docs.lucene_documents.length;
     } else {
-      numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+      numdocs = docs.lucene_documents.length < fbDocs ? docs.lucene_documents.length : fbDocs;
     }
 
     List<FeatureVector> docvectors = new ArrayList<>();
@@ -157,7 +157,7 @@ public class Rm3Reranker implements Reranker {
       }
       try {
         FeatureVector docVector;
-        Terms terms = reader.termVectors().get(docs.ids[i], field);
+        Terms terms = reader.termVectors().get(docs.lucene_docids[i], field);
         if (terms != null) {
           docVector = createdFeatureVector(terms, reader, tweetsearch);
         } else {
@@ -165,7 +165,7 @@ public class Rm3Reranker implements Reranker {
             throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
           Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-              reader.storedFields().document(docs.ids[i]).getField(Constants.RAW).stringValue());
+              reader.storedFields().document(docs.lucene_docids[i]).getField(Constants.RAW).stringValue());
           docVector = createdFeatureVectorOnTheFly(termFreqMap, reader, tweetsearch);
         }
 

@@ -59,6 +59,9 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends AbstractSearcher
    * define queries and outputs, since this class is meant to be called interactively.
    */
   public static class Args extends BaseSearchArgs {
+    @Option(name = "-generator", metaVar = "[class]", usage = "QueryGenerator to use.")
+    public String queryGenerator = "VectorQueryGenerator";
+
     @Option(name ="-encoder", metaVar = "[encoder]", usage = "Dense encoder to use.")
     public String encoder = null;
 

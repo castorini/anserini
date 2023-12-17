@@ -60,20 +60,20 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
 
     List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
-    for (int i = 0; i < docs.documents.length; i++) {
-      String docid = docs.documents[i].getField(Constants.ID).stringValue();
+    for (int i = 0; i < docs.lucene_documents.length; i++) {
+      String docid = docs.lucene_documents[i].getField(Constants.ID).stringValue();
       docsVectorsMap.add(convertDocVectorToMap(reader, docid));
     }
 
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
     Set<Integer> toRemove = new HashSet<>();
-    for (int i = 0; i < docs.documents.length; i++) {
+    for (int i = 0; i < docs.lucene_documents.length; i++) {
       if (toRemove.contains(i)) continue;
       if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
         toRemove.add(i);
         continue;
       }
-      for (int j = i + 1; j < docs.documents.length; j++) {
+      for (int j = i + 1; j < docs.lucene_documents.length; j++) {
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
           toRemove.add(j);
         }
@@ -85,8 +85,8 @@ public class NewsBackgroundLinkingReranker implements Reranker {
         int luceneId = IndexReaderUtils.convertDocidToLuceneDocid(reader, queryDocId);
         Document queryDoc = reader.storedFields().document(luceneId);
         long queryDocDate = Long.parseLong(queryDoc.getField(PUBLISHED_DATE.name).stringValue());
-        for (int i = 0; i < docs.documents.length; i++) {
-          long date = Long.parseLong(docs.documents[i].getField(PUBLISHED_DATE.name).stringValue());
+        for (int i = 0; i < docs.lucene_documents.length; i++) {
+          long date = Long.parseLong(docs.lucene_documents[i].getField(PUBLISHED_DATE.name).stringValue());
           if (date > queryDocDate) {
             toRemove.add(i);
           }
@@ -97,16 +97,16 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     }
 
     ScoredDocuments scoredDocs = new ScoredDocuments();
-    int resSize = docs.documents.length - toRemove.size();
-    scoredDocs.documents = new Document[resSize];
-    scoredDocs.ids = new int[resSize];
+    int resSize = docs.lucene_documents.length - toRemove.size();
+    scoredDocs.lucene_documents = new Document[resSize];
+    scoredDocs.lucene_docids = new int[resSize];
     scoredDocs.scores = new float[resSize];
     int idx = 0;
-    for (int i = 0; i < docs.documents.length; i++) {
+    for (int i = 0; i < docs.lucene_documents.length; i++) {
       if (!toRemove.contains(i)) {
-        scoredDocs.documents[idx] = docs.documents[i];
+        scoredDocs.lucene_documents[idx] = docs.lucene_documents[i];
         scoredDocs.scores[idx] = docs.scores[i];
-        scoredDocs.ids[idx] = docs.ids[i];
+        scoredDocs.lucene_docids[idx] = docs.lucene_docids[i];
         idx++;
       }
     }

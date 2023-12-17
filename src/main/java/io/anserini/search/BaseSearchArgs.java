@@ -28,8 +28,10 @@ public class BaseSearchArgs {
   @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
   public String index;
 
-  @Option(name = "-generator", usage = "QueryGenerator to use.")
-  public String queryGenerator = "VectorQueryGenerator";
+//  @Option(name = "-generator", required = true, usage = "QueryGenerator to use.")
+//  public String queryGenerator;
+//  //= "VectorQueryGenerator";
+//  //public String queryGenerator = "BagOfWordsQueryGenerator";
 
   @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads for running queries in parallel.")
   public int threads = 4;
