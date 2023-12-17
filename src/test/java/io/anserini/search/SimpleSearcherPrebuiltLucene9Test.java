@@ -28,7 +28,7 @@ public class SimpleSearcherPrebuiltLucene9Test {
         new SimpleSearcher("src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2");
     assertEquals(3, searcher.get_total_num_docs());
 
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     hits = searcher.search("text", 10);
     assertEquals(3, hits.length);

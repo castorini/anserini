@@ -17,7 +17,7 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
 
     Query q = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.INTERSECTS, 43, 44, -78, -77);
 
-    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 1);
+    ScoredDoc[] hits = searcher.searchGeo(q, 1);
 
     assertEquals(1, hits.length);
     assertEquals(0, hits[0].lucene_docid);
@@ -32,8 +32,8 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
     Query q1 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.INTERSECTS, 12.5, 17.5, 12.5, 17.5);
     Query q2 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.INTERSECTS, 2.5, 27.5, 2.5, 27.5);
 
-    SimpleSearcher.Result[] hits1 = searcher.searchGeo(q1, 1);
-    SimpleSearcher.Result[] hits2 = searcher.searchGeo(q2, 1);
+    ScoredDoc[] hits1 = searcher.searchGeo(q1, 1);
+    ScoredDoc[] hits2 = searcher.searchGeo(q2, 1);
 
     assertEquals(0, hits1.length);
 
@@ -52,10 +52,10 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
     Query q3 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, -1, 80, 30, 71);
     Query q4 = LatLonShape.newPointQuery("geometry", ShapeField.QueryRelation.CONTAINS, new double[]{10, 65});
 
-    SimpleSearcher.Result[] hits1 = searcher.searchGeo(q1, 5);
-    SimpleSearcher.Result[] hits2 = searcher.searchGeo(q2, 5);
-    SimpleSearcher.Result[] hits3 = searcher.searchGeo(q3, 5);
-    SimpleSearcher.Result[] hits4 = searcher.searchGeo(q4, 5);
+    ScoredDoc[] hits1 = searcher.searchGeo(q1, 5);
+    ScoredDoc[] hits2 = searcher.searchGeo(q2, 5);
+    ScoredDoc[] hits3 = searcher.searchGeo(q3, 5);
+    ScoredDoc[] hits4 = searcher.searchGeo(q4, 5);
 
     assertEquals(0, hits1.length);
 
@@ -78,7 +78,7 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
     Line queryLine = new Line(new double[]{30, 50}, new double[]{10, 10});
     Query q = LatLonShape.newLineQuery("geometry", ShapeField.QueryRelation.INTERSECTS, queryLine);
 
-    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 5);
+    ScoredDoc[] hits = searcher.searchGeo(q, 5);
 
     assertEquals(1, hits.length);
     assertEquals(3, hits[0].lucene_docid);
@@ -94,9 +94,9 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
     Query q2 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, 0, 80, 74, 76);
     Query q3 = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, 0, 80, 74, 81);
 
-    SimpleSearcher.Result[] hits1 = searcher.searchGeo(q1, 5);
-    SimpleSearcher.Result[] hits2 = searcher.searchGeo(q2, 5);
-    SimpleSearcher.Result[] hits3 = searcher.searchGeo(q3, 5);
+    ScoredDoc[] hits1 = searcher.searchGeo(q1, 5);
+    ScoredDoc[] hits2 = searcher.searchGeo(q2, 5);
+    ScoredDoc[] hits3 = searcher.searchGeo(q3, 5);
 
     assertEquals(0, hits1.length);
 
@@ -114,7 +114,7 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
 
     Query q = LatLonShape.newBoxQuery("geometry", ShapeField.QueryRelation.WITHIN, 43.46, 43.56, -80.52, -80.45);
 
-    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 5);
+    ScoredDoc[] hits = searcher.searchGeo(q, 5);
 
     assertEquals(1, hits.length);
     assertEquals(5, hits[0].lucene_docid);
@@ -129,7 +129,7 @@ public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
     Sort sort = new Sort(LatLonDocValuesField.newDistanceSort("point", -35, 0));
     Query q = LatLonShape.newDistanceQuery("geometry", ShapeField.QueryRelation.WITHIN, new Circle(-35, 0, 900000000));
 
-    SimpleSearcher.Result[] hits = searcher.searchGeo(q, 2, sort);
+    ScoredDoc[] hits = searcher.searchGeo(q, 2, sort);
 
     // Make sure that we get the second line in line_sorted.wkt first (since it has closer endpoint)
     assertEquals(2, hits.length);

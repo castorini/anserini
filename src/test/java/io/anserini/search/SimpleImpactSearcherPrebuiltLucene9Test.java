@@ -31,7 +31,7 @@ public class SimpleImpactSearcherPrebuiltLucene9Test {
         new SimpleImpactSearcher("src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_json_collection_tokenized");
     assertEquals(2, searcher.get_total_num_docs());
 
-    SimpleImpactSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     Map<String, Integer> query = new HashMap<>();
     query.put("##ing", 1);

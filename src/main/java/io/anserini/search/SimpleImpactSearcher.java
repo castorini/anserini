@@ -36,7 +36,6 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
@@ -81,28 +80,6 @@ public class SimpleImpactSearcher implements Closeable {
   private SparseEncoder queryEncoder = null;
   protected boolean useRM3;
   protected boolean useRocchio;
-
-  /**
-   * This class is meant to serve as the bridge between Anserini and Pyserini.
-   * Note that we are adopting Python naming conventions here on purpose.
-   */
-  public static class Result {
-    public String docid;
-    public int lucene_docid;
-    public float score;
-    public String contents;
-    public String raw;
-    public Document lucene_document;
-
-    public Result(String docid, int lucene_docid, float score, String contents, String raw, Document lucene_document) {
-      this.docid = docid;
-      this.lucene_docid = lucene_docid;
-      this.score = score;
-      this.contents = contents;
-      this.raw = raw;
-      this.lucene_document = lucene_document;
-    }
-  }
 
   protected SimpleImpactSearcher() {
   }
@@ -233,6 +210,7 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Enables RM3 query expansion with default parameters.
    */
+  @SuppressWarnings("unused")
   public void set_rm3() {
     SearchCollection.Args defaults = new SearchCollection.Args();
     set_rm3(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
@@ -244,6 +222,7 @@ public class SimpleImpactSearcher implements Closeable {
    *
    * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
    */
+  @SuppressWarnings("unused")
   public void set_rm3(String collectionClass) {
     SearchCollection.Args defaults = new SearchCollection.Args();
     set_rm3(collectionClass, Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
@@ -432,10 +411,10 @@ public class SimpleImpactSearcher implements Closeable {
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public Map<String, Result[]> batch_search(List<Map<String, Integer>> encoded_queries,
-                                            List<String> qids,
-                                            int k,
-                                            int threads) {
+  public Map<String, ScoredDoc[]> batch_search(List<Map<String, Integer>> encoded_queries,
+                                               List<String> qids,
+                                               int k,
+                                               int threads) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
     if (searcher == null) {
@@ -444,7 +423,7 @@ public class SimpleImpactSearcher implements Closeable {
     }
 
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
-    ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, ScoredDoc[]> results = new ConcurrentHashMap<>();
 
     int queryCnt = encoded_queries.size();
     for (int q = 0; q < queryCnt; ++q) {
@@ -453,9 +432,7 @@ public class SimpleImpactSearcher implements Closeable {
       executor.execute(() -> {
         try {
           results.put(qid, search(query, k));
-        } catch (IOException e) {
-          throw new CompletionException(e);
-        } catch (OrtException e) {
+        } catch (IOException | OrtException e) {
           throw new CompletionException(e);
         }
       });
@@ -492,10 +469,11 @@ public class SimpleImpactSearcher implements Closeable {
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public Map<String, Result[]> batch_search_queries(List<String> queries,
-                                            List<String> qids,
-                                            int k,
-                                            int threads) {
+  @SuppressWarnings("unused")
+  public Map<String, ScoredDoc[]> batch_search_queries(List<String> queries,
+                                                       List<String> qids,
+                                                       int k,
+                                                       int threads) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
     if (searcher == null) {
@@ -504,7 +482,7 @@ public class SimpleImpactSearcher implements Closeable {
     }
 
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
-    ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, ScoredDoc[]> results = new ConcurrentHashMap<>();
 
     int queryCnt = queries.size();
     for (int q = 0; q < queryCnt; ++q) {
@@ -513,9 +491,7 @@ public class SimpleImpactSearcher implements Closeable {
       executor.execute(() -> {
         try {
           results.put(qid, search(query, k));
-        } catch (IOException e) {
-          throw new CompletionException(e);
-        } catch (OrtException e) {
+        } catch (IOException | OrtException e) {
           throw new CompletionException(e);
         }
       });
@@ -554,24 +530,19 @@ public class SimpleImpactSearcher implements Closeable {
     // if no query encoder, assume its encoded query split by whitespace
     if (this.queryEncoder == null){
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-      Map<String, Integer> queryTokensFreq = queryTokens.stream().collect(Collectors.toMap(
-         e->e, (a)->1, Integer::sum));
-      return queryTokensFreq;
+      return queryTokens.stream().collect(Collectors.toMap(e->e, (a)->1, Integer::sum));
     }
 
-    Map<String, Integer> encodedQ = this.queryEncoder.getEncodedQueryMap(queryString);
-    return encodedQ;
+    return this.queryEncoder.getEncodedQueryMap(queryString);
   }
 
   /**
    * Encodes the weight map using the onnx encoder
    * 
    * @param queryWeight query weight map
-   * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
-  public String encode_with_onnx(Map<String, Integer> queryWeight) throws OrtException {
-    String encodedQ = "";
+  public String encode_with_onnx(Map<String, Integer> queryWeight) {
     List<String> encodedQuery = new ArrayList<>();
     for (Map.Entry<String, Integer> entry : queryWeight.entrySet()) {
       String token = entry.getKey();
@@ -580,11 +551,8 @@ public class SimpleImpactSearcher implements Closeable {
         encodedQuery.add(token);
       }
     }
-    encodedQ = String.join(" ", encodedQuery);
-    
-    return encodedQ;
+    return String.join(" ", encodedQuery);
   }
-
 
   /**
    * Searches the collection, returning 10 hits by default.
@@ -594,7 +562,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if error encountered during search
    * @throws OrtException if error encountered during search
    */
-  public Result[] search(Map<String, Integer> encoded_q) throws IOException, OrtException {
+  public ScoredDoc[] search(Map<String, Integer> encoded_q) throws IOException, OrtException {
     return search(encoded_q, 10);
   }
 
@@ -606,7 +574,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if error encountered during search
    * @throws OrtException if error encountered during search
    */
-  public Result[] search(String q) throws IOException, OrtException {
+  public ScoredDoc[] search(String q) throws IOException, OrtException {
     return search(q, 10);
   }
 
@@ -619,7 +587,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if error encountered during search
    * @throws OrtException if error encountered during search
    */
-  public Result[] search(Map<String, Integer> encoded_q, int k) throws IOException, OrtException {
+  public ScoredDoc[] search(Map<String, Integer> encoded_q, int k) throws IOException, OrtException {
     Map<String, Float> float_encoded_q = intToFloat(encoded_q);
     Query query = generator.buildQuery(Constants.CONTENTS, float_encoded_q);
     String encodedQuery = encode_with_onnx(encoded_q);
@@ -635,7 +603,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws IOException if error encountered during search
    * @throws OrtException if error encountered during search
    */
-  public Result[] search(String q, int k) throws IOException, OrtException {
+  public ScoredDoc[] search(String q, int k) throws IOException, OrtException {
     // make encoded query from raw query
     Map<String, Integer> encoded_q = encode_with_onnx(q);
     String encodedQuery = encode_with_onnx(encoded_q);
@@ -644,7 +612,7 @@ public class SimpleImpactSearcher implements Closeable {
   }
 
   // internal implementation
-  protected Result[] _search(Query query, String encodedQuery, int k) throws IOException, OrtException {
+  protected ScoredDoc[] _search(Query query, String encodedQuery, int k) throws IOException, OrtException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
@@ -670,19 +638,11 @@ public class SimpleImpactSearcher implements Closeable {
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
-    Result[] results = new Result[hits.ids.length];
+    ScoredDoc[] results = new ScoredDoc[hits.ids.length];
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
       String docid = doc.getField(Constants.ID).stringValue();
-
-      IndexableField field;
-      field = doc.getField(Constants.CONTENTS);
-      String contents = field == null ? null : field.stringValue();
-
-      field = doc.getField(Constants.RAW);
-      String raw = field == null ? null : field.stringValue();
-
-      results[i] = new Result(docid, hits.ids[i], hits.scores[i], contents, raw, doc);
+      results[i] = new ScoredDoc(docid, hits.ids[i], hits.scores[i], doc);
     }
 
     return results;

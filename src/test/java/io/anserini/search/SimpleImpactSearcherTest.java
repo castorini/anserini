@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import io.anserini.search.SimpleImpactSearcher.Result;
-
 
 public class SimpleImpactSearcherTest extends IndexerTestBase {
 
@@ -114,21 +112,21 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     Map<String, Integer> testQuery = new HashMap<>();
     testQuery.put("test", 1);
 
-    SimpleImpactSearcher.Result[] hits = searcher.search(testQuery, 10);
-    SimpleImpactSearcher.Result[] hits_string = searcher.search("test", 10);
+    ScoredDoc[] hits = searcher.search(testQuery, 10);
+    ScoredDoc[] hits_string = searcher.search("test", 10);
     assertEquals(hits_string.length, hits.length);
     assertEquals(hits_string[0].docid, hits[0].docid);
     assertEquals(hits_string[0].lucene_docid, hits[0].lucene_docid);
     assertEquals(hits_string[0].score, hits[0].score, 10e-6);
-    assertEquals(hits_string[0].contents, hits[0].contents);
-    assertEquals(hits_string[0].raw, hits[0].raw);
+    assertEquals(searcher.doc_contents(hits_string[0].docid), searcher.doc_contents(hits[0].docid));
+    assertEquals(searcher.doc_raw(hits_string[0].docid), searcher.doc_raw(hits[0].docid));
 
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
     assertEquals(2, hits[0].lucene_docid);
     assertEquals(1.0f, hits[0].score, 10e-6);
-    assertEquals("here is a test", hits[0].contents);
-    assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
+    assertEquals("here is a test", searcher.doc_contents(hits[0].docid));
+    assertEquals("{\"contents\": \"here is a test\"}", searcher.doc_raw(hits[0].docid));
 
     // We can fetch the exact same information from the raw Lucene document also.
     assertEquals("doc3",
@@ -148,15 +146,15 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     Map<String, Integer> testQuery = new HashMap<>();
     testQuery.put("text", 1);
 
-    SimpleImpactSearcher.Result[] results;
+    ScoredDoc[] results;
 
     results = searcher.search(testQuery, 1);
     assertEquals(1, results.length);
     assertEquals("doc1", results[0].docid);
     assertEquals(0, results[0].lucene_docid);
     assertEquals(2.0f, results[0].score, 10e-6);
-    assertEquals("here is some text here is some more text. city.", results[0].contents);
-    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", results[0].raw);
+    assertEquals("here is some text here is some more text. city.", searcher.doc_contents(results[0].docid));
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", searcher.doc_raw(results[0].docid));
 
     results = searcher.search(testQuery);
     assertEquals(2, results.length);
@@ -196,7 +194,7 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     qids.add("query_test");
     qids.add("query_more");
 
-    Map<String, SimpleImpactSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
+    Map<String, ScoredDoc[]> hits = searcher.batch_search(queries, qids, 10, 2);
     assertEquals(2, hits.size());
 
     assertEquals(1, hits.get("query_test").length);
@@ -241,7 +239,7 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     searcher.set_rm3();
     assertTrue(searcher.use_rm3());
 
-    Result[] results;
+    ScoredDoc[] results;
 
     Map<String, Integer> testQuery1 = new HashMap<>();
     testQuery1.put("text", 1);
@@ -293,7 +291,7 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     searcher.set_rocchio();
     assertTrue(searcher.use_rocchio());
 
-    Result[] results;
+    ScoredDoc[] results;
 
     Map<String, Integer> testQuery1 = new HashMap<>();
     testQuery1.put("text", 1);
@@ -349,7 +347,7 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     isearcher_rm3.set_rm3();
     assertTrue(isearcher_rm3.use_rm3());
 
-    Result[] iresults;
+    ScoredDoc[] iresults;
 
     String query = "this is a a a a a test";
     iresults = isearcher_roc.search(query, 1);
@@ -376,7 +374,7 @@ public class SimpleImpactSearcherTest extends IndexerTestBase {
     SimpleImpactSearcher searcher = new SimpleImpactSearcher(super.tempDir1.toString());
     searcher.set_onnx_query_encoder("UniCoil");
 
-    Result[] results;
+    ScoredDoc[] results;
 
     String query = "this is a a a a a test";
     results = searcher.search(query, 1);

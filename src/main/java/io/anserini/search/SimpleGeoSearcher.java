@@ -21,7 +21,6 @@ import io.anserini.rerank.ScoredDocuments;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
@@ -38,11 +37,11 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
   private IndexReader reader;
   private IndexSearcher searcher = null;
 
-  public Result[] searchGeo(Query query, int k) throws IOException {
+  public ScoredDoc[] searchGeo(Query query, int k) throws IOException {
     return searchGeo(query, k, null);
   }
 
-  public Result[] searchGeo(Query query, int k, Sort sort) throws IOException {
+  public ScoredDoc[] searchGeo(Query query, int k, Sort sort) throws IOException {
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
     }
@@ -54,20 +53,13 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
       rs = searcher.search(query, k, sort);
     }
     ScoredDocuments hits = ScoredDocuments.fromTopDocs(rs, searcher);
-    Result[] results = new Result[hits.ids.length];
+    ScoredDoc[] results = new ScoredDoc[hits.ids.length];
 
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
-      String docId = doc.getField(Constants.ID).stringValue();
+      String docid = doc.getField(Constants.ID).stringValue();
 
-      IndexableField field;
-      field = doc.getField(Constants.CONTENTS);
-      String contents = field == null ? null : field.stringValue();
-
-      field = doc.getField(Constants.RAW);
-      String raw = field == null ? null : field.stringValue();
-
-      results[i] = new Result(docId, hits.ids[i], hits.scores[i], contents, raw, doc);
+      results[i] = new ScoredDoc(docid, hits.ids[i], hits.scores[i], doc);
     }
 
     return results;

@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.search.ScoredDoc;
 import io.anserini.search.SearchCollection;
 import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.document.Document;
@@ -534,10 +535,10 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     String[] queries = {"text city", "text", "city"};
 
     for (String query: queries) {
-      SimpleSearcher.Result[] results = searcher.search(query);
+      ScoredDoc[] results = searcher.search(query);
 
       // Strategy is to loop over the results, compute query-document score individually, and compare.
-      for (SimpleSearcher.Result result : results) {
+      for (ScoredDoc result : results) {
         float score = IndexReaderUtils.computeQueryDocumentScoreWithSimilarity(
             reader, result.docid, query, similarity);
         assertEquals(score, result.score, 10e-5);

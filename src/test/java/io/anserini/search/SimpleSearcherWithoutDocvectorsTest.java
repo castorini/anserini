@@ -17,7 +17,6 @@
 package io.anserini.search;
 
 import io.anserini.index.IndexerWithoutDocvectorsTestBase;
-import io.anserini.search.SimpleSearcher.Result;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class SimpleSearcherWithoutDocvectorsTest extends IndexerWithoutDocvector
     searcher.set_rm3("JsonCollection");
     assertTrue(searcher.use_rm3());
 
-    Result[] results;
+    ScoredDoc[] results;
 
     results = searcher.search("text", 1);
     assertEquals(1, results.length);
@@ -83,7 +82,7 @@ public class SimpleSearcherWithoutDocvectorsTest extends IndexerWithoutDocvector
     searcher.set_rocchio("JsonCollection");
     assertTrue(searcher.use_rocchio());
 
-    Result[] results;
+    ScoredDoc[] results;
     Map<String, Float> feedbackTerms;
 
     results = searcher.search("text", 1);
@@ -153,7 +152,7 @@ public class SimpleSearcherWithoutDocvectorsTest extends IndexerWithoutDocvector
     qids.add("query_test");
     qids.add("query_more");
 
-    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
+    Map<String, ScoredDoc[]> hits = searcher.batch_search(queries, qids, 10, 2);
     assertEquals(3, hits.size());
 
     assertEquals(2, hits.get("query_text").length);
@@ -196,7 +195,7 @@ public class SimpleSearcherWithoutDocvectorsTest extends IndexerWithoutDocvector
     qids.add("query_test");
     qids.add("query_more");
 
-    Map<String, SimpleSearcher.Result[]> hits = searcher.batch_search(queries, qids, 10, 2);
+    Map<String, ScoredDoc[]> hits = searcher.batch_search(queries, qids, 10, 2);
     assertEquals(3, hits.size());
 
     assertEquals(2, hits.get("query_text").length);
