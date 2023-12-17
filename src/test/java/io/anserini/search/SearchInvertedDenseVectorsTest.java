@@ -53,6 +53,7 @@ public class SearchInvertedDenseVectorsTest {
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchInvertedDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(InvertedDenseSearcher.class.getName(), Level.ERROR);
   }
 
   @Test
@@ -202,6 +203,36 @@ public class SearchInvertedDenseVectorsTest {
   }
 
   @Test
+  public void searchInvalidEncoding() throws Exception {
+    String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
+        "-index", indexPath,
+        "-encoding", "fw"
+    };
+    IndexInvertedDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl",
+        "-output", runfile,
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-hits", "5",
+        "-encoding", "xxx"};
+
+    redirectStderr();
+    SearchInvertedDenseVectors.main(searchArgs);
+
+    assertEquals("Error: Invalid encoding scheme \"xxx\".\n", err.toString());
+    restoreStderr();
+  }
+
+  @Test
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void searchFWTest() throws Exception {
     String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
@@ -241,6 +272,7 @@ public class SearchInvertedDenseVectorsTest {
   }
 
   @Test
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void searchLLTest() throws Exception {
     String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
