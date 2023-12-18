@@ -41,12 +41,23 @@ public class PrebuiltIndexHandler {
   private boolean initialized = false;
   private Path savePath;
 
-  // get cache path, we use pyserini path to avoid double download
-  String CACHE = Paths.get(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
-
   public PrebuiltIndexHandler(String indexName) {
     this.indexName = indexName;
-    this.saveRootPath = CACHE;
+    this.saveRootPath = getCache();
+  }
+
+  private String getCache() {
+    /*
+     * Get the pyserini cache path firs to avoid double downloads. If the pyserini
+     * cache path does not exist, use the anserini cache path.
+     */
+    final Path PyseriniPath = Paths.get(System.getProperty("user.home"), ".cache", "pyserini", "indexes");
+    final Path AnseriniPath = Paths.get(System.getProperty("user.home"), ".cache", "anserini", "indexes");
+    if (checkFileExist(PyseriniPath)) {
+      return PyseriniPath.toString();
+    } else {
+      return AnseriniPath.toString();
+    }
   }
 
   private static boolean checkFileExist(Path path) {
@@ -138,14 +149,14 @@ public class PrebuiltIndexHandler {
       while (cis.getByteCount() < completeFileSize) {
         pb.stepTo(Math.floorDiv(cis.getByteCount(), 1000));
       }
+      
+      pb.stepTo(Math.floorDiv(cis.getByteCount(), 1000));
+      pb.close();
 
       InputStream is = Files.newInputStream(savePath);
       if (!checkMD5(is, info.md5)) {
         throw new IOException("MD5 check failed!");
       }
-
-      pb.stepTo(Math.floorDiv(cis.getByteCount(), 1000));
-      pb.close();
 
       System.out.println("File downloaded successfully (MD5 check passed)!");
     }

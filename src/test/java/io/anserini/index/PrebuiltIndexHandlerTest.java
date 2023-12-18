@@ -43,8 +43,7 @@ public class PrebuiltIndexHandlerTest {
 
   @Before
   public void setUp() throws Exception {
-    handler = new PrebuiltIndexHandler("msmarco-v1-passage"); // this is too big, need to find a smaller one for testing
-                                                              // purposes
+    handler = new PrebuiltIndexHandler("cacm"); // we use a lightweight index for testing
     handler.initialize();
   }
 
