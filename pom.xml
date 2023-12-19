@@ -463,5 +463,15 @@
       <artifactId>api</artifactId>
       <version>0.21.0</version>
     </dependency>
+    <dependency>
+    <groupId>me.tongfei</groupId>
+    <artifactId>progressbar</artifactId>
+    <version>0.10.0</version>
+    </dependency>
+    <dependency>
+    <groupId>commons-codec</groupId>
+    <artifactId>commons-codec</artifactId>
+    <version>1.15</version>
+    </dependency>
   </dependencies>
 </project>
