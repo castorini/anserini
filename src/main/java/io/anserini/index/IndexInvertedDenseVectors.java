@@ -100,7 +100,7 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
 
     try {
       final Directory dir = FSDirectory.open(Paths.get(args.index));
-      final IndexWriterConfig config = new IndexWriterConfig(analyzer).setCodec(new Lucene99Codec());
+      final IndexWriterConfig config = new IndexWriterConfig(analyzer);
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       config.setRAMBufferSizeMB(args.memoryBuffer);
       config.setUseCompoundFile(false);

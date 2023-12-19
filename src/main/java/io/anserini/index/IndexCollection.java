@@ -177,7 +177,7 @@ public final class IndexCollection extends AbstractIndexer {
     }
 
     final Directory dir = FSDirectory.open(Paths.get(args.index));
-    final IndexWriterConfig config = new IndexWriterConfig(getAnalyzer()).setCodec(new Lucene99Codec());
+    final IndexWriterConfig config = new IndexWriterConfig(getAnalyzer());
 
     if (args.bm25Accurate) {
       // Necessary during indexing as the norm used in BM25 is already determined at index time.

@@ -1,5 +1,7 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
+**NOTE:** We're currently having issues with this regression, which throws "Retried waiting for GCLocker too often" errors.
+
 **Model**: OpenAI-ada2 embeddings (using pre-encoded queries) with HNSW indexes
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using OpenAI-ada2 embeddings on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
