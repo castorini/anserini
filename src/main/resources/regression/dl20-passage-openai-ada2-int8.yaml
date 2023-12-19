@@ -1,16 +1,16 @@
 ---
-corpus: msmarco-passage-cos-dpr-distil
-corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
+corpus: msmarco-passage-openai-ada2
+corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
-download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar
+download_checksum: a4d843d522ff3a3af7edbee789a63402
 
-index_path: indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/
+index_path: indexes/lucene-hnsw.msmarco-passage-openai-ada2-int8/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
+index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
 
 metrics:
   - metric: AP@1000
@@ -42,24 +42,24 @@ metrics:
     metric_precision: 4
     can_combine: false
 
-topic_reader: TsvInt
+topic_reader: JsonIntVector
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
-    path: topics.dl20.txt
+    path: topics.dl20-passage.openai-ada2.jsonl.gz
     qrel: qrels.dl20-passage.txt
 
 models:
-  - name: cos-dpr-distil-hnsw
-    display: cosDPR-distil
+  - name: openai-ada2
+    display: OpenAI-ada2
     type: hnsw
-    params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil
+    params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
     results:
       AP@1000:
-        - 0.482
+        - 0.477
       nDCG@10:
-        - 0.701
+        - 0.676
       R@100:
-        - 0.712
+        - 0.723
       R@1000:
-        - 0.843
+        - 0.867

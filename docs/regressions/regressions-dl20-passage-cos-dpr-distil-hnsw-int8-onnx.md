@@ -1,8 +1,8 @@
-# Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
+# Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
 **Model**: cosDPR-distil with HNSW indexes (using ONNX for on-the-fly query encoding)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Xueguang Ma, Tommaso Teofili, and Jimmy Lin. [Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes.](https://dl.acm.org/doi/10.1145/3583780.3615112) _Proceedings of the 32nd International Conference on Information and Knowledge Management (CIKM 2023)_, October 2023, pages 5366–5370, Birmingham, the United Kingdom.
 
@@ -11,13 +11,13 @@ In these experiments, we are performing query inference "on-the-fly" with ONNX.
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl19-passage-cos-dpr-distil-hnsw-onnx.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl19-passage-cos-dpr-distil-hnsw-onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage-cos-dpr-distil-hnsw-int8-onnx.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage-cos-dpr-distil-hnsw-int8-onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-cos-dpr-distil-hnsw-onnx
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-cos-dpr-distil-hnsw-int8-onnx
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
@@ -25,7 +25,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl19-passage-cos-dpr-distil-hnsw-onnx
+python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage-cos-dpr-distil-hnsw-int8-onnx
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -43,7 +43,7 @@ To confirm, `msmarco-passage-cos-dpr-distil.tar` is 57 GB and has MD5 checksum `
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-cos-dpr-distil-hnsw-onnx \
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-cos-dpr-distil-hnsw-int8-onnx \
   --corpus-path collections/msmarco-passage-cos-dpr-distil
 ```
 
@@ -56,8 +56,8 @@ target/appassembler/bin/IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator HnswDenseVectorDocumentGenerator \
-  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge \
+  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil-int8/ \
+  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
@@ -66,21 +66,23 @@ Upon completion, we should have an index with 8,841,823 documents.
 
 Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
 This is because merging index segments is a costly operation and not worthwhile given our query set.
+Furthermore, we are using Lucene's [Automatic Byte Quantization](https://www.elastic.co/search-labs/blog/articles/scalar-quantization-in-lucene) feature, which increase the on-disk footprint of the indexes since we're storing both the int8 quantized vectors and the float32 vectors, but only the int8 quantized vectors need to be loaded into memory.
+See [issue #2292](https://github.com/castorini/anserini/issues/2292) for some experiments reporting the performance impact.
 
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
+The regression experiments here evaluate on the 54 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 target/appassembler/bin/SearchHnswDenseVectors \
-  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
-  -topics tools/topics-and-qrels/topics.dl19-passage.txt \
+  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil-int8/ \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl20.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
 ```
 
@@ -89,10 +91,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl20.txt
 ```
 
 ## Effectiveness
@@ -101,16 +103,16 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.458     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.482     |
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.717     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.701     |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.605     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.712     |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.805     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.843     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage-cos-dpr-distil-hnsw-onnx.yaml).
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage-cos-dpr-distil-hnsw-int8-onnx.yaml).
 
 Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
@@ -118,4 +120,4 @@ The experimental results reported here are directly comparable to the results re
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-passage-cos-dpr-distil-hnsw-onnx.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage-cos-dpr-distil-hnsw-int8-onnx.template) and run `bin/build.sh` to rebuild the documentation.
