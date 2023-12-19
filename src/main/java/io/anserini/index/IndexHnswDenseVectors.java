@@ -23,11 +23,13 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
-import org.apache.lucene.codecs.lucene95.Lucene95Codec;
-import org.apache.lucene.codecs.lucene95.Lucene95HnswVectorsFormat;
+import org.apache.lucene.codecs.lucene99.Lucene99Codec;
+import org.apache.lucene.codecs.lucene99.Lucene99HnswScalarQuantizedVectorsFormat;
+import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.NoMergePolicy;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.index.TieredMergePolicy;
@@ -56,19 +58,33 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     @Option(name = "-efC", metaVar = "[num]", usage = "HNSW parameters ef Construction")
     public int efC = 100;
 
+    @Option(name = "-quantize.int8", usage = "Quantize vectors into int8.")
+    public boolean quantizeInt8 = false;
+
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
+
+    @Option(name = "-noMerge", usage = "Do not merge segments (fast indexing, slow retrieval).")
+    public boolean noMerge = false;
+
+    @Option(name = "-maxThreadMemoryBeforeFlush", metaVar = "[num]", usage = "Maximum memory consumption per thread before triggering a forced flush (in MB); must be smaller than 2048.")
+    public int maxThreadMemoryBeforeFlush = 2047;
+    // This is the most aggressive possible setting; default is 1945.
+    // If the setting is too aggressive, may result in GCLocker issues.
+
+    @Option(name = "-maxMergedSegmentSize", metaVar = "[num]", usage = "Maximum sized segment to produce during normal merging (in MB).")
+    public int maxMergedSegmentSize = 1024 * 16;
+
+    @Option(name = "-segmentsPerTier", metaVar = "[num]", usage = "Allowed number of segments per tier.")
+    public int segmentsPerTier = 10;
+
+    @Option(name = "-maxMergeAtOnce", metaVar = "[num]", usage = "Maximum number of segments to be merged at a time during \"normal\" merging.")
+    public int maxMergeAtOnce = 10;
   }
 
   @SuppressWarnings("unchecked")
   public IndexHnswDenseVectors(Args args) throws Exception {
     super(args);
-
-    LOG.info("HnswIndexer settings:");
-    LOG.info(" + Generator: " + args.generatorClass);
-    LOG.info(" + M: " + args.M);
-    LOG.info(" + efC: " + args.efC);
-    LOG.info(" + Store document vectors? " + args.storeVectors);
 
     try {
       super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
@@ -79,32 +95,73 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
     try {
       final Directory dir = FSDirectory.open(Paths.get(args.index));
-      final IndexWriterConfig config = new IndexWriterConfig().setCodec(
-          new Lucene95Codec() {
-            @Override
-            public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-              return new DelegatingKnnVectorsFormat(
-                  new Lucene95HnswVectorsFormat(args.M, args.efC), 4096);
-            }
-          });
+      final IndexWriterConfig config;
+
+      if (args.quantizeInt8) {
+        config = new IndexWriterConfig().setCodec(
+            new Lucene99Codec() {
+              @Override
+              public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
+                return new DelegatingKnnVectorsFormat(
+                    new Lucene99HnswScalarQuantizedVectorsFormat(args.M, args.efC), 4096);
+              }
+            });
+      } else {
+        config = new IndexWriterConfig().setCodec(
+            new Lucene99Codec() {
+              @Override
+              public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
+                return new DelegatingKnnVectorsFormat(
+                    new Lucene99HnswVectorsFormat(args.M, args.efC), 4096);
+              }
+            });
+      }
 
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       config.setRAMBufferSizeMB(args.memoryBuffer);
+      config.setRAMPerThreadHardLimitMB(args.maxThreadMemoryBeforeFlush);
       config.setUseCompoundFile(false);
       config.setMergeScheduler(new ConcurrentMergeScheduler());
 
-      if (args.optimize) {
-        // If we're going to merge down into a single segment at the end, skip intermediate merges,
-        // since they are a waste of time.
+      if (args.noMerge) {
+        config.setMergePolicy(NoMergePolicy.INSTANCE);
+      } else {
         TieredMergePolicy mergePolicy = new TieredMergePolicy();
-        mergePolicy.setMaxMergeAtOnce(256);
-        mergePolicy.setSegmentsPerTier(256);
+        if (args.optimize) {
+          // If we're going to merge down into a single segment at the end, skip intermediate merges,
+          // since they are a waste of time.
+          mergePolicy.setMaxMergeAtOnce(256);
+          mergePolicy.setSegmentsPerTier(256);
+        } else {
+          mergePolicy.setFloorSegmentMB(1024);
+          mergePolicy.setMaxMergedSegmentMB(args.maxMergedSegmentSize);
+          mergePolicy.setSegmentsPerTier(args.segmentsPerTier);
+          mergePolicy.setMaxMergeAtOnce(args.maxMergeAtOnce);
+        }
         config.setMergePolicy(mergePolicy);
       }
 
       this.writer = new IndexWriter(dir, config);
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
+    }
+
+    LOG.info("HnswIndexer settings:");
+    LOG.info(" + Generator: " + args.generatorClass);
+    LOG.info(" + M: " + args.M);
+    LOG.info(" + efC: " + args.efC);
+    LOG.info(" + Store document vectors? " + args.storeVectors);
+    LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
+    LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
+    LOG.info(" + MaxThreadMemoryBeforeFlush: " + args.maxThreadMemoryBeforeFlush);
+
+    if (args.noMerge) {
+      LOG.info(" + MergePolicy: NoMerge");
+    } else {
+      LOG.info(" + MergePolicy: TieredMergePolicy");
+      LOG.info(" + MaxMergedSegmentSize: " + args.maxMergedSegmentSize);
+      LOG.info(" + SegmentsPerTier: " + args.segmentsPerTier);
+      LOG.info(" + MaxMergeAtOnce: " + args.maxMergeAtOnce);
     }
   }
 

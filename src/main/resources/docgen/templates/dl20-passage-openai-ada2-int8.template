@@ -1,5 +1,7 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
+**NOTE:** We're currently having issues with this regression, which throws "Retried waiting for GCLocker too often" errors.
+
 **Model**: OpenAI-ada2 embeddings (using pre-encoded queries) with HNSW indexes
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using OpenAI-ada2 embeddings on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
@@ -60,6 +62,8 @@ Upon completion, we should have an index with 8,841,823 documents.
 
 Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
 This is because merging index segments is a costly operation and not worthwhile given our query set.
+Furthermore, we are using Lucene's [Automatic Byte Quantization](https://www.elastic.co/search-labs/blog/articles/scalar-quantization-in-lucene) feature, which increase the on-disk footprint of the indexes since we're storing both the int8 quantized vectors and the float32 vectors, but only the int8 quantized vectors need to be loaded into memory.
+See [issue #2292](https://github.com/castorini/anserini/issues/2292) for some experiments reporting the performance impact.
 
 ## Retrieval
 
