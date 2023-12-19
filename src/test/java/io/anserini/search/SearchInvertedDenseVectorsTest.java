@@ -110,7 +110,6 @@ public class SearchInvertedDenseVectorsTest {
         "-hits", "5",
         "-encoding", "fw"};
     SearchInvertedDenseVectors.main(searchArgs);
-
     assertEquals("Error: \"src/\" does not appear to be a valid index.\n", err.toString());
     restoreStderr();
   }
