@@ -157,8 +157,6 @@ public class PrebuiltIndexHandler {
       if (!checkMD5(is, info.md5)) {
         throw new IOException("MD5 check failed!");
       }
-
-      System.out.println("File downloaded successfully (MD5 check passed)!");
     }
   }
 

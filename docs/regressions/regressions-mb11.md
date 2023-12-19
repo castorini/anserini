@@ -25,7 +25,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/mb11 \
   -generator TweetGenerator \
   -index indexes/lucene-index.mb11/ \
-  -threads 44 -storePositions -storeDocvectors -storeRaw -uniqueDocid -tweet.keepUrls -tweet.stemming \
+  -threads 44 -storePositions -storeDocvectors -storeRaw -tweet.keepUrls -tweet.stemming \
   >& logs/log.mb11 &
 ```
 

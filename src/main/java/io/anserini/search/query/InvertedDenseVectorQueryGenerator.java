@@ -26,6 +26,7 @@ import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexInvertedDenseVectors;
+import io.anserini.search.InvertedDenseSearcher;
 import io.anserini.search.SearchInvertedDenseVectors;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
@@ -41,14 +42,14 @@ public class InvertedDenseVectorQueryGenerator {
   private final Analyzer vectorAnalyzer;
   private final boolean jsonConversion;
 
-  public InvertedDenseVectorQueryGenerator(SearchInvertedDenseVectors.Args args, boolean jsonConversion) {
+  public InvertedDenseVectorQueryGenerator(InvertedDenseSearcher.Args args, boolean jsonConversion) {
     this.jsonConversion = jsonConversion;
     if (args.encoding.equalsIgnoreCase(FW)) {
       vectorAnalyzer = new FakeWordsEncoderAnalyzer(args.q);
     } else if (args.encoding.equalsIgnoreCase(LEXLSH)) {
       vectorAnalyzer = new LexicalLshAnalyzer(args.decimals, args.ngrams, args.hashCount, args.bucketCount, args.hashSetSize);
     } else {
-      throw new RuntimeException("unrecognized encoding " + args.encoding);
+      throw new RuntimeException(String.format("Invalid encoding scheme \"%s\".", args.encoding));
     }
   }
 
