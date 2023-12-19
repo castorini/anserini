@@ -301,7 +301,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
     try {
       for (Map.Entry<String, SearchCollection.Args> entry : testQueries.entrySet()) {
         SearchCollection searcher = new SearchCollection(entry.getValue());
-        searcher.runTopics();
+        searcher.run();
         searcher.close();
 
         checkRankingResults(entry.getKey(), entry.getValue().output);

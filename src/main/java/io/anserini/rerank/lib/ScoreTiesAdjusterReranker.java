@@ -18,7 +18,7 @@ package io.anserini.rerank.lib;
 
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 
 /**
  * Reranker that perturbs score ties a tiny bit so that the rank order is consistent
@@ -26,7 +26,7 @@ import io.anserini.rerank.ScoredDocuments;
  */
 public class ScoreTiesAdjusterReranker implements Reranker {
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
 
     if (context != null && context.getSearchArgs().arbitraryScoreTieBreak) {
       return docs;

@@ -20,7 +20,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,7 +76,7 @@ public class Rm3Reranker implements Reranker {
 
   @SuppressWarnings("unchecked")
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
     assert (docs.lucene_documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
@@ -135,10 +135,10 @@ public class Rm3Reranker implements Reranker {
       return docs;
     }
 
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return ScoredDocs.fromTopDocs(rs, searcher);
   }
 
-  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, boolean useRf) {
+  private FeatureVector estimateRelevanceModel(ScoredDocs docs, IndexReader reader, boolean tweetsearch, boolean useRf) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();

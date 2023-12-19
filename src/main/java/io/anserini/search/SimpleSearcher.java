@@ -22,7 +22,6 @@ import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
@@ -643,7 +642,7 @@ public class SimpleSearcher implements Closeable {
     context = new RerankerContext<>(searcher, null, query, null,
           queryString, queryTokens, null, searchArgs);
 
-    ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+    ScoredDocs hits = cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
 
     ScoredDoc[] results = new ScoredDoc[hits.lucene_docids.length];
     for (int i = 0; i < hits.lucene_docids.length; i++) {
@@ -694,7 +693,7 @@ public class SimpleSearcher implements Closeable {
     context = new RerankerContext<>(searcher, null, query, null,
         queryString, queryTokens, null, searchArgs);
 
-    cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+    cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
 
     return context.feedbackTerms;
   }

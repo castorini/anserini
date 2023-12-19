@@ -29,7 +29,6 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
@@ -120,7 +119,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Main entry point for search.
  */
-public final class SearchCollection implements Closeable {
+public final class SearchCollection<K extends Comparable<K>> implements Runnable, Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
   // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
@@ -616,59 +615,6 @@ public final class SearchCollection implements Closeable {
 
   }
 
-  private Analyzer getAnalyzer() {
-    try {
-      // Are we searching tweets?
-      if (args.searchtweets) {
-        return new TweetAnalyzer();
-      } else if (args.useAutoCompositeAnalyzer) {
-        LOG.info("Using AutoCompositeAnalyzer");
-        return AutoCompositeAnalyzer.getAnalyzer(args.language, args.analyzeWithHuggingFaceTokenizer);
-      } else if (args.useCompositeAnalyzer) {
-        final Analyzer languageSpecificAnalyzer;
-        if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
-          languageSpecificAnalyzer = AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
-        } else if (args.language.equals("en")) {
-          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
-        } else {
-          languageSpecificAnalyzer = new WhitespaceAnalyzer();
-        }
-        String message = "Using CompositeAnalyzer with HF Tokenizer: %s & Analyzer %s";
-        LOG.info(String.format(message, args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer.getClass().getName()));
-        return new CompositeAnalyzer(args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer);
-      } else if (args.analyzeWithHuggingFaceTokenizer != null) {
-        return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
-      } else if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
-        LOG.info("Using language-specific analyzer");
-        LOG.info("Language: " + args.language);
-        return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
-      } else if (Arrays.asList("ha","so","sw","yo").contains(args.language)) {
-        return new WhitespaceAnalyzer();
-      } else if (args.pretokenized) {
-        return new WhitespaceAnalyzer();
-      } else {
-        // Default to English
-        LOG.info("Using DefaultEnglishAnalyzer");
-        LOG.info("Stemmer: " + args.stemmer);
-        LOG.info("Keep stopwords? " + args.keepstop);
-        LOG.info("Stopwords file: " + args.stopwords);
-        return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
-      }
-    } catch (Exception e) {
-      return null;
-    }
-  }
-
-  private final Args args;
-  private final IndexReader reader;
-  private final Analyzer analyzer;
-  private final Class collectionClass;
-  private List<TaggedSimilarity> similarities;
-  private List<RerankerCascade> cascades;
-  private final boolean isRerank;
-  private Map<String, ScoredDocuments> qrels;
-  private Set<String> queriesWithRel;
-
   private final class Searcher<K> extends AbstractSearcher {
     final IndexSearcher searcher;
     final QueryGenerator generator;
@@ -691,10 +637,10 @@ public final class SearchCollection implements Closeable {
       this.args = (Args) args;
     }
 
-    public ScoredDocuments search(K qid, String queryString,
-                                  RerankerCascade cascade,
-                                  ScoredDocuments queryQrels,
-                                  boolean hasRelDocs) throws IOException {
+    public ScoredDocs search(K qid, String queryString,
+                             RerankerCascade cascade,
+                             ScoredDocs queryQrels,
+                             boolean hasRelDocs) throws IOException {
       Query query;
 
       if (args.sdm) {
@@ -717,26 +663,26 @@ public final class SearchCollection implements Closeable {
 
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
       RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
-      ScoredDocuments scoredFbDocs;
+      ScoredDocs scoredFbDocs;
       if (isRerank && args.rf_qrels != null) {
         if (hasRelDocs) {
           scoredFbDocs = queryQrels;
         } else {//if no relevant documents, only perform score based tie breaking next
           LOG.info("No relevant documents for " + qid.toString());
-          scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+          scoredFbDocs = ScoredDocs.fromTopDocs(rs, searcher);
           cascade = new RerankerCascade();
           cascade.add(new ScoreTiesAdjusterReranker());
         }
       } else {
-        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+        scoredFbDocs = ScoredDocs.fromTopDocs(rs, searcher);
       }
 
       return cascade.run(scoredFbDocs, context);
     }
 
-    public ScoredDocuments searchBackgroundLinking(K qid,
-                                                   String docid,
-                                                   RerankerCascade cascade) throws IOException {
+    public ScoredDocs searchBackgroundLinking(K qid,
+                                              String docid,
+                                              RerankerCascade cascade) throws IOException {
       // Extract a list of analyzed terms from the document to compose a query.
       List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundlinking_k, analyzer);
       // Since the terms are already analyzed, we just join them together and use the StandardQueryParser.
@@ -770,18 +716,18 @@ public final class SearchCollection implements Closeable {
           StringUtils.join(", ", terms), terms, null, args);
 
       // Run the existing cascade.
-      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+      ScoredDocs docs = cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
 
       // Perform post-processing (e.g., date filter, dedupping, etc.) as a final step.
       return new NewsBackgroundLinkingReranker(analyzer, collectionClass).rerank(docs, context);
     }
 
-    public ScoredDocuments searchTweets(K qid,
-                                        String queryString,
-                                        long t,
-                                        RerankerCascade cascade,
-                                        ScoredDocuments queryQrels,
-                                        boolean hasRelDocs) throws IOException {
+    public ScoredDocs searchTweets(K qid,
+                                   String queryString,
+                                   long t,
+                                   RerankerCascade cascade,
+                                   ScoredDocs queryQrels,
+                                   boolean hasRelDocs) throws IOException {
       Query keywordQuery;
       if (args.sdm) {
         keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(Constants.CONTENTS, analyzer, queryString);
@@ -817,17 +763,17 @@ public final class SearchCollection implements Closeable {
       }
 
       RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
-      ScoredDocuments scoredFbDocs;
+      ScoredDocs scoredFbDocs;
       if (isRerank && args.rf_qrels != null) {
         if (hasRelDocs) {
           scoredFbDocs = queryQrels;
         } else {//if no relevant documents, only perform score based tie breaking next
-          scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+          scoredFbDocs = ScoredDocs.fromTopDocs(rs, searcher);
           cascade = new RerankerCascade();
           cascade.add(new ScoreTiesAdjusterReranker());
         }
       } else {
-        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+        scoredFbDocs = ScoredDocs.fromTopDocs(rs, searcher);
       }
 
       return cascade.run(scoredFbDocs, context);
@@ -845,6 +791,7 @@ public final class SearchCollection implements Closeable {
 
     private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
                            RerankerCascade cascade, String outputPath, String runTag) {
+      // We need to pass in the topics because for tweets, we need to extract the tweet time.
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
       this.cascade = cascade;
@@ -900,7 +847,7 @@ public final class SearchCollection implements Closeable {
               queryString = queryEncoder.encode(queryString);
             }
 
-            ScoredDocuments queryQrels = null;
+            ScoredDocs queryQrels = null;
             boolean hasRelDocs = false;
             String qidString = qid.toString();
             if (qrels != null) {
@@ -910,7 +857,7 @@ public final class SearchCollection implements Closeable {
               }
             }
 
-            ScoredDocuments docs;
+            ScoredDocs docs;
             if (args.searchtweets) {
               docs = searcher.searchTweets(qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
             } else if (args.backgroundlinking) {
@@ -989,6 +936,17 @@ public final class SearchCollection implements Closeable {
     }
   }
 
+  private final Args args;
+  private final IndexReader reader;
+  private final Analyzer analyzer;
+  private final Class collectionClass;
+  private List<TaggedSimilarity> similarities;
+  private List<RerankerCascade> cascades;
+  private final boolean isRerank;
+  private Map<String, ScoredDocs> qrels;
+  private Set<String> queriesWithRel;
+  private final SortedMap<K, Map<String, String>> topics;
+
   public SearchCollection(Args args) throws IOException {
     this.args = args;
     Path indexPath = Path.of(args.index);
@@ -1060,6 +1018,24 @@ public final class SearchCollection implements Closeable {
       args.arbitraryScoreTieBreak = true;
       args.axiom_deterministic = false;
     }
+
+    this.similarities = constructSimilarities();
+    this.cascades = constructRerankers();
+
+    TopicReader<K> tr;
+    topics = new TreeMap<>();
+    for (String singleTopicsFile : args.topics) {
+      Path topicsPath =  Path.of(singleTopicsFile);
+      try {
+        tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
+            .getConstructor(Path.class).newInstance(topicsPath);
+        topics.putAll(tr.read());
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+      }
+    }
+
   }
 
   @Override
@@ -1267,35 +1243,62 @@ public final class SearchCollection implements Closeable {
     for (Map.Entry<String, Map<String, Integer>> q : qrelsDocs.entrySet()) {
       String qid = q.getKey();
       Map<String, Integer> queryQrelsDocs = q.getValue();
-      this.qrels.put(qid, ScoredDocuments.fromQrels(queryQrelsDocs, this.reader));
+      this.qrels.put(qid, ScoredDocs.fromQrels(queryQrelsDocs, this.reader));
     }
 
   }
 
-  @SuppressWarnings("unchecked")
-  public <K> void runTopics() throws IOException {
-    TopicReader<K> tr;
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String singleTopicsFile : args.topics) {
-      Path topicsPath =  Path.of(singleTopicsFile);
-      try {
-        tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
-            .getConstructor(Path.class).newInstance(topicsPath);
-        topics.putAll(tr.read());
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+  private Analyzer getAnalyzer() {
+    try {
+      // Are we searching tweets?
+      if (args.searchtweets) {
+        return new TweetAnalyzer();
+      } else if (args.useAutoCompositeAnalyzer) {
+        LOG.info("Using AutoCompositeAnalyzer");
+        return AutoCompositeAnalyzer.getAnalyzer(args.language, args.analyzeWithHuggingFaceTokenizer);
+      } else if (args.useCompositeAnalyzer) {
+        final Analyzer languageSpecificAnalyzer;
+        if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
+          languageSpecificAnalyzer = AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
+        } else if (args.language.equals("en")) {
+          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
+        } else {
+          languageSpecificAnalyzer = new WhitespaceAnalyzer();
+        }
+        String message = "Using CompositeAnalyzer with HF Tokenizer: %s & Analyzer %s";
+        LOG.info(String.format(message, args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer.getClass().getName()));
+        return new CompositeAnalyzer(args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer);
+      } else if (args.analyzeWithHuggingFaceTokenizer != null) {
+        return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
+      } else if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
+        LOG.info("Using language-specific analyzer");
+        LOG.info("Language: " + args.language);
+        return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
+      } else if (Arrays.asList("ha","so","sw","yo").contains(args.language)) {
+        return new WhitespaceAnalyzer();
+      } else if (args.pretokenized) {
+        return new WhitespaceAnalyzer();
+      } else {
+        // Default to English
+        LOG.info("Using DefaultEnglishAnalyzer");
+        LOG.info("Stemmer: " + args.stemmer);
+        LOG.info("Keep stopwords? " + args.keepstop);
+        LOG.info("Stopwords file: " + args.stopwords);
+        return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
       }
+    } catch (Exception e) {
+      return null;
     }
+  }
 
+  @Override
+  @SuppressWarnings("unchecked")
+  public void run() {
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;
     LOG.info("runtag: " + runTag);
+    LOG.info("============ Launching Search Threads ============");
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
-    this.similarities = constructSimilarities();
-    this.cascades = constructRerankers();
-
-    LOG.info("============ Launching Search Threads ============");
 
     for (TaggedSimilarity taggedSimilarity : similarities) {
       for (RerankerCascade cascade : cascades) {
@@ -1353,7 +1356,7 @@ public final class SearchCollection implements Closeable {
       return;
     }
 
-    searcher.runTopics();
+    searcher.run();
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));

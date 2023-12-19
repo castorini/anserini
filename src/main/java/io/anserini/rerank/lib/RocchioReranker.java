@@ -20,7 +20,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -83,7 +83,7 @@ public class RocchioReranker implements Reranker {
 
   @SuppressWarnings("unchecked")
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
     assert (docs.lucene_documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
@@ -167,10 +167,10 @@ public class RocchioReranker implements Reranker {
       return docs;
     }
 
-    return ScoredDocuments.fromTopDocs(results, searcher);
+    return ScoredDocs.fromTopDocs(results, searcher);
   }
 
-  private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, int fbTerms, int fbDocs, boolean relevantFlag) throws IOException, NullPointerException {
+  private FeatureVector computeMeanOfDocumentVectors(ScoredDocs docs, IndexReader reader, boolean tweetsearch, int fbTerms, int fbDocs, boolean relevantFlag) throws IOException, NullPointerException {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();

@@ -16,6 +16,8 @@
 
 package io.anserini.rerank;
 
+import io.anserini.search.ScoredDocs;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,8 +59,8 @@ public class RerankerCascade {
    * @return reranked results
    */
   @SuppressWarnings("unchecked")
-  public ScoredDocuments run(ScoredDocuments docs, RerankerContext context) {
-    ScoredDocuments results = docs;
+  public ScoredDocs run(ScoredDocs docs, RerankerContext context) {
+    ScoredDocs results = docs;
 
     for (Reranker reranker : rerankers) {
       results = reranker.rerank(results, context);

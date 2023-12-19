@@ -17,7 +17,6 @@
 package io.anserini.search;
 
 import io.anserini.index.Constants;
-import io.anserini.rerank.ScoredDocuments;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -52,7 +51,7 @@ public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
     } else {
       rs = searcher.search(query, k, sort);
     }
-    ScoredDocuments hits = ScoredDocuments.fromTopDocs(rs, searcher);
+    ScoredDocs hits = ScoredDocs.fromTopDocs(rs, searcher);
     ScoredDoc[] results = new ScoredDoc[hits.lucene_docids.length];
 
     for (int i = 0; i < hits.lucene_docids.length; i++) {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.rerank;
+package io.anserini.search;
 
 import io.anserini.index.Constants;
 import org.apache.commons.lang3.ArrayUtils;
@@ -37,16 +37,16 @@ import java.util.Map;
 /**
  * ScoredDocuments object that converts TopDocs from the searcher into an Anserini format
  */
-public class ScoredDocuments {
-  private static final Logger LOG = LogManager.getLogger(ScoredDocuments.class);
+public class ScoredDocs {
+  private static final Logger LOG = LogManager.getLogger(ScoredDocs.class);
 
   public String[] docids;
   public int[] lucene_docids;
   public Document[] lucene_documents;
   public float[] scores;
 
-  public static ScoredDocuments fromTopDocs(TopDocs rs, IndexSearcher searcher) {
-    ScoredDocuments scoredDocs = new ScoredDocuments();
+  public static ScoredDocs fromTopDocs(TopDocs rs, IndexSearcher searcher) {
+    ScoredDocs scoredDocs = new ScoredDocs();
     scoredDocs.docids = new String[rs.scoreDocs.length];
     scoredDocs.lucene_documents = new Document[rs.scoreDocs.length];
     scoredDocs.lucene_docids = new int[rs.scoreDocs.length];
@@ -66,8 +66,8 @@ public class ScoredDocuments {
     return scoredDocs;
   }
 
-  public static ScoredDocuments fromQrels(Map<String, Integer> qrels, IndexReader reader) throws IOException {
-    ScoredDocuments scoredDocs = new ScoredDocuments();
+  public static ScoredDocs fromQrels(Map<String, Integer> qrels, IndexReader reader) throws IOException {
+    ScoredDocs scoredDocs = new ScoredDocs();
 
     List<Document> documentList = new ArrayList<>();
     List<Integer> idList = new ArrayList<>();

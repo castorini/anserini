@@ -20,7 +20,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -91,7 +91,7 @@ public class BM25PrfReranker implements Reranker {
 
   @SuppressWarnings("unchecked")
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
     IndexSearcher existingSearcher = context.getIndexSearcher();
     IndexReader reader = existingSearcher.getIndexReader();
 
@@ -128,10 +128,10 @@ public class BM25PrfReranker implements Reranker {
       return docs;
     }
 
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return ScoredDocs.fromTopDocs(rs, searcher);
   }
 
-  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocuments docs, IndexReader reader, boolean useRf) {
+  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocs docs, IndexReader reader, boolean useRf) {
     PrfFeatures newFeatures = new PrfFeatures();
 
     Set<String> vocab = new HashSet<>();

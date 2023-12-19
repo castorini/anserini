@@ -17,7 +17,6 @@
 package io.anserini.search;
 
 import io.anserini.index.Constants;
-import io.anserini.rerank.ScoredDocuments;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
@@ -78,7 +77,7 @@ public class AbstractSearcher<K extends Comparable<K>> {
     return results.toArray(new ScoredDoc[0]);
   }
 
-  public ScoredDoc[] processScoredDocs(K qid, ScoredDocuments docs) {
+  public ScoredDoc[] processScoredDocs(K qid, ScoredDocs docs) {
     List<ScoredDoc> results = new ArrayList<>();
     // For removing duplicate docids.
     Set<String> docids = new HashSet<>();

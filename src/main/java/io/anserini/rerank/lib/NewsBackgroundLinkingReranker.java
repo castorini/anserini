@@ -21,7 +21,7 @@ import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -54,7 +54,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     String queryDocId = context.getQueryDocId();
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
@@ -96,7 +96,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
       }
     }
 
-    ScoredDocuments scoredDocs = new ScoredDocuments();
+    ScoredDocs scoredDocs = new ScoredDocs();
     int resSize = docs.lucene_documents.length - toRemove.size();
     scoredDocs.lucene_documents = new Document[resSize];
     scoredDocs.lucene_docids = new int[resSize];
