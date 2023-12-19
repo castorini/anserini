@@ -1,0 +1,65 @@
+---
+corpus: msmarco-passage-openai-ada2
+corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
+
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar
+download_checksum: a4d843d522ff3a3af7edbee789a63402
+
+index_path: indexes/lucene-hnsw.msmarco-passage-openai-ada2-int8/
+index_type: hnsw
+collection_class: JsonDenseVectorCollection
+generator_class: HnswDenseVectorDocumentGenerator
+index_threads: 16
+index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
+
+metrics:
+  - metric: AP@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m map -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.100 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: tools/eval/trec_eval.9.0.4/trec_eval
+    params: -m recall.1000 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: JsonIntVector
+topics:
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20-passage.openai-ada2.jsonl.gz
+    qrel: qrels.dl20-passage.txt
+
+models:
+  - name: openai-ada2
+    display: OpenAI-ada2
+    type: hnsw
+    params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
+    results:
+      AP@1000:
+        - 0.477
+      nDCG@10:
+        - 0.676
+      R@100:
+        - 0.723
+      R@1000:
+        - 0.867

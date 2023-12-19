@@ -152,4 +152,26 @@ public class IndexHnswDenseVectorsTest {
     assertNotNull(results);
     assertEquals(100, results.get("documents"));
   }
+
+  @Test
+  public void testQuantizedInt8() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100", "-quantize.int8"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(100, results.get("documents"));
+  }
 }

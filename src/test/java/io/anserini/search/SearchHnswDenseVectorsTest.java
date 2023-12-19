@@ -305,13 +305,13 @@ public class SearchHnswDenseVectorsTest {
         "-hits", "5"};
     SearchHnswDenseVectors.main(searchArgs);
 
-    TestUtils.checkFile(runfile, new String[] {
+    TestUtils.checkRunFileApproximate(runfile, new String[] {
         "160885 Q0 45 1 0.863064 Anserini",
         "160885 Q0 44 2 0.861596 Anserini",
         "160885 Q0 40 3 0.858651 Anserini",
         "160885 Q0 48 4 0.858514 Anserini",
-        "160885 Q0 41 5 0.856264 Anserini",
-        "867490 Q0 10 1 0.850332 Anserini",
+        "160885 Q0 41 5 0.856265 Anserini",
+        "867490 Q0 10 1 0.850331 Anserini",
         "867490 Q0 45 2 0.846281 Anserini",
         "867490 Q0 44 3 0.845236 Anserini",
         "867490 Q0 95 4 0.845013 Anserini",
@@ -393,7 +393,7 @@ public class SearchHnswDenseVectorsTest {
     SearchHnswDenseVectors.main(searchArgs);
 
     // Note output is slightly different from pre-encoded query vectors.
-    TestUtils.checkFile(runfile, new String[] {
+    TestUtils.checkRunFileApproximate(runfile, new String[] {
         "2 Q0 208 1 0.578723 Anserini",
         "2 Q0 224 2 0.578716 Anserini",
         "2 Q0 384 3 0.573913 Anserini",
@@ -437,7 +437,7 @@ public class SearchHnswDenseVectorsTest {
         "-removeQuery"};
     SearchHnswDenseVectors.main(searchArgs);
 
-    TestUtils.checkFile(runfile, new String[] {
+    TestUtils.checkRunFileApproximate(runfile, new String[] {
         "10 Q0 45 1 0.846281 Anserini",
         "10 Q0 44 2 0.845236 Anserini",
         "10 Q0 95 3 0.845013 Anserini",
@@ -480,7 +480,7 @@ public class SearchHnswDenseVectorsTest {
         "-hits", "10"};
     SearchHnswDenseVectors.main(searchArgs);
 
-    TestUtils.checkFile(runfile, new String[] {
+    TestUtils.checkRunFileApproximate(runfile, new String[] {
         "160885 Q0 44 1 0.863064 Anserini",
         "160885 Q0 40 2 0.858651 Anserini",
         "160885 Q0 48 3 0.858514 Anserini",

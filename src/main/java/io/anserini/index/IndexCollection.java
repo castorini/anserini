@@ -31,6 +31,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.codecs.lucene99.Lucene99Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -161,20 +162,6 @@ public final class IndexCollection extends AbstractIndexer {
   public IndexCollection(Args args) throws Exception {
     super(args);
 
-    LOG.info("IndexCollection settings:");
-    LOG.info(" + Generator: " + args.generatorClass);
-    LOG.info(" + Language: " + args.language);
-    LOG.info(" + Stemmer: " + args.stemmer);
-    LOG.info(" + Keep stopwords? " + args.keepStopwords);
-    LOG.info(" + Stopwords: " + args.stopwords);
-    LOG.info(" + Store positions? " + args.storePositions);
-    LOG.info(" + Store docvectors? " + args.storeDocvectors);
-    LOG.info(" + Store document \"contents\" field? " + args.storeContents);
-    LOG.info(" + Store document \"raw\" field? " + args.storeRaw);
-    LOG.info(" + Additional fields to index: " + Arrays.toString(args.fields));
-    LOG.info(" + Whitelist: " + args.whitelist);
-    LOG.info(" + Pretokenized?: " + args.pretokenized);
-
     try {
       super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
               Class.forName("io.anserini.index.generator." + args.generatorClass);
@@ -206,6 +193,21 @@ public final class IndexCollection extends AbstractIndexer {
     config.setMergeScheduler(new ConcurrentMergeScheduler());
 
     super.writer = new IndexWriter(dir, config);
+
+    LOG.info("IndexCollection settings:");
+    LOG.info(" + Generator: " + args.generatorClass);
+    LOG.info(" + Language: " + args.language);
+    LOG.info(" + Stemmer: " + args.stemmer);
+    LOG.info(" + Keep stopwords? " + args.keepStopwords);
+    LOG.info(" + Stopwords: " + args.stopwords);
+    LOG.info(" + Store positions? " + args.storePositions);
+    LOG.info(" + Store docvectors? " + args.storeDocvectors);
+    LOG.info(" + Store document \"contents\" field? " + args.storeContents);
+    LOG.info(" + Store document \"raw\" field? " + args.storeRaw);
+    LOG.info(" + Additional fields to index: " + Arrays.toString(args.fields));
+    LOG.info(" + Whitelist: " + args.whitelist);
+    LOG.info(" + Pretokenized?: " + args.pretokenized);
+    LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
   }
 
   private Analyzer getAnalyzer() {

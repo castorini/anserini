@@ -10,7 +10,7 @@ index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536
+index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
 
 metrics:
   - metric: AP@1000

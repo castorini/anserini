@@ -6,7 +6,7 @@ This page describes regression experiments, integrated into Anserini's regressio
 
 > Xueguang Ma, Tommaso Teofili, and Jimmy Lin. [Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes.](https://dl.acm.org/doi/10.1145/3583780.3615112) _Proceedings of the 32nd International Conference on Information and Knowledge Management (CIKM 2023)_, October 2023, pages 5366–5370, Birmingham, the United Kingdom.
 
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are performing query inference "on-the-fly" with ONNX.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
@@ -57,13 +57,15 @@ target/appassembler/bin/IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator HnswDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 \
+  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
 The path `/path/to/msmarco-passage-cos-dpr-distil/` should point to the corpus downloaded above.
-
 Upon completion, we should have an index with 8,841,823 documents.
+
+Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
+This is because merging index segments is a costly operation and not worthwhile given our query set.
 
 ## Retrieval
 
@@ -81,6 +83,8 @@ target/appassembler/bin/SearchHnswDenseVectors \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl20.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
 ```
+
+Note that we are performing query inference "on-the-fly" with ONNX in these experiments.
 
 Evaluation can be performed using `trec_eval`:
 
