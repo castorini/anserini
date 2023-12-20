@@ -235,7 +235,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // ----------------------------------------------------------
 
     @Option(name = "-impact",
-        forbids = {"-bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: BM25")
     public boolean impact = false;
 
@@ -244,11 +244,13 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // -------------------
 
     @Option(name = "-bm25",
-        forbids = {"-impact", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: BM25")
     public boolean bm25 = false;
 
-    @Option(name = "-bm25.accurate", usage = "BM25: use accurate document lengths")
+    @Option(name = "-bm25.accurate",
+        forbids = {"-impact", "-bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        usage = "BM25: use accurate document lengths")
     public boolean bm25Accurate = false;
 
     // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
@@ -269,7 +271,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // --------------------------------------------------------
 
     @Option(name = "-qld",
-        forbids = {"-impact", "-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25", "-bm25.accurate", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: query likelihood with Dirichlet smoothing")
     public boolean qld = false;
 
@@ -289,7 +291,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // -------------------------------------------------------------
 
     @Option(name = "-qljm",
-        forbids = {"-impact", "-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25", "-bm25.accurate", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
     public boolean qljm = false;
 
@@ -301,7 +303,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // -----------------------------------------
 
     @Option(name = "-inl2",
-        forbids = {"-impact", "bm25", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "bm25", "-bm25.accurate", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
         usage = "use I(n)L2 scoring model")
     public boolean inl2 = false;
 
@@ -309,7 +311,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public String[] inl2_c = new String[]{"0.1"};
 
     @Option(name = "-spl",
-        forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
+        forbids = {"-impact", "bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
         usage = "use SPL scoring model")
     public boolean spl = false;
 
@@ -317,7 +319,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public String[] spl_c = new String[]{"0.1"};
 
     @Option(name = "-f2exp",
-        forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
+        forbids = {"-impact", "bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
         usage = "use F2Exp scoring model")
     public boolean f2exp = false;
 
@@ -325,7 +327,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public String[] f2exp_s = new String[]{"0.5"};
 
     @Option(name = "-f2log",
-        forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
+        forbids = {"-impact", "bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
         usage = "use F2Log scoring model")
     public boolean f2log = false;
 
@@ -503,6 +505,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Args impact() {
       this.impact = true;
       this.bm25 = false;
+      this.bm25Accurate = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -516,6 +519,21 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Args bm25() {
       this.impact = false;
       this.bm25 = true;
+      this.bm25Accurate = false;
+      this.qld = false;
+      this.qljm = false;
+      this.inl2 = false;
+      this.spl = false;
+      this.f2exp = false;
+      this.f2log = false;
+
+      return this;
+    }
+
+    public Args bm25Accurate() {
+      this.impact = false;
+      this.bm25 = false;
+      this.bm25Accurate = true;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -529,6 +547,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Args qld() {
       this.impact = false;
       this.bm25 = false;
+      this.bm25Accurate = false;
       this.qld = true;
       this.qljm = false;
       this.inl2 = false;
@@ -542,6 +561,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Args qljm() {
       this.impact = false;
       this.bm25 = false;
+      this.bm25Accurate = false;
       this.qld = false;
       this.qljm = true;
       this.inl2 = false;
@@ -555,6 +575,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Args inl2() {
       this.impact = false;
       this.bm25 = false;
+      this.bm25Accurate = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = true;
@@ -568,6 +589,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Args spl() {
       this.impact = false;
       this.bm25 = false;
+      this.bm25Accurate = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -581,6 +603,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Args f2exp() {
       this.impact = false;
       this.bm25 = false;
+      this.bm25Accurate = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -594,6 +617,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Args f2log() {
       this.impact = false;
       this.bm25 = false;
+      this.bm25Accurate = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;

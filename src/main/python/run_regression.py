@@ -137,8 +137,10 @@ def construct_indexing_command(yaml_data, args):
     return index_command
 
 
-def construct_runfile_path(corpus, id, model_name):
-    return os.path.join('runs/', 'run.{0}.{1}.{2}'.format(corpus, id, model_name))
+def construct_runfile_path(index, id, model_name):
+    # if the index is 'indexes/lucene-index.msmarco-passage-ca/', we pull out 'msmarco-passage-ca'
+    index_part = index.split('/')[1].split('.')[1]
+    return os.path.join('runs/', 'run.{0}.{1}.{2}'.format(index_part, id, model_name))
 
 
 def construct_search_commands(yaml_data):
@@ -148,7 +150,7 @@ def construct_search_commands(yaml_data):
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
             '-topicReader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
-            '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
+            '-output', construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']),
             model['params']
         ]
         for (model, topic_set) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
@@ -162,8 +164,8 @@ def construct_convert_commands(yaml_data):
             conversion['command'],
             '--index', construct_index_path(yaml_data),
             '--topics', topic_set['id'],
-            '--input', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['in_file_ext'],
-            '--output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['out_file_ext'],
+            '--input', construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']) + conversion['in_file_ext'],
+            '--output', construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']) + conversion['out_file_ext'],
             conversion['params'] if 'params' in conversion and conversion['params'] else '',
             topic_set['convert_params'] if 'convert_params' in topic_set and topic_set['convert_params'] else '',
         ]
@@ -186,7 +188,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                 eval_cmd = [
                   os.path.join(metric['command']), metric['params'] if 'params' in metric and metric['params'] else '',
                   os.path.join('tools/topics-and-qrels', topic_set['qrel']) if 'qrel' in topic_set and topic_set['qrel'] else '',
-                  construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else '')
+                  construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else '')
                 ]
                 if dry_run:
                     logger.info(' '.join(eval_cmd))
