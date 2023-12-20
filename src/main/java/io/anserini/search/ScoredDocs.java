@@ -28,6 +28,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
+import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class ScoredDocs {
   public float[] scores;
 
   public static ScoredDocs fromTopDocs(TopDocs rs, IndexSearcher searcher) {
+    assert rs != null;
+
     ScoredDocs scoredDocs = new ScoredDocs();
     scoredDocs.docids = new String[rs.scoreDocs.length];
     scoredDocs.lucene_documents = new Document[rs.scoreDocs.length];
@@ -56,8 +59,8 @@ public class ScoredDocs {
       try {
         scoredDocs.lucene_documents[i] = searcher.storedFields().document(rs.scoreDocs[i].doc);
         scoredDocs.docids[i] = scoredDocs.lucene_documents[i].get(Constants.ID);
-      } catch (IOException e) {
-        throw new RuntimeException();
+      } catch (NullPointerException | IOException e) {
+        throw new RuntimeException(String.format("Cannot find lucene document %d.", rs.scoreDocs[i].doc));
       }
       scoredDocs.scores[i] = rs.scoreDocs[i].score;
       scoredDocs.lucene_docids[i] = rs.scoreDocs[i].doc;
@@ -66,39 +69,40 @@ public class ScoredDocs {
     return scoredDocs;
   }
 
-  public static ScoredDocs fromQrels(Map<String, Integer> qrels, IndexReader reader) throws IOException {
+  public static ScoredDocs fromQrels(Map<String, Integer> qrels, IndexReader reader) {
     ScoredDocs scoredDocs = new ScoredDocs();
 
-    List<Document> documentList = new ArrayList<>();
-    List<Integer> idList = new ArrayList<>();
-    List<Float> scoreList = new ArrayList<>();
+    List<Document> lucene_documents = new ArrayList<>();
+    List<Integer> lucene_docids = new ArrayList<>();
+    List<String> docids = new ArrayList<>();
+    List<Float> score = new ArrayList<>();
 
-    IndexSearcher searcher = new IndexSearcher(reader);
-    StoredFields storedFields = searcher.storedFields();
-    for (Map.Entry<String, Integer> qrelsDocScorePair : qrels.entrySet()) {
-      String externalDocid = qrelsDocScorePair.getKey();
-      Query q = new TermQuery(new Term(Constants.ID, externalDocid));
-      TopDocs rs = searcher.search(q, 1);
-      try {
-        documentList.add(storedFields.document(rs.scoreDocs[0].doc));
-        idList.add(rs.scoreDocs[0].doc);
-        scoreList.add(Float.valueOf(qrelsDocScorePair.getValue().floatValue()));
-      } catch (IOException e) {
-        e.printStackTrace();
-        documentList.add(null);
-      } catch (ArrayIndexOutOfBoundsException e){
-        // e.printStackTrace();
-        LOG.warn("Cannot find document " + externalDocid);
+    try {
+      IndexSearcher searcher = new IndexSearcher(reader);
+      StoredFields storedFields = searcher.storedFields();
+      for (Map.Entry<String, Integer> qrelsDocScorePair : qrels.entrySet()) {
+        String externalDocid = qrelsDocScorePair.getKey();
+        Query q = new TermQuery(new Term(Constants.ID, externalDocid));
+        TopDocs rs = searcher.search(q, 1);
+        lucene_documents.add(storedFields.document(rs.scoreDocs[0].doc));
+        lucene_docids.add(rs.scoreDocs[0].doc);
+        score.add(Float.valueOf(qrelsDocScorePair.getValue().floatValue()));
+        docids.add(storedFields.document(rs.scoreDocs[0].doc).get(Constants.ID));
       }
+    } catch (IOException | ArrayIndexOutOfBoundsException | NullPointerException e) {
+      throw new RuntimeException("Error loading qrels.");
     }
 
-    int length = documentList.size();
+    int length = lucene_documents.size();
     scoredDocs.lucene_documents = new Document[length];
     scoredDocs.lucene_docids = new int[length];
+    scoredDocs.docids = new String[length];
     scoredDocs.scores = new float[length];
-    scoredDocs.lucene_documents = documentList.toArray(scoredDocs.lucene_documents);
-    scoredDocs.lucene_docids = ArrayUtils.toPrimitive(idList.toArray(new Integer[length]));
-    scoredDocs.scores = ArrayUtils.toPrimitive(scoreList.toArray(new Float[length]), Float.NaN);
+
+    scoredDocs.lucene_documents = lucene_documents.toArray(scoredDocs.lucene_documents);
+    scoredDocs.lucene_docids = ArrayUtils.toPrimitive(lucene_docids.toArray(new Integer[length]));
+    scoredDocs.docids = docids.toArray(new String[0]);
+    scoredDocs.scores = ArrayUtils.toPrimitive(score.toArray(new Float[length]), Float.NaN);
 
     return scoredDocs;
   }

@@ -27,10 +27,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AbstractSearcher<K extends Comparable<K>> {
+public class BaseSearcher<K extends Comparable<K>> {
   protected final BaseSearchArgs args;
 
-  public AbstractSearcher(BaseSearchArgs args) {
+  public BaseSearcher(BaseSearchArgs args) {
     this.args = args;
   }
 
@@ -77,7 +77,7 @@ public class AbstractSearcher<K extends Comparable<K>> {
     return results.toArray(new ScoredDoc[0]);
   }
 
-  public ScoredDoc[] processScoredDocs(K qid, ScoredDocs docs) {
+  public ScoredDoc[] processScoredDocs(K qid, ScoredDocs docs, boolean keepLuceneDocument) {
     List<ScoredDoc> results = new ArrayList<>();
     // For removing duplicate docids.
     Set<String> docids = new HashSet<>();
@@ -97,7 +97,11 @@ public class AbstractSearcher<K extends Comparable<K>> {
       if (args.removeQuery && docid.equals(qid))
         continue;
 
-      results.add(new ScoredDoc(docid, docs.lucene_docids[i], docs.scores[i], docs.lucene_documents[i]));
+      // Note that if keepLuceneDocument == true, then we're retaining references to a lot of objects that cannot be
+      // garbage collected. If we're running lots of queries, e.g., from SearchCollection, this can easily exhaust
+      // the heap.
+      results.add(new ScoredDoc(docid, docs.lucene_docids[i], docs.scores[i],
+          keepLuceneDocument ? docs.lucene_documents[i] : null));
 
       // Note that this option is set to false by default because duplicate documents usually indicate some
       // underlying indexing issues, and we don't want to just eat errors silently.

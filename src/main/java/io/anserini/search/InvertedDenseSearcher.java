@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.anserini.index.IndexInvertedDenseVectors.FW;
 
-public class InvertedDenseSearcher<K extends Comparable<K>> extends AbstractSearcher<K> implements Closeable {
+public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> implements Closeable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =

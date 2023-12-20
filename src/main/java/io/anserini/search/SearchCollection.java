@@ -80,7 +80,6 @@ import org.apache.lucene.search.similarities.LMJelinekMercerSimilarity;
 import org.apache.lucene.search.similarities.LambdaDF;
 import org.apache.lucene.search.similarities.NormalizationH2;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -172,9 +171,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         usage="index a collection using the useAutoCompositeAnalyzer")
     public boolean useAutoCompositeAnalyzer = false;
 
-    @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
-    public Boolean inmem = false;
-
     @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
         " For TREC ad hoc topics, description or narrative can be used.")
     public String topicField = "title";
@@ -214,10 +210,10 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
     public boolean arbitraryScoreTieBreak = false;
 
-    @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
+    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 1000;
 
-    @Option(name = "-rerankCutoff", metaVar = "[number]", required = false, usage = "max number of hits " +
+    @Option(name = "-rerankCutoff", metaVar = "[number]", usage = "max number of hits " +
         "for the initial round ranking. this is efficient since lots of reranking model only looks at " +
         "the top documents from the initial round ranking.")
     public int rerankcutoff = 50;
@@ -615,11 +611,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
   }
 
-  private final class Searcher<K> extends AbstractSearcher {
-    final IndexSearcher searcher;
-    final QueryGenerator generator;
-    final SdmQueryGenerator sdmQueryGenerator;
-    final Args args;
+  private final class Searcher<K extends Comparable<K>> extends BaseSearcher<K> {
+    private final IndexSearcher searcher;
+    private final QueryGenerator generator;
+    private final SdmQueryGenerator sdmQueryGenerator;
+    private final Args args;
 
     public Searcher(IndexSearcher searcher, TaggedSimilarity taggedSimilarity, BaseSearchArgs args) {
       super(args);
@@ -781,7 +777,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   }
 
   private final class SearcherThread<K extends Comparable<K>> extends Thread {
-    final private Searcher searcher;
+    final private Searcher<K> searcher;
     final private SortedMap<K, Map<String, String>> topics;
     final private TaggedSimilarity taggedSimilarity;
     final private RerankerCascade cascade;
@@ -822,8 +818,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       // ThreadPool for parallelizing the execution of individual queries:
       ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-      // Data structure for holding the per-query results, with the qid as the key and the results (the lines that
-      // will go into the final run file) as the value.
+      // Data structure for holding the per-query results:
       ConcurrentSkipListMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
       AtomicInteger cnt = new AtomicInteger();
 
@@ -866,7 +861,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
               docs = searcher.search(qid, queryString, cascade, queryQrels, hasRelDocs);
             }
 
-            results.put(qid, searcher.processScoredDocs(qid, docs));
+            // Note we do *not* want to retain references to the Lucene documents since it's a waste of memory.
+            results.put(qid, searcher.processScoredDocs(qid, docs, false));
 
             int n = cnt.incrementAndGet();
             if (n % 100 == 0) {
@@ -940,12 +936,12 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private final IndexReader reader;
   private final Analyzer analyzer;
   private final Class collectionClass;
-  private List<TaggedSimilarity> similarities;
-  private List<RerankerCascade> cascades;
+  private final List<TaggedSimilarity> similarities;
+  private final List<RerankerCascade> cascades;
   private final boolean isRerank;
+  private final SortedMap<K, Map<String, String>> topics;
   private Map<String, ScoredDocs> qrels;
   private Set<String> queriesWithRel;
-  private final SortedMap<K, Map<String, String>> topics;
 
   public SearchCollection(Args args) throws IOException {
     this.args = args;
@@ -972,8 +968,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
     LOG.info("============ Initializing Searcher ============");
     LOG.info("Index: " + indexPath);
-    this.reader = args.inmem ? DirectoryReader.open(MMapDirectory.open(indexPath)) :
-        DirectoryReader.open(FSDirectory.open(indexPath));
+    this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
 
     LOG.info("Fields: " + Arrays.toString(args.fields));
     if (args.fields.length != 0) {
@@ -1049,46 +1044,46 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     if (args.bm25) {
       for (String k1 : args.bm25_k1) {
         for (String b : args.bm25_b) {
-          similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)),
+          similarities.add(new TaggedSimilarity(new BM25Similarity(Float.parseFloat(k1), Float.parseFloat(b)),
               String.format("bm25(k1=%s,b=%s)", k1, b)));
         }
       }
     } else if (args.bm25Accurate) {
       for (String k1 : args.bm25_k1) {
         for (String b : args.bm25_b) {
-          similarities.add(new TaggedSimilarity(new AccurateBM25Similarity(Float.valueOf(k1), Float.valueOf(b)),
+          similarities.add(new TaggedSimilarity(new AccurateBM25Similarity(Float.parseFloat(k1), Float.parseFloat(b)),
               String.format("bm25accurate(k1=%s,b=%s)", k1, b)));
         }
       }
     } else if (args.qld) {
       for (String mu : args.qld_mu) {
-        similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)),
+        similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.parseFloat(mu)),
             String.format("qld(mu=%s)", mu)));
       }
     } else if (args.qljm) {
       for (String lambda : args.qljm_lambda) {
-        similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.valueOf(lambda)),
+        similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.parseFloat(lambda)),
             String.format("qljm(lambda=%s)", lambda)));
       }
     } else if (args.inl2) {
       for (String c : args.inl2_c) {
         similarities.add(new TaggedSimilarity(
-            new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))),
+            new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(Float.parseFloat(c))),
             String.format("inl2(c=%s)", c)));
       }
     } else if (args.spl) {
       for (String c : args.spl_c) {
         similarities.add(new TaggedSimilarity(
-            new IBSimilarity(new DistributionSPL(), new LambdaDF(), new NormalizationH2(Float.valueOf(c))),
+            new IBSimilarity(new DistributionSPL(), new LambdaDF(), new NormalizationH2(Float.parseFloat(c))),
             String.format("spl(c=%s)", c)));
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.valueOf(s)), String.format("f2exp(s=%s)", s)));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.parseFloat(s)), String.format("f2exp(s=%s)", s)));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), String.format("f2log(s=%s)", s)));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.parseFloat(s)), String.format("f2log(s=%s)", s)));
       }
     } else if (args.impact) {
       similarities.add(new TaggedSimilarity(new ImpactSimilarity(), "impact()"));
@@ -1115,8 +1110,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             }
 
             RerankerCascade cascade = new RerankerCascade(tag);
-            cascade.add(new Rm3Reranker(analyzer, collectionClass, Constants.CONTENTS, Integer.valueOf(fbTerms),
-                Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery,
+            cascade.add(new Rm3Reranker(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(fbTerms),
+                Integer.parseInt(fbDocs), Float.parseFloat(originalQueryWeight), args.rm3_outputQuery,
                 !args.rm3_noTermFilter));
             cascade.add(new ScoreTiesAdjusterReranker());
             cascades.add(cascade);
@@ -1137,8 +1132,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                 }
                 RerankerCascade cascade = new RerankerCascade(tag);
                 cascade.add(new AxiomReranker(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
-                    args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
-                    Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
+                    args.axiom_deterministic, Integer.parseInt(seed), Integer.parseInt(r),
+                    Integer.parseInt(n), Float.parseFloat(beta), Integer.parseInt(top),
                     args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
                 cascade.add(new ScoreTiesAdjusterReranker());
                 cascades.add(cascade);
@@ -1181,7 +1176,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                 for (String beta : args.rocchio_beta) {
                   for (String gamma : args.rocchio_gamma) {
                     String tag;
-                    if (args.rocchio_useNegative == false) {
+                    if (!args.rocchio_useNegative) {
                       gamma = "0";
                     }
                     if (this.args.rf_qrels != null) {
@@ -1190,9 +1185,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                       tag = String.format("rocchio(topFbTerms=%s,topFbDocs=%s,bottomFbTerms=%s,bottomFbDocs=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma);
                     }
                     RerankerCascade cascade = new RerankerCascade(tag);
-                    cascade.add(new RocchioReranker(analyzer, collectionClass, Constants.CONTENTS, Integer.valueOf(topFbTerms),
-                        Integer.valueOf(topFbDocs), Integer.valueOf(bottomFbTerms), Integer.valueOf(bottomFbDocs),
-                        Float.valueOf(alpha), Float.valueOf(beta), Float.valueOf(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
+                    cascade.add(new RocchioReranker(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(topFbTerms),
+                        Integer.parseInt(topFbDocs), Integer.parseInt(bottomFbTerms), Integer.parseInt(bottomFbDocs),
+                        Float.parseFloat(alpha), Float.parseFloat(beta), Float.parseFloat(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
                     cascade.add(new ScoreTiesAdjusterReranker());
                     cascades.add(cascade);
                   }
@@ -1225,7 +1220,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
     for (String line : IOUtils.readLines(reader)) {
       String[] cols = line.split("\\s+");
-      int rel = Integer.valueOf(cols[3]);
+      int rel = Integer.parseInt(cols[3]);
       String qid = cols[0];
       if (rel > 0) {
         this.queriesWithRel.add(qid);
@@ -1236,7 +1231,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         queryQrelsDocs = new HashMap<>();
         qrelsDocs.put(qid, queryQrelsDocs);
       }
-      queryQrelsDocs.put(fbDocid, Integer.valueOf(rel));
+      queryQrelsDocs.put(fbDocid, rel);
     }
 
     this.qrels = new HashMap<>();
@@ -1345,19 +1340,16 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
 
     final long start = System.nanoTime();
-    SearchCollection searcher;
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
-    try {
-      searcher = new SearchCollection(searchArgs);
+    try(SearchCollection searcher = new SearchCollection(searchArgs)) {
+      searcher.run();
     } catch (IllegalArgumentException e) {
       System.err.println(e.getMessage());
       return;
     }
 
-    searcher.run();
-    searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
