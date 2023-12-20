@@ -70,7 +70,6 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   }
 
   private final IndexReader reader;
-  private final IndexSearcher searcher;
   private final VectorQueryGenerator generator;
   private final DenseEncoder encoder;
 
@@ -86,7 +85,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));
     }
 
-    this.searcher = new IndexSearcher(this.reader);
+    setIndexSearcher(new IndexSearcher(this.reader));
 
     try {
       this.generator = (VectorQueryGenerator) Class
@@ -161,9 +160,9 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
 
   public ScoredDoc[] search(@Nullable K qid, float[] queryFloat, int hits) throws IOException {
     KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, ((Args) args).efSearch);
-    TopDocs topDocs = searcher.search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    TopDocs topDocs = getIndexSearcher().search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    return super.processLuceneTopDocs(this.searcher, qid, topDocs);
+    return super.processLuceneTopDocs(qid, topDocs);
   }
 
   public ScoredDoc[] search(String queryString, int hits) throws IOException {
@@ -180,9 +179,9 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     }
 
     KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, ((Args) args).efSearch);
-    TopDocs topDocs = searcher.search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    TopDocs topDocs = getIndexSearcher().search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    return super.processLuceneTopDocs(this.searcher, qid, topDocs);
+    return super.processLuceneTopDocs(qid, topDocs);
   }
 
   @Override

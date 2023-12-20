@@ -18,6 +18,9 @@ package io.anserini.search;
 
 import org.apache.lucene.document.Document;
 
+/**
+ * See documentation for {@link ScoredDocs}.
+ */
 public class ScoredDoc {
   public String docid;
   public int lucene_docid;

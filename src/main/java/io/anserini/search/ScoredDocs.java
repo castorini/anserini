@@ -36,7 +36,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ScoredDocuments object that converts TopDocs from the searcher into an Anserini format
+ * This class, {@link ScoredDocs} and its cousin {@link ScoredDoc} are closely related and should be discussed in
+ * the same context. Both are designed to be wrappers around Lucene's {@link TopDocs} object, which is the raw results
+ * from a search. Both <code>ScoredDocs</code> and <code>ScoredDoc[]</code> hold exactly the same information, except
+ * that the first is an object of arrays, whereas the second is an array of objects. In the development of Anserini,
+ * <code>ScoredDocs</code> seemed more natural for reranking, but when passing results over to Python,
+ * <code>ScoredDoc[]</code> seemed more natural.
  */
 public class ScoredDocs {
   private static final Logger LOG = LogManager.getLogger(ScoredDocs.class);
@@ -106,5 +111,4 @@ public class ScoredDocs {
 
     return scoredDocs;
   }
-
 }

@@ -83,7 +83,6 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
   }
 
   private final IndexReader reader;
-  private final IndexSearcher searcher;
   private final InvertedDenseVectorQueryGenerator generator;
 
   public InvertedDenseSearcher(Args args) {
@@ -98,9 +97,9 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
       throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));
     }
 
-    this.searcher = new IndexSearcher(this.reader);
+    setIndexSearcher(new IndexSearcher(this.reader));
     if (args.encoding.equalsIgnoreCase(FW)) {
-      searcher.setSimilarity(new ClassicSimilarity());
+      getIndexSearcher().setSimilarity(new ClassicSimilarity());
     }
 
     this.generator = new InvertedDenseVectorQueryGenerator(args, true);
@@ -158,9 +157,9 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
 
   public ScoredDoc[] search(K qid, String queryString, int hits) throws IOException {
     Query query = generator.buildQuery(queryString);
-    TopDocs topDocs = searcher.search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    TopDocs topDocs = getIndexSearcher().search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
 
-    return super.processLuceneTopDocs(this.searcher, qid, topDocs);
+    return super.processLuceneTopDocs(qid, topDocs);
   }
 
   @Override

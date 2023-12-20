@@ -636,7 +636,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   }
 
   private final class Searcher<K extends Comparable<K>> extends BaseSearcher<K> {
-    private final IndexSearcher searcher;
     private final QueryGenerator generator;
     private final SdmQueryGenerator sdmQueryGenerator;
     private final Args args;
@@ -644,8 +643,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public Searcher(IndexSearcher searcher, TaggedSimilarity taggedSimilarity, BaseSearchArgs args) {
       super(args);
 
-      this.searcher = searcher;
-      this.searcher.setSimilarity(taggedSimilarity.getSimilarity());
+      setIndexSearcher(searcher);
+      getIndexSearcher().setSimilarity(taggedSimilarity.getSimilarity());
+
       this.sdmQueryGenerator = new SdmQueryGenerator(((Args) args).sdm_tw, ((Args) args).sdm_ow, ((Args) args).sdm_uw);
 
       try {
@@ -675,26 +675,26 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
+          rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
         } else {
-          rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+          rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
         }
       }
 
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-      RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
+      RerankerContext context = new RerankerContext<>(getIndexSearcher(), qid, query, null, queryString, queryTokens, null, args);
       ScoredDocs scoredFbDocs;
       if (isRerank && args.rf_qrels != null) {
         if (hasRelDocs) {
           scoredFbDocs = queryQrels;
         } else {//if no relevant documents, only perform score based tie breaking next
           LOG.info("No relevant documents for " + qid.toString());
-          scoredFbDocs = ScoredDocs.fromTopDocs(rs, searcher);
+          scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
           cascade = new RerankerCascade();
           cascade.add(new ScoreTiesAdjusterReranker());
         }
       } else {
-        scoredFbDocs = ScoredDocs.fromTopDocs(rs, searcher);
+        scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
       }
 
       return cascade.run(scoredFbDocs, context);
@@ -726,17 +726,17 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       // Search using constructed query.
       TopDocs rs;
       if (args.arbitraryScoreTieBreak) {
-        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
+        rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
+        rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
             args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
 
-      RerankerContext context = new RerankerContext<>(searcher, qid, query, docid,
+      RerankerContext context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
           StringUtils.join(", ", terms), terms, null, args);
 
       // Run the existing cascade.
-      ScoredDocs docs = cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
+      ScoredDocs docs = cascade.run(ScoredDocs.fromTopDocs(rs, getIndexSearcher()), context);
 
       // Perform post-processing (e.g., date filter, dedupping, etc.) as a final step.
       return new NewsBackgroundLinkingReranker(analyzer, collectionClass).rerank(docs, context);
@@ -775,25 +775,25 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
+          rs = getIndexSearcher().search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
         } else {
-          rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
+          rs = getIndexSearcher().search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
               BREAK_SCORE_TIES_BY_TWEETID, true);
         }
       }
 
-      RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
+      RerankerContext context = new RerankerContext<>(getIndexSearcher(), qid, keywordQuery, null, queryString, queryTokens, filter, args);
       ScoredDocs scoredFbDocs;
       if (isRerank && args.rf_qrels != null) {
         if (hasRelDocs) {
           scoredFbDocs = queryQrels;
         } else {//if no relevant documents, only perform score based tie breaking next
-          scoredFbDocs = ScoredDocs.fromTopDocs(rs, searcher);
+          scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
           cascade = new RerankerCascade();
           cascade.add(new ScoreTiesAdjusterReranker());
         }
       } else {
-        scoredFbDocs = ScoredDocs.fromTopDocs(rs, searcher);
+        scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
       }
 
       return cascade.run(scoredFbDocs, context);

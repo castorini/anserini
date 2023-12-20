@@ -64,8 +64,8 @@ public class BaseSearcherTest extends IndexerTestBase {
     assertEquals(0.57024956f, topDocs.scoreDocs[0].score, 10e-8);
 
     // Now we can test BaseSearcher itself:
-    BaseSearcher<String> baseSearcher = new BaseSearcher<>(new BaseSearchArgs());
-    ScoredDoc[] scoredDocs = baseSearcher.processLuceneTopDocs(indexSearcher, "q1", topDocs);
+    BaseSearcher<String> baseSearcher = new BaseSearcher<>(new BaseSearchArgs(), indexSearcher);
+    ScoredDoc[] scoredDocs = baseSearcher.processLuceneTopDocs("q1", topDocs);
 
     assertEquals(1, scoredDocs.length);
     assertEquals(2, scoredDocs[0].lucene_docid);
@@ -73,6 +73,13 @@ public class BaseSearcherTest extends IndexerTestBase {
     assertEquals("doc3", scoredDocs[0].docid);
     assertEquals("here is a test", scoredDocs[0].lucene_document.get(Constants.CONTENTS));
     assertEquals("{\"contents\": \"here is a test\"}", scoredDocs[0].lucene_document.get(Constants.RAW));
+
+    scoredDocs = baseSearcher.processLuceneTopDocs("q1", topDocs, false);
+    assertEquals(1, scoredDocs.length);
+    assertEquals(2, scoredDocs[0].lucene_docid);
+    assertEquals(0.57024956f, scoredDocs[0].score, 10e-8);
+    assertEquals("doc3", scoredDocs[0].docid);
+    assertNull(scoredDocs[0].lucene_document);
   }
 
   @Test
@@ -104,7 +111,7 @@ public class BaseSearcherTest extends IndexerTestBase {
     assertEquals(0.57024956f, topDocs.scoreDocs[0].score, 10e-8);
 
     // Now we can test BaseSearcher itself:
-    BaseSearcher<String> baseSearcher = new BaseSearcher<>(new BaseSearchArgs());
+    BaseSearcher<String> baseSearcher = new BaseSearcher<>(new BaseSearchArgs(), indexSearcher);
 
     ScoredDoc[] scoredDocs = baseSearcher.processScoredDocs("q1", ScoredDocs.fromTopDocs(topDocs, indexSearcher), true);
     assertEquals(1, scoredDocs.length);
@@ -119,6 +126,6 @@ public class BaseSearcherTest extends IndexerTestBase {
     assertEquals(2, scoredDocs[0].lucene_docid);
     assertEquals(0.57024956f, scoredDocs[0].score, 10e-8);
     assertEquals("doc3", scoredDocs[0].docid);
-    assertEquals(null, scoredDocs[0].lucene_document);
+    assertNull(scoredDocs[0].lucene_document);
   }
 }
