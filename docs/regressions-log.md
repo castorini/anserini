@@ -3,11 +3,42 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### December 19, 2023
+
++ commit [`883539`](https://github.com/castorini/anserini/commit/883539b119e3c4f236f4fda3dd748a3b2d4ff1a1) (12/19/2023)
+
+Upgraded to Lucene 9.9.1, added following regressions:
+
++ `msmarco-passage-cos-dpr-distil-hnsw-int8-onnx`
++ `msmarco-passage-cos-dpr-distil-hnsw-int8`
++ `msmarco-passage-openai-ada2-int8`
++ `dl19-passage-cos-dpr-distil-hnsw-int8-onnx`
++ `dl19-passage-cos-dpr-distil-hnsw-int8`
++ `dl19-passage-openai-ada2-int8`
++ `dl20-passage-cos-dpr-distil-hnsw-int8-onnx`
++ `dl20-passage-cos-dpr-distil-hnsw-int8`
++ `dl20-passage-openai-ada2-int8`
+
+Note, however, that we're still having issues with the `openai-ada2-int8` regressions; not fully working yet.
+
 ### November 24, 2023
 
 + commit [`d88446`](https://github.com/castorini/anserini/commit/d88446c7e0ef344d2e185a7280a999a28ff70662) (11/24/2023)
 
 Added regressions for SPLADE++ CoCondenser-EnsembleDistil on BEIR (v1.0.0),
+
+### November 18, 2023
+
++ commit [`636918`](https://github.com/castorini/anserini/commit/6369184625c84dfa45b775ddedeb2bc31ceb84c7) (11/18/2023)
+
+Added the following:
+
++ `msmarco-passage-cos-dpr-distil-fw`
++ `dl19-passage-cos-dpr-distil-fw`
++ `dl20-passage-cos-dpr-distil-fw`
++ `msmarco-passage-cos-dpr-distil-lexlsh`
++ `dl19-passage-cos-dpr-distil-lexlsh`
++ `dl20-passage-cos-dpr-distil-lexlsh`
 
 ### November 9, 2023
 
