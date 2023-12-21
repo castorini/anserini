@@ -23,6 +23,7 @@ import io.anserini.analysis.CompositeAnalyzer;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.encoder.sparse.SparseEncoder;
 import io.anserini.index.Constants;
 import io.anserini.index.generator.TweetGenerator;
@@ -84,7 +85,6 @@ import org.apache.lucene.util.BytesRef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
@@ -122,7 +122,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
   // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
-  // tweets requires a slightly different code path, which is enabled by the -searchtweets option in SearchArgs.
+  // tweets requires a slightly different code path, which is enabled by the -searchTweets option in Args.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
@@ -132,6 +132,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
   public static class Args extends BaseSearchArgs {
+    @Option(name = "-options", usage = "Print information about options.")
+    public Boolean options = false;
+
     @Option(name = "-generator", metaVar = "[class]", usage = "QueryGenerator to use.")
     public String queryGenerator = "BagOfWordsQueryGenerator";
 
@@ -144,7 +147,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-topicReader", required = true, usage = "TopicReader to use.")
     public String topicReader;
 
-    // optional arguments
     @Option(name = "-collection", metaVar = "[class]",
         usage = "If doc vector is not stored in the index, this need to be provided as collection class in package 'io.anserini.collection'.")
     public String collectionClass;
@@ -175,30 +177,30 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         " For TREC ad hoc topics, description or narrative can be used.")
     public String topicField = "title";
 
-    @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
-    public Boolean skipexists = false;
+    @Option(name = "-skipExists", usage = "When enabled, will skip if the run file exists")
+    public Boolean skipExists = false;
 
-    @Option(name = "-searchtweets", usage = "Whether the search is against a tweet " +
+    @Option(name = "-searchTweets", usage = "Whether the search is against a tweet " +
         "index created by IndexCollection -collection TweetCollection")
-    public Boolean searchtweets = false;
+    public Boolean searchTweets = false;
 
-    @Option(name = "-backgroundlinking", forbids = {"-sdm", "-rf.qrels"},
+    @Option(name = "-backgroundLinking", forbids = {"-sdm", "-rf.qrels"},
         usage = "performs the background linking task as part of the TREC News Track")
-    public Boolean backgroundlinking = false;
+    public Boolean backgroundLinking = false;
 
-    @Option(name = "-backgroundlinking.k", usage = "extract top k terms from the query document for TREC News Track Background " +
+    @Option(name = "-backgroundLinking.k", usage = "extract top k terms from the query document for TREC News Track Background " +
         "Linking task. The terms are ranked by their tf-idf score from the query document")
-    public int backgroundlinking_k = 10;
+    public int backgroundLinkingK = 10;
 
-    @Option(name = "-backgroundlinking.datefilter", usage = "Boolean switch to filter out articles published after topic article " +
+    @Option(name = "-backgroundLinking.dateFilter", usage = "Boolean switch to filter out articles published after topic article " +
         "for the TREC News Track Background Linking task.")
-    public boolean backgroundlinking_datefilter = false;
+    public boolean backgroundLinkingDatefilter = false;
 
     @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
     public String stemmer = "porter";
 
-    @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
-    public boolean keepstop = false;
+    @Option(name = "-keepStopwords", usage = "Boolean switch to keep stopwords in the query topics")
+    public boolean keepStopwords = false;
 
     @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
         usage = "Path to file with stopwords.")
@@ -498,9 +500,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
     public String axiom_index = null;
 
-    @Option(name = "-qid_queries", metaVar = "[file]", usage = "query id - query mapping file")
-    public String qid_queries = "";
-
     // These are convenience methods to support a fluent, method-chaining style of programming.
     public Args impact() {
       this.impact = true;
@@ -629,13 +628,13 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
 
     public Args searchTweets() {
-      this.searchtweets = true;
+      this.searchTweets = true;
       return this;
     }
 
   }
 
-  private final class Searcher<K extends Comparable<K>> extends BaseSearcher<K> {
+  private final class Searcher<T extends Comparable<T>> extends BaseSearcher<T> {
     private final QueryGenerator generator;
     private final SdmQueryGenerator sdmQueryGenerator;
     private final Args args;
@@ -657,7 +656,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.args = (Args) args;
     }
 
-    public ScoredDocs search(K qid, String queryString,
+    public ScoredDocs search(T qid, String queryString,
                              RerankerCascade cascade,
                              ScoredDocs queryQrels,
                              boolean hasRelDocs) throws IOException {
@@ -682,7 +681,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       }
 
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-      RerankerContext context = new RerankerContext<>(getIndexSearcher(), qid, query, null, queryString, queryTokens, null, args);
+      RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, query, null, queryString, queryTokens, null, args);
       ScoredDocs scoredFbDocs;
       if (isRerank && args.rf_qrels != null) {
         if (hasRelDocs) {
@@ -700,11 +699,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       return cascade.run(scoredFbDocs, context);
     }
 
-    public ScoredDocs searchBackgroundLinking(K qid,
+    public ScoredDocs searchBackgroundLinking(T qid,
                                               String docid,
                                               RerankerCascade cascade) throws IOException {
       // Extract a list of analyzed terms from the document to compose a query.
-      List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundlinking_k, analyzer);
+      List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundLinkingK, analyzer);
       // Since the terms are already analyzed, we just join them together and use the StandardQueryParser.
       Query docQuery;
       try {
@@ -732,7 +731,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
 
-      RerankerContext context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
+      RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
           StringUtils.join(", ", terms), terms, null, args);
 
       // Run the existing cascade.
@@ -742,7 +741,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       return new NewsBackgroundLinkingReranker(analyzer, collectionClass).rerank(docs, context);
     }
 
-    public ScoredDocs searchTweets(K qid,
+    public ScoredDocs searchTweets(T qid,
                                    String queryString,
                                    long t,
                                    RerankerCascade cascade,
@@ -757,7 +756,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
               .getConstructor().newInstance();
           keywordQuery = generator.buildQuery(Constants.CONTENTS, analyzer, queryString);
         } catch (Exception e) {
-          e.printStackTrace();
           throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
         }
       }
@@ -782,7 +780,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         }
       }
 
-      RerankerContext context = new RerankerContext<>(getIndexSearcher(), qid, keywordQuery, null, queryString, queryTokens, filter, args);
+      RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, keywordQuery, null, queryString, queryTokens, filter, args);
       ScoredDocs scoredFbDocs;
       if (isRerank && args.rf_qrels != null) {
         if (hasRelDocs) {
@@ -800,16 +798,16 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
   }
 
-  private final class SearcherThread<K extends Comparable<K>> extends Thread {
-    final private Searcher<K> searcher;
-    final private SortedMap<K, Map<String, String>> topics;
+  private final class SearcherThread<T extends Comparable<T>> extends Thread {
+    final private Searcher<T> searcher;
+    final private SortedMap<T, Map<String, String>> topics;
     final private TaggedSimilarity taggedSimilarity;
     final private RerankerCascade cascade;
     final private String outputPath;
     final private String runTag;
     final private SparseEncoder queryEncoder;
 
-    private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
+    private SearcherThread(IndexReader reader, SortedMap<T, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
                            RerankerCascade cascade, String outputPath, String runTag) {
       // We need to pass in the topics because for tweets, we need to extract the tweet time.
       this.topics = topics;
@@ -817,7 +815,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.cascade = cascade;
       this.runTag = runTag;
       this.outputPath = outputPath;
-      this.searcher = new Searcher(new IndexSearcher(reader), taggedSimilarity, args);
+      this.searcher = new Searcher<>(new IndexSearcher(reader), taggedSimilarity, args);
 
       setName(outputPath);
 
@@ -836,6 +834,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
       // A short descriptor of the ranking setup.
       final String desc = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
@@ -843,27 +842,27 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       // ThreadPool for parallelizing the execution of individual queries:
       ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
       // Data structure for holding the per-query results:
-      ConcurrentSkipListMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
+      ConcurrentSkipListMap<T, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
       AtomicInteger cnt = new AtomicInteger();
 
       final long start = System.nanoTime();
-      for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
-        K qid = entry.getKey();
+      for (Map.Entry<T, Map<String, String>> entry : topics.entrySet()) {
+        T qid = entry.getKey();
 
         // This is the per-query execution, in parallel.
         executor.execute(() -> {
           try {
-            String queryString = "";
+            StringBuilder queryString = new StringBuilder();
             if (args.topicField.contains("+")) {
               for (String field : args.topicField.split("\\+")) {
-                queryString += " " + entry.getValue().get(field);
+                queryString.append(" ").append(entry.getValue().get(field));
               }
             } else {
-              queryString = entry.getValue().get(args.topicField);
+              queryString = new StringBuilder(entry.getValue().get(args.topicField));
             }
 
             if (queryEncoder != null) {
-              queryString = queryEncoder.encode(queryString);
+              queryString = new StringBuilder(queryEncoder.encode(queryString.toString()));
             }
 
             ScoredDocs queryQrels = null;
@@ -877,12 +876,12 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             }
 
             ScoredDocs docs;
-            if (args.searchtweets) {
-              docs = searcher.searchTweets(qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
-            } else if (args.backgroundlinking) {
-              docs = searcher.searchBackgroundLinking(qid, queryString, cascade);
+            if (args.searchTweets) {
+              docs = searcher.searchTweets(qid, queryString.toString(), Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
+            } else if (args.backgroundLinking) {
+              docs = searcher.searchBackgroundLinking(qid, queryString.toString(), cascade);
             } else {
-              docs = searcher.search(qid, queryString, cascade, queryQrels, hasRelDocs);
+              docs = searcher.search(qid, queryString.toString(), cascade, queryQrels, hasRelDocs);
             }
 
             // Note we do *not* want to retain references to the Lucene documents since it's a waste of memory.
@@ -916,8 +915,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
 
       // Now we write the results to a run file.
-      try(RunOutputWriter<K> out = new RunOutputWriter<>(outputPath, args.format, runTag)) {
-
+      try(RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, runTag)) {
         // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
         // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
         // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
@@ -942,7 +940,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             while ((line = reader.readLine()) != null) {
               line = line.trim();
               String[] arr = line.split("\\t");
-              out.writeTopic((K) arr[0], results.get(Integer.parseInt(arr[0])));
+              out.writeTopic((T) arr[0], results.get(Integer.parseInt(arr[0])));
             }
           } catch (IOException e) {
             e.printStackTrace();
@@ -951,7 +949,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           results.forEach((qid, hits) -> out.writeTopic(qid, results.get(qid)));
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException(String.format("Error writing runs to \"%s\".", outputPath));
       }
     }
   }
@@ -959,7 +957,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private final Args args;
   private final IndexReader reader;
   private final Analyzer analyzer;
-  private final Class collectionClass;
+  private final Class<? extends DocumentCollection<?>> collectionClass;
   private final List<TaggedSimilarity> similarities;
   private final List<RerankerCascade> cascades;
   private final boolean isRerank;
@@ -967,6 +965,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private Map<String, ScoredDocs> qrels;
   private Set<String> queriesWithRel;
 
+  @SuppressWarnings("unchecked")
   public SearchCollection(Args args) throws IOException {
     this.args = args;
     Path indexPath = Path.of(args.index);
@@ -987,9 +986,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       indexPath = Paths.get(args.index);
     }
 
-    if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", args.index));
-    }
     LOG.info("============ Initializing Searcher ============");
     LOG.info("Index: " + indexPath);
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
@@ -1010,21 +1006,20 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     // get collection class if available
     if (args.collectionClass != null) {
-      Class getCollectionClass;
       try {
-        getCollectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
+        this.collectionClass = (Class<? extends DocumentCollection<?>>)
+            Class.forName("io.anserini.collection." + args.collectionClass);
       } catch (ClassNotFoundException e) {
-        getCollectionClass = null;
-        System.out.println("collectionClass: " + args.collectionClass + " NOT FOUND!");
+        throw new RuntimeException(String.format("Unable to initialize collection class \"%s\".", args.collectionClass));
       }
-      this.collectionClass = getCollectionClass;
     } else {
       this.collectionClass = null;
     }
 
-    analyzer = getAnalyzer();
-
-    isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
+    this.isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
+    this.analyzer = getAnalyzer();
+    this.similarities = constructSimilarities();
+    this.cascades = constructRerankers();
 
     if (this.isRerank && args.rf_qrels != null) {
       loadQrels(args.rf_qrels);
@@ -1038,23 +1033,25 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       args.axiom_deterministic = false;
     }
 
-    this.similarities = constructSimilarities();
-    this.cascades = constructRerankers();
-
-    TopicReader<K> tr;
+    // We might not be able to successfully read topics for a variety of reasons. Gather all possible
+    // exceptions together as an unchecked exception to make initialization and error reporting clearer.
     topics = new TreeMap<>();
-    for (String singleTopicsFile : args.topics) {
-      Path topicsPath =  Path.of(singleTopicsFile);
+    for (String topicsFile : args.topics) {
+      Path topicsFilePath = Paths.get(topicsFile);
+      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
+        throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
+      }
       try {
-        tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
-            .getConstructor(Path.class).newInstance(topicsPath);
+        @SuppressWarnings("unchecked")
+        TopicReader<K> tr = (TopicReader<K>) Class
+            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
+            .getConstructor(Path.class).newInstance(topicsFilePath);
+
         topics.putAll(tr.read());
       } catch (Exception e) {
-        e.printStackTrace();
-        throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+        throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
       }
     }
-
   }
 
   @Override
@@ -1155,10 +1152,10 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 }
                 RerankerCascade cascade = new RerankerCascade(tag);
-                cascade.add(new AxiomReranker(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
+                cascade.add(new AxiomReranker<K>(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
                     args.axiom_deterministic, Integer.parseInt(seed), Integer.parseInt(r),
                     Integer.parseInt(n), Float.parseFloat(beta), Integer.parseInt(top),
-                    args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
+                    args.axiom_docids, args.axiom_outputQuery, args.searchTweets));
                 cascade.add(new ScoreTiesAdjusterReranker());
                 cascades.add(cascade);
               }
@@ -1181,8 +1178,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                       fbTerms, fbDocs, k1, b, newTermWeight);
                 }
                 RerankerCascade cascade = new RerankerCascade(tag);
-                cascade.add(new BM25PrfReranker(analyzer, collectionClass, Constants.CONTENTS, Integer.valueOf(fbTerms),
-                    Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
+                cascade.add(new BM25PrfReranker(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(fbTerms),
+                    Integer.parseInt(fbDocs), Float.parseFloat(k1), Float.parseFloat(b), Float.parseFloat(newTermWeight),
                     args.bm25prf_outputQuery));
                 cascade.add(new ScoreTiesAdjusterReranker());
                 cascades.add(cascade);
@@ -1250,11 +1247,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         this.queriesWithRel.add(qid);
       }
       String fbDocid = cols[2];
-      Map<String, Integer> queryQrelsDocs = qrelsDocs.get(qid);
-      if (queryQrelsDocs == null) {
-        queryQrelsDocs = new HashMap<>();
-        qrelsDocs.put(qid, queryQrelsDocs);
-      }
+      Map<String, Integer> queryQrelsDocs = qrelsDocs.computeIfAbsent(qid, k -> new HashMap<>());
       queryQrelsDocs.put(fbDocid, rel);
     }
 
@@ -1270,7 +1263,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private Analyzer getAnalyzer() {
     try {
       // Are we searching tweets?
-      if (args.searchtweets) {
+      if (args.searchTweets) {
         return new TweetAnalyzer();
       } else if (args.useAutoCompositeAnalyzer) {
         LOG.info("Using AutoCompositeAnalyzer");
@@ -1280,7 +1273,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
           languageSpecificAnalyzer = AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
         } else if (args.language.equals("en")) {
-          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
+          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
         } else {
           languageSpecificAnalyzer = new WhitespaceAnalyzer();
         }
@@ -1301,9 +1294,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         // Default to English
         LOG.info("Using DefaultEnglishAnalyzer");
         LOG.info("Stemmer: " + args.stemmer);
-        LOG.info("Keep stopwords? " + args.keepstop);
+        LOG.info("Keep stopwords? " + args.keepStopwords);
         LOG.info("Stopwords file: " + args.stopwords);
-        return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepstop, args.stopwords);
+        return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
       }
     } catch (Exception e) {
       return null;
@@ -1329,11 +1322,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           outputPath = String.format("%s_%s_%s", args.output, taggedSimilarity.getTag(), cascade.getTag());
         }
 
-        if (args.skipexists && new File(outputPath).exists()) {
+        if (args.skipExists && new File(outputPath).exists()) {
           LOG.info("Run already exists, skipping: " + outputPath);
           continue;
         }
-        executor.execute(new SearcherThread(reader, topics, taggedSimilarity, cascade, outputPath, runTag));
+        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath, runTag));
       }
     }
     executor.shutdown();
@@ -1352,14 +1345,27 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
   public static void main(String[] args) throws Exception {
     Args searchArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: SearchCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      if (searchArgs.options) {
+        System.err.printf("Options for %s:\n\n", SearchCollection.class.getSimpleName());
+        parser.printUsage(System.err);
+
+        List<String> required = new ArrayList<>();
+        parser.getOptions().forEach((option) -> {
+          if (option.option.required()) {
+            required.add(option.option.toString());
+          }
+        });
+
+        System.err.printf("\nRequired options are %s\n", required);
+      } else {
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
+      }
+
       return;
     }
 
@@ -1367,11 +1373,10 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
-    try(SearchCollection searcher = new SearchCollection(searchArgs)) {
+    try(SearchCollection<?> searcher = new SearchCollection<>(searchArgs)) {
       searcher.run();
     } catch (IllegalArgumentException e) {
-      System.err.println(e.getMessage());
-      return;
+      System.err.printf("Error: %s\n", e.getMessage());
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);

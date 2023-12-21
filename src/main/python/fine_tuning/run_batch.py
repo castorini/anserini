@@ -67,7 +67,7 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
         this_para = (
             program,
             '-searchtweets' if 'mb' in collection_yaml['name'] else '',
-            '-topicreader', collection_yaml['topic_reader'],
+            '-topicReader', collection_yaml['topic_reader'],
             '-index', index_path,
             '-topics', os.path.join(collection_yaml['anserini_root'], collection_yaml['topic_root'], collection_yaml['topic']),
             para[0],

@@ -85,7 +85,7 @@ public class Rm3Reranker implements Reranker {
     FeatureVector qfv = FeatureVector.fromTerms(context.getQueryTokens()).scaleToUnitL1Norm();
 
     boolean useRf = (context.getSearchArgs().rf_qrels != null);
-    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets, useRf);
+    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchTweets, useRf);
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
@@ -125,7 +125,7 @@ public class Rm3Reranker implements Reranker {
       // Figure out how to break the scoring ties.
       if (context.getSearchArgs().arbitraryScoreTieBreak) {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
+      } else if (context.getSearchArgs().searchTweets) {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       } else {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);

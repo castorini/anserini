@@ -100,7 +100,7 @@ public class RocchioReranker implements Reranker {
     boolean relevantFlag;
     try {
       relevantFlag = true;
-      meanRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, topFbTerms, topFbDocs, relevantFlag);
+      meanRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchTweets, topFbTerms, topFbDocs, relevantFlag);
     } catch (IOException e) {
       // If we run into any issues, just return the original results - as if we never performed feedback.
       e.printStackTrace();
@@ -112,7 +112,7 @@ public class RocchioReranker implements Reranker {
     if (useNegative != false) {
       try {
         relevantFlag = false;
-        meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
+        meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchTweets, bottomFbTerms, bottomFbDocs, relevantFlag);
       } catch (IOException e) {
         // If we run into any issues, just return the original results - as if we never performed feedback.
         e.printStackTrace();

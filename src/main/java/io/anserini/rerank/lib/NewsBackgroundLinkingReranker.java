@@ -80,7 +80,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
       }
     }
 
-    if (context.getSearchArgs().backgroundlinking_datefilter) {
+    if (context.getSearchArgs().backgroundLinkingDatefilter) {
       try {
         int luceneId = IndexReaderUtils.convertDocidToLuceneDocid(reader, queryDocId);
         Document queryDoc = reader.storedFields().document(luceneId);

@@ -236,7 +236,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     // Figure out how to break the scoring ties.
     if (context.getSearchArgs().arbitraryScoreTieBreak) {
       rs = searcher.search(finalQuery, context.getSearchArgs().hits);
-    } else if (context.getSearchArgs().searchtweets) {
+    } else if (context.getSearchArgs().searchTweets) {
       rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
     } else {
       rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
@@ -312,7 +312,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       SearchCollection.Args args = new SearchCollection.Args();
       args.hits = this.R;
       args.arbitraryScoreTieBreak = context.getSearchArgs().arbitraryScoreTieBreak;
-      args.searchtweets = context.getSearchArgs().searchtweets;
+      args.searchTweets = context.getSearchArgs().searchTweets;
 
       RerankerContext<T> externalContext = new RerankerContext<>(searcher, context.getQueryId(), context.getQuery(),
           context.getQueryDocId(), context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
