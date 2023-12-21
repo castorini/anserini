@@ -136,18 +136,21 @@ python src/main/python/run_regression.py --search --regression dl19-passage-docT
 python src/main/python/run_regression.py --search --regression dl19-passage-splade-pp-ed-onnx > logs/log.dl19-passage-splade-pp-ed-onnx 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-splade-pp-sd-onnx > logs/log.dl19-passage-splade-pp-sd-onnx 2>&1
 
+python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-hnsw > logs/log.dl19-passage-cos-dpr-distil-hnsw 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-hnsw-int8 > logs/log.dl19-passage-cos-dpr-distil-hnsw-int8 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-fw > logs/log.dl19-passage-cos-dpr-distil-fw 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-lexlsh > logs/log.dl19-passage-cos-dpr-distil-lexlsh 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-openai-ada2 > logs/log.dl19-passage-openai-ada2 2>&1
+
 python src/main/python/run_regression.py --search --regression dl19-passage-unicoil > logs/log.dl19-passage-unicoil 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-unicoil-noexp > logs/log.dl19-passage-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-splade-distil-cocodenser-medium > logs/log.dl19-passage-splade-distil-cocodenser-medium 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-splade-pp-ed > logs/log.dl19-passage-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-splade-pp-sd > logs/log.dl19-passage-splade-pp-sd 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-hnsw > logs/log.dl19-passage-cos-dpr-distil-hnsw 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-hnsw-int8 > logs/log.dl19-passage-cos-dpr-distil-hnsw-int8 2>&1
+
+# We need to offset the ONNX runs since they write to the same run files.
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-hnsw-onnx > logs/log.dl19-passage-cos-dpr-distil-hnsw-onnx 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-hnsw-int8-onnx > logs/log.dl19-passage-cos-dpr-distil-hnsw-int8-onnx 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-fw > logs/log.dl19-passage-cos-dpr-distil-fw 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-lexlsh > logs/log.dl19-passage-cos-dpr-distil-lexlsh 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-openai-ada2 > logs/log.dl19-passage-openai-ada2 2>&1
 
 python src/main/python/run_regression.py --search --regression dl19-doc > logs/log.dl19-doc 2>&1
 python src/main/python/run_regression.py --search --regression dl19-doc-ca > logs/log.dl19-doc-ca 2>&1
@@ -172,18 +175,21 @@ python src/main/python/run_regression.py --search --regression dl20-passage-docT
 python src/main/python/run_regression.py --search --regression dl20-passage-splade-pp-ed-onnx > logs/log.dl20-passage-splade-pp-ed-onnx 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-splade-pp-sd-onnx > logs/log.dl20-passage-splade-pp-sd-onnx 2>&1
 
+python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw > logs/log.dl20-passage-cos-dpr-distil-hnsw 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw-int8 > logs/log.dl20-passage-cos-dpr-distil-hnsw-int8 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-fw > logs/log.dl20-passage-cos-dpr-distil-fw 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-lexlsh > logs/log.dl20-passage-cos-dpr-distil-lexlsh 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-openai-ada2 > logs/log.dl20-passage-openai-ada2 2>&1
+
 python src/main/python/run_regression.py --search --regression dl20-passage-unicoil > logs/log.dl20-passage-unicoil 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-unicoil-noexp > logs/log.dl20-passage-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-splade-distil-cocodenser-medium > logs/log.dl20-passage-splade-distil-cocodenser-medium 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-splade-pp-ed > logs/log.dl20-passage-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-splade-pp-sd > logs/log.dl20-passage-splade-pp-sd 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw > logs/log.dl20-passage-cos-dpr-distil-hnsw 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw-int8 > logs/log.dl20-passage-cos-dpr-distil-hnsw-int8 2>&1
+
+# We need to offset the ONNX runs since they write to the same run files.
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw-onnx > logs/log.dl20-passage-cos-dpr-distil-hnsw-onnx 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw-int8-onnx > logs/log.dl20-passage-cos-dpr-distil-hnsw-int8-onnx 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-fw > logs/log.dl20-passage-cos-dpr-distil-fw 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-lexlsh > logs/log.dl20-passage-cos-dpr-distil-lexlsh 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-openai-ada2 > logs/log.dl20-passage-openai-ada2 2>&1
 
 python src/main/python/run_regression.py --search --regression dl20-doc > logs/log.dl20-doc 2>&1
 python src/main/python/run_regression.py --search --regression dl20-doc-ca > logs/log.dl20-doc-ca 2>&1
