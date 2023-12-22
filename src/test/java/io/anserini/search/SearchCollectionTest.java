@@ -17,6 +17,9 @@
 package io.anserini.search;
 
 import io.anserini.TestUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -29,6 +32,11 @@ public class SearchCollectionTest {
   private final ByteArrayOutputStream err = new ByteArrayOutputStream();
   private PrintStream save;
 
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
+  }
+
   private void redirectStderr() {
     save = System.err;
     err.reset();
@@ -37,6 +45,16 @@ public class SearchCollectionTest {
 
   private void restoreStderr() {
     System.setErr(save);
+  }
+
+  @Test
+  public void testAskForOptions() throws Exception {
+    redirectStderr();
+
+    SearchCollection.main(new String[] {"-options"});
+    assertTrue(err.toString().contains("Options for SearchCollection"));
+
+    restoreStderr();
   }
 
   @Test
@@ -154,7 +172,7 @@ public class SearchCollectionTest {
         "1 Q0 DOC222 1 0.343200 Anserini",
         "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
         "1 Q0 WSJ_1 3 0.068700 Anserini"});
-    new File("run.test").delete();
+    assertTrue(new File("run.test").delete());
 
     SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_json_collection_tokenized/",
@@ -165,7 +183,7 @@ public class SearchCollectionTest {
 
     TestUtils.checkFile("run.test", new String[]{
         "1 Q0 2000001 1 4.000000 Anserini",});
-    new File("run.test").delete();
+    assertTrue(new File("run.test").delete());
   }
 
   @Test
@@ -180,7 +198,7 @@ public class SearchCollectionTest {
         "1 Q0 DOC222 1 0.343192 Anserini",
         "1 Q0 TREC_DOC_1 2 0.333445 Anserini",
         "1 Q0 WSJ_1 3 0.068654 Anserini"});
-    new File("run.test").delete();
+    assertTrue(new File("run.test").delete());
 
     SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_json_collection_tokenized/",
@@ -190,6 +208,6 @@ public class SearchCollectionTest {
 
     TestUtils.checkFile("run.test", new String[]{
         "1 Q0 2000001 1 4.000000 Anserini",});
-    new File("run.test").delete();
+    assertTrue(new File("run.test").delete());
   }
 }
