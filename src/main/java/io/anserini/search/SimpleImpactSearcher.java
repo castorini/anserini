@@ -393,7 +393,7 @@ public class SimpleImpactSearcher implements Closeable {
    * Closes this searcher.
    */
   @Override
-  public void close() throws IOException {
+  public void close() {
     try {
       reader.close();
     } catch (Exception e) {

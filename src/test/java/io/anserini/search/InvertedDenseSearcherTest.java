@@ -24,6 +24,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -55,7 +56,6 @@ public class InvertedDenseSearcherTest {
     InvertedDenseSearcher.Args args = new InvertedDenseSearcher.Args();
     args.index = indexPath;
     args.encoding = "fw";
-    InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args);
 
     TopicReader<Integer> topicReader = new JsonIntVectorTopicReader(
         Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl"));
@@ -63,68 +63,70 @@ public class InvertedDenseSearcherTest {
     SortedMap<Integer, Map<String, String>> topics = topicReader.read();
     Iterator<Integer> iterator = topics.keySet().iterator();
 
-    int qid = iterator.next();
-    ScoredDoc[] results;
+    try(InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args)) {
+      int qid = iterator.next();
+      ScoredDoc[] results;
 
-    assertEquals(160885, qid);
-    results = searcher.search(qid, topics.get(qid).get("vector"), 5);
-    assertEquals(5, results.length);
-    assertEquals("40", results[0].docid);
-    assertEquals("44", results[1].docid);
-    assertEquals("48", results[2].docid);
-    assertEquals("43", results[3].docid);
-    assertEquals("41", results[4].docid);
+      assertEquals(160885, qid);
+      results = searcher.search(qid, topics.get(qid).get("vector"), 5);
+      assertEquals(5, results.length);
+      assertEquals("40", results[0].docid);
+      assertEquals("44", results[1].docid);
+      assertEquals("48", results[2].docid);
+      assertEquals("43", results[3].docid);
+      assertEquals("41", results[4].docid);
 
-    assertEquals(32.355999f, results[0].score, 10e-6);
-    assertEquals(31.581369f, results[1].score, 10e-6);
-    assertEquals(30.734432f, results[2].score, 10e-6);
-    assertEquals(30.215816f, results[3].score, 10e-6);
-    assertEquals(30.153873f, results[4].score, 10e-6);
+      assertEquals(32.355999f, results[0].score, 10e-6);
+      assertEquals(31.581369f, results[1].score, 10e-6);
+      assertEquals(30.734432f, results[2].score, 10e-6);
+      assertEquals(30.215816f, results[3].score, 10e-6);
+      assertEquals(30.153873f, results[4].score, 10e-6);
 
-    // Now test without qid
-    results = searcher.search(topics.get(qid).get("vector"), 5);
-    assertEquals(5, results.length);
-    assertEquals("40", results[0].docid);
-    assertEquals("44", results[1].docid);
-    assertEquals("48", results[2].docid);
-    assertEquals("43", results[3].docid);
-    assertEquals("41", results[4].docid);
+      // Now test without qid
+      results = searcher.search(topics.get(qid).get("vector"), 5);
+      assertEquals(5, results.length);
+      assertEquals("40", results[0].docid);
+      assertEquals("44", results[1].docid);
+      assertEquals("48", results[2].docid);
+      assertEquals("43", results[3].docid);
+      assertEquals("41", results[4].docid);
 
-    assertEquals(32.355999f, results[0].score, 10e-6);
-    assertEquals(31.581369f, results[1].score, 10e-6);
-    assertEquals(30.734432f, results[2].score, 10e-6);
-    assertEquals(30.215816f, results[3].score, 10e-6);
-    assertEquals(30.153873f, results[4].score, 10e-6);
+      assertEquals(32.355999f, results[0].score, 10e-6);
+      assertEquals(31.581369f, results[1].score, 10e-6);
+      assertEquals(30.734432f, results[2].score, 10e-6);
+      assertEquals(30.215816f, results[3].score, 10e-6);
+      assertEquals(30.153873f, results[4].score, 10e-6);
 
-    qid = iterator.next();
-    assertEquals(867490, qid);
-    results = searcher.search(qid, topics.get(qid).get("vector"), 5);
-    assertEquals(5, results.length);
-    assertEquals("97", results[0].docid);
-    assertEquals("95", results[1].docid);
-    assertEquals("43", results[2].docid);
-    assertEquals("10", results[3].docid);
-    assertEquals("45", results[4].docid);
+      qid = iterator.next();
+      assertEquals(867490, qid);
+      results = searcher.search(qid, topics.get(qid).get("vector"), 5);
+      assertEquals(5, results.length);
+      assertEquals("97", results[0].docid);
+      assertEquals("95", results[1].docid);
+      assertEquals("43", results[2].docid);
+      assertEquals("10", results[3].docid);
+      assertEquals("45", results[4].docid);
 
-    assertEquals(33.122585f, results[0].score, 10e-6);
-    assertEquals(32.564468f, results[1].score, 10e-6);
-    assertEquals(31.937614f, results[2].score, 10e-6);
-    assertEquals(31.408100f, results[3].score, 10e-6);
-    assertEquals(30.429819f, results[4].score, 10e-6);
+      assertEquals(33.122585f, results[0].score, 10e-6);
+      assertEquals(32.564468f, results[1].score, 10e-6);
+      assertEquals(31.937614f, results[2].score, 10e-6);
+      assertEquals(31.408100f, results[3].score, 10e-6);
+      assertEquals(30.429819f, results[4].score, 10e-6);
 
-    results = searcher.search(topics.get(qid).get("vector"), 5);
-    assertEquals(5, results.length);
-    assertEquals("97", results[0].docid);
-    assertEquals("95", results[1].docid);
-    assertEquals("43", results[2].docid);
-    assertEquals("10", results[3].docid);
-    assertEquals("45", results[4].docid);
+      results = searcher.search(topics.get(qid).get("vector"), 5);
+      assertEquals(5, results.length);
+      assertEquals("97", results[0].docid);
+      assertEquals("95", results[1].docid);
+      assertEquals("43", results[2].docid);
+      assertEquals("10", results[3].docid);
+      assertEquals("45", results[4].docid);
 
-    assertEquals(33.122585f, results[0].score, 10e-6);
-    assertEquals(32.564468f, results[1].score, 10e-6);
-    assertEquals(31.937614f, results[2].score, 10e-6);
-    assertEquals(31.408100f, results[3].score, 10e-6);
-    assertEquals(30.429819f, results[4].score, 10e-6);
+      assertEquals(33.122585f, results[0].score, 10e-6);
+      assertEquals(32.564468f, results[1].score, 10e-6);
+      assertEquals(31.937614f, results[2].score, 10e-6);
+      assertEquals(31.408100f, results[3].score, 10e-6);
+      assertEquals(30.429819f, results[4].score, 10e-6);
+    }
   }
 
   @Test
@@ -142,7 +144,6 @@ public class InvertedDenseSearcherTest {
     InvertedDenseSearcher.Args args = new InvertedDenseSearcher.Args();
     args.index = indexPath;
     args.encoding = "fw";
-    InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args);
 
     TopicReader<Integer> topicReader = new JsonIntVectorTopicReader(
         Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl"));
@@ -159,35 +160,37 @@ public class InvertedDenseSearcherTest {
       queries.add(query);
     });
 
-    SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
+    try(InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args)) {
+      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
 
-    ScoredDoc[] results = allResults.get(160885);
-    assertEquals(5, results.length);
-    assertEquals("40", results[0].docid);
-    assertEquals("44", results[1].docid);
-    assertEquals("48", results[2].docid);
-    assertEquals("43", results[3].docid);
-    assertEquals("41", results[4].docid);
+      ScoredDoc[] results = allResults.get(160885);
+      assertEquals(5, results.length);
+      assertEquals("40", results[0].docid);
+      assertEquals("44", results[1].docid);
+      assertEquals("48", results[2].docid);
+      assertEquals("43", results[3].docid);
+      assertEquals("41", results[4].docid);
 
-    assertEquals(32.355999f, results[0].score, 10e-6);
-    assertEquals(31.581369f, results[1].score, 10e-6);
-    assertEquals(30.734432f, results[2].score, 10e-6);
-    assertEquals(30.215816f, results[3].score, 10e-6);
-    assertEquals(30.153873f, results[4].score, 10e-6);
+      assertEquals(32.355999f, results[0].score, 10e-6);
+      assertEquals(31.581369f, results[1].score, 10e-6);
+      assertEquals(30.734432f, results[2].score, 10e-6);
+      assertEquals(30.215816f, results[3].score, 10e-6);
+      assertEquals(30.153873f, results[4].score, 10e-6);
 
-    results = allResults.get(867490);
-    assertEquals(5, results.length);
-    assertEquals("97", results[0].docid);
-    assertEquals("95", results[1].docid);
-    assertEquals("43", results[2].docid);
-    assertEquals("10", results[3].docid);
-    assertEquals("45", results[4].docid);
+      results = allResults.get(867490);
+      assertEquals(5, results.length);
+      assertEquals("97", results[0].docid);
+      assertEquals("95", results[1].docid);
+      assertEquals("43", results[2].docid);
+      assertEquals("10", results[3].docid);
+      assertEquals("45", results[4].docid);
 
-    assertEquals(33.122585f, results[0].score, 10e-6);
-    assertEquals(32.564468f, results[1].score, 10e-6);
-    assertEquals(31.937614f, results[2].score, 10e-6);
-    assertEquals(31.408100f, results[3].score, 10e-6);
-    assertEquals(30.429819f, results[4].score, 10e-6);
+      assertEquals(33.122585f, results[0].score, 10e-6);
+      assertEquals(32.564468f, results[1].score, 10e-6);
+      assertEquals(31.937614f, results[2].score, 10e-6);
+      assertEquals(31.408100f, results[3].score, 10e-6);
+      assertEquals(30.429819f, results[4].score, 10e-6);
+    }
   }
 
   @Test
@@ -205,7 +208,6 @@ public class InvertedDenseSearcherTest {
     InvertedDenseSearcher.Args args = new InvertedDenseSearcher.Args();
     args.index = indexPath;
     args.encoding = "lexlsh";
-    InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args);
 
     TopicReader<Integer> topicReader = new JsonIntVectorTopicReader(
         Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl"));
@@ -213,68 +215,70 @@ public class InvertedDenseSearcherTest {
     SortedMap<Integer, Map<String, String>> topics = topicReader.read();
     Iterator<Integer> iterator = topics.keySet().iterator();
 
-    int qid = iterator.next();
-    ScoredDoc[] results;
+    try(InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args)) {
+      int qid = iterator.next();
+      ScoredDoc[] results;
 
-    assertEquals(160885, qid);
-    results = searcher.search(qid, topics.get(qid).get("vector"), 5);
-    assertEquals(5, results.length);
-    assertEquals("97", results[0].docid);
-    assertEquals("4", results[1].docid);
-    assertEquals("118", results[2].docid);
-    assertEquals("43", results[3].docid);
-    assertEquals("65", results[4].docid);
+      assertEquals(160885, qid);
+      results = searcher.search(qid, topics.get(qid).get("vector"), 5);
+      assertEquals(5, results.length);
+      assertEquals("97", results[0].docid);
+      assertEquals("4", results[1].docid);
+      assertEquals("118", results[2].docid);
+      assertEquals("43", results[3].docid);
+      assertEquals("65", results[4].docid);
 
-    assertEquals(82.128540f, results[0].score, 10e-6);
-    assertEquals(79.793037f, results[1].score, 10e-6);
-    assertEquals(77.931618f, results[2].score, 10e-6);
-    assertEquals(75.614052f, results[3].score, 10e-6);
-    assertEquals(74.778358f, results[4].score, 10e-6);
+      assertEquals(82.128540f, results[0].score, 10e-6);
+      assertEquals(79.793037f, results[1].score, 10e-6);
+      assertEquals(77.931618f, results[2].score, 10e-6);
+      assertEquals(75.614052f, results[3].score, 10e-6);
+      assertEquals(74.778358f, results[4].score, 10e-6);
 
-    // Now test without qid
-    results = searcher.search(topics.get(qid).get("vector"), 5);
-    assertEquals(5, results.length);
-    assertEquals("97", results[0].docid);
-    assertEquals("4", results[1].docid);
-    assertEquals("118", results[2].docid);
-    assertEquals("43", results[3].docid);
-    assertEquals("65", results[4].docid);
+      // Now test without qid
+      results = searcher.search(topics.get(qid).get("vector"), 5);
+      assertEquals(5, results.length);
+      assertEquals("97", results[0].docid);
+      assertEquals("4", results[1].docid);
+      assertEquals("118", results[2].docid);
+      assertEquals("43", results[3].docid);
+      assertEquals("65", results[4].docid);
 
-    assertEquals(82.128540f, results[0].score, 10e-6);
-    assertEquals(79.793037f, results[1].score, 10e-6);
-    assertEquals(77.931618f, results[2].score, 10e-6);
-    assertEquals(75.614052f, results[3].score, 10e-6);
-    assertEquals(74.778358f, results[4].score, 10e-6);
+      assertEquals(82.128540f, results[0].score, 10e-6);
+      assertEquals(79.793037f, results[1].score, 10e-6);
+      assertEquals(77.931618f, results[2].score, 10e-6);
+      assertEquals(75.614052f, results[3].score, 10e-6);
+      assertEquals(74.778358f, results[4].score, 10e-6);
 
-    qid = iterator.next();
-    assertEquals(867490, qid);
-    results = searcher.search(qid, topics.get(qid).get("vector"), 5);
-    assertEquals(5, results.length);
-    assertEquals("45", results[0].docid);
-    assertEquals("13", results[1].docid);
-    assertEquals("10", results[2].docid);
-    assertEquals("44", results[3].docid);
-    assertEquals("67", results[4].docid);
+      qid = iterator.next();
+      assertEquals(867490, qid);
+      results = searcher.search(qid, topics.get(qid).get("vector"), 5);
+      assertEquals(5, results.length);
+      assertEquals("45", results[0].docid);
+      assertEquals("13", results[1].docid);
+      assertEquals("10", results[2].docid);
+      assertEquals("44", results[3].docid);
+      assertEquals("67", results[4].docid);
 
-    assertEquals(84.916107f, results[0].score, 10e-6);
-    assertEquals(82.500229f, results[1].score, 10e-6);
-    assertEquals(82.364830f, results[2].score, 10e-6);
-    assertEquals(79.369530f, results[3].score, 10e-6);
-    assertEquals(78.378647f, results[4].score, 10e-6);
+      assertEquals(84.916107f, results[0].score, 10e-6);
+      assertEquals(82.500229f, results[1].score, 10e-6);
+      assertEquals(82.364830f, results[2].score, 10e-6);
+      assertEquals(79.369530f, results[3].score, 10e-6);
+      assertEquals(78.378647f, results[4].score, 10e-6);
 
-    results = searcher.search(topics.get(qid).get("vector"), 5);
-    assertEquals(5, results.length);
-    assertEquals("45", results[0].docid);
-    assertEquals("13", results[1].docid);
-    assertEquals("10", results[2].docid);
-    assertEquals("44", results[3].docid);
-    assertEquals("67", results[4].docid);
+      results = searcher.search(topics.get(qid).get("vector"), 5);
+      assertEquals(5, results.length);
+      assertEquals("45", results[0].docid);
+      assertEquals("13", results[1].docid);
+      assertEquals("10", results[2].docid);
+      assertEquals("44", results[3].docid);
+      assertEquals("67", results[4].docid);
 
-    assertEquals(84.916107f, results[0].score, 10e-6);
-    assertEquals(82.500229f, results[1].score, 10e-6);
-    assertEquals(82.364830f, results[2].score, 10e-6);
-    assertEquals(79.369530f, results[3].score, 10e-6);
-    assertEquals(78.378647f, results[4].score, 10e-6);
+      assertEquals(84.916107f, results[0].score, 10e-6);
+      assertEquals(82.500229f, results[1].score, 10e-6);
+      assertEquals(82.364830f, results[2].score, 10e-6);
+      assertEquals(79.369530f, results[3].score, 10e-6);
+      assertEquals(78.378647f, results[4].score, 10e-6);
+    }
   }
 
   @Test
@@ -292,7 +296,6 @@ public class InvertedDenseSearcherTest {
     InvertedDenseSearcher.Args args = new InvertedDenseSearcher.Args();
     args.index = indexPath;
     args.encoding = "lexlsh";
-    InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args);
 
     TopicReader<Integer> topicReader = new JsonIntVectorTopicReader(
         Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl"));
@@ -309,34 +312,36 @@ public class InvertedDenseSearcherTest {
       queries.add(query);
     });
 
-    SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
+    try(InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args)) {
+      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
 
-    ScoredDoc[] results = allResults.get(160885);
-    assertEquals(5, results.length);
-    assertEquals("97", results[0].docid);
-    assertEquals("4", results[1].docid);
-    assertEquals("118", results[2].docid);
-    assertEquals("43", results[3].docid);
-    assertEquals("65", results[4].docid);
+      ScoredDoc[] results = allResults.get(160885);
+      assertEquals(5, results.length);
+      assertEquals("97", results[0].docid);
+      assertEquals("4", results[1].docid);
+      assertEquals("118", results[2].docid);
+      assertEquals("43", results[3].docid);
+      assertEquals("65", results[4].docid);
 
-    assertEquals(82.128540f, results[0].score, 10e-6);
-    assertEquals(79.793037f, results[1].score, 10e-6);
-    assertEquals(77.931618f, results[2].score, 10e-6);
-    assertEquals(75.614052f, results[3].score, 10e-6);
-    assertEquals(74.778358f, results[4].score, 10e-6);
+      assertEquals(82.128540f, results[0].score, 10e-6);
+      assertEquals(79.793037f, results[1].score, 10e-6);
+      assertEquals(77.931618f, results[2].score, 10e-6);
+      assertEquals(75.614052f, results[3].score, 10e-6);
+      assertEquals(74.778358f, results[4].score, 10e-6);
 
-    results = allResults.get(867490);
-    assertEquals(5, results.length);
-    assertEquals("45", results[0].docid);
-    assertEquals("13", results[1].docid);
-    assertEquals("10", results[2].docid);
-    assertEquals("44", results[3].docid);
-    assertEquals("67", results[4].docid);
+      results = allResults.get(867490);
+      assertEquals(5, results.length);
+      assertEquals("45", results[0].docid);
+      assertEquals("13", results[1].docid);
+      assertEquals("10", results[2].docid);
+      assertEquals("44", results[3].docid);
+      assertEquals("67", results[4].docid);
 
-    assertEquals(84.916107f, results[0].score, 10e-6);
-    assertEquals(82.500229f, results[1].score, 10e-6);
-    assertEquals(82.364830f, results[2].score, 10e-6);
-    assertEquals(79.369530f, results[3].score, 10e-6);
-    assertEquals(78.378647f, results[4].score, 10e-6);
+      assertEquals(84.916107f, results[0].score, 10e-6);
+      assertEquals(82.500229f, results[1].score, 10e-6);
+      assertEquals(82.364830f, results[2].score, 10e-6);
+      assertEquals(79.369530f, results[3].score, 10e-6);
+      assertEquals(78.378647f, results[4].score, 10e-6);
+    }
   }
 }

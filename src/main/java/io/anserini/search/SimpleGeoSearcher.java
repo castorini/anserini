@@ -34,7 +34,7 @@ import java.nio.file.Paths;
 
 public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
   private IndexReader reader;
-  private IndexSearcher searcher = null;
+  private IndexSearcher searcher;
 
   public ScoredDoc[] searchGeo(Query query, int k) throws IOException {
     return searchGeo(query, k, null);

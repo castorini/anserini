@@ -24,31 +24,28 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class SimpleImpactSearcherPrebuiltLucene8Test {
-
   @Test
   public void testSearch1() throws Exception {
-    SimpleImpactSearcher searcher =
-        new SimpleImpactSearcher("src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_json_collection_tokenized");
-    assertEquals(2, searcher.get_total_num_docs());
+    try(SimpleImpactSearcher searcher = new SimpleImpactSearcher(
+        "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_json_collection_tokenized")) {
+      assertEquals(2, searcher.get_total_num_docs());
 
-    ScoredDoc[] hits;
+      ScoredDoc[] hits;
 
-    Map<String, Integer> query = new HashMap<>();
-    query.put("##ing", 1);
+      Map<String, Integer> query = new HashMap<>();
+      query.put("##ing", 1);
 
-    hits = searcher.search(query, 10);
-    assertEquals(1, hits.length);
-    assertEquals("2000001", hits[0].docid);
-    assertEquals(2, (int) hits[0].score);
+      hits = searcher.search(query, 10);
+      assertEquals(1, hits.length);
+      assertEquals("2000001", hits[0].docid);
+      assertEquals(2, (int) hits[0].score);
 
-    query = new HashMap<>();
-    query.put("test", 1);
-    hits = searcher.search(query, 10);
-    assertEquals(1, hits.length);
-    assertEquals("2000000", hits[0].docid);
-    assertEquals(1, (int) hits[0].score);
-
-    searcher.close();
+      query = new HashMap<>();
+      query.put("test", 1);
+      hits = searcher.search(query, 10);
+      assertEquals(1, hits.length);
+      assertEquals("2000000", hits[0].docid);
+      assertEquals(1, (int) hits[0].score);
+    }
   }
-
 }

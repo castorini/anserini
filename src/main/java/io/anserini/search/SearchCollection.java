@@ -224,7 +224,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public String rf_qrels = null;
 
     @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
-    public String runtag = null;
+    public String runtag = "Anserini";
 
     @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
     public String format = "trec";
@@ -804,16 +804,17 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     final private TaggedSimilarity taggedSimilarity;
     final private RerankerCascade cascade;
     final private String outputPath;
-    final private String runTag;
     final private SparseEncoder queryEncoder;
 
-    private SearcherThread(IndexReader reader, SortedMap<T, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
-                           RerankerCascade cascade, String outputPath, String runTag) {
+    private SearcherThread(IndexReader reader,
+                           SortedMap<T, Map<String, String>> topics,
+                           TaggedSimilarity taggedSimilarity,
+                           RerankerCascade cascade,
+                           String outputPath) {
       // We need to pass in the topics because for tweets, we need to extract the tweet time.
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
       this.cascade = cascade;
-      this.runTag = runTag;
       this.outputPath = outputPath;
       this.searcher = new Searcher<>(new IndexSearcher(reader), taggedSimilarity, args);
 
@@ -915,7 +916,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
 
       // Now we write the results to a run file.
-      try(RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, runTag)) {
+      try(RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag)) {
         // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
         // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
         // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
@@ -1305,9 +1306,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
   @Override
   public void run() {
-    final String runTag = args.runtag == null ? "Anserini" : args.runtag;
-    LOG.info("runtag: " + runTag);
     LOG.info("============ Launching Search Threads ============");
+    LOG.info("runtag: " + args.runtag);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
 
@@ -1325,7 +1325,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           LOG.info("Run already exists, skipping: " + outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath, runTag));
+        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath));
       }
     }
     executor.shutdown();
