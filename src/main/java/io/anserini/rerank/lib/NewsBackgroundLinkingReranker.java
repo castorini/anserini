@@ -48,13 +48,18 @@ public class NewsBackgroundLinkingReranker implements Reranker {
   private final Class parser;
 
   public NewsBackgroundLinkingReranker(Analyzer analyzer, Class parser) {
+    assert analyzer != null;
+    assert parser != null;
+
     this.analyzer = analyzer;
     this.parser = parser;
-
   }
 
   @Override
   public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
+    assert docs != null;
+    assert context != null;
+
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     String queryDocId = context.getQueryDocId();
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
@@ -99,12 +104,14 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     ScoredDocs scoredDocs = new ScoredDocs();
     int resSize = docs.lucene_documents.length - toRemove.size();
     scoredDocs.lucene_documents = new Document[resSize];
+    scoredDocs.docids = new String[resSize];
     scoredDocs.lucene_docids = new int[resSize];
     scoredDocs.scores = new float[resSize];
     int idx = 0;
     for (int i = 0; i < docs.lucene_documents.length; i++) {
       if (!toRemove.contains(i)) {
         scoredDocs.lucene_documents[idx] = docs.lucene_documents[i];
+        scoredDocs.docids[idx] = docs.docids[i];
         scoredDocs.scores[idx] = docs.scores[i];
         scoredDocs.lucene_docids[idx] = docs.lucene_docids[i];
         idx++;

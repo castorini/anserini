@@ -943,7 +943,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
               out.writeTopic((T) arr[0], results.get(Integer.parseInt(arr[0])));
             }
           } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(String.format("Error writing output to %s", outputPath));
           }
         } else {
           results.forEach((qid, hits) -> out.writeTopic(qid, results.get(qid)));
@@ -1304,7 +1304,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public void run() {
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;
     LOG.info("runtag: " + runTag);

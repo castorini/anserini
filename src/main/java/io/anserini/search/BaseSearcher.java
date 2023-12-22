@@ -20,7 +20,6 @@ import io.anserini.index.Constants;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -119,10 +118,9 @@ public class BaseSearcher<K extends Comparable<K>> {
    * @param keepLuceneDocument whether to retain references to the original Lucene docs
    * @return processed ranked list
    */
-  public ScoredDoc[] processLuceneTopDocs(K qid, @NotNull TopDocs docs, boolean keepLuceneDocument) {
+  public ScoredDoc[] processLuceneTopDocs(K qid, TopDocs docs, boolean keepLuceneDocument) {
     List<ScoredDoc> results = new ArrayList<>();
-    // For removing duplicate docids.
-    Set<String> docids = new HashSet<>();
+    Set<String> docids = new HashSet<>(); // For removing duplicate docids.
 
     int rank = 1;
     for (int i = 0; i < docs.scoreDocs.length; i++) {
@@ -194,7 +192,12 @@ public class BaseSearcher<K extends Comparable<K>> {
    * @param keepLuceneDocument whether to retain references to the original Lucene docs
    * @return processed ranked list
    */
-  public ScoredDoc[] processScoredDocs(K qid, @NotNull ScoredDocs docs, boolean keepLuceneDocument) {
+  public ScoredDoc[] processScoredDocs(K qid, ScoredDocs docs, boolean keepLuceneDocument) {
+    assert docs.docids != null;
+    assert docs.lucene_docids != null;
+    assert docs.lucene_documents != null;
+    assert docs.scores != null;
+
     List<ScoredDoc> results = new ArrayList<>();
     // For removing duplicate docids.
     Set<String> docids = new HashSet<>();

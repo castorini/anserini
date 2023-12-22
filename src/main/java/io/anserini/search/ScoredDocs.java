@@ -28,7 +28,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,8 +51,6 @@ public class ScoredDocs {
   public float[] scores;
 
   public static ScoredDocs fromTopDocs(TopDocs rs, IndexSearcher searcher) {
-    assert rs != null;
-
     ScoredDocs scoredDocs = new ScoredDocs();
     scoredDocs.docids = new String[rs.scoreDocs.length];
     scoredDocs.lucene_documents = new Document[rs.scoreDocs.length];
