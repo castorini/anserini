@@ -47,21 +47,21 @@ target/appassembler/bin/SearchCollection \
   -topics tools/topics-and-qrels/topics.backgroundlinking18.txt \
   -topicReader BackgroundLinking \
   -output runs/run.wapo.v2.bm25.topics.backgroundlinking18.txt \
-  -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
+  -backgroundLinking -backgroundLinking.k 100 -bm25 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.backgroundlinking18.txt \
   -topicReader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking18.txt \
-  -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
+  -backgroundLinking -backgroundLinking.k 100 -bm25 -rm3 -hits 100 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.backgroundlinking18.txt \
   -topicReader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking18.txt \
-  -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
+  -backgroundLinking -backgroundLinking.dateFilter -backgroundLinking.k 100 -bm25 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:

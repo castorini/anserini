@@ -21,7 +21,7 @@ import io.anserini.index.Constants;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
@@ -170,8 +170,8 @@ public class AxiomReranker<T> implements Reranker<T> {
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context) {
-    assert (docs.documents.length == docs.scores.length);
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
+    assert (docs.lucene_documents.length == docs.scores.length);
 
     try {
       // First to search against external index if it is not null
@@ -214,7 +214,7 @@ public class AxiomReranker<T> implements Reranker<T> {
   /**
    * Please note that the query in the context is always the keywordQuery w/o filter!
    */
-  private ScoredDocuments searchTopDocs(Query query, RerankerContext<T> context) throws IOException {
+  private ScoredDocs searchTopDocs(Query query, RerankerContext<T> context) throws IOException {
     IndexSearcher searcher = context.getIndexSearcher();
     Query finalQuery;
     if (query == null) { // we are dealing with the external index and we DONOT apply filter to it.
@@ -236,13 +236,13 @@ public class AxiomReranker<T> implements Reranker<T> {
     // Figure out how to break the scoring ties.
     if (context.getSearchArgs().arbitraryScoreTieBreak) {
       rs = searcher.search(finalQuery, context.getSearchArgs().hits);
-    } else if (context.getSearchArgs().searchtweets) {
+    } else if (context.getSearchArgs().searchTweets) {
       rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
     } else {
       rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
     }
 
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return ScoredDocs.fromTopDocs(rs, searcher);
   }
 
 
@@ -299,7 +299,7 @@ public class AxiomReranker<T> implements Reranker<T> {
    *
    * @return Top ranked ScoredDocuments from searching external index
    */
-  private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext<T> context) throws IOException {
+  private ScoredDocs processExternalContext(ScoredDocs docs, RerankerContext<T> context) throws IOException {
     if (this.externalIndexPath != null) {
       Path indexPath = Paths.get(this.externalIndexPath);
       if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -312,7 +312,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       SearchCollection.Args args = new SearchCollection.Args();
       args.hits = this.R;
       args.arbitraryScoreTieBreak = context.getSearchArgs().arbitraryScoreTieBreak;
-      args.searchtweets = context.getSearchArgs().searchtweets;
+      args.searchTweets = context.getSearchArgs().searchTweets;
 
       RerankerContext<T> externalContext = new RerankerContext<>(searcher, context.getQueryId(), context.getQuery(),
           context.getQueryDocId(), context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
@@ -333,22 +333,22 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @param context An instance of RerankerContext
    * @return a Set of {@code R*N} document Ids
    */
-  private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
+  private Set<Integer> selectDocs(ScoredDocs docs, RerankerContext<T> context)
       throws IOException {
     boolean useRf = (context.getSearchArgs().rf_qrels != null);
     Set<Integer> docidSet;
     long targetSize;
     if (useRf) {
       docidSet = new HashSet<>();
-      for (int i = 0; i < docs.ids.length; i++) {
+      for (int i = 0; i < docs.lucene_docids.length; i++) {
         if (docs.scores[i] > 0) {
-          docidSet.add(docs.ids[i]);
+          docidSet.add(docs.lucene_docids[i]);
         }
       }
       targetSize = docidSet.size() * this.N;
     } else {
       docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
-          Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
+          Arrays.copyOfRange(docs.lucene_docids, 0, Math.min(this.R, docs.lucene_docids.length)))));
       targetSize = this.R * this.N;
     }
     if (docidSet.size() < targetSize) {

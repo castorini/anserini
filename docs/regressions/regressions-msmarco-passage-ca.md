@@ -21,11 +21,11 @@ Typical indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection JsonCollection \
-  -input /path/to/msmarco-wp \
+  -input /path/to/msmarco-passage \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.msmarco-passage-ca/ \
   -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
-  >& logs/log.msmarco-wp &
+  >& logs/log.msmarco-passage &
 ```
 
 The directory `/path/to/msmarco-passage-wp/` should be a directory containing the corpus in Anserini's jsonl format.
@@ -44,17 +44,17 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-ca/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt \
-  -bm25  -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
+  -output runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt \
+  -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-wp.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

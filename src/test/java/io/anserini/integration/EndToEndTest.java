@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -158,9 +159,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     if (indexArgs.fields != null) {
       args.add("-fields");
-      for (String field: indexArgs.fields) {
-        args.add(field);
-      }
+      Collections.addAll(args, indexArgs.fields);
     }
 
     IndexCollection.main(args.toArray(new String[args.size()]));
@@ -286,9 +285,9 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     // optional
     searchArgs.topicField = "title";
-    searchArgs.searchtweets = false;
+    searchArgs.searchTweets = false;
     searchArgs.hits = 1000;
-    searchArgs.keepstop = false;
+    searchArgs.keepStopwords = false;
 
     return searchArgs;
   }
@@ -300,9 +299,9 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     try {
       for (Map.Entry<String, SearchCollection.Args> entry : testQueries.entrySet()) {
-        SearchCollection searcher = new SearchCollection(entry.getValue());
-        searcher.runTopics();
-        searcher.close();
+        try(SearchCollection<?> searcher = new SearchCollection<>(entry.getValue())) {
+          searcher.run();
+        }
 
         checkRankingResults(entry.getKey(), entry.getValue().output);
         // Remember to clean up run files.
@@ -316,17 +315,18 @@ public abstract class EndToEndTest extends LuceneTestCase {
   }
 
   protected void checkRankingResults(String key, String output) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(output));
-    String[] ref = referenceRunOutput.get(key);
+    try(BufferedReader br = new BufferedReader(new FileReader(output))) {
+      String[] ref = referenceRunOutput.get(key);
 
-    int cnt = 0;
-    String s;
-    while ((s = br.readLine()) != null) {
-      assertEquals(ref[cnt], s);
-      cnt++;
+      int cnt = 0;
+      String s;
+      while ((s = br.readLine()) != null) {
+        assertEquals(ref[cnt], s);
+        cnt++;
+      }
+
+      assertEquals(ref.length, cnt);
     }
-
-    assertEquals(cnt, ref.length);
   }
 
   // Subclasses will override this method and provide the ground truth.

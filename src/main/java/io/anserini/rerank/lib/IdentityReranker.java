@@ -18,11 +18,11 @@ package io.anserini.rerank.lib;
 
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 
 public class IdentityReranker implements Reranker {
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
     return docs;
   }
   

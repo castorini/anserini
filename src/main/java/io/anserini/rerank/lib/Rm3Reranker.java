@@ -20,7 +20,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,8 +76,8 @@ public class Rm3Reranker implements Reranker {
 
   @SuppressWarnings("unchecked")
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    assert (docs.documents.length == docs.scores.length);
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
+    assert (docs.lucene_documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
@@ -85,7 +85,7 @@ public class Rm3Reranker implements Reranker {
     FeatureVector qfv = FeatureVector.fromTerms(context.getQueryTokens()).scaleToUnitL1Norm();
 
     boolean useRf = (context.getSearchArgs().rf_qrels != null);
-    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets, useRf);
+    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchTweets, useRf);
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
@@ -125,7 +125,7 @@ public class Rm3Reranker implements Reranker {
       // Figure out how to break the scoring ties.
       if (context.getSearchArgs().arbitraryScoreTieBreak) {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
+      } else if (context.getSearchArgs().searchTweets) {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       } else {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
@@ -135,18 +135,18 @@ public class Rm3Reranker implements Reranker {
       return docs;
     }
 
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return ScoredDocs.fromTopDocs(rs, searcher);
   }
 
-  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, boolean useRf) {
+  private FeatureVector estimateRelevanceModel(ScoredDocs docs, IndexReader reader, boolean tweetsearch, boolean useRf) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();
     int numdocs;
     if (useRf) {
-      numdocs = docs.documents.length;
+      numdocs = docs.lucene_documents.length;
     } else {
-      numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+      numdocs = docs.lucene_documents.length < fbDocs ? docs.lucene_documents.length : fbDocs;
     }
 
     List<FeatureVector> docvectors = new ArrayList<>();
@@ -157,7 +157,7 @@ public class Rm3Reranker implements Reranker {
       }
       try {
         FeatureVector docVector;
-        Terms terms = reader.termVectors().get(docs.ids[i], field);
+        Terms terms = reader.termVectors().get(docs.lucene_docids[i], field);
         if (terms != null) {
           docVector = createdFeatureVector(terms, reader, tweetsearch);
         } else {
@@ -165,7 +165,7 @@ public class Rm3Reranker implements Reranker {
             throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
           Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-              reader.storedFields().document(docs.ids[i]).getField(Constants.RAW).stringValue());
+              reader.storedFields().document(docs.lucene_docids[i]).getField(Constants.RAW).stringValue());
           docVector = createdFeatureVectorOnTheFly(termFreqMap, reader, tweetsearch);
         }
 

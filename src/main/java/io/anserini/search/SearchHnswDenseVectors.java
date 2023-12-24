@@ -167,7 +167,6 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
       searcher.run();
     } catch (RuntimeException e) {
       System.err.printf("Error: %s\n", e.getMessage());
-      return;
     }
   }
 }
