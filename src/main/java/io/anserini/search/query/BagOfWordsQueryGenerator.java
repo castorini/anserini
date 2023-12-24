@@ -17,7 +17,9 @@
 package io.anserini.search.query;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.index.Constants;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.document.FeatureField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -25,6 +27,7 @@ import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -33,7 +36,7 @@ import java.util.stream.Collectors;
 /*
  * Bag of Terms query builder
  */
-public class BagOfWordsQueryGenerator extends QueryGenerator {
+public class BagOfWordsQueryGenerator extends QueryGenerator implements  FeatureGenerator {
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
     List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
@@ -43,6 +46,34 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     for (String t : collect.keySet()) {
       builder.add(new BoostQuery(new TermQuery(new Term(field, t)), (float) collect.get(t)),
           BooleanClause.Occur.SHOULD);
+    }
+    return builder.build();
+  }
+
+  public Query buildFeatureQuery(String field, Analyzer analyzer, String queryText) {
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
+    Map<String, Long> collect = tokens.stream()
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    Map<String, Float> normalizedScore = new HashMap<>();
+    float maxWeight = 0;
+    for (String t : collect.keySet()){
+      float s = (float) collect.get(t);
+      normalizedScore.put(t, s);
+      if (s > maxWeight) {
+        maxWeight = s;
+      }
+    }
+    // The maximum weight for FeatureQuery is 64, this constraint could be lifted but might not be necessary.
+    // Note: This normalization makes the scores between different queries not comparable
+    if (maxWeight > 64){
+      for (String t : normalizedScore.keySet()){
+        normalizedScore.put(t,normalizedScore.get(t)/maxWeight* (float)64.0);
+      }
+    }
+
+    for (String t : normalizedScore.keySet()) {
+      builder.add(FeatureField.newLinearQuery(Constants.CONTENTS, t, normalizedScore.get(t)),BooleanClause.Occur.SHOULD);
     }
     return builder.build();
   }

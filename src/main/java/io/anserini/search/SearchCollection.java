@@ -36,6 +36,7 @@ import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -1300,6 +1301,8 @@ public final class SearchCollection implements Closeable {
 
     if (args.sdm) {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(Constants.CONTENTS, analyzer, queryString);
+    } else if (args.impact){
+        query = new BagOfWordsQueryGenerator().buildFeatureQuery(Constants.CONTENTS, analyzer, queryString);
     } else {
       QueryGenerator generator;
       try {
