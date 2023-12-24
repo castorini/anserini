@@ -28,17 +28,16 @@ public class BaseSearchArgs {
   @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
   public String index;
 
-  @Option(name = "-generator", usage = "QueryGenerator to use.")
-  public String queryGenerator = "VectorQueryGenerator";
-
   @Option(name = "-threads", metaVar = "[int]", usage = "Number of threads for running queries in parallel.")
   public int threads = 4;
 
+  // In some test collections, a document is used as a query, usually denoted by setting the qid as the docid. In this
+  // case, we want to remove the docid from the ranked list.
   @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
   public Boolean removeQuery = false;
 
   // Note that this option is set to false by default because duplicate documents usually indicate some underlying
-  // indexing issues, and we don't want to just eat errors silently.
+  // corpus or indexing issues, and we don't want to just eat errors silently.
   @Option(name = "-removeDuplicates", usage = "Remove duplicate docids when writing final run output.")
   public Boolean removeDuplicates = false;
 

@@ -2,7 +2,7 @@
 models:
   ql:
     name: ql
-    fixed_params: "-inmem -skipexists -qld"
+    fixed_params: "-skipExists -qld"
     params:
       qld.mu:
         type: int
@@ -28,7 +28,7 @@ models:
           5-fold: 0.4088
   bm25:
     name: bm25
-    fixed_params: "-inmem -skipexists -bm25"
+    fixed_params: "-skipExists -bm25"
     params:
       bm25.k1:
         type: float
@@ -59,7 +59,7 @@ models:
           5-fold: 0.4148
   bm25+axiom:
     name: bm25+axiom
-    fixed_params: "-inmem -skipexists -bm25 -rerankCutoff 50 -axiom -axiom.n 30 -axiom.deterministic"
+    fixed_params: "-skipExists -bm25 -rerankCutoff 50 -axiom -axiom.n 30 -axiom.deterministic"
     params:
       bm25.k1:
         type: float
@@ -105,7 +105,7 @@ models:
           5-fold: 0.4323
   bm25+rm3:
     name: bm25+rm3
-    fixed_params: "-inmem -skipexists -bm25 -rerankCutoff 50 -rm3"
+    fixed_params: "-skipExists -bm25 -rerankCutoff 50 -rm3"
     params:
       bm25.k1:
         type: float

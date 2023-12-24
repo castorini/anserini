@@ -21,7 +21,7 @@ import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -48,45 +48,50 @@ public class NewsBackgroundLinkingReranker implements Reranker {
   private final Class parser;
 
   public NewsBackgroundLinkingReranker(Analyzer analyzer, Class parser) {
+    assert analyzer != null;
+    assert parser != null;
+
     this.analyzer = analyzer;
     this.parser = parser;
-
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
+    assert docs != null;
+    assert context != null;
+
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     String queryDocId = context.getQueryDocId();
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
 
     List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
-    for (int i = 0; i < docs.documents.length; i++) {
-      String docid = docs.documents[i].getField(Constants.ID).stringValue();
+    for (int i = 0; i < docs.lucene_documents.length; i++) {
+      String docid = docs.lucene_documents[i].getField(Constants.ID).stringValue();
       docsVectorsMap.add(convertDocVectorToMap(reader, docid));
     }
 
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
     Set<Integer> toRemove = new HashSet<>();
-    for (int i = 0; i < docs.documents.length; i++) {
+    for (int i = 0; i < docs.lucene_documents.length; i++) {
       if (toRemove.contains(i)) continue;
       if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
         toRemove.add(i);
         continue;
       }
-      for (int j = i + 1; j < docs.documents.length; j++) {
+      for (int j = i + 1; j < docs.lucene_documents.length; j++) {
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
           toRemove.add(j);
         }
       }
     }
 
-    if (context.getSearchArgs().backgroundlinking_datefilter) {
+    if (context.getSearchArgs().backgroundLinkingDatefilter) {
       try {
         int luceneId = IndexReaderUtils.convertDocidToLuceneDocid(reader, queryDocId);
         Document queryDoc = reader.storedFields().document(luceneId);
         long queryDocDate = Long.parseLong(queryDoc.getField(PUBLISHED_DATE.name).stringValue());
-        for (int i = 0; i < docs.documents.length; i++) {
-          long date = Long.parseLong(docs.documents[i].getField(PUBLISHED_DATE.name).stringValue());
+        for (int i = 0; i < docs.lucene_documents.length; i++) {
+          long date = Long.parseLong(docs.lucene_documents[i].getField(PUBLISHED_DATE.name).stringValue());
           if (date > queryDocDate) {
             toRemove.add(i);
           }
@@ -96,17 +101,19 @@ public class NewsBackgroundLinkingReranker implements Reranker {
       }
     }
 
-    ScoredDocuments scoredDocs = new ScoredDocuments();
-    int resSize = docs.documents.length - toRemove.size();
-    scoredDocs.documents = new Document[resSize];
-    scoredDocs.ids = new int[resSize];
+    ScoredDocs scoredDocs = new ScoredDocs();
+    int resSize = docs.lucene_documents.length - toRemove.size();
+    scoredDocs.lucene_documents = new Document[resSize];
+    scoredDocs.docids = new String[resSize];
+    scoredDocs.lucene_docids = new int[resSize];
     scoredDocs.scores = new float[resSize];
     int idx = 0;
-    for (int i = 0; i < docs.documents.length; i++) {
+    for (int i = 0; i < docs.lucene_documents.length; i++) {
       if (!toRemove.contains(i)) {
-        scoredDocs.documents[idx] = docs.documents[i];
+        scoredDocs.lucene_documents[idx] = docs.lucene_documents[i];
+        scoredDocs.docids[idx] = docs.docids[i];
         scoredDocs.scores[idx] = docs.scores[i];
-        scoredDocs.ids[idx] = docs.ids[i];
+        scoredDocs.lucene_docids[idx] = docs.lucene_docids[i];
         idx++;
       }
     }

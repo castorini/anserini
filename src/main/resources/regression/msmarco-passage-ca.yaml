@@ -1,5 +1,5 @@
 ---
-corpus: msmarco-wp
+corpus: msmarco-passage
 corpus_path: collections/msmarco/passage
 
 index_path: indexes/lucene-index.msmarco-passage-ca/
@@ -52,7 +52,7 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25  -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer
+    params: -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer
     results:
       AP@1000:
         - 0.1968

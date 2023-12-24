@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
+import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     int cnt;
 
     SimpleSearcher searcher;
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     indexer = new SimpleIndexer(tempDir.toString());
     cnt = new JsonCollectionWrapper("src/test/resources/sample_docs/json/collection3").indexWith(indexer);
@@ -114,7 +115,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     int cnt;
 
     SimpleSearcher searcher;
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     indexer = new SimpleIndexer(tempDir.toString());
     cnt = new JsonCollectionWrapper("src/test/resources/sample_docs/json/collection3").indexWith(indexer);
@@ -153,7 +154,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     int cnt;
 
     SimpleSearcher searcher;
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     // Make sure appending to a non-existent is okay.
     indexer = new SimpleIndexer(tempDir.toString(), true);
@@ -178,7 +179,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     int cnt;
 
     SimpleSearcher searcher;
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     indexer = new SimpleIndexer(new String[] {
         "-input", "",

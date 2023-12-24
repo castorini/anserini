@@ -22,7 +22,6 @@ import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
@@ -59,7 +58,6 @@ import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
@@ -103,28 +101,6 @@ public class SimpleSearcher implements Closeable {
   protected boolean backwardsCompatibilityLucene8;
 
   protected IndexSearcher searcher = null;
-
-  /**
-   * This class is meant to serve as the bridge between Anserini and Pyserini.
-   * Note that we are adopting Python naming conventions here on purpose.
-   */
-  public static class Result {
-    public String docid;
-    public int lucene_docid;
-    public float score;
-    public String contents;
-    public String raw;
-    public Document lucene_document;
-
-    public Result(String docid, int lucene_docid, float score, String contents, String raw, Document lucene_document) {
-      this.docid = docid;
-      this.lucene_docid = lucene_docid;
-      this.score = score;
-      this.contents = contents;
-      this.raw = raw;
-      this.lucene_document = lucene_document;
-    }
-  }
 
   protected SimpleSearcher() {
   }
@@ -481,10 +457,10 @@ public class SimpleSearcher implements Closeable {
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public Map<String, Result[]> batch_search(List<String> queries,
-                                            List<String> qids,
-                                            int k,
-                                            int threads) {
+  public Map<String, ScoredDoc[]> batch_search(List<String> queries,
+                                               List<String> qids,
+                                               int k,
+                                               int threads) {
     return batch_search_fields(this.generator, queries, qids, k, threads, new HashMap<>());
   }
 
@@ -498,11 +474,11 @@ public class SimpleSearcher implements Closeable {
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public Map<String, Result[]> batch_search(QueryGenerator generator,
-                                            List<String> queries,
-                                            List<String> qids,
-                                            int k,
-                                            int threads) {
+  public Map<String, ScoredDoc[]> batch_search(QueryGenerator generator,
+                                               List<String> queries,
+                                               List<String> qids,
+                                               int k,
+                                               int threads) {
     return batch_search_fields(generator, queries, qids, k, threads, new HashMap<>());
   }
 
@@ -516,11 +492,11 @@ public class SimpleSearcher implements Closeable {
    * @param fields map of fields to search with weights
    * @return a map of query id to search results
    */
-  public Map<String, Result[]> batch_search_fields(List<String> queries,
-                                                   List<String> qids,
-                                                   int k,
-                                                   int threads,
-                                                   Map<String, Float> fields) {
+  public Map<String, ScoredDoc[]> batch_search_fields(List<String> queries,
+                                                      List<String> qids,
+                                                      int k,
+                                                      int threads,
+                                                      Map<String, Float> fields) {
     return batch_search_fields(this.generator, queries, qids, k, threads, fields);
   }
 
@@ -535,12 +511,12 @@ public class SimpleSearcher implements Closeable {
    * @param fields map of fields to search with weights
    * @return a map of query id to search results
    */
-  public Map<String, Result[]> batch_search_fields(QueryGenerator generator,
-                                                   List<String> queries,
-                                                   List<String> qids,
-                                                   int k,
-                                                   int threads,
-                                                   Map<String, Float> fields) {
+  public Map<String, ScoredDoc[]> batch_search_fields(QueryGenerator generator,
+                                                      List<String> queries,
+                                                      List<String> qids,
+                                                      int k,
+                                                      int threads,
+                                                      Map<String, Float> fields) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
     if (searcher == null) {
@@ -549,7 +525,7 @@ public class SimpleSearcher implements Closeable {
     }
 
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
-    ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, ScoredDoc[]> results = new ConcurrentHashMap<>();
 
     int queryCnt = queries.size();
     for (int q = 0; q < queryCnt; ++q) {
@@ -597,7 +573,7 @@ public class SimpleSearcher implements Closeable {
    * @return array of search results
    * @throws IOException if error encountered during search
    */
-  public Result[] search(String q) throws IOException {
+  public ScoredDoc[] search(String q) throws IOException {
     return search(q, 10);
   }
 
@@ -609,7 +585,7 @@ public class SimpleSearcher implements Closeable {
    * @return array of search results
    * @throws IOException if error encountered during search
    */
-  public Result[] search(String q, int k) throws IOException {
+  public ScoredDoc[] search(String q, int k) throws IOException {
     Query query = new BagOfWordsQueryGenerator().buildQuery(Constants.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
@@ -624,7 +600,7 @@ public class SimpleSearcher implements Closeable {
    * @return array of search results
    * @throws IOException if error encountered during search
    */
-  public Result[] search(Query query, int k) throws IOException {
+  public ScoredDoc[] search(Query query, int k) throws IOException {
     return _search(query, null, null, k);
   }
 
@@ -637,7 +613,7 @@ public class SimpleSearcher implements Closeable {
    * @return array of search results
    * @throws IOException if error encountered during search
    */
-  public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
+  public ScoredDoc[] search(QueryGenerator generator, String q, int k) throws IOException {
     Query query = generator.buildQuery(Constants.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
@@ -645,7 +621,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   // internal implementation
-  protected Result[] _search(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
+  protected ScoredDoc[] _search(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
@@ -666,21 +642,14 @@ public class SimpleSearcher implements Closeable {
     context = new RerankerContext<>(searcher, null, query, null,
           queryString, queryTokens, null, searchArgs);
 
-    ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+    ScoredDocs hits = cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
 
-    Result[] results = new Result[hits.ids.length];
-    for (int i = 0; i < hits.ids.length; i++) {
-      Document doc = hits.documents[i];
+    ScoredDoc[] results = new ScoredDoc[hits.lucene_docids.length];
+    for (int i = 0; i < hits.lucene_docids.length; i++) {
+      Document doc = hits.lucene_documents[i];
       String docid = doc.getField(Constants.ID).stringValue();
 
-      IndexableField field;
-      field = doc.getField(Constants.CONTENTS);
-      String contents = field == null ? null : field.stringValue();
-
-      field = doc.getField(Constants.RAW);
-      String raw = field == null ? null : field.stringValue();
-
-      results[i] = new Result(docid, hits.ids[i], hits.scores[i], contents, raw, doc);
+      results[i] = new ScoredDoc(docid, hits.lucene_docids[i], hits.scores[i], doc);
     }
 
     return results;
@@ -724,7 +693,7 @@ public class SimpleSearcher implements Closeable {
     context = new RerankerContext<>(searcher, null, query, null,
         queryString, queryTokens, null, searchArgs);
 
-    cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+    cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
 
     return context.feedbackTerms;
   }
@@ -738,7 +707,7 @@ public class SimpleSearcher implements Closeable {
    * @return array of search results
    * @throws IOException if error encountered during search
    */
-  public Result[] search_fields(String q,
+  public ScoredDoc[] search_fields(String q,
                                 Map<String, Float> fields,
                                 int k) throws IOException {
     // Note that this is used for MS MARCO experiments with document expansion.
@@ -756,10 +725,10 @@ public class SimpleSearcher implements Closeable {
    * @return array of search results
    * @throws IOException if error encountered during search
    */
-  public Result[] search_fields(QueryGenerator generator,
-                                String q,
-                                Map<String, Float> fields,
-                                int k) throws IOException {
+  public ScoredDoc[] search_fields(QueryGenerator generator,
+                                   String q,
+                                   Map<String, Float> fields,
+                                   int k) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -887,8 +856,6 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Returns the "raw" field of a document based on a collection docid.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
    *
    * @param docid collection docid
    * @return the "raw" field the document
