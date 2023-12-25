@@ -35,7 +35,25 @@ public enum IndexInfo {
       "2347197",
       "320968",
       "3204",
-      "14363");
+      "14363"),
+
+  // MSMARCO_V1_PASSAGE_COS_DPR_DISTIL("msmarco-v1-passage-cos-dpr-distil",
+  //     "Lucene index of the MS MARCO V1 passage corpus. (Lucene 9)",
+  //     "lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz",
+  //     "lucene-index.msmarco-v1-passage.20221004.252b5e.README.md",
+  //     new String[] {
+  //         "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz" },
+  //     "e7a09c236d93e9c3d13436a86c1ab1cd", "2170758938", "352316036", "8841823",
+  //     "2660824", false),
+
+  MSMARCO_V1_PASSAGE_SPLADE_PP_ED("msmarco-v1-passage-splade-pp-ed",
+      "Lucene impact index of the MS MARCO passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil. (Lucene 9)",
+      "lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz",
+      "lucene-index.msmarco-v1-passage-splade-pp.20230524.a59610.README.md",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz" },
+      "4b3c969033cbd017306df42ce134c395", "2102229906", "52376261130", "8841823",
+      "28679", false);
 
   public final String indexName;
   public final String description;
