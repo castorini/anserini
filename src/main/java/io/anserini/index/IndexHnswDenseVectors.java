@@ -157,6 +157,8 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
     if (args.noMerge) {
       LOG.info(" + MergePolicy: NoMerge");
+    } else if (args.optimize) {
+      LOG.info(" + MergePolicy: TieredMergePolicy (force merge into a single index segment)");
     } else {
       LOG.info(" + MergePolicy: TieredMergePolicy");
       LOG.info(" + MaxMergedSegmentSize: " + args.maxMergedSegmentSize);
