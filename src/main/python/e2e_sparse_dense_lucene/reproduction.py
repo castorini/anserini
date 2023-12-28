@@ -18,13 +18,14 @@ import os
 import subprocess
 TOPIC_NAMES = ['msmarco-passage-dev-subset', 'dl19-passage', 'dl20-passage']
 EVAL_CMD_MAP = {
-    'map': '-c -m map',                     # AP
-    'ndcg_cut_10': '-c -m ndcg_cut.10',     # nDCG@10
-    'recall_1000': '-c -m  recall.1000',    # R@1000
-    'recip_rank': '-c -M 10 -m recip_rank'  # RR@10
+    'map': '-m map -c -l 2',                    # AP
+    'ndcg_cut_10': '-m ndcg_cut.10 -c',         # nDCG@10
+    'recall_1000_msmarco': '-c -m recall.1000', # R@1000 for MS MARCO
+    'recall_1000': '-m recall.1000 -c -l 2',    # R@1000
+    'recip_rank': '-c -M 10 -m recip_rank'      # RR@10
 }
 TOPIC_EVAL_MAP = {
-    'msmarco-passage-dev-subset': ['recip_rank', 'recall_1000'],
+    'msmarco-passage-dev-subset': ['recip_rank', 'recall_1000_msmarco'],
     'dl19-passage': ['map', 'ndcg_cut_10', 'recall_1000'],
     'dl20-passage': ['map', 'ndcg_cut_10', 'recall_1000']
 }
@@ -53,13 +54,13 @@ def main(config):
     # print all search commands
     for model_name, model_config in config['collections'].items():
         print("running model: ", model_name)
-        # search
-        for cmd in get_search_command(model_name, model_config['search_command'], model_config['topics']):
-            p = subprocess.Popen(
-                cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout, stderr = p.communicate()
-            if stderr:
-                print(stderr.decode('utf-8'))
+        # # search
+        # for cmd in get_search_command(model_name, model_config['search_command'], model_config['topics']):
+        #     p = subprocess.Popen(
+        #         cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        #     stdout, stderr = p.communicate()
+        #     if stderr:
+        #         print(stderr.decode('utf-8'))
 
         # eval
         expected_results = model_config['results']
