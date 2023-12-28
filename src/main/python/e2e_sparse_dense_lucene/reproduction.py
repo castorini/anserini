@@ -55,34 +55,34 @@ def main(config):
         print("running model: ", model_name)
         # search
         for cmd in get_search_command(model_name, model_config['search_command'], model_config['topics']):
-            p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p = subprocess.Popen(
+                cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = p.communicate()
             if stderr:
                 print(stderr.decode('utf-8'))
 
         # eval
         expected_results = model_config['results']
-        run_files = [get_output_run_file_name(topic_name, model_name) for topic_name in TOPIC_NAMES]
+        run_files = [get_output_run_file_name(
+            topic_name, model_name) for topic_name in TOPIC_NAMES]
         eval_cmd = model_config['eval_command']
         metric_precision = model_config['metric_precision']
 
         for run_file, topic_name, qrel in zip(run_files, TOPIC_NAMES, model_config['qrels']):
             for metric in TOPIC_EVAL_MAP[topic_name]:
                 for cmd in get_eval_command(EVAL_CMD_MAP[metric], qrel, run_file, eval_cmd):
-                    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    p = subprocess.Popen(
+                        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                     stdout, stderr = p.communicate()
-                    stdout = [out.strip() for out in stdout.decode('utf-8').split('\t')]
+                    stdout = [out.strip()
+                              for out in stdout.decode('utf-8').split('\t')]
                     actual_result = round(float(stdout[-1]), metric_precision)
                     expected_result = expected_results[topic_name][metric]
                     assert actual_result == expected_result, f'{model_name} {topic_name} {metric} {actual_result} != {expected_result}, expected: {expected_results[topic_name]}'
-                    print(f"{topic_name} {metric} {actual_result} == {expected_result}")
+                    print(
+                        f"{topic_name} {metric} {actual_result} == {expected_result}")
         print(f"{model_name} passed!")
         print("="*50)
-        
-                    
-
-
-
 
 
 if __name__ == '__main__':

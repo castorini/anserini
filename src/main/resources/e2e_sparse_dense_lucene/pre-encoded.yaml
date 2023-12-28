@@ -1,55 +1,56 @@
 ---
 collections:
-  # bm25:
-    # name: bm25
-    # search_command: target/appassembler/bin/SearchCollection -index msmarco-v1-passage -topicReader TsvInt -topics {topic} -output {output} -bm25 -parallelism 12
-    # topics:
-    #   - tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt
-    #   - tools/topics-and-qrels/topics.dl19-passage.txt
-    #   - tools/topics-and-qrels/topics.dl20.txt
-    # qrels:
-    #   - tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
-    #   - tools/topics-and-qrels/qrels.dl19-passage.txt
-    #   - tools/topics-and-qrels/qrels.dl20-passage.txt
+  bm25:
+    name: bm25
+    search_command: target/appassembler/bin/SearchCollection -index msmarco-v1-passage -topicReader TsvInt -topics {topic} -output {output} -bm25 -parallelism 12
+    topics:
+      - tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt
+      - tools/topics-and-qrels/topics.dl19-passage.txt
+      - tools/topics-and-qrels/topics.dl20.txt
+    qrels:
+      - tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+      - tools/topics-and-qrels/qrels.dl19-passage.txt
+      - tools/topics-and-qrels/qrels.dl20-passage.txt
 
-    # eval_command: tools/eval/trec_eval.9.0.4/trec_eval {param} {qrel} {output}
-    # results:
-    #   msmarco-passage-dev-subset:
-    #     recip_rank: 0.184
-    #     recall_1000: 0.853
-    #   dl19-passage:
-    #     map: 0.377
-    #     ndcg_cut_10: 0.506
-    #     recall_1000: 0.739 
-    #   dl20-passage:
-    #     map: 0.344
-    #     ndcg_cut_10: 0.480
-    #     recall_1000: 0.723
-    # metric_precision: 3
-  # cosdpr-distil:
-  #   name: cosdpr-distil
-  #   search_command: target/appassembler/bin/SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topicReader JsonIntVector -topics {topic} -output {output} -generator VectorQueryGenerator -topicField vector -threads 12 -hits 1000 -efSearch 1000
-  #   topics:
-  #     - tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz
-  #     - tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz
-  #     - tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz
-  #   qrel:
-  #     - tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
-  #     - tools/topics-and-qrels/qrels.dl19-passage.txt
-  #     - tools/topics-and-qrels/qrels.dl20-passage.txt
-  #   eval_command: tools/eval/trec_eval.9.0.4/trec_eval {param} {qrel} {output}
-  #   results:
-  #     msmarco-passage-dev-subset:
-  #       recip_rank:  0.389
-  #       recall_1000: 0.975
-  #     dl19-passage:
-  #       map: 0.466
-  #       ndcg_cut_10: 0.725
-  #       recall_1000: 0.822 
-  #     dl20-passage:
-  #       map: 0.487
-  #       ndcg_cut_10: 0.703
-  #       recall_1000: 0.852
+    eval_command: tools/eval/trec_eval.9.0.4/trec_eval {param} {qrel} {output}
+    results:
+      msmarco-passage-dev-subset:
+        recip_rank: 0.184
+        recall_1000: 0.853
+      dl19-passage:
+        map: 0.377
+        ndcg_cut_10: 0.506
+        recall_1000: 0.739 
+      dl20-passage:
+        map: 0.344
+        ndcg_cut_10: 0.480
+        recall_1000: 0.723
+    metric_precision: 3
+  cosdpr-distil:
+    name: cosdpr-distil
+    search_command: target/appassembler/bin/SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topicReader JsonIntVector -topics {topic} -output {output} -generator VectorQueryGenerator -topicField vector -threads 12 -hits 1000 -efSearch 1000
+    topics:
+      - tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz
+      - tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz
+      - tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz
+    qrels:
+      - tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+      - tools/topics-and-qrels/qrels.dl19-passage.txt
+      - tools/topics-and-qrels/qrels.dl20-passage.txt
+    eval_command: tools/eval/trec_eval.9.0.4/trec_eval {param} {qrel} {output}
+    results:
+      msmarco-passage-dev-subset:
+        recip_rank:  0.389
+        recall_1000: 0.975
+      dl19-passage:
+        map: 0.477
+        ndcg_cut_10: 0.725
+        recall_1000: 0.757 
+      dl20-passage:
+        map: 0.470
+        ndcg_cut_10: 0.703
+        recall_1000: 0.771
+    metric_precision: 3
   splade-pp-ed:
     name: splade-pp-ed
     search_command: target/appassembler/bin/SearchCollection -index msmarco-v1-passage-splade-pp-ed -topicReader TsvInt -topics {topic} -output {output} -impact -pretokenized -parallelism 12 -encoder SpladePlusPlusEnsembleDistil
