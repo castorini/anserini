@@ -15,7 +15,7 @@
   + Aligned `ScoredDoc` and `ScoredDocs` (was previously `ScoredDocuments`) as container objects for Lucene results.
   + Refactored searchers to use `ScoredDoc` instead of class-specific `Result` objects.
   + Imposed uniform camelCasing in search args.
-+ Major refactoring of indexing pipelines
++ Major refactoring of indexing pipelines:
   + Extracted common code paths from `IndexCollection`, `IndexHnswDenseVectors`, and `IndexInvertedDenseVectors` into `AbstractIndexer`.
   + Imposed uniform camelCasing in index args.
 + Improved test coverage.
