@@ -20,83 +20,44 @@ public enum IndexInfo {
   MSMARCO_V1_PASSAGE("msmarco-v1-passage",
       "Lucene index of the MS MARCO V1 passage corpus. (Lucene 9)",
       "lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz",
-      "lucene-index.msmarco-v1-passage.20221004.252b5e.README.md",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz" },
-      "c697b18c9a0686ca760583e615dbe450", "2170758938", "352316036", "8841823",
-      "2660824", false),
+      "c697b18c9a0686ca760583e615dbe450"),
 
   CACM("cacm",
       "Lucene index of the CACM corpus. (Lucene 9)",
       "lucene-index.cacm.tar.gz",
       new String[] {
           "https://github.com/castorini/anserini-data/raw/master/CACM/lucene-index.cacm.20221005.252b5e.tar.gz" },
-      "cfe14d543c6a27f4d742fb2d0099b8e0",
-      "2347197",
-      "320968",
-      "3204",
-      "14363"),
+      "cfe14d543c6a27f4d742fb2d0099b8e0"),
 
-  // MSMARCO_V1_PASSAGE_COS_DPR_DISTIL("msmarco-v1-passage-cos-dpr-distil",
-  //     "Lucene index of the MS MARCO V1 passage corpus. (Lucene 9)",
-  //     "lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz",
-  //     "lucene-index.msmarco-v1-passage.20221004.252b5e.README.md",
-  //     new String[] {
-  //         "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz" },
-  //     "e7a09c236d93e9c3d13436a86c1ab1cd", "2170758938", "352316036", "8841823",
-  //     "2660824", false),
+  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL("msmarco-v1-passage-cos-dpr-distil",
+      "Lucene index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil. (Lucene 9)",
+      "lucene-hnsw.msmarco-v1-passage-cos-dpr-distil.20231124.9d3427.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cos-dpr-distil.20231124.9d3427.tar.gz" },
+      "7aa825e292a411abbe1585fb4d9f20ee"),
 
   MSMARCO_V1_PASSAGE_SPLADE_PP_ED("msmarco-v1-passage-splade-pp-ed",
       "Lucene impact index of the MS MARCO passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil. (Lucene 9)",
       "lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz",
-      "lucene-index.msmarco-v1-passage-splade-pp.20230524.a59610.README.md",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz" },
-      "4b3c969033cbd017306df42ce134c395", "2102229906", "52376261130", "8841823",
-      "28679", false);
+      "4b3c969033cbd017306df42ce134c395");
 
   public final String indexName;
   public final String description;
   public final String filename;
-  public final String readme;
   public final String[] urls;
   public final String md5;
-  public final String size;
-  public final String totalTerms;
-  public final String totalDocs;
-  public final String totalUniqueTerms;
-  public final boolean downloaded;
 
-  // constructor with all 11 fields
-  IndexInfo(String indexName, String description, String filename, String readme, String[] urls, String md5,
-      String size, String totalTerms, String totalDocs, String totalUniqueTerms, boolean downloaded) {
+  // constructor with all 5 fields
+  IndexInfo(String indexName, String description, String filename, String[] urls, String md5) {
     this.indexName = indexName;
     this.description = description;
     this.filename = filename;
-    this.readme = readme;
     this.urls = urls;
     this.md5 = md5;
-    this.size = size;
-    this.totalTerms = totalTerms;
-    this.totalDocs = totalDocs;
-    this.totalUniqueTerms = totalUniqueTerms;
-    this.downloaded = downloaded;
-  }
-
-  // constructor with 9 fields
-  IndexInfo(String indexName, String description, String filename, String[] urls, String md5, String size,
-      String totalTerms, String totalDocs, String totalUniqueTerms) {
-    this.indexName = indexName;
-    this.description = description;
-    this.filename = filename;
-    this.readme = "";
-    this.urls = urls;
-    this.md5 = md5;
-    this.size = size;
-    this.totalTerms = totalTerms;
-    this.totalDocs = totalDocs;
-    this.totalUniqueTerms = totalUniqueTerms;
-    this.downloaded = false;
   }
 
   public static boolean contains(String indexName) {
