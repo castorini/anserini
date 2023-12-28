@@ -28,11 +28,11 @@ collections:
     metric_precision: 3
   cosdpr-distil:
     name: cosdpr-distil
-    search_command: target/appassembler/bin/SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topicReader JsonIntVector -topics {topic} -output {output} -generator VectorQueryGenerator -topicField vector -threads 12 -hits 1000 -efSearch 1000
+    search_command: target/appassembler/bin/SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topicReader TsvInt -topics {topic} -output {output} -generator VectorQueryGenerator -topicField title -threads 12 -hits 1000 -efSearch 1000 -encoder CosDprDistil
     topics:
-      - tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz
-      - tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz
-      - tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz
+      - tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt
+      - tools/topics-and-qrels/topics.dl19-passage.txt
+      - tools/topics-and-qrels/topics.dl20.txt
     qrels:
       - tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
       - tools/topics-and-qrels/qrels.dl19-passage.txt

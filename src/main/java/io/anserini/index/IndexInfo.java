@@ -51,7 +51,6 @@ public enum IndexInfo {
   public final String[] urls;
   public final String md5;
 
-  // constructor with all 5 fields
   IndexInfo(String indexName, String description, String filename, String[] urls, String md5) {
     this.indexName = indexName;
     this.description = description;
