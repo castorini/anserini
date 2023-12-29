@@ -20,6 +20,8 @@ import ai.onnxruntime.OrtException;
 import io.anserini.encoder.dense.DenseEncoder;
 import io.anserini.index.Constants;
 import io.anserini.search.query.VectorQueryGenerator;
+import io.anserini.util.PrebuiltIndexHandler;
+
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,6 +38,8 @@ import org.kohsuke.args4j.Option;
 import javax.annotation.Nullable;
 import java.io.Closeable;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.SortedMap;
@@ -79,8 +83,26 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     // We might not be able to successfully create a reader for a variety of reasons, anything from path doesn't exist
     // to corrupt index. Gather all possible exceptions together as an unchecked exception to make initialization and
     // error reporting clearer.
+    Path indexPath = Path.of(args.index);
+    PrebuiltIndexHandler indexHandler = new PrebuiltIndexHandler(args.index);
+    if (!Files.exists(indexPath)) {
+      // it doesn't exist locally, we try to download it from remote
+      try {
+        indexHandler.initialize();
+        indexHandler.download();
+        indexPath = Path.of(indexHandler.decompressIndex());
+      } catch (IOException e) {
+        throw new RuntimeException("MD5 checksum does not match!");
+      } catch (Exception e) {
+        throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));
+      }
+    } else {
+      // if it exists locally, we use it
+      indexPath = Paths.get(args.index);
+    }
+
     try {
-      this.reader = DirectoryReader.open(FSDirectory.open(Paths.get(args.index)));
+      this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     } catch (IOException e) {
       throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));
     }
