@@ -17,56 +17,30 @@
 
 package io.anserini.eval;
 
-import java.nio.file.Path;
+import java.util.Arrays;
 
 import uk.ac.gla.terrier.jtreceval.trec_eval;
 
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ParserProperties;
-
-
 public class TrecEval {
 
-  public static class TrecEvalArgs {
-    @Option(name = "-qrels", metaVar = "[path]", required = true, usage = "Path to qrels index")
-    public String qrels;
-    @Option(name = "-runfile", metaVar = "[path]", required = true, usage = "Path to trec runfile")
-    public String runfile;
-  }
-
-  private final TrecEvalArgs args;
   private final trec_eval te;
+  private final String qrels;
+  private final String runfile;
+  private final String[] args;
 
-  public TrecEval(TrecEvalArgs args) {
-    this.args = args;
+  public TrecEval(String[] args) {
+    this.qrels = args[args.length-2];
+    this.runfile = args[args.length-1];
+    this.args =  args; //Arrays.copyOfRange(args, 0, args.length-2);
     this.te = new trec_eval();
   }
 
   public void run() {
-    Path qrelsPath = Path.of(this.args.qrels);
-    Path runfilePath = Path.of(this.args.runfile);
-    String[][] output = this.te.runAndGetOutput(new String[]{"-c", "-m", "ndcg_cut.10", qrelsPath.toString(), runfilePath.toString()});
-    for (String[] line : output) {
-      for (String s : line) {
-        System.out.println(s);
-      }
-      System.out.println();
-    }
+    this.te.run(this.args);
   }
 
   public static void main(String[] args) {
-    TrecEvalArgs trecEvalArgs = new TrecEvalArgs();
-    CmdLineParser parser = new CmdLineParser(trecEvalArgs, ParserProperties.defaults().withUsageWidth(120));
-
-    try {
-      parser.parseArgument(args);
-    } catch (CmdLineException e) {
-        return;
-    }
-
-    TrecEval te = new TrecEval(trecEvalArgs);
+    TrecEval te = new TrecEval(args);
     te.run();
   }
 }
