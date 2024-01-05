@@ -158,6 +158,10 @@
                <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
                <id>ExtractTopDfTerms</id>
             </program>
+            <program>
+               <mainClass>io.anserini.eval.TrecEval</mainClass>
+               <id>TrecEval</id>
+            </program>
           </programs>
         </configuration>
       </plugin>
@@ -473,5 +477,10 @@
     <artifactId>commons-codec</artifactId>
     <version>1.15</version>
     </dependency>
+    <dependency>
+    <groupId>uk.ac.gla.dcs.terrierteam</groupId>
+    <artifactId>jtreceval</artifactId>
+    <version>0.0.5</version>
+</dependency>
   </dependencies>
 </project>
