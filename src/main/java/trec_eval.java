@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package io.anserini.eval;
+
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -48,7 +48,7 @@ import org.apache.commons.io.LineIterator;
  * </ul>
  * @author Craig Macdonald
  */
-public class TrecEval 
+public class trec_eval 
 {
 	static boolean DELETE = true;
 	static File trec_eval_temp = null;
@@ -79,7 +79,7 @@ public class TrecEval
 	public static boolean isPlatformSupported()
 	{
 		final String execName = getExecName();
-		if (! (TrecEval.class.getClassLoader().getResource(execName) != null))
+		if (! (trec_eval.class.getClassLoader().getResource(execName) != null))
 			return false;
 		for(String f : FILE_DEPENDENCIES.getOrDefault(execName, new String[0]))
 			if (! new File(f).exists())
@@ -92,7 +92,7 @@ public class TrecEval
 		if (trec_eval_temp != null)
 			return trec_eval_temp;
 		final String resName = getExecName();
-		if (TrecEval.class.getClassLoader().getResource(resName) == null)
+		if (trec_eval.class.getClassLoader().getResource(resName) == null)
 			throw new UnsupportedOperationException("Unsupported os/arch: " + resName);
 		
 		File tempExec = null;
@@ -102,7 +102,7 @@ public class TrecEval
 				tempExecDir.toFile().deleteOnExit();
 		
 			tempExec = File.createTempFile( "trec_eval", ".exe", tempExecDir.toFile());
-			InputStream in = TrecEval.class.getClassLoader().getResourceAsStream(resName);
+			InputStream in = trec_eval.class.getClassLoader().getResourceAsStream(resName);
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(tempExec));			
 			IOUtils.copy(in, out);
 			in.close();
@@ -116,7 +116,7 @@ public class TrecEval
 			// 	for(String lib : libs)
 			// 	{
 			// 		File tmpLib = new File(tempExecDir.toFile(), lib);
-			// 		in = TrecEval.class.getClassLoader().getResourceAsStream(lib);
+			// 		in = trec_eval.class.getClassLoader().getResourceAsStream(lib);
 			// 		out = new BufferedOutputStream(
 			// 				new FileOutputStream(tmpLib));
 			// 		IOUtils.copy(in, out);
@@ -141,7 +141,7 @@ public class TrecEval
 	File ourTE;
 	int exit = Integer.MAX_VALUE;
 	
-	public TrecEval()
+	public trec_eval()
 	{
 		ourTE = getTrecEvalBinary();
 		//System.err.println(ourTE.toString());
@@ -275,6 +275,6 @@ public class TrecEval
 			System.out.println("Platform supported: " + isPlatformSupported());
 			return;
 		}
-        System.exit(new TrecEval().run(args));
+        System.exit(new trec_eval().run(args));
     }
 }

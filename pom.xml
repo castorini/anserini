@@ -158,10 +158,6 @@
                <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
                <id>ExtractTopDfTerms</id>
             </program>
-            <program>
-               <mainClass>io.anserini.eval.TrecEval</mainClass>
-               <id>TrecEval</id>
-            </program>
           </programs>
         </configuration>
       </plugin>
@@ -282,6 +278,32 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+					<archive>
+						<manifest>
+							<mainClass>trec_eval</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+          <finalName>trec_eval</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+        <executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
       </plugin>
     </plugins>
   </build>
@@ -477,10 +499,5 @@
     <artifactId>commons-codec</artifactId>
     <version>1.15</version>
     </dependency>
-    <dependency>
-    <groupId>uk.ac.gla.dcs.terrierteam</groupId>
-    <artifactId>jtreceval</artifactId>
-    <version>0.0.5</version>
-</dependency>
   </dependencies>
 </project>
