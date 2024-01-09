@@ -93,7 +93,8 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <!-- Need to add @{argLine} for JaCoCo to work; see https://stackoverflow.com/questions/71568474/getting-skipping-jacoco-execution-due-to-missing-execution-data-file-with-jaco -->
+          <!-- Need to add @{argLine} for JaCoCo to work; see
+          https://stackoverflow.com/questions/71568474/getting-skipping-jacoco-execution-due-to-missing-execution-data-file-with-jaco -->
           <argLine>@{argLine} -Xmx8192m</argLine>
         </configuration>
       </plugin>
@@ -139,24 +140,24 @@
               <id>IndexReaderUtils</id>
             </program>
             <program>
-               <mainClass>io.anserini.util.DumpAnalyzedQueries</mainClass>
-               <id>DumpAnalyzedQueries</id>
+              <mainClass>io.anserini.util.DumpAnalyzedQueries</mainClass>
+              <id>DumpAnalyzedQueries</id>
             </program>
             <program>
-               <mainClass>io.anserini.util.ExtractAverageDocumentLength</mainClass>
-               <id>ExtractAverageDocumentLength</id>
+              <mainClass>io.anserini.util.ExtractAverageDocumentLength</mainClass>
+              <id>ExtractAverageDocumentLength</id>
             </program>
             <program>
-               <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
-               <id>ExtractDocumentLengths</id>
+              <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
+              <id>ExtractDocumentLengths</id>
             </program>
             <program>
-               <mainClass>io.anserini.util.ExtractNorms</mainClass>
-               <id>ExtractNorms</id>
+              <mainClass>io.anserini.util.ExtractNorms</mainClass>
+              <id>ExtractNorms</id>
             </program>
             <program>
-               <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
-               <id>ExtractTopDfTerms</id>
+              <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
+              <id>ExtractTopDfTerms</id>
             </program>
           </programs>
         </configuration>
@@ -275,6 +276,32 @@
             <phase>test</phase>
             <goals>
               <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>trec_eval</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <finalName>trec_eval</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
+            <goals>
+              <goal>single</goal>
             </goals>
           </execution>
         </executions>
@@ -464,14 +491,14 @@
       <version>0.21.0</version>
     </dependency>
     <dependency>
-    <groupId>me.tongfei</groupId>
-    <artifactId>progressbar</artifactId>
-    <version>0.10.0</version>
+      <groupId>me.tongfei</groupId>
+      <artifactId>progressbar</artifactId>
+      <version>0.10.0</version>
     </dependency>
     <dependency>
-    <groupId>commons-codec</groupId>
-    <artifactId>commons-codec</artifactId>
-    <version>1.15</version>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.15</version>
     </dependency>
   </dependencies>
 </project>

@@ -102,20 +102,20 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.txt
+java -jar target/trec_eval.jar -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.txt
+java -jar target/trec_eval.jar -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.txt
+java -jar target/trec_eval.jar -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.txt
+java -jar target/trec_eval.jar -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.txt
+java -jar target/trec_eval.jar -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.txt
+java -jar target/trec_eval.jar -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.txt
+java -jar target/trec_eval.jar -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.txt
+java -jar target/trec_eval.jar -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.txt
+java -jar target/trec_eval.jar -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.txt
+java -jar target/trec_eval.jar -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.txt
+java -jar target/trec_eval.jar -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.txt
+java -jar target/trec_eval.jar -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.txt
 ```
 
 ## Effectiveness

@@ -14,14 +14,14 @@ index_stats:
 
 metrics:
   - metric: nDCG@10
-    command: tools/eval/trec_eval.9.0.4/trec_eval
+    command: java -jar target/trec_eval.jar
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@100
-    command: tools/eval/trec_eval.9.0.4/trec_eval
+    command: java -jar target/trec_eval.jar
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
