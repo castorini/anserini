@@ -101,10 +101,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+java -jar target/trec_eval.jar -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
 ```
 
 ## Effectiveness

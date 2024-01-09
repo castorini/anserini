@@ -87,10 +87,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.txt
+java -jar target/trec_eval.jar -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

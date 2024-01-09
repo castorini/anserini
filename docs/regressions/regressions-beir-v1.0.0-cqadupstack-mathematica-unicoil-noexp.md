@@ -50,9 +50,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-cqadupstack-mathematica.test.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-cqadupstack-mathematica.test.unicoil-noexp.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-cqadupstack-mathematica.test.unicoil-noexp.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-cqadupstack-mathematica.test.unicoil-noexp.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-cqadupstack-mathematica.test.unicoil-noexp.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-cqadupstack-mathematica.test.unicoil-noexp.txt
 ```
 
 ## Effectiveness
