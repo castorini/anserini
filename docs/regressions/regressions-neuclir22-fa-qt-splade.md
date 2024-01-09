@@ -171,80 +171,80 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc_title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc_title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade.topics.neuclir22-fa.splade.mt-desc_title.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc_title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc_title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rm3.topics.neuclir22-fa.splade.mt-desc_title.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc_title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.ht-desc_title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-title.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc_title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc_title.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc_title.txt
+java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.neuclir22-fa-splade.splade+rocchio.topics.neuclir22-fa.splade.mt-desc_title.txt
 ```
 
 ## Effectiveness

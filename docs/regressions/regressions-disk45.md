@@ -238,45 +238,45 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rm3.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rm3.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rm3.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rm3.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rm3.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rm3.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio-neg.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio-neg.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio-neg.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio-neg.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio-neg.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio-neg.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+ax.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+ax.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+ax.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+ax.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+ax.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+ax.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.ql.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.ql.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql+rm3.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql+rm3.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.ql+rm3.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql+rm3.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql+rm3.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.ql+rm3.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.qld+rocchio.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.qld+rocchio.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.qld+rocchio-neg.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio-neg.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio-neg.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.qld+rocchio-neg.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio-neg.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio-neg.topics.robust04.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql+ax.topics.adhoc.351-400.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql+ax.topics.adhoc.401-450.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.ql+ax.topics.robust04.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql+ax.topics.adhoc.351-400.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql+ax.topics.adhoc.401-450.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.ql+ax.topics.robust04.txt
 ```
 
 ## Effectiveness

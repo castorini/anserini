@@ -82,10 +82,10 @@ target/appassembler/bin/SearchInvertedDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+java -jar target/trec_eval.jar -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+java -jar target/trec_eval.jar -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+java -jar target/trec_eval.jar -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+java -jar target/trec_eval.jar -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.dl19-passage.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness

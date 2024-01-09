@@ -44,8 +44,8 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.miracl-v1.0-en-dev.tsv runs/run.miracl-v1.0-en.bm25.topics.miracl-v1.0-en-dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-en-dev.tsv runs/run.miracl-v1.0-en.bm25.topics.miracl-v1.0-en-dev.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.miracl-v1.0-en-dev.tsv runs/run.miracl-v1.0-en.bm25.topics.miracl-v1.0-en-dev.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-en-dev.tsv runs/run.miracl-v1.0-en.bm25.topics.miracl-v1.0-en-dev.txt
 ```
 
 ## Effectiveness
