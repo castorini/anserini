@@ -88,17 +88,17 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25.topics.core17.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25.topics.core17.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25+rm3.topics.core17.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25+rm3.topics.core17.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25+ax.topics.core17.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25+ax.topics.core17.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql.topics.core17.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql.topics.core17.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql+rm3.topics.core17.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql+rm3.topics.core17.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql+ax.topics.core17.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql+ax.topics.core17.txt
 ```
 
 ## Effectiveness

@@ -88,17 +88,17 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
+java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
 ```
 
 ## Effectiveness
