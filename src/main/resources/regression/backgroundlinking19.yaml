@@ -14,14 +14,14 @@ index_stats:
 
 metrics:
   - metric: MAP
-    command: java -jar target/trec_eval.jar
+    command: target/appassembler/bin/trec_eval
     params: -c -M1000 -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: true
   - metric: nDCG@5
-    command: java -jar target/trec_eval.jar
+    command: target/appassembler/bin/trec_eval
     params: -c -M1000 -m ndcg_cut.5
     separator: "\t"
     parse_index: 2

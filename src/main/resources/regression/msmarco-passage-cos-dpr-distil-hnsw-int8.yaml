@@ -14,28 +14,28 @@ index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
 
 metrics:
   - metric: AP@1000
-    command: java -jar target/trec_eval.jar
+    command: target/appassembler/bin/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: RR@10
-    command: java -jar target/trec_eval.jar
+    command: target/appassembler/bin/trec_eval
     params: -c -M 10 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@100
-    command: java -jar target/trec_eval.jar
+    command: target/appassembler/bin/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@1000
-    command: java -jar target/trec_eval.jar
+    command: target/appassembler/bin/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
