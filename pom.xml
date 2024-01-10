@@ -159,6 +159,10 @@
               <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
               <id>ExtractTopDfTerms</id>
             </program>
+            <program>
+              <mainClass>trec_eval</mainClass>
+              <id>trec_eval</id>
+            </program>
           </programs>
         </configuration>
       </plugin>
@@ -294,7 +298,7 @@
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
           <finalName>trec_eval</finalName>
-          <appendAssemblyId>false</appendAssemblyId>
+          <appendAssemblyId>true</appendAssemblyId>
         </configuration>
         <executions>
           <execution>
