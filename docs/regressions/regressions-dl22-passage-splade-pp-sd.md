@@ -100,23 +100,23 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-java -jar target/trec_eval.jar -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
 
-java -jar target/trec_eval.jar -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
 
-java -jar target/trec_eval.jar -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
-java -jar target/trec_eval.jar -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
 ```
 
 Note that the TREC 2022 passage qrels are not publicly available (yet).

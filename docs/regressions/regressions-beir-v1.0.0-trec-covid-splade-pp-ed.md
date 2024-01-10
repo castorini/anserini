@@ -50,9 +50,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt runs/run.beir-v1.0.0-trec-covid-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-trec-covid.test.splade-pp-ed.txt
-java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt runs/run.beir-v1.0.0-trec-covid-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-trec-covid.test.splade-pp-ed.txt
-java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt runs/run.beir-v1.0.0-trec-covid-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-trec-covid.test.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt runs/run.beir-v1.0.0-trec-covid-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-trec-covid.test.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt runs/run.beir-v1.0.0-trec-covid-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-trec-covid.test.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt runs/run.beir-v1.0.0-trec-covid-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-trec-covid.test.splade-pp-ed.txt
 ```
 
 ## Effectiveness

@@ -110,23 +110,23 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-java -jar target/trec_eval.jar -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot.topics.dl21.unicoil.0shot.txt
 
-java -jar target/trec_eval.jar -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
 
-java -jar target/trec_eval.jar -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot+rocchio.topics.dl21.unicoil.0shot.txt
 ```
 
 ## Effectiveness

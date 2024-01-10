@@ -103,20 +103,20 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil.topics.dl19-doc.unicoil.0shot.txt
 
-java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rm3.topics.dl19-doc.unicoil.0shot.txt
 
-java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.dl19-doc.unicoil.0shot.txt
-java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.dl19-doc.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented-unicoil.rocchio.topics.dl19-doc.unicoil.0shot.txt
 ```
 
 ## Effectiveness

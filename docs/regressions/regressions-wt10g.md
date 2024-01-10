@@ -87,17 +87,17 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25.topics.adhoc.451-550.txt
+target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25.topics.adhoc.451-550.txt
 
-java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt
+target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt
 
-java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt
+target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt
 
-java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql.topics.adhoc.451-550.txt
+target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql.topics.adhoc.451-550.txt
 
-java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt
+target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt
 
-java -jar target/trec_eval.jar -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt
+target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt
 ```
 
 ## Effectiveness
