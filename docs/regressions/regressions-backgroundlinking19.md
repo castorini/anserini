@@ -67,11 +67,11 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt
+java -jar target/trec_eval.jar -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt
+java -jar target/trec_eval.jar -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt
+java -jar target/trec_eval.jar -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt
 ```
 
 ## Effectiveness

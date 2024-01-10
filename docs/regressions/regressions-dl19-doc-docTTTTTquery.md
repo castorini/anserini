@@ -101,35 +101,35 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
 ```
 
 ## Effectiveness
