@@ -101,20 +101,20 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-java -jar target/trec_eval.jar -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.splade_distil_cocodenser_medium.topics.dl20.splade_distil_cocodenser_medium.txt
 
-java -jar target/trec_eval.jar -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rm3.topics.dl20.splade_distil_cocodenser_medium.txt
 
-java -jar target/trec_eval.jar -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
-java -jar target/trec_eval.jar -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
+target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade_distil_cocodenser_medium.rocchio.topics.dl20.splade_distil_cocodenser_medium.txt
 ```
 
 ## Effectiveness

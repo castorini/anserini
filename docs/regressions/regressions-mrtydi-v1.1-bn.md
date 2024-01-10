@@ -56,9 +56,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.train.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.dev.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.test.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.train.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.dev.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.test.txt
 ```
 
 ## Effectiveness

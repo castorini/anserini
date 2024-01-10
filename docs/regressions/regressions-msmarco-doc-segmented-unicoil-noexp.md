@@ -88,10 +88,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-java -jar target/trec_eval.jar -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
-java -jar target/trec_eval.jar -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
-java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
-java -jar target/trec_eval.jar -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
+target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
 ```
 
 ## Effectiveness

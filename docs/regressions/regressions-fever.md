@@ -56,9 +56,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-java -jar target/trec_eval.jar -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
 
-java -jar target/trec_eval.jar -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
 ```
 
 ## Effectiveness

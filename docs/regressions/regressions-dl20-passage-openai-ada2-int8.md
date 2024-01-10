@@ -91,10 +91,10 @@ target/appassembler/bin/SearchHnswDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-java -jar target/trec_eval.jar -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt
-java -jar target/trec_eval.jar -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt
-java -jar target/trec_eval.jar -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt
-java -jar target/trec_eval.jar -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt
+target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt
+target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt
+target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt
+target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl20-passage.openai-ada2.jsonl.txt
 ```
 
 ## Effectiveness

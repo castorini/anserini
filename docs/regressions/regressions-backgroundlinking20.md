@@ -67,11 +67,11 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-java -jar target/trec_eval.jar -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt
+target/appassembler/bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt
 
-java -jar target/trec_eval.jar -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt
+target/appassembler/bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt
 
-java -jar target/trec_eval.jar -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt
+target/appassembler/bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking20.txt runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt
 ```
 
 ## Effectiveness

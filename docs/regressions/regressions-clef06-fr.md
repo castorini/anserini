@@ -53,7 +53,7 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-java -jar target/trec_eval.jar -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.clef06fr.txt runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
+target/appassembler/bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.clef06fr.txt runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
 ```
 
 ## Effectiveness

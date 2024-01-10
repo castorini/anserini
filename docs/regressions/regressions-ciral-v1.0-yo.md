@@ -44,9 +44,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-java -jar target/trec_eval.jar -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-dev.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-dev-native.txt
-java -jar target/trec_eval.jar -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.ciral-v1.0-yo-dev.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-dev-native.txt
-java -jar target/trec_eval.jar -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-dev.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-dev-native.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-dev.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-dev-native.txt
+target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.ciral-v1.0-yo-dev.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-dev-native.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-dev.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-dev-native.txt
 ```
 
 ## Effectiveness
