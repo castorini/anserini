@@ -76,15 +76,15 @@ Evaluation can be performed using `trec_eval`.
 
 For `msmarco-passage.dev-subset.openai-ada2`:
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.dev-subset.openai-ada2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.dev-subset.openai-ada2.txt
+target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.dev-subset.openai-ada2.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.dev-subset.openai-ada2.txt
 ```
 
 Otherwise, set `{QRELS}` as `dl19-passage` or `dl20-passage` according to the `{SETTING}` and run:
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.{QRELS}.txt runs/run.{SETTING}.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.{QRELS}.txt runs/run.{SETTING}.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.{QRELS}.txt runs/run.{SETTING}.txt
+target/appassembler/bin/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.{QRELS}.txt runs/run.{SETTING}.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.{QRELS}.txt runs/run.{SETTING}.txt
+target/appassembler/bin/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.{QRELS}.txt runs/run.{SETTING}.txt
 ```
 
 ## Effectiveness

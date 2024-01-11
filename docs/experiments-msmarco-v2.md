@@ -51,19 +51,19 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.dev.txt
+$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.dev.txt
 map                   	all	0.0709
 recip_rank            	all	0.0719
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.dev.txt
+$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.dev.txt
 recall_100            	all	0.3397
 recall_1000           	all	0.5733
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.dev2.txt
+$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.dev2.txt
 map                   	all	0.0794
 recip_rank            	all	0.0802
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.dev2.txt
+$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.dev2.txt
 recall_100            	all	0.3459
 recall_1000           	all	0.5839
 ```
@@ -111,19 +111,19 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.dev.txt
+$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.dev.txt
 map                   	all	0.0863
 recip_rank            	all	0.0872
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.dev.txt
+$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.dev.txt
 recall_100            	all	0.4030
 recall_1000           	all	0.6925
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.dev2.txt
+$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.dev2.txt
 map                   	all	0.0904
 recip_rank            	all	0.0917
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.dev2.txt
+$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.dev2.txt
 recall_100            	all	0.4159
 recall_1000           	all	0.6933
 ```
@@ -169,19 +169,19 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc.dev.txt
+$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc.dev.txt
 map                   	all	0.1552
 recip_rank            	all	0.1572
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc.dev.txt
+$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc.dev.txt
 recall_100            	all	0.5956
 recall_1000           	all	0.8054
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.txt
+$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.txt
 map                   	all	0.1639
 recip_rank            	all	0.1659
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.txt
+$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.txt
 recall_100            	all	0.5970
 recall_1000           	all	0.8029
 ```
@@ -240,19 +240,19 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.dev.txt
+$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.dev.txt
 map                   	all	0.1875
 recip_rank            	all	0.1896
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.dev.txt
+$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.dev.txt
 recall_100            	all	0.6555
 recall_1000           	all	0.8542
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.dev2.txt
+$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.dev2.txt
 map                   	all	0.1903
 recip_rank            	all	0.1930
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.dev2.txt
+$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.dev2.txt
 recall_100            	all	0.6629
 recall_1000           	all	0.8549
 ```

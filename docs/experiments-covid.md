@@ -451,8 +451,8 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-abst
  -output runs/anserini.covid-r2.abstract.qdel.bm25.txt -runtag anserini.covid-r2.abstract.qdel.bm25.txt \
  -removedups -bm25 -hits 10000
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.abstract.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.abstract.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.abstract.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.abstract.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.abstract.qq.bm25.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.abstract.qdel.bm25.txt
@@ -471,8 +471,8 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-full
  -output runs/anserini.covid-r2.full-text.qdel.bm25.txt -runtag anserini.covid-r2.full-text.qdel.bm25.txt \
  -removedups -bm25 -hits 10000
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.full-text.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.full-text.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.full-text.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.full-text.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.full-text.qq.bm25.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.full-text.qdel.bm25.txt
@@ -491,8 +491,8 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-para
  -output runs/anserini.covid-r2.paragraph.qdel.bm25.txt -runtag anserini.covid-r2.paragraph.qdel.bm25.txt \
  -selectMaxPassage -bm25 -hits 10000
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.paragraph.qq.bm25.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.paragraph.qdel.bm25.txt
@@ -511,8 +511,8 @@ python src/main/python/fusion.py --method RRF --out runs/anserini.covid-r2.fusio
 And to evaluate the fusion runs:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.fusion1.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.fusion2.txt
@@ -531,8 +531,8 @@ python tools/scripts/filter_run_with_qrels.py --discard --qrels tools/topics-and
 Evaluating runs with round 2 judgments:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round2.txt runs/anserini.r2.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round2.txt runs/anserini.r2.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round2.txt runs/anserini.r2.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round2.txt runs/anserini.r2.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round2.txt --cutoffs 10 --run runs/anserini.r2.fusion1.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round2.txt --cutoffs 10 --run runs/anserini.r2.fusion2.txt
@@ -577,12 +577,12 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-2020-
 Here are the commands to evaluate results on the abstract index:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query.bm25.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.question.bm25.txt
@@ -623,12 +623,12 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-full-
 Here are the commands to evaluate results on the full-text index:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query.bm25.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.question.bm25.txt
@@ -669,12 +669,12 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-parag
 Here are the commands to evaluate results on the paragraph index:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query.bm25.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.question.bm25.txt
@@ -697,8 +697,8 @@ python src/main/python/fusion.py --method RRF --out runs/run.covid-r1.fusion2.tx
 And to evalute the fusion runs:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+target/appassembler/bin/trec_eval -c -M1000 -m all_trec tools/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.fusion1.txt
 python tools/eval/measure_judged.py --qrels tools/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.fusion2.txt

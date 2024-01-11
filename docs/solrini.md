@@ -99,7 +99,7 @@ sh target/appassembler/bin/SearchSolr \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 \
+$ target/appassembler/bin/trec_eval -m map -m P.30 \
     tools/topics-and-qrels/qrels.robust04.txt \
     runs/run.solr.robust04.bm25.topics.robust04.txt
 
