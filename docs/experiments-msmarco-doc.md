@@ -63,7 +63,7 @@ Adjust the parallelism by changing the `-parallelism` argument.
 After the run completes, we can evaluate with `trec_eval`:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
+$ target/appassembler/bin/trec_eval -c -mmap -mrecall.1000 \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2309
 recall_1000           	all	0.8856
@@ -81,11 +81,11 @@ Then, run `trec_eval` to compare.
 Note that to be fair, we restrict evaluation to top 100 hits per topic (which is what Microsoft provides):
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
+$ target/appassembler/bin/trec_eval -c -mmap -M 100 \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/msmarco-docdev-top100
 map                   	all	0.2219
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
+$ target/appassembler/bin/trec_eval -c -mmap -M 100 \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2302
 ```
@@ -186,7 +186,7 @@ $ target/appassembler/bin/SearchCollection \
     -parallelism 4 \
     -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 1000
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
+$ target/appassembler/bin/trec_eval -c -mmap -mrecall.1000 \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
 map                   	all	0.2789
 recall_1000           	all	0.9326
