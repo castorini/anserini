@@ -35,7 +35,7 @@ The `tools/` directory, which contains evaluation tools and other scripts, is ac
 Build as follows (you might get warnings, but okay to ignore):
 
 ```bash
-cd tools/eval && tar xvfz trec_eval.9.0.8.tar.gz && cd trec_eval.9.0.8 && make && cd ../../..
+cd tools/eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd ../../..
 cd tools/eval/ndeval && make && cd ../../..
 ```
 
