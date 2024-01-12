@@ -151,6 +151,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     LOG.info(" + M: " + args.M);
     LOG.info(" + efC: " + args.efC);
     LOG.info(" + Store document vectors? " + args.storeVectors);
+    LOG.info(" + Int8 quantization? " + args.quantizeInt8);
     LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
     LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
     LOG.info(" + MaxThreadMemoryBeforeFlush: " + args.maxThreadMemoryBeforeFlush);

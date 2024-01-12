@@ -1,0 +1,99 @@
+# Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
+
+**Model**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with HNSW indexes (using pre-encoded queries)
+
+This page describes regression experiments, integrated into Anserini's regression testing framework, using the [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+
+> Xueguang Ma, Tommaso Teofili, and Jimmy Lin. [Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes.](https://dl.acm.org/doi/10.1145/3583780.3615112) _Proceedings of the 32nd International Conference on Information and Knowledge Management (CIKM 2023)_, October 2023, pages 5366–5370, Birmingham, the United Kingdom.
+
+In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+
+Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
+We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression ${test_name}
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
+
+Download the corpus and unpack into `collections/`:
+
+```bash
+wget ${download_url} -P collections/
+tar xvf collections/${corpus}.tar -C collections/
+```
+
+To confirm, `${corpus}.tar` is 59 GB and has MD5 checksum `${download_checksum}`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
+  --corpus-path collections/${corpus}
+```
+
+## Indexing
+
+Sample indexing command, building HNSW indexes:
+
+```bash
+${index_cmds}
+```
+
+The path `/path/to/${corpus}/` should point to the corpus downloaded above.
+Upon completion, we should have an index with 8,841,823 documents.
+
+Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
+This is because merging index segments is a costly operation and not worthwhile given our query set.
+Furthermore, we are using Lucene's [Automatic Byte Quantization](https://www.elastic.co/search-labs/blog/articles/scalar-quantization-in-lucene) feature, which increase the on-disk footprint of the indexes since we're storing both the int8 quantized vectors and the float32 vectors, but only the int8 quantized vectors need to be loaded into memory.
+See [issue #2292](https://github.com/castorini/anserini/issues/2292) for some experiments reporting the performance impact.
+
+## Retrieval
+
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+The regression experiments here evaluate on the 54 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```bash
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```bash
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
+
+Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](${yaml}).
+
+Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
