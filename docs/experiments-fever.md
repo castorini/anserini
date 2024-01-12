@@ -83,7 +83,7 @@ Note that by default, the above uses the BM25 algorithm with parameters `k1=0.9`
 Finally, we can evaluate the retrieved documents using the official TREC evaluation tool, `trec_eval`.
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall \
+target/appassembler/bin/trec_eval -c -m recall \
  collections/fever/qrels.paragraph.dev.txt runs/run.fever-paragraph.dev.txt
 ```
 
