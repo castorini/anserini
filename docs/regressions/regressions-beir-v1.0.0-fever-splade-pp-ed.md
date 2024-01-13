@@ -25,7 +25,7 @@ target/appassembler/bin/IndexCollection \
   -input /path/to/beir-v1.0.0-fever-splade-pp-ed \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.beir-v1.0.0-fever-splade-pp-ed/ \
-  -threads 16 -impact -pretokenized -optimize \
+  -threads 16 -impact -pretokenized \
   >& logs/log.beir-v1.0.0-fever-splade-pp-ed &
 ```
 

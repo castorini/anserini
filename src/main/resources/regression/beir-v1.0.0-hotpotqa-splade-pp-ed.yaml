@@ -6,7 +6,7 @@ index_path: indexes/lucene-index.beir-v1.0.0-hotpotqa-splade-pp-ed/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
-index_options: -impact -pretokenized -optimize
+index_options: -impact -pretokenized
 index_stats:
   documents: 5233329
   documents (non-empty): 5233329
