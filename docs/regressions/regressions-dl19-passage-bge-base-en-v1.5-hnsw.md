@@ -99,13 +99,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.441     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.442     |
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.705     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.706     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.615     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.616     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.845     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.842     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage-bge-base-en-v1.5-hnsw.yaml).

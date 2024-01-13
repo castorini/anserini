@@ -101,13 +101,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.464     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.463     |
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.678     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.674     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.712     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.845     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.840     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage-bge-base-en-v1.5-hnsw-int8.yaml).
