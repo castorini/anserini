@@ -6,7 +6,7 @@ index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-gaming-splade-pp-ed/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
-index_options: -impact -pretokenized -optimize
+index_options: -impact -pretokenized
 index_stats:
   documents: 45301
   documents (non-empty): 45301
