@@ -3,11 +3,17 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### January 13, 2024
+
++ commit [`883539`](https://github.com/castorini/anserini/commit/47876e8f7b5e65b11c19692d7c07a2e87a410533) (1/13/2024)
+
+Added HNSW regressions for the BGE-base-en-v1.5 model on the MS MARCO passage corpus: dev, DL19, and DL20; both original and int8 quantized versions. 
+
 ### December 19, 2023
 
 + commit [`883539`](https://github.com/castorini/anserini/commit/883539b119e3c4f236f4fda3dd748a3b2d4ff1a1) (12/19/2023)
 
-Upgraded to Lucene 9.9.1, added following regressions:
+Upgraded to Lucene 9.9.1, added the following HNSW regressions:
 
 + `msmarco-passage-cos-dpr-distil-hnsw-int8-onnx`
 + `msmarco-passage-cos-dpr-distil-hnsw-int8`
