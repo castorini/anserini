@@ -203,8 +203,10 @@ def evaluate_and_verify(yaml_data, dry_run):
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
 
+                using_hnsw = True if 'VectorQueryGenerator' in model['params'] or '-encoder' in model['params'] else False
+
                 # For HNSW, we only print to third digit
-                if 'VectorQueryGenerator' in model['params']:
+                if using_hnsw:
                     result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
                         expected, actual, metric['metric'], model['name'], topic_set['id'])
                 else:
@@ -215,8 +217,8 @@ def evaluate_and_verify(yaml_data, dry_run):
                 # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
                 # let the test pass.
                 if is_close(expected, actual) or \
-                        ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.006)) or \
-                        ('VectorQueryGenerator' in model['params'] and actual > expected):
+                        (using_hnsw and is_close(expected, actual, abs_tol=0.006)) or \
+                        (using_hnsw and actual > expected):
                     logger.info(ok_str + result_str)
                 # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
                 elif '-encoder' in model['params'] and is_close(expected, actual, abs_tol=0.001):
