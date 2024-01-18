@@ -350,7 +350,7 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@kdricci](https://github.com/kdricci) on 2023-12-01 (commit [`d076892`](https://github.com/castorini/anserini/commit/d0768920233b73c6a5b208a86ffa8668735c1b14))
 + Results reproduced by [@AreelKhan](https://github.com/AreelKhan) on 2023-12-02 (commit [`470207a`](https://github.com/castorini/anserini/commit/470207ae2b3e2976027c0b68828876abb85770e1))
 + Results reproduced by [@ljk423](https://github.com/ljk423) on 2023-12-02 (commit [`acb1076`](https://github.com/castorini/anserini/commit/acb1076f6cf92fc468360f5dfccdef4f848dca62))
-+ Results reproduced by [@Minhajul99](https://github.com/Minhajul99) on 2023-12-09 (commit [`f1d6320`](https://github.com/Minhajul99/anserini/commit/f1d6320a0002faeec28f3262cc5bf982c992503b))
++ Results reproduced by [@Minhajul99](https://github.com/Minhajul99) on 2023-12-09 (commit [`f1d6320`](https://github.com/castorini/anserini/commit/f1d6320a0002faeec28f3262cc5bf982c992503b))
 + Results reproduced by [@Panizghi](https://github.com/Panizghi) on 2023-12-10 (commit [`9c4cecc`](https://github.com/castorini/anserini/commit/9c4ceccffb516d718c886072ce0c106b6dd06cb3))
 + Results reproduced by [@saharsamr](https://github.com/saharsamr) on 2023-12-14 (commit [`b6a7534`](https://github.com/castorini/anserini/commit/b6a7534df199a467407dbfd1f6a1da192969066d))
 + Results reproduced by [@wu-ming233](https://github.com/wu-ming233) on 2023-12-30 (commit [`2ebc11c`](https://github.com/castorini/anserini/commit/2ebc11c961e49cf3272593d58b594cdac580946e))
