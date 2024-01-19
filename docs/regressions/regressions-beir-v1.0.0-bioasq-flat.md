@@ -12,6 +12,16 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-flat
 ```
 
+All the BEIR corpora are available for download:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-corpus.tar -P collections/
+tar xvf collections/beir-v1.0.0-corpus.tar -C collections/
+```
+
+The tarball is 14 GB and has MD5 checksum `faefd5281b662c72ce03d22021e4ff6b`.
+After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+
 ## Indexing
 
 Typical indexing command:

@@ -13,6 +13,16 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
+All the BEIR corpora, pre-tokenized with the `bert-base-uncased` tokenizer, are available for download:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-corpus-wp.tar -P collections/
+tar xvf collections/beir-v1.0.0-corpus-wp.tar -C collections/
+```
+
+The tarball is 13 GB and has MD5 checksum `3cf8f3dcdcadd49362965dd4466e6ff2`.
+After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+
 ## Indexing
 
 Typical indexing command:
