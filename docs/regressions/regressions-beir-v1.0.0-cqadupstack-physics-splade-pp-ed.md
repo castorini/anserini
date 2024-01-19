@@ -11,8 +11,7 @@ Note that this page is automatically generated from [this template](../../src/ma
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search \
-  --regression beir-v1.0.0-cqadupstack-physics-splade-pp-ed
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-splade-pp-ed
 ```
 
 All the BEIR corpora, encoded by the SPLADE++ CoCondenser-EnsembleDistil model, are available for download:
