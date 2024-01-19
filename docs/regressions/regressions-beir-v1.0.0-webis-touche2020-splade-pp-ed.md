@@ -76,8 +76,3 @@ With the above commands, you should be able to reproduce the following results:
 | BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.4715    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.8191    |
-
-
-## Reproduction Log[*](../../docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-webis-touche2020-splade-pp-ed.template) and run `bin/build.sh` to rebuild the documentation.
