@@ -212,7 +212,7 @@ Key:
 + U1 = uniCOIL (noexp)
 + S1 = SPLADE++ CoCondenser-EnsembleDistil
 
-See instructions below the table for how to reproduce results from a model in "one go".
+See instructions below the table for how to reproduce results for a model on all BEIR corpora "in one go".
 
 | Corpus                  |                                      F1                                       |                                        F2                                        |                                         MF                                          |                                           U1                                           |                                          S1                                           |
 |-------------------------|:-----------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------:|
@@ -254,7 +254,7 @@ tar xvf collections/beir-v1.0.0-splade-pp-ed.tar -C collections/
 ```
 
 The tarball is 42 GB and has MD5 checksum `9c7de5b444a788c9e74c340bf833173b`.
-Once you've unpacked the data, the following will loop over all BEIR corpora and run the regressions:
+Once you've unpacked the data, the following commands will loop over all BEIR corpora and run the regressions:
 
 ```bash
 MODEL="splade-pp-ed"; CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
@@ -264,7 +264,9 @@ do
 done
 ```
 
-For the other models, modify the above command as follows:
+You can verify the results by examining the log files in `logs/`.
+
+For the other models, modify the above commands as follows:
 
 | Key | Corpus                          | Checksum                           | `MODEL`         |
 |:----|:--------------------------------|:-----------------------------------|:----------------|
