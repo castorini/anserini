@@ -15,6 +15,16 @@ python src/main/python/run_regression.py --index --verify --search \
   --regression beir-v1.0.0-quora-splade-pp-ed
 ```
 
+All the BEIR corpora, encoded by the SPLADE++ CoCondenser-EnsembleDistil model, are available for download:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-splade-pp-ed.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade-pp-ed.tar -C collections/
+```
+
+The tarball is 42 GB and has MD5 checksum `9c7de5b444a788c9e74c340bf833173b`.
+After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+
 ## Indexing
 
 Sample indexing command:

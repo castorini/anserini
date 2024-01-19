@@ -15,6 +15,16 @@ python src/main/python/run_regression.py --index --verify --search \
   --regression ${test_name}
 ```
 
+All the BEIR corpora, encoded by the SPLADE++ CoCondenser-EnsembleDistil model, are available for download:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-splade-pp-ed.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade-pp-ed.tar -C collections/
+```
+
+The tarball is 42 GB and has MD5 checksum `9c7de5b444a788c9e74c340bf833173b`.
+After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+
 ## Indexing
 
 Sample indexing command:
@@ -47,8 +57,3 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-
-## Reproduction Log[*](${root_path}/docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.

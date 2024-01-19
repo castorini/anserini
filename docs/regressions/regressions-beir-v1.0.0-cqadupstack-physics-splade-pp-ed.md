@@ -15,6 +15,16 @@ python src/main/python/run_regression.py --index --verify --search \
   --regression beir-v1.0.0-cqadupstack-physics-splade-pp-ed
 ```
 
+All the BEIR corpora, encoded by the SPLADE++ CoCondenser-EnsembleDistil model, are available for download:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-splade-pp-ed.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade-pp-ed.tar -C collections/
+```
+
+The tarball is 42 GB and has MD5 checksum `9c7de5b444a788c9e74c340bf833173b`.
+After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+
 ## Indexing
 
 Sample indexing command:
@@ -66,8 +76,3 @@ With the above commands, you should be able to reproduce the following results:
 | BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.7196    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.9010    |
-
-
-## Reproduction Log[*](../../docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-cqadupstack-physics-splade-pp-ed.template) and run `bin/build.sh` to rebuild the documentation.
