@@ -266,13 +266,13 @@ done
 
 For the other models, modify the above command as follows:
 
-| Key | Corpus                          | Checksum                           | `MODEL`                 |
-|-----|---------------------------------|------------------------------------|-------------------------|
-| F1  | `beir-v1.0.0-corpus.tar`        | `faefd5281b662c72ce03d22021e4ff6b` | `MODEL="flat"`          |
-| F2  | `beir-v1.0.0-corpus-wp.tar`     | `3cf8f3dcdcadd49362965dd4466e6ff2` | `MODEL="flat-wp"`       |
-| MF  | `beir-v1.0.0-corpus.tar`        | `faefd5281b662c72ce03d22021e4ff6b` | `MODEL="multifield"`    |
-| U1  | `beir-v1.0.0-unicoil-noexp.tar` | `4fd04d2af816a6637fc12922cccc8a83` | `MODEL="unicoil-noexp"` |
-| S1  | `beir-v1.0.0-splade-pp-ed.tar`  | `9c7de5b444a788c9e74c340bf833173b` | `MODEL="splade-pp-ed"`  |
+| Key | Corpus                          | Checksum                           | `MODEL`         |
+|:----|:--------------------------------|:-----------------------------------|:----------------|
+| F1  | `beir-v1.0.0-corpus.tar`        | `faefd5281b662c72ce03d22021e4ff6b` | `flat`          |
+| F2  | `beir-v1.0.0-corpus-wp.tar`     | `3cf8f3dcdcadd49362965dd4466e6ff2` | `flat-wp`       |
+| MF  | `beir-v1.0.0-corpus.tar`        | `faefd5281b662c72ce03d22021e4ff6b` | `multifield`    |
+| U1  | `beir-v1.0.0-unicoil-noexp.tar` | `4fd04d2af816a6637fc12922cccc8a83` | `unicoil-noexp` |
+| S1  | `beir-v1.0.0-splade-pp-ed.tar`  | `9c7de5b444a788c9e74c340bf833173b` | `splade-pp-ed`  |
 
 </details>
 <details>
