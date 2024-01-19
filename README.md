@@ -207,10 +207,12 @@ See individual pages for details!
 Key:
 
 + F1 = "flat" baseline (Lucene analyzer)
-+ F2 = "flat" baselinse (pre-tokenized with `bert-base-uncased` tokenizer)
++ F2 = "flat" baseline (pre-tokenized with `bert-base-uncased` tokenizer)
 + MF = "multifield" baseline (Lucene analyzer)
 + U1 = uniCOIL (noexp)
 + S1 = SPLADE++ CoCondenser-EnsembleDistil
+
+See instructions below the table for how to reproduce results from a model in "one go".
 
 | Corpus                  |                                      F1                                       |                                        F2                                        |                                         MF                                          |                                           U1                                           |                                          S1                                           |
 |-------------------------|:-----------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------:|
@@ -243,6 +245,34 @@ Key:
 | FEVER                   |          [+](docs/regressions/regressions-beir-v1.0.0-fever-flat.md)          |          [+](docs/regressions/regressions-beir-v1.0.0-fever-flat-wp.md)          |          [+](docs/regressions/regressions-beir-v1.0.0-fever-multifield.md)          |          [+](docs/regressions/regressions-beir-v1.0.0-fever-unicoil-noexp.md)          |          [+](docs/regressions/regressions-beir-v1.0.0-fever-splade-pp-ed.md)          |
 | Climate-FEVER           |      [+](docs/regressions/regressions-beir-v1.0.0-climate-fever-flat.md)      |      [+](docs/regressions/regressions-beir-v1.0.0-climate-fever-flat-wp.md)      |      [+](docs/regressions/regressions-beir-v1.0.0-climate-fever-multifield.md)      |      [+](docs/regressions/regressions-beir-v1.0.0-climate-fever-unicoil-noexp.md)      |      [+](docs/regressions/regressions-beir-v1.0.0-climate-fever-splade-pp-ed.md)      |
 | SciFact                 |         [+](docs/regressions/regressions-beir-v1.0.0-scifact-flat.md)         |         [+](docs/regressions/regressions-beir-v1.0.0-scifact-flat-wp.md)         |         [+](docs/regressions/regressions-beir-v1.0.0-scifact-multifield.md)         |         [+](docs/regressions/regressions-beir-v1.0.0-scifact-unicoil-noexp.md)         |         [+](docs/regressions/regressions-beir-v1.0.0-scifact-splade-pp-ed.md)         |
+
+To reproduce the SPLADE++ CoCondenser-EnsembleDistil results, start by downloading the collection:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-splade-pp-ed.tar -P collections/
+tar xvf collections/beir-v1.0.0-splade-pp-ed.tar -C collections/
+```
+
+The tarball is 42 GB and has MD5 checksum `9c7de5b444a788c9e74c340bf833173b`.
+Once you've unpacked the data, the following will loop over all BEIR corpora and run the regressions:
+
+```bash
+MODEL="splade-pp-ed"; CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
+do
+    echo "Running $c..."
+    python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-${c}-${MODEL} > logs/log.beir-v1.0.0-${c}-${MODEL} 2>&1
+done
+```
+
+For the other models, modify the above command as follows:
+
+| Key | Corpus                          | Checksum                           | `MODEL`                 |
+|-----|---------------------------------|------------------------------------|-------------------------|
+| F1  | `beir-v1.0.0-corpus.tar`        | `faefd5281b662c72ce03d22021e4ff6b` | `MODEL="flat"`          |
+| F2  | `beir-v1.0.0-corpus-wp.tar`     | `3cf8f3dcdcadd49362965dd4466e6ff2` | `MODEL="flat-wp"`       |
+| MF  | `beir-v1.0.0-corpus.tar`        | `faefd5281b662c72ce03d22021e4ff6b` | `MODEL="multifield"`    |
+| U1  | `beir-v1.0.0-unicoil-noexp.tar` | `4fd04d2af816a6637fc12922cccc8a83` | `MODEL="unicoil-noexp"` |
+| S1  | `beir-v1.0.0-splade-pp-ed.tar`  | `9c7de5b444a788c9e74c340bf833173b` | `MODEL="splade-pp-ed"`  |
 
 </details>
 <details>
