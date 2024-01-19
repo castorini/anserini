@@ -22,7 +22,6 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-noexp > logs/log.msmarco-passage-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-unicoil-tilde-expansion > logs/log.msmarco-passage-unicoil-tilde-expansion 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-distill-splade-max > logs/log.msmarco-passage-distill-splade-max 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-distil-cocodenser-medium > logs/log.msmarco-passage-splade-distil-cocodenser-medium 2>&1
 
 # HNSW search-only
 python src/main/python/run_regression.py --search --regression msmarco-passage-cos-dpr-distil-hnsw-onnx > logs/log.msmarco-passage-cos-dpr-distil-hnsw-onnx 2>&1
@@ -148,7 +147,6 @@ python src/main/python/run_regression.py --search --regression dl19-passage-open
 
 python src/main/python/run_regression.py --search --regression dl19-passage-unicoil > logs/log.dl19-passage-unicoil 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-unicoil-noexp > logs/log.dl19-passage-unicoil-noexp 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-splade-distil-cocodenser-medium > logs/log.dl19-passage-splade-distil-cocodenser-medium 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-splade-pp-ed > logs/log.dl19-passage-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-splade-pp-sd > logs/log.dl19-passage-splade-pp-sd 2>&1
 
@@ -185,7 +183,6 @@ python src/main/python/run_regression.py --search --regression dl20-passage-open
 
 python src/main/python/run_regression.py --search --regression dl20-passage-unicoil > logs/log.dl20-passage-unicoil 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-unicoil-noexp > logs/log.dl20-passage-unicoil-noexp 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-splade-distil-cocodenser-medium > logs/log.dl20-passage-splade-distil-cocodenser-medium 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-splade-pp-ed > logs/log.dl20-passage-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-splade-pp-sd > logs/log.dl20-passage-splade-pp-sd 2>&1
 

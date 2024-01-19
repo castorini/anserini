@@ -105,36 +105,6 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression cw12b13 > logs/log.cw12b13 2>&1
 
 # BEIR
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-trec-covid-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-bioasq-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-nfcorpus-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-nq-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-hotpotqa-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-fiqa-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-signal1m-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-trec-news-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-robust04-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-arguana-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-webis-touche2020-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-android-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-english-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-gaming-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-gis-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-mathematica-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-physics-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-programmers-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-stats-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-tex-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-unix-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-webmasters-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-cqadupstack-wordpress-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-quora-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-dbpedia-entity-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-scidocs-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-fever-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-climate-fever-splade-distil-cocodenser-medium 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-splade-distil-cocodenser-medium > logs/log.beir-v1.0.0-scifact-splade-distil-cocodenser-medium 2>&1
-
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-unicoil-noexp > logs/log.beir-v1.0.0-trec-covid-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-unicoil-noexp > logs/log.beir-v1.0.0-bioasq-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-unicoil-noexp > logs/log.beir-v1.0.0-nfcorpus-unicoil-noexp 2>&1
