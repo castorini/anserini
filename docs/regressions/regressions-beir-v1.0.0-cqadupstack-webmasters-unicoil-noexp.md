@@ -16,6 +16,16 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-unicoil-noexp
 ```
 
+All the BEIR corpora, encoded by the uniCOIL-noexp model, are available for download:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-unicoil-noexp.tar -P collections/
+tar xvf collections/beir-v1.0.0-unicoil-noexp.tar -C collections/
+```
+
+The tarball is 30 GB and has MD5 checksum `4fd04d2af816a6637fc12922cccc8a83`.
+After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+
 ## Indexing
 
 Typical indexing command:
