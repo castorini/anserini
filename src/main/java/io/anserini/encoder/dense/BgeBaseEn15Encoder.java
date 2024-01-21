@@ -38,6 +38,8 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
 
   static private final String VOCAB_NAME = "bge-base-en-v1.5-vocab.txt";
 
+  static private final String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
+
   public BgeBaseEn15Encoder() throws IOException, OrtException {
     super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
@@ -46,7 +48,7 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
   public float[] encode(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
     queryTokens.add("[CLS]");
-    queryTokens.addAll(this.tokenizer.tokenize(query));
+    queryTokens.addAll(this.tokenizer.tokenize(INSTRUCTION + query));
     queryTokens.add("[SEP]");
     
     Map<String, OnnxTensor> inputs = new HashMap<>();
@@ -57,7 +59,8 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
     inputs.put("input_ids", OnnxTensor.createTensor(this.environment, inputTokenIds));
     float[] weights = null;
     try (OrtSession.Result results = this.session.run(inputs)) {
-      weights = ((float[][][]) results.get("embeddings").get().getValue())[0][0];
+      weights = ((float[][][]) results.get("last_hidden_state").get().getValue())[0][0];
+      weights = normalize(weights);
     } catch (OrtException e) {
       e.printStackTrace();
     }
