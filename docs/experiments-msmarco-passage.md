@@ -463,4 +463,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@BeginningGradeMaker](https://github.com/BeginningGradeMaker) on 2024-01-15 (commit [`85fad8d`](https://github.com/castorini/anserini/commit/85fad8d9a3aa797b12362894e40aa00041bf3664))
 + Results reproduced by [@ia03](https://github.com/ia03) on 2024-01-17 (commit [`85fad8d`](https://github.com/castorini/anserini/commit/85fad8d9a3aa797b12362894e40aa00041bf3664))
 + Results reproduced by [@AlexStan0](https://github.com/AlexStan0) on 2024-01-19 (commit [`edd47ad`](https://github.com/castorini/anserini/commit/edd47ad3b8d833fcf834bb50e9735f35f5d9b79b))
-+ Results reproduced by [@tian0106](https://github.com/tian0106) on 2024-01-19  
++ Results reproduced by [@tian0106](https://github.com/tian0106) on 2024-01-19 (commit [`edd47ad`](https://github.com/castorini/anserini/commit/f1665d70997d5368c3b6f3069e018e5a3b8dabab))
