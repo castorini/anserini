@@ -2,7 +2,7 @@
 corpus: beir-v1.0.0-bge-base-en-v1.5
 corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/cqadupstack-physics
 
-index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5/
+index_path: indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator
