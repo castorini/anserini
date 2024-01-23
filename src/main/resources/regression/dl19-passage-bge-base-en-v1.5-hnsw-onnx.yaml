@@ -56,10 +56,10 @@ models:
     params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15
     results:
       AP@1000:
-        - 0.442
+        - 0.447
       nDCG@10:
-        - 0.706
+        - 0.701
       R@100:
-        - 0.616
+        - 0.607
       R@1000:
-        - 0.842
+        - 0.837
