@@ -26,6 +26,8 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 # HNSW search-only
 python src/main/python/run_regression.py --search --regression msmarco-passage-cos-dpr-distil-hnsw-onnx > logs/log.msmarco-passage-cos-dpr-distil-hnsw-onnx 2>&1
 python src/main/python/run_regression.py --search --regression msmarco-passage-cos-dpr-distil-hnsw-int8-onnx > logs/log.msmarco-passage-cos-dpr-distil-hnsw-int8-onnx 2>&1
+python src/main/python/run_regression.py --search --regression msmarco-passage-bge-base-en-v1.5-hnsw-onnx > logs/log.msmarco-passage-bge-base-en-v1.5-hnsw-onnx 2>&1
+python src/main/python/run_regression.py --search --regression msmarco-passage-bge-base-en-v1.5-hnsw-int8-onnx > logs/log.msmarco-passage-bge-base-en-v1.5-hnsw-int8-onnx 2>&1
 
 # MS MARCO V1 doc
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc > logs/log.msmarco-doc 2>&1
@@ -204,6 +206,11 @@ python src/main/python/run_regression.py --search --regression dl19-passage-cos-
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-hnsw-int8-onnx > logs/log.dl19-passage-cos-dpr-distil-hnsw-int8-onnx 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw-onnx > logs/log.dl20-passage-cos-dpr-distil-hnsw-onnx 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw-int8-onnx > logs/log.dl20-passage-cos-dpr-distil-hnsw-int8-onnx 2>&1
+
+python src/main/python/run_regression.py --search --regression dl19-passage-bge-base-en-v1.5-hnsw-onnx > logs/log.dl19-passage-bge-base-en-v1.5-hnsw-onnx 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-bge-base-en-v1.5-hnsw-int8-onnx > logs/log.dl19-passage-bge-base-en-v1.5-hnsw-int8-onnx 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-bge-base-en-v1.5-hnsw-onnx > logs/log.dl20-passage-bge-base-en-v1.5-hnsw-onnx 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-bge-base-en-v1.5-hnsw-int8-onnx > logs/log.dl20-passage-bge-base-en-v1.5-hnsw-int8-onnx 2>&1
 
 # DL21/22
 python src/main/python/run_regression.py --search --regression dl21-passage > logs/log.dl21-passage 2>&1
