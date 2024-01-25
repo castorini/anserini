@@ -79,6 +79,23 @@ public abstract class OnnxEncoder<T> {
     return tokenIds;
   }
 
+  /*
+   * Normalize a vector using L2 norm
+   */
+  public static float[] normalize(float[] vector) {
+    final float EPS = 1e-12f;
+    float norm = 0;
+    for (float v : vector) {
+      norm += v * v;
+    }
+    norm = (float) Math.sqrt(norm);
+
+    for (int i = 0; i < vector.length; i++) {
+      vector[i] = vector[i] / (norm + EPS);
+    }
+    return vector;
+  }
+
   public abstract T encode(String query) throws OrtException;
 
   public OnnxEncoder(String modelName, String modelURL, String vocabName, String vocabURL)

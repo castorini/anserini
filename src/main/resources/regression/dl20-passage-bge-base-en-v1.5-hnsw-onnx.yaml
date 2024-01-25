@@ -15,28 +15,28 @@ index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
 metrics:
   - metric: AP@1000
     command: target/appassembler/bin/trec_eval
-    params: -c -m map
+    params: -m map -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
-  - metric: RR@10
+  - metric: nDCG@10
     command: target/appassembler/bin/trec_eval
-    params: -c -M 10 -m recip_rank
+    params: -m ndcg_cut.10 -c
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@100
     command: target/appassembler/bin/trec_eval
-    params: -c -m recall.100
+    params: -m recall.100 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@1000
     command: target/appassembler/bin/trec_eval
-    params: -c -m recall.1000
+    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -44,10 +44,10 @@ metrics:
 
 topic_reader: TsvInt
 topics:
-  - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
-    id: dev
-    path: topics.msmarco-passage.dev-subset.txt
-    qrel: qrels.msmarco-passage.dev-subset.txt
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.txt
+    qrel: qrels.dl20-passage.txt
 
 models:
   - name: bge-hnsw
@@ -56,10 +56,10 @@ models:
     params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15
     results:
       AP@1000:
-        - 0.363
-      RR@10:
-        - 0.358
+        - 0.462
+      nDCG@10:
+        - 0.677
       R@100:
-        - 0.897
+        - 0.712
       R@1000:
-        - 0.977
+        - 0.849

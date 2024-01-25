@@ -3,11 +3,23 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### January 21, 2024
+
++ commit [`ca20dc`](https://github.com/castorini/anserini/commit/ca20dcda6ecf12930092f26416bad715baa861f2) (1/21/2024)
+
+Added BGE + ONNX regressions for MS MARCO v1 passage corpus.
+
+### January 19, 2024
+
++ commit [`edd47a`](https://github.com/castorini/anserini/commit/edd47ad3b8d833fcf834bb50e9735f35f5d9b79b) (1/19/2024)
+
+Removed `splade-distil-cocodenser-medium` regressions to reduce confusion.
+
 ### January 13, 2024
 
 + commit [`883539`](https://github.com/castorini/anserini/commit/47876e8f7b5e65b11c19692d7c07a2e87a410533) (1/13/2024)
 
-Added HNSW regressions for the BGE-base-en-v1.5 model on the MS MARCO passage corpus: dev, DL19, and DL20; both original and int8 quantized versions. 
+Added HNSW regressions for the BGE-base-en-v1.5 model on the MS MARCO v1 passage corpus: dev, DL19, and DL20; both original and int8 quantized versions.
 
 ### December 19, 2023
 

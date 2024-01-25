@@ -61,6 +61,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd-onnx >& logs/log.msmarco-passage-splade-pp-sd-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw-onnx >& logs/log.msmarco-passage-cos-dpr-distil-hnsw-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw-int8-onnx >& logs/log.msmarco-passage-cos-dpr-distil-hnsw-int8-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bge-base-en-v1.5-hnsw-onnx >& logs/log.msmarco-passage-bge-base-en-v1.5-hnsw-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.msmarco-passage-bge-base-en-v1.5-hnsw-int8-onnx &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-doc-wp >& logs/log.msmarco-doc-wp &
@@ -96,6 +98,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-splade-pp-sd-onnx >& logs/log.dl19-passage-splade-pp-sd-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-cos-dpr-distil-hnsw-onnx >& logs/log.dl19-passage-cos-dpr-distil-hnsw-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-cos-dpr-distil-hnsw-int8-onnx >& logs/log.dl19-passage-cos-dpr-distil-hnsw-int8-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-bge-base-en-v1.5-hnsw-onnx >& logs/log.dl19-passage-bge-base-en-v1.5-hnsw-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.dl19-passage-bge-base-en-v1.5-hnsw-int8-onnx &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc >& logs/log.dl19-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-wp >& logs/log.dl19-doc-wp &
@@ -131,6 +135,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-splade-pp-sd-onnx >& logs/log.dl20-passage-splade-pp-sd-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-cos-dpr-distil-hnsw-onnx >& logs/log.dl20-passage-cos-dpr-distil-hnsw-onnx &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-cos-dpr-distil-hnsw-int8-onnx >& logs/log.dl20-passage-cos-dpr-distil-hnsw-int8-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-bge-base-en-v1.5-hnsw-onnx >& logs/log.dl20-passage-bge-base-en-v1.5-hnsw-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.dl20-passage-bge-base-en-v1.5-hnsw-int8-onnx &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc >& logs/log.dl20-doc &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-wp >& logs/log.dl20-doc-wp &
