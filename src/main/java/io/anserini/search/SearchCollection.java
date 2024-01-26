@@ -144,7 +144,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
 
-    @Option(name = "-topicReader", required = true, usage = "TopicReader to use.")
+    @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader;
 
     @Option(name = "-collection", metaVar = "[class]",
@@ -1040,17 +1040,25 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     for (String topicsFile : args.topics) {
       Path topicsFilePath = Paths.get(topicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
-      }
-      try {
-        @SuppressWarnings("unchecked")
-        TopicReader<K> tr = (TopicReader<K>) Class
-            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-            .getConstructor(Path.class).newInstance(topicsFilePath);
+        try {
+          topics.putAll(TopicReader.getTopics(Topics.valueOf(topicsFile)));
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
+        }
+      } else {
+        if (args.topicReader == null) {
+          throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
+        }
+        try {
+          @SuppressWarnings("unchecked")
+          TopicReader<K> tr = (TopicReader<K>) Class
+              .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
+              .getConstructor(Path.class).newInstance(topicsFilePath);
 
-        topics.putAll(tr.read());
-      } catch (Exception e) {
-        throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
+          topics.putAll(tr.read());
+        } catch (Exception e) {
+          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
+        }
       }
     }
   }
