@@ -17,33 +17,54 @@
 package io.anserini.index;
 
 public enum IndexInfo {
-  MSMARCO_V1_PASSAGE("msmarco-v1-passage",
-      "Lucene index of the MS MARCO V1 passage corpus. (Lucene 9)",
-      "lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz",
-      new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz" },
-      "c697b18c9a0686ca760583e615dbe450"),
-
   CACM("cacm",
-      "Lucene index of the CACM corpus. (Lucene 9)",
+      "Lucene index of the CACM corpus.",
       "lucene-index.cacm.tar.gz",
       new String[] {
           "https://github.com/castorini/anserini-data/raw/master/CACM/lucene-index.cacm.20221005.252b5e.tar.gz" },
       "cfe14d543c6a27f4d742fb2d0099b8e0"),
 
-  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL("msmarco-v1-passage-cos-dpr-distil",
-      "Lucene index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil. (Lucene 9)",
-      "lucene-hnsw.msmarco-v1-passage-cos-dpr-distil.20231124.9d3427.tar.gz",
+  MSMARCO_V1_PASSAGE("msmarco-v1-passage",
+      "Lucene index of the MS MARCO V1 passage corpus.",
+      "lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cos-dpr-distil.20231124.9d3427.tar.gz" },
-      "7aa825e292a411abbe1585fb4d9f20ee"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz" },
+      "c697b18c9a0686ca760583e615dbe450"),
 
   MSMARCO_V1_PASSAGE_SPLADE_PP_ED("msmarco-v1-passage-splade-pp-ed",
-      "Lucene impact index of the MS MARCO passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil. (Lucene 9)",
+      "Lucene impact index of the MS MARCO V1 passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil.",
       "lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz" },
-      "4b3c969033cbd017306df42ce134c395");
+      "4b3c969033cbd017306df42ce134c395"),
+
+  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL("msmarco-v1-passage-cos-dpr-distil",
+      "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
+      "lucene-hnsw.msmarco-v1-passage-cos-dpr-distil.20240108.825148.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cos-dpr-distil.20240108.825148.tar.gz" },
+      "4aa1b08067b9aa313d8aba8ca9d7d8a2"),
+
+  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_QUANTIZED("msmarco-v1-passage-cos-dpr-distil-quantized",
+      "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
+      "lucene-hnsw.msmarco-v1-passage-cos-dpr-distil-int8.20240108.825148.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cos-dpr-distil-int8.20240108.825148.tar.gz" },
+      "cc52b5cabe9886d42c58f9d87a5dfab1"),
+
+  MSMARCO_V1_PASSAGE_BGE_BASE_EN15("msmarco-v1-passage-bge-base-en-v1.5",
+      "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
+      "lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5.20240117.53514b.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5.20240117.53514b.tar.gz" },
+      "29d41b7a3b6ffb23f09a54aea453cc4e"),
+
+  MSMARCO_V1_PASSAGE_BGE_BASE_EN15_QUANTIZED("msmarco-v1-passage-bge-base-en-v1.5-quantized",
+      "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
+      "lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5-int8.20240117.53514b.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5-int8.20240117.53514b.tar.gz" },
+      "51261598a7a108e88fa854971637b39c");
 
   public final String indexName;
   public final String description;
