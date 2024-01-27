@@ -244,7 +244,7 @@ public abstract class AbstractIndexer implements Runnable {
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     LOG.info(String.format("Thread pool with %s threads initialized.", args.threads));
-    LOG.info(String.format("%,d %s found in %s ", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
+    LOG.info(String.format("%,d %s found in %s", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
     LOG.info("Starting to index...");
 
     // Dispatch to default method to process the segments; subclasses can override this method if desired.
