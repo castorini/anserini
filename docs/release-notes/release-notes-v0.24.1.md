@@ -21,16 +21,16 @@ Sorted by number of commits:
 + Jimmy Lin ([lintool](https://github.com/lintool))
 + Jasper Xian ([jasper-xian](https://github.com/jasper-xian))
 + Arthur Chen ([ArthurChen189](https://github.com/ArthurChen189))
-+ Alexandru Stan ([justram](https://github.com/justram))
-+ Gavin Wang ([AndreSlavescu](https://github.com/AndreSlavescu))
-+ Ibrahim Ahmed ([AreelKhan](https://github.com/AreelKhan))
++ Alexandru Stan ([AlexStan0](https://github.com/AlexStan0))
++ Gavin Wang ([BeginningGradeMaker](https://github.com/BeginningGradeMaker))
++ Ibrahim Ahmed ([ia03](https://github.com/ia03))
 + Matt Yang ([justram](https://github.com/justram))
 + Arthur Chen ([ArthurChen189](https://github.com/ArthurChen189))
-+ Max Tang ([ChrisHegarty](https://github.com/ChrisHegarty))
++ Max Tang ([Tanngent](https://github.com/Tanngent))
 + charlie-liuu ([charlie-liuu](https://github.com/charlie-liuu))
-+ hima sheth ([himasheth](https://github.com/himasheth))
++ Hima Sheth ([himasheth](https://github.com/himasheth))
 + wu-ming233 ([wu-ming233](https://github.com/wu-ming233))
-+ Liu ([saharsamr](https://github.com/saharsamr))
++ Yuan-Hou ([Yuan-Hou](https://github.com/Yuan-Hou))
 
 ## All Contributors
 
