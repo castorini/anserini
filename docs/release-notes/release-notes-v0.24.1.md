@@ -25,7 +25,6 @@ Sorted by number of commits:
 + Gavin Wang ([BeginningGradeMaker](https://github.com/BeginningGradeMaker))
 + Ibrahim Ahmed ([ia03](https://github.com/ia03))
 + Matt Yang ([justram](https://github.com/justram))
-+ Arthur Chen ([ArthurChen189](https://github.com/ArthurChen189))
 + Max Tang ([Tanngent](https://github.com/Tanngent))
 + charlie-liuu ([charlie-liuu](https://github.com/charlie-liuu))
 + Hima Sheth ([himasheth](https://github.com/himasheth))
