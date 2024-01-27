@@ -14,7 +14,7 @@ Note that this page is automatically generated from [this template](../../src/ma
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget placeholder-url -P collections/
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.tar -P collections/
 tar xvf collections/msmarco-passage-cohere-embed-english-v3.tar -C collections/
 ```
 

@@ -2,7 +2,7 @@
 corpus: msmarco-passage-cohere-embed-english-v3
 corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3/
 
-download_url: placeholder-url
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.tar
 download_checksum: 6b7d9795806891b227378f6c290464a9
 
 index_path: indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3/
