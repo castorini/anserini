@@ -150,8 +150,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-unicoil >& logs/log.dl20-doc-segmented-unicoil &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented-unicoil-noexp >& logs/log.dl20-doc-segmented-unicoil-noexp &
 ```
-</details>
 
+</details>
 <details>
 <summary>MS MARCO V2 + DL21 regressions</summary>
 
@@ -202,8 +202,44 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-splade-pp-ed >& logs/log.dl22-passage-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-splade-pp-sd >& logs/log.dl22-passage-splade-pp-sd &
 ```
-</details>
 
+</details>
+<details>
+<summary>BEIR (v1.0.0): BGE-base-en-v1.5</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-nq-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-quora-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-fever-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw &
+```
+
+</details>
 <details>
 <summary>BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil</summary>
 
@@ -238,8 +274,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-splade-pp-ed >& logs/log.beir-v1.0.0-climate-fever-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-splade-pp-ed >& logs/log.beir-v1.0.0-scifact-splade-pp-ed &
 ```
-</details>
 
+</details>
 <details>
 <summary>BEIR (v1.0.0): uniCOIL (noexp)</summary>
 
@@ -274,8 +310,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-unicoil-noexp >& logs/log.beir-v1.0.0-climate-fever-unicoil-noexp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-unicoil-noexp >& logs/log.beir-v1.0.0-scifact-unicoil-noexp &
 ```
-</details>
 
+</details>
 <details>
 <summary>BEIR (v1.0.0): "flat" baseline</summary>
 
@@ -310,8 +346,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-flat >& logs/log.beir-v1.0.0-climate-fever-flat &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-flat >& logs/log.beir-v1.0.0-scifact-flat &
 ```
-</details>
 
+</details>
 <details>
 <summary>BEIR (v1.0.0): "flat" baseline with WordPiece tokenization</summary>
 
@@ -346,8 +382,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-flat-wp >& logs/log.beir-v1.0.0-climate-fever-flat-wp &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-flat-wp >& logs/log.beir-v1.0.0-scifact-flat-wp &
 ```
-</details>
 
+</details>
 <details>
 <summary>BEIR (v1.0.0): "multifield" baseline</summary>
 
@@ -382,8 +418,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-multifield >& logs/log.beir-v1.0.0-climate-fever-multifield &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-multifield >& logs/log.beir-v1.0.0-scifact-multifield &
 ```
-</details>
 
+</details>
 <details>
 <summary>Mr.TyDi (v1.1): BM25 regressions</summary>
 
@@ -412,8 +448,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-te-aca >& logs/log.mrtydi-v1.1-te-aca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-th-aca >& logs/log.mrtydi-v1.1-th-aca &
 ```
-</details>
 
+</details>
 <details>
 <summary>MIRACL (v1.0): BM25 regressions</summary>
 
@@ -452,8 +488,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-th-aca >& logs/log.miracl-v1.0-th-aca &
 nohup python src/main/python/run_regression.py --index --verify --search --regression miracl-v1.0-zh-aca >& logs/log.miracl-v1.0-zh-aca &
 ```
-</details>
 
+</details>
 <details>
 <summary>Other cross-lingual and multi-lingual regressions</summary>
 
@@ -500,8 +536,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-sw >& logs/log.ciral-v1.0-sw &
 nohup python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-yo >& logs/log.ciral-v1.0-yo &
 ```
-</details>
 
+</details>
 <details>
 <summary>Other regressions</summary>
 
@@ -534,6 +570,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 >& logs/log.wikipedia-dpr-100w-bm25 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression wiki-all-6-3-tamber-bm25 >& logs/log.wiki-all-6-3-tamber-bm25 &
 ```
+
 </details>
 
 The `--regression` option specifies the regression to run, corresponding to the YAML configuration file in [`src/main/resources/regression/`](../src/main/resources/regression/).
