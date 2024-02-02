@@ -47,6 +47,7 @@ logger.addHandler(ch)
 CORPUS_ROOTS = [
     '',                           # here, stored in this directory
     '/collection/',               # on hops
+    '/',                          # on hops (alternate)
     '/mnt/',                      # on tjena
     '/tuna1/',                    # on tuna
     '/store/',                    # on orca
