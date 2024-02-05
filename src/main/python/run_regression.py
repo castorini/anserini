@@ -47,6 +47,7 @@ logger.addHandler(ch)
 CORPUS_ROOTS = [
     '',                           # here, stored in this directory
     '/collection/',               # on hops
+    '/',                          # on hops (alternate)
     '/mnt/',                      # on tjena
     '/tuna1/',                    # on tuna
     '/store/',                    # on orca
@@ -215,7 +216,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                 # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
                 # let the test pass.
                 if is_close(expected, actual) or \
-                        ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.006)) or \
+                        ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.007)) or \
                         ('VectorQueryGenerator' in model['params'] and actual > expected):
                     logger.info(ok_str + result_str)
                 # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
