@@ -366,6 +366,51 @@ public class SearchHnswDenseVectorsTest {
 
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
+  public void testBasicCosDprSpecifyTopicsAsSymbol() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-index", indexPath,
+        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "TREC2019_DL_PASSAGE_COS_DPR_DISTIL",
+        "-output", runfile,
+        "-efSearch", "1000",
+        "-hits", "5"};
+    SearchHnswDenseVectors.main(searchArgs);
+
+    // Not checking content, just checking if the topics were loaded successfully.
+    File f = new File(runfile);
+    assertTrue(f.exists());
+    f.delete();
+
+    runfile = "target/run-" + System.currentTimeMillis();
+    searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "TREC2019_DL_PASSAGE",
+        "-encoder", "CosDprDistil",
+        "-output", runfile,
+        "-efSearch", "1000",
+        "-hits", "5"};
+    SearchHnswDenseVectors.main(searchArgs);
+
+    // Not checking content, just checking if the topics were loaded successfully.
+    f = new File(runfile);
+    assertTrue(f.exists());
+    f.delete();
+  }
+
+  @Test
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicWithOnnx() throws Exception {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {

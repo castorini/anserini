@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.Topics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
@@ -91,24 +92,34 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     for (String topicsFile : args.topics) {
       Path topicsFilePath = Paths.get(topicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
-      }
-      try {
-        @SuppressWarnings("unchecked")
-        TopicReader<K> tr = (TopicReader<K>) Class
-            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-            .getConstructor(Path.class).newInstance(topicsFilePath);
+        try {
+          topics.putAll(TopicReader.getTopics(Topics.valueOf(topicsFile)));
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
+        }
+      } else {
+        try {
+          @SuppressWarnings("unchecked")
+          TopicReader<K> tr = (TopicReader<K>) Class
+              .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
+              .getConstructor(Path.class).newInstance(topicsFilePath);
 
-        topics.putAll(tr.read());
-      } catch (Exception e) {
-        throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
+          topics.putAll(tr.read());
+        } catch (Exception e) {
+          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
+        }
       }
     }
 
     // Now iterate through all the topics to pick out the right field with proper exception handling.
     try {
       topics.forEach((qid, topic) -> {
-        String query = topic.get(args.topicField);
+        String query;
+        if ( args.encoder != null ) {
+          query = topic.get("title");
+        } else {
+          query = topic.get(args.topicField);
+        }
         assert query != null;
         qids.add(qid);
         queries.add(query);

@@ -1,9 +1,33 @@
-# CAR: start with these because the first two are single-threaded and super slow
-python src/main/python/run_regression.py --index --verify --search --regression car17v1.5 > logs/log.car17v1.5 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression car17v2.0 > logs/log.car17v2.0 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression car17v2.0-doc2query > logs/log.car17v2.0-doc2query 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-nq-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-quora-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-fever-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw > logs/log.beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw 2>&1
 
-# BEIR: SPLADE++ ED
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-pp-ed > logs/log.beir-v1.0.0-trec-covid-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-splade-pp-ed > logs/log.beir-v1.0.0-bioasq-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-splade-pp-ed > logs/log.beir-v1.0.0-nfcorpus-splade-pp-ed 2>&1
@@ -34,77 +58,6 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-splade-pp-ed > logs/log.beir-v1.0.0-climate-fever-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-splade-pp-ed > logs/log.beir-v1.0.0-scifact-splade-pp-ed 2>&1
 
-# Newswire
-python src/main/python/run_regression.py --index --verify --search --regression disk12 > logs/log.disk12 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression disk45 > logs/log.disk45 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression robust05 > logs/log.robust05 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression core17 > logs/log.core17 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression core18 > logs/log.core18 2>&1
-
-# HC4 (part 1)
-python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-fa > logs/log.hc4-v1.0-fa 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-ru > logs/log.hc4-v1.0-ru 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-zh > logs/log.hc4-v1.0-zh 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa > logs/log.hc4-neuclir22-fa 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru > logs/log.hc4-neuclir22-ru 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh > logs/log.hc4-neuclir22-zh 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa-en > logs/log.hc4-neuclir22-fa-en 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru-en > logs/log.hc4-neuclir22-ru-en 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh-en > logs/log.hc4-neuclir22-zh-en 2>&1
-
-# Other
-python src/main/python/run_regression.py --index --verify --search --regression fever > logs/log.fever 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 > logs/log.wikipedia-dpr-100w-bm25 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression wiki-all-6-3-tamber-bm25 > logs/log.wiki-all-6-3-tamber-bm25 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression mb11 > logs/log.mb11 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression mb13 > logs/log.mb13 2>&1
-
-# Other CLIR
-python src/main/python/run_regression.py --index --verify --search --regression ntcir8-zh > logs/log.ntcir8-zh 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression clef06-fr > logs/log.clef06-fr 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression trec02-ar > logs/log.trec02-ar 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression fire12-bn > logs/log.fire12-bn 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression fire12-hi > logs/log.fire12-hi 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression fire12-en > logs/log.fire12-en 2>&1
-
-# HC4 (part 2) / NeuCLIR
-# e.g., hc4-neuclir22-ru-en and neuclir22-ru-dt both write to indexes/lucene-index.neuclir22-ru-en so we need to stagger
-
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt > logs/log.neuclir22-fa-qt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-dt > logs/log.neuclir22-fa-dt 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt > logs/log.neuclir22-ru-qt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-dt > logs/log.neuclir22-ru-dt 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt > logs/log.neuclir22-zh-qt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt > logs/log.neuclir22-zh-dt 2>&1
-
-# NeuCLIR: SPLADE
-
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt-splade > logs/log.neuclir22-fa-qt-splade 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-dt-splade > logs/log.neuclir22-fa-dt-splade 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt-splade > logs/log.neuclir22-ru-qt-splade 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-dt-splade > logs/log.neuclir22-ru-dt-splade 2>&1
-
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt-splade > logs/log.neuclir22-zh-qt-splade 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt-splade > logs/log.neuclir22-zh-dt-splade 2>&1
-
-# Background linking
-python src/main/python/run_regression.py --verify --search --regression backgroundlinking18 > logs/log.backgroundlinking18 2>&1
-python src/main/python/run_regression.py --verify --search --regression backgroundlinking19 > logs/log.backgroundlinking19 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking20 > logs/log.backgroundlinking20 2>&1
-
-# Web
-python src/main/python/run_regression.py --index --verify --search --regression wt10g > logs/log.wt10g 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression gov2 > logs/log.gov2 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression cw09b > logs/log.cw09b 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression cw12b13 > logs/log.cw12b13 2>&1
-
-# BEIR
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-unicoil-noexp > logs/log.beir-v1.0.0-trec-covid-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-unicoil-noexp > logs/log.beir-v1.0.0-bioasq-unicoil-noexp 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-unicoil-noexp > logs/log.beir-v1.0.0-nfcorpus-unicoil-noexp 2>&1
@@ -224,6 +177,81 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-multifield > logs/log.beir-v1.0.0-fever-multifield 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-multifield > logs/log.beir-v1.0.0-climate-fever-multifield 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-multifield > logs/log.beir-v1.0.0-scifact-multifield 2>&1
+
+# CAR: start with these because the first two are single-threaded and super slow
+python src/main/python/run_regression.py --index --verify --search --regression car17v1.5 > logs/log.car17v1.5 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression car17v2.0 > logs/log.car17v2.0 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression car17v2.0-doc2query > logs/log.car17v2.0-doc2query 2>&1
+
+# Newswire
+python src/main/python/run_regression.py --index --verify --search --regression disk12 > logs/log.disk12 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression disk45 > logs/log.disk45 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression robust05 > logs/log.robust05 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression core17 > logs/log.core17 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression core18 > logs/log.core18 2>&1
+
+# HC4 (part 1)
+python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-fa > logs/log.hc4-v1.0-fa 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-ru > logs/log.hc4-v1.0-ru 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-v1.0-zh > logs/log.hc4-v1.0-zh 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa > logs/log.hc4-neuclir22-fa 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru > logs/log.hc4-neuclir22-ru 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh > logs/log.hc4-neuclir22-zh 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-fa-en > logs/log.hc4-neuclir22-fa-en 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru-en > logs/log.hc4-neuclir22-ru-en 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-zh-en > logs/log.hc4-neuclir22-zh-en 2>&1
+
+# Other
+python src/main/python/run_regression.py --index --verify --search --regression fever > logs/log.fever 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25 > logs/log.wikipedia-dpr-100w-bm25 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression wiki-all-6-3-tamber-bm25 > logs/log.wiki-all-6-3-tamber-bm25 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression mb11 > logs/log.mb11 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression mb13 > logs/log.mb13 2>&1
+
+# Other CLIR
+python src/main/python/run_regression.py --index --verify --search --regression ntcir8-zh > logs/log.ntcir8-zh 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression clef06-fr > logs/log.clef06-fr 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression trec02-ar > logs/log.trec02-ar 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression fire12-bn > logs/log.fire12-bn 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression fire12-hi > logs/log.fire12-hi 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression fire12-en > logs/log.fire12-en 2>&1
+
+# HC4 (part 2) / NeuCLIR
+# e.g., hc4-neuclir22-ru-en and neuclir22-ru-dt both write to indexes/lucene-index.neuclir22-ru-en so we need to stagger
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt > logs/log.neuclir22-fa-qt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-dt > logs/log.neuclir22-fa-dt 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt > logs/log.neuclir22-ru-qt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-dt > logs/log.neuclir22-ru-dt 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt > logs/log.neuclir22-zh-qt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt > logs/log.neuclir22-zh-dt 2>&1
+
+# NeuCLIR: SPLADE
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-qt-splade > logs/log.neuclir22-fa-qt-splade 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-fa-dt-splade > logs/log.neuclir22-fa-dt-splade 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt-splade > logs/log.neuclir22-ru-qt-splade 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-dt-splade > logs/log.neuclir22-ru-dt-splade 2>&1
+
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-qt-splade > logs/log.neuclir22-zh-qt-splade 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt-splade > logs/log.neuclir22-zh-dt-splade 2>&1
+
+# Background linking
+python src/main/python/run_regression.py --verify --search --regression backgroundlinking18 > logs/log.backgroundlinking18 2>&1
+python src/main/python/run_regression.py --verify --search --regression backgroundlinking19 > logs/log.backgroundlinking19 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression backgroundlinking20 > logs/log.backgroundlinking20 2>&1
+
+# Web
+python src/main/python/run_regression.py --index --verify --search --regression wt10g > logs/log.wt10g 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression gov2 > logs/log.gov2 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression cw09b > logs/log.cw09b 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression cw12b13 > logs/log.cw12b13 2>&1
 
 # End with cw12
 python src/main/python/run_regression.py --index --verify --search --regression cw12 > logs/log.cw12 2>&1

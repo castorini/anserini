@@ -121,27 +121,17 @@ public abstract class TopicReader<K> {
    */
   @SuppressWarnings("unchecked")
   public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) throws IOException{
-    try {
-      String raw;
-      InputStream inputStream;
-      Path topicPath = getTopicPath(Path.of(topics.path));
+    Path topicPath = getTopicPath(Path.of(topics.path));
 
-      if (topicPath.toString().endsWith(".gz")) {
-        inputStream = new GZIPInputStream(Files.newInputStream(topicPath, StandardOpenOption.READ));
-      } else {
-        inputStream = Files.newInputStream(topicPath, StandardOpenOption.READ);
-      }
-      raw = new String(inputStream.readAllBytes());
-      inputStream.close();
-
+    try(InputStream inputStream = topicPath.toString().endsWith(".gz") ?
+        new GZIPInputStream(Files.newInputStream(topicPath, StandardOpenOption.READ)) :
+        Files.newInputStream(topicPath, StandardOpenOption.READ)) {
       // Get the constructor
       Constructor[] ctors = topics.readerClass.getDeclaredConstructors();
       // The one we want is always the zero-th one; pass in a dummy Path.
       TopicReader<K> reader = (TopicReader<K>) ctors[0].newInstance(Paths.get("."));
-      return reader.read(raw);
-
+      return reader.read(new BufferedReader(new InputStreamReader(inputStream)));
     } catch (Exception e) {
-      e.printStackTrace();
       return null;
     }
   }

@@ -69,10 +69,6 @@ public class SearchCollectionTest {
     assertTrue(err.toString().contains("Option \"-output\" is required"));
 
     err.reset();
-    SearchCollection.main(new String[] {"-index", "foo", "-output", "bar"});
-    assertTrue(err.toString().contains("Option \"-topicReader\" is required"));
-
-    err.reset();
     SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz"});
     assertTrue(err.toString().contains("Option \"-topics\" is required"));
 
@@ -209,5 +205,19 @@ public class SearchCollectionTest {
     TestUtils.checkFile("run.test", new String[]{
         "1 Q0 2000001 1 4.000000 Anserini",});
     assertTrue(new File("run.test").delete());
+  }
+
+
+  @Test
+  public void testSpecifyTopicsAsSymbol() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
+        "-topics", "TREC2019_DL_PASSAGE",
+        "-output", "run.test", "-bm25"});
+
+    // Not checking content, just checking if the topics were loaded successfully.
+    File f = new File("run.test");
+    assertTrue(f.exists());
+    f.delete();
   }
 }
