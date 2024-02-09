@@ -218,8 +218,8 @@ def evaluate_and_verify(yaml_data, dry_run):
                 # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
                 # let the test pass.
                 if is_close(expected, actual) or \
-                        ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.007)) or \
-                        ('VectorQueryGenerator' in model['params'] and actual > expected):
+                        (using_hnsw and is_close(expected, actual, abs_tol=0.007)) or \
+                        (using_hnsw and actual > expected):
                     logger.info(ok_str + result_str)
                 # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
                 elif '-encoder' in model['params'] and is_close(expected, actual, abs_tol=0.001):
