@@ -1,0 +1,62 @@
+# Anserini Regressions: MS MARCO Passage Ranking
+
+**Model**: [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) with HNSW indexes (using pre-encoded queries)
+
+This page describes regression experiments, integrated into Anserini's regression testing framework, using the [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+
+In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+
+## Corpus Download
+
+Download the corpus and unpack into `collections/`:
+
+```bash
+wget ${download_url} -P collections/
+tar xvf collections/${corpus}.tar -C collections/
+```
+
+To confirm, `${corpus}.tar` is 38 GB and has MD5 checksum `${download_checksum}`.
+
+## Indexing
+
+Sample indexing command, building HNSW indexes:
+
+```bash
+${index_cmds}
+```
+
+The path `/path/to/${corpus}/` should point to the corpus downloaded above.
+Upon completion, we should have an index with 8,841,823 documents.
+
+## Retrieval
+
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](${root_path}/docs/experiments-msmarco-passage.md) for more details.
+
+After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
+
+```bash
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```bash
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
+
+Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](${yaml}).
+
+## Reproduction Log[*](${root_path}/docs/reproducibility.md)
+
+To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.
