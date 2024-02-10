@@ -1,6 +1,6 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) with HNSW indexes (using pre-encoded queries)
+**Model**: [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) with HNSW quantized indexes (using pre-encoded queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 
