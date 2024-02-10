@@ -1,6 +1,6 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: cosDPR-distil with HNSW indexes (using pre-encoded queries)
+**Model**: cosDPR-distil with HNSW quantized indexes (using pre-encoded queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), as described in the following paper:
 

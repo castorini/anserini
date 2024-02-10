@@ -2,7 +2,7 @@
 
 **NOTE:** We're currently having issues with this regression, which throws "Retried waiting for GCLocker too often" errors.
 
-**Model**: OpenAI-ada2 embeddings (using pre-encoded queries) with HNSW indexes
+**Model**: OpenAI-ada2 embeddings (using pre-encoded queries) with HNSW quantized indexes
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using OpenAI-ada2 embeddings on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), as described in the following paper:
 

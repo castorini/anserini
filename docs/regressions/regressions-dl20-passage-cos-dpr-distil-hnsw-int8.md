@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil with HNSW indexes (using pre-encoded queries)
+**Model**: cosDPR-distil with HNSW quantized indexes (using pre-encoded queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
