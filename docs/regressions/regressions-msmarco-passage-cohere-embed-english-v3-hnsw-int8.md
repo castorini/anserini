@@ -52,7 +52,7 @@ target/appassembler/bin/IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-cohere-embed-english-v3 \
   -generator HnswDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3-int8/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
+  -threads 16 -M 16 -efC 100 -noMerge -quantize.int8 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3 &
 ```
 
