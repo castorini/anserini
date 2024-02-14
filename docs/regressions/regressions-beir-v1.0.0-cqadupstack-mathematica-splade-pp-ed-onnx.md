@@ -75,8 +75,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.2377    |
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.2379    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.5797    |
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.5791    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.8007    |
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.8009    |

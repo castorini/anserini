@@ -75,8 +75,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.3904    |
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.3898    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.7404    |
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.7406    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): CQADupStack-android                                                                           | 0.9064    |

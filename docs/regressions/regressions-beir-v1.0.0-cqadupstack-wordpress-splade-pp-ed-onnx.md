@@ -75,8 +75,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.2733    |
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.2718    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.5945    |
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.5923    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.7924    |

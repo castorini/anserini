@@ -77,6 +77,6 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): BioASQ                                                                                        | 0.4980    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): BioASQ                                                                                        | 0.7385    |
+| BEIR (v1.0.0): BioASQ                                                                                        | 0.7387    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): BioASQ                                                                                        | 0.8757    |
+| BEIR (v1.0.0): BioASQ                                                                                        | 0.8754    |

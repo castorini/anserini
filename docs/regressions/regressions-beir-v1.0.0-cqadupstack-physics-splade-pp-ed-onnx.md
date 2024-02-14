@@ -75,8 +75,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.3599    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.3597    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.7196    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.7216    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.9010    |
+| BEIR (v1.0.0): CQADupStack-physics                                                                           | 0.9012    |

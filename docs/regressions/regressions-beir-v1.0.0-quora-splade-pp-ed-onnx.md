@@ -75,8 +75,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Quora                                                                                         | 0.8343    |
+| BEIR (v1.0.0): Quora                                                                                         | 0.8344    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): Quora                                                                                         | 0.9863    |
+| BEIR (v1.0.0): Quora                                                                                         | 0.9864    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): Quora                                                                                         | 0.9989    |

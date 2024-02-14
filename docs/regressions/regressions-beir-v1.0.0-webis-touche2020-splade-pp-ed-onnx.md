@@ -75,8 +75,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.2468    |
+| BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.2464    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.4715    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.8191    |
+| BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.8183    |

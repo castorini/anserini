@@ -75,8 +75,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.3475    |
+| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.3473    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): FiQA-2018                                                                                     | 0.6314    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.8392    |
+| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.8401    |

@@ -75,7 +75,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): SciFact                                                                                       | 0.7041    |
+| BEIR (v1.0.0): SciFact                                                                                       | 0.7036    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): SciFact                                                                                       | 0.9353    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|

@@ -75,8 +75,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Signal-1M                                                                                     | 0.3008    |
+| BEIR (v1.0.0): Signal-1M                                                                                     | 0.3006    |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
 | BEIR (v1.0.0): Signal-1M                                                                                     | 0.3398    |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): Signal-1M                                                                                     | 0.5492    |
+| BEIR (v1.0.0): Signal-1M                                                                                     | 0.5497    |

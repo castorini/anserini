@@ -204,7 +204,9 @@ def evaluate_and_verify(yaml_data, dry_run):
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
 
-                using_hnsw = True if 'VectorQueryGenerator' in model['params'] or '-encoder' in model['params'] else False
+                using_hnsw = True \
+                    if 'VectorQueryGenerator' in model['params'] or \
+                       ('-encoder' in model['params'] and 'SpladePlusPlusEnsembleDistil' not in model['params']) else False
 
                 # For HNSW, we only print to third digit
                 if using_hnsw:
