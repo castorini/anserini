@@ -37,7 +37,7 @@ target/appassembler/bin/IndexHnswDenseVectors \
   -input /path/to/beir-v1.0.0-bge-base-en-v1.5 \
   -generator HnswDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5/ \
-  -threads 16 -M 16 -efC 500 -memoryBuffer 65536 -noMerge \
+  -threads 16 -M 16 -efC 500 -noMerge \
   >& logs/log.beir-v1.0.0-bge-base-en-v1.5 &
 ```
 

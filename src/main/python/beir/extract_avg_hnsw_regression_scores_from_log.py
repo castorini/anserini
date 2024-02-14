@@ -53,7 +53,7 @@ beir_keys = {
 for key in sorted(beir_keys):
     print(key)
     for metric in ['nDCG@10', 'R@100', 'R@1000']:
-        command = f'tail -n 5 logs/log.beir-v1.0.0-{key}-bge-base-en-v1.5-hnsw_* | grep "{metric}\s"'
+        command = f'tail -n 5 logs/log.beir-v1.0.0-{key}-bge-base-en-v1.5-hnsw-int8_* | grep "{metric}\s"'
         p = subprocess.run(command, shell=True, text=True, capture_output=True)
         output = p.stdout
         scores = []

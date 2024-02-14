@@ -46,8 +46,8 @@ models:
     params: -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 1000
     results:
       nDCG@10:
-        - 0.422
+        - 0.420
       R@100:
-        - 0.780
+        - 0.777
       R@1000:
-        - 0.925
+        - 0.924
