@@ -55,6 +55,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-lexlsh >& logs/log.msmarco-passage-cos-dpr-distil-lexlsh &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bge-base-en-v1.5-hnsw >& logs/log.msmarco-passage-bge-base-en-v1.5-hnsw &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bge-base-en-v1.5-hnsw-int8 >& logs/log.msmarco-passage-bge-base-en-v1.5-hnsw-int8 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cohere-embed-english-v3-hnsw >& logs/log.msmarco-passage-cohere-embed-english-v3-hnsw &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cohere-embed-english-v3-hnsw-int8 >& logs/log.msmarco-passage-cohere-embed-english-v3-hnsw-int8 &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2 >& logs/log.msmarco-passage-openai-ada2 &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed-onnx >& logs/log.msmarco-passage-splade-pp-ed-onnx &
@@ -244,6 +246,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 <summary>BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil</summary>
 
 ```bash
+# Pre-encoded queries
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-pp-ed >& logs/log.beir-v1.0.0-trec-covid-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-splade-pp-ed >& logs/log.beir-v1.0.0-bioasq-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-splade-pp-ed >& logs/log.beir-v1.0.0-nfcorpus-splade-pp-ed &
@@ -273,6 +276,37 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-splade-pp-ed >& logs/log.beir-v1.0.0-fever-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-splade-pp-ed >& logs/log.beir-v1.0.0-climate-fever-splade-pp-ed &
 nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-splade-pp-ed >& logs/log.beir-v1.0.0-scifact-splade-pp-ed &
+
+# ONNX
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-trec-covid-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-bioasq-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-nfcorpus-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-nq-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-hotpotqa-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-fiqa-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-signal1m-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-trec-news-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-robust04-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-arguana-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-webis-touche2020-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-android-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-english-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-gis-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-physics-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-stats-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-tex-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-unix-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-quora-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-dbpedia-entity-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-scidocs-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-fever-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-climate-fever-splade-pp-ed-onnx &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-scifact-splade-pp-ed-onnx &
 ```
 
 </details>

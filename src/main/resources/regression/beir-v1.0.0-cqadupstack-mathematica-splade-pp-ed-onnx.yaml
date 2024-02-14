@@ -48,8 +48,8 @@ models:
     params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladePlusPlusEnsembleDistil
     results:
       nDCG@10:
-        - 0.2377
+        - 0.2379
       R@100:
-        - 0.5797
+        - 0.5791
       R@1000:
-        - 0.8007
+        - 0.8009
