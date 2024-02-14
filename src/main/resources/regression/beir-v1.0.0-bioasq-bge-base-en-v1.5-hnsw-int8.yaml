@@ -2,12 +2,12 @@
 corpus: beir-v1.0.0-bge-base-en-v1.5
 corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/bioasq
 
-index_path: indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5/
+index_path: indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5-int8/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 500 -noMerge
+index_options: -M 16 -efC 500 -noMerge -quantize.int8
 
 metrics:
   - metric: nDCG@10
@@ -46,8 +46,8 @@ models:
     params: -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 5000
     results:
       nDCG@10:
-        - 0.410
+        - 0.407
       R@100:
-        - 0.622
+        - 0.624
       R@1000:
-        - 0.794
+        - 0.795

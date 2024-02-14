@@ -1,6 +1,6 @@
 # Anserini Regressions: BEIR (v1.0.0) &mdash; BioASQ
 
-**Model**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with HNSW indexes (using pre-encoded queries)
+**Model**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with quantized HNSW indexes (using pre-encoded queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) model on [BEIR (v1.0.0) &mdash; BioASQ](http://beir.ai/), as described in the following paper:
 
@@ -8,13 +8,13 @@ This page describes regression experiments, integrated into Anserini's regressio
 
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-int8.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-int8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-int8
 ```
 
 All the BEIR corpora, encoded by the BGE-base-en-v1.5 model, are available for download:
@@ -36,8 +36,8 @@ target/appassembler/bin/IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-bge-base-en-v1.5 \
   -generator HnswDenseVectorDocumentGenerator \
-  -index indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5/ \
-  -threads 16 -M 16 -efC 500 -noMerge \
+  -index indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5-int8/ \
+  -threads 16 -M 16 -efC 500 -noMerge -quantize.int8 \
   >& logs/log.beir-v1.0.0-bge-base-en-v1.5 &
 ```
 
@@ -53,7 +53,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 target/appassembler/bin/SearchHnswDenseVectors \
-  -index indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5/ \
+  -index indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5-int8/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-bioasq.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
   -output runs/run.beir-v1.0.0-bge-base-en-v1.5.bge-hnsw.topics.beir-v1.0.0-bioasq.test.bge-base-en-v1.5.jsonl.txt \
@@ -74,11 +74,11 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): BioASQ                                                                                        | 0.410     |
+| BEIR (v1.0.0): BioASQ                                                                                        | 0.407     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): BioASQ                                                                                        | 0.622     |
+| BEIR (v1.0.0): BioASQ                                                                                        | 0.624     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): BioASQ                                                                                        | 0.794     |
+| BEIR (v1.0.0): BioASQ                                                                                        | 0.795     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw.yaml).
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-int8.yaml).
