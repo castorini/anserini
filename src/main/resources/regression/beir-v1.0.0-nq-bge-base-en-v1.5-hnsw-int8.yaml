@@ -1,13 +1,13 @@
 ---
 corpus: beir-v1.0.0-bge-base-en-v1.5
-corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/bioasq
+corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/nq
 
-index_path: indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5/
+index_path: indexes/lucene-hnsw.beir-v1.0.0-nq-bge-base-en-v1.5-int8/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 500 -noMerge
+index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
 
 metrics:
   - metric: nDCG@10
@@ -34,20 +34,20 @@ metrics:
 
 topic_reader: JsonStringVector
 topics:
-  - name: "BEIR (v1.0.0): BioASQ"
+  - name: "BEIR (v1.0.0): NQ"
     id: test
-    path: topics.beir-v1.0.0-bioasq.test.bge-base-en-v1.5.jsonl.gz
-    qrel: qrels.beir-v1.0.0-bioasq.test.txt
+    path: topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.gz
+    qrel: qrels.beir-v1.0.0-nq.test.txt
 
 models:
   - name: bge-hnsw
     display: BGE-base-en-v1.5
     type: hnsw
-    params: -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 5000
+    params: -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 1000
     results:
       nDCG@10:
-        - 0.410
+        - 0.538
       R@100:
-        - 0.622
+        - 0.940
       R@1000:
-        - 0.794
+        - 0.984
