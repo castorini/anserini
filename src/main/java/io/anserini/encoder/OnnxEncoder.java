@@ -70,6 +70,15 @@ public abstract class OnnxEncoder<T> {
     return modelFile.toPath();
   }
 
+  protected static long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens, Vocabulary vocab, int maxLen) {
+    int numTokens = Math.min(tokens.size(), maxLen);
+    long[] tokenIds = new long[numTokens];
+    for (int i = 0; i < numTokens; ++i) {
+      tokenIds[i] = vocab.getIndex(tokens.get(i));
+    }
+    return tokenIds;
+  }
+
   protected static long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens, Vocabulary vocab) {
     int numTokens = tokens.size();
     long[] tokenIds = new long[numTokens];
