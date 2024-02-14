@@ -36,6 +36,8 @@ public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
 
   static private final String VOCAB_NAME = "splade-pp-ed-vocab.txt";
 
+  static private final int MAX_SEQ_LEN = 512;
+
   public SpladePlusPlusEnsembleDistilEncoder() throws IOException, OrtException {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
@@ -54,13 +56,12 @@ public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
     queryTokens.add("[SEP]");
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab);
+    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab, MAX_SEQ_LEN);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
 
     inputTokenIds[0] = queryTokenIds;
     long[][] attentionMask = new long[1][queryTokenIds.length];
     long[][] tokenTypeIds = new long[1][queryTokenIds.length];
-
     // initialize attention mask with all 1s 
     Arrays.fill(attentionMask[0], 1);
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
