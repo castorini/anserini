@@ -1,9 +1,14 @@
 # Anserini Regressions: BEIR (v1.0.0) &mdash; NQ
 
-**Model**: [SPLADE++ (CoCondenser-EnsembleDistil)](https://arxiv.org/abs/2205.04733)
+**Model**: [SPLADE++ (CoCondenser-EnsembleDistil)](https://arxiv.org/abs/2205.04733) (using pre-encoded queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using [SPLADE++ (CoCondenser-EnsembleDistil)](https://arxiv.org/abs/2205.04733) on [BEIR (v1.0.0) &mdash; NQ](http://beir.ai/).
-See the [official SPLADE repo](https://github.com/naver/splade) for more details; the model itself can be download [here](https://huggingface.co/naver/splade-cocondenser-ensembledistil).
+The model itself can be download [here](https://huggingface.co/naver/splade-cocondenser-ensembledistil).
+See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
+
+> Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
+
+In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/beir-v1.0.0-nq-splade-pp-ed.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/beir-v1.0.0-nq-splade-pp-ed.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
