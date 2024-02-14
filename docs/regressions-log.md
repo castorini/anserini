@@ -3,6 +3,21 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### February 14, 2024
+
++ commit [`ce8c2a`](https://github.com/castorini/anserini/commit/ce8c2a901f1104cf0205ac7abdcf36776824c09c) (2024/02/14)
++ commit [`8d4a7f`](https://github.com/castorini/anserini/commit/8d4a7f1a5c85a653b9ec245041e94dc4a62f68ce) (2024/02/14)
++ commit [`9a5bb6`](https://github.com/castorini/anserini/commit/9a5bb6050833daecaa541f045db6b9d64171fd07) (2024/02/12)
++ commit [`57d262`](https://github.com/castorini/anserini/commit/57d2627e57d17121465bd535c8f654877142b9cc) (2024/02/11)
++ commit [`f86a65`](https://github.com/castorini/anserini/commit/f86a65f43eb15d88b7a003a1edf541d9d60c3056) (2024/02/09)
++ commit [`f2e2ac`](https://github.com/castorini/anserini/commit/f2e2ac35a5408d644ad402b75df602b7d929731d) (2024/01/25)
+
+New regressions:
+
++ SPLADE++ ED w/ ONNX for BEIR
++ BGE with original and quantized HNSW indexes for BEIR (only pre-encoded queries)
++ Cohere embed-english-v3 for MS MARCO passage dev (but not DL19 or DL20)
+
 ### January 21, 2024
 
 + commit [`ca20dc`](https://github.com/castorini/anserini/commit/ca20dcda6ecf12930092f26416bad715baa861f2) (1/21/2024)
