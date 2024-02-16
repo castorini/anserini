@@ -1,6 +1,6 @@
-# Anserini Regressions: CIRAL (v1.0) &mdash; Hausa
+# Anserini Regressions: CIRAL (v1.0) &mdash; Hausa (English Translation)
 
-This page documents BM25 regression experiments for [CIRAL (v1.0) &mdash; Hausa](https://github.com/ciralproject/ciral) with query translations. To be clear, the queries are in Hausa (human translations) and the corpus is in Hausa.
+This page documents BM25 regression experiments for [CIRAL (v1.0) &mdash; Hausa](https://github.com/ciralproject/ciral) with document translations. To be clear, the queries are in English and the corpus is in English (translated with [NLLB 1.3B](https://huggingface.co/facebook/nllb-200-1.3B)).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
