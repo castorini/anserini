@@ -305,7 +305,8 @@ The "Corpus" above should be substituted into the full file name `beir-v1.0.0-${
 + Regressions for [CLEF 2006 Monolingual French](docs/regressions/regressions-clef06-fr.md)
 + Regressions for [TREC 2002 Monolingual Arabic](docs/regressions/regressions-trec02-ar.md)
 + Regressions for FIRE 2012 monolingual baselines: [Bengali](docs/regressions/regressions-fire12-bn.md), [Hindi](docs/regressions/regressions-fire12-hi.md), [English](docs/regressions/regressions-fire12-en.md)
-+ Regressions for CIRAL (v1.0) monolingual baselines on dev set: [Hausa](docs/regressions/regressions-ciral-v1.0-ha.md), [Somali](docs/regressions/regressions-ciral-v1.0-so.md), [Swahili](docs/regressions/regressions-ciral-v1.0-sw.md), [Yoruba](docs/regressions/regressions-ciral-v1.0-yo.md)
++ Regressions for CIRAL (v1.0) BM25 (query translation): [Hausa](docs/regressions/regressions-ciral-v1.0-ha.md), [Somali](docs/regressions/regressions-ciral-v1.0-so.md), [Swahili](docs/regressions/regressions-ciral-v1.0-sw.md), [Yoruba](docs/regressions/regressions-ciral-v1.0-yo.md)
++ Regressions for CIRAL (v1.0) BM25 (document translation): [Hausa](docs/regressions/regressions-ciral-v1.0-ha-en.md), [Somali](docs/regressions/regressions-ciral-v1.0-so-en.md), [Swahili](docs/regressions/regressions-ciral-v1.0-sw-en.md), [Yoruba](docs/regressions/regressions-ciral-v1.0-yo-en.md)
 
 </details>
 <details>
