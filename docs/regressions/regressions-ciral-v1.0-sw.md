@@ -1,6 +1,6 @@
 # Anserini Regressions: CIRAL (v1.0) &mdash; Swahili
 
-This page documents BM25 monolingual regression experiments on the dev set of [CIRAL (v1.0) &mdash; Swahili](https://github.com/ciralproject/ciral).
+This page documents BM25 regression experiments for [CIRAL (v1.0) &mdash; Swahili](https://github.com/ciralproject/ciral) with query translations. To be clear, the queries are in Swahili (human translations) and the corpus is in Swahili.
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/ciral-v1.0-sw.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/ciral-v1.0-sw.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -18,11 +18,11 @@ Typical indexing command:
 ```
 target/appassembler/bin/IndexCollection \
   -collection MrTyDiCollection \
-  -input /path/to/ciral-somali \
+  -input /path/to/ciral-swahili \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.ciral-v1.0-sw/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw -language sw \
-  >& logs/log.ciral-somali &
+  >& logs/log.ciral-swahili &
 ```
 
 See [this page](https://github.com/ciralproject/ciral) for more details about the CIRAL corpus.
@@ -35,18 +35,33 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-sw/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-sw-dev-native.tsv \
+  -topics tools/topics-and-qrels/topics.ciral-v1.0-sw-test-a-native.tsv \
   -topicReader TsvInt \
-  -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-sw-dev-native.txt \
+  -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt \
+  -bm25 -hits 1000 -language sw &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.ciral-v1.0-sw/ \
+  -topics tools/topics-and-qrels/topics.ciral-v1.0-sw-test-a-native.tsv \
+  -topicReader TsvInt \
+  -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt \
+  -bm25 -hits 1000 -language sw &
+target/appassembler/bin/SearchCollection \
+  -index indexes/lucene-index.ciral-v1.0-sw/ \
+  -topics tools/topics-and-qrels/topics.ciral-v1.0-sw-test-b-native.tsv \
+  -topicReader TsvInt \
+  -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt \
   -bm25 -hits 1000 -language sw &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-sw-dev.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-sw-dev-native.txt
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.ciral-v1.0-sw-dev.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-sw-dev-native.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-sw-dev.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-sw-dev-native.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-a.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-a.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-a-pools.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-a-pools.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-b.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-b.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt
 ```
 
 ## Effectiveness
@@ -55,8 +70,10 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@20**                                                                                                  | **BM25 (default)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [CIRAL Swahili: Dev](https://huggingface.co/datasets/CIRAL/ciral)                                            | 0.1812    |
-| **MRR@10**                                                                                                   | **BM25 (default)**|
-| [CIRAL Swahili: Dev](https://huggingface.co/datasets/CIRAL/ciral)                                            | 0.1681    |
+| [CIRAL Swahili: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                | 0.1720    |
+| [CIRAL Swahili: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                             | 0.1500    |
+| [CIRAL Swahili: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                     | 0.1727    |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [CIRAL Swahili: Dev](https://huggingface.co/datasets/CIRAL/ciral)                                            | 0.4742    |
+| [CIRAL Swahili: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                | 0.4161    |
+| [CIRAL Swahili: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                             | 0.2430    |
+| [CIRAL Swahili: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                     | 0.4166    |
