@@ -221,6 +221,9 @@ public class SimpleSearcher implements Closeable {
     } else if (language.equals("sw") || language.equals("te")) {
       this.analyzer = new WhitespaceAnalyzer();
       // For Mr.TyDi: sw and te do not have custom Lucene analyzers, so just use whitespace analyzer.
+    } else if (language.equals("ha") || language.equals("so") || language.equals("yo")) {
+      this.analyzer = new WhitespaceAnalyzer();
+      // Also use whitespace analyzer for ha, so, yo in CIRAL.
     }
   }
 
