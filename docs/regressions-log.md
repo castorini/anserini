@@ -3,6 +3,14 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### February 19, 2024
+
++ commit [`43c9ec`](https://github.com/castorini/anserini/commit/43c9ecca53313ec2f84c8274d88f99ca3ea2e4bd) (2024/02/18)
++ commit [`66cadf`](https://github.com/castorini/anserini/commit/66cadfec1c34e41596566c741577880b9d143011) (2024/02/18)
++ commit [`61433f`](https://github.com/castorini/anserini/commit/61433f6639ca553f1c012c1aaf44cb8a7b5f0e1e) (2024/02/16)
+
+Added new regressions for CIRAL.
+
 ### February 14, 2024
 
 + commit [`ce8c2a`](https://github.com/castorini/anserini/commit/ce8c2a901f1104cf0205ac7abdcf36776824c09c) (2024/02/14)
@@ -20,19 +28,19 @@ New regressions:
 
 ### January 21, 2024
 
-+ commit [`ca20dc`](https://github.com/castorini/anserini/commit/ca20dcda6ecf12930092f26416bad715baa861f2) (1/21/2024)
++ commit [`ca20dc`](https://github.com/castorini/anserini/commit/ca20dcda6ecf12930092f26416bad715baa861f2) (2024/01/21)
 
 Added BGE + ONNX regressions for MS MARCO v1 passage corpus.
 
 ### January 19, 2024
 
-+ commit [`edd47a`](https://github.com/castorini/anserini/commit/edd47ad3b8d833fcf834bb50e9735f35f5d9b79b) (1/19/2024)
++ commit [`edd47a`](https://github.com/castorini/anserini/commit/edd47ad3b8d833fcf834bb50e9735f35f5d9b79b) (2024/01/19)
 
 Removed `splade-distil-cocodenser-medium` regressions to reduce confusion.
 
 ### January 13, 2024
 
-+ commit [`883539`](https://github.com/castorini/anserini/commit/47876e8f7b5e65b11c19692d7c07a2e87a410533) (1/13/2024)
++ commit [`883539`](https://github.com/castorini/anserini/commit/47876e8f7b5e65b11c19692d7c07a2e87a410533) (2024/01/13)
 
 Added HNSW regressions for the BGE-base-en-v1.5 model on the MS MARCO v1 passage corpus: dev, DL19, and DL20; both original and int8 quantized versions.
 
