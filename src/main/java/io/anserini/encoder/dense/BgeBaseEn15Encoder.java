@@ -40,6 +40,8 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
 
   static private final String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
 
+  static private final int MAX_SEQ_LEN = 512;
+
   public BgeBaseEn15Encoder() throws IOException, OrtException {
     super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
@@ -52,7 +54,7 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
     queryTokens.add("[SEP]");
     
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(this.tokenizer, queryTokens, this.vocab);
+    long[] queryTokenIds = convertTokensToIds(this.tokenizer, queryTokens, this.vocab, MAX_SEQ_LEN);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
 
     inputTokenIds[0] = queryTokenIds;
