@@ -35,6 +35,11 @@ abstract class SpladePlusPlusEncoderInferenceTest extends EncoderInferenceTest {
     super(modelName, modelUrl, examples);
   }
 
+  public SpladePlusPlusEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples, Object[][] longExamples) {
+    super(modelName, modelUrl, examples, longExamples);
+  }
+
+
   protected void basicTest() throws IOException, OrtException {
     String modelPath = getEncoderModelPath().toString();
     try (OrtEnvironment env = OrtEnvironment.getEnvironment();
