@@ -5,38 +5,38 @@ corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3/
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.tar
 download_checksum: 6b7d9795806891b227378f6c290464a9
 
-index_path: indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3/
+index_path: indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3-int8/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator 
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
+index_options: -M 16 -efC 100 -noMerge -quantize.int8
 
 metrics:
-  - metric: nDCG@10
-    command: target/appassembler/bin/trec_eval
-    params: -c -m ndcg_cut.10
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: false
   - metric: AP@1000
     command: target/appassembler/bin/trec_eval
-    params: -c -m map
+    params: -m map -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
-  - metric: RR@10
+  - metric: nDCG@10
     command: target/appassembler/bin/trec_eval
-    params: -c -M 10 -m recip_rank
+    params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: target/appassembler/bin/trec_eval
+    params: -m recall.100 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@1000
     command: target/appassembler/bin/trec_eval
-    params: -c -m recall.1000
+    params: -m recall.1000 -c -l 2
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -44,10 +44,10 @@ metrics:
 
 topic_reader: JsonIntVector
 topics:
-  - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
-    id: dev
-    path: topics.msmarco-passage.dev-subset.cohere-embed-english-v3.jsonl.gz
-    qrel: qrels.msmarco-passage.dev-subset.txt
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20-passage.cohere-embed-english-v3.jsonl.gz
+    qrel: qrels.dl20-passage.txt
 
 models:
   - name: cohere-embed-english-v3
@@ -55,11 +55,11 @@ models:
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
     results:
-      nDCG@10:
-        - 0.428
       AP@1000:
-        - 0.371
-      RR@10:
-        - 0.365
+        - 0.505
+      nDCG@10:
+        - 0.722
+      R@100:
+        - 0.720
       R@1000:
-        - 0.974
+        - 0.858

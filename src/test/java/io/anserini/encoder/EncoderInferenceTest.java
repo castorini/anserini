@@ -11,6 +11,7 @@ public abstract class EncoderInferenceTest {
     protected String modelName;
     protected String modelUrl;
     protected Object[][] examples;
+    protected Object[][] longExamples;
 
     protected String getCacheDir() {
         File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
@@ -30,5 +31,12 @@ public abstract class EncoderInferenceTest {
         this.modelName = modelName;
         this.modelUrl = modelUrl;
         this.examples = examples;
+    }
+
+    public EncoderInferenceTest(String modelName, String modelUrl, Object[][] examples, Object[][] longExamples) {
+        this.modelName = modelName;
+        this.modelUrl = modelUrl;
+        this.examples = examples;
+        this.longExamples = longExamples;
     }
 }

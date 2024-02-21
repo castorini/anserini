@@ -167,7 +167,19 @@ public enum Qrels {
   CIRAL_V10_HA_DEV("qrels.ciral-v1.0-ha-dev.tsv"),
   CIRAL_V10_SO_DEV("qrels.ciral-v1.0-so-dev.tsv"),
   CIRAL_V10_SW_DEV("qrels.ciral-v1.0-sw-dev.tsv"),
-  CIRAL_V10_YO_DEV("qrels.ciral-v1.0-yo-dev.tsv");
+  CIRAL_V10_YO_DEV("qrels.ciral-v1.0-yo-dev.tsv"),
+  CIRAL_V10_HA_TEST_A("qrels.ciral-v1.0-ha-test-a.tsv"),
+  CIRAL_V10_SO_TEST_A("qrels.ciral-v1.0-so-test-a.tsv"),
+  CIRAL_V10_SW_TEST_A("qrels.ciral-v1.0-sw-test-a.tsv"),
+  CIRAL_V10_YO_TEST_A("qrels.ciral-v1.0-yo-test-a.tsv"),
+  CIRAL_V10_HA_TEST_A_POOLS("qrels.ciral-v1.0-ha-test-a-pools.tsv"),
+  CIRAL_V10_SO_TEST_A_POOLS("qrels.ciral-v1.0-so-test-a-pools.tsv"),
+  CIRAL_V10_SW_TEST_A_POOLS("qrels.ciral-v1.0-sw-test-a-pools.tsv"),
+  CIRAL_V10_YO_TEST_A_POOLS("qrels.ciral-v1.0-yo-test-a-pools.tsv"),
+  CIRAL_V10_HA_TEST_B("qrels.ciral-v1.0-ha-test-b.tsv"),
+  CIRAL_V10_SO_TEST_B("qrels.ciral-v1.0-so-test-b.tsv"),
+  CIRAL_V10_SW_TEST_B("qrels.ciral-v1.0-sw-test-b.tsv"),
+  CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv");
 
   public final String path;
 

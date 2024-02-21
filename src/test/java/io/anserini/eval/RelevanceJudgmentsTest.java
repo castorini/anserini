@@ -1321,5 +1321,65 @@ public class RelevanceJudgmentsTest{
     assertNotNull(qrels);
     assertEquals(10, qrels.getQids().size());
     assertEquals(185, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_HA_TEST_A);
+    assertNotNull(qrels);
+    assertEquals(80, qrels.getQids().size());
+    assertEquals(1447, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_SO_TEST_A);
+    assertNotNull(qrels);
+    assertEquals(99, qrels.getQids().size());
+    assertEquals(1798, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_SW_TEST_A);
+    assertNotNull(qrels);
+    assertEquals(85, qrels.getQids().size());
+    assertEquals(1656, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_YO_TEST_A);
+    assertNotNull(qrels);
+    assertEquals(100, qrels.getQids().size());
+    assertEquals(1921, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_HA_TEST_A_POOLS);
+    assertNotNull(qrels);
+    assertEquals(80, qrels.getQids().size());
+    assertEquals(7288, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_SO_TEST_A_POOLS);
+    assertNotNull(qrels);
+    assertEquals(99, qrels.getQids().size());
+    assertEquals(9094, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_SW_TEST_A_POOLS);
+    assertNotNull(qrels);
+    assertEquals(85, qrels.getQids().size());
+    assertEquals(8079, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_YO_TEST_A_POOLS);
+    assertNotNull(qrels);
+    assertEquals(100, qrels.getQids().size());
+    assertEquals(8311, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_HA_TEST_B);
+    assertNotNull(qrels);
+    assertEquals(312, qrels.getQids().size());
+    assertEquals(5930, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_SO_TEST_B);
+    assertNotNull(qrels);
+    assertEquals(239, qrels.getQids().size());
+    assertEquals(4324, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_SW_TEST_B);
+    assertNotNull(qrels);
+    assertEquals(114, qrels.getQids().size());
+    assertEquals(2175, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.CIRAL_V10_YO_TEST_B);
+    assertNotNull(qrels);
+    assertEquals(554, qrels.getQids().size());
+    assertEquals(10569, getQrelsCount(qrels));
   }
 }

@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(421, cnt);
+    assertEquals(437, cnt);
   }
 
   @Test
@@ -2024,5 +2024,21 @@ public class TopicReaderTest {
     assertEquals(10, TopicReader.getTopics(Topics.CIRAL_V10_SO_DEV_MONO).keySet().size());
     assertEquals(10, TopicReader.getTopics(Topics.CIRAL_V10_SW_DEV_MONO).keySet().size());
     assertEquals(10, TopicReader.getTopics(Topics.CIRAL_V10_YO_DEV_MONO).keySet().size());
+    assertEquals(80, TopicReader.getTopics(Topics.CIRAL_V10_HA_TEST_A).keySet().size());
+    assertEquals(99, TopicReader.getTopics(Topics.CIRAL_V10_SO_TEST_A).keySet().size());
+    assertEquals(85, TopicReader.getTopics(Topics.CIRAL_V10_SW_TEST_A).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.CIRAL_V10_YO_TEST_A).keySet().size());
+    assertEquals(80, TopicReader.getTopics(Topics.CIRAL_V10_HA_TEST_A_NATIVE).keySet().size());
+    assertEquals(99, TopicReader.getTopics(Topics.CIRAL_V10_SO_TEST_A_NATIVE).keySet().size());
+    assertEquals(85, TopicReader.getTopics(Topics.CIRAL_V10_SW_TEST_A_NATIVE).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.CIRAL_V10_YO_TEST_A_NATIVE).keySet().size());
+    assertEquals(312, TopicReader.getTopics(Topics.CIRAL_V10_HA_TEST_B).keySet().size());
+    assertEquals(239, TopicReader.getTopics(Topics.CIRAL_V10_SO_TEST_B).keySet().size());
+    assertEquals(113, TopicReader.getTopics(Topics.CIRAL_V10_SW_TEST_B).keySet().size());
+    assertEquals(554, TopicReader.getTopics(Topics.CIRAL_V10_YO_TEST_B).keySet().size());
+    assertEquals(312, TopicReader.getTopics(Topics.CIRAL_V10_HA_TEST_B_NATIVE).keySet().size());
+    assertEquals(239, TopicReader.getTopics(Topics.CIRAL_V10_SO_TEST_B_NATIVE).keySet().size());
+    assertEquals(112, TopicReader.getTopics(Topics.CIRAL_V10_SW_TEST_B_NATIVE).keySet().size());
+    assertEquals(554, TopicReader.getTopics(Topics.CIRAL_V10_YO_TEST_B_NATIVE).keySet().size());
   }
 }

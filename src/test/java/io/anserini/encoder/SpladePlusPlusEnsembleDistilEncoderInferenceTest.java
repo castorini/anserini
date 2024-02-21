@@ -17,9 +17,16 @@
 package io.anserini.encoder;
 
 import ai.onnxruntime.OrtException;
+import io.anserini.encoder.sparse.SparseEncoder;
+import io.anserini.encoder.sparse.SpladePlusPlusEnsembleDistilEncoder;
+
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends SpladePlusPlusEncoderInferenceTest {
 
@@ -216,12 +223,268 @@ public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends SpladePlus
               0.060074817f } },
   };
 
+  static private final Object[][] LONG_EXAMPLES = new Object[][] {
+      { new String[] {
+          "In the dawn of the 21st century, humanity stands on the brink of one of the most transformative periods in history: the rise of artificial intelligence (AI). "
+              +
+              "This technological revolution promises to redefine the way we live, work, and interact with the world around us. "
+              +
+              "However, as with any major technological advancement, the implications of AI for society are complex, nuanced, and not entirely predictable. "
+              +
+              "This essay explores the potential impacts of AI on various aspects of human life, including employment, ethics, personal privacy, and societal structures." },
+          new HashMap<String, Integer>() {
+            {
+              put("achievements", 26);
+              put("promised", 44);
+              put("brink", 93);
+              put("advance", 14);
+              put("crash", 18);
+              put("robot", 27);
+              put("revolutions", 55);
+              put("predictable", 58);
+              put("complex", 43);
+              put("##ances", 19);
+              put("because", 11);
+              put("societies", 35);
+              put("promises", 28);
+              put("released", 1);
+              put("events", 2);
+              put("invented", 30);
+              put("inevitable", 7);
+              put("mankind", 3);
+              put("past", 5);
+              put("expected", 1);
+              put("impact", 54);
+              put("ai", 143);
+              put("benefit", 1);
+              put("innovations", 23);
+              put("alex", 3);
+              put("advancement", 58);
+              put("science", 5);
+              put("institute", 1);
+              put("dawn", 95);
+              put("20", 27);
+              put("21", 47);
+              put("trans", 4);
+              put("affect", 23);
+              put("robotics", 12);
+              put("industry", 6);
+              put("global", 16);
+              put("turn", 4);
+              put("current", 13);
+              put("extinction", 31);
+              put("aspect", 21);
+              put("computers", 3);
+              put("emerging", 2);
+              put("humanity", 58);
+              put("innovation", 28);
+              put("impacted", 1);
+              put("e", 18);
+              put("emergence", 4);
+              put("structures", 5);
+              put("started", 19);
+              put("possible", 14);
+              put("standing", 12);
+              put("ibm", 20);
+              put("complicated", 24);
+              put("progress", 2);
+              put("timeline", 1);
+              put("##ance", 60);
+              put("technological", 60);
+              put("##ine", 45);
+              put("historical", 35);
+              put("promise", 48);
+              put("ethics", 44);
+              put("robotic", 9);
+              put("red", 48);
+              put("assessment", 1);
+              put("acceleration", 5);
+              put("##eem", 8);
+              put("helped", 28);
+              put("us", 16);
+              put("predicted", 6);
+              put("tech", 50);
+              put("peoples", 7);
+              put("image", 7);
+              put("rev", 13);
+              put("unpredictable", 17);
+              put("significant", 13);
+              put("engineering", 7);
+              put("technologies", 21);
+              put("disrupt", 1);
+              put("success", 22);
+              put("worst", 22);
+              put("cia", 6);
+              put("harm", 18);
+              put("breakthrough", 8);
+              put("importance", 3);
+              put("aspects", 50);
+              put("privacy", 56);
+              put("we", 37);
+              put("life", 48);
+              put("weapon", 3);
+              put("apple", 10);
+              put("society", 60);
+              put("happiness", 5);
+              put("human", 52);
+              put("early", 22);
+              put("live", 16);
+              put("digital", 6);
+              put("##tron", 3);
+              put("living", 17);
+              put("historic", 3);
+              put("mars", 6);
+              put("gm", 11);
+              put("was", 5);
+              put("war", 10);
+              put("technology", 29);
+              put("evolution", 17);
+              put("way", 27);
+              put("2019", 16);
+              put("artificial", 103);
+              put("israel", 15);
+              put("21st", 73);
+              put("rise", 73);
+              put("humans", 34);
+              put("decade", 11);
+              put("achievement", 9);
+              put("helping", 5);
+              put("revolution", 80);
+              put("##ef", 76);
+              put("russia", 8);
+              put("slavery", 14);
+              put("controversial", 6);
+              put("algorithm", 2);
+              put("promising", 30);
+              put("surrounding", 2);
+              put("generation", 12);
+              put("period", 22);
+              put("goal", 5);
+              put("20th", 31);
+              put("work", 29);
+              put("iq", 62);
+              put("impacts", 46);
+              put("##tech", 14);
+              put("intelligence", 93);
+              put("revolutionary", 16);
+              put("societal", 35);
+              put("theory", 3);
+              put("our", 28);
+              put("alien", 19);
+              put("anti", 5);
+              put("computer", 22);
+              put("world", 32);
+              put("modern", 9);
+              put("era", 25);
+              put("kyle", 3);
+              put("electronic", 11);
+              put("steve", 4);
+              put("periods", 47);
+              put("power", 3);
+              put("event", 21);
+              put("stand", 39);
+              put("consequence", 27);
+              put("implications", 67);
+              put("explore", 15);
+              put("brain", 2);
+              put("transformation", 47);
+              put("ethical", 35);
+              put("century", 71);
+              put("essays", 36);
+              put("future", 25);
+              put("discovery", 13);
+              put("foster", 7);
+              put("improvements", 1);
+              put("date", 26);
+              put("political", 2);
+              put("employee", 9);
+              put("employed", 8);
+              put("##bility", 1);
+              put("edge", 29);
+              put("brandon", 16);
+              put("major", 33);
+              put("biggest", 23);
+              put("consequences", 39);
+              put("potential", 53);
+              put("ali", 2);
+              put("centuries", 5);
+              put("development", 6);
+              put("adam", 5);
+              put("##ative", 74);
+              put("created", 15);
+              put("survival", 11);
+              put("history", 54);
+              put("most", 50);
+              put("important", 23);
+              put("eras", 17);
+              put("effects", 37);
+              put("proposed", 5);
+              put("effect", 29);
+              put("essay", 58);
+              put("job", 6);
+              put("rising", 46);
+              put("critical", 1);
+              put("purpose", 6);
+              put("nu", 47);
+              put("interact", 32);
+              put("around", 41);
+              put("interactions", 27);
+              put("transform", 90);
+              put("of", 4);
+              put("today", 4);
+              put("working", 19);
+              put("predict", 29);
+              put("possibility", 8);
+              put("fuzzy", 3);
+              put("on", 11);
+              put("radical", 5);
+              put("will", 8);
+              put("social", 12);
+              put("interesting", 7);
+              put("employment", 47);
+              put("intelligent", 8);
+              put("earth", 12);
+              put("interaction", 13);
+              put("threat", 29);
+              put("strategy", 6);
+              put("invention", 7);
+
+            }
+          }
+      }
+  };
+
   public SpladePlusPlusEnsembleDistilEncoderInferenceTest() {
-    super(MODEL_NAME, MODEL_URL, EXAMPLES);
+    super(MODEL_NAME, MODEL_URL, EXAMPLES, LONG_EXAMPLES);
   }
 
   @Test
   public void basic() throws OrtException, IOException {
     super.basicTest();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void maxlen() throws OrtException, IOException {
+    SparseEncoder encoder = null;
+    String[] inputStrings = (String[]) longExamples[0][0];
+    Map<String, Integer> expectedMap = (Map<String, Integer>) longExamples[0][1];
+
+    try {
+      encoder = new SpladePlusPlusEnsembleDistilEncoder();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    try {
+      Map<String, Integer> outputs = encoder.getEncodedQueryMap(inputStrings[0]);
+      for (Map.Entry<String, Integer> entry : outputs.entrySet()) {
+        String key = entry.getKey();
+        Integer value = entry.getValue();
+        Integer expectedValue = expectedMap.get(key);
+        assertEquals(expectedValue, value);
+      }
+    } catch (OrtException e) {
+      throw new OrtException("Error in encoding: " + e.getMessage());
+    }
   }
 }

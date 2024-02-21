@@ -1,16 +1,16 @@
 ---
-corpus: ciral-swahili
-corpus_path: collections/ciral/ciral-passages-swahili/
+corpus: ciral-swahili-english
+corpus_path: collections/ciral/ciral-passages-swahili-english/
 
-index_path: indexes/lucene-index.ciral-v1.0-sw/
+index_path: indexes/lucene-index.ciral-v1.0-sw-en/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
-index_options: -storePositions -storeDocvectors -storeRaw -language sw
+index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
   documents: 949013
   documents (non-empty): 949013
-  total terms: 115140711
+  total terms: 83817100
 
 metrics:
   - metric: nDCG@20
@@ -32,27 +32,27 @@ topic_reader: TsvInt
 topics:
   - name: "[CIRAL Swahili: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)"
     id: test-a-shallow
-    path: topics.ciral-v1.0-sw-test-a-native.tsv
+    path: topics.ciral-v1.0-sw-test-a.tsv
     qrel: qrels.ciral-v1.0-sw-test-a.tsv
   - name: "[CIRAL Swahili: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)"
     id: test-a-pools
-    path: topics.ciral-v1.0-sw-test-a-native.tsv
+    path: topics.ciral-v1.0-sw-test-a.tsv
     qrel: qrels.ciral-v1.0-sw-test-a-pools.tsv
   - name: "[CIRAL Swahili: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)"
     id: test-b-shallow
-    path: topics.ciral-v1.0-sw-test-b-native.tsv
+    path: topics.ciral-v1.0-sw-test-b.tsv
     qrel: qrels.ciral-v1.0-sw-test-b.tsv
 
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25 -hits 1000 -language sw
+    params: -bm25 -hits 1000
     results:
       nDCG@20:
-        - 0.1720
-        - 0.1500
-        - 0.1727
+        - 0.2033
+        - 0.2327
+        - 0.2582
       R@100:
-        - 0.4161
-        - 0.2430
-        - 0.4166
+        - 0.4786
+        - 0.3636
+        - 0.4918
