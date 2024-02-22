@@ -46,8 +46,8 @@ models:
     params: -generator VectorQueryGenerator -topicField title -removeQuery -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15
     results:
       nDCG@10:
-        - 0.282
+        - 0.280
       R@100:
-        - 0.298
+        - 0.294
       R@1000:
-        - 0.500
+        - 0.495

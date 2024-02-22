@@ -76,7 +76,7 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.257     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.486     |
+| BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.487     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.831     |
 
