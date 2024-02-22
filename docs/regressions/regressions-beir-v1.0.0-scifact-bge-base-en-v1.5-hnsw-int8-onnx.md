@@ -74,7 +74,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): SciFact                                                                                       | 0.741     |
+| BEIR (v1.0.0): SciFact                                                                                       | 0.740     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): SciFact                                                                                       | 0.969     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|

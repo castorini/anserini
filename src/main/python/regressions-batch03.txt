@@ -148,6 +148,8 @@ python src/main/python/run_regression.py --search --regression dl19-passage-cos-
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-fw > logs/log.dl19-passage-cos-dpr-distil-fw 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-lexlsh > logs/log.dl19-passage-cos-dpr-distil-lexlsh 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-openai-ada2 > logs/log.dl19-passage-openai-ada2 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-cohere-embed-english-v3-hnsw > logs/log.dl19-passage-cohere-embed-english-v3-hnsw 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-cohere-embed-english-v3-hnsw-int8 > logs/log.dl19-passage-cohere-embed-english-v3-hnsw-int8 2>&1
 
 python src/main/python/run_regression.py --search --regression dl19-passage-unicoil > logs/log.dl19-passage-unicoil 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-unicoil-noexp > logs/log.dl19-passage-unicoil-noexp 2>&1
@@ -184,6 +186,8 @@ python src/main/python/run_regression.py --search --regression dl20-passage-cos-
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-fw > logs/log.dl20-passage-cos-dpr-distil-fw 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-lexlsh > logs/log.dl20-passage-cos-dpr-distil-lexlsh 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-openai-ada2 > logs/log.dl20-passage-openai-ada2 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-cohere-embed-english-v3-hnsw > logs/log.dl20-passage-cohere-embed-english-v3-hnsw 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-cohere-embed-english-v3-hnsw-int8 > logs/log.dl20-passage-cohere-embed-english-v3-hnsw-int8 2>&1
 
 python src/main/python/run_regression.py --search --regression dl20-passage-unicoil > logs/log.dl20-passage-unicoil 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-unicoil-noexp > logs/log.dl20-passage-unicoil-noexp 2>&1

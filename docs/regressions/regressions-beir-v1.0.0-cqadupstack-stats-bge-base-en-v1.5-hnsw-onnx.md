@@ -76,7 +76,7 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.373     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.673     |
+| BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.672     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): CQADupStack-stats                                                                             | 0.849     |
 

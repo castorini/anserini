@@ -76,7 +76,7 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.354     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.706     |
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.707     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.886     |
 

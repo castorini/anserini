@@ -74,9 +74,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): NFCorpus                                                                                      | 0.373     |
+| BEIR (v1.0.0): NFCorpus                                                                                      | 0.374     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): NFCorpus                                                                                      | 0.338     |
+| BEIR (v1.0.0): NFCorpus                                                                                      | 0.339     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): NFCorpus                                                                                      | 0.657     |
 

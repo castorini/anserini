@@ -74,11 +74,11 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): DBPedia                                                                                       | 0.407     |
+| BEIR (v1.0.0): DBPedia                                                                                       | 0.408     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): DBPedia                                                                                       | 0.527     |
+| BEIR (v1.0.0): DBPedia                                                                                       | 0.528     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): DBPedia                                                                                       | 0.776     |
+| BEIR (v1.0.0): DBPedia                                                                                       | 0.778     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw-int8-onnx.yaml).

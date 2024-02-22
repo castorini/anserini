@@ -74,7 +74,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Quora                                                                                         | 0.889     |
+| BEIR (v1.0.0): Quora                                                                                         | 0.888     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): Quora                                                                                         | 0.997     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
