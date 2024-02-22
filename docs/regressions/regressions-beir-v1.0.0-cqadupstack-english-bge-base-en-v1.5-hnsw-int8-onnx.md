@@ -78,7 +78,7 @@ With the above commands, you should be able to reproduce the following results:
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): CQADupStack-english                                                                           | 0.756     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-english                                                                           | 0.883     |
+| BEIR (v1.0.0): CQADupStack-english                                                                           | 0.882     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw-int8-onnx.yaml).

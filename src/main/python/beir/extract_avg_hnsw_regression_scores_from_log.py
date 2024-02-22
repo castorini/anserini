@@ -53,7 +53,7 @@ beir_keys = {
 for key in sorted(beir_keys):
     print(key)
     for metric in ['nDCG@10', 'R@100', 'R@1000']:
-        command = f'tail -n 5 logs/log.beir-v1.0.0-{key}-bge-base-en-v1.5-hnsw-int8_* | grep "{metric}\s"'
+        command = f'tail -n 5 logs/log.beir-v1.0.0-{key}-bge-base-en-v1.5-hnsw-int8-onnx_* | grep "{metric}\s"'
         p = subprocess.run(command, shell=True, text=True, capture_output=True)
         output = p.stdout
         scores = []
@@ -62,5 +62,6 @@ for key in sorted(beir_keys):
             match = re.search(pattern, line)
             if match:
                 scores.append(float(match.group(1)))
-        avg = round(sum(scores)/len(scores) * 10 ** 3) / (10 ** 3)
-        print(f'      {metric}:\n        - {avg:.3f}')
+        if len(scores) > 0:
+            avg = round(sum(scores)/len(scores) * 10 ** 3) / (10 ** 3)
+            print(f'      {metric} (avg over {len(scores)}):\n        - {avg:.3f}')

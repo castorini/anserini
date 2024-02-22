@@ -74,9 +74,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.425     |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.424     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.786     |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.787     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.934     |
 
