@@ -365,4 +365,3 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@chloeqxq](https://github.com/chloeqxq) on 2024-01-28 (commit [`3f2d7fa`](https://github.com/castorini/anserini/commit/3f2d7fa91118b71d75d9f547d19ff19858f96523))
 + Results reproduced by [@16BitNarwhal](https://github.com/16BitNarwhal) on 2024-02-17 (commit [`5c110dc`](https://github.com/castorini/anserini/commit/5c110dcf970f14e1ee271699ba972ded588d822c))
 + Results reproduced by [@ru5h16h](https://github.com/ru5h16h) on 2024-02-19 (commit [`43c9ecc`](https://github.com/castorini/anserini/commit/43c9ecca53313ec2f84c8274d88f99ca3ea2e4bd))
-+ Results reproduced by [@ASChampOmega](https://github.com/ASChampOmega) on 2024-02-23 (commit [`19c1984`](https://github.com/castorini/anserini/commit/19c1984cda8329cd3a09b9257771c47420042a26))
