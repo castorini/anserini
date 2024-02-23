@@ -42,7 +42,7 @@ First, we need to download and extract the MS MARCO passage dataset:
 ```bash
 mkdir collections/msmarco-passage
 
-wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
+wget https://msmarco.z22.web.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
 
 # Alternative mirror:
 # wget https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/collectionandqueries.tar.gz -P collections/msmarco-passage
@@ -469,3 +469,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@ru5h16h](https://github.com/ru5h16h) on 2024-02-19 (commit [`43c9ecc`](https://github.com/castorini/anserini/commit/43c9ecca53313ec2f84c8274d88f99ca3ea2e4bd))
 + Results reproduced by [@16BitNarwhal](https://github.com/16BitNarwhal) on 2024-02-20 (commit [`5c110dc`](https://github.com/castorini/anserini/commit/5c110dcf970f14e1ee271699ba972ded588d822c))
 + Results reproduced by [@ASChampOmega](https://github.com/ASChampOmega) on 2024-02-23 (commit [`f0b37dd`](https://github.com/castorini/anserini/commit/f0b37dd28ffec543a9ef107a52297b30199b69f1))
++ Results reproduced by [@17Melissa](https://github.com/17Melissa) on 2024-02-23 (commit [`084deb9`](https://github.com/castorini/anserini/commit/084deb97fe886b9062d005edcdc3982b2e65ce3f))
