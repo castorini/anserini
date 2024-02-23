@@ -22,6 +22,9 @@ import java.net.URL;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class PrebuiltIndexTest {
 
   // test checksum validity
@@ -29,8 +32,8 @@ public class PrebuiltIndexTest {
   public void testChecksum() {
     for (IndexInfo info : IndexInfo.values()) {
       // check each checksum is valid
-      assert info.md5.length() == 32;
-      assert info.md5.matches("[a-fA-F0-9]+");
+      assertEquals(32, info.md5.length());
+      assertTrue(info.md5.matches("[a-fA-F0-9]+"));
     }
   }
 
@@ -43,7 +46,7 @@ public class PrebuiltIndexTest {
         try {
           final URL requestUrl = new URL("http://example.com");
           final HttpURLConnection con = (HttpURLConnection) requestUrl.openConnection();
-          assert con.getResponseCode() == 200;
+          assertEquals(200, con.getResponseCode());
         } catch (IOException e) {
           throw new RuntimeException("Error connecting to " + url, e);
         } catch (Exception e) {
@@ -56,6 +59,6 @@ public class PrebuiltIndexTest {
   // test number of prebuilt-indexes
   @Test
   public void testNumPrebuiltIndexes() {
-    assert IndexInfo.values().length == 7;
+    assertEquals(36, IndexInfo.values().length);
   }
 }
