@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(437, cnt);
+    assertEquals(466, cnt);
   }
 
   @Test
@@ -1713,6 +1713,7 @@ public class TopicReaderTest {
     assertEquals(249,   TopicReader.getTopics(Topics.BEIR_V1_0_0_ROBUST04_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
     assertEquals(1406,  TopicReader.getTopics(Topics.BEIR_V1_0_0_ARGUANA_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
     assertEquals(49,    TopicReader.getTopics(Topics.BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
+    assertEquals(699,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
     assertEquals(1570,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
     assertEquals(1595,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
     assertEquals(885,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM).keySet().size());
@@ -1796,6 +1797,72 @@ public class TopicReaderTest {
     assertEquals(6666,  TopicReader.getTopics(Topics.BEIR_V1_0_0_FEVER_TEST_UNCOIL_NOEXP).keySet().size());
     assertEquals(1535,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CLIMATE_FEVER_TEST_UNCOIL_NOEXP).keySet().size());
     assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_UNCOIL_NOEXP).keySet().size());
+  }
+
+  @Test
+  public void testBeirSpladePpEdTopics() throws IOException {
+    assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(500,   TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(3452,  TopicReader.getTopics(Topics.BEIR_V1_0_0_NQ_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(7405,  TopicReader.getTopics(Topics.BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(648,   TopicReader.getTopics(Topics.BEIR_V1_0_0_FIQA_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(97,    TopicReader.getTopics(Topics.BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(57,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(249,   TopicReader.getTopics(Topics.BEIR_V1_0_0_ROBUST04_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(1406,  TopicReader.getTopics(Topics.BEIR_V1_0_0_ARGUANA_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(49,    TopicReader.getTopics(Topics.BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(699,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(1570,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(1595,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(885,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(804,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(1039,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(876,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(652,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(2906,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(1072,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(506,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(541,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(10000, TopicReader.getTopics(Topics.BEIR_V1_0_0_QUORA_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(400,   TopicReader.getTopics(Topics.BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(1000,  TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(6666,  TopicReader.getTopics(Topics.BEIR_V1_0_0_FEVER_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(1535,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_PP_ED).keySet().size());
+    assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_SPLADE_PP_ED).keySet().size());
+  }
+
+  @Test
+  public void testBeirBgeBaseEn15Topics() throws IOException {
+    assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(3743,  TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(3452,  TopicReader.getTopics(Topics.BEIR_V1_0_0_NQ_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(7405,  TopicReader.getTopics(Topics.BEIR_V1_0_0_HOTPOTQA_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(648,   TopicReader.getTopics(Topics.BEIR_V1_0_0_FIQA_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(97,    TopicReader.getTopics(Topics.BEIR_V1_0_0_SIGNAL1M_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(57,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_NEWS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(250,   TopicReader.getTopics(Topics.BEIR_V1_0_0_ROBUST04_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(1406,  TopicReader.getTopics(Topics.BEIR_V1_0_0_ARGUANA_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(49,    TopicReader.getTopics(Topics.BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(699,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(1570,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(1595,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(885,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(804,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(1039,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(876,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(652,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(2906,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(1072,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(506,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(541,   TopicReader.getTopics(Topics.BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(10000, TopicReader.getTopics(Topics.BEIR_V1_0_0_QUORA_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(400,   TopicReader.getTopics(Topics.BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(1000,  TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIDOCS_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(6666,  TopicReader.getTopics(Topics.BEIR_V1_0_0_FEVER_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(1535,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CLIMATE_FEVER_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15).keySet().size());
   }
 
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
