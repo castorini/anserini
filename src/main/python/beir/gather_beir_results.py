@@ -71,7 +71,8 @@ beir_final_keys = {
     'scifact': 'SciFact'
 }
 
-models = ['flat', 'multifield', 'unicoil-noexp', 'splade-pp-ed', 'bge-base-en-v1.5-hnsw']
+models = ['flat', 'flat-wp', 'multifield', 'unicoil-noexp', 'splade-pp-ed',
+          'bge-base-en-v1.5-hnsw', 'bge-base-en-v1.5-hnsw-int8']
 metrics = ['nDCG@10', 'R@100', 'R@1000']
 
 table = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: 0.0)))
@@ -107,21 +108,25 @@ for model in models:
         final_scores[model][metric] = final_score
 
 for metric in metrics:
-    print(f'{metric:25}flat    multi   UCx     SPLADE')
-    print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6)
+    print(f'{metric:25}  F1      F2      MF      U1      S1     D1o    D1q')
+    print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 5 + '  ' + '-' * 5)
     for key in beir_keys:
         print(f'{key:25}{table[key]["flat"][metric]:.4f}  ' +
+              f'{table[key]["flat-wp"][metric]:.4f}  ' +
               f'{table[key]["multifield"][metric]:.4f}  ' +
               f'{table[key]["unicoil-noexp"][metric]:.4f}  ' +
               f'{table[key]["splade-pp-ed"][metric]:.4f}  ' +
-              f'{table[key]["bge-base-en-v1.5-hnsw"][metric]:.4f}')
+              f'{table[key]["bge-base-en-v1.5-hnsw"][metric]:.3f}  ' +
+              f'{table[key]["bge-base-en-v1.5-hnsw-int8"][metric]:.3f}')
 
-    print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6)
+    print(' ' * 25 + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 6 + '  ' + '-' * 5 + '  ' + '-' * 5)
     print(' ' * 25 + f'{final_scores["flat"][metric]:0.4f}  ' +
+          f'{final_scores["flat-wp"][metric]:0.4f}  ' +
           f'{final_scores["multifield"][metric]:0.4f}  ' +
           f'{final_scores["unicoil-noexp"][metric]:0.4f}  ' +
           f'{final_scores["splade-pp-ed"][metric]:0.4f}  ' +
-          f'{final_scores["bge-base-en-v1.5-hnsw"][metric]:.4f}')
+          f'{final_scores["bge-base-en-v1.5-hnsw"][metric]:.3f}  ' +
+          f'{final_scores["bge-base-en-v1.5-hnsw-int8"][metric]:.3f}  ')
     print('\n')
 
 for key in beir_final_keys:
