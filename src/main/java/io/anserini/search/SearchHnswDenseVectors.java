@@ -93,9 +93,9 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
       Path topicsFilePath = Paths.get(topicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
         try {
-          topics.putAll(TopicReader.getTopics(Topics.valueOf(topicsFile)));
+          topics.putAll(TopicReader.getTopics(Topics.getByName(topicsFile)));
         } catch (IllegalArgumentException e) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
+          throw new IllegalArgumentException(String.format("\"%s\" does not appear to refer to known topics.", topicsFilePath));
         }
       } else {
         try {

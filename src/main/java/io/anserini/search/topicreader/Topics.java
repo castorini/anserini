@@ -16,6 +16,9 @@
 
 package io.anserini.search.topicreader;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * An enumeration comprising standard sets of topics from various evaluations.
  */
@@ -528,5 +531,27 @@ public enum Topics {
   Topics(Class<? extends TopicReader> c, String path) {
     this.readerClass = c;
     this.path = path;
+  }
+
+  // Alternative, more readable names.
+  static private Map<String, Topics> ALIASES  = new HashMap<>() {{
+    put("msmarco-passage-dev", MSMARCO_PASSAGE_DEV_SUBSET);
+    put("trec2019-dl-passage", TREC2019_DL_PASSAGE);
+    put("trec2020-dl-passage", TREC2020_DL);
+    put("trec2020-dl", TREC2020_DL);
+    put("dl19-passage", TREC2019_DL_PASSAGE);
+    put("dl20-passage", TREC2020_DL);
+  }};
+
+  static public Topics getByName(String name) {
+    try {
+      return Topics.valueOf(name);
+    } catch (IllegalArgumentException e) {
+      if (ALIASES.containsKey(name)) {
+        return ALIASES.get(name);
+      }
+
+      return null;
+    }
   }
 }
