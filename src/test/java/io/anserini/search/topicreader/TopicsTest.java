@@ -39,6 +39,7 @@ public class TopicsTest {
   @Test
   public void testAliases() {
     assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-passage-dev"));
+    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-v1-passage-dev"));
 
     assertEquals(TREC2019_DL_PASSAGE, Topics.getByName("trec2019-dl-passage"));
     assertEquals(TREC2019_DL_PASSAGE, Topics.getByName("dl19-passage"));

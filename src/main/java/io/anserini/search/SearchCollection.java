@@ -991,6 +991,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     LOG.info("Index: " + indexPath);
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
 
+    LOG.info("Threads: " + args.threads);
     LOG.info("Fields: " + Arrays.toString(args.fields));
     if (args.fields.length != 0) {
       // The -fields argument should be in the form of "field1=weight1 field2=weight2...".
@@ -1040,10 +1041,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     for (String topicsFile : args.topics) {
       Path topicsFilePath = Paths.get(topicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        try {
-          topics.putAll(TopicReader.getTopics(Topics.getByName(topicsFile)));
-        } catch (IllegalArgumentException e) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not appear to refer to known topics.", topicsFilePath));
+        Topics ref = Topics.getByName(topicsFile);
+        if (ref==null) {
+          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
+        } else {
+          topics.putAll(TopicReader.getTopics(ref));
         }
       } else {
         if (args.topicReader == null) {
