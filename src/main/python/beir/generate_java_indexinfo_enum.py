@@ -175,57 +175,50 @@ checksums_splade = {
 }
 
 checksums_bge = {
-    'trec-covid': 'c391e9c6841e3521355eb2ac837fe248',
-    'bioasq': '79844df82809e4daa5eca3ceebf2b935',
-    'nfcorpus': 'a5be3e39e5922ad742deff6ba9d53266',
-    'nq': 'caa451b4a46126659cbf4ffdaeae335b',
-    'hotpotqa': '00ba2207aeacb86bc975d150633ecb09',
-    'fiqa': 'aabb1a185ff1eba74db655e0a7e3bb08',
-    'signal1m': 'e427da1a196f624644a428b7f4fe5065',
-    'trec-news': '13afaccb1981824490cf3ab4694eb45c',
-    'robust04': 'f27e12a03545933f44fff674b24cc311',
-    'arguana': 'a5c3dde9409a7f8bbab651a0b1dca169',
-    'webis-touche2020': '76ad8c91f37654a4f34e20f9aa9bb67b',
-    'cqadupstack-android': '26e5f2b3e76c029a4dc9d6c0782bf6fa',
-    'cqadupstack-english': '22358a8571b8c9b9483c056c5588d474',
-    'cqadupstack-gaming': 'fc6dfc94eca7bd635e93ae41ad3da6db',
-    'cqadupstack-gis': 'fb6977d2b2568e3b2ee33a033a63b25d',
-    'cqadupstack-mathematica': '6e20741b2322bcda8e808f1ea0c66d26',
-    'cqadupstack-physics': 'd8f618d161681ad9918249c1fec4de80',
-    'cqadupstack-programmers': '8daf4afd332be000c7dd508d46f019af',
-    'cqadupstack-stats': '95d513a64cbeecf956e0ff093354a1bc',
-    'cqadupstack-tex': 'd1a770ffb3dd02be9fd19a73b7ac6878',
-    'cqadupstack-unix': '70d366f4f3a735dfdd0f47053679e5c9',
-    'cqadupstack-webmasters': 'e236cfbd1662112e8ac02ad590544d10',
-    'cqadupstack-wordpress': 'e6e90dcb387b769a0c27b7e282326d94',
-    'quora': '91bec208040d08caeffafb400ea220b2',
-    'dbpedia-entity': 'd9fe11b3033f378ad43773bc11e9b9af',
-    'scidocs': 'b7bfe2ae6b0df37b14655c16faeb409b',
-    'fever': '480ce0b18ab73ccdecc782eaa820d0e9',
-    'climate-fever': 'fa3814f8f20ef2642934bdaad6b12d5a',
-    'scifact': '379b2f45873b0df722c63189c485ac29'
+    'arguana': '468129157636526a3e96bc9427d62808',
+    'bioasq': '2f4cde27ef5ec3be1193e06854fdaae6',
+    'climate-fever': '412337f9f8182e8ec6417bc3cd48288f',
+    'cqadupstack-android': 'f7e1f2e737756a84b0273794dcb1038f',
+    'cqadupstack-english': 'fcdb3fc633b2ca027111536ba422aaed',
+    'cqadupstack-gaming': 'd59b216b3df6eb1b724e2f20ceb14407',
+    'cqadupstack-gis': '1dd42a28e388b30f42ede02565d445ca',
+    'cqadupstack-mathematica': 'cda37cb1893409c67908cf3aab1467fe',
+    'cqadupstack-physics': '82f71e086930c7d8c5fe423173b9bc2e',
+    'cqadupstack-programmers': 'a7a8e17dcef7b40fde2492436aab1458',
+    'cqadupstack-stats': '7a304fa64332256976bed5049392605b',
+    'cqadupstack-tex': 'bc5b41b294528611982615c0fcb7ebc7',
+    'cqadupstack-unix': 'e42e7b6f46239211f9e9a3ed521d30eb',
+    'cqadupstack-webmasters': '21987ab658ba062397095226eb62aaf1',
+    'cqadupstack-wordpress': '4e80be8087e8f282c42c2b57e377bb65',
+    'dbpedia-entity': '323d47f84a54894ba5e6ca215999a533',
+    'fever': '33f67e73786a41b454bf88ac2a7c21c7',
+    'fiqa': 'f2e3191b9d047b88b4692ec3ac87acd0',
+    'hotpotqa': '83129157f2138a2240b69f8f5404e579',
+    'nfcorpus': 'd0aa34bf35b59466e7064c424dd82e2c',
+    'nq': 'b0bbd85821c734125ffbc0f7ea8f75ae',
+    'quora': '064d785db557b011649d5f8b07237eb4',
+    'robust04': '1b975602bf6b87e0a5815a254eb6e945',
+    'scidocs': '50668564faa9723160b1dba37afbf6d9',
+    'scifact': '6de5a41a301575933fa9932f9ecb404d',
+    'signal1m': '86a5dc12806c5e2f5f1e7cf646ef9004',
+    'trec-covid': '2c8cba8525f8ec6920dbb4f0b4a2e0a6',
+    'trec-news': 'fcb8fae8c46c76931bde0ad51ecb86f8',
+    'webis-touche2020': '4639db80366f755bb552ce4c736c4aea'
 }
 
-# for key in beir_keys:
-#     print(f'{beir_to_enum_prefix[key]}_BGE_BASE_EN_15("beir-v1.0.0-{key}-bge-base-en-v1.5",')
-#     print(f'    "Lucene HNSW index of BEIR collection \'{key}\' encoded by BGE-base-en-v1.5.",')
-#     print(f'    "lucene-hnsw.beir-v1.0.0-{key}-bge-base-en-v1.5.20240223.43c9ec.tar.gz",')
-#     print('    new String[] {' + f' "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.beir-v1.0.0-{key}-bge-base-en-v1.5.20240223.43c9ec.tar.gz"' + ' },')
-#     print(f'    "{checksums_bge[key]}"),\n')
-#
-# for key in beir_keys:
-#     print(f'{beir_to_enum_prefix[key]}_FLAT("beir-v1.0.0-{key}.flat",')
-#     print(f'    "Lucene inverted \'flat\' index of BEIR collection \'{key}\'.",')
-#     print(f'    "lucene-index.beir-v1.0.0-{key}.flat.20221116.505594.tar.gz",')
-#     print('    new String[] {' + f' "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.beir-v1.0.0-{key}.flat.20221116.505594.tar.gz"' + ' },')
-#     print(f'    "{checksums_flat[key]}"),\n')
+for key in beir_keys:
+    print(f'{beir_to_enum_prefix[key]}_FLAT("beir-v1.0.0-{key}.flat",')
+    print(f'    "Lucene inverted \'flat\' index of BEIR collection \'{key}\'.",')
+    print(f'    "lucene-index.beir-v1.0.0-{key}.flat.20221116.505594.tar.gz",')
+    print('    new String[] {' + f' "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.beir-v1.0.0-{key}.flat.20221116.505594.tar.gz"' + ' },')
+    print(f'    "{checksums_flat[key]}"),\n')
 
-# for key in beir_keys:
-#     print(f'{beir_to_enum_prefix[key]}_MULTIFIELD("beir-v1.0.0-{key}.multifield",')
-#     print(f'    "Lucene inverted \'multifield\' index of BEIR collection \'{key}\'.",')
-#     print(f'    "lucene-index.beir-v1.0.0-{key}.multifield.20221116.505594.tar.gz",')
-#     print('    new String[] {' + f' "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.beir-v1.0.0-{key}.multifield.20221116.505594.tar.gz"' + ' },')
-#     print(f'    "{checksums_multifield[key]}"),\n')
+for key in beir_keys:
+    print(f'{beir_to_enum_prefix[key]}_MULTIFIELD("beir-v1.0.0-{key}.multifield",')
+    print(f'    "Lucene inverted \'multifield\' index of BEIR collection \'{key}\'.",')
+    print(f'    "lucene-index.beir-v1.0.0-{key}.multifield.20221116.505594.tar.gz",')
+    print('    new String[] {' + f' "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.beir-v1.0.0-{key}.multifield.20221116.505594.tar.gz"' + ' },')
+    print(f'    "{checksums_multifield[key]}"),\n')
 
 for key in beir_keys:
     print(f'{beir_to_enum_prefix[key]}_SPLADE_PP_ED("beir-v1.0.0-{key}.splade-pp-ed",')
@@ -233,3 +226,11 @@ for key in beir_keys:
     print(f'    "lucene-index.beir-v1.0.0-{key}.splade-pp-ed.20231124.a66f86f.tar.gz",')
     print('    new String[] {' + f' "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.beir-v1.0.0-{key}.splade-pp-ed.20231124.a66f86f.tar.gz"' + ' },')
     print(f'    "{checksums_splade[key]}"),\n')
+
+for key in beir_keys:
+    print(f'{beir_to_enum_prefix[key]}_BGE_BASE_EN_15("beir-v1.0.0-{key}.bge-base-en-v1.5",')
+    print(f'    "Lucene HNSW index of BEIR collection \'{key}\' encoded by BGE-base-en-v1.5.",')
+    print(f'    "lucene-hnsw.beir-v1.0.0-{key}.bge-base-en-v1.5.20240223.43c9ec.tar.gz",')
+    print('    new String[] {' + f' "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.beir-v1.0.0-{key}.bge-base-en-v1.5.20240223.43c9ec.tar.gz"' + ' },')
+    print(f'    "{checksums_bge[key]}"),\n')
+
