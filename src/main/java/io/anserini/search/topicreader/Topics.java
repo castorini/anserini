@@ -16,6 +16,9 @@
 
 package io.anserini.search.topicreader;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * An enumeration comprising standard sets of topics from various evaluations.
  */
@@ -528,5 +531,111 @@ public enum Topics {
   Topics(Class<? extends TopicReader> c, String path) {
     this.readerClass = c;
     this.path = path;
+  }
+
+  // Alternative, more readable names.
+  static private Map<String, Topics> ALIASES  = new HashMap<>() {{
+    put("msmarco-passage-dev",                     MSMARCO_PASSAGE_DEV_SUBSET);
+    put("msmarco-v1-passage-dev",                  MSMARCO_PASSAGE_DEV_SUBSET);
+    put("msmarco-passage-dev-splade-pp-ed",        MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    put("msmarco-v1-passage-dev-splade-pp-ed",     MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    put("msmarco-passage-dev-cos-dpr-distil",      MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    put("msmarco-v1-passage-dev-cos-dpr-distil",   MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    put("msmarco-passage-dev-bge-base-en-v1.5",    MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    put("msmarco-v1-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+
+    put("trec2019-dl-passage",                  TREC2019_DL_PASSAGE);
+    put("dl19-passage",                         TREC2019_DL_PASSAGE);
+    put("trec2019-dl-passage-splade-pp-ed",     TREC2019_DL_PASSAGE_SPLADE_PP_ED);
+    put("dl19-passage-splade-pp-ed",            TREC2019_DL_PASSAGE_SPLADE_PP_ED);
+    put("trec2019-dl-passage-cos-dpr-distil",   TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
+    put("dl19-passage-cos-dpr-distil",          TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
+    put("trec2019-dl-passage-bge-base-en-v1.5", TREC2019_DL_PASSAGE_BGE_BASE_EN_15);
+    put("dl19-passage-bge-base-en-v1.5",        TREC2019_DL_PASSAGE_BGE_BASE_EN_15);
+
+    put("trec2020-dl-passage",                  TREC2020_DL);
+    put("trec2020-dl",                          TREC2020_DL);
+    put("dl20-passage",                         TREC2020_DL);
+    put("trec2020-dl-passage-splade-pp-ed",     TREC2020_DL_SPLADE_PP_ED);
+    put("trec2020-dl-splade-pp-ed",             TREC2020_DL_SPLADE_PP_ED);
+    put("dl20-passage-splade-pp-ed",            TREC2020_DL_SPLADE_PP_ED);
+    put("trec2020-dl-passage-cos-dpr-distil",   TREC2020_DL_COS_DPR_DISTIL);
+    put("trec2020-dl-cos-dpr-distil",           TREC2020_DL_COS_DPR_DISTIL);
+    put("dl20-passage-cos-dpr-distil",          TREC2020_DL_COS_DPR_DISTIL);
+    put("trec2020-dl-passage-bge-base-en-v1.5", TREC2020_DL_BGE_BASE_EN_15);
+    put("trec2020-dl-bge-base-en-v1.5",         TREC2020_DL_BGE_BASE_EN_15);
+    put("dl20-passage-bge-base-en-v1.5",        TREC2020_DL_BGE_BASE_EN_15);
+
+    put("beir-trec-covid", BEIR_V1_0_0_TREC_COVID_TEST);
+    put("beir-bioasq", BEIR_V1_0_0_BIOASQ_TEST);
+    put("beir-nfcorpus", BEIR_V1_0_0_NFCORPUS_TEST);
+    put("beir-nq", BEIR_V1_0_0_NQ_TEST);
+    put("beir-hotpotqa", BEIR_V1_0_0_HOTPOTQA_TEST);
+    put("beir-fiqa", BEIR_V1_0_0_FIQA_TEST);
+    put("beir-signal1m", BEIR_V1_0_0_SIGNAL1M_TEST);
+    put("beir-trec-news", BEIR_V1_0_0_TREC_NEWS_TEST);
+    put("beir-robust04", BEIR_V1_0_0_ROBUST04_TEST);
+    put("beir-arguana", BEIR_V1_0_0_ARGUANA_TEST);
+    put("beir-webis-touche2020", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST);
+    put("beir-cqadupstack-android", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST);
+    put("beir-cqadupstack-english", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST);
+    put("beir-cqadupstack-gaming", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST);
+    put("beir-cqadupstack-gis", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST);
+    put("beir-cqadupstack-mathematica", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST);
+    put("beir-cqadupstack-physics", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST);
+    put("beir-cqadupstack-programmers", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST);
+    put("beir-cqadupstack-stats", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST);
+    put("beir-cqadupstack-tex", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST);
+    put("beir-cqadupstack-unix", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST);
+    put("beir-cqadupstack-webmasters", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST);
+    put("beir-cqadupstack-wordpress", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST);
+    put("beir-quora", BEIR_V1_0_0_QUORA_TEST);
+    put("beir-dbpedia-entity", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST);
+    put("beir-scidocs", BEIR_V1_0_0_SCIDOCS_TEST);
+    put("beir-fever", BEIR_V1_0_0_FEVER_TEST);
+    put("beir-climate-fever", BEIR_V1_0_0_CLIMATE_FEVER_TEST);
+    put("beir-scifact", BEIR_V1_0_0_SCIFACT_TEST);
+
+    put("beir-trec-covid-bge-base-en-v1.5", BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15);
+    put("beir-bioasq-bge-base-en-v1.5", BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15);
+    put("beir-nfcorpus-bge-base-en-v1.5", BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15);
+    put("beir-nq-bge-base-en-v1.5", BEIR_V1_0_0_NQ_TEST_BGE_BASE_EN_15);
+    put("beir-hotpotqa-bge-base-en-v1.5", BEIR_V1_0_0_HOTPOTQA_TEST_BGE_BASE_EN_15);
+    put("beir-fiqa-bge-base-en-v1.5", BEIR_V1_0_0_FIQA_TEST_BGE_BASE_EN_15);
+    put("beir-signal1m-bge-base-en-v1.5", BEIR_V1_0_0_SIGNAL1M_TEST_BGE_BASE_EN_15);
+    put("beir-trec-news-bge-base-en-v1.5", BEIR_V1_0_0_TREC_NEWS_TEST_BGE_BASE_EN_15);
+    put("beir-robust04-bge-base-en-v1.5", BEIR_V1_0_0_ROBUST04_TEST_BGE_BASE_EN_15);
+    put("beir-arguana-bge-base-en-v1.5", BEIR_V1_0_0_ARGUANA_TEST_BGE_BASE_EN_15);
+    put("beir-webis-touche2020-bge-base-en-v1.5", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-android-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-english-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-gaming-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-gis-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-mathematica-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-physics-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-programmers-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-stats-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-tex-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-unix-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-webmasters-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_BGE_BASE_EN_15);
+    put("beir-cqadupstack-wordpress-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_BGE_BASE_EN_15);
+    put("beir-quora-bge-base-en-v1.5", BEIR_V1_0_0_QUORA_TEST_BGE_BASE_EN_15);
+    put("beir-dbpedia-entity-bge-base-en-v1.5", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_BGE_BASE_EN_15);
+    put("beir-scidocs-bge-base-en-v1.5", BEIR_V1_0_0_SCIDOCS_TEST_BGE_BASE_EN_15);
+    put("beir-fever-bge-base-en-v1.5", BEIR_V1_0_0_FEVER_TEST_BGE_BASE_EN_15);
+    put("beir-climate-fever-bge-base-en-v1.5", BEIR_V1_0_0_CLIMATE_FEVER_TEST_BGE_BASE_EN_15);
+    put("beir-scifact-bge-base-en-v1.5", BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15);
+  }};
+
+  static public Topics getByName(String name) {
+    try {
+      return Topics.valueOf(name);
+    } catch (IllegalArgumentException e) {
+      if (ALIASES.containsKey(name)) {
+        return ALIASES.get(name);
+      }
+
+      return null;
+    }
   }
 }
