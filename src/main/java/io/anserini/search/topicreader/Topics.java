@@ -596,6 +596,36 @@ public enum Topics {
     put("beir-climate-fever", BEIR_V1_0_0_CLIMATE_FEVER_TEST);
     put("beir-scifact", BEIR_V1_0_0_SCIFACT_TEST);
 
+    put("beir-trec-covid-splade-pp-ed", BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_PP_ED);
+    put("beir-bioasq-splade-pp-ed", BEIR_V1_0_0_BIOASQ_TEST_SPLADE_PP_ED);
+    put("beir-nfcorpus-splade-pp-ed", BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_PP_ED);
+    put("beir-nq-splade-pp-ed", BEIR_V1_0_0_NQ_TEST_SPLADE_PP_ED);
+    put("beir-hotpotqa-splade-pp-ed", BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_PP_ED);
+    put("beir-fiqa-splade-pp-ed", BEIR_V1_0_0_FIQA_TEST_SPLADE_PP_ED);
+    put("beir-signal1m-splade-pp-ed", BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_PP_ED);
+    put("beir-trec-news-splade-pp-ed", BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_PP_ED);
+    put("beir-robust04-splade-pp-ed", BEIR_V1_0_0_ROBUST04_TEST_SPLADE_PP_ED);
+    put("beir-arguana-splade-pp-ed", BEIR_V1_0_0_ARGUANA_TEST_SPLADE_PP_ED);
+    put("beir-webis-touche2020-splade-pp-ed", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-android-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-english-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-gaming-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-gis-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-mathematica-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-physics-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-programmers-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-stats-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-tex-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-unix-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-webmasters-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_PP_ED);
+    put("beir-cqadupstack-wordpress-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_PP_ED);
+    put("beir-quora-splade-pp-ed", BEIR_V1_0_0_QUORA_TEST_SPLADE_PP_ED);
+    put("beir-dbpedia-entity-splade-pp-ed", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_PP_ED);
+    put("beir-scidocs-splade-pp-ed", BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_PP_ED);
+    put("beir-fever-splade-pp-ed", BEIR_V1_0_0_FEVER_TEST_SPLADE_PP_ED);
+    put("beir-climate-fever-splade-pp-ed", BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_PP_ED);
+    put("beir-scifact-splade-pp-ed", BEIR_V1_0_0_SCIFACT_TEST_SPLADE_PP_ED);
+
     put("beir-trec-covid-bge-base-en-v1.5", BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15);
     put("beir-bioasq-bge-base-en-v1.5", BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15);
     put("beir-nfcorpus-bge-base-en-v1.5", BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15);
