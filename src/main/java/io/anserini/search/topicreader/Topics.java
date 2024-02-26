@@ -566,6 +566,36 @@ public enum Topics {
     put("trec2020-dl-bge-base-en-v1.5",         TREC2020_DL_BGE_BASE_EN_15);
     put("dl20-passage-bge-base-en-v1.5",        TREC2020_DL_BGE_BASE_EN_15);
 
+    put("beir-trec-covid", BEIR_V1_0_0_TREC_COVID_TEST);
+    put("beir-bioasq", BEIR_V1_0_0_BIOASQ_TEST);
+    put("beir-nfcorpus", BEIR_V1_0_0_NFCORPUS_TEST);
+    put("beir-nq", BEIR_V1_0_0_NQ_TEST);
+    put("beir-hotpotqa", BEIR_V1_0_0_HOTPOTQA_TEST);
+    put("beir-fiqa", BEIR_V1_0_0_FIQA_TEST);
+    put("beir-signal1m", BEIR_V1_0_0_SIGNAL1M_TEST);
+    put("beir-trec-news", BEIR_V1_0_0_TREC_NEWS_TEST);
+    put("beir-robust04", BEIR_V1_0_0_ROBUST04_TEST);
+    put("beir-arguana", BEIR_V1_0_0_ARGUANA_TEST);
+    put("beir-webis-touche2020", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST);
+    put("beir-cqadupstack-android", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST);
+    put("beir-cqadupstack-english", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST);
+    put("beir-cqadupstack-gaming", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST);
+    put("beir-cqadupstack-gis", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST);
+    put("beir-cqadupstack-mathematica", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST);
+    put("beir-cqadupstack-physics", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST);
+    put("beir-cqadupstack-programmers", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST);
+    put("beir-cqadupstack-stats", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST);
+    put("beir-cqadupstack-tex", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST);
+    put("beir-cqadupstack-unix", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST);
+    put("beir-cqadupstack-webmasters", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST);
+    put("beir-cqadupstack-wordpress", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST);
+    put("beir-quora", BEIR_V1_0_0_QUORA_TEST);
+    put("beir-dbpedia-entity", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST);
+    put("beir-scidocs", BEIR_V1_0_0_SCIDOCS_TEST);
+    put("beir-fever", BEIR_V1_0_0_FEVER_TEST);
+    put("beir-climate-fever", BEIR_V1_0_0_CLIMATE_FEVER_TEST);
+    put("beir-scifact", BEIR_V1_0_0_SCIFACT_TEST);
+
     put("beir-trec-covid-bge-base-en-v1.5", BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15);
     put("beir-bioasq-bge-base-en-v1.5", BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15);
     put("beir-nfcorpus-bge-base-en-v1.5", BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15);
