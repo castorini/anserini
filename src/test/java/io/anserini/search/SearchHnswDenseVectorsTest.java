@@ -145,7 +145,7 @@ public class SearchHnswDenseVectorsTest {
     redirectStderr();
     SearchHnswDenseVectors.main(searchArgs);
 
-    assertEquals("Error: \"fake/topics/here\" does not appear to be a valid topics file.\n", err.toString());
+    assertEquals("Error: \"fake/topics/here\" does not refer to valid topics.\n", err.toString());
     restoreStderr();
   }
 
