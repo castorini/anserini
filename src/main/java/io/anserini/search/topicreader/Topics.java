@@ -535,14 +535,14 @@ public enum Topics {
 
   // Alternative, more readable names.
   static private Map<String, Topics> ALIASES  = new HashMap<>() {{
-    put("msmarco-passage-dev",                 MSMARCO_PASSAGE_DEV_SUBSET);
-    put("msmarco-v1-passage-dev",              MSMARCO_PASSAGE_DEV_SUBSET);
-    put("msmarco-passage-splade-pp-ed",        MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
-    put("msmarco-v1-passage-splade-pp-ed",     MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
-    put("msmarco-passage-cos-dpr-distil",      MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
-    put("msmarco-v1-passage-cos-dpr-distil",   MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
-    put("msmarco-passage-bge-base-en-v1.5",    MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
-    put("msmarco-v1-passage-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    put("msmarco-passage-dev",                     MSMARCO_PASSAGE_DEV_SUBSET);
+    put("msmarco-v1-passage-dev",                  MSMARCO_PASSAGE_DEV_SUBSET);
+    put("msmarco-passage-dev-splade-pp-ed",        MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    put("msmarco-v1-passage-dev-splade-pp-ed",     MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    put("msmarco-passage-dev-cos-dpr-distil",      MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    put("msmarco-v1-passage-dev-cos-dpr-distil",   MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    put("msmarco-passage-dev-bge-base-en-v1.5",    MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    put("msmarco-v1-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
 
     put("trec2019-dl-passage",                  TREC2019_DL_PASSAGE);
     put("dl19-passage",                         TREC2019_DL_PASSAGE);
