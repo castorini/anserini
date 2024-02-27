@@ -22,7 +22,7 @@ Assuming you've already got Java installed, fetch the fatjar:
 wget https://repo1.maven.org/maven2/io/anserini/anserini/0.24.2/anserini-0.24.2-fatjar.jar
 ```
 
-The follow commands will generate a SPLADE++ ED run with the dev queries on the MS MARCO passage corpus:
+The follow commands will generate a SPLADE++ ED run with the dev queries (encoded using ONNX) on the MS MARCO passage corpus:
 
 ```bash
 java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection \
@@ -52,7 +52,7 @@ Currently, Anserini provides support for the following models:
 + cosDPR-distil: pre-encoded queries and ONNX query encoding
 + BGE-base-en-v1.5: pre-encoded queries and ONNX query encoding
 
-The following snippet will generate the complete set of results for BEIR:
+The following snippet will generate the complete set of results for MS MARCO passage:
 
 ```bash
 # BM25
