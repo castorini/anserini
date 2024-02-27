@@ -40,7 +40,7 @@ wget https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-an
 java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
 ```
 
-See below for instructions on using Anserini to reproduce runs from MS MARCO and BEIR, all directly from the fatjar!
+See below for instructions on using Anserini to reproduce runs from MS MARCO passage and BEIR, all directly from the fatjar!
 
 <details>
 <summary>Regressions directly from the fatjar: MS MARCO passage</summary>
