@@ -96,7 +96,7 @@ do
     java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5-quantized-onnx.txt -threads 16 -efSearch 1000
 done
 ```
-Here are the expected scores (dev measured in terms of MRR@10, DL19 and DL20 measured in terms of nDCG@10):
+Here are the expected scores (dev using MRR@10, DL19 and DL20 using nDCG@10):
 
 |                                                |    dev |   DL19 |   DL20 |
 |:-----------------------------------------------|-------:|-------:|-------:|
@@ -163,14 +163,14 @@ java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passa
 
 Currently, Anserini provides support for the following models:
 
-+ Flat = "flat" bag-of-words baseline
-+ MF = "multifield" bag-of-words baseline
++ Flat = BM25, "flat" bag-of-words baseline
++ MF = BM25, "multifield" bag-of-words baseline
 + S = SPLADE++ EnsembleDistil:
   + Pre-encoded queries (Sp)
-  + On-the-fly query encoding using ONNX (So)
+  + ONNX query encoding (So)
 + D = BGE-base-en-v1.5
   + Pre-encoded queries (Dp)
-  + On-the-fly query encoding using ONNX (Do)
+  + ONNX query encoding (Do)
 
 The following snippet will generate the complete set of results for BEIR:
 
