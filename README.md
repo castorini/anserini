@@ -29,7 +29,7 @@ java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection \
   -index msmarco-v1-passage-splade-pp-ed \
   -topics msmarco-v1-passage-dev \
   -encoder SpladePlusPlusEnsembleDistil \
-  -output run.msmacro-dev.splade-pp-ed-onnx.txt \
+  -output run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt \
   -impact -pretokenized
 ```
 
