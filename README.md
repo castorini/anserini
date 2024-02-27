@@ -96,21 +96,21 @@ do
     java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5-quantized-onnx.txt -threads 16 -efSearch 1000
 done
 ```
-Here are the expected scores:
+Here are the expected scores (dev measured in terms of MRR@10, DL19 and DL20 measured in terms of nDCG@10):
 
-|                                                        | dev (MRR@10) | DL19 (nDCG@10) | DL20 (nDCG@10) |
-|:-------------------------------------------------------|-------------:|---------------:|---------------:|
-| BM25                                                   |       0.1840 |         0.5058 |         0.4796 |
-| SPLADE++ ED (pre-encoded)                              |       0.3830 |         0.7317 |         0.7198 |
-| SPLADE++ ED (ONNX)                                     |       0.3828 |         0.7308 |         0.7197 |
-| cos-DPR: full HSNW indexes (pre-encoded)               |       0.3887 |         0.7250 |         0.7025 |
-| cos-DPR: quantized HNSW indexes (pre-encoded)          |       0.3897 |         0.7240 |         0.7004 |
-| cos-DPR: full HSNW indexes (ONNX)                      |       0.3887 |         0.7250 |         0.7025 |
-| cos-DPR: quantized HNSW indexes (ONNX)                 |       0.3899 |         0.7247 |         0.6996 |
-| BGE-base-en-v1.5: full HSNW indexes (pre-encoded)      |       0.3574 |         0.7065 |         0.6780 |
-| BGE-base-en-v1.5: quantized HSNW indexes (pre-encoded) |       0.3572 |         0.7016 |         0.6738 |
-| BGE-base-en-v1.5: full HSNW indexes (ONNX)             |       0.3575 |         0.7016 |         0.6768 |
-| BGE-base-en-v1.5: quantized HSNW indexes (ONNX)        |       0.3575 |         0.7017 |         0.6767 |
+|                                                |    dev |   DL19 |   DL20 |
+|:-----------------------------------------------|-------:|-------:|-------:|
+| BM25                                           | 0.1840 | 0.5058 | 0.4796 |
+| SPLADE++ ED (pre-encoded)                      | 0.3830 | 0.7317 | 0.7198 |
+| SPLADE++ ED (ONNX)                             | 0.3828 | 0.7308 | 0.7197 |
+| cos-DPR: full HNSW (pre-encoded)               | 0.3887 | 0.7250 | 0.7025 |
+| cos-DPR: quantized HNSW (pre-encoded)          | 0.3897 | 0.7240 | 0.7004 |
+| cos-DPR: full HNSW ONNX)                       | 0.3887 | 0.7250 | 0.7025 |
+| cos-DPR: quantized HNSW (ONNX)                 | 0.3899 | 0.7247 | 0.6996 |
+| BGE-base-en-v1.5: full HNSW (pre-encoded)      | 0.3574 | 0.7065 | 0.6780 |
+| BGE-base-en-v1.5: quantized HNSW (pre-encoded) | 0.3572 | 0.7016 | 0.6738 |
+| BGE-base-en-v1.5: full HNSW (ONNX)             | 0.3575 | 0.7016 | 0.6768 |
+| BGE-base-en-v1.5: quantized HNSW (ONNX)        | 0.3575 | 0.7017 | 0.6767 |
 
 And here's the snippet of code to perform the evaluation (which will yield the results above):
 
