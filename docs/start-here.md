@@ -152,25 +152,9 @@ Bringing together everything we've discussed so far, a test collection consists 
 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
-If you want to contribute to this project, you can use a "fork and pull request" workflow as follows (more info can be found [here](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project)):
-
-1. Navigate to the [anserini](https://github.com/castorini/anserini) project (the workflow can be used for the [pyserini](https://github.com/castorini/pyserini) project as well).
-2. In the top-right corner of the page, click Fork.
-3. Clone your fork (replace `YOUR-USERNAME` with yours):
-
-```bash
-git clone https://github.com/YOUR-USERNAME/anserini.git
-```
-
-Otherwise (i.e., if you don't want to contribute), simply clone the main repository:
-
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
 ```bash
 git clone https://github.com/castorini/anserini.git
-```
-
-In any case, get its `tools` submodule:
-
-```bash
 cd anserini
 git submodule update --init --recursive
 ```
@@ -384,4 +368,3 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@ASChampOmega](https://github.com/ASChampOmega) on 2024-02-23 (commit [`f0b37dd`](https://github.com/castorini/anserini/commit/f0b37dd28ffec543a9ef107a52297b30199b69f1))
 + Results reproduced by [@17Melissa](https://github.com/17Melissa) on 2024-02-23 (commit [`084deb9`](https://github.com/castorini/anserini/commit/084deb97fe886b9062d005edcdc3982b2e65ce3f))
 + Results reproduced by [@HaeriAmin](https://github.com/haeriamin) on 2024-02-26 (commit [`e91cd20`](https://github.com/castorini/anserini/commit/e91cd205230cbb04c14f71eee276511ea1f1316a))
-
