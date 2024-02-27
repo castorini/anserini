@@ -18,14 +18,9 @@ See [Yang et al. (SIGIR 2017)](https://dl.acm.org/doi/10.1145/3077136.3080721) a
 Most Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
 If you're more comfortable with Python, start there, although Anserini forms an important building block of Pyserini, so it remains worthwhile to learn about Anserini.
 
-<!--
-If you're looking for basic indexing and search capabilities, you might want to start there.
-A low-effort way to try out Anserini is to look at our [online notebooks](https://github.com/castorini/anserini-notebooks), which will allow you to get started with just a few clicks.
--->
-
 You'll need Java 11 and Maven 3.3+ to build Anserini.
 Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned (alternatively, use `git submodule update --init`).
-Then, build using using Maven:
+Then, build using Maven:
 
 ```
 mvn clean package appassembler:assemble
@@ -393,6 +388,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
++ v0.24.2: February 27, 2024 [[Release Notes](docs/release-notes/release-notes-v0.24.2.md)]
 + v0.24.1: January 27, 2024 [[Release Notes](docs/release-notes/release-notes-v0.24.1.md)]
 + v0.24.0: December 28, 2023 [[Release Notes](docs/release-notes/release-notes-v0.24.0.md)]
 + v0.23.0: November 16, 2023 [[Release Notes](docs/release-notes/release-notes-v0.23.0.md)]
