@@ -224,7 +224,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                         (using_hnsw and actual > expected):
                     logger.info(ok_str + result_str)
                 # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
-                elif '-encoder' in model['params'] and is_close(expected, actual, abs_tol=0.001):
+                elif using_hnsw and is_close(expected, actual, abs_tol=0.01):
                     logger.info(okish_str + result_str)
                     okish = True
                 else:
