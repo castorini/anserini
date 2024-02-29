@@ -26,10 +26,17 @@ def run_command(cmd):
     except subprocess.CalledProcessError as e:
         print(f"Error executing the command: {e}")
 
+output = run_command("ls logs/log.* | wc")
+num_regressions = re.search(r'\d+', output.rstrip()).group()
+print(f'Total regressions: {int(num_regressions) : >3}')
 
 output = run_command("tail -n 1 logs/log.* | grep 'Passed' | wc")
-num_regressions = re.search(r'\d+', output.rstrip()).group()
-print(f'Found log files for {num_regressions} regression runs.')
+num_regressions = int(re.search(r'\d+', output.rstrip()).group())
+print(f' - Passed:         {int(num_regressions) : >3}')
+
+output = run_command("tail -n 1 logs/log.* | grep 'OK\*' | wc")
+num_regressions = int(re.search(r'\d+', output.rstrip()).group())
+print(f' - OK:             {int(num_regressions) : >3}')
 
 output = run_command('head -n 1 logs/log.* | grep python | sort | head -1')
 start_date_str = ' '.join(output.split(' ')[:2])
