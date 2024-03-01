@@ -66,6 +66,20 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5-int8.20240117.53514b.tar.gz" },
       "51261598a7a108e88fa854971637b39c"),
 
+  MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30("msmarco-v1-passage-cohere-embed-english-v3.0",
+      "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
+      "lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0.20240228.eacd13.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
+      "eb551aaa3a0d1f14abdc00083db4cbbc"),
+
+  MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_QUANTIZED("msmarco-v1-passage-cohere-embed-english-v3.0-quantized",
+      "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
+      "lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0-int8.20240228.eacd13.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0-int8.20240228.eacd13.tar.gz" },
+      "cc7f0b2bcdacf1e0dd5d247c52906f12"),
+
   // BEIR: flat
   BEIR_V1_0_0_TREC_COVID_FLAT("beir-v1.0.0-trec-covid.flat",
       "Lucene inverted 'flat' index of BEIR collection 'trec-covid'.",

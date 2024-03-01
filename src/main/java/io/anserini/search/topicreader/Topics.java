@@ -64,6 +64,7 @@ public enum Topics {
   TREC2019_DL_PASSAGE_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl19-passage.splade-pp-sd.tsv.gz"),
   TREC2019_DL_PASSAGE_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl19-passage.cos-dpr-distil.jsonl.gz"),
   TREC2019_DL_PASSAGE_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.dl19-passage.bge-base-en-v1.5.jsonl.gz"),
+  TREC2019_DL_PASSAGE_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz"),
   TREC2020_DL(TsvIntTopicReader.class,"topics.dl20.txt"),
   TREC2020_DL_WP(TsvIntTopicReader.class,"topics.dl20.wp.tsv.gz"),
   TREC2020_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl20.unicoil.0shot.tsv.gz"),
@@ -73,6 +74,7 @@ public enum Topics {
   TREC2020_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl20.splade-pp-sd.tsv.gz"),
   TREC2020_DL_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl20.cos-dpr-distil.jsonl.gz"),
   TREC2020_DL_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.dl20.bge-base-en-v1.5.jsonl.gz"),
+  TREC2020_DL_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.dl20.cohere-embed-english-v3.0.jsonl.gz"),
   TREC2021_DL(TsvIntTopicReader.class,"topics.dl21.txt"),
   TREC2021_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl21.unicoil.0shot.tsv.gz"),
   TREC2021_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl21.unicoil-noexp.0shot.tsv.gz"),
@@ -102,6 +104,7 @@ public enum Topics {
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade-pp-sd.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.gz"),
   MSMARCO_PASSAGE_TEST_SUBSET(TsvIntTopicReader.class, "topics.msmarco-passage.test-subset.txt"),
 
   // MS MARCO V2 topics
@@ -535,36 +538,44 @@ public enum Topics {
 
   // Alternative, more readable names.
   static private Map<String, Topics> ALIASES  = new HashMap<>() {{
-    put("msmarco-passage-dev",                     MSMARCO_PASSAGE_DEV_SUBSET);
-    put("msmarco-v1-passage-dev",                  MSMARCO_PASSAGE_DEV_SUBSET);
-    put("msmarco-passage-dev-splade-pp-ed",        MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
-    put("msmarco-v1-passage-dev-splade-pp-ed",     MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
-    put("msmarco-passage-dev-cos-dpr-distil",      MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
-    put("msmarco-v1-passage-dev-cos-dpr-distil",   MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
-    put("msmarco-passage-dev-bge-base-en-v1.5",    MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
-    put("msmarco-v1-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    put("msmarco-passage-dev",                              MSMARCO_PASSAGE_DEV_SUBSET);
+    put("msmarco-v1-passage-dev",                           MSMARCO_PASSAGE_DEV_SUBSET);
+    put("msmarco-passage-dev-splade-pp-ed",                 MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    put("msmarco-v1-passage-dev-splade-pp-ed",              MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    put("msmarco-passage-dev-cos-dpr-distil",               MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    put("msmarco-v1-passage-dev-cos-dpr-distil",            MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    put("msmarco-passage-dev-bge-base-en-v1.5",             MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    put("msmarco-v1-passage-dev-bge-base-en-v1.5",          MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    put("msmarco-passage-dev-cohere-embed-english-v3.0",    MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+    put("msmarco-v1-passage-dev-cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
 
-    put("trec2019-dl-passage",                  TREC2019_DL_PASSAGE);
-    put("dl19-passage",                         TREC2019_DL_PASSAGE);
-    put("trec2019-dl-passage-splade-pp-ed",     TREC2019_DL_PASSAGE_SPLADE_PP_ED);
-    put("dl19-passage-splade-pp-ed",            TREC2019_DL_PASSAGE_SPLADE_PP_ED);
-    put("trec2019-dl-passage-cos-dpr-distil",   TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
-    put("dl19-passage-cos-dpr-distil",          TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
-    put("trec2019-dl-passage-bge-base-en-v1.5", TREC2019_DL_PASSAGE_BGE_BASE_EN_15);
-    put("dl19-passage-bge-base-en-v1.5",        TREC2019_DL_PASSAGE_BGE_BASE_EN_15);
+    put("trec2019-dl-passage",                           TREC2019_DL_PASSAGE);
+    put("dl19-passage",                                  TREC2019_DL_PASSAGE);
+    put("trec2019-dl-passage-splade-pp-ed",              TREC2019_DL_PASSAGE_SPLADE_PP_ED);
+    put("dl19-passage-splade-pp-ed",                     TREC2019_DL_PASSAGE_SPLADE_PP_ED);
+    put("trec2019-dl-passage-cos-dpr-distil",            TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
+    put("dl19-passage-cos-dpr-distil",                   TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
+    put("trec2019-dl-passage-bge-base-en-v1.5",          TREC2019_DL_PASSAGE_BGE_BASE_EN_15);
+    put("dl19-passage-bge-base-en-v1.5",                 TREC2019_DL_PASSAGE_BGE_BASE_EN_15);
+    put("trec2019-dl-passage-cohere-embed-english-v3.0", TREC2019_DL_PASSAGE_COHERE_EMBED_ENGLISH_30);
+    put("dl19-passage-cohere-embed-english-v3.0",        TREC2019_DL_PASSAGE_COHERE_EMBED_ENGLISH_30);
 
-    put("trec2020-dl-passage",                  TREC2020_DL);
-    put("trec2020-dl",                          TREC2020_DL);
-    put("dl20-passage",                         TREC2020_DL);
-    put("trec2020-dl-passage-splade-pp-ed",     TREC2020_DL_SPLADE_PP_ED);
-    put("trec2020-dl-splade-pp-ed",             TREC2020_DL_SPLADE_PP_ED);
-    put("dl20-passage-splade-pp-ed",            TREC2020_DL_SPLADE_PP_ED);
-    put("trec2020-dl-passage-cos-dpr-distil",   TREC2020_DL_COS_DPR_DISTIL);
-    put("trec2020-dl-cos-dpr-distil",           TREC2020_DL_COS_DPR_DISTIL);
-    put("dl20-passage-cos-dpr-distil",          TREC2020_DL_COS_DPR_DISTIL);
-    put("trec2020-dl-passage-bge-base-en-v1.5", TREC2020_DL_BGE_BASE_EN_15);
-    put("trec2020-dl-bge-base-en-v1.5",         TREC2020_DL_BGE_BASE_EN_15);
-    put("dl20-passage-bge-base-en-v1.5",        TREC2020_DL_BGE_BASE_EN_15);
+    put("trec2020-dl-passage",                           TREC2020_DL);
+    put("trec2020-dl",                                   TREC2020_DL);
+    put("dl20-passage",                                  TREC2020_DL);
+    put("trec2020-dl-passage-splade-pp-ed",              TREC2020_DL_SPLADE_PP_ED);
+    put("trec2020-dl-splade-pp-ed",                      TREC2020_DL_SPLADE_PP_ED);
+    put("dl20-passage-splade-pp-ed",                     TREC2020_DL_SPLADE_PP_ED);
+    put("trec2020-dl-passage-cos-dpr-distil",            TREC2020_DL_COS_DPR_DISTIL);
+    put("trec2020-dl-cos-dpr-distil",                    TREC2020_DL_COS_DPR_DISTIL);
+    put("dl20-passage-cos-dpr-distil",                   TREC2020_DL_COS_DPR_DISTIL);
+    put("trec2020-dl-passage-bge-base-en-v1.5",          TREC2020_DL_BGE_BASE_EN_15);
+    put("trec2020-dl-bge-base-en-v1.5",                  TREC2020_DL_BGE_BASE_EN_15);
+    put("dl20-passage-bge-base-en-v1.5",                 TREC2020_DL_BGE_BASE_EN_15);
+    put("trec2020-dl-passage-cohere-embed-english-v3.0", TREC2020_DL_COHERE_EMBED_ENGLISH_30);
+    put("trec2020-dl-cohere-embed-english-v3.0",         TREC2020_DL_COHERE_EMBED_ENGLISH_30);
+    put("dl20-passage-cohere-embed-english-v3.0",        TREC2020_DL_COHERE_EMBED_ENGLISH_30);
+
 
     put("beir-trec-covid", BEIR_V1_0_0_TREC_COVID_TEST);
     put("beir-bioasq", BEIR_V1_0_0_BIOASQ_TEST);
