@@ -132,7 +132,7 @@ public abstract class TopicReader<K> {
       TopicReader<K> reader = (TopicReader<K>) ctors[0].newInstance(Paths.get("."));
       return reader.read(new BufferedReader(new InputStreamReader(inputStream)));
     } catch (Exception e) {
-      return null;
+      throw new IOException("Unable to read topics: " + topics);
     }
   }
 
@@ -221,7 +221,7 @@ public abstract class TopicReader<K> {
    * @return Path to the local copy of the topics
    * @throws IOException if error encountered downloading topics
    */
-  public static Path getTopicsFromCloud(Path topicPath) throws IOException{
+  public static Path downloadTopics(Path topicPath) throws IOException{
     String topicURL = SERVER_PATH + topicPath.getFileName().toString();
     System.out.println("Downloading topics from " + topicURL);
     File topicFile = new File(getCacheDir(), topicPath.getFileName().toString());
@@ -261,7 +261,7 @@ public abstract class TopicReader<K> {
     
     Path resultPath = getNewTopicsAbsPath(topicPath);
     if (!Files.exists(resultPath)) {
-      resultPath = getTopicsFromCloud(topicPath);
+      resultPath = downloadTopics(topicPath);
     }
     return resultPath;
   }
