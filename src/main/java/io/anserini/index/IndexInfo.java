@@ -24,6 +24,7 @@ public enum IndexInfo {
           "https://github.com/castorini/anserini-data/raw/master/CACM/lucene-index.cacm.20221005.252b5e.tar.gz" },
       "cfe14d543c6a27f4d742fb2d0099b8e0"),
 
+  // MS MARCO V1
   MSMARCO_V1_PASSAGE("msmarco-v1-passage",
       "Lucene index of the MS MARCO V1 passage corpus.",
       "lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz",
@@ -79,6 +80,21 @@ public enum IndexInfo {
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0-int8.20240228.eacd13.tar.gz" },
       "cc7f0b2bcdacf1e0dd5d247c52906f12"),
+
+  // MS MARCO V2
+  MSMARCO_V2_PASSAGE("msmarco-v2-passage",
+      "Lucene index of the MS MARCO V2 passage corpus.",
+      "lucene-index.msmarco-v2-passage.20220808.4d6d2a.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-passage.20220808.4d6d2a.tar.gz" },
+      "eacd8556dd416ccad517b5e7dc97bceb"),
+
+  MSMARCO_V2_DOC("msmarco-v2-doc",
+      "Lucene index of the MS MARCO V2 document corpus.",
+      "lucene-index.msmarco-v2-doc.20220808.4d6d2a.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-doc.20220808.4d6d2a.tar.gz" },
+      "0599bd6ed5ee28390b279eb398ef0267"),
 
   // BEIR: flat
   BEIR_V1_0_0_TREC_COVID_FLAT("beir-v1.0.0-trec-covid.flat",
