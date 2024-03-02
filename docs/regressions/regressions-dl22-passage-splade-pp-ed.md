@@ -119,10 +119,6 @@ target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/q
 target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed+rocchio.topics.dl22.splade-pp-ed.txt
 ```
 
-Note that the TREC 2022 passage qrels are not publicly available (yet).
-However, if you are a participant, you can download them from the NIST "active participants" site.
-Place the qrels file in `tools/topics-and-qrels/qrels.dl22-passage.txt` for the above evaluation commands to work.
-
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:

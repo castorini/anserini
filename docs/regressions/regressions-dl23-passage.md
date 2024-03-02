@@ -3,9 +3,9 @@
 **Models**: various bag-of-words approaches on original passages
 
 This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 Passage Corpus.
+For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl23-passage.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl23-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

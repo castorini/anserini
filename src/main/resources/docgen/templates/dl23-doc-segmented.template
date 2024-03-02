@@ -1,16 +1,18 @@
-# Anserini Regressions: TREC 2021 Deep Learning Track (Document)
+# Anserini Regressions: TREC 2023 Deep Learning Track (Document)
 
-**Models**: BM25 on complete documents with doc2query-T5 expansions
+**Models**: various bag-of-words approaches on segmented documents
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 document collection (with doc2query-T5 expansions).
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 _segmented_ document collection.
 For additional instructions on working with MS MARCO V2 document collection, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+However, it is important to understand that these document judgments were inferred from the passages.
+That is, if a passage is relevant, the document containing it is considered relevant.
 
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
-+ **Indexing Condition:** each document in the MS MARCO V2 document collection is treated as a unit of indexing
-+ **Expansion Condition:** doc2query-T5
++ **Indexing Condition:** each segment in the MS MARCO V2 _segmented_ document collection is treated as a unit of indexing
++ **Expansion Condition:** none
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -37,8 +39,8 @@ For additional details, see explanation of [common indexing options](${root_path
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+The regression experiments here evaluate on the 82 topics for which NIST has provided these _inferred_ judgments as part of the TREC 2023 Deep Learning Track.
+The original data can be found [here](https://trec.nist.gov/data/deep2023.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -57,8 +59,3 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
-
-+ `d_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
-+ `d_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
