@@ -46,7 +46,7 @@ topic_reader: JsonIntVector
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
-    path: topics.dl20-passage.cohere-embed-english-v3.0.jsonl.gz
+    path: topics.dl20.cohere-embed-english-v3.0.jsonl.gz
     qrel: qrels.dl20-passage.txt
 
 models:
