@@ -1,8 +1,8 @@
-# Anserini Regressions: TREC 2022 Deep Learning Track (Passage)
+# Anserini Regressions: TREC 2023 Deep Learning Track (Passage)
 
 **Models**: various bag-of-words approaches on original passages
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2 Passage Corpus.
+This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 Passage Corpus.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
@@ -32,7 +32,7 @@ For additional details, see explanation of [common indexing options](${root_path
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 76 topics for which NIST has provided judgments as part of the [TREC 2022 Deep Learning Track](https://trec.nist.gov/data/deep2022.html).
+The regression experiments here evaluate on the 82 topics for which NIST has provided judgments as part of the [TREC 2023 Deep Learning Track](https://trec.nist.gov/data/deep2023.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -51,23 +51,3 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-The "BM25 (default)" condition corresponds to the `p_bm25` run submitted to the TREC 2022 Deep Learning Track as a "baseline".
-As of [`91ec67`](https://github.com/castorini/anserini/commit/91ec6749bfef206e210bcc1df8cd4060e7d7aaff), this correspondence was _exact_.
-That is, modulo the runtag and the number of hits, the output runfile should be identical.
-This can be confirmed as follows:
-
-```bash
-# Trim out the runtag:
-cut -d ' ' -f 1-5 runs/p_bm25 > runs/p_bm25.submitted.cut
-
-# Trim out the runtag and retain only top 100 hits per query:
-python tools/scripts/trim_run_to_top_k.pl --k 100 --input runs/run.msmarco-v2-passage.dl22.bm25-default --output runs/run.msmarco-v2-passage.dl22.bm25-default.hits100
-cut -d ' ' -f 1-5 runs/run.msmarco-v2-passage.dl22.bm25-default.hits100 > runs/p_bm25.new.cut
-
-# Verify the two runfiles are identical:
-diff runs/p_bm25.submitted.cut runs/p_bm25.new.cut
-```
-
-The "BM25 + RM3" and "BM25 + Rocchio" conditions above correspond to the `p_bm25rm3` run and the `p_bm25rocchio` run submitted to the TREC 2022 Deep Learning Track as "baselines".
-However, due to [`a60e84`](https://github.com/castorini/anserini/commit/a60e842e9b47eca0ad5266659081fe1180c96b7f), the results are slightly different (because the underlying implementation changed).

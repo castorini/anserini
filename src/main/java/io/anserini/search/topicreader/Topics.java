@@ -85,7 +85,7 @@ public enum Topics {
   TREC2022_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl22.unicoil-noexp.0shot.tsv.gz"),
   TREC2022_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl22.splade-pp-ed.tsv.gz"),
   TREC2022_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl22.splade-pp-sd.tsv.gz"),
-  TREC2023_DL(TsvIntTopicReader.class,"topics.dl23.txt"),
+  TREC2023_DL(TsvIntTopicReader.class, "topics.dl23.txt"),
 
   // MS MARCO V1 topics
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-doc.dev.txt"),
