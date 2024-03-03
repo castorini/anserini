@@ -4,6 +4,7 @@
 
 This page describes regression experiments for passage ranking _on the augmented version_ of the MS MARCO V2 Passage Corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we expand the augmented passage corpus with doc2query-T5.
+For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v2-passage-augmented-d2q-t5.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v2-passage-augmented-d2q-t5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

@@ -4,7 +4,7 @@
 
 This page describes regression experiments for document ranking on the MS MARCO (V2) document corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we cover bag-of-words baselines.
-For more complete instructions on how to run end-to-end experiments, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
+For additional instructions on working with MS MARCO V2 document collection, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

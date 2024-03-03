@@ -15,6 +15,8 @@ This regression captures the latter title/segment encoding, which for clarity we
 The segment-only encoding results are deprecated and kept around primarily for archival purposes and ablation experiments.
 You probably don't want to use them.
 
+For additional instructions on working with MS MARCO V2 document collection, refer to [this page](../../docs/experiments-msmarco-v2.md).
+
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v2-doc-segmented-unicoil-0shot-v2.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v2-doc-segmented-unicoil-0shot-v2.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
