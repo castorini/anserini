@@ -2,15 +2,16 @@
 
 **Model**: uniCOIL (with doc2query-T5 expansions) zero-shot
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 Passage Corpus.
+This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 passage corpus.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with doc2query-T5 expansions.
 
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
+For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
+
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -21,7 +22,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
-We make available a version of the MS MARCO passage corpus that has already been processed with uniCOIL, i.e., we have applied doc2query-T5 expansions, performed model inference on every document, and stored the output sparse vectors.
+We make available a version of the corpus that has already been processed with uniCOIL, i.e., we have applied doc2query-T5 expansions, performed model inference on every document, and stored the output sparse vectors.
 Thus, no neural inference is involved.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
@@ -73,8 +74,7 @@ For additional details, see explanation of [common indexing options](${root_path
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 53 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+The regression experiments here evaluate on the 53 topics for which NIST has provided judgments as part of the [TREC 2021 Deep Learning Track](https://trec.nist.gov/data/deep2021.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

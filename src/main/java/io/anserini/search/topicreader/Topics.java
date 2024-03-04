@@ -85,6 +85,7 @@ public enum Topics {
   TREC2022_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl22.unicoil-noexp.0shot.tsv.gz"),
   TREC2022_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl22.splade-pp-ed.tsv.gz"),
   TREC2022_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl22.splade-pp-sd.tsv.gz"),
+  TREC2023_DL(TsvIntTopicReader.class, "topics.dl23.txt"),
 
   // MS MARCO V1 topics
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-doc.dev.txt"),
@@ -576,6 +577,28 @@ public enum Topics {
     put("trec2020-dl-cohere-embed-english-v3.0",         TREC2020_DL_COHERE_EMBED_ENGLISH_30);
     put("dl20-passage-cohere-embed-english-v3.0",        TREC2020_DL_COHERE_EMBED_ENGLISH_30);
 
+    put("msmarco-v2-passage-dev",  MSMARCO_V2_PASSAGE_DEV);
+    put("msmarco-v2-passage-dev2", MSMARCO_V2_PASSAGE_DEV2);
+    put("msmarco-v2-doc-dev",  MSMARCO_V2_DOC_DEV);
+    put("msmarco-v2-doc-dev2", MSMARCO_V2_DOC_DEV2);
+
+    put("trec2021-dl",         TREC2021_DL);
+    put("trec2021-dl-passage", TREC2021_DL);
+    put("dl21-passage",        TREC2021_DL);
+    put("trec2021-dl-doc",     TREC2021_DL);
+    put("dl21-doc",            TREC2021_DL);
+
+    put("trec2022-dl",         TREC2022_DL);
+    put("trec2022-dl-passage", TREC2022_DL);
+    put("dl22-passage",        TREC2022_DL);
+    put("trec2022-dl-doc",     TREC2022_DL);
+    put("dl22-doc",            TREC2022_DL);
+
+    put("trec2023-dl",         TREC2023_DL);
+    put("trec2023-dl-passage", TREC2023_DL);
+    put("dl23-passage",        TREC2023_DL);
+    put("trec2023-dl-doc",     TREC2023_DL);
+    put("dl23-doc",            TREC2023_DL);
 
     put("beir-trec-covid", BEIR_V1_0_0_TREC_COVID_TEST);
     put("beir-bioasq", BEIR_V1_0_0_BIOASQ_TEST);
