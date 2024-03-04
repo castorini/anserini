@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(469, cnt);
+    assertEquals(470, cnt);
   }
 
   @Test
@@ -455,7 +455,7 @@ public class TopicReaderTest {
 
   @Test
   public void testCAR() throws IOException {
-    SortedMap<Integer, Map<String, String>> topics;
+    SortedMap<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.CAR17V15_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
@@ -935,6 +935,20 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testTREC23DL() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2023_DL);
+    assertNotNull(topics);
+    assertEquals(700, topics.size());
+    assertEquals(2000138, (int) topics.firstKey());
+    assertEquals("How does the process of digestion and metabolism of carbohydrates start", topics.get(topics.firstKey()).get("title"));
+    assertEquals(3100949, (int) topics.lastKey());
+    assertEquals("How do birth control and hormone levels affect menstrual cycle variations?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("How do birth control and hormone levels affect menstrual cycle variations?", topics.get(3100949).get("title"));
+  }
+
+  @Test
   public void testMSMARCO_V1() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
@@ -1271,8 +1285,8 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNonEnglishTopics() throws IOException {
-    SortedMap<Integer, Map<String, String>> topics;
+  public void testNonEnglishTopics1() throws IOException {
+    SortedMap<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.NTCIR8_ZH);
     assertNotNull(topics);
@@ -1289,6 +1303,11 @@ public class TopicReaderTest {
     assertEquals("Les Produits Nestlé", topics.get(topics.firstKey()).get("title"));
     assertEquals("350-AH", topics.lastKey());
     assertEquals("Le Décès d'Ayrton Senna", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testNonEnglishTopics2() throws IOException {
+      SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2002_AR);
     assertNotNull(topics);
@@ -1372,7 +1391,7 @@ public class TopicReaderTest {
 
   @Test
   public void testCovidTopics() throws IOException {
-    Map<String, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     // Round 1
     topics = TopicReader.getTopics(Topics.COVID_ROUND1);
@@ -1417,7 +1436,7 @@ public class TopicReaderTest {
 
   @Test
   public void testCovidTopicsUDel() throws IOException {
-    Map<String, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     // Round 1
     topics = TopicReader.getTopics(Topics.COVID_ROUND1_UDEL);
@@ -1889,6 +1908,7 @@ public class TopicReaderTest {
     assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15).keySet().size());
   }
 
+  @Test
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
     Map<String, Map<String, String>> topics;
 

@@ -248,6 +248,15 @@ python src/main/python/run_regression.py --search --regression dl22-passage-unic
 python src/main/python/run_regression.py --search --regression dl22-passage-splade-pp-ed > logs/log.dl22-passage-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --search --regression dl22-passage-splade-pp-sd > logs/log.dl22-passage-splade-pp-sd 2>&1
 
+python src/main/python/run_regression.py --search --regression dl22-doc > logs/log.dl22-doc 2>&1
+python src/main/python/run_regression.py --search --regression dl22-doc-segmented > logs/log.dl22-doc-segmented 2>&1
+
+python src/main/python/run_regression.py --search --regression dl23-passage > logs/log.dl23-passage 2>&1
+python src/main/python/run_regression.py --search --regression dl23-passage-augmented > logs/log.dl23-passage-augmented 2>&1
+
+python src/main/python/run_regression.py --search --regression dl23-doc > logs/log.dl23-doc 2>&1
+python src/main/python/run_regression.py --search --regression dl23-doc-segmented > logs/log.dl23-doc-segmented 2>&1
+
 # CIRAL
 python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-ha > logs/log.ciral-v1.0-ha 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-so > logs/log.ciral-v1.0-so 2>&1
