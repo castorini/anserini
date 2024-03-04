@@ -2,14 +2,14 @@
 
 **Model**: uniCOIL (without any expansions) zero-shot
 
-This page describes regression experiments for passage ranking on the MS MARCO V2 Passage Corpus using the dev queries, which is integrated into Anserini's regression testing framework.
+This page describes regression experiments for passage ranking on the MS MARCO V2 passage corpus using the dev queries, which is integrated into Anserini's regression testing framework.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, without any expansions.
 
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
-For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
+For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

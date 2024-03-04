@@ -2,7 +2,7 @@
 
 **Model**: uniCOIL (without any expansions) zero-shot on segmented documents (title/segment encoding)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document collection.
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document corpus.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, without any expansions.
 
 The uniCOIL model is described in the following paper:
@@ -15,7 +15,7 @@ This regression captures the latter title/segment encoding, which for clarity we
 The segment-only encoding results are deprecated and kept around primarily for archival purposes and ablation experiments.
 You probably don't want to use them.
 
-For additional instructions on working with MS MARCO V2 document collection, refer to [this page](../../docs/experiments-msmarco-v2.md).
+For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 

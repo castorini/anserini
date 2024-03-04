@@ -2,8 +2,8 @@
 
 **Models**: various bag-of-words approaches on complete documents
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 document collection.
-For additional instructions on working with MS MARCO V2 document collection, refer to [this page](../../docs/experiments-msmarco-v2.md).
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 document corpus.
+For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 However, it is important to understand that these document judgments were inferred from the passages.
@@ -11,7 +11,7 @@ That is, if a passage is relevant, the document containing it is considered rele
 
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
-+ **Indexing Condition:** each document in the MS MARCO V2 document collection is treated as a unit of indexing
++ **Indexing Condition:** each document in the MS MARCO V2 document corpus is treated as a unit of indexing
 + **Expansion Condition:** none
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl23-doc.yaml).
