@@ -2,14 +2,14 @@
 
 **Models**: BM25 on segmented documents with doc2query-T5 expansions
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document collection (with doc2query-T5 expansions).
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document corpus (with doc2query-T5 expansions).
+For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO V2 document collection, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
-+ **Indexing Condition:** each segment in the MS MARCO V2 _segmented_ document collection is treated as a unit of indexing
++ **Indexing Condition:** each segment in the MS MARCO V2 _segmented_ document corpus is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl21-doc-segmented-d2q-t5.yaml).
@@ -43,8 +43,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the [TREC 2021 Deep Learning Track](https://trec.nist.gov/data/deep2021.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

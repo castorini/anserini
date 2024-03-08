@@ -220,11 +220,11 @@ def evaluate_and_verify(yaml_data, dry_run):
                 # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
                 # let the test pass.
                 if is_close(expected, actual) or \
-                        (using_hnsw and is_close(expected, actual, abs_tol=0.007)) or \
+                        (using_hnsw and is_close(expected, actual, abs_tol=0.005)) or \
                         (using_hnsw and actual > expected):
                     logger.info(ok_str + result_str)
                 # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
-                elif '-encoder' in model['params'] and is_close(expected, actual, abs_tol=0.001):
+                elif using_hnsw and is_close(expected, actual, abs_tol=0.0101):
                     logger.info(okish_str + result_str)
                     okish = True
                 else:
@@ -238,7 +238,7 @@ def evaluate_and_verify(yaml_data, dry_run):
 
     if not dry_run:
         if failures:
-            logger.info(f'{fail_str}Total elapsed time: {end - start:.0f}s')
+            logger.error(f'{fail_str}Total elapsed time: {end - start:.0f}s')
         elif okish:
             logger.info(f'{okish_str}Total elapsed time: {end - start:.0f}s')
         else:

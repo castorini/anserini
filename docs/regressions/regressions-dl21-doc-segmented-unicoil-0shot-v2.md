@@ -2,7 +2,7 @@
 
 **Model**: uniCOIL (with doc2query-T5 expansions) zero-shot on segmented documents (title/segment encoding)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document collection.
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document corpus.
 Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with doc2query-T5 expansions.
 
 The uniCOIL model is described in the following paper:
@@ -15,8 +15,9 @@ This regression captures the latter title/segment encoding, which for clarity we
 The segment-only encoding results are deprecated and kept around primarily for archival purposes and ablation experiments.
 You probably don't want to use them.
 
+For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
+
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO V2 document collection, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl21-doc-segmented-unicoil-0shot-v2.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-0shot-v2.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -85,8 +86,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the TREC 2021 Deep Learning Track.
-The original data can be found [here](https://trec.nist.gov/data/deep2021.html).
+The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the [TREC 2021 Deep Learning Track](https://trec.nist.gov/data/deep2021.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

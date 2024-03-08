@@ -2,10 +2,10 @@
 
 **Models**: BM25 with doc2query-T5 expansions on original passages
 
-This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2 Passage Corpus.
+This page describes document expansion experiments (with doc2query-T5), integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2 passage corpus.
+For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with the MS MARCO V2 Passage Corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl22-passage-d2q-t5.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl22-passage-d2q-t5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -86,10 +86,6 @@ target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels
 target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rocchio.topics.dl22.txt
 target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-d2q-t5.bm25-default+rocchio.topics.dl22.txt
 ```
-
-Note that the TREC 2022 passage qrels are not publicly available (yet).
-However, if you are a participant, you can download them from the NIST "active participants" site.
-Place the qrels file in `tools/topics-and-qrels/qrels.dl22-passage.txt` for the above evaluation commands to work.
 
 ## Effectiveness
 

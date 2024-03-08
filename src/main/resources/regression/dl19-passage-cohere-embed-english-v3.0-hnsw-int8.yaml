@@ -1,11 +1,11 @@
 ---
-corpus: msmarco-passage-cohere-embed-english-v3
-corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3/
+corpus: msmarco-passage-cohere-embed-english-v3.0
+corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3.0/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.tar
-download_checksum: 6b7d9795806891b227378f6c290464a9
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.tar
+download_checksum: 06a6e38a0522850c6aa504db7b2617f5
 
-index_path: indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3-int8/
+index_path: indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3.0-int8/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator 
@@ -44,22 +44,22 @@ metrics:
 
 topic_reader: JsonIntVector
 topics:
-  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl20
-    path: topics.dl20-passage.cohere-embed-english-v3.jsonl.gz
-    qrel: qrels.dl20-passage.txt
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl19
+    path: topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz
+    qrel: qrels.dl19-passage.txt
 
 models:
-  - name: cohere-embed-english-v3
-    display: cohere-embed-english-v3
+  - name: cohere-embed-english-v3.0
+    display: cohere-embed-english-v3.0
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
     results:
       AP@1000:
-        - 0.505
+        - 0.487
       nDCG@10:
-        - 0.722
+        - 0.690
       R@100:
-        - 0.720
+        - 0.647
       R@1000:
-        - 0.858
+        - 0.850

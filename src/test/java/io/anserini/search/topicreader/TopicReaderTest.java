@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(466, cnt);
+    assertEquals(470, cnt);
   }
 
   @Test
@@ -455,7 +455,7 @@ public class TopicReaderTest {
 
   @Test
   public void testCAR() throws IOException {
-    SortedMap<Integer, Map<String, String>> topics;
+    SortedMap<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.CAR17V15_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
@@ -745,6 +745,14 @@ public class TopicReaderTest {
     assertEquals("[0.021483641117811203", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals("[0.031006483361124992", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_COHERE_EMBED_ENGLISH_30);
+    assertNotNull(topics);
+    assertEquals(43, topics.size());
+    assertEquals(19335, (int) topics.firstKey());
+    assertEquals("[-0.010772705", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1133167, (int) topics.lastKey());
+    assertEquals("[0.016159058", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -824,6 +832,14 @@ public class TopicReaderTest {
     assertEquals("[-0.002988815074786544", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals(1136962, (int) topics.lastKey());
     assertEquals("[0.008107579313218594", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
+    topics = TopicReader.getTopics(Topics.TREC2020_DL_COHERE_EMBED_ENGLISH_30);
+    assertNotNull(topics);
+    assertEquals(200, topics.size());
+    assertEquals(3505, (int) topics.firstKey());
+    assertEquals("[0.008285522", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1136962, (int) topics.lastKey());
+    assertEquals("[0.0056495667", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -916,6 +932,20 @@ public class TopicReaderTest {
     assertEquals(31052, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(2056473, (int) topics.lastKey());
     assertEquals(33891, topics.get(topics.lastKey()).get("title").split(" ").length);
+  }
+
+  @Test
+  public void testTREC23DL() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2023_DL);
+    assertNotNull(topics);
+    assertEquals(700, topics.size());
+    assertEquals(2000138, (int) topics.firstKey());
+    assertEquals("How does the process of digestion and metabolism of carbohydrates start", topics.get(topics.firstKey()).get("title"));
+    assertEquals(3100949, (int) topics.lastKey());
+    assertEquals("How do birth control and hormone levels affect menstrual cycle variations?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("How do birth control and hormone levels affect menstrual cycle variations?", topics.get(3100949).get("title"));
   }
 
   @Test
@@ -1050,6 +1080,14 @@ public class TopicReaderTest {
     assertEquals("[-0.009533700533211231", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals("[0.0019505455857142806", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+    assertNotNull(topics);
+    assertEquals(6980, topics.size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals("[0.00864410400390625", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1102400, (int) topics.lastKey());
+    assertEquals("[0.0107421875", topics.get(topics.lastKey()).get("vector").split(",")[0]);
 
     topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_TEST_SUBSET);
     assertNotNull(topics);
@@ -1247,8 +1285,8 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testNonEnglishTopics() throws IOException {
-    SortedMap<Integer, Map<String, String>> topics;
+  public void testNonEnglishTopics1() throws IOException {
+    SortedMap<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.NTCIR8_ZH);
     assertNotNull(topics);
@@ -1265,6 +1303,11 @@ public class TopicReaderTest {
     assertEquals("Les Produits Nestlé", topics.get(topics.firstKey()).get("title"));
     assertEquals("350-AH", topics.lastKey());
     assertEquals("Le Décès d'Ayrton Senna", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testNonEnglishTopics2() throws IOException {
+      SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2002_AR);
     assertNotNull(topics);
@@ -1348,7 +1391,7 @@ public class TopicReaderTest {
 
   @Test
   public void testCovidTopics() throws IOException {
-    Map<String, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     // Round 1
     topics = TopicReader.getTopics(Topics.COVID_ROUND1);
@@ -1393,7 +1436,7 @@ public class TopicReaderTest {
 
   @Test
   public void testCovidTopicsUDel() throws IOException {
-    Map<String, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     // Round 1
     topics = TopicReader.getTopics(Topics.COVID_ROUND1_UDEL);
@@ -1865,6 +1908,7 @@ public class TopicReaderTest {
     assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15).keySet().size());
   }
 
+  @Test
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
     Map<String, Map<String, String>> topics;
 

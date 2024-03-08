@@ -1,5 +1,5 @@
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cohere-embed-english-v3-hnsw > logs/log.msmarco-passage-cohere-embed-english-v3-hnsw 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cohere-embed-english-v3-hnsw-int8 > logs/log.msmarco-passage-cohere-embed-english-v3-hnsw-int8 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cohere-embed-english-v3.0-hnsw > logs/log.msmarco-passage-cohere-embed-english-v3.0-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cohere-embed-english-v3.0-hnsw-int8 > logs/log.msmarco-passage-cohere-embed-english-v3.0-hnsw-int8 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bge-base-en-v1.5-hnsw > logs/log.msmarco-passage-bge-base-en-v1.5-hnsw 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bge-base-en-v1.5-hnsw-int8 > logs/log.msmarco-passage-bge-base-en-v1.5-hnsw-int8 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw > logs/log.msmarco-passage-cos-dpr-distil-hnsw 2>&1
@@ -148,8 +148,8 @@ python src/main/python/run_regression.py --search --regression dl19-passage-cos-
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-fw > logs/log.dl19-passage-cos-dpr-distil-fw 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-lexlsh > logs/log.dl19-passage-cos-dpr-distil-lexlsh 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-openai-ada2 > logs/log.dl19-passage-openai-ada2 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-cohere-embed-english-v3-hnsw > logs/log.dl19-passage-cohere-embed-english-v3-hnsw 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-cohere-embed-english-v3-hnsw-int8 > logs/log.dl19-passage-cohere-embed-english-v3-hnsw-int8 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-cohere-embed-english-v3.0-hnsw > logs/log.dl19-passage-cohere-embed-english-v3.0-hnsw 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-cohere-embed-english-v3.0-hnsw-int8 > logs/log.dl19-passage-cohere-embed-english-v3.0-hnsw-int8 2>&1
 
 python src/main/python/run_regression.py --search --regression dl19-passage-unicoil > logs/log.dl19-passage-unicoil 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-unicoil-noexp > logs/log.dl19-passage-unicoil-noexp 2>&1
@@ -186,8 +186,8 @@ python src/main/python/run_regression.py --search --regression dl20-passage-cos-
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-fw > logs/log.dl20-passage-cos-dpr-distil-fw 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-lexlsh > logs/log.dl20-passage-cos-dpr-distil-lexlsh 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-openai-ada2 > logs/log.dl20-passage-openai-ada2 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-cohere-embed-english-v3-hnsw > logs/log.dl20-passage-cohere-embed-english-v3-hnsw 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-cohere-embed-english-v3-hnsw-int8 > logs/log.dl20-passage-cohere-embed-english-v3-hnsw-int8 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-cohere-embed-english-v3.0-hnsw > logs/log.dl20-passage-cohere-embed-english-v3.0-hnsw 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-cohere-embed-english-v3.0-hnsw-int8 > logs/log.dl20-passage-cohere-embed-english-v3.0-hnsw-int8 2>&1
 
 python src/main/python/run_regression.py --search --regression dl20-passage-unicoil > logs/log.dl20-passage-unicoil 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-unicoil-noexp > logs/log.dl20-passage-unicoil-noexp 2>&1
@@ -247,6 +247,15 @@ python src/main/python/run_regression.py --search --regression dl22-passage-unic
 
 python src/main/python/run_regression.py --search --regression dl22-passage-splade-pp-ed > logs/log.dl22-passage-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --search --regression dl22-passage-splade-pp-sd > logs/log.dl22-passage-splade-pp-sd 2>&1
+
+python src/main/python/run_regression.py --search --regression dl22-doc > logs/log.dl22-doc 2>&1
+python src/main/python/run_regression.py --search --regression dl22-doc-segmented > logs/log.dl22-doc-segmented 2>&1
+
+python src/main/python/run_regression.py --search --regression dl23-passage > logs/log.dl23-passage 2>&1
+python src/main/python/run_regression.py --search --regression dl23-passage-augmented > logs/log.dl23-passage-augmented 2>&1
+
+python src/main/python/run_regression.py --search --regression dl23-doc > logs/log.dl23-doc 2>&1
+python src/main/python/run_regression.py --search --regression dl23-doc-segmented > logs/log.dl23-doc-segmented 2>&1
 
 # CIRAL
 python src/main/python/run_regression.py --index --verify --search --regression ciral-v1.0-ha > logs/log.ciral-v1.0-ha 2>&1

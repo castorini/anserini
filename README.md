@@ -13,19 +13,245 @@ Among other goals, our effort aims to be [the opposite of this](http://phdcomics
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/doi/10.1145/3077136.3080721) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/doi/10.1145/3239571) for overviews.
 
-## 🎬 Getting Started
+## 💥 Try It!
+
+Anserini is packaged in a self-contained fatjar, which also provides the simplest way to get started.
+Assuming you've already got Java installed, fetch the fatjar:
+
+```bash
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.24.2/anserini-0.24.2-fatjar.jar
+```
+
+The follow commands will generate a SPLADE++ ED run with the dev queries (encoded using ONNX) on the MS MARCO passage corpus:
+
+```bash
+java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection \
+  -index msmarco-v1-passage-splade-pp-ed \
+  -topics msmarco-v1-passage-dev \
+  -encoder SpladePlusPlusEnsembleDistil \
+  -output run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt \
+  -impact -pretokenized
+```
+
+To evaluate:
+
+```bash
+wget https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
+```
+
+See below for instructions on using Anserini to reproduce runs from MS MARCO passage and BEIR, all directly from the fatjar!
+
+<details>
+<summary>Regressions directly from the fatjar: MS MARCO passage</summary>
+
+Currently, Anserini provides support for the following models:
+
++ BM25
++ SPLADE++ EnsembleDistil: pre-encoded queries and ONNX query encoding
++ cosDPR-distil: pre-encoded queries and ONNX query encoding
++ BGE-base-en-v1.5: pre-encoded queries and ONNX query encoding
+
+The following snippet will generate the complete set of results for MS MARCO passage:
+
+```bash
+# BM25
+TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection -index msmarco-v1-passage -topics ${t} -output run.${t}.bm25.txt -threads 16 -bm25
+done
+
+# SPLADE++ ED
+TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    # Using pre-encoded queries
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection -index msmarco-v1-passage-splade-pp-ed -topics ${t}-splade-pp-ed -output run.${t}.splade-pp-ed-pre.txt -threads 16 -impact -pretokenized
+    # Using ONNX
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection -index msmarco-v1-passage-splade-pp-ed -topics ${t} -encoder SpladePlusPlusEnsembleDistil -output run.${t}.splade-pp-ed-onnx.txt -threads 16 -impact -pretokenized
+done
+
+# cosDPR-distil
+TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    # Using pre-encoded queries, full index
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topics ${t}-cos-dpr-distil -output run.${t}.cos-dpr-distil-full-pre.txt -threads 16 -efSearch 1000
+    # Using pre-encoded queries, quantized index
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil-quantized -topics ${t}-cos-dpr-distil -output run.${t}.cos-dpr-distil-quantized-pre.txt -threads 16 -efSearch 1000
+    # Using ONNX, full index
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil-full-onnx.txt -threads 16 -efSearch 1000
+    # Using ONNX, quantized index
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil-quantized -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil-quantized-onnx.txt -threads 16 -efSearch 1000
+done
+
+# BGE-base-en-v1.5
+TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    # Using pre-encoded queries, full index
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5 -topics ${t}-bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5-full-pre.txt -threads 16 -efSearch 1000
+    # Using pre-encoded queries, quantized index
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t}-bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5-quantized-pre.txt -threads 16 -efSearch 1000
+    # Using ONNX, full index
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5 -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5-full-onnx.txt -threads 16 -efSearch 1000
+    # Using ONNX, quantized index
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5-quantized-onnx.txt -threads 16 -efSearch 1000
+done
+```
+Here are the expected scores (dev using MRR@10, DL19 and DL20 using nDCG@10):
+
+|                                                |    dev |   DL19 |   DL20 |
+|:-----------------------------------------------|-------:|-------:|-------:|
+| BM25                                           | 0.1840 | 0.5058 | 0.4796 |
+| SPLADE++ ED (pre-encoded)                      | 0.3830 | 0.7317 | 0.7198 |
+| SPLADE++ ED (ONNX)                             | 0.3828 | 0.7308 | 0.7197 |
+| cos-DPR: full HNSW (pre-encoded)               | 0.3887 | 0.7250 | 0.7025 |
+| cos-DPR: quantized HNSW (pre-encoded)          | 0.3897 | 0.7240 | 0.7004 |
+| cos-DPR: full HNSW ONNX)                       | 0.3887 | 0.7250 | 0.7025 |
+| cos-DPR: quantized HNSW (ONNX)                 | 0.3899 | 0.7247 | 0.6996 |
+| BGE-base-en-v1.5: full HNSW (pre-encoded)      | 0.3574 | 0.7065 | 0.6780 |
+| BGE-base-en-v1.5: quantized HNSW (pre-encoded) | 0.3572 | 0.7016 | 0.6738 |
+| BGE-base-en-v1.5: full HNSW (ONNX)             | 0.3575 | 0.7016 | 0.6768 |
+| BGE-base-en-v1.5: quantized HNSW (ONNX)        | 0.3575 | 0.7017 | 0.6767 |
+
+And here's the snippet of code to perform the evaluation (which will yield the results above):
+
+```bash
+wget https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+wget https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/qrels.dl19-passage.txt
+wget https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/qrels.dl20-passage.txt
+
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bm25.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bm25.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bm25.txt
+
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed-onnx.txt
+
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-full-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-full-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-full-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-quantized-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-quantized-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-quantized-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-full-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-full-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-full-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-quantized-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-quantized-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-quantized-onnx.txt
+
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-full-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-full-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-full-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-quantized-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-quantized-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-quantized-pre.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-full-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-full-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-full-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-quantized-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-quantized-onnx.txt
+java -cp anserini-0.24.2-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-quantized-onnx.txt
+```
+
+</details>
+<details>
+<summary>Regressions directly from the fatjar: BEIR</summary>
+
+Currently, Anserini provides support for the following models:
+
++ Flat = BM25, "flat" bag-of-words baseline
++ MF = BM25, "multifield" bag-of-words baseline
++ S = SPLADE++ EnsembleDistil:
+  + Pre-encoded queries (Sp)
+  + ONNX query encoding (So)
++ D = BGE-base-en-v1.5
+  + Pre-encoded queries (Dp)
+  + ONNX query encoding (Do)
+
+The following snippet will generate the complete set of results for BEIR:
+
+```bash
+CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
+do
+    # "flat" indexes
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.flat -topics beir-${c} -output run.beir.${c}.flat.txt -bm25 -removeQuery
+    # "multifield" indexes
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.multifield -topics beir-${c} -output run.beir.${c}.multifield.txt -bm25 -removeQuery -fields contents=1.0 title=1.0
+    # SPLADE++ ED, pre-encoded queries
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output run.beir.${c}.splade-pp-ed-pre.txt -impact -pretokenized -removeQuery
+    # SPLADE++ ED, ONNX
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output run.beir.${c}.splade-pp-ed-onnx.txt -impact -pretokenized -removeQuery
+    # BGE-base-en-v1.5, pre-encoded queries
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c}.bge-base-en-v1.5 -output run.beir.${c}.bge-pre.txt -threads 16 -efSearch 1000 -removeQuery
+    # BGE-base-en-v1.5, ONNX
+    java -cp anserini-0.24.2-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c} -encoder BgeBaseEn15 -output run.beir.${c}.bge-onnx.txt -threads 16 -efSearch 1000 -removeQuery
+done
+```
+
+Here are the expected nDCG@10 scores:
+
+| Corpus                     |   Flat |     MF |     Sp |     So |     Dp |     Do |
+|:---------------------------|-------:|-------:|-------:|-------:|-------:|-------:|
+| `trec-covid`               | 0.5947 | 0.6559 | 0.7274 | 0.7270 | 0.7834 | 0.7835 |
+| `bioasq`                   | 0.5225 | 0.4646 | 0.4980 | 0.4980 | 0.4042 | 0.4042 |
+| `nfcorpus`                 | 0.3218 | 0.3254 | 0.3470 | 0.3473 | 0.3735 | 0.3738 |
+| `nq`                       | 0.3055 | 0.3285 | 0.5378 | 0.5372 | 0.5413 | 0.5415 |
+| `hotpotqa`                 | 0.6330 | 0.6027 | 0.6868 | 0.6868 | 0.7242 | 0.7241 |
+| `fiqa`                     | 0.2361 | 0.2361 | 0.3475 | 0.3473 | 0.4065 | 0.4065 |
+| `signal1m`                 | 0.3304 | 0.3304 | 0.3008 | 0.3006 | 0.2869 | 0.2869 |
+| `trec-news`                | 0.3952 | 0.3977 | 0.4152 | 0.4169 | 0.4411 | 0.4410 |
+| `robust04`                 | 0.4070 | 0.4070 | 0.4679 | 0.4651 | 0.4467 | 0.4437 |
+| `arguana`                  | 0.3970 | 0.4142 | 0.5203 | 0.5218 | 0.6361 | 0.6228 |
+| `webis-touche2020`         | 0.4422 | 0.3673 | 0.2468 | 0.2464 | 0.2570 | 0.2571 |
+| `cqadupstack-android`      | 0.3801 | 0.3709 | 0.3904 | 0.3898 | 0.5075 | 0.5076 |
+| `cqadupstack-english`      | 0.3453 | 0.3321 | 0.4079 | 0.4078 | 0.4855 | 0.4855 |
+| `cqadupstack-gaming`       | 0.4822 | 0.4418 | 0.4957 | 0.4959 | 0.5965 | 0.5967 |
+| `cqadupstack-gis`          | 0.2901 | 0.2904 | 0.3150 | 0.3148 | 0.4129 | 0.4133 |
+| `cqadupstack-mathematica`  | 0.2015 | 0.2046 | 0.2377 | 0.2379 | 0.3163 | 0.3163 |
+| `cqadupstack-physics`      | 0.3214 | 0.3248 | 0.3599 | 0.3597 | 0.4722 | 0.4724 |
+| `cqadupstack-programmers`  | 0.2802 | 0.2963 | 0.3401 | 0.3399 | 0.4242 | 0.4238 |
+| `cqadupstack-stats`        | 0.2711 | 0.2790 | 0.2990 | 0.2980 | 0.3731 | 0.3728 |
+| `cqadupstack-tex`          | 0.2244 | 0.2086 | 0.2530 | 0.2529 | 0.3115 | 0.3115 |
+| `cqadupstack-unix`         | 0.2749 | 0.2788 | 0.3167 | 0.3170 | 0.4219 | 0.4220 |
+| `cqadupstack-webmasters`   | 0.3059 | 0.3008 | 0.3167 | 0.3166 | 0.4065 | 0.4072 |
+| `cqadupstack-wordpress`    | 0.2483 | 0.2562 | 0.2733 | 0.2718 | 0.3547 | 0.3547 |
+| `quora`                    | 0.7886 | 0.7886 | 0.8343 | 0.8344 | 0.8890 | 0.8876 |
+| `dbpedia-entity`           | 0.3180 | 0.3128 | 0.4366 | 0.4374 | 0.4077 | 0.4076 |
+| `scidocs`                  | 0.1490 | 0.1581 | 0.1591 | 0.1588 | 0.2170 | 0.2172 |
+| `fever`                    | 0.6513 | 0.7530 | 0.7882 | 0.7879 | 0.8620 | 0.8620 |
+| `climate-fever`            | 0.1651 | 0.2129 | 0.2297 | 0.2298 | 0.3119 | 0.3117 |
+| `scifact`                  | 0.6789 | 0.6647 | 0.7041 | 0.7036 | 0.7408 | 0.7408 |
+
+And here's the snippet of code to perform the evaluation (which will yield the results above):
+
+```bash
+CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
+do
+    wget https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/qrels.beir-v1.0.0-${c}.test.txt
+    echo $c
+    java -cp anserini-0.24.2-fatjar.jar trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt run.beir.${c}.flat.txt
+    java -cp anserini-0.24.2-fatjar.jar trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt run.beir.${c}.multifield.txt
+    java -cp anserini-0.24.2-fatjar.jar trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt run.beir.${c}.splade-pp-ed-pre.txt
+    java -cp anserini-0.24.2-fatjar.jar trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt run.beir.${c}.splade-pp-ed-onnx.txt
+    java -cp anserini-0.24.2-fatjar.jar trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt run.beir.${c}.bge-pre.txt
+    java -cp anserini-0.24.2-fatjar.jar trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt run.beir.${c}.bge-onnx.txt
+done
+```
+
+</details>
+
+## 🎬 Installation
 
 Most Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
 If you're more comfortable with Python, start there, although Anserini forms an important building block of Pyserini, so it remains worthwhile to learn about Anserini.
 
-<!--
-If you're looking for basic indexing and search capabilities, you might want to start there.
-A low-effort way to try out Anserini is to look at our [online notebooks](https://github.com/castorini/anserini-notebooks), which will allow you to get started with just a few clicks.
--->
-
 You'll need Java 11 and Maven 3.3+ to build Anserini.
 Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned (alternatively, use `git submodule update --init`).
-Then, build using using Maven:
+Then, build using Maven:
 
 ```
 mvn clean package appassembler:assemble
@@ -54,72 +280,70 @@ See [#1121](https://github.com/castorini/pyserini/discussions/1121) for addition
 
 </details>
 
-## ⚗️ Regression Experiments (+ Reproduction Guides)
+## ⚗️ End-to-End Regression Experiments
 
-Anserini is designed to support experiments on various standard IR test collections out of the box.
-The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini reproducibility promise](docs/regressions.md).
-For the most part, these runs are based on [_default_ parameter settings](src/main/java/io/anserini/search/SearchCollection.java).
-These pages can also serve as guides to reproduce our results.
-See individual pages for details!
+Anserini is designed to support end-to-end experiments on various standard IR test collections out of the box.
+Each of these [_end-to-end_ regressions](docs/regressions.md) starts from the raw corpus, builds the necessary index, performs retrieval runs, and generates evaluation results.
+See individual pages for details.
 
 <details>
 <summary>MS MARCO V1 Passage Regressions</summary>
 
 ### MS MARCO V1 Passage Regressions
 
-|                                            |                                          dev                                           |                                       DL19                                        |                                       DL20                                        |
-|--------------------------------------------|:--------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-| **Unsupervised Sparse**                    |                                                                                        |                                                                                   |                                                                                   |
-| BoW baselines                              |                  [+](docs/regressions/regressions-msmarco-passage.md)                  |                 [+](docs/regressions/regressions-dl19-passage.md)                 |                 [+](docs/regressions/regressions-dl20-passage.md)                 |
-| Quantized BM25                             |              [✓](docs/regressions/regressions-msmarco-passage-bm25-b8.md)              |             [✓](docs/regressions/regressions-dl19-passage-bm25-b8.md)             |             [✓](docs/regressions/regressions-dl20-passage-bm25-b8.md)             |
-| WP baselines                               |                [+](docs/regressions/regressions-msmarco-passage-wp.md)                 |               [+](docs/regressions/regressions-dl19-passage-wp.md)                |               [+](docs/regressions/regressions-dl20-passage-wp.md)                |
-| Huggingface WP baselines                   |              [+](docs/regressions/regressions-msmarco-passage-hgf-wp.md)               |             [+](docs/regressions/regressions-dl19-passage-hgf-wp.md)              |             [+](docs/regressions/regressions-dl20-passage-hgf-wp.md)              |
-| doc2query                                  |             [+](docs/regressions/regressions-msmarco-passage-doc2query.md)             |                                                                                   |                                                                                   |
-| doc2query-T5                               |           [+](docs/regressions/regressions-msmarco-passage-docTTTTTquery.md)           |          [+](docs/regressions/regressions-dl19-passage-docTTTTTquery.md)          |          [+](docs/regressions/regressions-dl20-passage-docTTTTTquery.md)          |
-| **Learned Sparse (uniCOIL family)**        |                                                                                        |                                                                                   |                                                                                   |
-| uniCOIL noexp                              |           [✓](docs/regressions/regressions-msmarco-passage-unicoil-noexp.md)           |          [✓](docs/regressions/regressions-dl19-passage-unicoil-noexp.md)          |          [✓](docs/regressions/regressions-dl20-passage-unicoil-noexp.md)          |
-| uniCOIL with doc2query-T5                  |              [✓](docs/regressions/regressions-msmarco-passage-unicoil.md)              |             [✓](docs/regressions/regressions-dl19-passage-unicoil.md)             |             [✓](docs/regressions/regressions-dl20-passage-unicoil.md)             |
-| uniCOIL with TILDE                         |      [✓](docs/regressions/regressions-msmarco-passage-unicoil-tilde-expansion.md)      |                                                                                   |                                                                                   |
-| **Learned Sparse (other)**                 |                                                                                        |                                                                                   |                                                                                   |
-| DeepImpact                                 |            [✓](docs/regressions/regressions-msmarco-passage-deepimpact.md)             |                                                                                   |                                                                                   |
-| SPLADEv2                                   |        [✓](docs/regressions/regressions-msmarco-passage-distill-splade-max.md)         |                                                                                   |                                                                                   |
-| SPLADE++ CoCondenser-EnsembleDistil        |           [✓](docs/regressions/regressions-msmarco-passage-splade-pp-ed.md)            |          [✓](docs/regressions/regressions-dl19-passage-splade-pp-ed.md)           |          [✓](docs/regressions/regressions-dl20-passage-splade-pp-ed.md)           |
-| SPLADE++ CoCondenser-EnsembleDistil (ONNX) |         [✓](docs/regressions/regressions-msmarco-passage-splade-pp-ed-onnx.md)         |        [✓](docs/regressions/regressions-dl19-passage-splade-pp-ed-onnx.md)        |        [✓](docs/regressions/regressions-dl20-passage-splade-pp-ed-onnx.md)        |
-| SPLADE++ CoCondenser-SelfDistil            |           [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd.md)            |          [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd.md)           |          [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd.md)           |
-| SPLADE++ CoCondenser-SelfDistil (ONNX)     |         [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd-onnx.md)         |        [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd-onnx.md)        |        [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd-onnx.md)        |
-| **Learned Dense** (HNSW)                   |                                                                                        |                                                                                   |                                                                                   |
-| cosDPR-distil w/ HNSW fp32                 |        [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw.md)        |       [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw.md)       |       [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw.md)       |
-| cosDPR-distil w/ HSNW fp32 (ONNX)          |     [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw-onnx.md)      |    [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw-onnx.md)     |    [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw-onnx.md)     |
-| cosDPR-distil w/ HNSW int8                 |     [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw-int8.md)      |    [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw-int8.md)     |    [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw-int8.md)     |
-| cosDPR-distil w/ HSNW int8 (ONNX)          |   [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw-int8-onnx.md)   |  [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw-int8-onnx.md)  |  [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw-int8-onnx.md)  |
-| BGE-base-en-v1.5 w/ HNSW fp32              |       [✓](docs/regressions/regressions-msmarco-passage-bge-base-en-v1.5-hnsw.md)       |      [✓](docs/regressions/regressions-dl19-passage-bge-base-en-v1.5-hnsw.md)      |      [✓](docs/regressions/regressions-dl20-passage-bge-base-en-v1.5-hnsw.md)      |
-| BGE-base-en-v1.5 w/ HNSW fp32 (ONNX)       |    [✓](docs/regressions/regressions-msmarco-passage-bge-base-en-v1.5-hnsw-onnx.md)     |   [✓](docs/regressions/regressions-dl19-passage-bge-base-en-v1.5-hnsw-onnx.md)    |   [✓](docs/regressions/regressions-dl20-passage-bge-base-en-v1.5-hnsw-onnx.md)    |
-| BGE-base-en-v1.5 w/ HNSW int8              |    [✓](docs/regressions/regressions-msmarco-passage-bge-base-en-v1.5-hnsw-int8.md)     |   [✓](docs/regressions/regressions-dl19-passage-bge-base-en-v1.5-hnsw-int8.md)    |   [✓](docs/regressions/regressions-dl20-passage-bge-base-en-v1.5-hnsw-int8.md)    |
-| BGE-base-en-v1.5 w/ HNSW int8 (ONNX)       |  [✓](docs/regressions/regressions-msmarco-passage-bge-base-en-v1.5-hnsw-int8-onnx.md)  | [✓](docs/regressions/regressions-dl19-passage-bge-base-en-v1.5-hnsw-int8-onnx.md) | [✓](docs/regressions/regressions-dl20-passage-bge-base-en-v1.5-hnsw-int8-onnx.md) |
-| OpenAI Ada2 w/ HNSW fp32                   |            [✓](docs/regressions/regressions-msmarco-passage-openai-ada2.md)            |           [✓](docs/regressions/regressions-dl19-passage-openai-ada2.md)           |           [✓](docs/regressions/regressions-dl20-passage-openai-ada2.md)           |
-| OpenAI Ada2 w/ HNSW int8                   |         [✓](docs/regressions/regressions-msmarco-passage-openai-ada2-int8.md)          |        [✓](docs/regressions/regressions-dl19-passage-openai-ada2-int8.md)         |        [✓](docs/regressions/regressions-dl20-passage-openai-ada2-int8.md)         |
-| Cohere English v3 w/ HNSW fp32             |   [✓](docs/regressions/regressions-msmarco-passage-cohere-embed-english-v3-hnsw.md)    |     [✓](docs/regressions/regressions-dl19-passage-cohere-embed-english-v3-hnsw.md)   |    [✓](docs/regressions/regressions-dl20-passage-cohere-embed-english-v3-hnsw.md)             |
-| Cohere English v3 w/ HNSW int8             | [✓](docs/regressions/regressions-msmarco-passage-cohere-embed-english-v3-hnsw-int8.md) |   [✓](docs/regressions/regressions-dl19-passage-cohere-embed-english-v3-hnsw-int8.md)  |   [✓](docs/regressions/regressions-dl20-passage-cohere-embed-english-v3-hnsw-int8.md)   |
-| **Learned Dense** (Inverted; experimental) |                                                                                        |                                                                                   |                                                                                   |
-| cosDPR-distil w/ "fake words"              |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-fw.md)         |        [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-fw.md)        |        [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-fw.md)        |
-| cosDPR-distil w/ "LexLSH"                  |       [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-lexlsh.md)       |      [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-lexlsh.md)      |      [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-lexlsh.md)      |
+|                                            |                                           dev                                            |                                         DL19                                          |                                         DL20                                          |
+|--------------------------------------------|:----------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------:|
+| **Unsupervised Sparse**                    |                                                                                          |                                                                                       |                                                                                       |
+| BoW baselines                              |                   [+](docs/regressions/regressions-msmarco-passage.md)                   |                   [+](docs/regressions/regressions-dl19-passage.md)                   |                   [+](docs/regressions/regressions-dl20-passage.md)                   |
+| Quantized BM25                             |               [✓](docs/regressions/regressions-msmarco-passage-bm25-b8.md)               |               [✓](docs/regressions/regressions-dl19-passage-bm25-b8.md)               |               [✓](docs/regressions/regressions-dl20-passage-bm25-b8.md)               |
+| WP baselines                               |                 [+](docs/regressions/regressions-msmarco-passage-wp.md)                  |                 [+](docs/regressions/regressions-dl19-passage-wp.md)                  |                 [+](docs/regressions/regressions-dl20-passage-wp.md)                  |
+| Huggingface WP baselines                   |               [+](docs/regressions/regressions-msmarco-passage-hgf-wp.md)                |               [+](docs/regressions/regressions-dl19-passage-hgf-wp.md)                |               [+](docs/regressions/regressions-dl20-passage-hgf-wp.md)                |
+| doc2query                                  |              [+](docs/regressions/regressions-msmarco-passage-doc2query.md)              |                                                                                       |                                                                                       |
+| doc2query-T5                               |            [+](docs/regressions/regressions-msmarco-passage-docTTTTTquery.md)            |            [+](docs/regressions/regressions-dl19-passage-docTTTTTquery.md)            |            [+](docs/regressions/regressions-dl20-passage-docTTTTTquery.md)            |
+| **Learned Sparse (uniCOIL family)**        |                                                                                          |                                                                                       |                                                                                       |
+| uniCOIL noexp                              |            [✓](docs/regressions/regressions-msmarco-passage-unicoil-noexp.md)            |            [✓](docs/regressions/regressions-dl19-passage-unicoil-noexp.md)            |            [✓](docs/regressions/regressions-dl20-passage-unicoil-noexp.md)            |
+| uniCOIL with doc2query-T5                  |               [✓](docs/regressions/regressions-msmarco-passage-unicoil.md)               |               [✓](docs/regressions/regressions-dl19-passage-unicoil.md)               |               [✓](docs/regressions/regressions-dl20-passage-unicoil.md)               |
+| uniCOIL with TILDE                         |       [✓](docs/regressions/regressions-msmarco-passage-unicoil-tilde-expansion.md)       |                                                                                       |                                                                                       |
+| **Learned Sparse (other)**                 |                                                                                          |                                                                                       |                                                                                       |
+| DeepImpact                                 |             [✓](docs/regressions/regressions-msmarco-passage-deepimpact.md)              |                                                                                       |                                                                                       |
+| SPLADEv2                                   |         [✓](docs/regressions/regressions-msmarco-passage-distill-splade-max.md)          |                                                                                       |                                                                                       |
+| SPLADE++ CoCondenser-EnsembleDistil        |            [✓](docs/regressions/regressions-msmarco-passage-splade-pp-ed.md)             |            [✓](docs/regressions/regressions-dl19-passage-splade-pp-ed.md)             |            [✓](docs/regressions/regressions-dl20-passage-splade-pp-ed.md)             |
+| SPLADE++ CoCondenser-EnsembleDistil (ONNX) |          [✓](docs/regressions/regressions-msmarco-passage-splade-pp-ed-onnx.md)          |          [✓](docs/regressions/regressions-dl19-passage-splade-pp-ed-onnx.md)          |          [✓](docs/regressions/regressions-dl20-passage-splade-pp-ed-onnx.md)          |
+| SPLADE++ CoCondenser-SelfDistil            |            [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd.md)             |            [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd.md)             |            [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd.md)             |
+| SPLADE++ CoCondenser-SelfDistil (ONNX)     |          [✓](docs/regressions/regressions-msmarco-passage-splade-pp-sd-onnx.md)          |          [✓](docs/regressions/regressions-dl19-passage-splade-pp-sd-onnx.md)          |          [✓](docs/regressions/regressions-dl20-passage-splade-pp-sd-onnx.md)          |
+| **Learned Dense** (HNSW)                   |                                                                                          |                                                                                       |                                                                                       |
+| cosDPR-distil w/ HNSW fp32                 |         [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw.md)         |         [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw.md)         |         [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw.md)         |
+| cosDPR-distil w/ HSNW fp32 (ONNX)          |      [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw-onnx.md)       |      [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw-onnx.md)       |      [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw-onnx.md)       |
+| cosDPR-distil w/ HNSW int8                 |      [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw-int8.md)       |      [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw-int8.md)       |      [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw-int8.md)       |
+| cosDPR-distil w/ HSNW int8 (ONNX)          |    [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-hnsw-int8-onnx.md)    |    [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-hnsw-int8-onnx.md)    |    [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-hnsw-int8-onnx.md)    |
+| BGE-base-en-v1.5 w/ HNSW fp32              |        [✓](docs/regressions/regressions-msmarco-passage-bge-base-en-v1.5-hnsw.md)        |        [✓](docs/regressions/regressions-dl19-passage-bge-base-en-v1.5-hnsw.md)        |        [✓](docs/regressions/regressions-dl20-passage-bge-base-en-v1.5-hnsw.md)        |
+| BGE-base-en-v1.5 w/ HNSW fp32 (ONNX)       |     [✓](docs/regressions/regressions-msmarco-passage-bge-base-en-v1.5-hnsw-onnx.md)      |     [✓](docs/regressions/regressions-dl19-passage-bge-base-en-v1.5-hnsw-onnx.md)      |     [✓](docs/regressions/regressions-dl20-passage-bge-base-en-v1.5-hnsw-onnx.md)      |
+| BGE-base-en-v1.5 w/ HNSW int8              |     [✓](docs/regressions/regressions-msmarco-passage-bge-base-en-v1.5-hnsw-int8.md)      |     [✓](docs/regressions/regressions-dl19-passage-bge-base-en-v1.5-hnsw-int8.md)      |     [✓](docs/regressions/regressions-dl20-passage-bge-base-en-v1.5-hnsw-int8.md)      |
+| BGE-base-en-v1.5 w/ HNSW int8 (ONNX)       |   [✓](docs/regressions/regressions-msmarco-passage-bge-base-en-v1.5-hnsw-int8-onnx.md)   |   [✓](docs/regressions/regressions-dl19-passage-bge-base-en-v1.5-hnsw-int8-onnx.md)   |   [✓](docs/regressions/regressions-dl20-passage-bge-base-en-v1.5-hnsw-int8-onnx.md)   |
+| OpenAI Ada2 w/ HNSW fp32                   |             [✓](docs/regressions/regressions-msmarco-passage-openai-ada2.md)             |             [✓](docs/regressions/regressions-dl19-passage-openai-ada2.md)             |             [✓](docs/regressions/regressions-dl20-passage-openai-ada2.md)             |
+| OpenAI Ada2 w/ HNSW int8                   |          [✓](docs/regressions/regressions-msmarco-passage-openai-ada2-int8.md)           |          [✓](docs/regressions/regressions-dl19-passage-openai-ada2-int8.md)           |          [✓](docs/regressions/regressions-dl20-passage-openai-ada2-int8.md)           |
+| Cohere English v3.0 w/ HNSW fp32           |   [✓](docs/regressions/regressions-msmarco-passage-cohere-embed-english-v3.0-hnsw.md)    |   [✓](docs/regressions/regressions-dl19-passage-cohere-embed-english-v3.0-hnsw.md)    |   [✓](docs/regressions/regressions-dl20-passage-cohere-embed-english-v3.0-hnsw.md)    |
+| Cohere English v3.0 w/ HNSW int8           | [✓](docs/regressions/regressions-msmarco-passage-cohere-embed-english-v3.0-hnsw-int8.md) | [✓](docs/regressions/regressions-dl19-passage-cohere-embed-english-v3.0-hnsw-int8.md) | [✓](docs/regressions/regressions-dl20-passage-cohere-embed-english-v3.0-hnsw-int8.md) |
+| **Learned Dense** (Inverted; experimental) |                                                                                          |                                                                                       |                                                                                       |
+| cosDPR-distil w/ "fake words"              |          [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-fw.md)          |          [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-fw.md)          |          [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-fw.md)          |
+| cosDPR-distil w/ "LexLSH"                  |        [✓](docs/regressions/regressions-msmarco-passage-cos-dpr-distil-lexlsh.md)        |        [✓](docs/regressions/regressions-dl19-passage-cos-dpr-distil-lexlsh.md)        |        [✓](docs/regressions/regressions-dl20-passage-cos-dpr-distil-lexlsh.md)        |
 
 ### Available Corpora for Download
 
-| Corpora                                                                                                            |   Size | Checksum                           |
-|:-------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
-| [Quantized BM25](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar)                    | 1.2 GB | `0a623e2c97ac6b7e814bf1323a97b435` |
-| [uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar)             | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
-| [uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar)                  | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
-| [uniCOIL (TILDE)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar)   | 3.9 GB | `12a9c289d94e32fd63a7d39c9677d75c` |
-| [DeepImpact](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar)                     | 3.6 GB | `73843885b503af3c8b3ee62e5f5a9900` |
-| [SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)               | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
-| [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)  | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
-| [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)      | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
-| [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar)                      |  57 GB | `e20ffbc8b5e7f760af31298aefeaebbd` |
-| [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar)                 |  59 GB | `353d2c9e72e858897ad479cca4ea0db1` |
-| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar)                           | 109 GB | `a4d843d522ff3a3af7edbee789a63402` |
-| [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.tar) |  38 GB | `6b7d9795806891b227378f6c290464a9` |
+| Corpora                                                                                                              |   Size | Checksum                           |
+|:---------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [Quantized BM25](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-bm25-b8.tar)                      | 1.2 GB | `0a623e2c97ac6b7e814bf1323a97b435` |
+| [uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar)               | 2.7 GB | `f17ddd8c7c00ff121c3c3b147d2e17d8` |
+| [uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar)                    | 3.4 GB | `78eef752c78c8691f7d61600ceed306f` |
+| [uniCOIL (TILDE)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-tilde-expansion.tar)     | 3.9 GB | `12a9c289d94e32fd63a7d39c9677d75c` |
+| [DeepImpact](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar)                       | 3.6 GB | `73843885b503af3c8b3ee62e5f5a9900` |
+| [SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                 | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
+| [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)    | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
+| [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)        | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
+| [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar)                        |  57 GB | `e20ffbc8b5e7f760af31298aefeaebbd` |
+| [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar)                   |  59 GB | `353d2c9e72e858897ad479cca4ea0db1` |
+| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar)                             | 109 GB | `a4d843d522ff3a3af7edbee789a63402` |
+| [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.tar) |  38 GB | `06a6e38a0522850c6aa504db7b2617f5` |
 
 </details>
 <details>
@@ -155,19 +379,19 @@ See individual pages for details!
 
 ### MS MARCO V2 Passage Regressions
 
-|                                            |                                     dev                                     |                                 DL21                                  |                                 DL22                                  |
-|--------------------------------------------|:---------------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-| **Unsupervised Lexical, Original Corpus**  |
-| baselines                                  |           [+](docs/regressions/regressions-msmarco-v2-passage.md)           |           [+](docs/regressions/regressions-dl21-passage.md)           |           [+](docs/regressions/regressions-dl22-passage.md)           |
-| doc2query-T5                               |       [+](docs/regressions/regressions-msmarco-v2-passage-d2q-t5.md)        |       [+](docs/regressions/regressions-dl21-passage-d2q-t5.md)        |       [+](docs/regressions/regressions-dl22-passage-d2q-t5.md)        |
-| **Unsupervised Lexical, Augmented Corpus** |
-| baselines                                  |      [+](docs/regressions/regressions-msmarco-v2-passage-augmented.md)      |      [+](docs/regressions/regressions-dl21-passage-augmented.md)      |      [+](docs/regressions/regressions-dl22-passage-augmented.md)      |
-| doc2query-T5                               |  [+](docs/regressions/regressions-msmarco-v2-passage-augmented-d2q-t5.md)   |  [+](docs/regressions/regressions-dl21-passage-augmented-d2q-t5.md)   |  [+](docs/regressions/regressions-dl22-passage-augmented-d2q-t5.md)   |
-| **Learned Sparse Lexical**                 |
-| uniCOIL noexp zero-shot                    | [✓](docs/regressions/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions/regressions-dl21-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions/regressions-dl22-passage-unicoil-noexp-0shot.md) |
-| uniCOIL with doc2query-T5 zero-shot        |    [✓](docs/regressions/regressions-msmarco-v2-passage-unicoil-0shot.md)    |    [✓](docs/regressions/regressions-dl21-passage-unicoil-0shot.md)    |    [✓](docs/regressions/regressions-dl22-passage-unicoil-0shot.md)    |
-| SPLADE++ CoCondenser-EnsembleDistil        |    [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-ed.md)     |    [✓](docs/regressions/regressions-dl21-passage-splade-pp-ed.md)     |    [✓](docs/regressions/regressions-dl22-passage-splade-pp-ed.md)     |
-| SPLADE++ CoCondenser-SelfDistil            |    [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-sd.md)     |    [✓](docs/regressions/regressions-dl21-passage-splade-pp-sd.md)     |    [✓](docs/regressions/regressions-dl22-passage-splade-pp-sd.md)     |
+|                                            |                                     dev                                     |                                 DL21                                  |                                 DL22                                  |                            DL23                             |
+|--------------------------------------------|:---------------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:-----------------------------------------------------------:|
+| **Unsupervised Lexical, Original Corpus**  |                                                                             |                                                                       |                                                                       |                                                             |
+| baselines                                  |           [+](docs/regressions/regressions-msmarco-v2-passage.md)           |           [+](docs/regressions/regressions-dl21-passage.md)           |           [+](docs/regressions/regressions-dl22-passage.md)           |      [+](docs/regressions/regressions-dl23-passage.md)      |
+| doc2query-T5                               |       [+](docs/regressions/regressions-msmarco-v2-passage-d2q-t5.md)        |       [+](docs/regressions/regressions-dl21-passage-d2q-t5.md)        |       [+](docs/regressions/regressions-dl22-passage-d2q-t5.md)        |                                                             |
+| **Unsupervised Lexical, Augmented Corpus** |                                                                             |                                                                       |                                                                       |                                                             |
+| baselines                                  |      [+](docs/regressions/regressions-msmarco-v2-passage-augmented.md)      |      [+](docs/regressions/regressions-dl21-passage-augmented.md)      |      [+](docs/regressions/regressions-dl22-passage-augmented.md)      | [+](docs/regressions/regressions-dl23-passage-augmented.md) |
+| doc2query-T5                               |  [+](docs/regressions/regressions-msmarco-v2-passage-augmented-d2q-t5.md)   |  [+](docs/regressions/regressions-dl21-passage-augmented-d2q-t5.md)   |  [+](docs/regressions/regressions-dl22-passage-augmented-d2q-t5.md)   |                                                             |
+| **Learned Sparse Lexical**                 |                                                                             |                                                                       |                                                                       |                                                             |
+| uniCOIL noexp zero-shot                    | [✓](docs/regressions/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions/regressions-dl21-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions/regressions-dl22-passage-unicoil-noexp-0shot.md) |                                                             |
+| uniCOIL with doc2query-T5 zero-shot        |    [✓](docs/regressions/regressions-msmarco-v2-passage-unicoil-0shot.md)    |    [✓](docs/regressions/regressions-dl21-passage-unicoil-0shot.md)    |    [✓](docs/regressions/regressions-dl22-passage-unicoil-0shot.md)    |                                                             |
+| SPLADE++ CoCondenser-EnsembleDistil        |    [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-ed.md)     |    [✓](docs/regressions/regressions-dl21-passage-splade-pp-ed.md)     |    [✓](docs/regressions/regressions-dl22-passage-splade-pp-ed.md)     |                                                             |
+| SPLADE++ CoCondenser-SelfDistil            |    [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-sd.md)     |    [✓](docs/regressions/regressions-dl21-passage-splade-pp-sd.md)     |    [✓](docs/regressions/regressions-dl22-passage-splade-pp-sd.md)     |                                                             |
 
 ### Available Corpora for Download
 
@@ -184,17 +408,17 @@ See individual pages for details!
 
 ### MS MARCO V2 Document Regressions
 
-|                                         |                                         dev                                          |                                      DL21                                      |
-|-----------------------------------------|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
-| **Unsupervised Lexical, Complete Doc**  |
-| baselines                               |                 [+](docs/regressions/regressions-msmarco-v2-doc.md)                  |                 [+](docs/regressions/regressions-dl21-doc.md)                  |
-| doc2query-T5                            |              [+](docs/regressions/regressions-msmarco-v2-doc-d2q-t5.md)              |              [+](docs/regressions/regressions-dl21-doc-d2q-t5.md)              |
-| **Unsupervised Lexical, Segmented Doc** |
-| baselines                               |            [+](docs/regressions/regressions-msmarco-v2-doc-segmented.md)             |            [+](docs/regressions/regressions-dl21-doc-segmented.md)             |
-| doc2query-T5                            |         [+](docs/regressions/regressions-msmarco-v2-doc-segmented-d2q-t5.md)         |         [+](docs/regressions/regressions-dl21-doc-segmented-d2q-t5.md)         |
-| **Learned Sparse Lexical**              |
-| uniCOIL noexp zero-shot                 | [✓](docs/regressions/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [✓](docs/regressions/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md) |
-| uniCOIL with doc2query-T5 zero-shot     |    [✓](docs/regressions/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md)    |    [✓](docs/regressions/regressions-dl21-doc-segmented-unicoil-0shot-v2.md)    |
+|                                         |                                         dev                                          |                                      DL21                                      |                          DL22                           |                          DL23                           |
+|-----------------------------------------|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|:-------------------------------------------------------:|:-------------------------------------------------------:|
+| **Unsupervised Lexical, Complete Doc**  |                                                                                      |                                                                                |                                                         |                                                         |
+| baselines                               |                 [+](docs/regressions/regressions-msmarco-v2-doc.md)                  |                 [+](docs/regressions/regressions-dl21-doc.md)                  |      [+](docs/regressions/regressions-dl22-doc.md)      |      [+](docs/regressions/regressions-dl23-doc.md)      |
+| doc2query-T5                            |              [+](docs/regressions/regressions-msmarco-v2-doc-d2q-t5.md)              |              [+](docs/regressions/regressions-dl21-doc-d2q-t5.md)              |                                                         |                                                         |
+| **Unsupervised Lexical, Segmented Doc** |                                                                                      |                                                                                |                                                         |                                                         |
+| baselines                               |            [+](docs/regressions/regressions-msmarco-v2-doc-segmented.md)             |            [+](docs/regressions/regressions-dl21-doc-segmented.md)             | [+](docs/regressions/regressions-dl22-doc-segmented.md) | [+](docs/regressions/regressions-dl23-doc-segmented.md) |
+| doc2query-T5                            |         [+](docs/regressions/regressions-msmarco-v2-doc-segmented-d2q-t5.md)         |         [+](docs/regressions/regressions-dl21-doc-segmented-d2q-t5.md)         |                                                         |                                                         |
+| **Learned Sparse Lexical**              |                                                                                      |                                                                                |                                                         |                                                         |
+| uniCOIL noexp zero-shot                 | [✓](docs/regressions/regressions-msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.md) | [✓](docs/regressions/regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md) |                                                         |                                                         |
+| uniCOIL with doc2query-T5 zero-shot     |    [✓](docs/regressions/regressions-msmarco-v2-doc-segmented-unicoil-0shot-v2.md)    |    [✓](docs/regressions/regressions-dl21-doc-segmented-unicoil-0shot-v2.md)    |                                                         |                                                         |
 
 ### Available Corpora for Download
 
@@ -393,6 +617,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
++ v0.24.2: February 27, 2024 [[Release Notes](docs/release-notes/release-notes-v0.24.2.md)]
 + v0.24.1: January 27, 2024 [[Release Notes](docs/release-notes/release-notes-v0.24.1.md)]
 + v0.24.0: December 28, 2023 [[Release Notes](docs/release-notes/release-notes-v0.24.0.md)]
 + v0.23.0: November 16, 2023 [[Release Notes](docs/release-notes/release-notes-v0.23.0.md)]

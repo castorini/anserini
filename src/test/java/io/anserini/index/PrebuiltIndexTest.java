@@ -59,6 +59,6 @@ public class PrebuiltIndexTest {
   // test number of prebuilt-indexes
   @Test
   public void testNumPrebuiltIndexes() {
-    assertEquals(36, IndexInfo.values().length);
+    assertEquals(128, IndexInfo.values().length);
   }
 }
