@@ -26,7 +26,7 @@ conditions:
     display: "SPLADE ++ EnsembleDistil (pre-encoded)"
     display_html: "SPLADE ++ EnsembleDistil (pre-encoded)"
     display_row: ""
-    command: target/appassembler/bin/SearchCollection -threads ${threads} -index msmarco-v1-passage-splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 
+    command: target/appassembler/bin/SearchCollection -threads $threads -index msmarco-v1-passage-splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 
     topics:
       - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
@@ -49,7 +49,7 @@ conditions:
     display: "SPLADE ++ EnsembleDistil (ONNX Runtime)"
     display_html: "SPLADE ++ EnsembleDistil (ONNX Runtime)"
     display_row: ""
-    command: target/appassembler/bin/SearchCollection -threads ${threads} -index msmarco-v1-passage-splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil 
+    command: target/appassembler/bin/SearchCollection -threads $threads -index msmarco-v1-passage-splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil 
     topics:
       - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
@@ -72,7 +72,7 @@ conditions:
     display: "cosDPR-distil (pre-encoded)"
     display_html: "cosDPR-distil (pre-encoded)"
     display_row: ""
-    command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000
+    command: target/appassembler/bin/SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage-cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
@@ -95,7 +95,7 @@ conditions:
     display: "cosDPR-distil (ONNX Runtime)"
     display_html: "cosDPR-distil (ONNX Runtime)"
     display_row: ""
-    command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
+    command: target/appassembler/bin/SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage-cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
     topics:
       - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
@@ -118,7 +118,7 @@ conditions:
     display: "BGE-base-en-v1.5 (pre-encoded)"
     display_html: "BGE-base-en-v1.5 (pre-encoded)"
     display_row: ""
-    command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000
+    command: target/appassembler/bin/SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage-bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
@@ -141,7 +141,7 @@ conditions:
     display: "BGE-base-en-v1.5 (ONNX Runtime)"
     display_html: "BGE-base-en-v1.5 (ONNX Runtime)"
     display_row: ""
-    command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
+    command: target/appassembler/bin/SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage-bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
       - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt

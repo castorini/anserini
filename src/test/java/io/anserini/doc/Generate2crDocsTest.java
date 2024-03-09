@@ -17,11 +17,10 @@ package io.anserini.doc;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringSubstitutor;
@@ -36,7 +35,10 @@ import io.anserini.tcr.RunMsMarco.Topic;
 import io.anserini.tcr.RunMsMarco.TrecEvalMetricDefinitions;
 
 public class Generate2crDocsTest {
-
+  public final static String YAML_PATH = "src/main/java/io/anserini/tcr/msmarco-v1-passage.yaml";
+  public final static String HTML_TEMPLATE_PATH = "src/main/java/io/anserini/tcr/msmarco_html_v1_passage.template";
+  public final static String ROW_TEMPLATE_PATH = "src/main/java/io/anserini/tcr/msmarco_html_row_v1.template";
+  public final static String COLLECTION = "msmarco-v1-passage";
   public final static String[] MODELS = { "BoW-baselines", "splade-pp-ed-preencoded", "splade-pp-ed-onnx",
       "cos-dpr-distil-preencoded", "cos-dpr-distil-onnx", "bge-base-en-15-preencoded", "bge-base-en-15-onnx" };
 
@@ -52,13 +54,6 @@ public class Generate2crDocsTest {
     return key;
   }
 
-  // def format_command(raw):
-  // return raw.replace('-topics', '\\\n -topics') \
-  // .replace('-threads', '\\\n -threads') \
-  // .replace('-index', '\\\n -index') \
-  // .replace('-output ', '\\\n -output ') \
-  // .replace('-encoder', '\\\n -encoder') \
-  // .replace('.txt ', '.txt \\\n ')
   public static String formatCommand(String command) {
     return command.replace("-topics", "\\\n  -topics")
         .replace("-threads", "\\\n  -threads")
@@ -73,27 +68,20 @@ public class Generate2crDocsTest {
   }
 
   public static void generateReport() throws Exception {
-    String yamlFile = "src/main/java/io/anserini/tcr/msmarco-v1-passage.yaml";
-    String htmlTemplate = "src/main/java/io/anserini/tcr/msmarco_html_v1_passage.template";
-    String rowTemplate = "src/main/java/io/anserini/tcr/msmarco_html_row_v1.template";
-
     Map<String, Map<String, Map<String, Double>>> table = new HashMap<>();
     Map<String, Map<String, String>> commands = new HashMap<>();
     Map<String, Map<String, String>> evalCommands = new HashMap<>();
 
     Map<String, String> tableKeys = new HashMap<>();
     Map<String, String> rowIds = new HashMap<>();
-    Map<String, String> nameTopicMap = new HashMap<>();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(new FileInputStream("src/main/java/io/anserini/tcr/msmarco-v1-passage.yaml"),
-        Config.class);
+    Config config = mapper.readValue(new FileInputStream(YAML_PATH), Config.class);
 
     Map<String, Map<String, String>> evalCommandMap = new TrecEvalMetricDefinitions().getMetricDefinitions()
-        .get("msmarco-v1-passage");
+        .get(COLLECTION);
 
     for (Condition cond : config.conditions) {
-      // Implementation logic based on the provided Python code
       final String name = cond.name;
       final String display = cond.display_html;
       final String rowId = cond.display_row;
@@ -119,14 +107,11 @@ public class Generate2crDocsTest {
 
         tempCommands.put(shortTopicKey, commandString);
         String evalCommandString = "";
-        for (Map<String, Double> score : topic.scores) {
-          // eval_cmd = f'tools/eval/trec_eval.9.0.4/trec_eval ' +
-          // f'{trec_eval_metric_definitions[args.collection][eval_key][metric]}
-          // {eval_key} {runfile}'
+        for (Entry<String, Double> entry : topic.scores.get(0).entrySet()) {
           final String tempEvalCommand = "tools/eval/trec_eval.9.0.4/trec_eval "
-              + evalCommandMap.get(evalKey).get(score.keySet().toArray()[0]) + " " + evalKey + " " + runFile;
+              + evalCommandMap.get(evalKey).get(entry.getKey()) + " " + evalKey + " " + runFile;
           evalCommandString += tempEvalCommand + "\n";
-          metricScoreMap.put(score.keySet().toArray()[0].toString(), (Double) score.values().toArray()[0]);
+          metricScoreMap.put(entry.getKey(), (Double) entry.getValue());
         }
         tempEvalCommands.put(shortTopicKey, evalCommandString);
         topicMetricMap.put(shortTopicKey, metricScoreMap);
@@ -136,16 +121,16 @@ public class Generate2crDocsTest {
       evalCommands.put(name, tempEvalCommands);
       table.put(name, topicMetricMap);
     }
-    // Additional logic to generate report
 
+    // Additional logic to generate report
     int rowCounter = 1;
     String htmlString = "";
-    Scanner rowScanner = new Scanner(new File(rowTemplate), "UTF-8");
+    Scanner rowScanner = new Scanner(new File(ROW_TEMPLATE_PATH), "UTF-8");
     String rowTemplateString = rowScanner.useDelimiter("\\A").next();
     rowScanner.close();
 
     for (String model : MODELS) {
-      Map<String, String> valuesMap = new HashMap<>(); 
+      Map<String, String> valuesMap = new HashMap<>();
       valuesMap.put("row_cnt", String.valueOf(rowCounter));
       valuesMap.put("condition_name", tableKeys.get(model));
       valuesMap.put("row", rowIds.get(model));
@@ -166,23 +151,27 @@ public class Generate2crDocsTest {
 
       StringSubstitutor sub = new StringSubstitutor(valuesMap);
       htmlString += sub.replace(rowTemplateString) + "\n";
+      rowCounter++;
     }
-    System.out.println("htmlString: " + htmlString);
-
-    Scanner htmlScanner = new Scanner(new File(htmlTemplate), "UTF-8");
+    Scanner htmlScanner = new Scanner(new File(HTML_TEMPLATE_PATH), "UTF-8");
     String htmlTemplateString = htmlScanner.useDelimiter("\\A").next();
     htmlScanner.close();
-    Map<String, String> valuesMap = new HashMap<>();
-    valuesMap.put("rows", htmlString);
-    valuesMap.put("title", "MS MARCO V1 Passage");
 
-    StringSubstitutor sub = new StringSubstitutor(valuesMap);
-    String resolvedString = sub.replace(htmlTemplateString);
+    Map<String, String> outputValuesMap = new HashMap<>();
+    outputValuesMap.put("title", "MS MARCO V1 Passage");
+    outputValuesMap.put("rows", htmlString);
+
+    StringSubstitutor sub = new StringSubstitutor(outputValuesMap);
+    String resolvedString = new String(sub.replace(htmlTemplateString));
     FileUtils.writeStringToFile(new File("docs/2cr/msmarco-v1-passage.html"), resolvedString, "UTF-8");
   }
 
   @Test
   public void main() throws Exception {
-    generateReport();
+    try {
+      generateReport();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
