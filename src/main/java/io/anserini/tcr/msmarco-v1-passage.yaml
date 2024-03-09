@@ -3,7 +3,7 @@ conditions:
     display: "BoW baselines"
     display_html: "BoW baselines"
     display_row: ""
-    command: "target/appassembler/bin/SearchCollection -threads ${threads} -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25"
+    command: "target/appassembler/bin/SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25"
     topics:
       - topic_key: "MSMARCO_PASSAGE_DEV_SUBSET"
         eval_key: "tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt"
@@ -22,141 +22,141 @@ conditions:
           - MAP: 0.2856
             nDCG@10: 0.4796
             R@1K: 0.7863
-  # - name: "splade-pp-ed-preencoded"
-  #   display: "SPLADE ++ EnsembleDistil (pre-encoded)"
-  #   display_html: "SPLADE ++ EnsembleDistil (pre-encoded)"
-  #   display_row: ""
-  #   command: target/appassembler/bin/SearchCollection -threads ${threads} -index msmarco-v1-passage-splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 
-  #   topics:
-  #     - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED
-  #       eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
-  #       scores:
-  #         - MRR@10: 0.3884
-  #           R@1K: 0.9831
-  #     - topic_key: TREC2019_DL_PASSAGE_SPLADE_PP_ED
-  #       eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
-  #       scores:
-  #         - MAP: 0.5053
-  #           nDCG@10: 0.7317
-  #           R@1K: 0.8726
-  #     - topic_key: TREC2020_DL_SPLADE_PP_ED
-  #       eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
-  #       scores:
-  #         - MAP: 0.5001
-  #           nDCG@10: 0.7198
-  #           R@1K: 0.8995
-  # - name: "splade-pp-ed-onnx"
-  #   display: "SPLADE ++ EnsembleDistil (ONNX Runtime)"
-  #   display_html: "SPLADE ++ EnsembleDistil (ONNX Runtime)"
-  #   display_row: ""
-  #   command: target/appassembler/bin/SearchCollection -threads ${threads} -index msmarco-v1-passage-splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil 
-  #   topics:
-  #     - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
-  #       eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
-  #       scores:
-  #         - MRR@10: 0.3883
-  #           R@1K: 0.9831
-  #     - topic_key: TREC2019_DL_PASSAGE
-  #       eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
-  #       scores:
-  #         - MAP: 0.5050
-  #           nDCG@10: 0.7308
-  #           R@1K: 0.8728
-  #     - topic_key: TREC2020_DL
-  #       eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
-  #       scores:
-  #         - MAP: 0.4999
-  #           nDCG@10: 0.7197
-  #           R@1K: 0.8998
-  # - name: "cos-dpr-distil-preencoded"
-  #   display: "cosDPR-distil (pre-encoded)"
-  #   display_html: "cosDPR-distil (pre-encoded)"
-  #   display_row: ""
-  #   command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000
-  #   topics:
-  #     - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL
-  #       eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
-  #       scores:
-  #         - MRR@10: 0.3887
-  #           R@1K: 0.9764
-  #     - topic_key: TREC2019_DL_PASSAGE_COS_DPR_DISTIL
-  #       eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
-  #       scores:
-  #         - MAP: 0.4660
-  #           nDCG@10: 0.7250
-  #           R@1K: 0.8222
-  #     - topic_key: TREC2020_DL_COS_DPR_DISTIL
-  #       eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
-  #       scores:
-  #         - MAP: 0.4876
-  #           nDCG@10: 0.7025
-  #           R@1K: 0.8540
-  # - name: "cos-dpr-distil-onnx"
-  #   display: "cosDPR-distil (ONNX Runtime)"
-  #   display_html: "cosDPR-distil (ONNX Runtime)"
-  #   display_row: ""
-  #   command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
-  #   topics:
-  #     - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
-  #       eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
-  #       scores:
-  #         - MRR@10: 0.3887
-  #           R@1K: 0.9764
-  #     - topic_key: TREC2019_DL_PASSAGE
-  #       eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
-  #       scores:
-  #         - MAP: 0.4660
-  #           nDCG@10: 0.7250
-  #           R@1K: 0.8222
-  #     - topic_key: TREC2020_DL
-  #       eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
-  #       scores:
-  #         - MAP: 0.4876
-  #           nDCG@10: 0.7025
-  #           R@1K: 0.8540
-  # - name: bge-base-en-15-preencoded
-  #   display: "BGE-base-en-v1.5 (pre-encoded)"
-  #   display_html: "BGE-base-en-v1.5 (pre-encoded)"
-  #   display_row: ""
-  #   command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000
-  #   topics:
-  #     - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15
-  #       eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
-  #       scores:
-  #         - MRR@10: 0.3574
-  #           R@1K: 0.9788
-  #     - topic_key: TREC2019_DL_PASSAGE_BGE_BASE_EN_15
-  #       eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
-  #       scores:
-  #         - MAP: 0.4436
-  #           nDCG@10: 0.7065
-  #           R@1K: 0.8481
-  #     - topic_key: TREC2020_DL_BGE_BASE_EN_15
-  #       eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
-  #       scores:
-  #         - MAP: 0.4648
-  #           nDCG@10: 0.6780
-  #           R@1K: 0.8483
-  # - name: bge-base-en-15-onnx
-  #   display: "BGE-base-en-v1.5 (ONNX Runtime)"
-  #   display_html: "BGE-base-en-v1.5 (ONNX Runtime)"
-  #   display_row: ""
-  #   command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
-  #   topics:
-  #     - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
-  #       eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
-  #       scores:
-  #         - MRR@10: 0.3575
-  #           R@1K: 0.9788
-  #     - topic_key: TREC2019_DL_PASSAGE
-  #       eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
-  #       scores:
-  #         - MAP: 0.4486
-  #           nDCG@10: 0.7016
-  #           R@1K: 0.8441
-  #     - topic_key: TREC2020_DL
-  #       eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
-  #       scores:
-  #         - MAP: 0.4626
-  #           nDCG@10: 0.6768
-  #           R@1K: 0.8526
+  - name: "splade-pp-ed-preencoded"
+    display: "SPLADE ++ EnsembleDistil (pre-encoded)"
+    display_html: "SPLADE ++ EnsembleDistil (pre-encoded)"
+    display_row: ""
+    command: target/appassembler/bin/SearchCollection -threads ${threads} -index msmarco-v1-passage-splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 
+    topics:
+      - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3884
+            R@1K: 0.9831
+      - topic_key: TREC2019_DL_PASSAGE_SPLADE_PP_ED
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.5053
+            nDCG@10: 0.7317
+            R@1K: 0.8726
+      - topic_key: TREC2020_DL_SPLADE_PP_ED
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.5001
+            nDCG@10: 0.7198
+            R@1K: 0.8995
+  - name: "splade-pp-ed-onnx"
+    display: "SPLADE ++ EnsembleDistil (ONNX Runtime)"
+    display_html: "SPLADE ++ EnsembleDistil (ONNX Runtime)"
+    display_row: ""
+    command: target/appassembler/bin/SearchCollection -threads ${threads} -index msmarco-v1-passage-splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil 
+    topics:
+      - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3883
+            R@1K: 0.9831
+      - topic_key: TREC2019_DL_PASSAGE
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.5050
+            nDCG@10: 0.7308
+            R@1K: 0.8728
+      - topic_key: TREC2020_DL
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.4999
+            nDCG@10: 0.7197
+            R@1K: 0.8998
+  - name: "cos-dpr-distil-preencoded"
+    display: "cosDPR-distil (pre-encoded)"
+    display_html: "cosDPR-distil (pre-encoded)"
+    display_row: ""
+    command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000
+    topics:
+      - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3887
+            R@1K: 0.9764
+      - topic_key: TREC2019_DL_PASSAGE_COS_DPR_DISTIL
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4660
+            nDCG@10: 0.7250
+            R@1K: 0.8222
+      - topic_key: TREC2020_DL_COS_DPR_DISTIL
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.4876
+            nDCG@10: 0.7025
+            R@1K: 0.8540
+  - name: "cos-dpr-distil-onnx"
+    display: "cosDPR-distil (ONNX Runtime)"
+    display_html: "cosDPR-distil (ONNX Runtime)"
+    display_row: ""
+    command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
+    topics:
+      - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3887
+            R@1K: 0.9764
+      - topic_key: TREC2019_DL_PASSAGE
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4660
+            nDCG@10: 0.7250
+            R@1K: 0.8222
+      - topic_key: TREC2020_DL
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.4876
+            nDCG@10: 0.7025
+            R@1K: 0.8540
+  - name: bge-base-en-15-preencoded
+    display: "BGE-base-en-v1.5 (pre-encoded)"
+    display_html: "BGE-base-en-v1.5 (pre-encoded)"
+    display_row: ""
+    command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000
+    topics:
+      - topic_key: MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3574
+            R@1K: 0.9788
+      - topic_key: TREC2019_DL_PASSAGE_BGE_BASE_EN_15
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4436
+            nDCG@10: 0.7065
+            R@1K: 0.8481
+      - topic_key: TREC2020_DL_BGE_BASE_EN_15
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.4648
+            nDCG@10: 0.6780
+            R@1K: 0.8483
+  - name: bge-base-en-15-onnx
+    display: "BGE-base-en-v1.5 (ONNX Runtime)"
+    display_html: "BGE-base-en-v1.5 (ONNX Runtime)"
+    display_row: ""
+    command: target/appassembler/bin/SearchHnswDenseVectors -threads ${threads} -index msmarco-v1-passage-bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
+    topics:
+      - topic_key: MSMARCO_PASSAGE_DEV_SUBSET
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3575
+            R@1K: 0.9788
+      - topic_key: TREC2019_DL_PASSAGE
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4486
+            nDCG@10: 0.7016
+            R@1K: 0.8441
+      - topic_key: TREC2020_DL
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.4626
+            nDCG@10: 0.6768
+            R@1K: 0.8526

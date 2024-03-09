@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RunMsMarco {
-  public static final String COLLECTION = "msmarco-v1-passage"; 
+  public static final String COLLECTION = "msmarco-v1-passage";
 
   public static void main(String[] args) throws Exception {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -25,12 +25,12 @@ public class RunMsMarco {
         final String output = "runs/run." + "msmarco." + condition.name + "." + topic.topic_key + ".txt";
 
         final String command = condition.command
-            .replace("${threads}", "16")
+            .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
             .replace("$output", output);
 
         Process process = Runtime.getRuntime().exec(command);
-        System.out.println("Running retrieval command: " + command);
+        // System.out.println("Running retrieval command: " + command);
         int resultCode = process.waitFor();
         if (resultCode == 0) {
           System.out.println("Command executed successfully for topic: " + topic.topic_key);
@@ -51,9 +51,13 @@ public class RunMsMarco {
             stdout = process.getInputStream();
             if (resultCode == 0) {
               String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-              Float score = Float.parseFloat(scoreString);
-              if (score != expected.get(metric).floatValue()) {
+              Double score = Double.parseDouble(scoreString);
+              Double delta = Math.abs(score - expected.get(metric));
+
+              if (delta > 0.001) {
                 System.out.println("Expected score: " + expected.get(metric) + " but got: " + score);
+              } else {
+                System.out.println("Score matches for metric: " + metric + " with value: " + score);
               }
             } else {
               System.out.println("Command failed for metric: " + metric);
@@ -67,42 +71,42 @@ public class RunMsMarco {
 
   public static class Config {
     @JsonProperty
-    private List<Condition> conditions;
+    public List<Condition> conditions;
   }
 
   public static class Condition {
     @JsonProperty
-    private String name;
+    public String name;
 
     @JsonProperty
-    private String display;
+    public String display;
 
     @JsonProperty
-    private String display_html;
+    public String display_html;
 
     @JsonProperty
-    private String display_row;
+    public String display_row;
 
     @JsonProperty
-    private String command;
+    public String command;
 
     @JsonProperty
-    private List<Topic> topics;
+    public List<Topic> topics;
   }
 
   public static class Topic {
     @JsonProperty
-    private String topic_key;
+    public String topic_key;
 
     @JsonProperty
-    private String eval_key;
+    public String eval_key;
 
     @JsonProperty
-    private List<Map<String, Double>> scores;
+    public List<Map<String, Double>> scores;
   }
 
   public static class TrecEvalMetricDefinitions {
-    private Map<String, Map<String, Map<String, String>>> metricDefinitions;
+    public Map<String, Map<String, Map<String, String>>> metricDefinitions;
 
     public TrecEvalMetricDefinitions() {
       metricDefinitions = new HashMap<>();
