@@ -260,7 +260,7 @@ The above is the standard format for a qrels file.
 The first column is the `qid`;
 the second column is (almost) always 0 (it's a historical artifact dating back decades);
 the third column is a `docid`;
-the fourth colum provides the relevance judgment itself.
+the fourth column provides the relevance judgment itself.
 In this case, 0 means "not relevant" and 1 means "relevant".
 So, this entry says that the document with id 7187158 is relevant to the query with id 1048585. Note that from the `head` command above, `qid` 1048585 corresponds to the query "what is paula deen's brother".
 
