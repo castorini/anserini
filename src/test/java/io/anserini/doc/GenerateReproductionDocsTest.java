@@ -34,7 +34,7 @@ import io.anserini.tcr.RunMsMarco.Config;
 import io.anserini.tcr.RunMsMarco.Topic;
 import io.anserini.tcr.RunMsMarco.TrecEvalMetricDefinitions;
 
-public class Generate2crDocsTest {
+public class GenerateReproductionDocsTest {
   public final static String YAML_PATH = "src/main/java/io/anserini/tcr/msmarco-v1-passage.yaml";
   public final static String HTML_TEMPLATE_PATH = "src/main/java/io/anserini/tcr/msmarco_html_v1_passage.template";
   public final static String ROW_TEMPLATE_PATH = "src/main/java/io/anserini/tcr/msmarco_html_row_v1.template";
