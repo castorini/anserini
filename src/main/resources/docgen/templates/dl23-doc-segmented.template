@@ -1,0 +1,60 @@
+# Anserini Regressions: TREC 2023 Deep Learning Track (Document)
+
+**Models**: various bag-of-words approaches on segmented documents
+
+This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 _segmented_ document corpus.
+For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
+
+Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+However, it is important to understand that these document judgments were inferred from the passages.
+That is, if a passage is relevant, the document containing it is considered relevant.
+
+Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
+
++ **Indexing Condition:** each segment in the MS MARCO V2 _segmented_ document corpus is treated as a unit of indexing
++ **Expansion Condition:** none
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```
+python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+See [this page](${root_path}/docs/experiments-msmarco-v2.md) for additional details.
+
+For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+The regression experiments here evaluate on the 82 topics for which NIST has provided these _inferred_ judgments as part of the [TREC 2023 Deep Learning Track](https://trec.nist.gov/data/deep2023.html).
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}
