@@ -29,15 +29,15 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import io.anserini.tcr.RunMsMarco.Condition;
-import io.anserini.tcr.RunMsMarco.Config;
-import io.anserini.tcr.RunMsMarco.Topic;
-import io.anserini.tcr.RunMsMarco.TrecEvalMetricDefinitions;
+import io.anserini.reproduce.RunMsMarco.Condition;
+import io.anserini.reproduce.RunMsMarco.Config;
+import io.anserini.reproduce.RunMsMarco.Topic;
+import io.anserini.reproduce.RunMsMarco.TrecEvalMetricDefinitions;
 
 public class GenerateReproductionDocsTest {
-  public final static String YAML_PATH = "src/main/java/io/anserini/tcr/msmarco-v1-passage.yaml";
-  public final static String HTML_TEMPLATE_PATH = "src/main/java/io/anserini/tcr/msmarco_html_v1_passage.template";
-  public final static String ROW_TEMPLATE_PATH = "src/main/java/io/anserini/tcr/msmarco_html_row_v1.template";
+  public final static String YAML_PATH = "src/main/java/io/anserini/reproduce/msmarco-v1-passage.yaml";
+  public final static String HTML_TEMPLATE_PATH = "src/main/java/io/anserini/reproduce/msmarco_html_v1_passage.template";
+  public final static String ROW_TEMPLATE_PATH = "src/main/java/io/anserini/reproduce/msmarco_html_row_v1.template";
   public final static String COLLECTION = "msmarco-v1-passage";
   public final static String[] MODELS = { "BoW-baselines", "splade-pp-ed-preencoded", "splade-pp-ed-onnx",
       "cos-dpr-distil-preencoded", "cos-dpr-distil-onnx", "bge-base-en-15-preencoded", "bge-base-en-15-onnx" };
@@ -163,7 +163,7 @@ public class GenerateReproductionDocsTest {
 
     StringSubstitutor sub = new StringSubstitutor(outputValuesMap);
     String resolvedString = new String(sub.replace(htmlTemplateString));
-    FileUtils.writeStringToFile(new File("docs/2cr/msmarco-v1-passage.html"), resolvedString, "UTF-8");
+    FileUtils.writeStringToFile(new File("docs/reproduce/msmarco-v1-passage.html"), resolvedString, "UTF-8");
   }
 
   @Test
