@@ -103,7 +103,7 @@
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.1.0</version>
         <configuration>
-          <extraJvmArguments>-Xms512M -Xmx31G</extraJvmArguments>
+          <extraJvmArguments>-Xms512M -Xmx31G --add-modules jdk.incubator.vector</extraJvmArguments>
           <repositoryLayout>flat</repositoryLayout>
           <useWildcardClassPath>true</useWildcardClassPath>
           <programs>
