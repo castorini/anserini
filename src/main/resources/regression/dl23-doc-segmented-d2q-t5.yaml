@@ -62,40 +62,40 @@ models:
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25
     results:
       MAP@100:
-        - 0.2683
+        - 0.1460
       MRR@100:
-        - 0.9454
+        - 0.7029
       nDCG@10:
-        - 0.6289
+        - 0.3612
       R@100:
-        - 0.3656
+        - 0.3078
       R@1000:
-        - 0.7202
+        - 0.5967
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP@100:
-        - 0.3191
+        - 0.1699
       MRR@100:
-        - 0.8989
+        - 0.6455
       nDCG@10:
-        - 0.6559
+        - 0.3454
       R@100:
-        - 0.4131
+        - 0.3350
       R@1000:
-        - 0.7948
+        - 0.6006
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP@100:
-        - 0.3218
+        - 0.1706
       MRR@100:
-        - 0.9049
+        - 0.6405
       nDCG@10:
-        - 0.6462
+        - 0.3517
       R@100:
-        - 0.4172
+        - 0.3373
       R@1000:
-        - 0.7969
+        - 0.6059

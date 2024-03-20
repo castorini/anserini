@@ -62,40 +62,40 @@ models:
     params: -hits 1000 -bm25
     results:
       MAP@100:
-        - 0.2387
+        - 0.0977
       MRR@100:
-        - 0.8866
+        - 0.6666
       nDCG@10:
-        - 0.5792
+        - 0.3539
       R@100:
-        - 0.3443
+        - 0.2041
       R@1000:
-        - 0.7066
+        - 0.4301
   - name: bm25-default+rm3
     display: +RM3
     params: -hits 1000 -bm25 -rm3 -collection MsMarcoV2DocCollection
     results:
       MAP@100:
-        - 0.2611
+        - 0.0904
       MRR@100:
-        - 0.8255
+        - 0.5657
       nDCG@10:
-        - 0.5375
+        - 0.2758
       R@100:
-        - 0.3580
+        - 0.1957
       R@1000:
-        - 0.7574
+        - 0.4263
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -hits 1000 -bm25 -rocchio -collection MsMarcoV2DocCollection
     results:
       MAP@100:
-        - 0.2610
+        - 0.0944
       MRR@100:
-        - 0.8459
+        - 0.5700
       nDCG@10:
-        - 0.5509
+        - 0.2797
       R@100:
-        - 0.3616
+        - 0.2022
       R@1000:
-        - 0.7583
+        - 0.4338
