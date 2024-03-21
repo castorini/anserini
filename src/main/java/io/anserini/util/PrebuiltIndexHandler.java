@@ -196,7 +196,12 @@ public class PrebuiltIndexHandler {
     }
 
     System.out.println("Index decompressed successfully!");
+
+    // postpend md5 to decompressed index
+    Path oldIndexPath = Paths.get(indexFolder);
+    indexFolder += "." + info.md5;
     this.indexFolderPath = Paths.get(indexFolder);
+    Files.move(oldIndexPath, this.indexFolderPath);
     return indexFolder;
   }
 
