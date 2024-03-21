@@ -19,7 +19,7 @@ package io.anserini.index;
 public enum IndexInfo {
   CACM("cacm",
       "Lucene index of the CACM corpus.",
-      "lucene-index.cacm.tar.gz",
+      "lucene-index.cacm.20221005.252b5e.tar.gz",
       new String[] {
           "https://github.com/castorini/anserini-data/raw/master/CACM/lucene-index.cacm.20221005.252b5e.tar.gz" },
       "cfe14d543c6a27f4d742fb2d0099b8e0"),
