@@ -1,22 +1,17 @@
-# Anserini Regressions: TREC 2021 Deep Learning Track (Document)
+# Anserini Regressions: TREC 2023 Deep Learning Track (Passage)
 
-**Model**: uniCOIL (without any expansions) zero-shot on segmented documents (segment-only encoding) - _Deprecated_, see below
+**Model**: uniCOIL (with doc2query-T5 expansions) zero-shot
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 _segmented_ document corpus.
-Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, without any expansions.
+This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 passage corpus.
+Here, we cover experiments with the uniCOIL model trained on the MS MARCO V1 passage ranking test collection, applied in a zero-shot manner, with doc2query-T5 expansions.
 
 The uniCOIL model is described in the following paper:
 
 > Jimmy Lin and Xueguang Ma. [A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques.](https://arxiv.org/abs/2106.14807) _arXiv:2106.14807_.
 
-**NOTE**: As an important detail, there is the question of what text we feed into the encoder to generate document representations.
-Initially, we fed only the segment text, but later we realized that prepending the title of the document improves effectiveness.
-This regression captures segment-only encoding and is kept around primarily for archival purposes; you probably don't want to use this one unless you're running ablation experiments.
-The version that uses title/segment encoding can be found [here](regressions-dl21-doc-segmented-unicoil-noexp-0shot-v2.md).
+For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
 
-For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
-
-Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -27,7 +22,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
-We make available a version of the MS MARCO document corpus that has already been processed with uniCOIL (per above), i.e., we have performed model inference on every document and stored the output sparse vectors.
+We make available a version of the corpus that has already been processed with uniCOIL, i.e., we have applied doc2query-T5 expansions, performed model inference on every document, and stored the output sparse vectors.
 Thus, no neural inference is involved.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
@@ -53,7 +48,7 @@ tar -xvf collections/${download_corpus}.tar -C collections/
 mv collections/${download_corpus} collections/${corpus}
 ```
 
-To confirm, `${download_corpus}.tar` is 54 GB and has an MD5 checksum of `${download_checksum}`.
+To confirm, `${download_corpus}.tar` is 41 GB and has an MD5 checksum of `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
@@ -72,14 +67,14 @@ ${index_cmds}
 The path `/path/to/${corpus}/` should point to the corpus downloaded above.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the uniCOIL tokens.
-Upon completion, we should have an index with 124,131,404 documents.
+Upon completion, we should have an index with 138,364,198 documents.
 
 For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
 
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the [TREC 2021 Deep Learning Track](https://trec.nist.gov/data/deep2021.html).
+The regression experiments here evaluate on the 82 topics for which NIST has provided judgments as part of the [TREC 2023 Deep Learning Track](https://trec.nist.gov/data/deep2023.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -98,6 +93,3 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
-The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.

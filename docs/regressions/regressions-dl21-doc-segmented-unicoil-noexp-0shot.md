@@ -125,9 +125,3 @@ With the above commands, you should be able to reproduce the following results:
 
 This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
 The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
-
-## Reproduction Log[*](../../docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-noexp-0shot.template) and run `bin/build.sh` to rebuild the documentation.
-
-+ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))
