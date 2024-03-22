@@ -206,8 +206,6 @@ public class PrebuiltIndexHandler {
     this.indexFolderPath = Path.of(indexFolder);
     if (!checkFileExist(this.indexFolderPath)) {
       Files.move(oldIndexPath, this.indexFolderPath);
-    } else if (checkFileExist(oldIndexPath)) {
-      Files.delete(oldIndexPath);
     }
     return indexFolder;
   }
