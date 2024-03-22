@@ -3,14 +3,13 @@
 **Model**: SPLADE++ CoCondenser-SelfDistil (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model to the MS MARCO V2 passage corpus.
-Here, we evaluate on the dev queries.
+Here, we evaluate on the dev queries, using ONNX to perform query encoding on the fly.
 
-The model can be described in the following paper:
+The model is described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
 For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
-In these experiments, we are using ONNX to perform query encoding on the fly.
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v2-passage-splade-pp-sd-onnx.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v2-passage-splade-pp-sd-onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
