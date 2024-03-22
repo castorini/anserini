@@ -16,6 +16,8 @@ This regression captures the latter title/segment encoding, which for clarity we
 For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+An important caveat is that these document judgments were inferred from the passages.
+That is, if a passage is relevant, the document containing it is considered relevant.
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl23-doc-segmented-unicoil-0shot-v2.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl23-doc-segmented-unicoil-0shot-v2.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

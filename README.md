@@ -391,9 +391,9 @@ See individual pages for details.
 | uniCOIL noexp zero-shot                    | [✓](docs/regressions/regressions-msmarco-v2-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions/regressions-dl21-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions/regressions-dl22-passage-unicoil-noexp-0shot.md) | [✓](docs/regressions/regressions-dl23-passage-unicoil-noexp-0shot.md) |
 | uniCOIL with doc2query-T5 zero-shot        |    [✓](docs/regressions/regressions-msmarco-v2-passage-unicoil-0shot.md)    |    [✓](docs/regressions/regressions-dl21-passage-unicoil-0shot.md)    |    [✓](docs/regressions/regressions-dl22-passage-unicoil-0shot.md)    |    [✓](docs/regressions/regressions-dl23-passage-unicoil-0shot.md)    |
 | SPLADE++ CoCondenser-EnsembleDistil        |    [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-ed.md)     |    [✓](docs/regressions/regressions-dl21-passage-splade-pp-ed.md)     |    [✓](docs/regressions/regressions-dl22-passage-splade-pp-ed.md)     |                                                                       |
-| SPLADE++ CoCondenser-EnsembleDistil (ONNX) |  [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-ed-onnx.md)  |                                                                       |
+| SPLADE++ CoCondenser-EnsembleDistil (ONNX) |  [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-ed-onnx.md)  |  [✓](docs/regressions/regressions-dl21-passage-splade-pp-ed-onnx.md)  |
 | SPLADE++ CoCondenser-SelfDistil            |    [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-sd.md)     |    [✓](docs/regressions/regressions-dl21-passage-splade-pp-sd.md)     |    [✓](docs/regressions/regressions-dl22-passage-splade-pp-sd.md)     |                                                                       |
-| SPLADE++ CoCondenser-SelfDistil (ONNX)     |  [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-sd-onnx.md)  |                                                                       |
+| SPLADE++ CoCondenser-SelfDistil (ONNX)     |  [✓](docs/regressions/regressions-msmarco-v2-passage-splade-pp-sd-onnx.md)  |  [✓](docs/regressions/regressions-dl21-passage-splade-pp-sd-onnx.md)  |
 
 ### Available Corpora for Download
 
@@ -402,7 +402,7 @@ See individual pages for details.
 | [uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar)      | 24 GB | `d9cc1ed3049746e68a2c91bf90e5212d` |
 | [uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar)           | 41 GB | `1949a00bfd5e1f1a230a04bbc1f01539` |
 | [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_ed.tar) | 66 GB | `2cdb2adc259b8fa6caf666b20ebdc0e8` |
-| [SPLADE++ CoCondenser-SelfDistil)](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_sd.tar)    | 76 GB | `061930dd615c7c807323ea7fc7957877` |
+| [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_sd.tar)     | 76 GB | `061930dd615c7c807323ea7fc7957877` |
 
 </details>
 <details>

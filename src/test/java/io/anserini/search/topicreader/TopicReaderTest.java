@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(470, cnt);
+    assertEquals(472, cnt);
   }
 
   @Test
@@ -946,6 +946,22 @@ public class TopicReaderTest {
     assertEquals(3100949, (int) topics.lastKey());
     assertEquals("How do birth control and hormone levels affect menstrual cycle variations?", topics.get(topics.lastKey()).get("title"));
     assertEquals("How do birth control and hormone levels affect menstrual cycle variations?", topics.get(3100949).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2023_DL_UNICOIL);
+    assertNotNull(topics);
+    assertEquals(700, topics.size());
+    assertEquals(2000138, (int) topics.firstKey());
+    assertEquals(34407, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(3100949, (int) topics.lastKey());
+    assertEquals(31334, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2023_DL_UNICOIL_NOEXP);
+    assertNotNull(topics);
+    assertEquals(700, topics.size());
+    assertEquals(2000138, (int) topics.firstKey());
+    assertEquals(37993, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(3100949, (int) topics.lastKey());
+    assertEquals(31283, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
