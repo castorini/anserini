@@ -66,40 +66,40 @@ models:
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized
     results:
       MAP@100:
-        - 0.2718
+        - 0.1400
       MRR@100:
-        - 0.9684
+        - 0.8170
       nDCG@10:
-        - 0.6783
+        - 0.4451
       R@100:
-        - 0.3700
+        - 0.2656
       R@1000:
-        - 0.7069
+        - 0.5235
   - name: unicoil-0shot+rm3
     display: +RM3
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3 -collection JsonVectorCollection
     results:
       MAP@100:
-        - 0.3293
+        - 0.1598
       MRR@100:
-        - 0.9357
+        - 0.8293
       nDCG@10:
-        - 0.6980
+        - 0.4570
       R@100:
-        - 0.4233
+        - 0.2810
       R@1000:
-        - 0.7611
+        - 0.5586
   - name: unicoil-0shot+rocchio
     display: +Rocchio
     params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rocchio -collection JsonVectorCollection
     results:
       MAP@100:
-        - 0.3434
+        - 0.1701
       MRR@100:
-        - 0.9649
+        - 0.8315
       nDCG@10:
-        - 0.7061
+        - 0.4767
       R@100:
-        - 0.4374
+        - 0.2991
       R@1000:
-        - 0.7809
+        - 0.5783

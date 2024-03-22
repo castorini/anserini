@@ -206,7 +206,7 @@ def evaluate_and_verify(yaml_data, dry_run):
 
                 using_hnsw = True \
                     if 'VectorQueryGenerator' in model['params'] or \
-                       ('-encoder' in model['params'] and 'SpladePlusPlusEnsembleDistil' not in model['params']) else False
+                       ('-encoder' in model['params'] and ('SpladePlusPlusEnsembleDistil' not in model['params'] and 'SpladePlusPlusSelfDistil' not in model['params'])) else False
 
                 # For HNSW, we only print to third digit
                 if using_hnsw:

@@ -66,13 +66,13 @@ models:
     params: -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil
     results:
       MAP@100:
-        - 0.3328
+        - 0.3329
       MRR@100:
         - 0.8289
       nDCG@10:
-        - 0.6846
+        - 0.6851
       R@100:
-        - 0.5619
+        - 0.5625
       R@1000:
         - 0.8586
   - name: splade-pp-ed+rm3
@@ -80,11 +80,11 @@ models:
     params: -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil -rm3 -collection JsonVectorCollection
     results:
       MAP@100:
-        - 0.3338
+        - 0.3340
       MRR@100:
         - 0.7961
       nDCG@10:
-        - 0.6712
+        - 0.6713
       R@100:
         - 0.5693
       R@1000:
@@ -94,12 +94,12 @@ models:
     params: -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil -rocchio -collection JsonVectorCollection
     results:
       MAP@100:
-        - 0.3458
+        - 0.3461
       MRR@100:
         - 0.8471
       nDCG@10:
-        - 0.7002
+        - 0.7006
       R@100:
-        - 0.5572
+        - 0.5578
       R@1000:
-        - 0.8964
+        - 0.8966
