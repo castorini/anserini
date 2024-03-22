@@ -32,6 +32,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class PrebuiltIndexHandler {
   private String indexName;
@@ -70,7 +71,10 @@ public class PrebuiltIndexHandler {
      * Otherwise, return false.
      */
     if (checkFileExist(savePath) || checkFileExist(Paths.get(savePath.toString().replace(".gz", "")))
-        || checkFileExist(Paths.get(savePath.toString().replace(".tar.gz", "")))) {
+        || checkFileExist(Paths.get(savePath.toString().replace(".tar.gz", "")))
+        || checkFileExist(Paths.get(savePath.toString() + "." + info.md5))
+        || checkFileExist(Paths.get(savePath.toString().replace(".gz", "") + "." + info.md5))
+        || checkFileExist(Paths.get(savePath.toString().replace(".tar.gz", "") + "." + info.md5))) {
       return true;
     }
     return false;
@@ -173,9 +177,9 @@ public class PrebuiltIndexHandler {
     }
 
     String indexFolder = savePath.toString().replace(".tar.gz", "");
-    if (checkFileExist(Paths.get(indexFolder))) {
+    if (checkFileExist(Paths.get(indexFolder + "." + info.md5))) {
       System.out.println("Index folder already exists!");
-      return indexFolder;
+      return indexFolder + "." + info.md5;
     }
     System.out.println("Decompressing index...");
 
@@ -201,7 +205,11 @@ public class PrebuiltIndexHandler {
     Path oldIndexPath = Paths.get(indexFolder);
     indexFolder += "." + info.md5;
     this.indexFolderPath = Paths.get(indexFolder);
-    Files.move(oldIndexPath, this.indexFolderPath);
+    if (!checkFileExist(this.indexFolderPath)) {
+      Files.move(oldIndexPath, this.indexFolderPath);
+    } else if (checkFileExist(oldIndexPath)) {
+      Files.delete(oldIndexPath);
+    }
     return indexFolder;
   }
 
