@@ -2,8 +2,8 @@
 
 **Model**: SPLADE++ CoCondenser-EnsembleDistil (using ONNX for on-the-fly query encoding)
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2 passage corpus.
-Here, we cover experiments with the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model, using ONNX to perform query encoding on the fly.
+This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model to the MS MARCO V2 passage corpus.
+Here, we evaluate on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html), using ONNX to perform query encoding on the fly.
 
 The model is described in the following paper:
 

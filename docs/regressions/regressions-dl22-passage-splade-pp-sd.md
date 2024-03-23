@@ -2,8 +2,8 @@
 
 **Model**: SPLADE++ CoCondenser-SelfDistil (using pre-encoded queries)
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2 passage corpus.
-Here, we cover experiments with the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model, using pre-encoded queries (i.e., cached results of query encoding).
+This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model to the MS MARCO V2 passage corpus.
+Here, we evaluate on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html), using pre-encoded queries (i.e., cached results of query encoding).
 
 The model is described in the following paper:
 
