@@ -53,7 +53,7 @@ topics:
     qrel: qrels.dl20-passage.txt
 
 models:
-  - name: splade-pp-sd
+  - name: splade-pp-sd-cached_q
     display: SPLADE++ CoCondenser-SelfDistil
     params: -impact -pretokenized
     results:
@@ -65,7 +65,7 @@ models:
         - 0.7512
       R@1000:
         - 0.9023
-  - name: rm3
+  - name: splade-pp-sd-cached_q+rm3
     display: +RM3
     params: -impact -pretokenized -rm3
     results:
@@ -77,7 +77,7 @@ models:
         - 0.7631
       R@1000:
         - 0.9174
-  - name: rocchio
+  - name: splade-pp-sd-cached_q+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio
     results:

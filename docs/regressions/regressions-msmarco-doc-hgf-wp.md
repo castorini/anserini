@@ -47,7 +47,7 @@ target/appassembler/bin/SearchCollection \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt \
-  -bm25 -analyzeWithHuggingFaceTokenizer  bert-base-uncased &
+  -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -53,7 +53,7 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: unicoil-noexp
+  - name: unicoil-noexp-cached_q
     display: uniCOIL (no expansions)
     params: -impact -pretokenized
     results:
@@ -68,7 +68,7 @@ models:
 # PRF regressions are no longer maintained for sparse judgments to reduce running times.
 # (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
 #
-#  - name: rm3
+#  - name: unicoil-noexp-cached_q+rm3
 #    display: +RM3
 #    params: -impact -pretokenized -rm3
 #    results:
@@ -80,7 +80,7 @@ models:
 #        - 0.7953
 #      R@1000:
 #        - 0.9296
-#  - name: rocchio
+#  - name: unicoil-noexp-cached_q+rocchio
 #    display: +Rocchio
 #    params: -impact -pretokenized -rocchio
 #    results:

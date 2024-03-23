@@ -77,17 +77,17 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt \
+  -output runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.msmarco-passage.dev-subset.splade-pp-sd.txt \
   -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.msmarco-passage.dev-subset.splade-pp-sd.txt
 ```
 
 ## Effectiveness
