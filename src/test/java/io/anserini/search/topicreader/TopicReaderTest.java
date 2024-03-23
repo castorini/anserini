@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(472, cnt);
+    assertEquals(474, cnt);
   }
 
   @Test
@@ -962,6 +962,22 @@ public class TopicReaderTest {
     assertEquals(37993, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(3100949, (int) topics.lastKey());
     assertEquals(31283, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2023_DL_SPLADE_PP_ED);
+    assertNotNull(topics);
+    assertEquals(700, topics.size());
+    assertEquals(2000138, (int) topics.firstKey());
+    assertEquals(138500, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(3100949, (int) topics.lastKey());
+    assertEquals(139500, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2023_DL_SPLADE_PP_SD);
+    assertNotNull(topics);
+    assertEquals(700, topics.size());
+    assertEquals(2000138, (int) topics.firstKey());
+    assertEquals(163500, topics.get(topics.firstKey()).get("title").split(" ").length);
+    assertEquals(3100949, (int) topics.lastKey());
+    assertEquals(181700, topics.get(topics.lastKey()).get("title").split(" ").length);
   }
 
   @Test
