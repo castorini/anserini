@@ -44,7 +44,7 @@ public class PrebuiltIndexTest {
       for (String url : info.urls) {
         // check each url status code is 200
         try {
-          final URL requestUrl = new URL("http://example.com");
+          final URL requestUrl = new URL("http://google.com");
           final HttpURLConnection con = (HttpURLConnection) requestUrl.openConnection();
           assertEquals(200, con.getResponseCode());
         } catch (IOException e) {
