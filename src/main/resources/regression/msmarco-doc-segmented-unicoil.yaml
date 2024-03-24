@@ -53,7 +53,7 @@ topics:
     qrel: qrels.msmarco-doc.dev.txt
 
 models:
-  - name: unicoil
+  - name: unicoil-cached_q
     display: uniCOIL (with doc2query-T5 expansions)
     params: -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
@@ -68,7 +68,7 @@ models:
 # PRF regressions are no longer maintained for sparse judgments to reduce running times.
 # (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
 #
-#  - name: rm3
+#  - name: unicoil-cached_q+rm3
 #    display: +RM3
 #    params: -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 #    results:
@@ -80,7 +80,7 @@ models:
 #        - 0.8800
 #      R@1000:
 #        - 0.9615
-#  - name: rocchio
+#  - name: unicoil-cached_q+rocchio
 #    display: +Rocchio
 #    params: -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 #    results:

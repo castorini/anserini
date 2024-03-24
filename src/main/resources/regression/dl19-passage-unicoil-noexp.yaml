@@ -53,7 +53,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 
 models:
-  - name: unicoil
+  - name: unicoil-noexp-cached_q
     display: uniCOIL (no expansions)
     params: -impact -pretokenized
     results:
@@ -65,7 +65,7 @@ models:
         - 0.5629
       R@1000:
         - 0.7752
-  - name: rm3
+  - name: unicoil-noexp-cached_q+rm3
     display: +RM3
     params: -impact -pretokenized -rm3
     results:
@@ -77,7 +77,7 @@ models:
         - 0.5915
       R@1000:
         - 0.8019
-  - name: rocchio
+  - name: unicoil-noexp-cached_q+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio
     results:

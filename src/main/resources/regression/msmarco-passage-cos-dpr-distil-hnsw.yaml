@@ -50,7 +50,7 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: cos-dpr-distil-hnsw
+  - name: cos-dpr-distil-hnsw-cached_q
     display: cosDPR-distil
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000

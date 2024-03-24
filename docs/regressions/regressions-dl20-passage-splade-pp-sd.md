@@ -81,41 +81,41 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.splade-pp-sd.txt \
+  -output runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl20.splade-pp-sd.txt \
   -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.splade-pp-sd.txt \
+  -output runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl20.splade-pp-sd.txt \
   -impact -pretokenized -rm3 &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.splade-pp-sd.txt \
+  -output runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl20.splade-pp-sd.txt \
   -impact -pretokenized -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl20.splade-pp-sd.txt
 
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rm3.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl20.splade-pp-sd.txt
 
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.rocchio.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl20.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl20.splade-pp-sd.txt
 ```
 
 ## Effectiveness
