@@ -1,9 +1,11 @@
 # Anserini Regressions: TREC 2021 Deep Learning Track (Passage)
 
-**Model**: SPLADE++ CoCondenser-EnsembleDistil
+**Model**: SPLADE++ CoCondenser-EnsembleDistil (using pre-encoded queries)
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 passage corpus.
-Here, we cover experiments with the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model, described in the following paper:
+This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model to the MS MARCO V2 passage corpus.
+Here, we evaluate on the [TREC 2021 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2021.html), using pre-encoded queries (i.e., cached results of query encoding).
+
+The model is described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
@@ -84,7 +86,3 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-## Reproduction Log[*](${root_path}/docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](${template}) and run `bin/build.sh` to rebuild the documentation.

@@ -1,11 +1,11 @@
 # Anserini Regressions: MS MARCO (V2) Passage Ranking
 
-**Model**: SPLADE++ CoCondenser-EnsembleDistil
+**Model**: SPLADE++ CoCondenser-EnsembleDistil (using pre-encoded queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model to the MS MARCO V2 passage corpus.
-Here, we evaluate on the dev queries.
+Here, we evaluate on the dev queries, using pre-encoded queries (i.e., cached results of query encoding).
 
-The model can be described in the following paper:
+The model is described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
@@ -79,25 +79,25 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-v2-passage.dev.splade-pp-ed.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.msmarco-v2-passage.dev.splade-pp-ed.txt \
   -parallelism 16 -impact -pretokenized &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt \
   -parallelism 16 -impact -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
-target/appassembler/bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
-target/appassembler/bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
 ```
 
 ## Effectiveness
@@ -117,7 +117,3 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**|
 | [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.8220    |
 | [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.8124    |
-
-## Reproduction Log[*](../../docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v2-passage-splade-pp-ed.template) and run `bin/build.sh` to rebuild the documentation.

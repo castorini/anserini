@@ -104,8 +104,3 @@ With the above commands, you should be able to reproduce the following results:
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3656    | 0.4131    | 0.4172    |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.7202    | 0.7948    | 0.7969    |
-
-Some of these regressions correspond to official TREC 2021 Deep Learning Track "baseline" submissions:
-
-+ `dseg_bm25` = BM25 (default), `k1=0.9`, `b=0.4`
-+ `dseg_bm25rm3` = BM25 (default) + RM3, `k1=0.9`, `b=0.4`
