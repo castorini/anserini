@@ -1,0 +1,76 @@
+---
+corpus: msmarco-v2-passage-splade-pp-sd
+corpus_path: collections/msmarco/msmarco_v2_passage_splade_pp_sd/
+
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_sd.tar
+download_checksum: 061930dd615c7c807323ea7fc7957877
+download_corpus: msmarco_v2_passage_splade_pp_sd
+
+index_path: indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 24
+index_options: -impact -pretokenized -storeRaw
+index_stats:
+  documents: 138364198
+  documents (non-empty): 138364198
+  total terms: 907527565158
+
+metrics:
+  - metric: MAP@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: MRR@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: target/appassembler/bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev
+    path: topics.msmarco-v2-passage.dev.txt
+    qrel: qrels.msmarco-v2-passage.dev.txt
+  - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
+    id: dev2
+    path: topics.msmarco-v2-passage.dev2.txt
+    qrel: qrels.msmarco-v2-passage.dev2.txt
+
+models:
+  - name: splade-pp-sd-onnx
+    display: SPLADE++ CoCondenser-SelfDistil
+    params: -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusSelfDistil
+    results:
+      MAP@100:
+        - 0.1522
+        - 0.1613
+      MRR@100:
+        - 0.1536
+        - 0.1627
+      R@100:
+        - 0.6085
+        - 0.6178
+      R@1000:
+        - 0.8268
+        - 0.8234

@@ -1,0 +1,105 @@
+---
+corpus: msmarco-v2-passage-unicoil-0shot
+corpus_path: collections/msmarco/msmarco_v2_passage_unicoil_0shot/
+
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_0shot.tar
+download_checksum: 1949a00bfd5e1f1a230a04bbc1f01539
+download_corpus: msmarco_v2_passage_unicoil_0shot
+
+index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 24
+index_options: -impact -pretokenized -storeRaw
+index_stats:
+  documents: 138364198
+  documents (non-empty): 138364198
+  total terms: 775253560148
+
+metrics:
+  - metric: MAP@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -M 100 -m map -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: MRR@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -M 100 -m recip_rank -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: target/appassembler/bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -m recall.100 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: target/appassembler/bin/trec_eval
+    params: -c -m recall.1000 -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    id: dl23
+    path: topics.dl23.unicoil.0shot.tsv.gz
+    qrel: qrels.dl23-passage.txt
+
+models:
+  - name: unicoil-0shot-cached_q
+    display: uniCOIL (with doc2query-T5) zero-shot
+    params: -impact -pretokenized
+    results:
+      MAP@100:
+        - 0.1437
+      MRR@100:
+        - 0.6424
+      nDCG@10:
+        - 0.3855
+      R@100:
+        - 0.3293
+      R@1000:
+        - 0.5541
+  - name: unicoil-0shot-cached_q+rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3 -collection JsonVectorCollection
+    results:
+      MAP@100:
+        - 0.1363
+      MRR@100:
+        - 0.5697
+      nDCG@10:
+        - 0.3776
+      R@100:
+        - 0.3126
+      R@1000:
+        - 0.5541
+  - name: unicoil-0shot-cached_q+rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio -collection JsonVectorCollection
+    results:
+      MAP@100:
+        - 0.1491
+      MRR@100:
+        - 0.6385
+      nDCG@10:
+        - 0.3938
+      R@100:
+        - 0.3351
+      R@1000:
+        - 0.5742
