@@ -53,7 +53,7 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: distill-splade-max
+  - name: distill-splade-max-cached_q
     display: DistilSPLADE-max
     params: -impact -pretokenized
     results:

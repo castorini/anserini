@@ -52,7 +52,7 @@ topics:
 models:
   - name: bm25-default
     display: BM25 (default)
-    params: -bm25 -analyzeWithHuggingFaceTokenizer  bert-base-uncased
+    params: -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased
     results:
       AP@1000:
         - 0.2367

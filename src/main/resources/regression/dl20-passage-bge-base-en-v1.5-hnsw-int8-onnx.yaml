@@ -50,7 +50,7 @@ topics:
     qrel: qrels.dl20-passage.txt
 
 models:
-  - name: bge-hnsw
+  - name: bge-hnsw-onnx
     display: BGE-base-en-v1.5
     type: hnsw
     params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15

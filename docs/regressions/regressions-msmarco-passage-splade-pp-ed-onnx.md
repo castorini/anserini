@@ -77,17 +77,17 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.txt \
+  -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-onnx.topics.msmarco-passage.dev-subset.txt \
   -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.txt
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed.topics.msmarco-passage.dev-subset.txt
+target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-onnx.topics.msmarco-passage.dev-subset.txt
+target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-onnx.topics.msmarco-passage.dev-subset.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-onnx.topics.msmarco-passage.dev-subset.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-onnx.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness
