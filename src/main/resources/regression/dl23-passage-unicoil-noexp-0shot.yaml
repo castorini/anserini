@@ -61,7 +61,7 @@ topics:
     qrel: qrels.dl23-passage.txt
 
 models:
-  - name: unicoil-noexp-0shot
+  - name: unicoil-noexp-0shot-cached_q
     display: uniCOIL (noexp) zero-shot
     params: -impact -pretokenized
     results:
@@ -75,7 +75,7 @@ models:
         - 0.2761
       R@1000:
         - 0.5070
-  - name: unicoil-noexp-0shot+rm3
+  - name: unicoil-noexp-0shot-cached_q+rm3
     display: +RM3
     params: -impact -pretokenized -rm3 -collection JsonVectorCollection
     results:
@@ -89,7 +89,7 @@ models:
         - 0.2811
       R@1000:
         - 0.5076
-  - name: unicoil-noexp-0shot+rocchio
+  - name: unicoil-noexp-0shot-cached_q+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio -collection JsonVectorCollection
     results:

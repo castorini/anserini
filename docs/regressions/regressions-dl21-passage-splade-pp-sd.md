@@ -82,44 +82,44 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl21.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl21.splade-pp-sd.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl21.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl21.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl21.splade-pp-sd.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl21.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl21.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl21.splade-pp-sd.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl21.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl21.splade-pp-sd.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl21.splade-pp-sd.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl21.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl21.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl21.splade-pp-sd.txt
 ```
 
 ## Effectiveness

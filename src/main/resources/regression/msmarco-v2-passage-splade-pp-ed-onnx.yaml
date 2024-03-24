@@ -58,7 +58,7 @@ topics:
     qrel: qrels.msmarco-v2-passage.dev2.txt
 
 models:
-  - name: splade-pp-ed
+  - name: splade-pp-ed-onnx
     display: SPLADE++ CoCondenser-EnsembleDistil
     params: -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil
     results:

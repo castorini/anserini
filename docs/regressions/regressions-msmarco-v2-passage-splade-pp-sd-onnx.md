@@ -79,25 +79,25 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-v2-passage.dev.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.msmarco-v2-passage.dev.txt \
   -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusSelfDistil &
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-v2-passage.dev2.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.msmarco-v2-passage.dev2.txt \
   -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusSelfDistil &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-v2-passage.dev.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-v2-passage.dev.txt
-target/appassembler/bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-v2-passage.dev.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-v2-passage.dev2.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-v2-passage.dev2.txt
-target/appassembler/bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.msmarco-v2-passage.dev2.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.msmarco-v2-passage.dev.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.msmarco-v2-passage.dev.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.msmarco-v2-passage.dev.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.msmarco-v2-passage.dev2.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.msmarco-v2-passage.dev2.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.msmarco-v2-passage.dev2.txt
 ```
 
 ## Effectiveness
