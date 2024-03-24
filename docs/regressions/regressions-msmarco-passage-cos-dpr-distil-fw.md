@@ -71,17 +71,17 @@ target/appassembler/bin/SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.fw-40/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
   -topicField vector -threads 16 -encoding fw -fw.q 40 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness

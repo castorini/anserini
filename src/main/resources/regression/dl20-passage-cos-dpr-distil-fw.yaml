@@ -54,7 +54,7 @@ topics:
     qrel: qrels.dl20-passage.txt
 
 models:
-  - name: cos-dpr-distil-fw-40
+  - name: cos-dpr-distil-fw-40-cached_q
     display: cosDPR-distill
     type: inverted-dense
     params: -topicField vector -threads 16 -encoding fw -fw.q 40 -hits 1000
