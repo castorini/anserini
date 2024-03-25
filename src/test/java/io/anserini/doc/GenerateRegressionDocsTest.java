@@ -30,7 +30,7 @@ import java.util.Scanner;
 
 public class GenerateRegressionDocsTest {
   @Test
-  public void main() throws Exception {
+  public void generateDocs() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     URL templatesRoot = GenerateRegressionDocsTest.class.getResource("/docgen/templates/");
 
