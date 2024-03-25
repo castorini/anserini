@@ -1,4 +1,3 @@
-package io.anserini.reproduce;
 /*
  * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
@@ -14,6 +13,9 @@ package io.anserini.reproduce;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package io.anserini.reproduce;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -25,7 +27,14 @@ import java.util.List;
 import java.util.Map;
 
 public class RunMsMarco {
-  public static final String COLLECTION = "msmarco-v1-passage";
+  // ANSI escape code for red text
+  private static final String RED = "\u001B[31m";
+  // ANSI escape code to reset to the default text color
+  private static final String RESET = "\u001B[0m";
+
+  private static final String FAIL = RED + "[FAIL]" + RESET;
+
+  private static final String COLLECTION = "msmarco-v1-passage";
 
   public static void main(String[] args) throws Exception {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -33,24 +42,26 @@ public class RunMsMarco {
     TrecEvalMetricDefinitions metricDefinitions = new TrecEvalMetricDefinitions();
 
     for (Condition condition : config.conditions) {
-
-      System.out.println("Running condition: " + condition.display);
+      System.out.println(String.format("# Running condition \"%s\": %s \n", condition.name, condition.display));
       for (Topic topic : condition.topics) {
-        final String output = "runs/run." + "msmarco." + condition.name + "." + topic.topic_key + ".txt";
+        System.out.println("  - topic_key: " + topic.topic_key + "\n");
+
+        final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name, topic.topic_key);
 
         final String command = condition.command
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
             .replace("$output", output);
 
+        System.out.println("    Running retrieval command: " + command);
         Process process = Runtime.getRuntime().exec(command);
-        // System.out.println("Running retrieval command: " + command);
         int resultCode = process.waitFor();
         if (resultCode == 0) {
-          System.out.println("Command executed successfully for topic: " + topic.topic_key);
+          System.out.println("    Run successfully completed!");
         } else {
-          System.out.println("Command failed for topic: " + topic.topic_key);
+          System.out.println("    Run failed!");
         }
+        System.out.println("");
 
         // running the evaluation command
         Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions().get(COLLECTION);
@@ -69,16 +80,16 @@ public class RunMsMarco {
               Double delta = Math.abs(score - expected.get(metric));
 
               if (delta > 0.001) {
-                System.out.println("Expected score: " + expected.get(metric) + " but got: " + score);
+                System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL, expected.get(metric)));
               } else {
-                System.out.println("Score matches for metric: " + metric + " with value: " + score);
+                System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
               }
             } else {
-              System.out.println("Command failed for metric: " + metric);
+              System.out.println("Evaluation command failed for metric: " + metric);
             }
           }
+          System.out.println("");
         }
-
       }
     }
   }
