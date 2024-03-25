@@ -6,7 +6,7 @@ This page describes experiments, integrated into Anserini's regression testing f
 For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-However, it is important to understand that these document judgments were inferred from the passages.
+An important caveat is that these document judgments were inferred from the passages.
 That is, if a passage is relevant, the document containing it is considered relevant.
 
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
@@ -45,7 +45,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-The regression experiments here evaluate on the 82 topics for which NIST has provided these _inferred_ judgments as part of the [TREC 2023 Deep Learning Track](https://trec.nist.gov/data/deep2023.html).
+The regression experiments here evaluate on the 82 topics for which NIST has provided _inferred_ judgments as part of the [TREC 2023 Deep Learning Track](https://trec.nist.gov/data/deep2023.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -97,12 +97,12 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.1341    | 0.1652    | 0.1658    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.1341    | 0.1652    | 0.1658    |
 | **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6477    | 0.6467    | 0.6284    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6477    | 0.6467    | 0.6284    |
 | **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3405    | 0.3452    | 0.3451    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3405    | 0.3452    | 0.3451    |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2884    | 0.3129    | 0.3220    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2884    | 0.3129    | 0.3220    |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.5662    | 0.5755    | 0.5834    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.5662    | 0.5755    | 0.5834    |

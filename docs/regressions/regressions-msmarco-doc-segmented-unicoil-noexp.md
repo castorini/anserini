@@ -81,17 +81,17 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.unicoil-noexp.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt \
+  -output runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil.topics.msmarco-doc.dev.unicoil-noexp.txt
+target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
 ```
 
 ## Effectiveness

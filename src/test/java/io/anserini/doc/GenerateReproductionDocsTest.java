@@ -39,16 +39,23 @@ public class GenerateReproductionDocsTest {
   public final static String HTML_TEMPLATE_PATH = "src/main/java/io/anserini/reproduce/msmarco_html_v1_passage.template";
   public final static String ROW_TEMPLATE_PATH = "src/main/java/io/anserini/reproduce/msmarco_html_row_v1.template";
   public final static String COLLECTION = "msmarco-v1-passage";
-  public final static String[] MODELS = { "BoW-baselines", "splade-pp-ed-preencoded", "splade-pp-ed-onnx",
-      "cos-dpr-distil-preencoded", "cos-dpr-distil-onnx", "bge-base-en-15-preencoded", "bge-base-en-15-onnx" };
+  public final static String[] MODELS = {
+      "bm25-default",
+      "splade-pp-ed-cached_q",
+      "splade-pp-ed-onnx",
+      "cos-dpr-distil-cached_q",
+      "cos-dpr-distil-onnx",
+      "bge-base-en-15-cached_q",
+      "bge-base-en-15-onnx"
+  };
 
   public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {
     String key = "";
-    if (topicKey.startsWith("TREC2019")) {
+    if (topicKey.startsWith("dl19")) {
       key = "dl19";
-    } else if (topicKey.startsWith("TREC2020")) {
+    } else if (topicKey.startsWith("dl20")) {
       key = "dl20";
-    } else if (topicKey.startsWith("MSMARCO")) {
+    } else if (topicKey.startsWith("msmarco")) {
       key = "dev";
     }
     return key;
@@ -64,10 +71,11 @@ public class GenerateReproductionDocsTest {
   }
 
   public static String formatEvalCommand(String command) {
-    return command.replace("run.", "\\\n  run.");
+    return command.replace("runs/", "\\\n  runs/");
   }
 
-  public static void generateReport() throws Exception {
+  @Test
+  public void generateReport() throws Exception {
     Map<String, Map<String, Map<String, Double>>> table = new HashMap<>();
     Map<String, Map<String, String>> commands = new HashMap<>();
     Map<String, Map<String, String>> evalCommands = new HashMap<>();
@@ -164,14 +172,5 @@ public class GenerateReproductionDocsTest {
     StringSubstitutor sub = new StringSubstitutor(outputValuesMap);
     String resolvedString = new String(sub.replace(htmlTemplateString));
     FileUtils.writeStringToFile(new File("docs/reproduce/msmarco-v1-passage.html"), resolvedString, "UTF-8");
-  }
-
-  @Test
-  public void main() throws Exception {
-    try {
-      generateReport();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 }

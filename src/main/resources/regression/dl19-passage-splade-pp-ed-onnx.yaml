@@ -53,7 +53,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 
 models:
-  - name: splade-pp-ed
+  - name: splade-pp-ed-onnx
     display: SPLADE++ CoCondenser-EnsembleDistil
     params: -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil
     results:
@@ -65,7 +65,7 @@ models:
         - 0.6390
       R@1000:
         - 0.8728
-  - name: rm3
+  - name: splade-pp-ed-onnx+rm3
     display: +RM3
     params: -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil -rm3
     results:
@@ -77,7 +77,7 @@ models:
         - 0.6427
       R@1000:
         - 0.8684
-  - name: rocchio
+  - name: splade-pp-ed-onnx+rocchio
     display: +Rocchio
     params: -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil -rocchio
     results:

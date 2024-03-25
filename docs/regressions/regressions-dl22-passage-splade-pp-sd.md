@@ -1,9 +1,11 @@
 # Anserini Regressions: TREC 2022 Deep Learning Track (Passage)
 
-**Model**: SPLADE++ CoCondenser-SelfDistil
+**Model**: SPLADE++ CoCondenser-SelfDistil (using pre-encoded queries)
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2 passage corpus.
-Here, we cover experiments with the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model, described in the following paper:
+This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model to the MS MARCO V2 passage corpus.
+Here, we evaluate on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html), using pre-encoded queries (i.e., cached results of query encoding).
+
+The model is described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
@@ -80,44 +82,44 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl22.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl22.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl22.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl22.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl22.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt \
+  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl22.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl22.splade-pp-sd.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl22.splade-pp-sd.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl22.splade-pp-sd.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl22.splade-pp-sd.txt
 ```
 
 ## Effectiveness
@@ -135,7 +137,3 @@ With the above commands, you should be able to reproduce the following results:
 | [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3681    | 0.3693    | 0.3761    |
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
 | [DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6551    | 0.6350    | 0.6696    |
-
-## Reproduction Log[*](../../docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl22-passage-splade-pp-sd.template) and run `bin/build.sh` to rebuild the documentation.

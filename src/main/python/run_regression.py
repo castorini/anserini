@@ -140,7 +140,7 @@ def construct_indexing_command(yaml_data, args):
 
 def construct_runfile_path(index, id, model_name):
     # If the index is 'indexes/lucene-index.msmarco-passage-ca/', we pull out 'msmarco-passage-ca'.
-    # Be careful, for 'indexes/lucene-index.mrtydi-v1.1-arabic/', we want to pull out 'lucene-index.mrtydi-v1.1-arabic'.
+    # Be careful, for 'indexes/lucene-index.mrtydi-v1.1-arabic/', we want to pull out 'mrtydi-v1.1-arabic'.
     index_part = index.split('/')[1].split('.', 1)[1]
     return os.path.join('runs/', 'run.{0}.{1}.{2}'.format(index_part, id, model_name))
 
@@ -206,7 +206,7 @@ def evaluate_and_verify(yaml_data, dry_run):
 
                 using_hnsw = True \
                     if 'VectorQueryGenerator' in model['params'] or \
-                       ('-encoder' in model['params'] and 'SpladePlusPlusEnsembleDistil' not in model['params']) else False
+                       ('-encoder' in model['params'] and ('SpladePlusPlusEnsembleDistil' not in model['params'] and 'SpladePlusPlusSelfDistil' not in model['params'])) else False
 
                 # For HNSW, we only print to third digit
                 if using_hnsw:

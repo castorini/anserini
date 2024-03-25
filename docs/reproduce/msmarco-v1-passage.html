@@ -140,8 +140,8 @@ pre[class*="prettyprint"] {
 
 <div class="container my-4">
 
-<p>The two-click<a href="#" data-mdb-toggle="tooltip" title="What are the two clicks, you ask? Copy and paste!"><sup>*</sup></a> reproduction matrix below provides commands for reproducing experimental results reported in a number of papers, denoted by the references in square brackets.
-Instructions for programmatic execution are shown at the bottom of this page (scroll down).</p>
+<!-- p>The two-click<a href="#" data-mdb-toggle="tooltip" title="What are the two clicks, you ask? Copy and paste!"><sup>*</sup></a> reproduction matrix below provides commands for reproducing experimental results reported in a number of papers, denoted by the references in square brackets.
+Instructions for programmatic execution are shown at the bottom of this page (scroll down).</p -->
 
 <div class="table-responsive">
   <table class="table">
@@ -173,11 +173,11 @@ Instructions for programmatic execution are shown at the bottom of this page (sc
     </thead>
     <tbody>
 
-<!-- Condition: BoW baselines -->
+<!-- Condition: BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) -->
 <tr class="accordion-toggle collapsed" id="row1" data-toggle="collapse" data-parent="#row1" href="#collapse1">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">BoW baselines</td>
+<td style="min-width: 400px">BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)</td>
 <td>0.3013</td>
 <td>0.5058</td>
 <td>0.7501</td>
@@ -217,19 +217,19 @@ Command to generate run on TREC 2019 queries:
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
-  -topics TREC2019_DL_PASSAGE \
-  -output runs/run.msmarco.BoW-baselines.dl19.txt \
+  -topics dl19-passage \
+  -output runs/run.msmarco.bm25-default.dl19.txt \
   -hits 1000 -bm25
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.BoW-baselines.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.BoW-baselines.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.BoW-baselines.dl19.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bm25-default.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bm25-default.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bm25-default.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -241,19 +241,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
-  -topics TREC2020_DL \
-  -output runs/run.msmarco.BoW-baselines.dl20.txt \
+  -topics dl20-passage \
+  -output runs/run.msmarco.bm25-default.dl20.txt \
   -hits 1000 -bm25
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.BoW-baselines.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.BoW-baselines.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.BoW-baselines.dl20.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bm25-default.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bm25-default.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bm25-default.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -265,17 +265,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
-  -topics MSMARCO_PASSAGE_DEV_SUBSET \
-  -output runs/run.msmarco.BoW-baselines.dev.txt \
+  -topics msmarco-v1-passage-dev \
+  -output runs/run.msmarco.bm25-default.dev.txt \
   -hits 1000 -bm25
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.BoW-baselines.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.BoW-baselines.dev.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bm25-default.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bm25-default.dev.txt
 </code></pre>
   </blockquote>
 
@@ -285,11 +285,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: SPLADE ++ EnsembleDistil (pre-encoded) -->
+<!-- Condition: SPLADE++ EnsembleDistil (pre-encoded queries) -->
 <tr class="accordion-toggle collapsed" id="row2" data-toggle="collapse" data-parent="#row2" href="#collapse2">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">SPLADE ++ EnsembleDistil (pre-encoded)</td>
+<td style="min-width: 400px">SPLADE++ EnsembleDistil (pre-encoded queries)</td>
 <td>0.5053</td>
 <td>0.7317</td>
 <td>0.8726</td>
@@ -298,7 +298,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 <td>0.7198</td>
 <td>0.8995</td>
 <td></td>
-<td>0.3884</td>
+<td>0.3830</td>
 <td>0.9831</td>
 </tr>
 <tr class="hide-table-padding">
@@ -329,19 +329,19 @@ Command to generate run on TREC 2019 queries:
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
-  -topics TREC2019_DL_PASSAGE_SPLADE_PP_ED \
-  -output runs/run.msmarco.splade-pp-ed-preencoded.dl19.txt \
+  -topics dl19-passage-splade-pp-ed \
+  -output runs/run.msmarco.splade-pp-ed-cached_q.dl19.txt \
   -impact -pretokenized -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.splade-pp-ed-preencoded.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.splade-pp-ed-preencoded.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.splade-pp-ed-preencoded.dl19.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.splade-pp-ed-cached_q.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.splade-pp-ed-cached_q.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.splade-pp-ed-cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -353,19 +353,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
-  -topics TREC2020_DL_SPLADE_PP_ED \
-  -output runs/run.msmarco.splade-pp-ed-preencoded.dl20.txt \
+  -topics dl20-passage-splade-pp-ed \
+  -output runs/run.msmarco.splade-pp-ed-cached_q.dl20.txt \
   -impact -pretokenized -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.splade-pp-ed-preencoded.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.splade-pp-ed-preencoded.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.splade-pp-ed-preencoded.dl20.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.splade-pp-ed-cached_q.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.splade-pp-ed-cached_q.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.splade-pp-ed-cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -377,17 +377,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
-  -topics MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED \
-  -output runs/run.msmarco.splade-pp-ed-preencoded.dev.txt \
+  -topics msmarco-v1-passage-dev-splade-pp-ed \
+  -output runs/run.msmarco.splade-pp-ed-cached_q.dev.txt \
   -impact -pretokenized -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.splade-pp-ed-preencoded.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.splade-pp-ed-preencoded.dev.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.splade-pp-ed-cached_q.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.splade-pp-ed-cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -397,11 +397,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: SPLADE ++ EnsembleDistil (ONNX Runtime) -->
+<!-- Condition: SPLADE++ EnsembleDistil (ONNX) -->
 <tr class="accordion-toggle collapsed" id="row3" data-toggle="collapse" data-parent="#row3" href="#collapse3">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">SPLADE ++ EnsembleDistil (ONNX Runtime)</td>
+<td style="min-width: 400px">SPLADE++ EnsembleDistil (ONNX)</td>
 <td>0.5050</td>
 <td>0.7308</td>
 <td>0.8728</td>
@@ -410,7 +410,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 <td>0.7197</td>
 <td>0.8998</td>
 <td></td>
-<td>0.3883</td>
+<td>0.3828</td>
 <td>0.9831</td>
 </tr>
 <tr class="hide-table-padding">
@@ -441,7 +441,7 @@ Command to generate run on TREC 2019 queries:
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
-  -topics TREC2019_DL_PASSAGE \
+  -topics dl19-passage \
   -output runs/run.msmarco.splade-pp-ed-onnx.dl19.txt \
   -impact -pretokenized -hits 1000 \
   -encoder SpladePlusPlusEnsembleDistil
@@ -449,12 +449,12 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.splade-pp-ed-onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.splade-pp-ed-onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.splade-pp-ed-onnx.dl19.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.splade-pp-ed-onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.splade-pp-ed-onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.splade-pp-ed-onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -466,7 +466,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
-  -topics TREC2020_DL \
+  -topics dl20-passage \
   -output runs/run.msmarco.splade-pp-ed-onnx.dl20.txt \
   -impact -pretokenized -hits 1000 \
   -encoder SpladePlusPlusEnsembleDistil
@@ -474,12 +474,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.splade-pp-ed-onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.splade-pp-ed-onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.splade-pp-ed-onnx.dl20.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.splade-pp-ed-onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.splade-pp-ed-onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.splade-pp-ed-onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -491,7 +491,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
-  -topics MSMARCO_PASSAGE_DEV_SUBSET \
+  -topics msmarco-v1-passage-dev \
   -output runs/run.msmarco.splade-pp-ed-onnx.dev.txt \
   -impact -pretokenized -hits 1000 \
   -encoder SpladePlusPlusEnsembleDistil
@@ -499,10 +499,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.splade-pp-ed-onnx.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.splade-pp-ed-onnx.dev.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.splade-pp-ed-onnx.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.splade-pp-ed-onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -512,11 +512,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: cosDPR-distil (pre-encoded) -->
+<!-- Condition: cosDPR-distil (pre-encoded queries) -->
 <tr class="accordion-toggle collapsed" id="row4" data-toggle="collapse" data-parent="#row4" href="#collapse4">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil (pre-encoded)</td>
+<td style="min-width: 400px">cosDPR-distil (pre-encoded queries)</td>
 <td>0.4660</td>
 <td>0.7250</td>
 <td>0.8222</td>
@@ -556,19 +556,19 @@ Command to generate run on TREC 2019 queries:
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
-  -topics TREC2019_DL_PASSAGE_COS_DPR_DISTIL \
-  -output runs/run.msmarco.cos-dpr-distil-preencoded.dl19.txt \
+  -topics dl19-passage-cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil-cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-preencoded.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-preencoded.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-preencoded.dl19.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-cached_q.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-cached_q.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -580,19 +580,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
-  -topics TREC2020_DL_COS_DPR_DISTIL \
-  -output runs/run.msmarco.cos-dpr-distil-preencoded.dl20.txt \
+  -topics dl20-passage-cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil-cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-preencoded.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-preencoded.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-preencoded.dl20.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-cached_q.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-cached_q.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -604,17 +604,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
-  -topics MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL \
-  -output runs/run.msmarco.cos-dpr-distil-preencoded.dev.txt \
+  -topics msmarco-v1-passage-dev-cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil-cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.cos-dpr-distil-preencoded.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.cos-dpr-distil-preencoded.dev.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.cos-dpr-distil-cached_q.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.cos-dpr-distil-cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -624,11 +624,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: cosDPR-distil (ONNX Runtime) -->
+<!-- Condition: cosDPR-distil (ONNX) -->
 <tr class="accordion-toggle collapsed" id="row5" data-toggle="collapse" data-parent="#row5" href="#collapse5">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil (ONNX Runtime)</td>
+<td style="min-width: 400px">cosDPR-distil (ONNX)</td>
 <td>0.4660</td>
 <td>0.7250</td>
 <td>0.8222</td>
@@ -668,7 +668,7 @@ Command to generate run on TREC 2019 queries:
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
-  -topics TREC2019_DL_PASSAGE \
+  -topics dl19-passage \
   -output runs/run.msmarco.cos-dpr-distil-onnx.dl19.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
@@ -676,12 +676,12 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-onnx.dl19.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -693,7 +693,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
-  -topics TREC2020_DL \
+  -topics dl20-passage \
   -output runs/run.msmarco.cos-dpr-distil-onnx.dl20.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
@@ -701,12 +701,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.cos-dpr-distil-onnx.dl20.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.cos-dpr-distil-onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -718,7 +718,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
-  -topics MSMARCO_PASSAGE_DEV_SUBSET \
+  -topics msmarco-v1-passage-dev \
   -output runs/run.msmarco.cos-dpr-distil-onnx.dev.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
@@ -726,10 +726,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.cos-dpr-distil-onnx.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.cos-dpr-distil-onnx.dev.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.cos-dpr-distil-onnx.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.cos-dpr-distil-onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -739,11 +739,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: BGE-base-en-v1.5 (pre-encoded) -->
+<!-- Condition: BGE-base-en-v1.5 (pre-encoded queries) -->
 <tr class="accordion-toggle collapsed" id="row6" data-toggle="collapse" data-parent="#row6" href="#collapse6">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">BGE-base-en-v1.5 (pre-encoded)</td>
+<td style="min-width: 400px">BGE-base-en-v1.5 (pre-encoded queries)</td>
 <td>0.4436</td>
 <td>0.7065</td>
 <td>0.8481</td>
@@ -783,19 +783,19 @@ Command to generate run on TREC 2019 queries:
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
-  -topics TREC2019_DL_PASSAGE_BGE_BASE_EN_15 \
-  -output runs/run.msmarco.bge-base-en-15-preencoded.dl19.txt \
+  -topics dl19-passage-bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15-cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.bge-base-en-15-preencoded.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.bge-base-en-15-preencoded.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.bge-base-en-15-preencoded.dl19.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15-cached_q.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15-cached_q.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15-cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -807,19 +807,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
-  -topics TREC2020_DL_BGE_BASE_EN_15 \
-  -output runs/run.msmarco.bge-base-en-15-preencoded.dl20.txt \
+  -topics dl20-passage-bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15-cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.bge-base-en-15-preencoded.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.bge-base-en-15-preencoded.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.bge-base-en-15-preencoded.dl20.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15-cached_q.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15-cached_q.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15-cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -831,17 +831,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
-  -topics MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15 \
-  -output runs/run.msmarco.bge-base-en-15-preencoded.dev.txt \
+  -topics msmarco-v1-passage-dev-bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15-cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.bge-base-en-15-preencoded.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.bge-base-en-15-preencoded.dev.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15-cached_q.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15-cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -851,11 +851,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: BGE-base-en-v1.5 (ONNX Runtime) -->
+<!-- Condition: BGE-base-en-v1.5 (ONNX) -->
 <tr class="accordion-toggle collapsed" id="row7" data-toggle="collapse" data-parent="#row7" href="#collapse7">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">BGE-base-en-v1.5 (ONNX Runtime)</td>
+<td style="min-width: 400px">BGE-base-en-v1.5 (ONNX)</td>
 <td>0.4486</td>
 <td>0.7016</td>
 <td>0.8441</td>
@@ -895,7 +895,7 @@ Command to generate run on TREC 2019 queries:
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
-  -topics TREC2019_DL_PASSAGE \
+  -topics dl19-passage \
   -output runs/run.msmarco.bge-base-en-15-onnx.dl19.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
@@ -903,12 +903,12 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.bge-base-en-15-onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.bge-base-en-15-onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt runs/\
-  run.msmarco.bge-base-en-15-onnx.dl19.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15-onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15-onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15-onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -920,7 +920,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
-  -topics TREC2020_DL \
+  -topics dl20-passage \
   -output runs/run.msmarco.bge-base-en-15-onnx.dl20.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
@@ -928,12 +928,12 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.bge-base-en-15-onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.bge-base-en-15-onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt runs/\
-  run.msmarco.bge-base-en-15-onnx.dl20.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15-onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15-onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15-onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -945,7 +945,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>target/appassembler/bin/SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
-  -topics MSMARCO_PASSAGE_DEV_SUBSET \
+  -topics msmarco-v1-passage-dev \
   -output runs/run.msmarco.bge-base-en-15-onnx.dev.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
@@ -953,10 +953,10 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.bge-base-en-15-onnx.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/\
-  run.msmarco.bge-base-en-15-onnx.dev.txt
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15-onnx.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15-onnx.dev.txt
 </code></pre>
   </blockquote>
 

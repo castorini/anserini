@@ -1,0 +1,101 @@
+---
+corpus: msmarco-v2-doc-segmented-d2q-t5
+corpus_path: collections/msmarco/msmarco_v2_doc_segmented_d2q-t5/
+
+index_path: indexes/lucene-index.msmarco-v2-doc-segmented-d2q-t5/
+collection_class: MsMarcoV2DocCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 24
+index_options: -storeRaw
+index_stats:
+  documents: 124131414
+  documents (non-empty): 124131414
+  total terms: 30376034132
+
+metrics:
+  - metric: MAP@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: no
+  - metric: MRR@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@10
+    command: target/appassembler/bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: target/appassembler/bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: target/appassembler/bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    id: dl23
+    path: topics.dl23.txt
+    qrel: qrels.dl23-doc.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25
+    results:
+      MAP@100:
+        - 0.1460
+      MRR@100:
+        - 0.7029
+      nDCG@10:
+        - 0.3612
+      R@100:
+        - 0.3078
+      R@1000:
+        - 0.5967
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP@100:
+        - 0.1699
+      MRR@100:
+        - 0.6455
+      nDCG@10:
+        - 0.3454
+      R@100:
+        - 0.3350
+      R@1000:
+        - 0.6006
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP@100:
+        - 0.1706
+      MRR@100:
+        - 0.6405
+      nDCG@10:
+        - 0.3517
+      R@100:
+        - 0.3373
+      R@1000:
+        - 0.6059
