@@ -50,7 +50,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 
 models:
-  - name: openai-ada2
+  - name: openai-ada2-cached_q
     display: OpenAI-ada2
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000

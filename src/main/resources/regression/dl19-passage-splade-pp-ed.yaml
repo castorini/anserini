@@ -53,7 +53,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 
 models:
-  - name: splade-pp-ed
+  - name: splade-pp-ed-cached_q
     display: SPLADE++ CoCondenser-EnsembleDistil
     params: -impact -pretokenized
     results:
@@ -65,7 +65,7 @@ models:
         - 0.6390
       R@1000:
         - 0.8726
-  - name: rm3
+  - name: splade-pp-ed-cached_q+rm3
     display: +RM3
     params: -impact -pretokenized -rm3
     results:
@@ -77,7 +77,7 @@ models:
         - 0.6425
       R@1000:
         - 0.8684
-  - name: rocchio
+  - name: splade-pp-ed-cached_q+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio
     results:

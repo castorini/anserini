@@ -58,7 +58,7 @@ topics:
     qrel: qrels.msmarco-v2-doc.dev2.txt
 
 models:
-  - name: unicoil-noexp-0shot
+  - name: unicoil-noexp-0shot-cached_q
     display: uniCOIL (noexp) zero-shot
     params: -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:

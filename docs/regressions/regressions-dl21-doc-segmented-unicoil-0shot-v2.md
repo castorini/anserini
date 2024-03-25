@@ -95,7 +95,7 @@ target/appassembler/bin/SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-0shot-v2/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.dl21.unicoil.0shot.txt \
+  -output runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-cached_q.topics.dl21.unicoil.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized &
 
 target/appassembler/bin/SearchCollection \
@@ -116,10 +116,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.dl21.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-cached_q.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-cached_q.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-cached_q.topics.dl21.unicoil.0shot.txt
+target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot-cached_q.topics.dl21.unicoil.0shot.txt
 
 target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
 target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-0shot-v2.unicoil-0shot+rm3.topics.dl21.unicoil.0shot.txt
@@ -147,12 +147,3 @@ With the above commands, you should be able to reproduce the following results:
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3700    | 0.4233    | 0.4374    |
 | **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
 | [DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.7069    | 0.7611    | 0.7809    |
-
-This run roughly corresponds to run `p_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
-The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
-
-## Reproduction Log[*](../../docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl21-doc-segmented-unicoil-0shot-v2.template) and run `bin/build.sh` to rebuild the documentation.
-
-+ Results reproduced by [@lintool](https://github.com/lintool) on 2022-06-06 (commit [`236b386`](https://github.com/castorini/anserini/commit/236b386ddc11d292b4b736162b59488a02236d6c))

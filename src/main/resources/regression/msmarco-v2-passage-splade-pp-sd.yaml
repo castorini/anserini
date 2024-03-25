@@ -58,7 +58,7 @@ topics:
     qrel: qrels.msmarco-v2-passage.dev2.txt
 
 models:
-  - name: splade-pp-sd
+  - name: splade-pp-sd-cached_q
     display: SPLADE++ CoCondenser-SelfDistil
     params: -parallelism 16 -impact -pretokenized
     results:

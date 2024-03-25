@@ -53,7 +53,7 @@ topics:
     qrel: qrels.dl20-doc.txt
 
 models:
-  - name: unicoil
+  - name: unicoil-noexp-cached_q
     display: uniCOIL w/ doc2query-T5 expansion
     params: -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
@@ -65,7 +65,7 @@ models:
         - 0.5872
       R@1000:
         - 0.7623
-  - name: rm3
+  - name: unicoil-noexp-cached_q+rm3
     display: +RM3
     params: -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
@@ -77,7 +77,7 @@ models:
         - 0.6381
       R@1000:
         - 0.8117
-  - name: rocchio
+  - name: unicoil-noexp-cached_q+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:

@@ -51,7 +51,7 @@ metrics:
 
 topic_reader: TsvInt
 topics:
-  - name: "[DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+  - name: "[DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl23
     path: topics.dl23.txt
     qrel: qrels.dl23-doc.txt

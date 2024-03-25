@@ -80,17 +80,17 @@ target/appassembler/bin/SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-openai-ada2/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.openai-ada2.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl19-passage.openai-ada2.jsonl.txt \
+  -output runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl19-passage.openai-ada2.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl19-passage.openai-ada2.jsonl.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl19-passage.openai-ada2.jsonl.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl19-passage.openai-ada2.jsonl.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2.topics.dl19-passage.openai-ada2.jsonl.txt
+target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl19-passage.openai-ada2.jsonl.txt
+target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl19-passage.openai-ada2.jsonl.txt
+target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl19-passage.openai-ada2.jsonl.txt
+target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl19-passage.openai-ada2.jsonl.txt
 ```
 
 ## Effectiveness

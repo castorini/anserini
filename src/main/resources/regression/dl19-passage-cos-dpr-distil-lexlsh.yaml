@@ -54,7 +54,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 
 models:
-  - name: cos-dpr-distil-lexlsh-600
+  - name: cos-dpr-distil-lexlsh-600-cached_q
     display: cosDPR-distill
     type: inverted-dense
     params: -topicField vector -threads 16 -encoding lexlsh -lexlsh.b 600 -hits 1000
