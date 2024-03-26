@@ -695,3 +695,4 @@ To reproducible old results from Lucene 7.6, use [v0.5.1](https://github.com/cas
 This research is supported in part by the Natural Sciences and Engineering Research Council (NSERC) of Canada.
 Previous support came from the U.S. National Science Foundation under IIS-1423002 and CNS-1405688.
 Any opinions, findings, and conclusions or recommendations expressed do not necessarily reflect the views of the sponsors.
+
