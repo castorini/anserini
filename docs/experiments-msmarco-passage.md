@@ -120,7 +120,7 @@ target/appassembler/bin/SearchCollection \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
   -parallelism 4 \
-  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
+  -bm25 "-bm25.k1" 0.82 "-bm25.b" 0.68 -hits 1000
 ```
 
 This is the **retrieval** (or **search**) phase.
