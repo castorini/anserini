@@ -1,32 +1,40 @@
 package io.anserini.demo;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
+import io.anserini.util.PrebuiltIndexHandler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 
 public class SearchService {
 
-    static final private String INDEX_DIR = "indexes/msmarco-passage/lucene-index-msmarco";
-    static final private float k1 = 0.82f;
-    static final private float b = 0.68f;
+    final private String indexDir;
+    final private float k1 = 0.82f;
+    final private float b = 0.68f;
 
-    public static List<QueryResult> search(String query, int hits) {
+    public SearchService(String prebuiltIndex) {
+        PrebuiltIndexHandler handler = new PrebuiltIndexHandler(prebuiltIndex);
+        handler.initialize();
+        try {
+            handler.download();
+            indexDir = handler.decompressIndex();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<QueryResult> search(String query, int hits) {
         try {
             // index, k1, b, hits
-            SimpleSearcher searcher = new SimpleSearcher(INDEX_DIR);
+            SimpleSearcher searcher = new SimpleSearcher(indexDir);
             searcher.set_bm25(k1, b);
             ScoredDoc[] results = searcher.search(query, hits);
             List<QueryResult> resultStrings = List.of(results).stream()

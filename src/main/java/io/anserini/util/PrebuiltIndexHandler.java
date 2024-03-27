@@ -152,7 +152,7 @@ public class PrebuiltIndexHandler {
       while (cis.getByteCount() < completeFileSize) {
         pb.stepTo(Math.floorDiv(cis.getByteCount(), 1000));
       }
-      
+
       pb.stepTo(Math.floorDiv(cis.getByteCount(), 1000));
       pb.close();
 
