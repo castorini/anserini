@@ -175,7 +175,7 @@ tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/
 
 To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
 
-If you peak inside the collection:
+If you peek inside the collection:
 
 ```bash
 head collections/msmarco-passage/collection.tsv
