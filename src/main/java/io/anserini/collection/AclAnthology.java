@@ -87,7 +87,6 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
     private Iterator<Map.Entry<String, JsonNode>> iter = null; // iterator for JSON document object
     private String rawContent = null; // raw content from buffered string
 
-
     public Segment(Path path) throws IOException {
       super(path);
 
@@ -96,8 +95,8 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
       LoaderOptions loaderOptions = new LoaderOptions();
       loaderOptions.setCodePointLimit(10 * 1024 * 1024); // 10 MB
       YAMLFactory yamlFactory = YAMLFactory.builder()
-        .loaderOptions(loaderOptions)
-        .build();
+          .loaderOptions(loaderOptions)
+          .build();
 
       ObjectMapper mapper = new ObjectMapper(yamlFactory);
       MappingIterator<JsonNode> iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
@@ -157,9 +156,7 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
       authors = new ArrayList<>();
       if (paper.has("author")) {
         ArrayNode authorNode = (ArrayNode) paper.get("author");
-        authorNode.elements().forEachRemaining(node ->
-          authors.add(((ObjectNode) node).get("full").asText())
-        );
+        authorNode.elements().forEachRemaining(node -> authors.add(((ObjectNode) node).get("full").asText()));
       }
 
       // Retrieve parent volume metadata
