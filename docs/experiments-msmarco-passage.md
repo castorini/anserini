@@ -107,7 +107,6 @@ In this case, Lucene creates what is known as an **inverted index**.
 Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
 
-The above configuration, on a 2021 Mac M1 Pro, takes around 30 minutes running on Python 3.12.0 and Java 21.0.2.
 
 ## Retrieval
 
