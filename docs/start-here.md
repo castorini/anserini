@@ -374,3 +374,5 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@kxwtan](https://github.com/kxwtan) on 2024-03-12 (commit [`f681d65`](https://github.com/castorini/anserini/commit/f681d6504b9f89f65697878c6c984840456f5d53))
 + Results reproduced by [@khufia](https://github.com/khufia) on 2024-03-26 (commit [`f681d65`](https://github.com/castorini/anserini/commit/f681d6504b9f89f65697878c6c984840456f5d53))
 + Results reproduced by [@Lindaaa8](https://github.com/Lindaaa8) on 2024-03-27 (commit [`d97ff14`](https://github.com/castorini/anserini/commit/d97ff14255f7786ecff8e331095370d4c8941bd5))
++ Results reproduced by [@an20805](https://github.com/an20805) on 2024-03-29 (commit [`5fb697a`](https://github.com/castorini/anserini/commit/5fb697a71e575fa5ce79d18f7ebee0bc79eeedf3))
+
