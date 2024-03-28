@@ -36,7 +36,7 @@
   <properties>
     <lucene.version>9.9.1</lucene.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <frontend.basedir>${project.basedir}/src/main/java/io/anserini/demo/frontend</frontend.basedir>
+    <frontend.basedir>${project.basedir}/src/main/frontend</frontend.basedir>
   </properties>
 
   <scm>
@@ -212,6 +212,7 @@
           <execution>
             <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
                  specified on command line - this speeds up the build greatly -->
+            <id>shade-jar-with-dependencies</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
