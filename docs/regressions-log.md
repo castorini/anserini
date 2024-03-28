@@ -3,6 +3,10 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### March 27, 2024
+
+At release v0.25.0, completed full matrix of regressions for MS MARCO v2 passage/doc for currently available models.
+
 ### February 19, 2024
 
 + commit [`43c9ec`](https://github.com/castorini/anserini/commit/43c9ecca53313ec2f84c8274d88f99ca3ea2e4bd) (2024/02/18)

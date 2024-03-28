@@ -28,7 +28,7 @@ To contribute an entry to the "Reproduction Log" in a project's repository, foll
     - Click on it and follow the instructions to create the pull request.
 
 7. **Submit the Pull Request:**
-    - Write a clear and concise description of your systme environment (Java, Python, Maven version and ...) in the pull request, and submit it. This will notify the project maintainers of your proposed changes.
+    - Write a clear and concise description of your system environment (Java, Python, Maven version and ...) in the pull request, and submit it. This will notify the project maintainers of your proposed changes.
 
 8. **Wait for Review:**
     - Project maintainers will review your pull request, and if everything looks good, they may merge it into the main repository.
