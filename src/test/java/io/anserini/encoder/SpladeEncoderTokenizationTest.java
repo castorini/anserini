@@ -76,7 +76,7 @@ public class SpladeEncoderTokenizationTest {
   };
 
   static private String getCacheDir() {
-    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
+    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/encoders");
     if (!cacheDir.exists()) {
       cacheDir.mkdir();
     }

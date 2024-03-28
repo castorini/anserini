@@ -14,7 +14,7 @@ public abstract class EncoderInferenceTest {
     protected Object[][] longExamples;
 
     protected String getCacheDir() {
-        File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/test");
+        File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/encoders");
         if (!cacheDir.exists()) {
             cacheDir.mkdir();
         }
