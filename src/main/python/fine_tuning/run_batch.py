@@ -66,7 +66,6 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
     for para in model_params:
         this_para = (
             program,
-            '-searchtweets' if 'mb' in collection_yaml['name'] else '',
             '-topicReader', collection_yaml['topic_reader'],
             '-index', index_path,
             '-topics', os.path.join(collection_yaml['anserini_root'], collection_yaml['topic_root'], collection_yaml['topic']),
@@ -194,7 +193,7 @@ if __name__ == '__main__':
     parser.add_argument('--run', action='store_true', help='Generate the runs files and evaluate them. Otherwise we only output the evaluation results (based on the existing eval files)')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
     parser.add_argument('--model', required=True, help='model')
-    parser.add_argument('--threads', dest='parallelism', type=int, default=16, help='number of parallel threads for retrieval and evaluation')
+    parser.add_argument('--parallelism', dest='parallelism', type=int, default=8, help='number of parallel threads for retrieval and evaluation')
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
     parser.add_argument('--fold_settings', default='', help='JSON file holding fold definitions, see src/main/resources/fine_tuning/robust04-paper1-folds.json for an example')
     parser.add_argument('--verbose', action='store_true', help='if specified print out model parameters and per fold scores')
