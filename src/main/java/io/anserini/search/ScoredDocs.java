@@ -86,12 +86,17 @@ public class ScoredDocs {
         String externalDocid = qrelsDocScorePair.getKey();
         Query q = new TermQuery(new Term(Constants.ID, externalDocid));
         TopDocs rs = searcher.search(q, 1);
-        lucene_documents.add(storedFields.document(rs.scoreDocs[0].doc));
-        lucene_docids.add(rs.scoreDocs[0].doc);
-        score.add(Float.valueOf(qrelsDocScorePair.getValue().floatValue()));
-        docids.add(storedFields.document(rs.scoreDocs[0].doc).get(Constants.ID));
+
+        // If for whatever reason we can't find the doc, then skip.
+        if (rs.totalHits.value > 0) {
+          lucene_documents.add(storedFields.document(rs.scoreDocs[0].doc));
+          lucene_docids.add(rs.scoreDocs[0].doc);
+          score.add(Float.valueOf(qrelsDocScorePair.getValue().floatValue()));
+          docids.add(storedFields.document(rs.scoreDocs[0].doc).get(Constants.ID));
+        }
       }
     } catch (IOException | ArrayIndexOutOfBoundsException | NullPointerException e) {
+      e.printStackTrace();
       throw new RuntimeException("Error loading qrels.");
     }
 
