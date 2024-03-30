@@ -230,6 +230,11 @@
                 cf. https://stackoverflow.com/questions/38361533/an-spi-class-of-type-org-apache-lucene-codecs-codec-with-name-lucene54-does-no/38382096
               -->
               <transformers>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                    <manifestEntries>
+                      <Multi-Release>true</Multi-Release>
+                    </manifestEntries>
+                  </transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
               </transformers>
               <!-- This fixes the issue "Invalid signature file digest for Manifest main attributes"

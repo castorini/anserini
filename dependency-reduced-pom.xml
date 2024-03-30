@@ -10,7 +10,7 @@
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
   <name>Anserini</name>
-  <version>0.24.3-SNAPSHOT</version>
+  <version>0.25.1-SNAPSHOT</version>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
   <developers>
@@ -170,6 +170,11 @@
             </goals>
             <configuration>
               <transformers>
+                <transformer>
+                  <manifestEntries>
+                    <Multi-Release>true</Multi-Release>
+                  </manifestEntries>
+                </transformer>
                 <transformer />
               </transformers>
               <filters>
