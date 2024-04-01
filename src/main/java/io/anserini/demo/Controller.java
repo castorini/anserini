@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/api")
 public class Controller {
-    @RequestMapping(method = RequestMethod.GET, path = "/query/{query}")
-    public List<QueryResult> search(@PathVariable("query") String query) {
-        SearchService searchService = new SearchService("msmarco-v1-passage");
-        return searchService.search(query, 10);
-    }
+  @RequestMapping(method = RequestMethod.GET, path = "/query/{query}")
+  public List<QueryResult> search(@PathVariable("query") String query) {
+    SearchService searchService = new SearchService("msmarco-v1-passage");
+    return searchService.search(query, 10);
+  }
 }

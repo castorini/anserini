@@ -43,8 +43,8 @@ const SearchBar: React.FC = () => {
     {loading && <p>Loading...</p>}
     <ul>
       {results.map((result) => (
-        <div className="query-card" key={result.docId}>
-          <h3>Document ID: {result.docId} <span>Score: {result.score}</span></h3>
+        <div className="query-card" key={result.docid}>
+          <h3>Document ID: {result.docid} <span>Score: {result.score}</span></h3>
           <p>{result.content}</p>
         </div>
       ))}

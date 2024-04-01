@@ -1,5 +1,5 @@
 export interface QueryResult {
-    docId: string;
-    content: string;
-    score: number;
+  docid: string;
+  content: string;
+  score: number;
 }
