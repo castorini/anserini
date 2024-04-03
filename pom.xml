@@ -236,7 +236,7 @@
               </transformers>
               <!-- This fixes the issue "Invalid signature file digest for Manifest main attributes"
                    cf. http://zhentao-li.blogspot.com/2012/06/maven-shade-plugin-invalid-signature.html -->
-              <filters>
+              <!--filters>
                 <filter>
                   <artifact>*:*</artifact>
                   <excludes>
@@ -245,7 +245,7 @@
                     <exclude>META-INF/*.RSA</exclude>
                   </excludes>
                 </filter>
-              </filters>
+              </filters-->
               <!-- this will create both a normal thin jar and also a fatjar -->
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <shadedClassifierName>fatjar</shadedClassifierName>
