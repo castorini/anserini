@@ -54,7 +54,9 @@ public class RunMsMarco {
             .replace("$output", output);
 
         System.out.println("    Running retrieval command: " + command);
-        Process process = Runtime.getRuntime().exec(command);
+
+        ProcessBuilder pb = new ProcessBuilder(command.split(" "));
+        Process process = pb.start();
         int resultCode = process.waitFor();
         if (resultCode == 0) {
           System.out.println("    Run successfully completed!");
@@ -71,7 +73,10 @@ public class RunMsMarco {
           for (String metric : expected.keySet()) {
             String evalKey = topic.eval_key;
             String evalCmd = "tools/eval/trec_eval.9.0.4/trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
-            process = Runtime.getRuntime().exec(evalCmd);
+
+            pb = new ProcessBuilder(evalCmd.split(" "));
+            process = pb.start();
+
             resultCode = process.waitFor();
             stdout = process.getInputStream();
             if (resultCode == 0) {
