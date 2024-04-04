@@ -78,12 +78,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.12.1</version>
         <configuration>
-          <source>11</source>
-          <target>11</target>
-          <testSource>11</testSource>
-          <testTarget>11</testTarget>
+          <source>21</source>
+          <target>21</target>
+          <testSource>21</testSource>
+          <testTarget>21</testTarget>
           <showDeprecation>true</showDeprecation>
           <compilerArgument>-Xlint:unchecked</compilerArgument>
         </configuration>
@@ -103,7 +103,7 @@
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.1.0</version>
         <configuration>
-          <extraJvmArguments>-Xms512M -Xmx31G</extraJvmArguments>
+          <extraJvmArguments>-Xms512M -Xmx31G --add-modules jdk.incubator.vector</extraJvmArguments>
           <repositoryLayout>flat</repositoryLayout>
           <useWildcardClassPath>true</useWildcardClassPath>
           <programs>
@@ -169,7 +169,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -182,7 +182,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.3.1</version>
+        <version>3.6.3</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -197,8 +197,20 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Multi-Release>true</Multi-Release>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.5.2</version>
         <executions>
           <execution>
             <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
@@ -224,7 +236,7 @@
               </transformers>
               <!-- This fixes the issue "Invalid signature file digest for Manifest main attributes"
                    cf. http://zhentao-li.blogspot.com/2012/06/maven-shade-plugin-invalid-signature.html -->
-              <filters>
+              <!--filters>
                 <filter>
                   <artifact>*:*</artifact>
                   <excludes>
@@ -233,7 +245,7 @@
                     <exclude>META-INF/*.RSA</exclude>
                   </excludes>
                 </filter>
-              </filters>
+              </filters-->
               <!-- this will create both a normal thin jar and also a fatjar -->
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <shadedClassifierName>fatjar</shadedClassifierName>
@@ -287,7 +299,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.6</version>
+        <version>3.7.0</version>
         <configuration>
           <archive>
             <manifest>
