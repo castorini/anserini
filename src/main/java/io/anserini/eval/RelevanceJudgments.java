@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -187,11 +188,11 @@ public class RelevanceJudgments {
     String qrelsURL = SERVER_PATH + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
     File qrelsFile = new File(getCacheDir(), qrelsPath.getFileName().toString());
+
     try {
-      FileUtils.copyURLToFile(new URL(qrelsURL), qrelsFile);
+      FileUtils.copyURLToFile(new URI(qrelsURL).toURL(), qrelsFile);
     } catch (Exception e) {
-      System.out.println("Error downloading topics from " + qrelsURL);
-      throw e;
+      throw new IOException("Error downloading topics from " + qrelsURL);
     }
     return qrelsFile.toPath();
   }
