@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.reflect.Constructor;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,7 +34,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.zip.GZIPInputStream;
 
+import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A reader of topics, i.e., information needs or queries, in a variety of standard formats.
@@ -42,6 +45,8 @@ import org.apache.commons.io.FileUtils;
  * @param <K> type of the topic id
  */
 public abstract class TopicReader<K> {
+  private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
+
   protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
   final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
@@ -221,15 +226,14 @@ public abstract class TopicReader<K> {
    * @return Path to the local copy of the topics
    * @throws IOException if error encountered downloading topics
    */
-  public static Path downloadTopics(Path topicPath) throws IOException{
+  public static Path downloadTopics(Path topicPath) throws IOException {
     String topicURL = SERVER_PATH + topicPath.getFileName().toString();
-    System.out.println("Downloading topics from " + topicURL);
+    LOG.info("Downloading topics from " + topicURL);
     File topicFile = new File(getCacheDir(), topicPath.getFileName().toString());
-    try{
-      FileUtils.copyURLToFile(new URL(topicURL), topicFile);
-    }catch (Exception e){
-      System.out.println("Error downloading topics from " + topicURL);
-      throw e;
+    try {
+      FileUtils.copyURLToFile(new URI(topicURL).toURL(), topicFile);
+    } catch (Exception e){
+      throw new IOException("Error downloading topics from " + topicURL);
     }
     return topicFile.toPath();
   }

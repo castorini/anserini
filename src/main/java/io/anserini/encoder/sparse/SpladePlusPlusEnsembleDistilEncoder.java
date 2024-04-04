@@ -21,6 +21,7 @@ import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
 
   static private final int MAX_SEQ_LEN = 512;
 
-  public SpladePlusPlusEnsembleDistilEncoder() throws IOException, OrtException {
+  public SpladePlusPlusEnsembleDistilEncoder() throws IOException, OrtException, URISyntaxException {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 
