@@ -5,7 +5,7 @@
 
 ## Summary of Changes
 
-+ Upgrade from JDK 11 to JDK 21.
++ Upgraded from JDK 11 to JDK 21.
 
 ## Contributors (This Release)
 
