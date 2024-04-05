@@ -43,18 +43,19 @@ public class TopicReaderTest {
 
   @Test
   public void testTopicReaderClassLookup() {
-    assertEquals(TrecTopicReader.class,
-        TopicReader.getTopicReaderClassByFile("tools/topics-and-qrels/topics.robust04.txt"));
-    assertEquals(TrecTopicReader.class,
-        TopicReader.getTopicReaderClassByFile("topics.robust04.txt"));
+    assertEquals(TrecTopicReader.class, TopicReader.getTopicReaderClassByFile("tools/topics-and-qrels/topics.robust04.txt"));
+    assertEquals(TrecTopicReader.class, TopicReader.getTopicReaderClassByFile("topics.robust04.txt"));
 
-    assertEquals(CovidTopicReader.class,
-        TopicReader.getTopicReaderClassByFile("tools/topics-and-qrels/topics.covid-round1.xml"));
-    assertEquals(CovidTopicReader.class,
-        TopicReader.getTopicReaderClassByFile("topics.covid-round1.xml"));
+    assertEquals(CovidTopicReader.class, TopicReader.getTopicReaderClassByFile("tools/topics-and-qrels/topics.covid-round1.xml"));
+    assertEquals(CovidTopicReader.class, TopicReader.getTopicReaderClassByFile("topics.covid-round1.xml"));
 
     // Unknown TopicReader class.
     assertNull(TopicReader.getTopicReaderClassByFile("topics.unknown.txt"));
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testGetTopicsInvalid() throws IOException {
+    TopicReader.getTopics(null);
   }
 
   @Test

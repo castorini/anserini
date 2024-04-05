@@ -96,7 +96,6 @@ public class ScoredDocs {
         }
       }
     } catch (IOException | ArrayIndexOutOfBoundsException | NullPointerException e) {
-      e.printStackTrace();
       throw new RuntimeException("Error loading qrels.");
     }
 
