@@ -1,4 +1,4 @@
-package io.anserini.demo;
+package io.anserini.server;
 
 public class QueryResult {
   private String docid;

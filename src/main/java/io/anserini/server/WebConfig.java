@@ -1,7 +1,7 @@
-package io.anserini.demo;
+package io.anserini.server;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
@@ -20,7 +20,8 @@ public class WebConfig implements WebMvcConfigurer {
           throws Exception {
         final var isApiHandle = handler instanceof HandlerMethod;
         final var path = request.getServletPath();
-        if (FilenameUtils.getExtension(path).isEmpty() && !"/".equals(path) && !isApiHandle) {
+        if (FilenameUtils.getExtension(path).isEmpty() && !"/".equals(path) &&
+            !isApiHandle) {
           request.getRequestDispatcher(path + ".html").forward(request, response);
           return false;
         }

@@ -1,4 +1,4 @@
-package io.anserini.demo;
+package io.anserini.server;
 
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
