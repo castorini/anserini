@@ -23,6 +23,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -83,9 +85,9 @@ public class UniCoilEncoderTokenizationTest {
     return cacheDir.getPath();
   }
 
-  static private Path getVocabPath() throws IOException {
+  static private Path getVocabPath() throws IOException, URISyntaxException {
     File vocabFile = new File(getCacheDir(), "unicoil-vocab.txt");
-    FileUtils.copyURLToFile(new URL(VOCAB_URL), vocabFile);
+    FileUtils.copyURLToFile(new URI(VOCAB_URL).toURL(), vocabFile);
     return vocabFile.toPath();
   }
 

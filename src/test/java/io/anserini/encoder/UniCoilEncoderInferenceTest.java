@@ -24,6 +24,7 @@ import ai.onnxruntime.OrtSession.Result;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -99,7 +100,7 @@ public class UniCoilEncoderInferenceTest extends EncoderInferenceTest {
   }
 
   @Test
-  public void basic() throws OrtException, IOException {
+  public void basic() throws OrtException, IOException, URISyntaxException {
     String modelPath = getEncoderModelPath().toString();
     try (OrtEnvironment env = OrtEnvironment.getEnvironment();
         OrtSession.SessionOptions options = new OrtSession.SessionOptions();

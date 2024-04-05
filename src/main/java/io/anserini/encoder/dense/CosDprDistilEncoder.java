@@ -17,6 +17,7 @@
 package io.anserini.encoder.dense;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,7 @@ public class CosDprDistilEncoder extends DenseEncoder {
 
   static private final String VOCAB_NAME = "cos-dpr-distil-vocab.txt";
 
-  public CosDprDistilEncoder() throws IOException, OrtException {
+  public CosDprDistilEncoder() throws IOException, OrtException, URISyntaxException {
     super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 

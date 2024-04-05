@@ -17,6 +17,7 @@
 package io.anserini.encoder.dense;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +43,7 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
 
   static private final int MAX_SEQ_LEN = 512;
 
-  public BgeBaseEn15Encoder() throws IOException, OrtException {
+  public BgeBaseEn15Encoder() throws IOException, OrtException, URISyntaxException {
     super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 

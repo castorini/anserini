@@ -25,6 +25,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -459,7 +460,7 @@ public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends SpladePlus
   }
 
   @Test
-  public void basic() throws OrtException, IOException {
+  public void basic() throws OrtException, IOException, URISyntaxException {
     super.basicTest();
   }
 

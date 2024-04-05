@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class PrebuiltIndexTest {
       for (String url : info.urls) {
         // check each url status code is 200
         try {
-          final URL requestUrl = new URL("http://example.com");
+          final URL requestUrl = new URI("http://example.com").toURL();
           final HttpURLConnection con = (HttpURLConnection) requestUrl.openConnection();
           assertEquals(200, con.getResponseCode());
         } catch (IOException e) {

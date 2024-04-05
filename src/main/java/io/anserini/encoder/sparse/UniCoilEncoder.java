@@ -21,6 +21,7 @@ import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -36,7 +37,7 @@ public class UniCoilEncoder extends SparseEncoder {
 
   static private final String VOCAB_NAME = "unicoil-vocab.txt";
 
-  public UniCoilEncoder() throws IOException, OrtException {
+  public UniCoilEncoder() throws IOException, OrtException, URISyntaxException {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 
@@ -47,7 +48,6 @@ public class UniCoilEncoder extends SparseEncoder {
     encodedQuery = generateEncodedQuery(tokenWeightMap);
     return encodedQuery;
   }
-
 
   private float[] flatten(Object obj) {
     List<Float> weightsList = new ArrayList<>();

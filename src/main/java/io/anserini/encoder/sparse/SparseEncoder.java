@@ -22,6 +22,7 @@ import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.onnxruntime.OrtException;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -35,7 +36,7 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
   protected int quantRange;
 
   public SparseEncoder(int weightRange, int quantRange, String vocabName, String vocabURL, String modelName,
-      String modelURL) throws IOException, OrtException {
+      String modelURL) throws IOException, OrtException, URISyntaxException {
     super(vocabName, vocabURL, modelName, modelURL);
     this.weightRange = weightRange;
     this.quantRange = quantRange;
@@ -49,8 +50,8 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
     for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
       String token = entry.getKey();
       Float tokenWeight = entry.getValue();
-      int weightQuanted = Math.round(tokenWeight / weightRange * quantRange);
-      for (int i = 0; i < weightQuanted; ++i) {
+      int weightQuantized = Math.round(tokenWeight / weightRange * quantRange);
+      for (int i = 0; i < weightQuantized; ++i) {
         encodedQuery.add(token);
       }
     }

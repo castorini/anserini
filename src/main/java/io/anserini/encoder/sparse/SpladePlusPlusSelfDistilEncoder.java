@@ -21,6 +21,7 @@ import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
 
   static private final String VOCAB_NAME = "splade-pp-sd-vocab.txt";
 
-  public SpladePlusPlusSelfDistilEncoder() throws IOException, OrtException {
+  public SpladePlusPlusSelfDistilEncoder() throws IOException, OrtException, URISyntaxException {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 
