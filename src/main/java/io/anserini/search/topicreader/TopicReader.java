@@ -125,7 +125,7 @@ public abstract class TopicReader<K> {
    * @return evaluation topics
    */
   @SuppressWarnings("unchecked")
-  public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) throws IOException{
+  public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) throws IOException {
     Path topicPath = getTopicPath(Path.of(topics.path));
 
     try(InputStream inputStream = topicPath.toString().endsWith(".gz") ?
