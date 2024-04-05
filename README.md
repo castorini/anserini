@@ -13,6 +13,9 @@ Among other goals, our effort aims to be [the opposite of this](http://phdcomics
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/doi/10.1145/3077136.3080721) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/doi/10.1145/3239571) for overviews.
 
+❗Anserini was upgraded from JDK 11 to JDK 21 at commit [`272565`](https://github.com/castorini/anserini/commit/39cecf6c257bae85f4e9f6ab02e0be101338c3cc) (2024/04/03), which corresponds to the release of v0.35.0.
+
+
 ## 💥 Try It!
 
 Anserini is packaged in a self-contained fatjar, which also provides the simplest way to get started.
@@ -619,6 +622,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
++ v0.35.0: April 3, 2024 [[Release Notes](docs/release-notes/release-notes-v0.35.0.md)]
 + v0.25.0: March 27, 2024 [[Release Notes](docs/release-notes/release-notes-v0.25.0.md)]
 + v0.24.2: February 27, 2024 [[Release Notes](docs/release-notes/release-notes-v0.24.2.md)]
 + v0.24.1: January 27, 2024 [[Release Notes](docs/release-notes/release-notes-v0.24.1.md)]
