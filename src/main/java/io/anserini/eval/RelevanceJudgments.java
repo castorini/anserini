@@ -154,12 +154,10 @@ public class RelevanceJudgments {
    */
   private static Path getQrelsPath(Path qrelsPath) throws IOException {
     if (!Qrels.contains(qrelsPath)) {
-      // If the topic file is not in the list of known topics, we assume it is a local
-      // file.
+      // If the topic file is not in the list of known topics, we assume it is a local file.
       Path tempPath = Paths.get(getCacheDir(), qrelsPath.getFileName().toString());
       if (Files.exists(tempPath)) {
-        // if it is a unregistred topic in the Topics Enum, but it is in the cache, we
-        // use it
+        // if it is a unregistred topic in the Topics Enum, but it is in the cache, we use it.
         return tempPath;
       }
       return qrelsPath;
