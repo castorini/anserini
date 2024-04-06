@@ -10,13 +10,13 @@ This page describes regression experiments, integrated into Anserini's regressio
 
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-openai-ada2-int8.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-openai-ada2-int8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-passage-openai-ada2-hnsw-int8.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-passage-openai-ada2-hnsw-int8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2-int8
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2-hnsw-int8
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with the OpenAI-ada2 embedding model.
@@ -24,7 +24,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-openai-ada2-int8
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-passage-openai-ada2-hnsw-int8
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -42,7 +42,7 @@ To confirm, `msmarco-passage-openai-ada2.tar` is 109 GB and has MD5 checksum `a4
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2-int8 \
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2-hnsw-int8 \
   --corpus-path collections/msmarco-passage-openai-ada2
 ```
 
@@ -108,9 +108,9 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.985     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-passage-openai-ada2-int8.yaml).
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-passage-openai-ada2-hnsw-int8.yaml).
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-openai-ada2-int8.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-passage-openai-ada2-hnsw-int8.template) and run `bin/build.sh` to rebuild the documentation.
 
