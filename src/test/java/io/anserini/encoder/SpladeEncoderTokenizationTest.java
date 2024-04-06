@@ -33,7 +33,8 @@ import java.util.List;
 import static org.junit.Assert.assertArrayEquals;
 
 public class SpladeEncoderTokenizationTest {
-  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
+  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
+  private static final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
   Object[][] examples = new Object[][] {
       { "which hormone increases calcium levels in the blood?",
@@ -78,7 +79,7 @@ public class SpladeEncoderTokenizationTest {
   };
 
   static private String getCacheDir() {
-    File cacheDir = new File(System.getProperty("user.home") + "/.cache/anserini/encoders");
+    File cacheDir = new File(CACHE_DIR);
     if (!cacheDir.exists()) {
       cacheDir.mkdir();
     }

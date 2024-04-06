@@ -34,7 +34,7 @@ import org.apache.commons.io.FileUtils;
 
 public class RelevanceJudgments {
   final private Map<String, Map<String, Integer>> qrels;
-  final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
+  static private final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
   final private static String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException {
