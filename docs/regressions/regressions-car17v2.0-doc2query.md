@@ -95,17 +95,17 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt
 
-target/appassembler/bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt
 
-target/appassembler/bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt
 
-target/appassembler/bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.ql.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.ql.topics.car17v2.0.benchmarkY1test.txt
 
-target/appassembler/bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt
 
-target/appassembler/bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt
 ```
 
 ## Effectiveness

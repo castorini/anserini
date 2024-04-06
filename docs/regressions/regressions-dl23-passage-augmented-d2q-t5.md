@@ -68,23 +68,23 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
 ```
 
 ## Effectiveness

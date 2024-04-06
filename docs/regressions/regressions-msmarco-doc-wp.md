@@ -53,10 +53,10 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
 ```
 
 ## Effectiveness

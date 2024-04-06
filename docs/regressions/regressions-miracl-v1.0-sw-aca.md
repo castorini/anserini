@@ -46,8 +46,8 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-sw-dev.tsv runs/run.miracl-v1.0-sw.bm25.topics.miracl-v1.0-sw-dev.txt
 ```
 
 ## Effectiveness

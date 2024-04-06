@@ -57,9 +57,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt runs/run.beir-v1.0.0-nfcorpus-flat-wp.bm25.topics.beir-v1.0.0-nfcorpus.test.wp.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt runs/run.beir-v1.0.0-nfcorpus-flat-wp.bm25.topics.beir-v1.0.0-nfcorpus.test.wp.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt runs/run.beir-v1.0.0-nfcorpus-flat-wp.bm25.topics.beir-v1.0.0-nfcorpus.test.wp.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt runs/run.beir-v1.0.0-nfcorpus-flat-wp.bm25.topics.beir-v1.0.0-nfcorpus.test.wp.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt runs/run.beir-v1.0.0-nfcorpus-flat-wp.bm25.topics.beir-v1.0.0-nfcorpus.test.wp.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt runs/run.beir-v1.0.0-nfcorpus-flat-wp.bm25.topics.beir-v1.0.0-nfcorpus.test.wp.txt
 ```
 
 ## Effectiveness

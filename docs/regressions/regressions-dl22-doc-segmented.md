@@ -75,20 +75,20 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl22.txt
+bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl22.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl22.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl22.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl22.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl22.txt
+bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl22.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl22.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl22.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl22.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl22.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl22.txt
+bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl22.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl22.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl22.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc.txt runs/run.msmarco-v2-doc-segmented.bm25-default+rocchio.topics.dl22.txt
 ```
 
 ## Effectiveness

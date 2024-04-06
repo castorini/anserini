@@ -57,9 +57,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex-multifield.bm25.topics.beir-v1.0.0-cqadupstack-tex.test.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex-multifield.bm25.topics.beir-v1.0.0-cqadupstack-tex.test.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex-multifield.bm25.topics.beir-v1.0.0-cqadupstack-tex.test.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex-multifield.bm25.topics.beir-v1.0.0-cqadupstack-tex.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex-multifield.bm25.topics.beir-v1.0.0-cqadupstack-tex.test.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex-multifield.bm25.topics.beir-v1.0.0-cqadupstack-tex.test.txt
 ```
 
 ## Effectiveness

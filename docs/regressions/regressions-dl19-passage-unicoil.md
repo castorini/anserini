@@ -105,20 +105,20 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q.topics.dl19-passage.unicoil.0shot.txt
 
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rm3.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rm3.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rm3.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rm3.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rm3.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rm3.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rm3.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rm3.topics.dl19-passage.unicoil.0shot.txt
 
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rocchio.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rocchio.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rocchio.topics.dl19-passage.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rocchio.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rocchio.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rocchio.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rocchio.topics.dl19-passage.unicoil.0shot.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-unicoil.unicoil-cached_q+rocchio.topics.dl19-passage.unicoil.0shot.txt
 ```
 
 ## Effectiveness

@@ -56,12 +56,12 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-a-native.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-a-native.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a-pools.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-a-native.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a-pools.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-a-native.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-b.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-b-native.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-b.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-b-native.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-a-native.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a-pools.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-a-native.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a-pools.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-b.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-b-native.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-b.tsv runs/run.ciral-yoruba.bm25-default.topics.ciral-v1.0-yo-test-b-native.txt
 ```
 
 ## Effectiveness

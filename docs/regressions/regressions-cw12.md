@@ -100,24 +100,24 @@ Evaluation can be performed using `trec_eval` and `gdeval.pl`:
 
 ```
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
 
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
 
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
 
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
 ```
 
 ## Effectiveness

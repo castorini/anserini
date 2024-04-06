@@ -88,10 +88,10 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
+bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.msmarco-doc.dev.unicoil-noexp.txt
 ```
 
 ## Effectiveness

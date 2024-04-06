@@ -58,9 +58,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.train.txt runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.train.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.dev.txt runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.dev.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.test.txt runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.test.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.train.txt runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.train.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.dev.txt runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.test.txt runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.test.txt
 ```
 
 ## Effectiveness

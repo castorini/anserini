@@ -53,7 +53,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12en.176-225.txt runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12en.176-225.txt runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
 ```
 
 ## Effectiveness

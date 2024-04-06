@@ -60,9 +60,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-bioasq.test.unicoil-noexp.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-bioasq.test.unicoil-noexp.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-bioasq.test.unicoil-noexp.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-bioasq.test.unicoil-noexp.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-bioasq.test.unicoil-noexp.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-bioasq.test.unicoil-noexp.txt
 ```
 
 ## Effectiveness

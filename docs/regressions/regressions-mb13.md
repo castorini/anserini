@@ -133,23 +133,23 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25.topics.microblog2013.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25.topics.microblog2014.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+rm3.topics.microblog2013.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+rm3.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+rm3.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+rm3.topics.microblog2014.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+ax.topics.microblog2013.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+ax.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+ax.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+ax.topics.microblog2014.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql.topics.microblog2013.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql.topics.microblog2014.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+rm3.topics.microblog2013.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+rm3.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+rm3.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+rm3.topics.microblog2014.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+ax.topics.microblog2013.txt
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+ax.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+ax.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+ax.topics.microblog2014.txt
 ```
 
 ## Effectiveness
