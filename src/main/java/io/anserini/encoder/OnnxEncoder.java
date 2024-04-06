@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -34,6 +33,8 @@ import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 
 public abstract class OnnxEncoder<T> {
+  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
+
   protected final BertFullTokenizer tokenizer;
 
   protected final DefaultVocabulary vocab;
@@ -41,9 +42,6 @@ public abstract class OnnxEncoder<T> {
   protected final OrtEnvironment environment;
 
   protected final OrtSession session;
-
-  static private final String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/encoders")
-      .toString();
 
   static protected Path getVocabPath(String vocabName, String vocabURL) throws URISyntaxException, IOException {
     File vocabFile = new File(getCacheDir(), vocabName);
