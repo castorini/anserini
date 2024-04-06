@@ -46,14 +46,9 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class TopicReader<K> {
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
-
-  protected final int BUFFER_SIZE = 1 << 16; // 64K
-  protected Path topicFile;
-  final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
-  final private static String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
-
-
-  static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = new HashMap<>();
+  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
+  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  private static final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = new HashMap<>();
 
   static {
     // Inverts the "Topic" enum to populate the lookup table that maps topics filename to reader class.
@@ -62,6 +57,9 @@ public abstract class TopicReader<K> {
       TOPIC_FILE_TO_TYPE.put(path, topic.readerClass);
     }
   }
+
+  protected final int BUFFER_SIZE = 1 << 16; // 64K
+  protected Path topicFile;
 
   /**
    * Returns the {@link TopicReader} class corresponding to a known topics file, or <code>null</code> if unknown.
