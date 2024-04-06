@@ -67,7 +67,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2 \
   -generator DefaultLuceneDocumentGenerator \
@@ -91,21 +91,21 @@ The regression experiments here evaluate on the 76 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.dl22.unicoil-noexp.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q+rm3.topics.dl22.unicoil-noexp.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \

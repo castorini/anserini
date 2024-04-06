@@ -26,7 +26,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2-doc-segmented \
   -generator DefaultLuceneDocumentGenerator \
@@ -48,21 +48,21 @@ The regression experiments here evaluate on the 57 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.dl21.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default+rm3.topics.dl21.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicReader TsvInt \

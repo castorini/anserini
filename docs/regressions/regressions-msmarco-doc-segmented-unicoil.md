@@ -53,7 +53,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-doc-segmented-unicoil \
   -generator DefaultLuceneDocumentGenerator \
@@ -77,7 +77,7 @@ The regression experiments here evaluate on the 5193 dev set questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.unicoil.tsv.gz \
   -topicReader TsvInt \

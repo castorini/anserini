@@ -34,7 +34,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 Sample indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/beir-v1.0.0-quora-splade-pp-ed \
   -generator DefaultLuceneDocumentGenerator \
@@ -53,7 +53,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-quora-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-quora.test.splade-pp-ed.tsv.gz \
   -topicReader TsvString \

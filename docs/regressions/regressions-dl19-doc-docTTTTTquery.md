@@ -32,7 +32,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-docTTTTTquery \
   -generator DefaultLuceneDocumentGenerator \
@@ -55,42 +55,42 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt \
   -bm25 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt \
   -bm25 -rocchio &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \

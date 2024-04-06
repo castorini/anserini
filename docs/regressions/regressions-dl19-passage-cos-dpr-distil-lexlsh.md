@@ -49,7 +49,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, applying inverted indexes to dense vectors using the "LexLSH" technique:
 
 ```bash
-target/appassembler/bin/IndexInvertedDenseVectors \
+bin/run.sh io.anserini.index.IndexInvertedDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator InvertedDenseVectorDocumentGenerator \
@@ -71,7 +71,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchInvertedDenseVectors \
+bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \

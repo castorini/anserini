@@ -52,7 +52,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-splade-pp-ed \
   -generator DefaultLuceneDocumentGenerator \
@@ -77,21 +77,21 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.dl20.splade-pp-ed.txt \
   -impact -pretokenized &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-cached_q+rm3.topics.dl20.splade-pp-ed.txt \
   -impact -pretokenized -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \

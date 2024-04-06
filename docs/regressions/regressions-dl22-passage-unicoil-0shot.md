@@ -61,7 +61,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-unicoil-0shot \
   -generator DefaultLuceneDocumentGenerator \
@@ -85,21 +85,21 @@ The regression experiments here evaluate on the 76 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt \
   -impact -pretokenized &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \

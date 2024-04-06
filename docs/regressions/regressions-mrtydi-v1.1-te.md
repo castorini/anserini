@@ -16,7 +16,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-te \
   -generator DefaultLuceneDocumentGenerator \
@@ -33,19 +33,19 @@ For additional details, see explanation of [common indexing options](../../docs/
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-telugu/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-te.train.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.train.txt \
   -bm25 -hits 100 -language te &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-telugu/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-te.dev.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.dev.txt \
   -bm25 -hits 100 -language te &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-telugu/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-te.test.txt.gz \
   -topicReader TsvInt \

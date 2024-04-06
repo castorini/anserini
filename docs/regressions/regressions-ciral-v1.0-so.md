@@ -16,7 +16,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/ciral-somali \
   -generator DefaultLuceneDocumentGenerator \
@@ -33,19 +33,19 @@ For additional details, see explanation of [common indexing options](../../docs/
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so/ \
   -topics tools/topics-and-qrels/topics.ciral-v1.0-so-test-a-native.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt \
   -bm25 -hits 1000 -language so &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so/ \
   -topics tools/topics-and-qrels/topics.ciral-v1.0-so-test-a-native.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt \
   -bm25 -hits 1000 -language so &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so/ \
   -topics tools/topics-and-qrels/topics.ciral-v1.0-so-test-b-native.tsv \
   -topicReader TsvInt \

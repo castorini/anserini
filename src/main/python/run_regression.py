@@ -54,15 +54,15 @@ CORPUS_ROOTS = [
     '/System/Volumes/Data/store'  # for new organization of directories in macOS Monterey
 ]
 
-INDEX_COMMAND = 'target/appassembler/bin/IndexCollection'
-INDEX_HNSW_COMMAND = 'target/appassembler/bin/IndexHnswDenseVectors'
-INDEX_INVERTED_DENSE_COMMAND = 'target/appassembler/bin/IndexInvertedDenseVectors'
+INDEX_COMMAND = 'bin/run.sh io.anserini.index.IndexCollection'
+INDEX_HNSW_COMMAND = 'bin/run.sh io.anserini.index.IndexHnswDenseVectors'
+INDEX_INVERTED_DENSE_COMMAND = 'bin/run.sh io.anserini.index.IndexInvertedDenseVectors'
 
-INDEX_STATS_COMMAND = 'target/appassembler/bin/IndexReaderUtils'
+INDEX_STATS_COMMAND = 'bin/run.sh io.anserini.index.IndexReaderUtils'
 
-SEARCH_COMMAND = 'target/appassembler/bin/SearchCollection'
-SEARCH_HNSW_COMMAND = 'target/appassembler/bin/SearchHnswDenseVectors'
-SEARCH_INVERTED_DENSE_COMMAND = 'target/appassembler/bin/SearchInvertedDenseVectors'
+SEARCH_COMMAND = 'bin/run.sh io.anserini.search.SearchCollection'
+SEARCH_HNSW_COMMAND = 'bin/run.sh io.anserini.search.SearchHnswDenseVectors'
+SEARCH_INVERTED_DENSE_COMMAND = 'bin/run.sh io.anserini.search.SearchInvertedDenseVectors'
 
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):

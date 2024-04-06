@@ -21,7 +21,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-segmented-wp \
   -generator DefaultLuceneDocumentGenerator \
@@ -43,7 +43,7 @@ The regression experiments here evaluate on the 5193 dev set questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-wp/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.wp.tsv.gz \
   -topicReader TsvInt \

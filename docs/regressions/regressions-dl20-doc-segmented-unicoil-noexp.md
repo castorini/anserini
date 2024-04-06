@@ -53,7 +53,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-doc-segmented-unicoil-noexp \
   -generator DefaultLuceneDocumentGenerator \
@@ -78,21 +78,21 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q.topics.dl20.unicoil-noexp.0shot.txt \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil-noexp.unicoil-noexp-cached_q+rm3.topics.dl20.unicoil-noexp.0shot.txt \
   -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-segmented-unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \

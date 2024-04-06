@@ -40,7 +40,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/neuclir22-zh-splade \
   -generator DefaultLuceneDocumentGenerator \
@@ -56,111 +56,111 @@ For additional details, see explanation of [common indexing options](../../docs/
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade.topics.neuclir22-zh.splade.ht-title.txt \
   -impact -pretokenized &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-desc.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade.topics.neuclir22-zh.splade.ht-desc.txt \
   -impact -pretokenized &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-desc_title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade.topics.neuclir22-zh.splade.ht-desc_title.txt \
   -impact -pretokenized &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade.topics.neuclir22-zh.splade.mt-title.txt \
   -impact -pretokenized &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-desc.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade.topics.neuclir22-zh.splade.mt-desc.txt \
   -impact -pretokenized &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-desc_title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade.topics.neuclir22-zh.splade.mt-desc_title.txt \
   -impact -pretokenized &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rm3.topics.neuclir22-zh.splade.ht-title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-desc.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rm3.topics.neuclir22-zh.splade.ht-desc.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-desc_title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rm3.topics.neuclir22-zh.splade.ht-desc_title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rm3.topics.neuclir22-zh.splade.mt-title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-desc.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rm3.topics.neuclir22-zh.splade.mt-desc.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-desc_title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rm3.topics.neuclir22-zh.splade.mt-desc_title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rocchio.topics.neuclir22-zh.splade.ht-title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-desc.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rocchio.topics.neuclir22-zh.splade.ht-desc.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.ht-desc_title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rocchio.topics.neuclir22-zh.splade.ht-desc_title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-title.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rocchio.topics.neuclir22-zh.splade.mt-title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-desc.txt.gz \
   -topicReader TsvInt \
   -output runs/run.neuclir22-zh-splade.splade+rocchio.topics.neuclir22-zh.splade.mt-desc.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-zh.splade.mt-desc_title.txt.gz \
   -topicReader TsvInt \

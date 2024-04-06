@@ -23,7 +23,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/car-paragraphCorpus.v2.0-doc2query \
   -generator DefaultLuceneDocumentGenerator \
@@ -49,42 +49,42 @@ Specifically, this is the section-level passage retrieval task with automatic gr
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
   -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt \
   -bm25 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
   -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt \
   -bm25 -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
   -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
   -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql.topics.car17v2.0.benchmarkY1test.txt \
   -qld &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
   -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt \
   -qld -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
   -topicReader Car \

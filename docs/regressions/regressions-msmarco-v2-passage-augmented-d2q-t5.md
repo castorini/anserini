@@ -20,7 +20,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection MsMarcoV2PassageCollection \
   -input /path/to/msmarco-v2-passage-augmented-d2q-t5 \
   -generator DefaultLuceneDocumentGenerator \
@@ -40,13 +40,13 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev.txt \
   -bm25 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
   -topicReader TsvInt \

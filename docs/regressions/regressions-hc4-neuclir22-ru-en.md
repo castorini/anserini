@@ -32,7 +32,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection NeuClirCollection \
   -input /path/to/neuclir22-ru-en \
   -generator DefaultLuceneDocumentGenerator \
@@ -49,57 +49,57 @@ For additional details, see explanation of [common indexing options](../../docs/
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.title.tsv \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en.bm25-default.topics.hc4-v1.0-ru.en.test.title.txt \
   -bm25 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en.bm25-default.topics.hc4-v1.0-ru.en.test.desc.txt \
   -bm25 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.desc.title.tsv \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en.bm25-default.topics.hc4-v1.0-ru.en.test.desc.title.txt \
   -bm25 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.title.tsv \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en.bm25-default+rm3.topics.hc4-v1.0-ru.en.test.title.txt \
   -bm25 -rm3 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en.bm25-default+rm3.topics.hc4-v1.0-ru.en.test.desc.txt \
   -bm25 -rm3 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.desc.title.tsv \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en.bm25-default+rm3.topics.hc4-v1.0-ru.en.test.desc.title.txt \
   -bm25 -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.title.tsv \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en.bm25-default+rocchio.topics.hc4-v1.0-ru.en.test.title.txt \
   -bm25 -rocchio &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-en.bm25-default+rocchio.topics.hc4-v1.0-ru.en.test.desc.txt \
   -bm25 -rocchio &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-en \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.en.test.desc.title.tsv \
   -topicReader TsvInt \

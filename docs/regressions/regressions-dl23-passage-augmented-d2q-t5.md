@@ -21,7 +21,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection MsMarcoV2PassageCollection \
   -input /path/to/msmarco-v2-passage-augmented-d2q-t5 \
   -generator DefaultLuceneDocumentGenerator \
@@ -43,21 +43,21 @@ The regression experiments here evaluate on the 82 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt \
   -bm25 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt \
   -bm25 -rm3 -collection MsMarcoV2PassageCollection &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \

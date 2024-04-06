@@ -46,7 +46,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, applying inverted indexes to dense vectors using the "fake-words" technique:
 
 ```bash
-target/appassembler/bin/IndexInvertedDenseVectors \
+bin/run.sh io.anserini.index.IndexInvertedDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator InvertedDenseVectorDocumentGenerator \
@@ -67,7 +67,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
 ```bash
-target/appassembler/bin/SearchInvertedDenseVectors \
+bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.fw-40/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \

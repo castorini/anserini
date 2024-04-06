@@ -32,7 +32,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 Sample indexing command, building HNSW indexes:
 
 ```
-target/appassembler/bin/IndexHnswDenseVectors \
+bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-bge-base-en-v1.5 \
   -generator HnswDenseVectorDocumentGenerator \
@@ -52,7 +52,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchHnswDenseVectors \
+bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.beir-v1.0.0-quora-bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-quora.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \

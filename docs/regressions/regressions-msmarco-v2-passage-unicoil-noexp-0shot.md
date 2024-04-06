@@ -59,7 +59,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-unicoil-noexp-0shot \
   -generator DefaultLuceneDocumentGenerator \
@@ -82,13 +82,13 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.txt \
   -parallelism 16 -impact -pretokenized &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \

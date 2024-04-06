@@ -18,7 +18,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/wikipedia-dpr-100w \
   -generator DefaultLuceneDocumentGenerator \
@@ -39,37 +39,37 @@ The regression experiments here evaluate on the test sets of Natural Questions, 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.nq.test.txt \
   -topicReader DprNq \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.nq.test.txt \
   -bm25 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.trivia.test.txt \
   -topicReader DprNq \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.trivia.test.txt \
   -bm25 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.squad.test.txt \
   -topicReader DprJsonl \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.squad.test.txt \
   -bm25 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.wq.test.txt \
   -topicReader DprJsonl \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.wq.test.txt \
   -bm25 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.dpr.curated.test.txt \
   -topicReader DprJsonl \
   -output runs/run.wikipedia-dpr-100w.bm25.topics.dpr.curated.test.txt \
   -bm25 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
   -topics tools/topics-and-qrels/topics.nq.test.txt \
   -topicReader DprNq \

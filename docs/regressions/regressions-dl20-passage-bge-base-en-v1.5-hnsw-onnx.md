@@ -52,7 +52,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, building HNSW indexes:
 
 ```bash
-target/appassembler/bin/IndexHnswDenseVectors \
+bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5 \
   -generator HnswDenseVectorDocumentGenerator \
@@ -76,7 +76,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchHnswDenseVectors \
+bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
