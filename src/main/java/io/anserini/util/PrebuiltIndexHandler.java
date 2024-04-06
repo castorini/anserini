@@ -35,6 +35,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class PrebuiltIndexHandler {
+  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
+
   private String indexName;
   private String saveRootPath;
   private IndexInfo info = null;
@@ -48,17 +50,7 @@ public class PrebuiltIndexHandler {
   }
 
   private String getCache() {
-    /*
-     * Get the pyserini cache path firs to avoid double downloads. If the pyserini
-     * cache path does not exist, use the anserini cache path.
-     */
-    final Path PyseriniPath = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes");
-    final Path AnseriniPath = Path.of(System.getProperty("user.home"), ".cache", "anserini", "indexes");
-    if (checkFileExist(PyseriniPath)) {
-      return PyseriniPath.toString();
-    } else {
-      return AnseriniPath.toString();
-    }
+    return CACHE_DIR;
   }
 
   private static boolean checkFileExist(Path path) {
@@ -194,7 +186,7 @@ public class PrebuiltIndexHandler {
       Process pTar = pbTAR.start();
       pTar.waitFor();
 
-      // detele the tar file for saving space
+      // delete the tar file for saving space
       Files.delete(Path.of(savePath.toString().replace(".gz", "")));
     }
 
