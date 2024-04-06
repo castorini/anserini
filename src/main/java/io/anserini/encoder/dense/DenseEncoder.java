@@ -18,6 +18,7 @@ package io.anserini.encoder.dense;
 import io.anserini.encoder.OnnxEncoder;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import ai.onnxruntime.OrtException;
 
@@ -27,7 +28,7 @@ import ai.onnxruntime.OrtException;
 public abstract class DenseEncoder extends OnnxEncoder<float[]> {
 
   public DenseEncoder(String modelName, String modelURL, String vocabName, String vocabURL)
-      throws IOException, OrtException {
+      throws IOException, OrtException, URISyntaxException {
     super(modelName, modelURL, vocabName, vocabURL);
   }
 

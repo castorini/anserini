@@ -28,10 +28,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 
 public class PrebuiltIndexHandler {
   private String indexName;
@@ -84,8 +85,7 @@ public class PrebuiltIndexHandler {
      * Get the index info from the index name.
      */
     try {
-      IndexInfo info = IndexInfo.get(indexName);
-      return info;
+      return IndexInfo.get(indexName);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Index not found!" + e.getMessage());
     }
@@ -116,7 +116,7 @@ public class PrebuiltIndexHandler {
     initialized = true;
   }
 
-  public void download() throws IOException {
+  public void download() throws IOException, URISyntaxException {
     /*
      * Download the index file to the save path. If the file already exists, do
      * nothing. If the file does not exist, download the file and check the MD5
@@ -130,7 +130,7 @@ public class PrebuiltIndexHandler {
       return;
     }
 
-    URL url = new URL(info.urls[0]);
+    URL url = new URI(info.urls[0]).toURL();
     HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
     long completeFileSize = httpConnection.getContentLengthLong();
 

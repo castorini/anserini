@@ -18,7 +18,8 @@ package io.anserini.encoder;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -44,10 +45,10 @@ public abstract class OnnxEncoder<T> {
   static private final String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/encoders")
       .toString();
 
-  static protected Path getVocabPath(String vocabName, String vocabURL) throws IOException {
+  static protected Path getVocabPath(String vocabName, String vocabURL) throws URISyntaxException, IOException {
     File vocabFile = new File(getCacheDir(), vocabName);
     if (!vocabFile.exists()) {
-      FileUtils.copyURLToFile(new URL(vocabURL), vocabFile);
+      FileUtils.copyURLToFile(new URI(vocabURL).toURL(), vocabFile);
     }
 
     return vocabFile.toPath();
@@ -61,10 +62,10 @@ public abstract class OnnxEncoder<T> {
     return cacheDir.getPath();
   }
 
-  static protected Path getModelPath(String modelName, String modelURL) throws IOException {
+  static protected Path getModelPath(String modelName, String modelURL) throws IOException, URISyntaxException {
     File modelFile = new File(getCacheDir(), modelName);
     if (!modelFile.exists()) {
-      FileUtils.copyURLToFile(new URL(modelURL), modelFile);
+      FileUtils.copyURLToFile(new URI(modelURL).toURL(), modelFile);
     }
 
     return modelFile.toPath();
@@ -108,7 +109,7 @@ public abstract class OnnxEncoder<T> {
   public abstract T encode(String query) throws OrtException;
 
   public OnnxEncoder(String modelName, String modelURL, String vocabName, String vocabURL)
-      throws IOException, OrtException {
+      throws IOException, OrtException, URISyntaxException {
     this.vocab = DefaultVocabulary.builder()
         .addFromTextFile(getVocabPath(vocabName, vocabURL))
         .optUnknownToken("[UNK]")

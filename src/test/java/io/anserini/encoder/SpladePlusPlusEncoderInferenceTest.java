@@ -23,6 +23,7 @@ import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +41,7 @@ abstract class SpladePlusPlusEncoderInferenceTest extends EncoderInferenceTest {
   }
 
 
-  protected void basicTest() throws IOException, OrtException {
+  protected void basicTest() throws IOException, OrtException, URISyntaxException {
     String modelPath = getEncoderModelPath().toString();
     try (OrtEnvironment env = OrtEnvironment.getEnvironment();
         OrtSession.SessionOptions options = new OrtSession.SessionOptions();

@@ -20,8 +20,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class RelevanceJudgmentsTest{
 
@@ -33,6 +36,18 @@ public class RelevanceJudgmentsTest{
     return count;
   }
 
+  @Test(expected = IOException.class)
+  public void testFileNotFound() throws IOException{
+    // Purposely read non-existent file.
+    new RelevanceJudgments("tools/topics-and-qrels/qrels.xxx.txt");
+  }
+
+  @Test(expected = IOException.class)
+  public void testNonvalidQrels() throws IOException{
+    // Purposely read non-valid qrels.
+    new RelevanceJudgments("tools/topics-and-qrels/topics.robust04.txt ");
+  }
+
   @Test
   public void testRobust04() throws IOException{
     RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.robust04.txt");
@@ -41,6 +56,11 @@ public class RelevanceJudgmentsTest{
     assertEquals(311410, getQrelsCount(qrels));
     assertEquals(1, qrels.getRelevanceGrade("301", "FBIS3-10082"));
     assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137"));
+    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137x")); // non-existent docid
+    assertEquals(0, qrels.getRelevanceGrade("xxx", "LA123090-0137"));  // non-existent topic
+    assertTrue(qrels.isDocJudged("301", "FBIS3-10082"));
+    assertNull(qrels.getDocMap("xxx"));
+
 
     qrels = RelevanceJudgments.fromQrels(Qrels.ROBUST04);
     assertNotNull(qrels);
@@ -48,6 +68,12 @@ public class RelevanceJudgmentsTest{
     assertEquals(311410, getQrelsCount(qrels));
     assertEquals(1, qrels.getRelevanceGrade("301", "FBIS3-10082"));
     assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137"));
+    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137x")); // non-existent docid
+    assertEquals(0, qrels.getRelevanceGrade("xxx", "LA123090-0137"));  // non-existent topic
+    assertTrue(qrels.isDocJudged("301", "FBIS3-10082"));
+    assertNull(qrels.getDocMap("xxx"));
+
+    assertEquals(6543541, RelevanceJudgments.getQrelsResource(Path.of("tools/topics-and-qrels/qrels.robust04.txt")).length());
   }
 
   @Test

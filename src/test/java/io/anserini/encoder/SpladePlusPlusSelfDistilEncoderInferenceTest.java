@@ -20,6 +20,7 @@ import ai.onnxruntime.OrtException;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class SpladePlusPlusSelfDistilEncoderInferenceTest extends SpladePlusPlusEncoderInferenceTest {
 
@@ -223,7 +224,7 @@ public class SpladePlusPlusSelfDistilEncoderInferenceTest extends SpladePlusPlus
   }
 
   @Test
-  public void basic() throws OrtException, IOException {
+  public void basic() throws OrtException, IOException, URISyntaxException {
     super.basicTest();
   }
 }
