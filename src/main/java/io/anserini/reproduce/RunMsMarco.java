@@ -72,7 +72,7 @@ public class RunMsMarco {
         for (Map<String, Double> expected : topic.scores) {
           for (String metric : expected.keySet()) {
             String evalKey = topic.eval_key;
-            String evalCmd = "tools/eval/trec_eval.9.0.4/trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
+            String evalCmd = "bin/trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
 
             pb = new ProcessBuilder(evalCmd.split(" "));
             process = pb.start();

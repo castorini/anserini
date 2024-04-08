@@ -214,7 +214,7 @@ Instructions for programmatic execution are shown at the bottom of this page (sc
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
   -topics dl19-passage \
@@ -238,7 +238,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
   -topics dl20-passage \
@@ -262,7 +262,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
   -topics msmarco-v1-passage-dev \
@@ -326,7 +326,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
   -topics dl19-passage-splade-pp-ed \
@@ -350,7 +350,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
   -topics dl20-passage-splade-pp-ed \
@@ -374,7 +374,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
   -topics msmarco-v1-passage-dev-splade-pp-ed \
@@ -438,7 +438,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
   -topics dl19-passage \
@@ -463,7 +463,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
   -topics dl20-passage \
@@ -488,7 +488,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchCollection \
+<pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage-splade-pp-ed \
   -topics msmarco-v1-passage-dev \
@@ -553,7 +553,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
   -topics dl19-passage-cos-dpr-distil \
@@ -577,7 +577,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
   -topics dl20-passage-cos-dpr-distil \
@@ -601,7 +601,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
   -topics msmarco-v1-passage-dev-cos-dpr-distil \
@@ -665,7 +665,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
   -topics dl19-passage \
@@ -690,7 +690,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
   -topics dl20-passage \
@@ -715,7 +715,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-cos-dpr-distil \
   -topics msmarco-v1-passage-dev \
@@ -780,7 +780,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
   -topics dl19-passage-bge-base-en-v1.5 \
@@ -804,7 +804,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
   -topics dl20-passage-bge-base-en-v1.5 \
@@ -828,7 +828,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
   -topics msmarco-v1-passage-dev-bge-base-en-v1.5 \
@@ -892,7 +892,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
   -topics dl19-passage \
@@ -917,7 +917,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
   -topics dl20-passage \
@@ -942,7 +942,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>target/appassembler/bin/SearchHnswDenseVectors \
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage-bge-base-en-v1.5 \
   -topics msmarco-v1-passage-dev \
