@@ -44,7 +44,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-bm25-b8 \
   -generator DefaultLuceneDocumentGenerator \
@@ -65,7 +65,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-passage-bm25-b8/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
@@ -76,10 +76,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

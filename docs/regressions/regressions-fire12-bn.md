@@ -17,7 +17,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/fire12-bn \
   -generator DefaultLuceneDocumentGenerator \
@@ -42,7 +42,7 @@ They are downloaded from the [FIRE data page](http://fire.irsi.res.in/fire/stati
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.fire12-bn/ \
   -topics tools/topics-and-qrels/topics.fire12bn.176-225.txt \
   -topicReader Trec \
@@ -53,7 +53,7 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12bn.176-225.txt runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12bn.176-225.txt runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt
 ```
 
 ## Effectiveness

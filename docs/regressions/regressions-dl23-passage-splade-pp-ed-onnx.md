@@ -54,7 +54,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-splade-pp-ed \
   -generator DefaultLuceneDocumentGenerator \
@@ -78,21 +78,21 @@ The regression experiments here evaluate on the 82 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt \
   -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt \
   -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil -rm3 -collection JsonVectorCollection &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \
@@ -103,23 +103,23 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl23.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl23.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl23.txt
 ```
 
 ## Effectiveness

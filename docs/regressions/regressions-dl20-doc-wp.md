@@ -22,7 +22,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-wp \
   -generator DefaultLuceneDocumentGenerator \
@@ -45,7 +45,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-doc-wp/ \
   -topics tools/topics-and-qrels/topics.dl20.wp.tsv.gz \
   -topicReader TsvInt \
@@ -56,10 +56,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-wp.bm25-default.topics.dl20.wp.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-wp.bm25-default.topics.dl20.wp.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-wp.bm25-default.topics.dl20.wp.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-wp.bm25-default.topics.dl20.wp.txt
+bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-wp.bm25-default.topics.dl20.wp.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-wp.bm25-default.topics.dl20.wp.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-wp.bm25-default.topics.dl20.wp.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-wp.bm25-default.topics.dl20.wp.txt
 ```
 
 ## Effectiveness

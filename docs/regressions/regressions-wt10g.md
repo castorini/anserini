@@ -17,7 +17,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection TrecwebCollection \
   -input /path/to/wt10g \
   -generator DefaultLuceneDocumentGenerator \
@@ -41,42 +41,42 @@ They are downloaded from NIST:
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
   -topicReader Trec \
   -output runs/run.wt10g.bm25.topics.adhoc.451-550.txt \
   -bm25 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
   -topicReader Trec \
   -output runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt \
   -bm25 -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
   -topicReader Trec \
   -output runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt \
   -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
   -topicReader Trec \
   -output runs/run.wt10g.ql.topics.adhoc.451-550.txt \
   -qld &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
   -topicReader Trec \
   -output runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt \
   -qld -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
   -topicReader Trec \
@@ -87,17 +87,17 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25.topics.adhoc.451-550.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql.topics.adhoc.451-550.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt
 ```
 
 ## Effectiveness

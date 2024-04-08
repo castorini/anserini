@@ -11,21 +11,21 @@ index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
 
 metrics:
   - metric: nDCG@10
-    command: target/appassembler/bin/trec_eval
+    command: bin/trec_eval
     params: -c -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@100
-    command: target/appassembler/bin/trec_eval
+    command: bin/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@1000
-    command: target/appassembler/bin/trec_eval
+    command: bin/trec_eval
     params: -c -m recall.1000
     separator: "\t"
     parse_index: 2

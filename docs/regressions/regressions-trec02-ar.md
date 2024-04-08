@@ -17,7 +17,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/trec02-ar \
   -generator DefaultLuceneDocumentGenerator \
@@ -44,7 +44,7 @@ They are downloaded from NIST's page for [non-English topics](https://trec.nist.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.trec02-ar/ \
   -topics tools/topics-and-qrels/topics.trec02ar-ar.txt \
   -topicReader Trec \
@@ -55,7 +55,7 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.trec02ar.txt runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.trec02ar.txt runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt
 ```
 
 ## Effectiveness

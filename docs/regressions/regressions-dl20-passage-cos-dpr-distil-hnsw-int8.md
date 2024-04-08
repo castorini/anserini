@@ -52,7 +52,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, building HNSW indexes:
 
 ```bash
-target/appassembler/bin/IndexHnswDenseVectors \
+bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator HnswDenseVectorDocumentGenerator \
@@ -78,7 +78,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchHnswDenseVectors \
+bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil-int8/ \
   -topics tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
@@ -89,10 +89,10 @@ target/appassembler/bin/SearchHnswDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness

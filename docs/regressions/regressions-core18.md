@@ -17,7 +17,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v2 \
   -generator WashingtonPostGenerator \
@@ -42,42 +42,42 @@ They are downloaded from NIST:
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.bm25.topics.core18.txt \
   -bm25 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.bm25+rm3.topics.core18.txt \
   -bm25 -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.ql.topics.core18.txt \
   -qld &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.ql+rm3.topics.core18.txt \
   -qld -rm3 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.core18.txt \
   -topicReader Trec \
@@ -88,17 +88,17 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
 
-target/appassembler/bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
 ```
 
 ## Effectiveness

@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 public class DataModel {
-  private static final String INDEX_COMMAND = "target/appassembler/bin/IndexCollection";
-  private static final String INDEX_HNSW_COMMAND = "target/appassembler/bin/IndexHnswDenseVectors";
-  private static final String INDEX_INVERTED_DENSE_COMMAND = "target/appassembler/bin/IndexInvertedDenseVectors";
+  private static final String INDEX_COMMAND = "bin/run.sh io.anserini.index.IndexCollection";
+  private static final String INDEX_HNSW_COMMAND = "bin/run.sh io.anserini.index.IndexHnswDenseVectors";
+  private static final String INDEX_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.index.IndexInvertedDenseVectors";
 
-  private static final String SEARCH_COMMAND = "target/appassembler/bin/SearchCollection";
-  private static final String SEARCH_HNSW_COMMAND = "target/appassembler/bin/SearchHnswDenseVectors";
-  private static final String SEARCH_INVERTED_DENSE_COMMAND = "target/appassembler/bin/SearchInvertedDenseVectors";
+  private static final String SEARCH_COMMAND = "bin/run.sh io.anserini.search.SearchCollection";
+  private static final String SEARCH_HNSW_COMMAND = "bin/run.sh io.anserini.search.SearchHnswDenseVectors";
+  private static final String SEARCH_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchInvertedDenseVectors";
 
   private String corpus;
   private String corpus_path;

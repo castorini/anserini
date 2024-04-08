@@ -61,7 +61,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-unicoil-0shot \
   -generator DefaultLuceneDocumentGenerator \
@@ -85,21 +85,21 @@ The regression experiments here evaluate on the 76 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt \
   -impact -pretokenized &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl22.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
@@ -110,23 +110,23 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl22.unicoil.0shot.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl22.unicoil.0shot.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl22.unicoil.0shot.txt
 ```
 
 ## Effectiveness

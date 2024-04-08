@@ -109,74 +109,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>appassembler-maven-plugin</artifactId>
-        <version>2.1.0</version>
-        <configuration>
-          <extraJvmArguments>-Xms512M -Xmx31G --add-modules jdk.incubator.vector</extraJvmArguments>
-          <repositoryLayout>flat</repositoryLayout>
-          <useWildcardClassPath>true</useWildcardClassPath>
-          <programs>
-            <program>
-              <mainClass>io.anserini.ltr.FeatureExtractorCli</mainClass>
-              <id>FeatureExtractorCli</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.index.IndexCollection</mainClass>
-              <id>IndexCollection</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.index.IndexHnswDenseVectors</mainClass>
-              <id>IndexHnswDenseVectors</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.index.IndexInvertedDenseVectors</mainClass>
-              <id>IndexInvertedDenseVectors</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchCollection</mainClass>
-              <id>SearchCollection</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchHnswDenseVectors</mainClass>
-              <id>SearchHnswDenseVectors</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchInvertedDenseVectors</mainClass>
-              <id>SearchInvertedDenseVectors</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.index.IndexReaderUtils</mainClass>
-              <id>IndexReaderUtils</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.util.DumpAnalyzedQueries</mainClass>
-              <id>DumpAnalyzedQueries</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.util.ExtractAverageDocumentLength</mainClass>
-              <id>ExtractAverageDocumentLength</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
-              <id>ExtractDocumentLengths</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.util.ExtractNorms</mainClass>
-              <id>ExtractNorms</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
-              <id>ExtractTopDfTerms</id>
-            </program>
-            <program>
-              <mainClass>trec_eval</mainClass>
-              <id>trec_eval</id>
-            </program>
-          </programs>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>3.3.0</version>
@@ -354,7 +286,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.12.1</version>
+				<version>1.15.0</version>
 
 				<configuration>
 					<nodeVersion>v18.11.0</nodeVersion>

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mvn clean package appassembler:assemble
+mvn clean package

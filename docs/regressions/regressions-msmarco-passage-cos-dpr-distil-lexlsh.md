@@ -46,7 +46,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, applying inverted indexes to dense vectors using the "LexLSH" technique:
 
 ```bash
-target/appassembler/bin/IndexInvertedDenseVectors \
+bin/run.sh io.anserini.index.IndexInvertedDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator InvertedDenseVectorDocumentGenerator \
@@ -67,7 +67,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
 ```bash
-target/appassembler/bin/SearchInvertedDenseVectors \
+bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
@@ -78,10 +78,10 @@ target/appassembler/bin/SearchInvertedDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness

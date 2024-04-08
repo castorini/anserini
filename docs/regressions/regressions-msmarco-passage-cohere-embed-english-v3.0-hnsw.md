@@ -47,7 +47,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, building HNSW indexes:
 
 ```bash
-target/appassembler/bin/IndexHnswDenseVectors \
+bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
   -generator HnswDenseVectorDocumentGenerator \
@@ -70,7 +70,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
 ```bash
-target/appassembler/bin/SearchHnswDenseVectors \
+bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
@@ -81,10 +81,10 @@ target/appassembler/bin/SearchHnswDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
 ```
 
 ## Effectiveness

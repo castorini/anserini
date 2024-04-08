@@ -49,7 +49,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-unicoil-tilde-expansion \
   -generator DefaultLuceneDocumentGenerator \
@@ -73,7 +73,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-passage-unicoil-tilde-expansion/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz \
   -topicReader TsvInt \
@@ -84,10 +84,10 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion-cached_q.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion-cached_q.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion-cached_q.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion-cached_q.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion-cached_q.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion-cached_q.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion-cached_q.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-unicoil-tilde-expansion.unicoil-tilde-expansion-cached_q.topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.txt
 ```
 
 ## Effectiveness
