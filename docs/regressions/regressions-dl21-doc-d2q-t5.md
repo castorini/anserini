@@ -26,7 +26,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2-doc-d2q-t5 \
   -generator DefaultLuceneDocumentGenerator \
@@ -48,21 +48,21 @@ The regression experiments here evaluate on the 57 topics for which NIST has pro
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt \
   -hits 1000 -bm25 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt \
   -hits 1000 -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.msmarco-v2-doc-d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl21.txt \
   -topicReader TsvInt \
@@ -73,20 +73,20 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt
+bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl21.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt
+bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl21.txt
 
-target/appassembler/bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl21.txt
 ```
 
 ## Effectiveness

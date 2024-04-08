@@ -14,14 +14,14 @@ index_stats:
 
 metrics:
   - metric: nDCG@20
-    command: target/appassembler/bin/trec_eval
+    command: bin/trec_eval
     params: -c -m ndcg_cut.20
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@100
-    command: target/appassembler/bin/trec_eval
+    command: bin/trec_eval
     params: -c -m recall.100
     separator: "\t"
     parse_index: 2

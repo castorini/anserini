@@ -49,7 +49,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, applying inverted indexes to dense vectors using the "fake-words" technique:
 
 ```bash
-target/appassembler/bin/IndexInvertedDenseVectors \
+bin/run.sh io.anserini.index.IndexInvertedDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator InvertedDenseVectorDocumentGenerator \
@@ -71,7 +71,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-target/appassembler/bin/SearchInvertedDenseVectors \
+bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
   -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.fw-40/ \
   -topics tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
@@ -82,10 +82,10 @@ target/appassembler/bin/SearchInvertedDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-target/appassembler/bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
-target/appassembler/bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness

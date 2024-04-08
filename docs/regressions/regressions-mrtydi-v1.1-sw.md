@@ -16,7 +16,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-sw \
   -generator DefaultLuceneDocumentGenerator \
@@ -33,19 +33,19 @@ For additional details, see explanation of [common indexing options](../../docs/
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-sw.train.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.train.txt \
   -bm25 -hits 100 -language sw &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-sw.dev.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.dev.txt \
   -bm25 -hits 100 -language sw &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-sw.test.txt.gz \
   -topicReader TsvInt \
@@ -56,9 +56,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.train.txt runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.train.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.dev.txt runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.dev.txt
-target/appassembler/bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.test.txt runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.test.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.train.txt runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.train.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.dev.txt runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.test.txt runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.test.txt
 ```
 
 ## Effectiveness

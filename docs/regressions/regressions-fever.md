@@ -16,7 +16,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection FeverParagraphCollection \
   -input /path/to/fever \
   -generator DefaultLuceneDocumentGenerator \
@@ -38,14 +38,14 @@ The original data can be found [here](https://fever.ai/resources.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.fever-paragraph/ \
   -topics tools/topics-and-qrels/topics.fever.dev.txt \
   -topicReader TsvInt \
   -output runs/run.fever.bm25-default.topics.fever.dev.txt \
   -bm25 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.fever-paragraph/ \
   -topics tools/topics-and-qrels/topics.fever.dev.txt \
   -topicReader TsvInt \
@@ -56,9 +56,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
+bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
 
-target/appassembler/bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
+bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
 ```
 
 ## Effectiveness

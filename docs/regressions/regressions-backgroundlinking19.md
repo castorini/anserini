@@ -17,7 +17,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v2 \
   -generator WashingtonPostGenerator \
@@ -42,21 +42,21 @@ They are downloaded from NIST:
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
   -topicReader BackgroundLinking \
   -output runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt \
   -backgroundLinking -backgroundLinking.k 100 -bm25 -hits 100 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
   -topicReader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt \
   -backgroundLinking -backgroundLinking.k 100 -bm25 -rm3 -hits 100 &
 
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
   -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
   -topicReader BackgroundLinking \
@@ -67,11 +67,11 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt
 
-target/appassembler/bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt
 
-target/appassembler/bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt
 ```
 
 ## Effectiveness

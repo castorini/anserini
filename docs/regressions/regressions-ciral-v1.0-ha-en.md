@@ -16,7 +16,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/ciral-hausa-english \
   -generator DefaultLuceneDocumentGenerator \
@@ -33,19 +33,19 @@ For additional details, see explanation of [common indexing options](../../docs/
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-ha-en/ \
   -topics tools/topics-and-qrels/topics.ciral-v1.0-ha-test-a.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt \
   -bm25 -hits 1000 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-ha-en/ \
   -topics tools/topics-and-qrels/topics.ciral-v1.0-ha-test-a.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt \
   -bm25 -hits 1000 &
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-ha-en/ \
   -topics tools/topics-and-qrels/topics.ciral-v1.0-ha-test-b.tsv \
   -topicReader TsvInt \
@@ -56,12 +56,12 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-a.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-a.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-a-pools.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-a-pools.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
-target/appassembler/bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-b.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-b.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-b.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-b.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-a.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-a.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-a-pools.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-a-pools.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-b.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-b.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-b.tsv runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-b.txt
 ```
 
 ## Effectiveness

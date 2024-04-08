@@ -14,14 +14,14 @@ index_stats:
 
 metrics:
   - metric: MAP
-    command: target/appassembler/bin/trec_eval
+    command: bin/trec_eval
     params: -c -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: true
   - metric: MRR
-    command: target/appassembler/bin/trec_eval
+    command: bin/trec_eval
     params: -c -m recip_rank
     separator: "\t"
     parse_index: 2

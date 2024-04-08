@@ -27,7 +27,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 Typical indexing command:
 
 ```
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection BeirFlatCollection \
   -input /path/to/beir-v1.0.0-signal1m-flat \
   -generator DefaultLuceneDocumentGenerator \
@@ -45,7 +45,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.beir-v1.0.0-signal1m-flat/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-signal1m.test.tsv.gz \
   -topicReader TsvString \
@@ -56,9 +56,9 @@ target/appassembler/bin/SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-flat.bm25.topics.beir-v1.0.0-signal1m.test.txt
-target/appassembler/bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-flat.bm25.topics.beir-v1.0.0-signal1m.test.txt
-target/appassembler/bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-flat.bm25.topics.beir-v1.0.0-signal1m.test.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-flat.bm25.topics.beir-v1.0.0-signal1m.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-flat.bm25.topics.beir-v1.0.0-signal1m.test.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m-flat.bm25.topics.beir-v1.0.0-signal1m.test.txt
 ```
 
 ## Effectiveness
