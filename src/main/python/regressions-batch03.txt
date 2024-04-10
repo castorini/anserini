@@ -5,7 +5,8 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-bge-base-en-v1.5-hnsw-int8 > logs/log.msmarco-passage-bge-base-en-v1.5-hnsw-int8 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw > logs/log.msmarco-passage-cos-dpr-distil-hnsw 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-cos-dpr-distil-hnsw-int8 > logs/log.msmarco-passage-cos-dpr-distil-hnsw-int8 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2 > logs/log.msmarco-passage-openai-ada2 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2-hnsw > logs/log.msmarco-passage-openai-ada2-hnsw 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-openai-ada2-hnsw-int8 > logs/log.msmarco-passage-openai-ada2-hnsw-int8 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-ed > logs/log.msmarco-passage-splade-pp-ed 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-passage-splade-pp-sd > logs/log.msmarco-passage-splade-pp-sd 2>&1
@@ -89,7 +90,8 @@ python src/main/python/run_regression.py --search --regression dl19-passage-cos-
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-hnsw-int8 > logs/log.dl19-passage-cos-dpr-distil-hnsw-int8 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-fw > logs/log.dl19-passage-cos-dpr-distil-fw 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-cos-dpr-distil-lexlsh > logs/log.dl19-passage-cos-dpr-distil-lexlsh 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage-openai-ada2 > logs/log.dl19-passage-openai-ada2 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-openai-ada2-hnsw > logs/log.dl19-passage-openai-ada2-hnsw 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage-openai-ada2-hnsw-int8 > logs/log.dl19-passage-openai-ada2-hnsw-int8 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-cohere-embed-english-v3.0-hnsw > logs/log.dl19-passage-cohere-embed-english-v3.0-hnsw 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage-cohere-embed-english-v3.0-hnsw-int8 > logs/log.dl19-passage-cohere-embed-english-v3.0-hnsw-int8 2>&1
 
@@ -133,7 +135,8 @@ python src/main/python/run_regression.py --search --regression dl20-passage-cos-
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-hnsw-int8 > logs/log.dl20-passage-cos-dpr-distil-hnsw-int8 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-fw > logs/log.dl20-passage-cos-dpr-distil-fw 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cos-dpr-distil-lexlsh > logs/log.dl20-passage-cos-dpr-distil-lexlsh 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage-openai-ada2 > logs/log.dl20-passage-openai-ada2 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-openai-ada2-hnsw > logs/log.dl20-passage-openai-ada2-hnsw 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage-openai-ada2-hnsw-int8 > logs/log.dl20-passage-openai-ada2-hnsw-int8 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cohere-embed-english-v3.0-hnsw > logs/log.dl20-passage-cohere-embed-english-v3.0-hnsw 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage-cohere-embed-english-v3.0-hnsw-int8 > logs/log.dl20-passage-cohere-embed-english-v3.0-hnsw-int8 2>&1
 
