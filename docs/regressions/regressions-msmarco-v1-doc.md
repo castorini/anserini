@@ -32,7 +32,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-doc/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc/ \
   -threads 7 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc &
 ```
@@ -51,21 +51,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2.topics.msmarco-doc.dev.txt \

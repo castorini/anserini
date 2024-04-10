@@ -5,7 +5,7 @@ corpus_path: collections/msmarco/msmarco-doc-segmented-unicoil/
 download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar
 download_checksum: 6a00e2c0c375cb1e52c83ae5ac377ebb
 
-index_path: indexes/lucene-index.msmarco-doc-segmented-unicoil/
+index_path: indexes/lucene-inverted.msmarco-v1-doc-segmented.unicoil/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

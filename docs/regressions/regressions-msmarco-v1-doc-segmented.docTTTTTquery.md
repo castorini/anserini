@@ -33,7 +33,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-segmented-docTTTTTquery \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -threads 16 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-segmented-docTTTTTquery &
 ```
@@ -52,14 +52,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.msmarco-doc.dev.txt \
