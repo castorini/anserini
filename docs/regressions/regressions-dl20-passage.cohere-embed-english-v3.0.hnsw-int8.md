@@ -51,7 +51,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
   -generator HnswDenseVectorDocumentGenerator \
-  -index indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3.0-int8/ \
+  -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -threads 16 -M 16 -efC 100 -noMerge -quantize.int8 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &
 ```
@@ -72,7 +72,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
-  -index indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3.0-int8/ \
+  -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.dl20.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.dl20.cohere-embed-english-v3.0.jsonl.txt \

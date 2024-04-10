@@ -27,7 +27,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-passage-wp \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-passage-wp/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.wp-tok/ \
   -threads 9 -storePositions -storeDocvectors -storeRaw -pretokenized \
   >& logs/log.msmarco-passage-wp &
 ```
@@ -46,7 +46,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-wp/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.wp-tok/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.wp.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-wp.bm25-default.topics.dl19-passage.wp.txt \

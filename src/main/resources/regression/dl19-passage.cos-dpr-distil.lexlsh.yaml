@@ -5,7 +5,7 @@ corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
 download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
 
-index_path: indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/
+index_path: indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600/
 index_type: inverted-dense
 collection_class: JsonDenseVectorCollection
 generator_class: InvertedDenseVectorDocumentGenerator

@@ -5,7 +5,7 @@ corpus_path: collections/msmarco/msmarco-passage-splade-pp-ed
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar
 download_checksum: e489133bdc54ee1e7c62a32aa582bc77
 
-index_path: indexes/lucene-index.msmarco-passage-splade-pp-ed/
+index_path: indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

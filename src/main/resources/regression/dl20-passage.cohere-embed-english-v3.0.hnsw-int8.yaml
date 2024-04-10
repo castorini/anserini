@@ -5,7 +5,7 @@ corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3.0/
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.tar
 download_checksum: 06a6e38a0522850c6aa504db7b2617f5
 
-index_path: indexes/lucene-hnsw.msmarco-passage-cohere-embed-english-v3.0-int8/
+index_path: indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator 

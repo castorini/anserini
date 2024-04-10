@@ -50,7 +50,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-bm25-b8 \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-passage-bm25-b8/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.bm25-b8/ \
   -threads 9 -impact -pretokenized \
   >& logs/log.msmarco-passage-bm25-b8 &
 ```
@@ -69,7 +69,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-bm25-b8/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.bm25-b8/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl19-passage.txt \

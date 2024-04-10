@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-docTTTTTquery \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.docTTTTTquery/ \
   -threads 7 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc-docTTTTTquery &
 ```
@@ -56,42 +56,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default.topics.dl19-doc.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt \
   -bm25 -rocchio &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt \
   -bm25 -bm25.k1 4.68 -bm25.b 0.87 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-docTTTTTquery/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.docTTTTTquery/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt \

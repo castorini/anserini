@@ -25,7 +25,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-doc \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-doc-ca/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.wp-ca/ \
   -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer \
   >& logs/log.msmarco-doc &
 ```
@@ -45,7 +45,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-ca/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc.wp-ca/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.dl20.txt \

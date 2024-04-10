@@ -53,7 +53,7 @@ bin/run.sh io.anserini.index.IndexInvertedDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator InvertedDenseVectorDocumentGenerator \
-  -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600/ \
   -threads 16 -encoding lexlsh -lexlsh.b 600 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
@@ -72,7 +72,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
-  -index indexes/lucene-index.msmarco-passage-cos-dpr-distil.lexlsh-600/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600/ \
   -topics tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-lexlsh-600-cached_q.topics.dl20.cos-dpr-distil.jsonl.txt \

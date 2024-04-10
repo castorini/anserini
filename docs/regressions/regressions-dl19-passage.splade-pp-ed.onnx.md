@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-splade-pp-ed \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade-pp-ed &
 ```
@@ -78,21 +78,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-onnx.topics.dl19-passage.txt \
   -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-onnx+rm3.topics.dl19-passage.txt \
   -impact -pretokenized -encoder SpladePlusPlusEnsembleDistil -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-onnx+rocchio.topics.dl19-passage.txt \

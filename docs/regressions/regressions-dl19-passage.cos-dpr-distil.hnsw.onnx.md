@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator HnswDenseVectorDocumentGenerator \
-  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
+  -index indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/ \
   -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
@@ -77,7 +77,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
-  -index indexes/lucene-hnsw.msmarco-passage-cos-dpr-distil/ \
+  -index indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt \

@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-splade-pp-ed \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade-pp-ed &
 ```
@@ -78,21 +78,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-cached_q.topics.dl20.splade-pp-ed.txt \
   -impact -pretokenized &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-cached_q+rm3.topics.dl20.splade-pp-ed.txt \
   -impact -pretokenized -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage-splade-pp-ed/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.dl20.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-splade-pp-ed.splade-pp-ed-cached_q+rocchio.topics.dl20.splade-pp-ed.txt \

@@ -5,7 +5,7 @@ corpus_path: collections/msmarco/msmarco-passage-bge-base-en-v1.5/
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar
 download_checksum: 353d2c9e72e858897ad479cca4ea0db1
 
-index_path: indexes/lucene-hnsw.msmarco-passage-bge-base-en-v1.5-int8/
+index_path: indexes/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: HnswDenseVectorDocumentGenerator

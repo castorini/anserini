@@ -57,7 +57,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-doc-segmented-unicoil \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc-segmented.unicoil/ \
   -threads 16 -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-doc-segmented-unicoil &
 ```
@@ -79,21 +79,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc-segmented.unicoil/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil.unicoil-cached_q.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc-segmented.unicoil/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil.unicoil-cached_q+rm3.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-doc-segmented-unicoil/ \
+  -index indexes/lucene-inverted.msmarco-v1-doc-segmented.unicoil/ \
   -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil.unicoil-cached_q+rocchio.topics.dl20.unicoil.0shot.txt \
