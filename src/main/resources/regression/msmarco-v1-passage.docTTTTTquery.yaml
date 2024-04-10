@@ -2,7 +2,7 @@
 corpus: msmarco-passage-docTTTTTquery
 corpus_path: collections/msmarco/msmarco-passage-docTTTTTquery/
 
-index_path: indexes/lucene-index.msmarco-passage-docTTTTTquery/
+index_path: indexes/lucene-inverted.msmarco-v1-passage.docTTTTTquery/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 18
