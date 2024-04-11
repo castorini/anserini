@@ -1,20 +1,16 @@
 ---
-corpus: msmarco-v2-passage-unicoil-noexp-0shot
-corpus_path: collections/msmarco/msmarco_v2_passage_unicoil_noexp_0shot/
+corpus: msmarco-v2-passage-augmented-d2q-t5
+corpus_path: collections/msmarco/msmarco_v2_passage_augmented_d2q-t5/
 
-download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_passage_unicoil_noexp_0shot.tar
-download_checksum: d9cc1ed3049746e68a2c91bf90e5212d
-download_corpus: msmarco_v2_passage_unicoil_noexp_0shot
-
-index_path: indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/
-collection_class: JsonVectorCollection
+index_path: indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/
+collection_class: MsMarcoV2PassageCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 24
-index_options: -impact -pretokenized -storeRaw
+index_options: -storeRaw
 index_stats:
   documents: 138364198
   documents (non-empty): 138364198
-  total terms: 411330032512
+  total terms: 27561177716
 
 metrics:
   - metric: MAP@100
@@ -50,62 +46,62 @@ topic_reader: TsvInt
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev
-    path: topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz
+    path: topics.msmarco-v2-passage.dev.txt
     qrel: qrels.msmarco-v2-passage.dev.txt
   - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev2
-    path: topics.msmarco-v2-passage.dev2.unicoil-noexp.0shot.tsv.gz
+    path: topics.msmarco-v2-passage.dev2.txt
     qrel: qrels.msmarco-v2-passage.dev2.txt
 
 models:
-  - name: unicoil-noexp-0shot-cached_q
-    display: uniCOIL (noexp) zero-shot
-    params: -parallelism 16 -impact -pretokenized
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25
     results:
       MAP@100:
-        - 0.1333
-        - 0.1374
+        - 0.1160
+        - 0.1158
       MRR@100:
-        - 0.1342
-        - 0.1385
+        - 0.1172
+        - 0.1170
       R@100:
-        - 0.4976
-        - 0.5217
+        - 0.5039
+        - 0.5158
       R@1000:
-        - 0.7010
-        - 0.7114
+        - 0.7647
+        - 0.7659
 # PRF regressions are no longer maintained for sparse judgments to reduce running times.
 # (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
 #
-#  - name: unicoil-noexp-0shot-cached_q+rm3
+#  - name: bm25-default+rm3
 #    display: +RM3
-#    params: -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection
+#    params: -bm25 -rm3 -collection MsMarcoV2PassageCollection
 #    results:
 #      MAP@100:
-#        - 0.1115
-#        - 0.1190
+#        - 0.0873
+#        - 0.0896
 #      MRR@100:
-#        - 0.1124
-#        - 0.1197
+#        - 0.0883
+#        - 0.0904
 #      R@100:
-#        - 0.5006
-#        - 0.5129
+#        - 0.4774
+#        - 0.4905
 #      R@1000:
-#        - 0.7258
-#        - 0.7346
-#  - name: unicoil-noexp-0shot-cached_q+rocchio
+#        - 0.7607
+#        - 0.7649
+#  - name: bm25-default+rocchio
 #    display: +Rocchio
-#    params: -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection
+#    params: -bm25 -rocchio -collection MsMarcoV2PassageCollection
 #    results:
 #      MAP@100:
-#        - 0.1163
-#        - 0.1179
+#        - 0.0882
+#        - 0.0900
 #      MRR@100:
-#        - 0.1172
-#        - 0.1186
+#        - 0.0893
+#        - 0.0908
 #      R@100:
-#        - 0.5082
-#        - 0.5218
+#        - 0.4756
+#        - 0.4880
 #      R@1000:
-#        - 0.7299
-#        - 0.7387
+#        - 0.7648
+#        - 0.7666
