@@ -65,7 +65,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-unicoil-noexp-0shot \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot/ \
   -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-passage-unicoil-noexp-0shot &
 ```
@@ -86,21 +86,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot/ \
   -topics tools/topics-and-qrels/topics.dl23.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot-cached_q.topics.dl23.unicoil-noexp.0shot.txt \
   -impact -pretokenized &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot/ \
   -topics tools/topics-and-qrels/topics.dl23.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot-cached_q+rm3.topics.dl23.unicoil-noexp.0shot.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-noexp-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot/ \
   -topics tools/topics-and-qrels/topics.dl23.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot-cached_q+rocchio.topics.dl23.unicoil-noexp.0shot.txt \

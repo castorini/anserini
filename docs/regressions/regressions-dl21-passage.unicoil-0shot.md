@@ -65,7 +65,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-unicoil-0shot \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-0shot/ \
   -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-passage-unicoil-0shot &
 ```
@@ -86,21 +86,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q.topics.dl21.unicoil.0shot.txt \
   -impact -pretokenized &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rm3.topics.dl21.unicoil.0shot.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-unicoil-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-0shot/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached_q+rocchio.topics.dl21.unicoil.0shot.txt \

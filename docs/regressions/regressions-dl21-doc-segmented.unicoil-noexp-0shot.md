@@ -70,7 +70,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-doc-segmented-unicoil-noexp-0shot \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot/ \
   -threads 24 -impact -pretokenized \
   >& logs/log.msmarco-v2-doc-segmented-unicoil-noexp-0shot &
 ```
@@ -91,7 +91,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented-unicoil-noexp-0shot/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached_q.topics.dl21.unicoil-noexp.0shot.txt \

@@ -32,7 +32,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2-doc-d2q-t5 \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-v2-doc-d2q-t5/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc.d2q-t5/ \
   -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-doc-d2q-t5 &
 ```
@@ -51,21 +51,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-d2q-t5/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc.d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl22.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-d2q-t5.bm25-default.topics.dl22.txt \
   -hits 1000 -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-d2q-t5/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc.d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl22.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rm3.topics.dl22.txt \
   -hits 1000 -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-d2q-t5/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc.d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl22.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-d2q-t5.bm25-default+rocchio.topics.dl22.txt \

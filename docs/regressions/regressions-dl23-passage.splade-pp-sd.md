@@ -58,7 +58,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-splade-pp-sd \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-sd/ \
   -threads 24 -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-passage-splade-pp-sd &
 ```
@@ -79,21 +79,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl23.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q.topics.dl23.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl23.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rm3.topics.dl23.splade-pp-sd.txt \
   -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-splade-pp-sd/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-sd/ \
   -topics tools/topics-and-qrels/topics.dl23.splade-pp-sd.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-cached_q+rocchio.topics.dl23.splade-pp-sd.txt \

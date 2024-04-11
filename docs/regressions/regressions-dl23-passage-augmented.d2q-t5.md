@@ -25,7 +25,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MsMarcoV2PassageCollection \
   -input /path/to/msmarco-v2-passage-augmented-d2q-t5 \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-passage-augmented-d2q-t5 &
 ```
@@ -44,21 +44,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl23.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl23.txt \
   -bm25 -rm3 -collection MsMarcoV2PassageCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage-augmented-d2q-t5/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -topics tools/topics-and-qrels/topics.dl23.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt \
