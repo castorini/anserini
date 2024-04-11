@@ -25,7 +25,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/msmarco-passage \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -threads 9 -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage &
 ```
@@ -45,84 +45,84 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-default.topics.dl19-passage.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+rm3.topics.dl19-passage.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+rocchio.topics.dl19-passage.txt \
   -bm25 -rocchio &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+rocchio-neg.topics.dl19-passage.txt \
   -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+ax.topics.dl19-passage.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+prf.topics.dl19-passage.txt \
   -bm25 -bm25prf &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+rm3.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+rocchio.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+rocchio-neg.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl19-passage.txt \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-passage/ \
+  -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+prf.topics.dl19-passage.txt \
