@@ -24,7 +24,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2-doc-segmented \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc-segmented/ \
   -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-doc-segmented &
 ```
@@ -42,13 +42,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-doc-segmented/ \
+  -index indexes/lucene-inverted.msmarco-v2-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt \
