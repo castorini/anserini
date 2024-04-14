@@ -21,6 +21,7 @@ import subprocess
 
 import pyserini.util
 
+
 def perform_runs(round_number, indexes):
     base_topics = f'tools/topics-and-qrels/topics.covid-round{round_number}.xml'
     udel_topics = f'tools/topics-and-qrels/topics.covid-round{round_number}-udel.xml'
@@ -34,17 +35,17 @@ def perform_runs(round_number, indexes):
 
     abstract_index = indexes[0]
     abstract_prefix = f'anserini.covid-r{round_number}.abstract'
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
               f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
               f'-removeDuplicates -bm25 -hits 10000 ' +
               f'-output runs/{abstract_prefix}.qq.bm25.txt -runtag {abstract_prefix}.qq.bm25.txt')
 
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
               f'-topicReader Covid -topics {udel_topics} -topicField query ' +
               f'-removeDuplicates -bm25 -hits 10000 ' +
               f'-output runs/{abstract_prefix}.qdel.bm25.txt -runtag {abstract_prefix}.qdel.bm25.txt')
 
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
               f'-topicReader Covid -topics {udel_topics} -topicField query -removeDuplicates ' +
               f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
               f'-rf.qrels {cumulative_qrels} ' +
@@ -56,12 +57,12 @@ def perform_runs(round_number, indexes):
 
     full_text_index = indexes[1]
     full_text_prefix = f'anserini.covid-r{round_number}.full-text'
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
               f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
               f'-removeDuplicates -bm25 -hits 10000 ' +
               f'-output runs/{full_text_prefix}.qq.bm25.txt -runtag {full_text_prefix}.qq.bm25.txt')
 
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
               f'-topicReader Covid -topics {udel_topics} -topicField query ' +
               f'-removeDuplicates -bm25 -hits 10000 ' +
               f'-output runs/{full_text_prefix}.qdel.bm25.txt -runtag {full_text_prefix}.qdel.bm25.txt')
@@ -72,12 +73,12 @@ def perform_runs(round_number, indexes):
 
     paragraph_index = indexes[2]
     paragraph_prefix = f'anserini.covid-r{round_number}.paragraph'
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
               f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
               f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
 
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
               f'-topicReader Covid -topics {udel_topics} -topicField query ' +
               f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
