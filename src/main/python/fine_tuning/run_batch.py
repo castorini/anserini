@@ -58,7 +58,7 @@ def get_index_path(yaml_data):
 
 def batch_retrieval(collection_yaml, models_yaml, output_root):
     all_params = []
-    program = os.path.join(collection_yaml['anserini_root'], 'target/appassembler/bin', 'SearchCollection')
+    program = os.path.join(collection_yaml['anserini_root'], 'bin/run.sh') + ' io.anserini.search.SearchCollection'
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     logger.info('='*10+'Generating Batch Retrieval Parameters'+'='*10)
@@ -81,7 +81,7 @@ def atom_retrieval(para):
     subprocess.call(' '.join(para), shell=True)
 
 
-def batch_eval(collection_yaml, models_yaml, output_root):
+def batch_eval(collection_yaml, output_root):
     all_params = []
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
@@ -104,11 +104,11 @@ def atom_eval(params):
     Evaluation.output_all_evaluations(*params)
 
 
-def batch_output_effectiveness(collection_yaml, models_yaml, output_root):
+def batch_output_effectiveness(collection_yaml, output_root):
     all_params = []
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    all_params.extend( Effectiveness(index_path).gen_output_effectiveness_params(this_output_root) )
+    all_params.extend(Effectiveness(index_path).gen_output_effectiveness_params(this_output_root))
     logger.info('='*10+'Starting Output Effectiveness'+'='*10)
     batch_everything(all_params, atom_output_effectiveness)
 
@@ -148,7 +148,6 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, fold_setting
         return
 
     success_xfold = True
-    fold = -1
 
     logger.info('Checking fold settings: ' + fold_settings)
 
@@ -161,7 +160,7 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, fold_setting
                 fold_mapping[t] = num_folds
             num_folds = num_folds + 1
 
-    logger.info('Number of folds: %d' % (num_folds))
+    logger.info('Number of folds: %d' % num_folds)
     fold = num_folds
 
     x_fold_effectiveness = XFoldValidate(output_root, collection_yaml['name'], fold, fold_mapping).tune(verbose)
@@ -197,12 +196,7 @@ if __name__ == '__main__':
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
     parser.add_argument('--fold_settings', default='', help='JSON file holding fold definitions, see src/main/resources/fine_tuning/robust04-paper1-folds.json for an example')
     parser.add_argument('--verbose', action='store_true', help='if specified print out model parameters and per fold scores')
-    parser.add_argument(
-        "--metrics",
-        nargs='+',
-        default=['map'],
-        help="inputs: [metrics]. For example, --metrics map ndcg20"
-    )
+    parser.add_argument('--metrics', nargs='+', default=['map'], help='inputs: [metrics]. For example, --metrics map ndcg20')
 
     args = parser.parse_args()
     parallelism = args.parallelism
@@ -220,6 +214,6 @@ if __name__ == '__main__':
 
     if args.run:
         batch_retrieval(collection_yaml, models_yaml, args.output_root)
-        batch_eval(collection_yaml, models_yaml, args.output_root)
-        batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
+        batch_eval(collection_yaml, args.output_root)
+        batch_output_effectiveness(collection_yaml, args.output_root)
     verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.fold_settings, args.verbose)
