@@ -71,7 +71,7 @@ if __name__ == '__main__':
     # Generate run for each fold using tuned parameters.
     folds_run_files = []
     for i in range(len(folds)):
-        os.system(f'target/appassembler/bin/SearchCollection -topicreader Trec -index {index} '
+        os.system(f'bin/run.sh io.anserini.search.SearchCollection -topicReader Trec -index {index} '
                   f'-topics topics.robust04.fold{i} -output {args.output}.fold{i} -hits 1000 {params[i]}')
         folds_run_files.append(f'{args.output}.fold{i}')
 
