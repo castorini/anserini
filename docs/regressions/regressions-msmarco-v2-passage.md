@@ -24,7 +24,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MsMarcoV2PassageCollection \
   -input /path/to/msmarco-v2-passage \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.msmarco-v2-passage/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage/ \
   -threads 24 -storeRaw \
   >& logs/log.msmarco-v2-passage &
 ```
@@ -42,13 +42,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.msmarco-v2-passage/ \
+  -index indexes/lucene-inverted.msmarco-v2-passage/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage.bm25-default.topics.msmarco-v2-passage.dev2.txt \
