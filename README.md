@@ -67,23 +67,23 @@ done
 # SPLADE++ ED
 TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    # Using pre-encoded queries
-    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchCollection -index msmarco-v1-passage-splade-pp-ed -topics ${t}-splade-pp-ed -output run.${t}.splade-pp-ed-pre.txt -threads 16 -impact -pretokenized
+    # Using cached queries
+    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t}-splade-pp-ed -output run.${t}.splade-pp-ed-pre.txt -threads 16 -impact -pretokenized
     # Using ONNX
-    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchCollection -index msmarco-v1-passage-splade-pp-ed -topics ${t} -encoder SpladePlusPlusEnsembleDistil -output run.${t}.splade-pp-ed-onnx.txt -threads 16 -impact -pretokenized
+    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t} -encoder SpladePlusPlusEnsembleDistil -output run.${t}.splade-pp-ed-onnx.txt -threads 16 -impact -pretokenized
 done
 
 # cosDPR-distil
 TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    # Using pre-encoded queries, full index
-    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topics ${t}-cos-dpr-distil -output run.${t}.cos-dpr-distil-full-pre.txt -threads 16 -efSearch 1000
-    # Using pre-encoded queries, quantized index
-    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil-quantized -topics ${t}-cos-dpr-distil -output run.${t}.cos-dpr-distil-quantized-pre.txt -threads 16 -efSearch 1000
-    # Using ONNX, full index
-    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil-full-onnx.txt -threads 16 -efSearch 1000
-    # Using ONNX, quantized index
-    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil-quantized -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil-quantized-onnx.txt -threads 16 -efSearch 1000
+    # Using full index, cached queries
+    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topics ${t}-cos-dpr-distil -output run.${t}.cos-dpr-distil.full.cached_q.txt -threads 16 -efSearch 1000
+    # Using full index, ONNX
+    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil.full.onnx.txt -threads 16 -efSearch 1000
+    # Using quantized index, cached queries
+    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil-quantized -topics ${t}-cos-dpr-distil -output run.${t}.cos-dpr-distil.quantized.cached_q.txt -threads 16 -efSearch 1000
+    # Using quantized index, ONNX
+    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil-quantized -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil.quantized.onnx.txt -threads 16 -efSearch 1000
 done
 
 # BGE-base-en-v1.5
@@ -91,29 +91,29 @@ TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]
 do
     # Using pre-encoded queries, full index
     java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5 -topics ${t}-bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5-full-pre.txt -threads 16 -efSearch 1000
-    # Using pre-encoded queries, quantized index
-    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t}-bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5-quantized-pre.txt -threads 16 -efSearch 1000
     # Using ONNX, full index
     java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5 -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5-full-onnx.txt -threads 16 -efSearch 1000
+    # Using pre-encoded queries, quantized index
+    java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t}-bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5-quantized-pre.txt -threads 16 -efSearch 1000
     # Using ONNX, quantized index
     java -cp anserini-0.35.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5-quantized-onnx.txt -threads 16 -efSearch 1000
 done
 ```
 Here are the expected scores (dev using MRR@10, DL19 and DL20 using nDCG@10):
 
-|                                                |    dev |   DL19 |   DL20 |
-|:-----------------------------------------------|-------:|-------:|-------:|
-| BM25                                           | 0.1840 | 0.5058 | 0.4796 |
-| SPLADE++ ED (pre-encoded)                      | 0.3830 | 0.7317 | 0.7198 |
-| SPLADE++ ED (ONNX)                             | 0.3828 | 0.7308 | 0.7197 |
-| cos-DPR: full HNSW (pre-encoded)               | 0.3887 | 0.7250 | 0.7025 |
-| cos-DPR: quantized HNSW (pre-encoded)          | 0.3897 | 0.7240 | 0.7004 |
-| cos-DPR: full HNSW ONNX)                       | 0.3887 | 0.7250 | 0.7025 |
-| cos-DPR: quantized HNSW (ONNX)                 | 0.3899 | 0.7247 | 0.6996 |
-| BGE-base-en-v1.5: full HNSW (pre-encoded)      | 0.3574 | 0.7065 | 0.6780 |
-| BGE-base-en-v1.5: quantized HNSW (pre-encoded) | 0.3572 | 0.7016 | 0.6738 |
-| BGE-base-en-v1.5: full HNSW (ONNX)             | 0.3575 | 0.7016 | 0.6768 |
-| BGE-base-en-v1.5: quantized HNSW (ONNX)        | 0.3575 | 0.7017 | 0.6767 |
+|                                                   |    dev |   DL19 |   DL20 |
+|:--------------------------------------------------|-------:|-------:|-------:|
+| BM25                                              | 0.1840 | 0.5058 | 0.4796 |
+| SPLADE++ ED (cached queries)                      | 0.3830 | 0.7317 | 0.7198 |
+| SPLADE++ ED (ONNX)                                | 0.3828 | 0.7308 | 0.7197 |
+| cosDPR-distil: full HNSW (cached queries)         | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil: full HNSW ONNX)                    | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil: quantized HNSW (cached queries)    | 0.3897 | 0.7240 | 0.7004 |
+| cosDPR-distil: quantized HNSW (ONNX)              | 0.3899 | 0.7247 | 0.6996 |
+| BGE-base-en-v1.5: full HNSW (cached queries)      | 0.3574 | 0.7065 | 0.6780 |
+| BGE-base-en-v1.5: full HNSW (ONNX)                | 0.3575 | 0.7016 | 0.6768 |
+| BGE-base-en-v1.5: quantized HNSW (cached queries) | 0.3572 | 0.7016 | 0.6738 |
+| BGE-base-en-v1.5: quantized HNSW (ONNX)           | 0.3575 | 0.7017 | 0.6767 |
 
 And here's the snippet of code to perform the evaluation (which will yield the results above):
 
