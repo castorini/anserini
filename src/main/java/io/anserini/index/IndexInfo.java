@@ -76,10 +76,10 @@ public enum IndexInfo {
 
   MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_QUANTIZED("msmarco-v1-passage.cohere-embed-english-v3.0.quantized",
       "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
-      "lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz",
+      "lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
-      "7830712459cf124c96fd058bb0a405b7"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
+      "dbaca578cc8495f504cdd0a7187f4c36"),
 
   // MS MARCO V2
   MSMARCO_V2_PASSAGE("msmarco-v2-passage",
@@ -96,7 +96,7 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-doc.20220808.4d6d2a.tar.gz" },
       "0599bd6ed5ee28390b279eb398ef0267"),
 
-  MSMARCO_V2_SEGMENTED("msmarco-v2-doc-segmented",
+  MSMARCO_V2_DOC_SEGMENTED("msmarco-v2-doc-segmented",
       "Lucene index of the MS MARCO V2 segmented document corpus.",
       "lucene-index.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz",
       new String[] {

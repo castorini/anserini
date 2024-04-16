@@ -128,15 +128,15 @@ conditions:
       - topic_key: dl19-passage.cos-dpr-distil
         eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
         scores:
-          - MAP: 0.4660
+          - MAP: 0.4662
             nDCG@10: 0.7240
-            R@1K: 0.8222
+            R@1K: 0.8219
       - topic_key: dl20-passage.cos-dpr-distil
         eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
         scores:
-          - MAP: 0.4876
+          - MAP: 0.4872
             nDCG@10: 0.7004
-            R@1K: 0.8540
+            R@1K: 0.8538
   - name: cos-dpr-distil.int8.onnx
     display: "cosDPR-distil w/ HNSW int8 (ONNX)"
     display_html: "cosDPR-distil w/ HNSW int8 (ONNX)"
@@ -146,20 +146,20 @@ conditions:
       - topic_key: msmarco-v1-passage.dev
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
-          - MRR@10: 0.3887
+          - MRR@10: 0.3899
             R@1K: 0.9764
       - topic_key: dl19-passage
         eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
         scores:
-          - MAP: 0.4660
-            nDCG@10: 0.7250
-            R@1K: 0.8222
+          - MAP: 0.4664
+            nDCG@10: 0.7247
+            R@1K: 0.8218
       - topic_key: dl20-passage
         eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
         scores:
-          - MAP: 0.4876
-            nDCG@10: 0.7025
-            R@1K: 0.8540
+          - MAP: 0.4871
+            nDCG@10: 0.6996
+            R@1K: 0.8538
   - name: bge-base-en-15.fp32.cached_q
     display: "BGE-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_html: "BGE-base-en-v1.5 w/ HNSW fp32 (cached queries)"
@@ -215,20 +215,20 @@ conditions:
       - topic_key: msmarco-v1-passage.dev.bge-base-en-v1.5
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
-          - MRR@10: 0.3574
-            R@1K: 0.9788
+          - MRR@10: 0.3572
+            R@1K: 0.9774
       - topic_key: dl19-passage.bge-base-en-v1.5
         eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
         scores:
-          - MAP: 0.4436
-            nDCG@10: 0.7065
+          - MAP: 0.4400
+            nDCG@10: 0.7016
             R@1K: 0.8481
       - topic_key: dl20-passage.bge-base-en-v1.5
         eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
         scores:
-          - MAP: 0.4648
-            nDCG@10: 0.6780
-            R@1K: 0.8483
+          - MAP: 0.4623
+            nDCG@10: 0.6738
+            R@1K: 0.8420
   - name: bge-base-en-15.int8.onnx
     display: "BGE-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_html: "BGE-base-en-v1.5 w/ HNSW int8 (ONNX)"
@@ -239,16 +239,16 @@ conditions:
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3575
-            R@1K: 0.9788
+            R@1K: 0.9772
       - topic_key: dl19-passage
         eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
         scores:
-          - MAP: 0.4486
-            nDCG@10: 0.7016
-            R@1K: 0.8441
+          - MAP: 0.4454
+            nDCG@10: 0.7017
+            R@1K: 0.8436
       - topic_key: dl20-passage
         eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
         scores:
-          - MAP: 0.4626
-            nDCG@10: 0.6768
-            R@1K: 0.8526
+          - MAP: 0.4592
+            nDCG@10: 0.6767
+            R@1K: 0.8468
