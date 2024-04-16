@@ -265,7 +265,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
-  -topics dev \
+  -topics msmarco-v1-passage.dev \
   -output runs/run.msmarco.bm25-default.dev.txt \
   -hits 1000 -bm25
 </code></pre></blockquote>
@@ -329,7 +329,7 @@ Command to generate run on TREC 2019 queries:
 <pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage.splade-pp-ed \
-  -topics dl19-passage \
+  -topics dl19-passage.splade-pp-ed \
   -output runs/run.msmarco.splade-pp-ed.cached_q.dl19.txt \
   -impact -pretokenized -hits 1000
 </code></pre></blockquote>
@@ -353,7 +353,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage.splade-pp-ed \
-  -topics dl20-passage \
+  -topics dl20-passage.splade-pp-ed \
   -output runs/run.msmarco.splade-pp-ed.cached_q.dl20.txt \
   -impact -pretokenized -hits 1000
 </code></pre></blockquote>
@@ -377,7 +377,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage.splade-pp-ed \
-  -topics dev \
+  -topics msmarco-v1-passage.dev.splade-pp-ed \
   -output runs/run.msmarco.splade-pp-ed.cached_q.dev.txt \
   -impact -pretokenized -hits 1000
 </code></pre></blockquote>
@@ -491,7 +491,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage.splade-pp-ed \
-  -topics dev \
+  -topics msmarco-v1-passage.dev \
   -output runs/run.msmarco.splade-pp-ed.onnx.dev.txt \
   -impact -pretokenized -hits 1000 \
   -encoder SpladePlusPlusEnsembleDistil
@@ -512,11 +512,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: cosDPR-distil: full HNSW (cached queries) -->
+<!-- Condition: cosDPR-distil w/ HNSW fp32 (cached queries) -->
 <tr class="accordion-toggle collapsed" id="row4" data-toggle="collapse" data-parent="#row4" href="#collapse4">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil: full HNSW (cached queries)</td>
+<td style="min-width: 400px">cosDPR-distil w/ HNSW fp32 (cached queries)</td>
 <td>0.4660</td>
 <td>0.7250</td>
 <td>0.8222</td>
@@ -556,19 +556,19 @@ Command to generate run on TREC 2019 queries:
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil \
-  -topics dl19-passage \
-  -output runs/run.msmarco.cos-dpr-distil.full.cached_q.dl19.txt \
+  -topics dl19-passage.cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -580,19 +580,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil \
-  -topics dl20-passage \
-  -output runs/run.msmarco.cos-dpr-distil.full.cached_q.dl20.txt \
+  -topics dl20-passage.cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -604,17 +604,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil \
-  -topics dev \
-  -output runs/run.msmarco.cos-dpr-distil.full.cached_q.dev.txt \
+  -topics msmarco-v1-passage.dev.cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.cos-dpr-distil.full.cached_q.dev.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.cos-dpr-distil.full.cached_q.dev.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -624,11 +624,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: cosDPR-distil (ONNX) -->
+<!-- Condition: cosDPR-distil w/ HNSW fp32 (ONNX) -->
 <tr class="accordion-toggle collapsed" id="row5" data-toggle="collapse" data-parent="#row5" href="#collapse5">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil (ONNX)</td>
+<td style="min-width: 400px">cosDPR-distil w/ HNSW fp32 (ONNX)</td>
 <td>0.4660</td>
 <td>0.7250</td>
 <td>0.8222</td>
@@ -669,7 +669,7 @@ Command to generate run on TREC 2019 queries:
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil \
   -topics dl19-passage \
-  -output runs/run.msmarco.cos-dpr-distil.full.onnx.dl19.txt \
+  -output runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl19.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -677,11 +677,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.onnx.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.onnx.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.onnx.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -694,7 +694,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil \
   -topics dl20-passage \
-  -output runs/run.msmarco.cos-dpr-distil.full.onnx.dl20.txt \
+  -output runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl20.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -702,11 +702,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.onnx.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.onnx.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.full.onnx.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -718,8 +718,8 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil \
-  -topics dev \
-  -output runs/run.msmarco.cos-dpr-distil.full.onnx.dev.txt \
+  -topics msmarco-v1-passage.dev \
+  -output runs/run.msmarco.cos-dpr-distil.fp32.onnx.dev.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -727,9 +727,9 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.cos-dpr-distil.full.onnx.dev.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.cos-dpr-distil.full.onnx.dev.txt
+  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -739,11 +739,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: cosDPR-distil: quantized HNSW (cached queries) -->
+<!-- Condition: cosDPR-distil w/ HNSW int8 (cached queries) -->
 <tr class="accordion-toggle collapsed" id="row6" data-toggle="collapse" data-parent="#row6" href="#collapse6">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil: quantized HNSW (cached queries)</td>
+<td style="min-width: 400px">cosDPR-distil w/ HNSW int8 (cached queries)</td>
 <td>0.4660</td>
 <td>0.7240</td>
 <td>0.8222</td>
@@ -783,19 +783,19 @@ Command to generate run on TREC 2019 queries:
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil.quantized \
-  -topics dl19-passage \
-  -output runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dl19.txt \
+  -topics dl19-passage.cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -807,19 +807,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil.quantized \
-  -topics dl20-passage \
-  -output runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dl20.txt \
+  -topics dl20-passage.cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -831,17 +831,17 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.cos-dpr-distil.quantized \
-  -topics dev \
-  -output runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dev.txt \
+  -topics msmarco-v1-passage.dev.cos-dpr-distil \
+  -output runs/run.msmarco.cos-dpr-distil.int8.cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dev.txt
+  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.cos-dpr-distil.quantized.cached_q.dev.txt
+  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -851,21 +851,21 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: BGE-base-en-v1.5 (cached queries) -->
+<!-- Condition: cosDPR-distil w/ HNSW int8 (ONNX) -->
 <tr class="accordion-toggle collapsed" id="row7" data-toggle="collapse" data-parent="#row7" href="#collapse7">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">BGE-base-en-v1.5 (cached queries)</td>
-<td>0.4436</td>
-<td>0.7065</td>
-<td>0.8481</td>
+<td style="min-width: 400px">cosDPR-distil w/ HNSW int8 (ONNX)</td>
+<td>0.4660</td>
+<td>0.7250</td>
+<td>0.8222</td>
 <td></td>
-<td>0.4648</td>
-<td>0.6780</td>
-<td>0.8483</td>
+<td>0.4876</td>
+<td>0.7025</td>
+<td>0.8540</td>
 <td></td>
-<td>0.3574</td>
-<td>0.9788</td>
+<td>0.3887</td>
+<td>0.9764</td>
 </tr>
 <tr class="hide-table-padding">
 <td></td>
@@ -894,20 +894,21 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -index msmarco-v1-passage.cos-dpr-distil.quantized \
   -topics dl19-passage \
-  -output runs/run.msmarco.bge-base-en-15.full.cached_q.dl19.txt \
-  -efSearch 1000 -hits 1000
+  -output runs/run.msmarco.cos-dpr-distil.int8.onnx.dl19.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder CosDprDistil
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.cached_q.dl19.txt
+  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -918,20 +919,21 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
   <blockquote class="mycode">
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -index msmarco-v1-passage.cos-dpr-distil.quantized \
   -topics dl20-passage \
-  -output runs/run.msmarco.bge-base-en-15.full.cached_q.dl20.txt \
-  -efSearch 1000 -hits 1000
+  -output runs/run.msmarco.cos-dpr-distil.int8.onnx.dl20.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder CosDprDistil
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.cached_q.dl20.txt
+  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -942,18 +944,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
   <blockquote class="mycode">
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
-  -topics dev \
-  -output runs/run.msmarco.bge-base-en-15.full.cached_q.dev.txt \
-  -efSearch 1000 -hits 1000
+  -index msmarco-v1-passage.cos-dpr-distil.quantized \
+  -topics msmarco-v1-passage.dev \
+  -output runs/run.msmarco.cos-dpr-distil.int8.onnx.dev.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder CosDprDistil
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.bge-base-en-15.full.cached_q.dev.txt
+  runs/run.msmarco.cos-dpr-distil.int8.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.bge-base-en-15.full.cached_q.dev.txt
+  runs/run.msmarco.cos-dpr-distil.int8.onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -963,20 +966,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qr
 
 </div></td>
 </tr>
-<!-- Condition: BGE-base-en-v1.5 (ONNX) -->
+<!-- Condition: BGE-base-en-v1.5 w/ HNSW fp32 (cached queries) -->
 <tr class="accordion-toggle collapsed" id="row8" data-toggle="collapse" data-parent="#row8" href="#collapse8">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">BGE-base-en-v1.5 (ONNX)</td>
-<td>0.4486</td>
-<td>0.7016</td>
-<td>0.8441</td>
+<td style="min-width: 400px">BGE-base-en-v1.5 w/ HNSW fp32 (cached queries)</td>
+<td>0.4436</td>
+<td>0.7065</td>
+<td>0.8481</td>
 <td></td>
-<td>0.4626</td>
-<td>0.6768</td>
-<td>0.8526</td>
+<td>0.4648</td>
+<td>0.6780</td>
+<td>0.8483</td>
 <td></td>
-<td>0.3575</td>
+<td>0.3574</td>
 <td>0.9788</td>
 </tr>
 <tr class="hide-table-padding">
@@ -1007,20 +1010,19 @@ Command to generate run on TREC 2019 queries:
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5 \
-  -topics dl19-passage \
-  -output runs/run.msmarco.bge-base-en-15.full.onnx.dl19.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder BgeBaseEn15
+  -topics dl19-passage.bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15.fp32.cached_q.dl19.txt \
+  -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-15.fp32.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-15.fp32.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-15.fp32.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -1032,20 +1034,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5 \
-  -topics dl20-passage \
-  -output runs/run.msmarco.bge-base-en-15.full.onnx.dl20.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder BgeBaseEn15
+  -topics dl20-passage.bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15.fp32.cached_q.dl20.txt \
+  -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-15.fp32.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-15.fp32.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
-  runs/run.msmarco.bge-base-en-15.full.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-15.fp32.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -1057,8 +1058,122 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
 <pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5 \
-  -topics dev \
-  -output runs/run.msmarco.bge-base-en-15.full.onnx.dev.txt \
+  -topics msmarco-v1-passage.dev.bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15.fp32.cached_q.dev.txt \
+  -efSearch 1000 -hits 1000
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15.fp32.cached_q.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15.fp32.cached_q.dev.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+</div>
+<!-- Tabs content -->
+
+</div></td>
+</tr>
+<!-- Condition: BGE-base-en-v1.5 w/ HNSW fp32 (ONNX) -->
+<tr class="accordion-toggle collapsed" id="row9" data-toggle="collapse" data-parent="#row9" href="#collapse9">
+<td class="expand-button"></td>
+<td style="min-width: 85px"></td>
+<td style="min-width: 400px">BGE-base-en-v1.5 w/ HNSW fp32 (ONNX)</td>
+<td>0.4486</td>
+<td>0.7016</td>
+<td>0.8441</td>
+<td></td>
+<td>0.4626</td>
+<td>0.6768</td>
+<td>0.8526</td>
+<td></td>
+<td>0.3575</td>
+<td>0.9788</td>
+</tr>
+<tr class="hide-table-padding">
+<td></td>
+<td colspan="11">
+<div id="collapse9" class="collapse in p-3">
+
+<!-- Tabs navs -->
+<ul class="nav nav-tabs mb-3" id="row9-tabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="row9-tab1-header" data-mdb-toggle="tab" href="#row9-tab1" role="tab" aria-controls="row9-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="row9-tab2-header" data-mdb-toggle="tab" href="#row9-tab2" role="tab" aria-controls="row9-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="row9-tab3-header" data-mdb-toggle="tab" href="#row9-tab3" role="tab" aria-controls="row9-tab3" aria-selected="false" style="text-transform:none">dev</a>
+  </li>
+</ul>
+<!-- Tabs navs -->
+
+<!-- Tabs content -->
+<div class="tab-content" id="row9-content">
+  <div class="tab-pane fade show active" id="row9-tab1" role="tabpanel" aria-labelledby="row9-tab1">
+Command to generate run on TREC 2019 queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -topics dl19-passage \
+  -output runs/run.msmarco.bge-base-en-15.fp32.onnx.dl19.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder BgeBaseEn15
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.fp32.onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.fp32.onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.fp32.onnx.dl19.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+  <div class="tab-pane fade" id="row9-tab2" role="tabpanel" aria-labelledby="row9-tab2">
+    Command to generate run on TREC 2020 queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -topics dl20-passage \
+  -output runs/run.msmarco.bge-base-en-15.fp32.onnx.dl20.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder BgeBaseEn15
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.fp32.onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.fp32.onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.fp32.onnx.dl20.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+  <div class="tab-pane fade" id="row9-tab3" role="tabpanel" aria-labelledby="row9-tab3">
+    Command to generate run on dev queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -topics msmarco-v1-passage.dev \
+  -output runs/run.msmarco.bge-base-en-15.fp32.onnx.dev.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
 </code></pre></blockquote>
@@ -1066,9 +1181,236 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.bge-base-en-15.full.onnx.dev.txt
+  runs/run.msmarco.bge-base-en-15.fp32.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
-  runs/run.msmarco.bge-base-en-15.full.onnx.dev.txt
+  runs/run.msmarco.bge-base-en-15.fp32.onnx.dev.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+</div>
+<!-- Tabs content -->
+
+</div></td>
+</tr>
+<!-- Condition: BGE-base-en-v1.5 w/ HNSW int8 (cached queries) -->
+<tr class="accordion-toggle collapsed" id="row10" data-toggle="collapse" data-parent="#row10" href="#collapse10">
+<td class="expand-button"></td>
+<td style="min-width: 85px"></td>
+<td style="min-width: 400px">BGE-base-en-v1.5 w/ HNSW int8 (cached queries)</td>
+<td>0.4436</td>
+<td>0.7065</td>
+<td>0.8481</td>
+<td></td>
+<td>0.4648</td>
+<td>0.6780</td>
+<td>0.8483</td>
+<td></td>
+<td>0.3574</td>
+<td>0.9788</td>
+</tr>
+<tr class="hide-table-padding">
+<td></td>
+<td colspan="11">
+<div id="collapse10" class="collapse in p-3">
+
+<!-- Tabs navs -->
+<ul class="nav nav-tabs mb-3" id="row10-tabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="row10-tab1-header" data-mdb-toggle="tab" href="#row10-tab1" role="tab" aria-controls="row10-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="row10-tab2-header" data-mdb-toggle="tab" href="#row10-tab2" role="tab" aria-controls="row10-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="row10-tab3-header" data-mdb-toggle="tab" href="#row10-tab3" role="tab" aria-controls="row10-tab3" aria-selected="false" style="text-transform:none">dev</a>
+  </li>
+</ul>
+<!-- Tabs navs -->
+
+<!-- Tabs content -->
+<div class="tab-content" id="row10-content">
+  <div class="tab-pane fade show active" id="row10-tab1" role="tabpanel" aria-labelledby="row10-tab1">
+Command to generate run on TREC 2019 queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -topics dl19-passage.bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15.int8.cached_q.dl19.txt \
+  -efSearch 1000 -hits 1000
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.cached_q.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.cached_q.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.cached_q.dl19.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+  <div class="tab-pane fade" id="row10-tab2" role="tabpanel" aria-labelledby="row10-tab2">
+    Command to generate run on TREC 2020 queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -topics dl20-passage.bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15.int8.cached_q.dl20.txt \
+  -efSearch 1000 -hits 1000
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.cached_q.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.cached_q.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.cached_q.dl20.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+  <div class="tab-pane fade" id="row10-tab3" role="tabpanel" aria-labelledby="row10-tab3">
+    Command to generate run on dev queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -topics msmarco-v1-passage.dev.bge-base-en-v1.5 \
+  -output runs/run.msmarco.bge-base-en-15.int8.cached_q.dev.txt \
+  -efSearch 1000 -hits 1000
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15.int8.cached_q.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15.int8.cached_q.dev.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+</div>
+<!-- Tabs content -->
+
+</div></td>
+</tr>
+<!-- Condition: BGE-base-en-v1.5 w/ HNSW int8 (ONNX) -->
+<tr class="accordion-toggle collapsed" id="row11" data-toggle="collapse" data-parent="#row11" href="#collapse11">
+<td class="expand-button"></td>
+<td style="min-width: 85px"></td>
+<td style="min-width: 400px">BGE-base-en-v1.5 w/ HNSW int8 (ONNX)</td>
+<td>0.4486</td>
+<td>0.7016</td>
+<td>0.8441</td>
+<td></td>
+<td>0.4626</td>
+<td>0.6768</td>
+<td>0.8526</td>
+<td></td>
+<td>0.3575</td>
+<td>0.9788</td>
+</tr>
+<tr class="hide-table-padding">
+<td></td>
+<td colspan="11">
+<div id="collapse11" class="collapse in p-3">
+
+<!-- Tabs navs -->
+<ul class="nav nav-tabs mb-3" id="row11-tabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="row11-tab1-header" data-mdb-toggle="tab" href="#row11-tab1" role="tab" aria-controls="row11-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="row11-tab2-header" data-mdb-toggle="tab" href="#row11-tab2" role="tab" aria-controls="row11-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="row11-tab3-header" data-mdb-toggle="tab" href="#row11-tab3" role="tab" aria-controls="row11-tab3" aria-selected="false" style="text-transform:none">dev</a>
+  </li>
+</ul>
+<!-- Tabs navs -->
+
+<!-- Tabs content -->
+<div class="tab-content" id="row11-content">
+  <div class="tab-pane fade show active" id="row11-tab1" role="tabpanel" aria-labelledby="row11-tab1">
+Command to generate run on TREC 2019 queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -topics dl19-passage \
+  -output runs/run.msmarco.bge-base-en-15.int8.onnx.dl19.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder BgeBaseEn15
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.onnx.dl19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.onnx.dl19.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+  <div class="tab-pane fade" id="row11-tab2" role="tabpanel" aria-labelledby="row11-tab2">
+    Command to generate run on TREC 2020 queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -topics dl20-passage \
+  -output runs/run.msmarco.bge-base-en-15.int8.onnx.dl20.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder BgeBaseEn15
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.onnx.dl20.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+  runs/run.msmarco.bge-base-en-15.int8.onnx.dl20.txt
+</code></pre>
+  </blockquote>
+
+  </div>
+  <div class="tab-pane fade" id="row11-tab3" role="tabpanel" aria-labelledby="row11-tab3">
+    Command to generate run on dev queries:
+
+  <blockquote class="mycode">
+<pre><code>bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+  -threads 16 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -topics msmarco-v1-passage.dev \
+  -output runs/run.msmarco.bge-base-en-15.int8.onnx.dev.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder BgeBaseEn15
+</code></pre></blockquote>
+Evaluation commands:
+
+  <blockquote class="mycode">
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15.int8.onnx.dev.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+  runs/run.msmarco.bge-base-en-15.int8.onnx.dev.txt
 </code></pre>
   </blockquote>
 

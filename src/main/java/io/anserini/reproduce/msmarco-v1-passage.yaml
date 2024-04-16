@@ -5,7 +5,7 @@ conditions:
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25
     topics:
-      - topic_key: dev
+      - topic_key: msmarco-v1-passage.dev
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.1840
@@ -28,18 +28,18 @@ conditions:
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000
     topics:
-      - topic_key: dev
+      - topic_key: msmarco-v1-passage.dev.splade-pp-ed
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3830
             R@1K: 0.9831
-      - topic_key: dl19-passage
+      - topic_key: dl19-passage.splade-pp-ed
         eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
         scores:
           - MAP: 0.5053
             nDCG@10: 0.7317
             R@1K: 0.8726
-      - topic_key: dl20-passage
+      - topic_key: dl20-passage.splade-pp-ed
         eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
         scores:
           - MAP: 0.5001
@@ -51,7 +51,7 @@ conditions:
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil
     topics:
-      - topic_key: dev
+      - topic_key: msmarco-v1-passage.dev
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3828
@@ -68,13 +68,36 @@ conditions:
           - MAP: 0.4999
             nDCG@10: 0.7197
             R@1K: 0.8998
-  - name: cos-dpr-distil.full.cached_q
-    display: "cosDPR-distil: full HNSW (cached queries)"
-    display_html: "cosDPR-distil: full HNSW (cached queries)"
+  - name: cos-dpr-distil.fp32.cached_q
+    display: "cosDPR-distil w/ HNSW fp32 (cached queries)"
+    display_html: "cosDPR-distil w/ HNSW fp32 (cached queries)"
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
-      - topic_key: dev
+      - topic_key: msmarco-v1-passage.dev.cos-dpr-distil
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3887
+            R@1K: 0.9764
+      - topic_key: dl19-passage.cos-dpr-distil
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4660
+            nDCG@10: 0.7250
+            R@1K: 0.8222
+      - topic_key: dl20-passage.cos-dpr-distil
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.4876
+            nDCG@10: 0.7025
+            R@1K: 0.8540
+  - name: cos-dpr-distil.fp32.onnx
+    display: "cosDPR-distil w/ HNSW fp32 (ONNX)"
+    display_html: "cosDPR-distil w/ HNSW fp32 (ONNX)"
+    display_row: ""
+    command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
+    topics:
+      - topic_key: msmarco-v1-passage.dev
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3887
@@ -91,36 +114,36 @@ conditions:
           - MAP: 0.4876
             nDCG@10: 0.7025
             R@1K: 0.8540
-  - name: cos-dpr-distil.quantized.cached_q
-    display: "cosDPR-distil: quantized HNSW (cached queries)"
-    display_html: "cosDPR-distil: quantized HNSW (cached queries)"
+  - name: cos-dpr-distil.int8.cached_q
+    display: "cosDPR-distil w/ HNSW int8 (cached queries)"
+    display_html: "cosDPR-distil w/ HNSW int8 (cached queries)"
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil.quantized -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
-      - topic_key: dev
+      - topic_key: msmarco-v1-passage.dev.cos-dpr-distil
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3897
             R@1K: 0.9764
-      - topic_key: dl19-passage
+      - topic_key: dl19-passage.cos-dpr-distil
         eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
         scores:
           - MAP: 0.4660
             nDCG@10: 0.7240
             R@1K: 0.8222
-      - topic_key: dl20-passage
+      - topic_key: dl20-passage.cos-dpr-distil
         eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
         scores:
           - MAP: 0.4876
             nDCG@10: 0.7004
             R@1K: 0.8540
-  - name: cos-dpr-distil.full.onnx
-    display: "cosDPR-distil (ONNX)"
-    display_html: "cosDPR-distil (ONNX)"
+  - name: cos-dpr-distil.int8.onnx
+    display: "cosDPR-distil w/ HNSW int8 (ONNX)"
+    display_html: "cosDPR-distil w/ HNSW int8 (ONNX)"
     display_row: ""
-    command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
+    command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil.quantized -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
     topics:
-      - topic_key: dev
+      - topic_key: msmarco-v1-passage.dev
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3887
@@ -137,36 +160,82 @@ conditions:
           - MAP: 0.4876
             nDCG@10: 0.7025
             R@1K: 0.8540
-  - name: bge-base-en-15.full.cached_q
-    display: "BGE-base-en-v1.5 (cached queries)"
-    display_html: "BGE-base-en-v1.5 (cached queries)"
+  - name: bge-base-en-15.fp32.cached_q
+    display: "BGE-base-en-v1.5 w/ HNSW fp32 (cached queries)"
+    display_html: "BGE-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
-      - topic_key: dev
+      - topic_key: msmarco-v1-passage.dev.bge-base-en-v1.5
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3574
             R@1K: 0.9788
-      - topic_key: dl19-passage
+      - topic_key: dl19-passage.bge-base-en-v1.5
         eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
         scores:
           - MAP: 0.4436
             nDCG@10: 0.7065
             R@1K: 0.8481
-      - topic_key: dl20-passage
+      - topic_key: dl20-passage.bge-base-en-v1.5
         eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
         scores:
           - MAP: 0.4648
             nDCG@10: 0.6780
             R@1K: 0.8483
-  - name: bge-base-en-15.full.onnx
-    display: "BGE-base-en-v1.5 (ONNX)"
-    display_html: "BGE-base-en-v1.5 (ONNX)"
+  - name: bge-base-en-15.fp32.onnx
+    display: "BGE-base-en-v1.5 w/ HNSW fp32 (ONNX)"
+    display_html: "BGE-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
-      - topic_key: dev
+      - topic_key: msmarco-v1-passage.dev
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3575
+            R@1K: 0.9788
+      - topic_key: dl19-passage
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4486
+            nDCG@10: 0.7016
+            R@1K: 0.8441
+      - topic_key: dl20-passage
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.4626
+            nDCG@10: 0.6768
+            R@1K: 0.8526
+  - name: bge-base-en-15.int8.cached_q
+    display: "BGE-base-en-v1.5 w/ HNSW int8 (cached queries)"
+    display_html: "BGE-base-en-v1.5 w/ HNSW int8 (cached queries)"
+    display_row: ""
+    command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics $topics -output $output -efSearch 1000 -hits 1000
+    topics:
+      - topic_key: msmarco-v1-passage.dev.bge-base-en-v1.5
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3574
+            R@1K: 0.9788
+      - topic_key: dl19-passage.bge-base-en-v1.5
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4436
+            nDCG@10: 0.7065
+            R@1K: 0.8481
+      - topic_key: dl20-passage.bge-base-en-v1.5
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.4648
+            nDCG@10: 0.6780
+            R@1K: 0.8483
+  - name: bge-base-en-15.int8.onnx
+    display: "BGE-base-en-v1.5 w/ HNSW int8 (ONNX)"
+    display_html: "BGE-base-en-v1.5 w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
+    topics:
+      - topic_key: msmarco-v1-passage.dev
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3575

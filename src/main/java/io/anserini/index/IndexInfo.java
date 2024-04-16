@@ -34,7 +34,7 @@ public enum IndexInfo {
 
   MSMARCO_V1_PASSAGE_SPLADE_PP_ED("msmarco-v1-passage.splade-pp-ed",
       "Lucene impact index of the MS MARCO V1 passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil.",
-      "lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz",
+      "lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz" },
       "2c008fc36131e27966a72292932358e6"),

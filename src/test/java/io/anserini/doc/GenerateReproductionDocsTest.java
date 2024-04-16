@@ -43,11 +43,14 @@ public class GenerateReproductionDocsTest {
       "bm25-default",
       "splade-pp-ed.cached_q",
       "splade-pp-ed.onnx",
-      "cos-dpr-distil.full.cached_q",
-      "cos-dpr-distil.full.onnx",
-      "cos-dpr-distil.quantized.cached_q",
-      "bge-base-en-15.full.cached_q",
-      "bge-base-en-15.full.onnx"
+      "cos-dpr-distil.fp32.cached_q",
+      "cos-dpr-distil.fp32.onnx",
+      "cos-dpr-distil.int8.cached_q",
+      "cos-dpr-distil.int8.onnx",
+      "bge-base-en-15.fp32.cached_q",
+      "bge-base-en-15.fp32.onnx",
+      "bge-base-en-15.int8.cached_q",
+      "bge-base-en-15.int8.onnx"
   };
 
   public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {

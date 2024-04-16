@@ -101,19 +101,19 @@ done
 ```
 Here are the expected scores (dev using MRR@10, DL19 and DL20 using nDCG@10):
 
-|                                                   |    dev |   DL19 |   DL20 |
-|:--------------------------------------------------|-------:|-------:|-------:|
-| BM25                                              | 0.1840 | 0.5058 | 0.4796 |
-| SPLADE++ ED (cached queries)                      | 0.3830 | 0.7317 | 0.7198 |
-| SPLADE++ ED (ONNX)                                | 0.3828 | 0.7308 | 0.7197 |
-| cosDPR-distil: full HNSW (cached queries)         | 0.3887 | 0.7250 | 0.7025 |
-| cosDPR-distil: full HNSW ONNX)                    | 0.3887 | 0.7250 | 0.7025 |
-| cosDPR-distil: quantized HNSW (cached queries)    | 0.3897 | 0.7240 | 0.7004 |
-| cosDPR-distil: quantized HNSW (ONNX)              | 0.3899 | 0.7247 | 0.6996 |
-| BGE-base-en-v1.5: full HNSW (cached queries)      | 0.3574 | 0.7065 | 0.6780 |
-| BGE-base-en-v1.5: full HNSW (ONNX)                | 0.3575 | 0.7016 | 0.6768 |
-| BGE-base-en-v1.5: quantized HNSW (cached queries) | 0.3572 | 0.7016 | 0.6738 |
-| BGE-base-en-v1.5: quantized HNSW (ONNX)           | 0.3575 | 0.7017 | 0.6767 |
+|                                                |    dev |   DL19 |   DL20 |
+|:-----------------------------------------------|-------:|-------:|-------:|
+| BM25                                           | 0.1840 | 0.5058 | 0.4796 |
+| SPLADE++ ED (cached queries)                   | 0.3830 | 0.7317 | 0.7198 |
+| SPLADE++ ED (ONNX)                             | 0.3828 | 0.7308 | 0.7197 |
+| cosDPR-distil w/ HNSW fp32 (cached queries)    | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil w/ HNSW fp32 (ONNX)              | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil w/ HNSW int8 (cached queries)    | 0.3897 | 0.7240 | 0.7004 |
+| cosDPR-distil w/ HNSW int8 (ONNX)              | 0.3899 | 0.7247 | 0.6996 |
+| BGE-base-en-v1.5 w/ HNSW fp32 (cached queries) | 0.3574 | 0.7065 | 0.6780 |
+| BGE-base-en-v1.5 w/ HNSW fp32 (ONNX)           | 0.3575 | 0.7016 | 0.6768 |
+| BGE-base-en-v1.5 w/ HNSW int8 (cached queries) | 0.3572 | 0.7016 | 0.6738 |
+| BGE-base-en-v1.5 w/ HNSW int8 (ONNX)           | 0.3575 | 0.7017 | 0.6767 |
 
 And here's the snippet of code to perform the evaluation (which will yield the results above):
 
