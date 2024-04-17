@@ -5,9 +5,9 @@
 Currently, Anserini provides support for the following models:
 
 + BM25
-+ SPLADE++ EnsembleDistil: pre-encoded queries and ONNX query encoding
-+ cosDPR-distil: pre-encoded queries and ONNX query encoding
-+ BGE-base-en-v1.5: pre-encoded queries and ONNX query encoding
++ SPLADE++ EnsembleDistil: cached queries and ONNX query encoding
++ cosDPR-distil: cached queries and ONNX query encoding
++ BGE-base-en-v1.5: cached queries and ONNX query encoding
 
 The following snippet will generate the complete set of results for MS MARCO passage:
 
@@ -80,37 +80,62 @@ java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bm25.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bm25.txt
 
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed.cached_q.txt
+
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed.onnx.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed.onnx.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed.onnx.txt
 
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil.fp32.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil.fp32.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil.fp32.cached_q.txt
+
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil.fp32-onnx.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil.fp32.onnx.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil.fp32.onnx.txt
 
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil.int8.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil.int8.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil.int8.cached_q.txt
+
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil.int8-onnx.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil.int8.onnx.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil.int8.onnx.txt
 
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5.fp32.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5.fp32.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5.fp32.cached_q.txt
+
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5.fp32-onnx.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5.fp32.onnx.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5.fp32.onnx.txt
 
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5.int8.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5.int8.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5.int8.cached_q.txt
+
+echo ''
+
 java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5.int8.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5.int8.cached_q.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5.int8.cached_q.txt
@@ -123,10 +148,10 @@ Currently, Anserini provides support for the following models:
 + Flat = BM25, "flat" bag-of-words baseline
 + MF = BM25, "multifield" bag-of-words baseline
 + S = SPLADE++ EnsembleDistil:
-  + Pre-encoded queries (Sp)
+  + cached queries (Sp)
   + ONNX query encoding (So)
 + D = BGE-base-en-v1.5
-  + Pre-encoded queries (Dp)
+  + cached queries (Dp)
   + ONNX query encoding (Do)
 
 The following snippet will generate the complete set of results for BEIR:

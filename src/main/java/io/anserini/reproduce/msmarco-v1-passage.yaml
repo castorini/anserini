@@ -101,7 +101,7 @@ conditions:
         eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
         scores:
           - MRR@10: 0.3887
-            R@1K: 0.9764
+            R@1K: 0.9765
       - topic_key: dl19-passage
         eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
         scores:
@@ -249,6 +249,6 @@ conditions:
       - topic_key: dl20-passage
         eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
         scores:
-          - MAP: 0.4592
+          - MAP: 0.4596
             nDCG@10: 0.6767
             R@1K: 0.8468
