@@ -21,7 +21,7 @@ Select target "package" and run it.
 
 This should be equivalent to
 ```$
-mvn clean package appassembler:assemble -DskipTests -Dmaven.javadoc.skip=true
+mvn clean package -DskipTests -Dmaven.javadoc.skip=true
 ```
 
 # Import Maven project
