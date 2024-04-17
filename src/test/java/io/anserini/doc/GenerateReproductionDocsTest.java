@@ -41,12 +41,16 @@ public class GenerateReproductionDocsTest {
   public final static String COLLECTION = "msmarco-v1-passage";
   public final static String[] MODELS = {
       "bm25-default",
-      "splade-pp-ed-cached_q",
-      "splade-pp-ed-onnx",
-      "cos-dpr-distil-cached_q",
-      "cos-dpr-distil-onnx",
-      "bge-base-en-15-cached_q",
-      "bge-base-en-15-onnx"
+      "splade-pp-ed.cached_q",
+      "splade-pp-ed.onnx",
+      "cos-dpr-distil.fp32.cached_q",
+      "cos-dpr-distil.fp32.onnx",
+      "cos-dpr-distil.int8.cached_q",
+      "cos-dpr-distil.int8.onnx",
+      "bge-base-en-15.fp32.cached_q",
+      "bge-base-en-15.fp32.onnx",
+      "bge-base-en-15.int8.cached_q",
+      "bge-base-en-15.int8.onnx"
   };
 
   public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {
@@ -55,7 +59,7 @@ public class GenerateReproductionDocsTest {
       key = "dl19";
     } else if (topicKey.startsWith("dl20")) {
       key = "dl20";
-    } else if (topicKey.startsWith("msmarco")) {
+    } else if (topicKey.contains("dev")) {
       key = "dev";
     }
     return key;
