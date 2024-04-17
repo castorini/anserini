@@ -15,7 +15,7 @@ Currently, Anserini provides support for the following models:
 + cosDPR-distil: pre-encoded queries and ONNX query encoding
 + BGE-base-en-v1.5: pre-encoded queries and ONNX query encoding
 
-The following snippet will generate the complete set of results for MS MARCO passage:
+The following snippet will generate the complete set of results for MS MARCO V1 Passage:
 
 ```bash
 # BM25

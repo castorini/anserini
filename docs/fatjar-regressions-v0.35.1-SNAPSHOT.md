@@ -10,7 +10,7 @@ Currently, Anserini provides support for the following models:
 + bge-base-en-v1.5: cached queries and ONNX query encoding
 + cohere-embed-english-v3.0: cached queries and ONNX query encoding
 
-The following snippet will generate the complete set of results for MS MARCO passage:
+The following snippet will generate the complete set of results for MS MARCO V1 Passage:
 
 ```bash
 # BM25
