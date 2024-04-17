@@ -63,7 +63,7 @@ Here are the expected scores (dev using MRR@10, DL19 and DL20 using nDCG@10):
 | SPLADE++ ED (ONNX)                             | 0.3828 | 0.7308 | 0.7197 |
 | cos-DPR: full HNSW (pre-encoded)               | 0.3887 | 0.7250 | 0.7025 |
 | cos-DPR: quantized HNSW (pre-encoded)          | 0.3897 | 0.7240 | 0.7004 |
-| cos-DPR: full HNSW ONNX)                       | 0.3887 | 0.7250 | 0.7025 |
+| cos-DPR: full HNSW (ONNX)                      | 0.3887 | 0.7250 | 0.7025 |
 | cos-DPR: quantized HNSW (ONNX)                 | 0.3899 | 0.7247 | 0.6996 |
 | BGE-base-en-v1.5: full HNSW (pre-encoded)      | 0.3574 | 0.7065 | 0.6780 |
 | BGE-base-en-v1.5: quantized HNSW (pre-encoded) | 0.3572 | 0.7016 | 0.6738 |
@@ -81,19 +81,32 @@ java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmar
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bm25.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bm25.txt
 
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed-pre.txt
+
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed-onnx.txt
 
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-full-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-full-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-full-pre.txt
+
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-quantized-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-quantized-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-quantized-pre.txt
+
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-full-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-full-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-full-onnx.txt
@@ -101,15 +114,26 @@ java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmar
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-quantized-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-quantized-onnx.txt
 
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-full-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-full-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-full-pre.txt
+
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-quantized-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-quantized-pre.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-quantized-pre.txt
+
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-full-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-full-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-full-onnx.txt
+
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-quantized-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-quantized-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-quantized-onnx.txt

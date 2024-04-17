@@ -22,7 +22,7 @@ done
 TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using cached queries
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t}-splade-pp-ed -output run.${t}.splade-pp-ed-pre.txt -threads 16 -impact -pretokenized
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t}.splade-pp-ed -output run.${t}.splade-pp-ed.cached_q.txt -threads 16 -impact -pretokenized
     # Using ONNX
     java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t} -encoder SpladePlusPlusEnsembleDistil -output run.${t}.splade-pp-ed-onnx.txt -threads 16 -impact -pretokenized
 done
@@ -30,27 +30,27 @@ done
 # cosDPR-distil
 TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    # Using full index, cached queries
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topics ${t}-cos-dpr-distil -output run.${t}.cos-dpr-distil.full.cached_q.txt -threads 16 -efSearch 1000
-    # Using full index, ONNX
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil.full.onnx.txt -threads 16 -efSearch 1000
-    # Using quantized index, cached queries
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil-quantized -topics ${t}-cos-dpr-distil -output run.${t}.cos-dpr-distil.quantized.cached_q.txt -threads 16 -efSearch 1000
-    # Using quantized index, ONNX
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-cos-dpr-distil-quantized -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil.quantized.onnx.txt -threads 16 -efSearch 1000
+    # Using fp32 index, cached queries
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil -topics ${t}.cos-dpr-distil -output run.${t}.cos-dpr-distil.fp32.cached_q.txt -threads 16 -efSearch 1000
+    # Using fp32 index, ONNX
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil.fp32.onnx.txt -threads 16 -efSearch 1000
+    # Using int8 index, cached queries
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil.quantized -topics ${t}.cos-dpr-distil -output run.${t}.cos-dpr-distil.int8.cached_q.txt -threads 16 -efSearch 1000
+    # Using int8 index, ONNX
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil.quantized -topics ${t} -encoder CosDprDistil -output run.${t}.cos-dpr-distil.int8.onnx.txt -threads 16 -efSearch 1000
 done
 
 # BGE-base-en-v1.5
 TOPICS=(msmarco-v1-passage-dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    # Using pre-encoded queries, full index
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5 -topics ${t}-bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5-full-pre.txt -threads 16 -efSearch 1000
-    # Using ONNX, full index
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5 -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5-full-onnx.txt -threads 16 -efSearch 1000
-    # Using pre-encoded queries, quantized index
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t}-bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5-quantized-pre.txt -threads 16 -efSearch 1000
-    # Using ONNX, quantized index
-    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage-bge-base-en-v1.5-quantized -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5-quantized-onnx.txt -threads 16 -efSearch 1000
+    # Using fp32 index, cached queries
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5 -topics ${t}.bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5.fp32.cached_q.txt -threads 16 -efSearch 1000
+    # Using fp32 index, ONNX
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5 -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5.fp32.onnx.txt -threads 16 -efSearch 1000
+    # Using int8 index, cached queries
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics ${t}.bge-base-en-v1.5 -output run.${t}.bge-base-en-v1.5.int8.cached_q.txt -threads 16 -efSearch 1000
+    # Using int8 index, ONNX
+    java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics ${t} -encoder BgeBaseEn15 -output run.${t}.bge-base-en-v1.5.int8.onnx.txt -threads 16 -efSearch 1000
 done
 ```
 Here are the expected scores (dev using MRR@10, DL19 and DL20 using nDCG@10):
@@ -80,38 +80,40 @@ java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bm25.txt
 java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bm25.txt
 
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed-onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed.onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.splade-pp-ed.onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.splade-pp-ed.onnx.txt
 
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-full-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-full-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-full-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-quantized-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-quantized-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-quantized-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-full-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-full-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-full-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-quantized-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-quantized-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-quantized-onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil.fp32.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil.fp32.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil.fp32.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil.fp32-onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil.fp32.onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil.fp32.onnx.txt
 
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-full-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-full-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-full-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-quantized-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-quantized-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-quantized-pre.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-full-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-full-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-full-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5-quantized-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5-quantized-onnx.txt
-java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5-quantized-onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil.int8.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil.int8.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil.int8.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil.int8-onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil.int8.onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil.int8.onnx.txt
+
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5.fp32.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5.fp32.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5.fp32.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5.fp32-onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5.fp32.onnx.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5.fp32.onnx.txt
+
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5.int8.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5.int8.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5.int8.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.bge-base-en-v1.5.int8.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.bge-base-en-v1.5.int8.cached_q.txt
+java -cp `ls target/*-fatjar.jar` trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.bge-base-en-v1.5.int8.cached_q.txt
 ```
 
 ## BEIR
@@ -136,11 +138,11 @@ do
     java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.flat -topics beir-${c} -output run.beir.${c}.flat.txt -bm25 -removeQuery
     # "multifield" indexes
     java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.multifield -topics beir-${c} -output run.beir.${c}.multifield.txt -bm25 -removeQuery -fields contents=1.0 title=1.0
-    # SPLADE++ ED, pre-encoded queries
+    # SPLADE++ ED, cached queries
     java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output run.beir.${c}.splade-pp-ed-pre.txt -impact -pretokenized -removeQuery
     # SPLADE++ ED, ONNX
     java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output run.beir.${c}.splade-pp-ed-onnx.txt -impact -pretokenized -removeQuery
-    # BGE-base-en-v1.5, pre-encoded queries
+    # BGE-base-en-v1.5, cached queries
     java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c}.bge-base-en-v1.5 -output run.beir.${c}.bge-pre.txt -threads 16 -efSearch 1000 -removeQuery
     # BGE-base-en-v1.5, ONNX
     java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c} -encoder BgeBaseEn15 -output run.beir.${c}.bge-onnx.txt -threads 16 -efSearch 1000 -removeQuery
