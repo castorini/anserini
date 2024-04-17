@@ -1,5 +1,11 @@
 # Fatjar Regresions (v0.35.0)
 
+Fetch the fatjar:
+
+```bash
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.35.0/anserini-0.35.0-fatjar.jar
+```
+
 ## MS MARCO V1 Passage
 
 Currently, Anserini provides support for the following models:
