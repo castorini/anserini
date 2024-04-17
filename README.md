@@ -257,7 +257,7 @@ Clone our repo with the `--recurse-submodules` option to make sure the `eval/` s
 Then, build using Maven:
 
 ```
-mvn clean package appassembler:assemble
+mvn clean package
 ```
 
 The `tools/` directory, which contains evaluation tools and other scripts, is actually [this repo](https://github.com/castorini/anserini-tools), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
