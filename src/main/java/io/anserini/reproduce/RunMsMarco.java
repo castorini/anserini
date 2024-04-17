@@ -84,7 +84,7 @@ public class RunMsMarco {
               Double score = Double.parseDouble(scoreString);
               Double delta = Math.abs(score - expected.get(metric));
 
-              if (delta > 0.001) {
+              if (delta > 0.00005) {
                 System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL, expected.get(metric)));
               } else {
                 System.out.println(String.format("    %7s: %.4f [OK]", metric, score));

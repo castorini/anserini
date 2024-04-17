@@ -27,59 +27,59 @@ public enum IndexInfo {
   // MS MARCO V1
   MSMARCO_V1_PASSAGE("msmarco-v1-passage",
       "Lucene index of the MS MARCO V1 passage corpus.",
-      "lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz",
+      "lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage.20221004.252b5e.tar.gz" },
-      "c697b18c9a0686ca760583e615dbe450"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz" },
+      "678876e8c99a89933d553609a0fd8793"),
 
-  MSMARCO_V1_PASSAGE_SPLADE_PP_ED("msmarco-v1-passage-splade-pp-ed",
+  MSMARCO_V1_PASSAGE_SPLADE_PP_ED("msmarco-v1-passage.splade-pp-ed",
       "Lucene impact index of the MS MARCO V1 passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil.",
-      "lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz",
+      "lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v1-passage-splade-pp-ed.20230524.a59610.tar.gz" },
-      "4b3c969033cbd017306df42ce134c395"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz" },
+      "2c008fc36131e27966a72292932358e6"),
 
-  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL("msmarco-v1-passage-cos-dpr-distil",
+  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL("msmarco-v1-passage.cos-dpr-distil",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
-      "lucene-hnsw.msmarco-v1-passage-cos-dpr-distil.20240108.825148.tar.gz",
+      "lucene-hnsw.msmarco-v1-passage.cos-dpr-distil.20240108.825148.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cos-dpr-distil.20240108.825148.tar.gz" },
-      "4aa1b08067b9aa313d8aba8ca9d7d8a2"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil.20240108.825148.tar.gz" },
+      "d0d602c46fb8b93511f2ab1214bcb86a"),
 
-  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_QUANTIZED("msmarco-v1-passage-cos-dpr-distil-quantized",
+  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_QUANTIZED("msmarco-v1-passage.cos-dpr-distil.quantized",
       "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
-      "lucene-hnsw.msmarco-v1-passage-cos-dpr-distil-int8.20240108.825148.tar.gz",
+      "lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil.20240108.825148.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cos-dpr-distil-int8.20240108.825148.tar.gz" },
-      "cc52b5cabe9886d42c58f9d87a5dfab1"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil.20240108.825148.tar.gz" },
+      "24ed94669c9caf52704e0ceccee3732b"),
 
-  MSMARCO_V1_PASSAGE_BGE_BASE_EN_15("msmarco-v1-passage-bge-base-en-v1.5",
+  MSMARCO_V1_PASSAGE_BGE_BASE_EN_15("msmarco-v1-passage.bge-base-en-v1.5",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
-      "lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5.20240117.53514b.tar.gz",
+      "lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5.20240117.53514b.tar.gz" },
-      "29d41b7a3b6ffb23f09a54aea453cc4e"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
+      "00a577f689d90f95e6c5611438b0af3d"),
 
-  MSMARCO_V1_PASSAGE_BGE_BASE_EN_15_QUANTIZED("msmarco-v1-passage-bge-base-en-v1.5-quantized",
+  MSMARCO_V1_PASSAGE_BGE_BASE_EN_15_QUANTIZED("msmarco-v1-passage.bge-base-en-v1.5.quantized",
       "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
-      "lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5-int8.20240117.53514b.tar.gz",
+      "lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-bge-base-en-v1.5-int8.20240117.53514b.tar.gz" },
-      "51261598a7a108e88fa854971637b39c"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
+      "7830712459cf124c96fd058bb0a405b7"),
 
-  MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30("msmarco-v1-passage-cohere-embed-english-v3.0",
+  MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30("msmarco-v1-passage.cohere-embed-english-v3.0",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
-      "lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0.20240228.eacd13.tar.gz",
+      "lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
-      "eb551aaa3a0d1f14abdc00083db4cbbc"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
+      "c7294ca988ae1b812d427362ffca1ee2"),
 
-  MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_QUANTIZED("msmarco-v1-passage-cohere-embed-english-v3.0-quantized",
+  MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_QUANTIZED("msmarco-v1-passage.cohere-embed-english-v3.0.quantized",
       "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
-      "lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0-int8.20240228.eacd13.tar.gz",
+      "lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-hnsw.msmarco-v1-passage-cohere-embed-english-v3.0-int8.20240228.eacd13.tar.gz" },
-      "cc7f0b2bcdacf1e0dd5d247c52906f12"),
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
+      "dbaca578cc8495f504cdd0a7187f4c36"),
 
   // MS MARCO V2
   MSMARCO_V2_PASSAGE("msmarco-v2-passage",
@@ -96,7 +96,7 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-doc.20220808.4d6d2a.tar.gz" },
       "0599bd6ed5ee28390b279eb398ef0267"),
 
-  MSMARCO_V2_SEGMENTED("msmarco-v2-doc-segmented",
+  MSMARCO_V2_DOC_SEGMENTED("msmarco-v2-doc-segmented",
       "Lucene index of the MS MARCO V2 segmented document corpus.",
       "lucene-index.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz",
       new String[] {
