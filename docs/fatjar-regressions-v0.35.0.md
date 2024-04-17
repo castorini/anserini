@@ -110,6 +110,9 @@ echo ''
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-full-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-full-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-full-onnx.txt
+
+echo ''
+
 java -cp anserini-0.35.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.cos-dpr-distil-quantized-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl19-passage.txt                    run.dl19-passage.cos-dpr-distil-quantized-onnx.txt
 java -cp anserini-0.35.0-fatjar.jar trec_eval -m ndcg_cut.10 -c qrels.dl20-passage.txt                    run.dl20-passage.cos-dpr-distil-quantized-onnx.txt

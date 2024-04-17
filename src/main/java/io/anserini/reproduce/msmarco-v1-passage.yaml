@@ -161,8 +161,8 @@ conditions:
             nDCG@10: 0.6996
             R@1K: 0.8538
   - name: bge-base-en-15.fp32.cached_q
-    display: "BGE-base-en-v1.5 w/ HNSW fp32 (cached queries)"
-    display_html: "BGE-base-en-v1.5 w/ HNSW fp32 (cached queries)"
+    display: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
+    display_html: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
@@ -184,8 +184,8 @@ conditions:
             nDCG@10: 0.6780
             R@1K: 0.8483
   - name: bge-base-en-15.fp32.onnx
-    display: "BGE-base-en-v1.5 w/ HNSW fp32 (ONNX)"
-    display_html: "BGE-base-en-v1.5 w/ HNSW fp32 (ONNX)"
+    display: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
+    display_html: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
@@ -207,8 +207,8 @@ conditions:
             nDCG@10: 0.6768
             R@1K: 0.8526
   - name: bge-base-en-15.int8.cached_q
-    display: "BGE-base-en-v1.5 w/ HNSW int8 (cached queries)"
-    display_html: "BGE-base-en-v1.5 w/ HNSW int8 (cached queries)"
+    display: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
+    display_html: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
@@ -230,8 +230,8 @@ conditions:
             nDCG@10: 0.6738
             R@1K: 0.8420
   - name: bge-base-en-15.int8.onnx
-    display: "BGE-base-en-v1.5 w/ HNSW int8 (ONNX)"
-    display_html: "BGE-base-en-v1.5 w/ HNSW int8 (ONNX)"
+    display: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
+    display_html: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_row: ""
     command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
@@ -252,3 +252,49 @@ conditions:
           - MAP: 0.4596
             nDCG@10: 0.6767
             R@1K: 0.8468
+  - name: cohere-embed-english-v3.0.fp32.cached_q
+    display: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
+    display_html: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
+    display_row: ""
+    command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0 -topics $topics -output $output -efSearch 1000 -hits 1000
+    topics:
+      - topic_key: msmarco-v1-passage.dev.cohere-embed-english-v3.0
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3647
+            R@1K: 0.9751
+      - topic_key: dl19-passage.cohere-embed-english-v3.0
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4883
+            nDCG@10: 0.6956
+            R@1K: 0.8612
+      - topic_key: dl20-passage.cohere-embed-english-v3.0
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.5068
+            nDCG@10: 0.7245
+            R@1K: 0.8682
+  - name: cohere-embed-english-v3.0.int8.cached_q
+    display: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
+    display_html: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
+    display_row: ""
+    command: bin/run.sh io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0.quantized -topics $topics -output $output -efSearch 1000 -hits 1000
+    topics:
+      - topic_key: msmarco-v1-passage.dev.cohere-embed-english-v3.0
+        eval_key: tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt
+        scores:
+          - MRR@10: 0.3656
+            R@1K: 0.9752
+      - topic_key: dl19-passage.cohere-embed-english-v3.0
+        eval_key: tools/topics-and-qrels/qrels.dl19-passage.txt
+        scores:
+          - MAP: 0.4888
+            nDCG@10: 0.6955
+            R@1K: 0.8643
+      - topic_key: dl20-passage.cohere-embed-english-v3.0
+        eval_key: tools/topics-and-qrels/qrels.dl20-passage.txt
+        scores:
+          - MAP: 0.5052
+            nDCG@10: 0.7262
+            R@1K: 0.8616
