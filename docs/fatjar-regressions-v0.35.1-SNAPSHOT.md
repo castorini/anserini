@@ -1,4 +1,4 @@
-# Fatjar Regresions (v0.35.1-SNAPSHOT)
+# Anserini Fatjar Regresions (v0.35.1-SNAPSHOT)
 
 ## MS MARCO V1 Passage
 
