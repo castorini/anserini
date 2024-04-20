@@ -103,6 +103,20 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz" },
       "8a5f444fa5a63cc5d4ddc3e6dd15faa0"),
 
+  MSMARCO_V21_DOC("msmarco-v2.1-doc",
+      "Lucene index of the MS MARCO V2.1 document corpus.",
+      "lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.tar.gz" },
+      "cecd55856c34afa82f1a499705c9df02"),
+
+  MSMARCO_V21_DOC_SEGMENTED("msmarco-v2.1-doc-segmented",
+      "Lucene index of the MS MARCO V2.1 segmented document corpus.",
+      "lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.tar.gz",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.tar.gz" },
+      "6ec4cd595c9fe1ad91b43eabb39a637c"),
+
   // BEIR: flat
   BEIR_V1_0_0_TREC_COVID_FLAT("beir-v1.0.0-trec-covid.flat",
       "Lucene inverted 'flat' index of BEIR collection 'trec-covid'.",
