@@ -94,7 +94,7 @@ If you haven't built Anserini already, build it now using the instructions in [a
 We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
 ```bash
-target/appassembler/bin/IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input collections/msmarco-passage/collection_jsonl \
   -index indexes/msmarco-passage/lucene-index-msmarco \
@@ -114,7 +114,7 @@ In the above step, we've built the inverted index.
 Now we can perform a retrieval run using queries we've prepared:
 
 ```bash
-target/appassembler/bin/SearchCollection \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -topics collections/msmarco-passage/queries.dev.small.tsv \
   -topicReader TsvInt \
@@ -246,7 +246,7 @@ python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
 And run the `trec_eval` tool:
 
 ```bash
-target/appassembler/bin/trec_eval -c -mrecall.1000 -mmap \
+bin/trec_eval -c -mrecall.1000 -mmap \
   collections/msmarco-passage/qrels.dev.small.trec \
   runs/run.msmarco-passage.dev.small.trec
 ```
@@ -263,7 +263,7 @@ In many retrieval applications, average precision and recall@1000 are the two me
 You can use `trec_eval` to compute the MRR@10 also, which gives results identical to above (just fewer digits of precision):
 
 ```
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank \
+bin/trec_eval -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
   runs/run.msmarco-passage.dev.small.trec
 ```
@@ -272,7 +272,7 @@ It's a different command-line incantation of `trec_eval` to compute MRR@10.
 And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6980 queries, in addition to the final average).
 
 ```
-target/appassembler/bin/trec_eval -q -c -M 10 -m recip_rank \
+bin/trec_eval -q -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
   runs/run.msmarco-passage.dev.small.trec
 ```
@@ -280,7 +280,7 @@ target/appassembler/bin/trec_eval -q -c -M 10 -m recip_rank \
 We can find the MRR@10 for `qid` 1048585 above:
 
 ```bash
-$ target/appassembler/bin/trec_eval -q -c -M 10 -m recip_rank \
+$ bin/trec_eval -q -c -M 10 -m recip_rank \
     collections/msmarco-passage/qrels.dev.small.trec \
     runs/run.msmarco-passage.dev.small.trec | grep 1048585
 
@@ -480,3 +480,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@syedhuq28](https://github.com/syedhuq28) on 2024-03-28 (commit [`f681d65`](https://github.com/castorini/anserini/commit/f681d6504b9f89f65697878c6c984840456f5d53))
 + Results reproduced by [@th13nd4n0](https://github.com/th13nd4n0) on 2024-04-03 (commit [`279fc3e`](https://github.com/castorini/anserini/commit/279fc3eecaed4d07c0a9c42017447b6ae87b820c))
 + Results reproduced by [@a68lin](https://github.com/a68lin) on 2024-04-11 (commit [`39cecf6`](https://github.com/castorini/anserini/commit/39cecf6c257bae85f4e9f6ab02e0be101338c3cc))
++ Results reproduced by [@DanielKohn1208](https://github.com/DanielKohn1208/) on 2024-04-21 (commit [`9863611d`](https://github.com/castorini/anserini/commit/9863611d307773c086e64496a2a94cf6599c28b0))
