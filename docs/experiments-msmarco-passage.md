@@ -263,7 +263,7 @@ In many retrieval applications, average precision and recall@1000 are the two me
 You can use `trec_eval` to compute the MRR@10 also, which gives results identical to above (just fewer digits of precision):
 
 ```
-target/appassembler/bin/trec_eval -c -M 10 -m recip_rank \
+bin/trec_eval -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
   runs/run.msmarco-passage.dev.small.trec
 ```
@@ -272,7 +272,7 @@ It's a different command-line incantation of `trec_eval` to compute MRR@10.
 And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6980 queries, in addition to the final average).
 
 ```
-target/appassembler/bin/trec_eval -q -c -M 10 -m recip_rank \
+bin/trec_eval -q -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
   runs/run.msmarco-passage.dev.small.trec
 ```
@@ -280,7 +280,7 @@ target/appassembler/bin/trec_eval -q -c -M 10 -m recip_rank \
 We can find the MRR@10 for `qid` 1048585 above:
 
 ```bash
-$ target/appassembler/bin/trec_eval -q -c -M 10 -m recip_rank \
+$ bin/trec_eval -q -c -M 10 -m recip_rank \
     collections/msmarco-passage/qrels.dev.small.trec \
     runs/run.msmarco-passage.dev.small.trec | grep 1048585
 
