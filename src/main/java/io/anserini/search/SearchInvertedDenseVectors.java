@@ -16,6 +16,8 @@
 
 package io.anserini.search;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -127,8 +129,15 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
     LOG.info("============ Launching Search Threads ============");
     SortedMap<K, ScoredDoc[]> results = searcher.batch_search(qids, queries, args.hits);
 
-    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag)) {
-      results.forEach((qid, hits) -> out.writeTopic(qid, results.get(qid)));
+    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, null)) {
+     results.forEach((qid, hits) -> {
+        try {
+          out.writeTopic(qid, queries.get(qids.indexOf(qid)), results.get(qid));
+        } catch (JsonProcessingException e) {
+          // Handle the exception or rethrow as unchecked
+          throw new RuntimeException(e);
+        }
+      });
     } catch (IOException e) {
       e.printStackTrace();
     }
