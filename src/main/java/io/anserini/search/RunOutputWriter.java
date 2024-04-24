@@ -70,13 +70,12 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
       queryMap.put("candidates", candidates);
       outputRerankerRequests.println(mapper.writeValueAsString(queryMap));
     }
-    
     if ("msmarco".equals(format)) {
       for (ScoredDoc r : results) {
         out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, r.docid, rank));
         rank++;
       }
-    } else { 
+    } else {
       // Standard TREC format
       // + the first column is the topic number.
       // + the second column is currently unused and should always be "Q0".
