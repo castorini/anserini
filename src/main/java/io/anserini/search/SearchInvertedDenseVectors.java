@@ -52,9 +52,6 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
 
-    @Option(name = "-outputRerankerRequests", metaVar = "[file]", usage = "Output file for reranking")
-    public String outputRerankerRequests;
-
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader = "JsonIntVector";
 
@@ -132,7 +129,7 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
     LOG.info("============ Launching Search Threads ============");
     SortedMap<K, ScoredDoc[]> results = searcher.batch_search(qids, queries, args.hits);
 
-    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, args.outputRerankerRequests)) {
+    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, null)) {
      results.forEach((qid, hits) -> {
         try {
           out.writeTopic(qid, queries.get(qids.indexOf(qid)), results.get(qid));

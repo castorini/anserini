@@ -52,9 +52,6 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
-    
-    @Option(name = "-outputRerankerRequests", metaVar = "[file]", usage = "Output file for reranking")
-    public String outputRerankerRequests;
 
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader = "JsonIntVector";
@@ -145,7 +142,7 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     LOG.info("============ Launching Search Threads ============");
     SortedMap<K, ScoredDoc[]> results = searcher.batch_search(qids, queries, args.hits);
 
-    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, args.outputRerankerRequests)) {
+    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, null)) {
       // zip query to results
       results.forEach((qid, hits) -> {
         try {
