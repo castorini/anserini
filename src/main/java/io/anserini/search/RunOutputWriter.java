@@ -76,7 +76,14 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
         out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, r.docid, rank));
         rank++;
       }
-    } else { // Standard TREC format
+    } else { 
+      // Standard TREC format
+      // + the first column is the topic number.
+      // + the second column is currently unused and should always be "Q0".
+      // + the third column is the official document identifier of the retrieved document.
+      // + the fourth column is the rank the document is retrieved.
+      // + the fifth column shows the score (integer or floating point) that generated the ranking.
+      // + the sixth column is called the "run tag" and should be a unique identifier for your
       for (ScoredDoc r : results) {
         out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n", qid, r.docid, rank, r.score, runtag));
         rank++;
