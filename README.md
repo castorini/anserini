@@ -43,7 +43,7 @@ wget https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-an
 java -cp anserini-0.35.1-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
 ```
 
-See [detailed instructions](docs/fatjar-regressions-v0.35.1.md) for using Anserini (v0.35.1) to reproduce runs for MS MARCO V2.1 for TREC 2024 RAG, MS MARCO V1 Passage, and BEIR, all directly from the fatjar!
+See [detailed instructions](docs/fatjar-regressions-v0.35.1.md) for using Anserini (v0.35.1) to reproduce runs on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
 Older instructions:
 
 + [Anserini v0.35.0](docs/fatjar-regressions-v0.35.0.md)
