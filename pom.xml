@@ -5,12 +5,12 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.4</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.35.1-SNAPSHOT</version>
+  <version>0.35.1</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -44,7 +44,7 @@
     <connection>scm:git:git@github.com:castorini/Anserini.git</connection>
     <developerConnection>scm:git:git@github.com:castorini/Anserini.git</developerConnection>
     <url>git@github.com:castorini/Anserini.git</url>
-    <tag>HEAD</tag>
+    <tag>anserini-0.35.1</tag>
   </scm>
 
   <repositories>
