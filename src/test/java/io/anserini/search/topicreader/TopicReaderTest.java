@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(474, cnt);
+    assertEquals(475, cnt);
   }
 
   @Test
@@ -979,6 +979,20 @@ public class TopicReaderTest {
     assertEquals(163500, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(3100949, (int) topics.lastKey());
     assertEquals(181700, topics.get(topics.lastKey()).get("title").split(" ").length);
+  }
+
+  @Test
+  public void testTREC24_RAG() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2024_RAG_RAGGY_DEV);
+    assertNotNull(topics);
+    assertEquals(120, topics.size());
+    assertEquals(23287, (int) topics.firstKey());
+    assertEquals("are landlords liable if someone breaks in a hurts tenant", topics.get(topics.firstKey()).get("title"));
+    assertEquals(3100918, (int) topics.lastKey());
+    assertEquals("Can older adults gain strength by training once per week?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("Can older adults gain strength by training once per week?", topics.get(3100918).get("title"));
   }
 
   @Test

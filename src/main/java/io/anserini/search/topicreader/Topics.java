@@ -91,6 +91,8 @@ public enum Topics {
   TREC2023_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl23.splade-pp-ed.tsv.gz"),
   TREC2023_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl23.splade-pp-sd.tsv.gz"),
 
+  TREC2024_RAG_RAGGY_DEV(TsvIntTopicReader.class, "topics.rag24.raggy-dev.txt"),
+
   // MS MARCO V1 topics
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-doc.dev.txt"),
   MSMARCO_DOC_DEV_WP(TsvIntTopicReader.class,"topics.msmarco-doc.dev.wp.tsv.gz"),
@@ -636,6 +638,9 @@ public enum Topics {
     put("dl23-passage",        TREC2023_DL);
     put("trec2023-dl-doc",     TREC2023_DL);
     put("dl23-doc",            TREC2023_DL);
+
+    put("trec2024-raggy",  TREC2024_RAG_RAGGY_DEV);
+    put("rag24-raggy-dev", TREC2024_RAG_RAGGY_DEV);
 
     put("beir-trec-covid", BEIR_V1_0_0_TREC_COVID_TEST);
     put("beir-bioasq", BEIR_V1_0_0_BIOASQ_TEST);
