@@ -1,4 +1,4 @@
-# Anserini Regressions: TREC 2022 Deep Learning Track (Document) on V2.1
+# Anserini Regressions: TREC 2022 DL Track on V2.1 Corpus
 
 **Models**: various bag-of-words approaches on segmented documents
 
