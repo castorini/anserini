@@ -16,6 +16,8 @@
 
 package io.anserini.search;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.anserini.analysis.AnalyzerMap;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.AutoCompositeAnalyzer;
@@ -143,6 +145,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
+
+    @Option(name = "-outputRerankerRequests", metaVar = "[file]", usage = "Output file for reranking")
+    public String outputRerankerRequests;
 
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader;
@@ -885,8 +890,14 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
               docs = searcher.search(qid, queryString.toString(), cascade, queryQrels, hasRelDocs);
             }
 
-            // Note we do *not* want to retain references to the Lucene documents since it's a waste of memory.
-            results.put(qid, searcher.processScoredDocs(qid, docs, false));
+
+            // If JSON output is requested, we retain references to the Lucene documents.
+            // Note we do *not* want to retain references to the Lucene documents unless requested since it's a waste of memory.
+            if (args.outputRerankerRequests != null) {
+              results.put(qid, searcher.processScoredDocs(qid, docs, true));
+            } else {
+              results.put(qid, searcher.processScoredDocs(qid, docs, false));
+            }
 
             int n = cnt.incrementAndGet();
             if (n % 100 == 0) {
@@ -916,7 +927,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
 
       // Now we write the results to a run file.
-      try(RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag)) {
+      try(RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, args.outputRerankerRequests)) {
         // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
         // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
         // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
@@ -941,13 +952,20 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             while ((line = reader.readLine()) != null) {
               line = line.trim();
               String[] arr = line.split("\\t");
-              out.writeTopic((T) arr[0], results.get(Integer.parseInt(arr[0])));
+              out.writeTopic((T) arr[0], arr[1], results.get(Integer.parseInt(arr[0])));
             }
           } catch (IOException e) {
             throw new RuntimeException(String.format("Error writing output to %s", outputPath));
           }
         } else {
-          results.forEach((qid, hits) -> out.writeTopic(qid, results.get(qid)));
+            results.forEach((qid, hits) -> {
+              try {
+                  out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
+              } catch (JsonProcessingException e) {
+                  // Handle the exception or rethrow as unchecked
+                  throw new RuntimeException(e);
+              }
+          });
         }
       } catch (IOException e) {
         throw new RuntimeException(String.format("Error writing runs to \"%s\".", outputPath));

@@ -53,6 +53,7 @@ public enum Qrels {
   TREC2021_DL_DOC_MSMARCO_V21("qrels.dl21-doc-msmarco-v2.1.txt"),
   TREC2022_DL_DOC_MSMARCO_V21("qrels.dl22-doc-msmarco-v2.1.txt"),
   TREC2023_DL_DOC_MSMARCO_V21("qrels.dl23-doc-msmarco-v2.1.txt"),
+  TREC2024_RAG_RAGGY_DEV("qrels.rag24.raggy-dev.txt"),
   MSMARCO_DOC_DEV("qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("qrels.msmarco-passage.dev-subset.txt"),
   MSMARCO_V2_DOC_DEV("qrels.msmarco-v2-doc.dev.txt"),
