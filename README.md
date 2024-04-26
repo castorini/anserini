@@ -238,6 +238,22 @@ See individual pages for details.
 
 </details>
 <details>
+<summary>MS MARCO V2.1 Document Regressions</summary>
+
+### MS MARCO V2.1 Document Regressions
+
+The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
+The experiments below capture topics and qrels originally targeted at the V2 corpora, but have been "projected" over to the V2.1 corpora.
+
+|                                         |                               dev                               |                                 DL21                                 |                                 DL22                                 |                                 DL23                                 |                              RAGgy dev                               |
+|-----------------------------------------|:---------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|
+| **Unsupervised Lexical, Complete Doc**  |                                                                 |                                                                      |                                                                      |                                                                      |                                                                      |
+| baselines                               |      [+](docs/regressions/regressions-msmarco-v2.1-doc.md)      |      [+](docs/regressions/regressions-dl21-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl22-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl23-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl23-doc-msmarco-v2.1.md)      |
+| **Unsupervised Lexical, Segmented Doc** |                                                                 |                                                                      |                                                                      |                                                                      |                                                                      |
+| baselines                               | [+](docs/regressions/regressions-msmarco-v2.1-doc-segmented.md) | [+](docs/regressions/regressions-dl21-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl22-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl23-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl23-doc-segmented-msmarco-v2.1.md) |
+
+</details>
+<details>
 <summary>BEIR (v1.0.0) Regressions</summary>
 
 ### BEIR (v1.0.0) Regressions
