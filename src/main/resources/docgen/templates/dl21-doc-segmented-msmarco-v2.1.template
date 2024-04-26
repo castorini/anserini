@@ -6,7 +6,7 @@ This page describes experiments, integrated into Anserini's regression testing f
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
-Here, we cover bag-of-words baselines where each document in the MS MARCO V2.1 _segmented_ document corpus is treated as a unit of indexing.
+Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

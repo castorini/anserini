@@ -8,7 +8,7 @@ Note that the NIST relevance judgments provide far more relevant documents per t
 An important caveat is that these document judgments were inferred from the passages.
 That is, if a passage is relevant, the document containing it is considered relevant.
 
-Here, we cover bag-of-words baselines where each document in the MS MARCO V2.1 _segmented_ document corpus is treated as a unit of indexing.
+Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl22-doc-segmented-msmarco-v2.1.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl22-doc-segmented-msmarco-v2.1.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.

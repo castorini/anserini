@@ -37,6 +37,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+These "RAG-worthy" topics were manually curated from the TREC 2021, 2022, and 2023 Deep Learning Tracks and projected over to the V2.1 version of the corpus.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
