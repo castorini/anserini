@@ -152,8 +152,13 @@ public class RelevanceJudgments {
    * @return qrels path
    * @throws IOException
    */
-  private static Path getQrelsPath(Path qrelsPath) throws IOException {
-    if (!Qrels.contains(qrelsPath)) {
+  public static Path getQrelsPath(Path qrelsPath) throws IOException {
+		boolean isContained = Qrels.contains(qrelsPath);
+		boolean isContainedSymbol = false;
+		if (!isContained) {
+			isContainedSymbol = Qrels.containsSymbol(qrelsPath);
+		}
+    if (!isContained && !isContainedSymbol) {
       // If the topic file is not in the list of known topics, we assume it is a local file.
       Path tempPath = Paths.get(getCacheDir(), qrelsPath.getFileName().toString());
       if (Files.exists(tempPath)) {
@@ -162,6 +167,11 @@ public class RelevanceJudgments {
       }
       return qrelsPath;
     }
+
+		// If qrelsPath is a prefix, we should extend it to a full file name
+		if (isContainedSymbol) {
+			qrelsPath = Qrels.extendSymbol(qrelsPath);
+		}
 
     Path resultPath = getNewQrelAbsPath(qrelsPath);
     if (!Files.exists(resultPath)) {

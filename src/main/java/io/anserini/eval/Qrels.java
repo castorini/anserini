@@ -204,4 +204,25 @@ public enum Qrels {
     }
     return false;
   }
+
+	public static boolean containsSymbol(Path topicPath) {
+		for (Qrels c: Qrels.values()) {
+			String comparisonPrefix = c.path.substring(c.path.indexOf('.') + 1, c.path.lastIndexOf('.'));
+			if (comparisonPrefix.equals(topicPath.getFileName().toString())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static Path extendSymbol(Path symbol) {
+		for (Qrels c: Qrels.values()) {
+			String comparisonPrefix = c.path.substring(c.path.indexOf('.') + 1, c.path.lastIndexOf('.'));
+			if (comparisonPrefix.equals(symbol.getFileName().toString())) {
+				return Path.of(c.path);
+			} 
+		}
+		// If symbol could not be extended, produce provided symbol
+		return symbol;
+	}
 }
