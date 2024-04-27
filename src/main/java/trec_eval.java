@@ -143,39 +143,39 @@ public class trec_eval {
     //System.err.println(ourTE.exists());
   }
 
-	String potentiallyExpandSymbol(String sym) {
-		File f = new File(sym);
-		// Check for exact match
-		if(f.exists()) {
-			return f.toString();
-		}
-		// If no exact match is found, we are expecting a symbol 
-		Path filePath;
-		try {
-			filePath = RelevanceJudgments.getQrelsPath(Path.of(sym));
-		} catch (IOException e) {
-			filePath = Path.of(sym);
-		}
-		return filePath.toString();
-	} 
+  String potentiallyExpandSymbol(String sym) {
+    File f = new File(sym);
+    // Check for exact match
+    if(f.exists()) {
+      return f.toString();
+    }
+    // If no exact match is found, we are expecting a symbol 
+    Path filePath;
+    try {
+      filePath = RelevanceJudgments.getQrelsPath(Path.of(sym));
+    } catch (IOException e) {
+      filePath = Path.of(sym);
+    }
+    return filePath.toString();
+  } 
   
   ProcessBuilder getBuilder(String[] args) {
     List<String> cmd = new ArrayList<String>();
     cmd.add(ourTE.getAbsolutePath().toString());
-		for (int i = 0; i < args.length; i++) {
-			// Special case for symbol expansion
-			if (args[i].equals("recip_rank")){
-				cmd.add(args[i]);
-				i++;
-				// Ensure no overflow
-				if (i == args.length) {
-					break;
-				}
-				cmd.add(potentiallyExpandSymbol(args[i]));
-			} else {
-				cmd.add(args[i]);
-			}
-		}
+    for (int i = 0; i < args.length; i++) {
+    // Special case for symbol expansion
+      if (args[i].equals("recip_rank")){
+        cmd.add(args[i]);
+        i++;
+        // Ensure no overflow
+        if (i == args.length) {
+          break;
+      }
+      cmd.add(potentiallyExpandSymbol(args[i]));
+      } else {
+        cmd.add(args[i]);
+      }
+    }
     return new ProcessBuilder(cmd);
   }
   
