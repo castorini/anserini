@@ -241,6 +241,27 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 </details>
 <details>
+<summary>MS MARCO V2.1 + RAG24 regressions</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc >& logs/log.msmarco-v2.1-doc.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented >& logs/log.msmarco-v2.1-doc-segmented.txt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-msmarco-v2.1 >& logs/log.dl21-doc-msmarco-v2.1.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-msmarco-v2.1 >& logs/log.dl21-doc-segmented-msmarco-v2.1.txt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-msmarco-v2.1 >& logs/log.dl22-doc-msmarco-v2.1.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented-msmarco-v2.1 >& logs/log.dl22-doc-segmented-msmarco-v2.1.txt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-msmarco-v2.1 >& logs/log.dl23-doc-msmarco-v2.1.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented-msmarco-v2.1 >& logs/log.dl23-doc-segmented-msmarco-v2.1.txt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-raggy-dev >& logs/log.rag24-doc-raggy-dev.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-raggy-dev >& logs/log.rag24-doc-segmented-raggy-dev.txt &
+```
+
+</details>
+<details>
 <summary>BEIR (v1.0.0): BGE-base-en-v1.5</summary>
 
 ```bash

@@ -1,3 +1,6 @@
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc > logs/log.msmarco-v2.1-doc.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented > logs/log.msmarco-v2.1-doc-segmented.txt 2>&1
+
 # MS MARCO V1 passage
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.txt 2>&1
@@ -25,6 +28,17 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil-noexp > logs/log.msmarco-v1-passage.unicoil-noexp.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil-tilde-expansion > logs/log.msmarco-v1-passage.unicoil-tilde-expansion.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.distill-splade-max > logs/log.msmarco-v1-passage.distill-splade-max.txt 2>&1
+
+# MS MARCO V2.1
+python src/main/python/run_regression.py --verify --search --regression dl21-doc-msmarco-v2.1 > logs/log.dl21-doc-msmarco-v2.1.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl22-doc-msmarco-v2.1 > logs/log.dl22-doc-msmarco-v2.1.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl23-doc-msmarco-v2.1 > logs/log.dl23-doc-msmarco-v2.1.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-raggy-dev > logs/log.rag24-doc-raggy-dev.txt 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl21-doc-segmented-msmarco-v2.1 > logs/log.dl21-doc-segmented-msmarco-v2.1.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl22-doc-segmented-msmarco-v2.1 > logs/log.dl22-doc-segmented-msmarco-v2.1.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl23-doc-segmented-msmarco-v2.1 > logs/log.dl23-doc-segmented-msmarco-v2.1.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-raggy-dev > logs/log.rag24-doc-segmented-raggy-dev.txt 2>&1
 
 # MS MARCO V1 doc
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc > logs/log.msmarco-v1-doc.txt 2>&1
