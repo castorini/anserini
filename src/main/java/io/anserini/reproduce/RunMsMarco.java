@@ -35,10 +35,11 @@ public class RunMsMarco {
   private static final String FAIL = RED + "[FAIL]" + RESET;
 
   private static final String COLLECTION = "msmarco-v1-passage";
-
+ 
   public static void main(String[] args) throws Exception {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(new FileInputStream("src/main/java/io/anserini/reproduce/msmarco-v1-passage.yaml"), Config.class);
+    InputStream inputStream = RunMsMarco.class.getClassLoader().getResourceAsStream("msmarco_v1/msmarco-v1-passage.yaml");
+    Config config = mapper.readValue(inputStream, Config.class);
     TrecEvalMetricDefinitions metricDefinitions = new TrecEvalMetricDefinitions();
 
     for (Condition condition : config.conditions) {
