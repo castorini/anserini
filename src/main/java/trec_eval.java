@@ -170,8 +170,8 @@ public class trec_eval {
         // Ensure no overflow
         if (i == args.length) {
           break;
-      }
-      cmd.add(potentiallyExpandSymbol(args[i]));
+        }
+        cmd.add(potentiallyExpandSymbol(args[i]));
       } else {
         cmd.add(args[i]);
       }
