@@ -20,7 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import io.anserini.reproduce.RunMsMarco.Topic;
+import io.anserini.reproduce.RunMsMarco.TrecEvalMetricDefinitions;
+
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -38,63 +43,68 @@ public class RunMsMarco {
  
   public static void main(String[] args) throws Exception {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    InputStream inputStream = RunMsMarco.class.getClassLoader().getResourceAsStream("msmarco_v1/msmarco-v1-passage.yaml");
-    Config config = mapper.readValue(inputStream, Config.class);
-    TrecEvalMetricDefinitions metricDefinitions = new TrecEvalMetricDefinitions();
-
-    for (Condition condition : config.conditions) {
-      System.out.println(String.format("# Running condition \"%s\": %s \n", condition.name, condition.display));
-      for (Topic topic : condition.topics) {
-        System.out.println("  - topic_key: " + topic.topic_key + "\n");
-
-        final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name, topic.topic_key);
-
-        final String command = condition.command
-            .replace("$threads", "16")
-            .replace("$topics", topic.topic_key)
-            .replace("$output", output);
-
-        System.out.println("    Running retrieval command: " + command);
-
-        ProcessBuilder pb = new ProcessBuilder(command.split(" "));
-        Process process = pb.start();
-        int resultCode = process.waitFor();
-        if (resultCode == 0) {
-          System.out.println("    Run successfully completed!");
-        } else {
-          System.out.println("    Run failed!");
-        }
-        System.out.println("");
-
-        // running the evaluation command
-        Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions().get(COLLECTION);
-        InputStream stdout = null;
-
-        for (Map<String, Double> expected : topic.scores) {
-          for (String metric : expected.keySet()) {
-            String evalKey = topic.eval_key;
-            String evalCmd = "bin/trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
-
-            pb = new ProcessBuilder(evalCmd.split(" "));
-            process = pb.start();
-
-            resultCode = process.waitFor();
-            stdout = process.getInputStream();
-            if (resultCode == 0) {
-              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-              Double score = Double.parseDouble(scoreString);
-              Double delta = Math.abs(score - expected.get(metric));
-
-              if (delta > 0.00005) {
-                System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL, expected.get(metric)));
-              } else {
-                System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
-              }
-            } else {
-              System.out.println("Evaluation command failed for metric: " + metric);
-            }
+    try (InputStream inputStream = RunMsMarco.class.getClassLoader()
+        .getResourceAsStream("msmarco_v1/msmarco-v1-passage.yaml")) {
+      if (inputStream == null) {
+        throw new FileNotFoundException("Resource file not found. Please check the file path.");
+      }
+      Config config = mapper.readValue(inputStream, Config.class);
+      TrecEvalMetricDefinitions metricDefinitions = new TrecEvalMetricDefinitions();
+  
+      for (Condition condition : config.conditions) {
+        System.out.println(String.format("# Running condition \"%s\": %s \n", condition.name, condition.display));
+        for (Topic topic : condition.topics) {
+          System.out.println("  - topic_key: " + topic.topic_key + "\n");
+  
+          final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name, topic.topic_key);
+  
+          final String command = condition.command
+              .replace("$threads", "16")
+              .replace("$topics", topic.topic_key)
+              .replace("$output", output);
+  
+          System.out.println("    Running retrieval command: " + command);
+  
+          ProcessBuilder pb = new ProcessBuilder(command.split(" "));
+          Process process = pb.start();
+          int resultCode = process.waitFor();
+          if (resultCode == 0) {
+            System.out.println("    Run successfully completed!");
+          } else {
+            System.out.println("    Run failed!");
           }
           System.out.println("");
+  
+          // running the evaluation command
+          Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions().get(COLLECTION);
+          InputStream stdout = null;
+  
+          for (Map<String, Double> expected : topic.scores) {
+            for (String metric : expected.keySet()) {
+              String evalKey = topic.eval_key;
+              String evalCmd = "bin/trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
+  
+              pb = new ProcessBuilder(evalCmd.split(" "));
+              process = pb.start();
+  
+              resultCode = process.waitFor();
+              stdout = process.getInputStream();
+              if (resultCode == 0) {
+                String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
+                Double score = Double.parseDouble(scoreString);
+                Double delta = Math.abs(score - expected.get(metric));
+  
+                if (delta > 0.00005) {
+                  System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL, expected.get(metric)));
+                } else {
+                  System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
+                }
+              } else {
+                System.out.println("Evaluation command failed for metric: " + metric);
+              }
+            }
+            System.out.println("");
+          }
         }
       }
     }
