@@ -35,9 +35,9 @@ import io.anserini.reproduce.RunMsMarco.Topic;
 import io.anserini.reproduce.RunMsMarco.TrecEvalMetricDefinitions;
 
 public class GenerateReproductionDocsTest {
-  public final static String YAML_PATH = "src/main/java/io/anserini/reproduce/msmarco-v1-passage.yaml";
-  public final static String HTML_TEMPLATE_PATH = "src/main/java/io/anserini/reproduce/msmarco_html_v1_passage.template";
-  public final static String ROW_TEMPLATE_PATH = "src/main/java/io/anserini/reproduce/msmarco_html_row_v1.template";
+  public final static String YAML_PATH = "src/main/resources/reproduce/msmarco-v1-passage.yaml";
+  public final static String HTML_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_v1_passage.template";
+  public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_row_v1.template";
   public final static String COLLECTION = "msmarco-v1-passage";
   public final static String[] MODELS = {
       "bm25-default",
