@@ -14,7 +14,7 @@ Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
 export ANSERINI_JAR="anserini-0.36.0-fatjar.jar"
-export OUTPUT_DIR="runs"
+export OUTPUT_DIR="."
 ```
 
 ## TREC 2024 RAG
@@ -26,7 +26,7 @@ The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompresed.
 Here are the instructions for reproducing runs on the MS MARCO V2.1 document corpus with prebuilt indexes (adjust number of threads based on available resources):
 
 ```bash
-TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl); for t in "${TOPICS[@]}"
+TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl rag24-raggy-dev); for t in "${TOPICS[@]}"
 do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v2.1-doc -topics $t -output $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.${t}.txt -threads 16 -bm25
 done
@@ -87,7 +87,7 @@ recall_1000           	all	0.5383
 Here are the instructions for reproducing runs on the MS MARCO V2.1 segmented document corpus with prebuilt indexes (adjust number of threads based on available resources):
 
 ```bash
-TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl); for t in "${TOPICS[@]}"
+TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl rag24-raggy-dev); for t in "${TOPICS[@]}"
 do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v2.1-doc-segmented -topics $t -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.${t}.txt -threads 16 -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 done
