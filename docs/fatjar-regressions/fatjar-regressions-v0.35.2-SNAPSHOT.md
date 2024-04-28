@@ -210,7 +210,7 @@ The following snippet will generate the complete set of results for MS MARCO V1 
 # BM25
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage -topics ${t} -output run.${t}.bm25.txt -threads 16 -bm25
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage -topics ${t} -output $OUTPUT_DIR/run.${t}.bm25.txt -threads 16 -bm25
 done
 
 # SPLADE++ ED
