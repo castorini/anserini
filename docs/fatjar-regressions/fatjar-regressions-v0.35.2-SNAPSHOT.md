@@ -39,23 +39,23 @@ done
 Run these commands for evaluation:
 
 ```
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev run.msmarco-v2.1-doc.bm25.msmarco-v2-doc-dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 run.msmarco-v2.1-doc.bm25.msmarco-v2-doc-dev2.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.msmarco-v2-doc-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.msmarco-v2-doc-dev2.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2021-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2021-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2021-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2021-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2021-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2021-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2021-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2021-dl.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2022-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2022-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2022-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2022-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2022-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2022-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2022-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2022-dl.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
 ```
 
 And these are the expected scores:
@@ -100,23 +100,23 @@ done
 Run these commands for evaluation:
 
 ```
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev run.msmarco-v2.1-doc-segmented.bm25.msmarco-v2-doc-dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 run.msmarco-v2.1-doc-segmented.bm25.msmarco-v2-doc-dev2.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.msmarco-v2-doc-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.msmarco-v2-doc-dev2.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2021-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2021-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2021-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2021-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2021-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2021-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2021-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2021-dl.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2022-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2022-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2022-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2022-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2022-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2022-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2022-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2022-dl.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
 ```
 
 And these are the expected scores:
