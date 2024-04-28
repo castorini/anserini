@@ -17,6 +17,7 @@
 package io.anserini.eval;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 
 public enum Qrels {
   TREC1_ADHOC("qrels.adhoc.51-100.txt"),
@@ -190,6 +191,17 @@ public enum Qrels {
   CIRAL_V10_SW_TEST_B("qrels.ciral-v1.0-sw-test-b.tsv"),
   CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv");
 
+  private static HashMap<String, String> symbolFileDict = generateSymbolFileDict();
+
+  private static HashMap<String, String> generateSymbolFileDict() {
+    var d = new HashMap<String, String>();
+    for(Qrels c : Qrels.values()) {
+      String sym = c.path.substring(c.path.indexOf('.') + 1, c.path.lastIndexOf('.'));
+      d.put(sym, c.path);
+    }
+    return d;
+  }
+
   public final String path;
 
   Qrels(String path) {
@@ -197,32 +209,18 @@ public enum Qrels {
   }
 
   public static boolean contains(Path topicPath) {
-    for (Qrels c : Qrels.values()) {
-      if (c.path.equals(topicPath.getFileName().toString())) {
-        return true;
-      }
-    }
-    return false;
+    return symbolFileDict.containsValue(topicPath.getFileName().toString());
   }
 
   public static boolean containsSymbol(Path topicPath) {
-    for (Qrels c: Qrels.values()) {
-      String comparisonPrefix = c.path.substring(c.path.indexOf('.') + 1, c.path.lastIndexOf('.'));
-      if (comparisonPrefix.equals(topicPath.getFileName().toString())) {
-        return true;
-      }
-    }
-    return false;
+    return symbolFileDict.containsKey(topicPath.getFileName().toString());
   }
 
   public static Path extendSymbol(Path symbol) {
-    for (Qrels c: Qrels.values()) {
-      String comparisonPrefix = c.path.substring(c.path.indexOf('.') + 1, c.path.lastIndexOf('.'));
-      if (comparisonPrefix.equals(symbol.getFileName().toString())) {
-        return Path.of(c.path);
-      } 
+    String returnPath = symbolFileDict.get(symbol.getFileName().toString());
+    if (returnPath == null) {
+      return symbol;
     }
-    // If symbol could not be extended, produce provided symbol
-    return symbol;
+    return Path.of(returnPath);
   }
 }

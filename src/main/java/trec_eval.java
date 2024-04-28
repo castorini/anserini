@@ -139,8 +139,6 @@ public class trec_eval {
   
   public trec_eval() {
     ourTE = getTrecEvalBinary();
-    //System.err.println(ourTE.toString());
-    //System.err.println(ourTE.exists());
   }
 
   String potentiallyExpandSymbol(String sym) {
