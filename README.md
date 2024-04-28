@@ -29,8 +29,8 @@ The follow commands will generate a SPLADE++ ED run with the dev queries (encode
 
 ```bash
 java -cp anserini-0.35.1-fatjar.jar io.anserini.search.SearchCollection \
-  -index msmarco-v1-passage-splade-pp-ed \
-  -topics msmarco-v1-passage-dev \
+  -index msmarco-v1-passage.splade-pp-ed \
+  -topics msmarco-v1-passage.dev \
   -encoder SpladePlusPlusEnsembleDistil \
   -output run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt \
   -impact -pretokenized
@@ -43,10 +43,15 @@ wget https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-an
 java -cp anserini-0.35.1-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
 ```
 
-See [detailed instructions](docs/fatjar-regressions-v0.35.1.md) for using Anserini (v0.35.1) to reproduce runs on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
-Older instructions:
+See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.35.1.md) for the current fatjar release of Anserini (v0.35.1) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
+We also have [forthcoming instructions](docs/fatjar-regressions/fatjar-regressions-v0.35.2-SNAPSHOT.md) for the next release (v0.35.2-SNAPSHOT) if you're interested.
 
-+ [Anserini v0.35.0](docs/fatjar-regressions-v0.35.0.md)
+<details>
+<summary>Older instructions</summary>
+
++ [Anserini v0.35.0](docs/fatjar-regressions/fatjar-regressions-v0.35.0.md)
+
+</details>
 
 ## 🎬 Installation
 
@@ -235,6 +240,22 @@ See individual pages for details.
 |:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
 | [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar)       |  55 GB | `97ba262c497164de1054f357caea0c63` |
 | [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)            |  72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
+
+</details>
+<details>
+<summary>MS MARCO V2.1 Document Regressions</summary>
+
+### MS MARCO V2.1 Document Regressions
+
+The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
+The experiments below capture topics and qrels originally targeted at the V2 corpora, but have been "projected" over to the V2.1 corpora.
+
+|                                         |                               dev                               |                                 DL21                                 |                                 DL22                                 |                                 DL23                                 |                             RAGgy dev                              |
+|-----------------------------------------|:---------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:------------------------------------------------------------------:|
+| **Unsupervised Lexical, Complete Doc**  |                                                                 |                                                                      |                                                                      |                                                                      |                                                                    |
+| baselines                               |      [+](docs/regressions/regressions-msmarco-v2.1-doc.md)      |      [+](docs/regressions/regressions-dl21-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl22-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl23-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-rag24-doc-raggy-dev.md)      |
+| **Unsupervised Lexical, Segmented Doc** |                                                                 |                                                                      |                                                                      |                                                                      |                                                                    |
+| baselines                               | [+](docs/regressions/regressions-msmarco-v2.1-doc-segmented.md) | [+](docs/regressions/regressions-dl21-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl22-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl23-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-rag24-doc-segmented-raggy-dev.md) |
 
 </details>
 <details>
