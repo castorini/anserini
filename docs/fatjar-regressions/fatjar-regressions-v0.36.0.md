@@ -55,6 +55,11 @@ java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 $OUTPUT_
 java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24-raggy-dev.txt
 ```
 
 And these are the expected scores:
@@ -80,6 +85,12 @@ recip_rank            	all	0.5783
 ndcg_cut_10           	all	0.2914
 recall_100            	all	0.2604
 recall_1000           	all	0.5383
+
+map                   	all	0.1251
+recip_rank            	all	0.7060
+ndcg_cut_10           	all	0.3631
+recall_100            	all	0.2433
+recall_1000           	all	0.5317
 ```
 
 </details>
@@ -116,6 +127,11 @@ java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 $OUTPUT_
 java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24-raggy-dev.txt
 ```
 
 And these are the expected scores:
@@ -141,6 +157,12 @@ recip_rank            	all	0.6519
 ndcg_cut_10           	all	0.3356
 recall_100            	all	0.3049
 recall_1000           	all	0.5852
+
+map                   	all	0.1561
+recip_rank            	all	0.7465
+ndcg_cut_10           	all	0.4227
+recall_100            	all	0.2807
+recall_1000           	all	0.5745
 ```
 
 </details>
