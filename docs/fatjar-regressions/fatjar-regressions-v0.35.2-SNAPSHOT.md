@@ -356,17 +356,17 @@ The following snippet will generate the complete set of results for BEIR:
 CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
 do
     # "flat" indexes
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.flat -topics beir-${c} -output run.beir.${c}.flat.txt -bm25 -removeQuery
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.flat -topics beir-${c} -output $OUTPUT_DIR/run.beir.${c}.flat.txt -bm25 -removeQuery
     # "multifield" indexes
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.multifield -topics beir-${c} -output run.beir.${c}.multifield.txt -bm25 -removeQuery -fields contents=1.0 title=1.0
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.multifield -topics beir-${c} -output $OUTPUT_DIR/run.beir.${c}.multifield.txt -bm25 -removeQuery -fields contents=1.0 title=1.0
     # SPLADE++ ED, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output run.beir.${c}.splade-pp-ed.cached_q.txt -impact -pretokenized -removeQuery
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output $OUTPUT_DIR/run.beir.${c}.splade-pp-ed.cached_q.txt -impact -pretokenized -removeQuery
     # SPLADE++ ED, ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output run.beir.${c}.splade-pp-ed.onnx.txt -impact -pretokenized -removeQuery
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output $OUTPUT_DIR/run.beir.${c}.splade-pp-ed.onnx.txt -impact -pretokenized -removeQuery
     # BGE-base-en-v1.5, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c}.bge-base-en-v1.5 -output run.beir.${c}.bge.cached_q.txt -threads 16 -efSearch 1000 -removeQuery
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.${c}.bge.cached_q.txt -threads 16 -efSearch 1000 -removeQuery
     # BGE-base-en-v1.5, ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c} -encoder BgeBaseEn15 -output run.beir.${c}.bge.onnx.txt -threads 16 -efSearch 1000 -removeQuery
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.${c}.bge.onnx.txt -threads 16 -efSearch 1000 -removeQuery
 done
 ```
 
