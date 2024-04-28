@@ -3,6 +3,18 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### April 26, 2024
+
++ commit [`e6b7ea`](https://github.com/castorini/anserini/commit/e6b7ea20a37d1d10636d0553db735e5b2d810735) (2024/04/26)
+
+Add regressions for MS MARCO V2.1 corpora: document + segmented document.
+
+### April 10, 2024
+
++ commit [`0a4dbd`](https://github.com/castorini/anserini/commit/0a4dbdfd082f9a477a4efb275b971fdd9a0a0fc2) (2024/04/10)
+
+Fixed OpenAI ada2 regressions for int8 variants.
+
 ### March 27, 2024
 
 At release v0.25.0, completed full matrix of regressions for MS MARCO v2 passage/doc for currently available models.
