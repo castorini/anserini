@@ -29,8 +29,8 @@ The follow commands will generate a SPLADE++ ED run with the dev queries (encode
 
 ```bash
 java -cp anserini-0.35.1-fatjar.jar io.anserini.search.SearchCollection \
-  -index msmarco-v1-passage-splade-pp-ed \
-  -topics msmarco-v1-passage-dev \
+  -index msmarco-v1-passage.splade-pp-ed \
+  -topics msmarco-v1-passage.dev \
   -encoder SpladePlusPlusEnsembleDistil \
   -output run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt \
   -impact -pretokenized
