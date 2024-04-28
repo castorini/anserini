@@ -161,14 +161,8 @@ public class trec_eval {
     List<String> cmd = new ArrayList<String>();
     cmd.add(ourTE.getAbsolutePath().toString());
     for (int i = 0; i < args.length; i++) {
-    // Special case for symbol expansion
-      if (args[i].equals("recip_rank")){
-        cmd.add(args[i]);
-        i++;
-        // Ensure no overflow
-        if (i == args.length) {
-          break;
-        }
+      // Special case for symbol expansion
+      if (i == args.length - 2){
         cmd.add(potentiallyExpandSymbol(args[i]));
       } else {
         cmd.add(args[i]);
