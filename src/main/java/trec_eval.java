@@ -162,7 +162,7 @@ public class trec_eval {
     cmd.add(ourTE.getAbsolutePath().toString());
     for (int i = 0; i < args.length; i++) {
       // Special case for symbol expansion
-      if (i == args.length - 2){
+      if (i == args.length - 2) {
         cmd.add(potentiallyExpandSymbol(args[i]));
       } else {
         cmd.add(args[i]);
