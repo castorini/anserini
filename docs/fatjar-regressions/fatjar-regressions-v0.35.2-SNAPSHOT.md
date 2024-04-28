@@ -20,7 +20,8 @@ export OUTPUT_DIR="runs"
 
 ## TREC 2024 RAG
 
-Warning: The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
+❗ Beware, you need lots of space to run these experiments.
+The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
 The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompresed.
 
 Here are the instructions for reproducing runs on the MS MARCO V2.1 document corpus with prebuilt indexes (adjust number of threads based on available resources):
