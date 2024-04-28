@@ -1,10 +1,9 @@
-# Anserini Fatjar Regresions (v0.35.2-SNAPSHOT)
+# Anserini Fatjar Regresions (v0.36.0)
 
 Fetch the fatjar:
 
 ```bash
-# Change when we publish new artifact. 
-wget https://repo1.maven.org/maven2/io/anserini/anserini/0.35.1/anserini-0.35.1-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.36.0/anserini-0.36.0-fatjar.jar
 ```
 
 Note that prebuilt indexes will be downloaded to `~/.cache/pyserini/indexes/`.
@@ -14,7 +13,7 @@ If you want to change the download location, the current workaround is to use sy
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR=`ls target/*-fatjar.jar`
+export ANSERINI_JAR="anserini-0.36.0-fatjar.jar"
 export OUTPUT_DIR="runs"
 ```
 
