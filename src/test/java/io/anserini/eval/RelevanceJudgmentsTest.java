@@ -1611,4 +1611,56 @@ public class RelevanceJudgmentsTest{
     assertEquals(554, qrels.getQids().size());
     assertEquals(10569, getQrelsCount(qrels));
   }
+
+  @Test
+  public void testSymbolExpansion() throws IOException {
+    Path expected;
+    Path produced;
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.msmarco-passage.dev-subset.txt");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("msmarco-passage.dev-subset"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.msmarco-v2-passage.dev2.txt");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("msmarco-v2-passage.dev2"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.miracl-v1.0-en-dev.tsv");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("miracl-v1.0-en-dev"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.covid-round3.txt");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("covid-round3"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+    
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.ciral-v1.0-yo-test-a-pools.tsv");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("ciral-v1.0-yo-test-a-pools"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.adhoc.151-200.txt");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("adhoc.151-200"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.microblog2012.txt");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("microblog2012"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.terabyte04.701-750.txt");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("terabyte04.701-750"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+
+    // Test for non valid symbols
+    expected = Path.of("thisdoesnotexist");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("thisdoesnotexist"));
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+  }
 }
