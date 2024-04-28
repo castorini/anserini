@@ -39,7 +39,7 @@ java -cp anserini-0.36.0-fatjar.jar io.anserini.search.SearchCollection \
 To evaluate:
 
 ```bash
-java -cp anserini-0.36.0-fatjar.jar trec_eval -c -M 10 -m recip_rank qrels.msmarco-passage.dev-subset.txt run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
+java -cp anserini-0.36.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
 ```
 
 See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.36.0.md) for the current fatjar release of Anserini (v0.36.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
