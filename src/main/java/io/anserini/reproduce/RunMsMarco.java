@@ -44,7 +44,7 @@ public class RunMsMarco {
   public static void main(String[] args) throws Exception {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     try (InputStream inputStream = RunMsMarco.class.getClassLoader()
-        .getResourceAsStream("msmarco_v1/msmarco-v1-passage.yaml")) {
+        .getResourceAsStream("reproduce/msmarco-v1-passage.yaml")) {
       if (inputStream == null) {
         throw new FileNotFoundException("Resource file not found. Please check the file path.");
       }
