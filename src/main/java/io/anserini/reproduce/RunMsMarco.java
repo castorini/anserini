@@ -94,10 +94,12 @@ public class RunMsMarco {
           for (Map<String, Double> expected : topic.scores) {
             for (String metric : expected.keySet()) {
               String evalKey = topic.eval_key;
-              String evalCmd = "java -cp " + fatjarPath
-                              + " trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
+              String evalCmd = "java -cp $fatjarPath trec_eval $metric $evalKey $output"
+                  .replace("$fatjarPath", fatjarPath)
+                  .replace("$metric", evalCommands.get(evalKey).get(metric))
+                  .replace("$evalKey", evalKey)
+                  .replace("$output", output);
               
-              System.out.println(evalCmd);
               pb = new ProcessBuilder(evalCmd.split(" "));
               process = pb.start();
   
