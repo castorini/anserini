@@ -1,10 +1,9 @@
-# Anserini Fatjar Regresions (v0.35.2-SNAPSHOT)
+# Anserini Fatjar Regresions (v0.36.0)
 
 Fetch the fatjar:
 
 ```bash
-# Change when we publish new artifact. 
-wget https://repo1.maven.org/maven2/io/anserini/anserini/0.35.1/anserini-0.35.1-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.36.0/anserini-0.36.0-fatjar.jar
 ```
 
 Note that prebuilt indexes will be downloaded to `~/.cache/pyserini/indexes/`.
@@ -14,8 +13,8 @@ If you want to change the download location, the current workaround is to use sy
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR=`ls target/*-fatjar.jar`
-export OUTPUT_DIR="runs"
+export ANSERINI_JAR="anserini-0.36.0-fatjar.jar"
+export OUTPUT_DIR="."
 ```
 
 ## TREC 2024 RAG
@@ -27,7 +26,7 @@ The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompresed.
 Here are the instructions for reproducing runs on the MS MARCO V2.1 document corpus with prebuilt indexes (adjust number of threads based on available resources):
 
 ```bash
-TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl); for t in "${TOPICS[@]}"
+TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl rag24-raggy-dev); for t in "${TOPICS[@]}"
 do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v2.1-doc -topics $t -output $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.${t}.txt -threads 16 -bm25
 done
@@ -56,6 +55,11 @@ java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 $OUTPUT_
 java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.trec2023-dl.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24-raggy-dev.txt
 ```
 
 And these are the expected scores:
@@ -81,6 +85,12 @@ recip_rank            	all	0.5783
 ndcg_cut_10           	all	0.2914
 recall_100            	all	0.2604
 recall_1000           	all	0.5383
+
+map                   	all	0.1251
+recip_rank            	all	0.7060
+ndcg_cut_10           	all	0.3631
+recall_100            	all	0.2433
+recall_1000           	all	0.5317
 ```
 
 </details>
@@ -88,7 +98,7 @@ recall_1000           	all	0.5383
 Here are the instructions for reproducing runs on the MS MARCO V2.1 segmented document corpus with prebuilt indexes (adjust number of threads based on available resources):
 
 ```bash
-TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl); for t in "${TOPICS[@]}"
+TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl rag24-raggy-dev); for t in "${TOPICS[@]}"
 do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v2.1-doc-segmented -topics $t -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.${t}.txt -threads 16 -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 done
@@ -117,6 +127,11 @@ java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 $OUTPUT_
 java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.trec2023-dl.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24-raggy-dev.txt
 ```
 
 And these are the expected scores:
@@ -142,6 +157,12 @@ recip_rank            	all	0.6519
 ndcg_cut_10           	all	0.3356
 recall_100            	all	0.3049
 recall_1000           	all	0.5852
+
+map                   	all	0.1561
+recip_rank            	all	0.7465
+ndcg_cut_10           	all	0.4227
+recall_100            	all	0.2807
+recall_1000           	all	0.5745
 ```
 
 </details>

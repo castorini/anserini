@@ -1,5 +1,8 @@
 # Anserini Fatjar Regresions (v0.35.0)
 
+❗Anserini v0.35.0 is no longer the latest release.
+The latest release is always linked from the main [Anserini](http://anserini.io/) site.
+
 Fetch the fatjar:
 
 ```bash
