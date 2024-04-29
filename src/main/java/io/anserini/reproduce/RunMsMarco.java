@@ -45,6 +45,11 @@ public class RunMsMarco {
   private static final String COLLECTION = "msmarco-v1-passage";
  
   public static void main(String[] args) throws Exception {
+
+    if (!new File("runs").exists()) {
+      new File("runs").mkdir();
+    }
+
     String fatjarPath = new File(RunMsMarco.class.getProtectionDomain()
                                 .getCodeSource().getLocation().toURI()).getPath();
 
