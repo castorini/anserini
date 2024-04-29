@@ -31,6 +31,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.io.File;
+import java.security.ProtectionDomain;
+
 public class RunMsMarco {
   // ANSI escape code for red text
   private static final String RED = "\u001B[31m";
@@ -42,6 +45,9 @@ public class RunMsMarco {
   private static final String COLLECTION = "msmarco-v1-passage";
  
   public static void main(String[] args) throws Exception {
+    String fatjarPath = new File(RunMsMarco.class.getProtectionDomain()
+                                .getCodeSource().getLocation().toURI()).getPath();
+
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     try (InputStream inputStream = RunMsMarco.class.getClassLoader()
         .getResourceAsStream("reproduce/msmarco-v1-passage.yaml")) {
@@ -59,6 +65,7 @@ public class RunMsMarco {
           final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name, topic.topic_key);
   
           final String command = condition.command
+              .replace("$fatjar", fatjarPath)
               .replace("$threads", "16")
               .replace("$topics", topic.topic_key)
               .replace("$output", output);
@@ -82,7 +89,8 @@ public class RunMsMarco {
           for (Map<String, Double> expected : topic.scores) {
             for (String metric : expected.keySet()) {
               String evalKey = topic.eval_key;
-              String evalCmd = "bin/trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
+              String evalCmd = "java -cp " + fatjarPath
+                              + " trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
   
               pb = new ProcessBuilder(evalCmd.split(" "));
               process = pb.start();
