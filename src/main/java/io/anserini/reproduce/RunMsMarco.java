@@ -31,6 +31,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.io.File;
+import java.security.ProtectionDomain;
+
 public class RunMsMarco {
   // ANSI escape code for red text
   private static final String RED = "\u001B[31m";
@@ -42,6 +45,14 @@ public class RunMsMarco {
   private static final String COLLECTION = "msmarco-v1-passage";
  
   public static void main(String[] args) throws Exception {
+
+    if (!new File("runs").exists()) {
+      new File("runs").mkdir();
+    }
+
+    String fatjarPath = new File(RunMsMarco.class.getProtectionDomain()
+                                .getCodeSource().getLocation().toURI()).getPath();
+
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     try (InputStream inputStream = RunMsMarco.class.getClassLoader()
         .getResourceAsStream("reproduce/msmarco-v1-passage.yaml")) {
@@ -59,6 +70,7 @@ public class RunMsMarco {
           final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name, topic.topic_key);
   
           final String command = condition.command
+              .replace("$fatjar", fatjarPath)
               .replace("$threads", "16")
               .replace("$topics", topic.topic_key)
               .replace("$output", output);
@@ -82,8 +94,12 @@ public class RunMsMarco {
           for (Map<String, Double> expected : topic.scores) {
             for (String metric : expected.keySet()) {
               String evalKey = topic.eval_key;
-              String evalCmd = "bin/trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " " + output;
-  
+              String evalCmd = "java -cp $fatjarPath trec_eval $metric $evalKey $output"
+                  .replace("$fatjarPath", fatjarPath)
+                  .replace("$metric", evalCommands.get(evalKey).get(metric))
+                  .replace("$evalKey", evalKey)
+                  .replace("$output", output);
+              
               pb = new ProcessBuilder(evalCmd.split(" "));
               process = pb.start();
   
@@ -158,20 +174,20 @@ public class RunMsMarco {
       Map<String, String> msmarcoDevSubsetMetrics = new HashMap<>();
       msmarcoDevSubsetMetrics.put("MRR@10", "-c -M 10 -m recip_rank");
       msmarcoDevSubsetMetrics.put("R@1K", "-c -m recall.1000");
-      msmarcoV1Passage.put("tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt",
+      msmarcoV1Passage.put("msmarco-passage.dev-subset",
           msmarcoDevSubsetMetrics);
 
       Map<String, String> dl19PassageMetrics = new HashMap<>();
       dl19PassageMetrics.put("MAP", "-c -l 2 -m map");
       dl19PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
       dl19PassageMetrics.put("R@1K", "-c -l 2 -m recall.1000");
-      msmarcoV1Passage.put("tools/topics-and-qrels/qrels.dl19-passage.txt", dl19PassageMetrics);
+      msmarcoV1Passage.put("dl19-passage", dl19PassageMetrics);
 
       Map<String, String> dl20PassageMetrics = new HashMap<>();
       dl20PassageMetrics.put("MAP", "-c -l 2 -m map");
       dl20PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
       dl20PassageMetrics.put("R@1K", "-c -l 2 -m recall.1000");
-      msmarcoV1Passage.put("tools/topics-and-qrels/qrels.dl20-passage.txt", dl20PassageMetrics);
+      msmarcoV1Passage.put("dl20-passage", dl20PassageMetrics);
 
       metricDefinitions.put("msmarco-v1-passage", msmarcoV1Passage);
     }
