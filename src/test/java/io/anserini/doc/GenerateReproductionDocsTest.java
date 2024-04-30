@@ -29,10 +29,10 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import io.anserini.reproduce.RunMsMarco.Condition;
-import io.anserini.reproduce.RunMsMarco.Config;
-import io.anserini.reproduce.RunMsMarco.Topic;
-import io.anserini.reproduce.RunMsMarco.TrecEvalMetricDefinitions;
+import io.anserini.reproduce.RunRepro.Condition;
+import io.anserini.reproduce.RunRepro.Config;
+import io.anserini.reproduce.RunRepro.Topic;
+import io.anserini.reproduce.RunMsMarco.MsMarcoMetricDefinitions;
 
 public class GenerateReproductionDocsTest {
   public final static String YAML_PATH = "src/main/resources/reproduce/msmarco-v1-passage.yaml";
@@ -90,7 +90,7 @@ public class GenerateReproductionDocsTest {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     Config config = mapper.readValue(new FileInputStream(YAML_PATH), Config.class);
 
-    Map<String, Map<String, String>> evalCommandMap = new TrecEvalMetricDefinitions().getMetricDefinitions()
+    Map<String, Map<String, String>> evalCommandMap = new MsMarcoMetricDefinitions().getMetricDefinitions()
         .get(COLLECTION);
 
     for (Condition cond : config.conditions) {
