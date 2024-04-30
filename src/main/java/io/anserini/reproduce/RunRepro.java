@@ -18,9 +18,11 @@ package io.anserini.reproduce;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -45,7 +47,14 @@ public class RunRepro {
     metricDefinitions = metrics;
   }
 
-  public void run() throws StreamReadException, DatabindException, IOException, InterruptedException {
+  public void run() throws StreamReadException, DatabindException, IOException, InterruptedException, URISyntaxException {
+    if (!new File("runs").exists()) {
+      new File("runs").mkdir();
+    }
+
+    String fatjarPath = new File(RunRepro.class.getProtectionDomain()
+                                .getCodeSource().getLocation().toURI()).getPath();
+
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     Config config = mapper.readValue(RunRepro.class.getClassLoader()
         .getResourceAsStream("reproduce/" + COLLECTION + ".yaml"), Config.class);
@@ -59,6 +68,7 @@ public class RunRepro {
             topic.topic_key);
 
         final String command = condition.command
+            .replace("$fatjar", fatjarPath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
             .replace("$output", output);
@@ -83,8 +93,11 @@ public class RunRepro {
         for (Map<String, Double> expected : topic.scores) {
           for (String metric : expected.keySet()) {
             String evalKey = topic.eval_key;
-            String evalCmd = "bin/trec_eval " + evalCommands.get(evalKey).get(metric) + " " + evalKey + " "
-                + output;
+            String evalCmd = "java -cp $fatjarPath trec_eval $metric $evalKey $output"
+            .replace("$fatjarPath", fatjarPath)
+            .replace("$metric", evalCommands.get(evalKey).get(metric))
+            .replace("$evalKey", evalKey)
+            .replace("$output", output);
 
             pb = new ProcessBuilder(evalCmd.split(" "));
             process = pb.start();

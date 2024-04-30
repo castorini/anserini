@@ -45,7 +45,7 @@ public class RunBeir {
       for (String corpus : corpora) {
         Map<String, String> corpusMap = new HashMap<>();
         corpusMap.put("nDCG@10", "-c -m ndcg_cut.10");
-        beir.put("tools/topics-and-qrels/qrels.beir-v1.0.0-" + corpus + ".test.txt", corpusMap);
+        beir.put("beir-v1.0.0-" + corpus + ".test", corpusMap);
       }
   
       metricDefinitions.put("beir", beir);

@@ -28,7 +28,6 @@ import org.kohsuke.args4j.ParserProperties;
 
 import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
 
-
 public class RunMsMarco {
   public static class Args {
     @Option(name = "-options", usage = "Print information about options.")
@@ -88,21 +87,21 @@ public class RunMsMarco {
       Map<String, String> msmarcoDevSubsetMetrics = new HashMap<>();
       msmarcoDevSubsetMetrics.put("MRR@10", "-c -M 10 -m recip_rank");
       msmarcoDevSubsetMetrics.put("R@1K", "-c -m recall.1000");
-      msmarcoV1Passage.put("tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt",
+      msmarcoV1Passage.put("msmarco-passage.dev-subset",
           msmarcoDevSubsetMetrics);
   
       Map<String, String> dl19PassageMetrics = new HashMap<>();
       dl19PassageMetrics.put("MAP", "-c -l 2 -m map");
       dl19PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
       dl19PassageMetrics.put("R@1K", "-c -l 2 -m recall.1000");
-      msmarcoV1Passage.put("tools/topics-and-qrels/qrels.dl19-passage.txt", dl19PassageMetrics);
-  
+      msmarcoV1Passage.put("dl19-passage", dl19PassageMetrics);
+
       Map<String, String> dl20PassageMetrics = new HashMap<>();
       dl20PassageMetrics.put("MAP", "-c -l 2 -m map");
       dl20PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
       dl20PassageMetrics.put("R@1K", "-c -l 2 -m recall.1000");
-      msmarcoV1Passage.put("tools/topics-and-qrels/qrels.dl20-passage.txt", dl20PassageMetrics);
-  
+      msmarcoV1Passage.put("dl20-passage", dl20PassageMetrics);
+
       metricDefinitions.put("msmarco-v1-passage", msmarcoV1Passage);
   
       Map<String, Map<String, String>> msmarcoV2Passage = new HashMap<>();
@@ -110,12 +109,12 @@ public class RunMsMarco {
       // msmarco-v2.1-doc definitions
       Map<String, String> msmarco2Dev1Metrics = new HashMap<>();
       msmarco2Dev1Metrics.put("MRR@10", "-c -M 100 -m recip_rank");
-      msmarcoV2Passage.put("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt",
+      msmarcoV2Passage.put("msmarco-v2.1-doc.dev",
           msmarco2Dev1Metrics);
       
       Map<String, String> msmarco2Dev2Metrics = new HashMap<>();
       msmarco2Dev2Metrics.put("MRR@10", "-c -M 100 -m recip_rank");
-      msmarcoV2Passage.put("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt",
+      msmarcoV2Passage.put("msmarco-v2.1-doc.dev2",
           msmarco2Dev2Metrics);
   
       Map<String, String> dl21PassageMetrics = new HashMap<>();
@@ -124,7 +123,7 @@ public class RunMsMarco {
       dl21PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
       dl21PassageMetrics.put("R@100", "-c -m recall.100");
       dl21PassageMetrics.put("R@1K", "-c -m recall.1000");
-      msmarcoV2Passage.put("tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt", dl21PassageMetrics);
+      msmarcoV2Passage.put("dl21-doc-msmarco-v2.1", dl21PassageMetrics);
   
       Map<String, String> dl22PassageMetrics = new HashMap<>();
       dl22PassageMetrics.put("MAP", "-c -M 100 -m map");
@@ -132,7 +131,7 @@ public class RunMsMarco {
       dl22PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
       dl22PassageMetrics.put("R@100", "-c -m recall.100");
       dl22PassageMetrics.put("R@1K", "-c -m recall.1000");
-      msmarcoV2Passage.put("tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt", dl22PassageMetrics);
+      msmarcoV2Passage.put("dl22-doc-msmarco-v2.1", dl22PassageMetrics);
   
       Map<String, String> dl23PassageMetrics = new HashMap<>();
       dl23PassageMetrics.put("MAP", "-c -M 100 -m map");
@@ -140,7 +139,7 @@ public class RunMsMarco {
       dl23PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
       dl23PassageMetrics.put("R@100", "-c -m recall.100");
       dl23PassageMetrics.put("R@1K", "-c -m recall.1000");
-      msmarcoV2Passage.put("tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt", dl23PassageMetrics);
+      msmarcoV2Passage.put("dl23-doc-msmarco-v2.1", dl23PassageMetrics);
   
       metricDefinitions.put("msmarco-v2.1-doc", msmarcoV2Passage);
     }

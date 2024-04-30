@@ -3,731 +3,731 @@ conditions:
     display: "BM25, flat bag-of-words baseline"
     display_html: "BM25, flat bag-of-words baseline"
     display_row: ""
-    command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.flat -topics beir-$topics -output $output -bm25 -removeQuery
+    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.flat -topics beir-$topics -output $output -bm25 -removeQuery
     topics:
       - topic_key: trec-covid
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt
+        eval_key: beir-v1.0.0-trec-covid.test
         scores:
           - nDCG@10: 0.5947
       - topic_key: bioasq
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt
+        eval_key: beir-v1.0.0-bioasq.test
         scores:
           - nDCG@10: 0.5225
       - topic_key: nfcorpus
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt
+        eval_key: beir-v1.0.0-nfcorpus.test
         scores:
           - nDCG@10: 0.3218
       - topic_key: nq
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt
+        eval_key: beir-v1.0.0-nq.test
         scores:
           - nDCG@10: 0.3055
       - topic_key: hotpotqa
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt
+        eval_key: beir-v1.0.0-hotpotqa.test
         scores:
           - nDCG@10: 0.6330
       - topic_key: fiqa
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt
+        eval_key: beir-v1.0.0-fiqa.test
         scores:
           - nDCG@10: 0.2361
       - topic_key: signal1m
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt
+        eval_key: beir-v1.0.0-signal1m.test
         scores:
           - nDCG@10: 0.3304
       - topic_key: trec-news
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt
+        eval_key: beir-v1.0.0-trec-news.test
         scores:
           - nDCG@10: 0.3952
       - topic_key: robust04
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-robust04.test.txt
+        eval_key: beir-v1.0.0-robust04.test
         scores:
           - nDCG@10: 0.4070
       - topic_key: arguana
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt
+        eval_key: beir-v1.0.0-arguana.test
         scores:
           - nDCG@10: 0.3970
       - topic_key: webis-touche2020
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt
+        eval_key: beir-v1.0.0-webis-touche2020.test
         scores:
           - nDCG@10: 0.4422
       - topic_key: cqadupstack-android
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-android.test
         scores:
           - nDCG@10: 0.3801
       - topic_key: cqadupstack-english
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-english.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-english.test
         scores:
           - nDCG@10: 0.3453
       - topic_key: cqadupstack-gaming
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-gaming.test
         scores:
           - nDCG@10: 0.4822
       - topic_key: cqadupstack-gis
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-gis.test
         scores:
           - nDCG@10: 0.2901
       - topic_key: cqadupstack-mathematica
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-mathematica.test
         scores:
           - nDCG@10: 0.2015
       - topic_key: cqadupstack-physics
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-physics.test
         scores:
           - nDCG@10: 0.3214
       - topic_key: cqadupstack-programmers
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-programmers.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-programmers.test
         scores:
           - nDCG@10: 0.2802
       - topic_key: cqadupstack-stats
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-stats.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-stats.test
         scores:
           - nDCG@10: 0.2711
       - topic_key: cqadupstack-tex
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-tex.test
         scores:
           - nDCG@10: 0.2244
       - topic_key: cqadupstack-unix
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-unix.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-unix.test
         scores:
           - nDCG@10: 0.2749
       - topic_key: cqadupstack-webmasters
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-webmasters.test
         scores:
           - nDCG@10: 0.3059
       - topic_key: cqadupstack-wordpress
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-wordpress.test
         scores:
           - nDCG@10: 0.2483
       - topic_key: quora
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt
+        eval_key: beir-v1.0.0-quora.test
         scores:
           - nDCG@10: 0.7886
       - topic_key: dbpedia-entity
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt
+        eval_key: beir-v1.0.0-dbpedia-entity.test
         scores:
           - nDCG@10: 0.3180
       - topic_key: scidocs
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt
+        eval_key: beir-v1.0.0-scidocs.test
         scores:
           - nDCG@10: 0.1490
       - topic_key: fever
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt
+        eval_key: beir-v1.0.0-fever.test
         scores:
           - nDCG@10: 0.6513
       - topic_key: climate-fever
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt
+        eval_key: beir-v1.0.0-climate-fever.test
         scores:
           - nDCG@10: 0.1651
       - topic_key: scifact
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt
+        eval_key: beir-v1.0.0-scifact.test
         scores:
           - nDCG@10: 0.6789
   - name: MF
     display: "BM25, multifield bag-of-words baseline"
     display_html: "BM25, multifield bag-of-words baseline"
     display_row: ""
-    command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.multifield -topics beir-$topics -output $output -bm25 -removeQuery -fields contents=1.0 title=1.0
+    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.multifield -topics beir-$topics -output $output -bm25 -removeQuery -fields contents=1.0 title=1.0
     topics:
       - topic_key: trec-covid
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt
+        eval_key: beir-v1.0.0-trec-covid.test
         scores:
           - nDCG@10: 0.6559
       - topic_key: bioasq
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt
+        eval_key: beir-v1.0.0-bioasq.test
         scores:
           - nDCG@10: 0.4646
       - topic_key: nfcorpus
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt
+        eval_key: beir-v1.0.0-nfcorpus.test
         scores:
           - nDCG@10: 0.3254
       - topic_key: nq
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt
+        eval_key: beir-v1.0.0-nq.test
         scores:
           - nDCG@10: 0.3285
       - topic_key: hotpotqa
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt
+        eval_key: beir-v1.0.0-hotpotqa.test
         scores:
           - nDCG@10: 0.6027
       - topic_key: fiqa
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt
+        eval_key: beir-v1.0.0-fiqa.test
         scores:
           - nDCG@10: 0.2361
       - topic_key: signal1m
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt
+        eval_key: beir-v1.0.0-signal1m.test
         scores:
           - nDCG@10: 0.3304
       - topic_key: trec-news
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt
+        eval_key: beir-v1.0.0-trec-news.test
         scores:
           - nDCG@10: 0.3977
       - topic_key: robust04
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-robust04.test.txt
+        eval_key: beir-v1.0.0-robust04.test
         scores:
           - nDCG@10: 0.4070
       - topic_key: arguana
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt
+        eval_key: beir-v1.0.0-arguana.test
         scores:
           - nDCG@10: 0.4142
       - topic_key: webis-touche2020
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt
+        eval_key: beir-v1.0.0-webis-touche2020.test
         scores:
           - nDCG@10: 0.3673
       - topic_key: cqadupstack-android
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-android.test
         scores:
           - nDCG@10: 0.3709
       - topic_key: cqadupstack-english
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-english.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-english.test
         scores:
           - nDCG@10: 0.3321
       - topic_key: cqadupstack-gaming
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-gaming.test
         scores:
           - nDCG@10: 0.4418
       - topic_key: cqadupstack-gis
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-gis.test
         scores:
           - nDCG@10: 0.2904
       - topic_key: cqadupstack-mathematica
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-mathematica.test
         scores:
           - nDCG@10: 0.2046
       - topic_key: cqadupstack-physics
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-physics.test
         scores:
           - nDCG@10: 0.3248
       - topic_key: cqadupstack-programmers
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-programmers.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-programmers.test
         scores:
           - nDCG@10: 0.2963
       - topic_key: cqadupstack-stats
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-stats.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-stats.test
         scores:
           - nDCG@10: 0.2790
       - topic_key: cqadupstack-tex
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-tex.test
         scores:
           - nDCG@10: 0.2086
       - topic_key: cqadupstack-unix
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-unix.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-unix.test
         scores:
           - nDCG@10: 0.2788
       - topic_key: cqadupstack-webmasters
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-webmasters.test
         scores:
           - nDCG@10: 0.3008
       - topic_key: cqadupstack-wordpress
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt
+        eval_key: beir-v1.0.0-cqadupstack-wordpress.test
         scores:
           - nDCG@10: 0.2562
       - topic_key: quora
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt
+        eval_key: beir-v1.0.0-quora.test
         scores:
           - nDCG@10: 0.7886
       - topic_key: dbpedia-entity
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt
+        eval_key: beir-v1.0.0-dbpedia-entity.test
         scores:
           - nDCG@10: 0.3128
       - topic_key: scidocs
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt
+        eval_key: beir-v1.0.0-scidocs.test
         scores:
           - nDCG@10: 0.1581
       - topic_key: fever
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt
+        eval_key: beir-v1.0.0-fever.test
         scores:
           - nDCG@10: 0.7530
       - topic_key: climate-fever
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt
+        eval_key: beir-v1.0.0-climate-fever.test
         scores:
           - nDCG@10: 0.2129
       - topic_key: scifact
-        eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt
+        eval_key: beir-v1.0.0-scifact.test
         scores:
           - nDCG@10: 0.6647
   - name: Sp
     display: "SPLADE++ cached queries"
     display_html: "SPLADE++ cached queries"
     display_row: ""
-    command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics.splade-pp-ed -output $output -impact -pretokenized -removeQuery
+    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics.splade-pp-ed -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt
+      eval_key: beir-v1.0.0-trec-covid.test
       scores:
         - nDCG@10: 0.7274
     - topic_key: bioasq
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt
+      eval_key: beir-v1.0.0-bioasq.test
       scores:
         - nDCG@10: 0.4980
     - topic_key: nfcorpus
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt
+      eval_key: beir-v1.0.0-nfcorpus.test
       scores:
         - nDCG@10: 0.3470
     - topic_key: nq
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt
+      eval_key: beir-v1.0.0-nq.test
       scores:
         - nDCG@10: 0.5378
     - topic_key: hotpotqa
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt
+      eval_key: beir-v1.0.0-hotpotqa.test
       scores:
         - nDCG@10: 0.6868
     - topic_key: fiqa
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt
+      eval_key: beir-v1.0.0-fiqa.test
       scores:
         - nDCG@10: 0.3475
     - topic_key: signal1m
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt
+      eval_key: beir-v1.0.0-signal1m.test
       scores:
         - nDCG@10: 0.3008
     - topic_key: trec-news
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt
+      eval_key: beir-v1.0.0-trec-news.test
       scores:
         - nDCG@10: 0.4152
     - topic_key: robust04
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-robust04.test.txt
+      eval_key: beir-v1.0.0-robust04.test
       scores:
         - nDCG@10: 0.4679
     - topic_key: arguana
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt
+      eval_key: beir-v1.0.0-arguana.test
       scores:
         - nDCG@10: 0.5203
     - topic_key: webis-touche2020
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt
+      eval_key: beir-v1.0.0-webis-touche2020.test
       scores:
         - nDCG@10: 0.2468
     - topic_key: cqadupstack-android
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-android.test
       scores:
         - nDCG@10: 0.3904
     - topic_key: cqadupstack-english
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-english.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-english.test
       scores:
         - nDCG@10: 0.4079
     - topic_key: cqadupstack-gaming
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-gaming.test
       scores:
         - nDCG@10: 0.4957
     - topic_key: cqadupstack-gis
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-gis.test
       scores:
         - nDCG@10: 0.3150
     - topic_key: cqadupstack-mathematica
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
       scores:
         - nDCG@10: 0.2377
     - topic_key: cqadupstack-physics
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-physics.test
       scores:
         - nDCG@10: 0.3599
     - topic_key: cqadupstack-programmers
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-programmers.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-programmers.test
       scores:
         - nDCG@10: 0.3401
     - topic_key: cqadupstack-stats
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-stats.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-stats.test
       scores:
         - nDCG@10: 0.2990
     - topic_key: cqadupstack-tex
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-tex.test
       scores:
         - nDCG@10: 0.2530
     - topic_key: cqadupstack-unix
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-unix.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-unix.test
       scores:
         - nDCG@10: 0.3167
     - topic_key: cqadupstack-webmasters
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
       scores:
         - nDCG@10: 0.3167
     - topic_key: cqadupstack-wordpress
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
       scores:
         - nDCG@10: 0.2733
     - topic_key: quora
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt
+      eval_key: beir-v1.0.0-quora.test
       scores:
         - nDCG@10: 0.8343
     - topic_key: dbpedia-entity
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt
+      eval_key: beir-v1.0.0-dbpedia-entity.test
       scores:
         - nDCG@10: 0.4366
     - topic_key: scidocs
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt
+      eval_key: beir-v1.0.0-scidocs.test
       scores:
         - nDCG@10: 0.1591
     - topic_key: fever
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt
+      eval_key: beir-v1.0.0-fever.test
       scores:
         - nDCG@10: 0.7882
     - topic_key: climate-fever
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt
+      eval_key: beir-v1.0.0-climate-fever.test
       scores:
         - nDCG@10: 0.2297
     - topic_key: scifact
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt
+      eval_key: beir-v1.0.0-scifact.test
       scores:
         - nDCG@10: 0.7041
   - name: So
     display: "SPLADE++ ONNX query encoding"
     display_html: "SPLADE++ ONNX query encoding"
     display_row: ""
-    command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics -encoder SpladePlusPlusEnsembleDistil -output $output -impact -pretokenized -removeQuery
+    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics -encoder SpladePlusPlusEnsembleDistil -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt
+      eval_key: beir-v1.0.0-trec-covid.test
       scores:
         - nDCG@10: 0.7270
     - topic_key: bioasq
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt
+      eval_key: beir-v1.0.0-bioasq.test
       scores:
         - nDCG@10: 0.4980
     - topic_key: nfcorpus
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt
+      eval_key: beir-v1.0.0-nfcorpus.test
       scores:
         - nDCG@10: 0.3473
     - topic_key: nq
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt
+      eval_key: beir-v1.0.0-nq.test
       scores:
         - nDCG@10: 0.5372
     - topic_key: hotpotqa
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt
+      eval_key: beir-v1.0.0-hotpotqa.test
       scores:
         - nDCG@10: 0.6868
     - topic_key: fiqa
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt
+      eval_key: beir-v1.0.0-fiqa.test
       scores:
         - nDCG@10: 0.3473
     - topic_key: signal1m
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt
+      eval_key: beir-v1.0.0-signal1m.test
       scores:
         - nDCG@10: 0.3006
     - topic_key: trec-news
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt
+      eval_key: beir-v1.0.0-trec-news.test
       scores:
         - nDCG@10: 0.4169
     - topic_key: robust04
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-robust04.test.txt
+      eval_key: beir-v1.0.0-robust04.test
       scores:
         - nDCG@10: 0.4651
     - topic_key: arguana
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt
+      eval_key: beir-v1.0.0-arguana.test
       scores:
         - nDCG@10: 0.5218
     - topic_key: webis-touche2020
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt
+      eval_key: beir-v1.0.0-webis-touche2020.test
       scores:
         - nDCG@10: 0.2464
     - topic_key: cqadupstack-android
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-android.test
       scores:
         - nDCG@10: 0.3898
     - topic_key: cqadupstack-english
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-english.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-english.test
       scores:
         - nDCG@10: 0.4078
     - topic_key: cqadupstack-gaming
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-gaming.test
       scores:
         - nDCG@10: 0.4959
     - topic_key: cqadupstack-gis
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-gis.test
       scores:
         - nDCG@10: 0.3148
     - topic_key: cqadupstack-mathematica
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
       scores:
         - nDCG@10: 0.2379
     - topic_key: cqadupstack-physics
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-physics.test
       scores:
         - nDCG@10: 0.3597
     - topic_key: cqadupstack-programmers
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-programmers.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-programmers.test
       scores:
         - nDCG@10: 0.3399
     - topic_key: cqadupstack-stats
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-stats.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-stats.test
       scores:
         - nDCG@10: 0.2980
     - topic_key: cqadupstack-tex
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-tex.test
       scores:
         - nDCG@10: 0.2529
     - topic_key: cqadupstack-unix
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-unix.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-unix.test
       scores:
         - nDCG@10: 0.3170
     - topic_key: cqadupstack-webmasters
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
       scores:
         - nDCG@10: 0.3166
     - topic_key: cqadupstack-wordpress
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
       scores:
         - nDCG@10: 0.2718
     - topic_key: quora
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt
+      eval_key: beir-v1.0.0-quora.test
       scores:
         - nDCG@10: 0.8344
     - topic_key: dbpedia-entity
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt
+      eval_key: beir-v1.0.0-dbpedia-entity.test
       scores:
         - nDCG@10: 0.4374
     - topic_key: scidocs
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt
+      eval_key: beir-v1.0.0-scidocs.test
       scores:
         - nDCG@10: 0.1588
     - topic_key: fever
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt
+      eval_key: beir-v1.0.0-fever.test
       scores:
         - nDCG@10: 0.7879
     - topic_key: climate-fever
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt
+      eval_key: beir-v1.0.0-climate-fever.test
       scores:
         - nDCG@10: 0.2298
     - topic_key: scifact
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt
+      eval_key: beir-v1.0.0-scifact.test
       scores:
         - nDCG@10: 0.7036
   - name: Dp
     display: "bge-base-en-v1.5 cached queries"
     display_html: "bge-base-en-v1.5 cached queries"
     display_row: ""
-    command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5 -topics beir-$topics.bge-base-en-v1.5 -output $output -threads 16 -efSearch 1000 -removeQuery
+    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5 -topics beir-$topics.bge-base-en-v1.5 -output $output -threads 16 -efSearch 1000 -removeQuery
     topics:
     - topic_key: trec-covid
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt
+      eval_key: beir-v1.0.0-trec-covid.test
       scores:
         - nDCG@10: 0.7834
     - topic_key: bioasq
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt
+      eval_key: beir-v1.0.0-bioasq.test
       scores:
         - nDCG@10: 0.4042
     - topic_key: nfcorpus
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt
+      eval_key: beir-v1.0.0-nfcorpus.test
       scores:
         - nDCG@10: 0.3735
     - topic_key: nq
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt
+      eval_key: beir-v1.0.0-nq.test
       scores:
         - nDCG@10: 0.5413
     - topic_key: hotpotqa
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt
+      eval_key: beir-v1.0.0-hotpotqa.test
       scores:
         - nDCG@10: 0.7242
     - topic_key: fiqa
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt
+      eval_key: beir-v1.0.0-fiqa.test
       scores:
         - nDCG@10: 0.4065
     - topic_key: signal1m
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt
+      eval_key: beir-v1.0.0-signal1m.test
       scores:
         - nDCG@10: 0.2869
     - topic_key: trec-news
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt
+      eval_key: beir-v1.0.0-trec-news.test
       scores:
         - nDCG@10: 0.4411
     - topic_key: robust04
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-robust04.test.txt
+      eval_key: beir-v1.0.0-robust04.test
       scores:
         - nDCG@10: 0.4467
     - topic_key: arguana
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt
+      eval_key: beir-v1.0.0-arguana.test
       scores:
         - nDCG@10: 0.6361
     - topic_key: webis-touche2020
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt
+      eval_key: beir-v1.0.0-webis-touche2020.test
       scores:
         - nDCG@10: 0.2570
     - topic_key: cqadupstack-android
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-android.test
       scores:
         - nDCG@10: 0.5075
     - topic_key: cqadupstack-english
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-english.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-english.test
       scores:
         - nDCG@10: 0.4855
     - topic_key: cqadupstack-gaming
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-gaming.test
       scores:
         - nDCG@10: 0.5965
     - topic_key: cqadupstack-gis
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-gis.test
       scores:
         - nDCG@10: 0.4129
     - topic_key: cqadupstack-mathematica
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
       scores:
         - nDCG@10: 0.3163
     - topic_key: cqadupstack-physics
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-physics.test
       scores:
         - nDCG@10: 0.4722
     - topic_key: cqadupstack-programmers
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-programmers.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-programmers.test
       scores:
         - nDCG@10: 0.4242
     - topic_key: cqadupstack-stats
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-stats.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-stats.test
       scores:
         - nDCG@10: 0.3731
     - topic_key: cqadupstack-tex
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-tex.test
       scores:
         - nDCG@10: 0.3115
     - topic_key: cqadupstack-unix
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-unix.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-unix.test
       scores:
         - nDCG@10: 0.4219
     - topic_key: cqadupstack-webmasters
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
       scores:
         - nDCG@10: 0.4065
     - topic_key: cqadupstack-wordpress
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
       scores:
         - nDCG@10: 0.3547
     - topic_key: quora
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt
+      eval_key: beir-v1.0.0-quora.test
       scores:
         - nDCG@10: 0.8890
     - topic_key: dbpedia-entity
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt
+      eval_key: beir-v1.0.0-dbpedia-entity.test
       scores:
         - nDCG@10: 0.4077
     - topic_key: scidocs
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt
+      eval_key: beir-v1.0.0-scidocs.test
       scores:
         - nDCG@10: 0.2170
     - topic_key: fever
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt
+      eval_key: beir-v1.0.0-fever.test
       scores:
         - nDCG@10: 0.8620
     - topic_key: climate-fever
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt
+      eval_key: beir-v1.0.0-climate-fever.test
       scores:
         - nDCG@10: 0.3119
     - topic_key: scifact
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt
+      eval_key: beir-v1.0.0-scifact.test
       scores:
         - nDCG@10: 0.7408
   - name: Do
     display: "bge-base-en-v1.5 ONNX query encoding"
     display_html: "bge-base-en-v1.5 ONNX query encoding"
     display_row: ""
-    command: bin/run.sh io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5 -topics beir-$topics -encoder BgeBaseEn15 -output $output -threads 16 -efSearch 1000 -removeQuery
+    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5 -topics beir-$topics -encoder BgeBaseEn15 -output $output -threads 16 -efSearch 1000 -removeQuery
     topics:
     - topic_key: trec-covid
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-covid.test.txt
+      eval_key: beir-v1.0.0-trec-covid.test
       scores:
         - nDCG@10: 0.7835
     - topic_key: bioasq
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt
+      eval_key: beir-v1.0.0-bioasq.test
       scores:
         - nDCG@10: 0.4042
     - topic_key: nfcorpus
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpus.test.txt
+      eval_key: beir-v1.0.0-nfcorpus.test
       scores:
         - nDCG@10: 0.3738
     - topic_key: nq
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt
+      eval_key: beir-v1.0.0-nq.test
       scores:
         - nDCG@10: 0.5415
     - topic_key: hotpotqa
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt
+      eval_key: beir-v1.0.0-hotpotqa.test
       scores:
         - nDCG@10: 0.7241
     - topic_key: fiqa
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fiqa.test.txt
+      eval_key: beir-v1.0.0-fiqa.test
       scores:
         - nDCG@10: 0.4065
     - topic_key: signal1m
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt
+      eval_key: beir-v1.0.0-signal1m.test
       scores:
         - nDCG@10: 0.2869
     - topic_key: trec-news
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt
+      eval_key: beir-v1.0.0-trec-news.test
       scores:
         - nDCG@10: 0.4410
     - topic_key: robust04
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-robust04.test.txt
+      eval_key: beir-v1.0.0-robust04.test
       scores:
         - nDCG@10: 0.4437
     - topic_key: arguana
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-arguana.test.txt
+      eval_key: beir-v1.0.0-arguana.test
       scores:
         - nDCG@10: 0.6228
     - topic_key: webis-touche2020
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt
+      eval_key: beir-v1.0.0-webis-touche2020.test
       scores:
         - nDCG@10: 0.2571
     - topic_key: cqadupstack-android
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-android.test
       scores:
         - nDCG@10: 0.5076
     - topic_key: cqadupstack-english
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-english.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-english.test
       scores:
         - nDCG@10: 0.4855
     - topic_key: cqadupstack-gaming
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gaming.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-gaming.test
       scores:
         - nDCG@10: 0.5967
     - topic_key: cqadupstack-gis
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-gis.test
       scores:
         - nDCG@10: 0.4133
     - topic_key: cqadupstack-mathematica
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
       scores:
         - nDCG@10: 0.3163
     - topic_key: cqadupstack-physics
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-physics.test
       scores:
         - nDCG@10: 0.4724
     - topic_key: cqadupstack-programmers
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-programmers.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-programmers.test
       scores:
         - nDCG@10: 0.4238
     - topic_key: cqadupstack-stats
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-stats.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-stats.test
       scores:
         - nDCG@10: 0.3728
     - topic_key: cqadupstack-tex
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-tex.test
       scores:
         - nDCG@10: 0.3115
     - topic_key: cqadupstack-unix
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-unix.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-unix.test
       scores:
         - nDCG@10: 0.4220
     - topic_key: cqadupstack-webmasters
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
       scores:
         - nDCG@10: 0.4072
     - topic_key: cqadupstack-wordpress
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt
+      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
       scores:
         - nDCG@10: 0.3547
     - topic_key: quora
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt
+      eval_key: beir-v1.0.0-quora.test
       scores:
         - nDCG@10: 0.8876
     - topic_key: dbpedia-entity
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-dbpedia-entity.test.txt
+      eval_key: beir-v1.0.0-dbpedia-entity.test
       scores:
         - nDCG@10: 0.4076
     - topic_key: scidocs
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt
+      eval_key: beir-v1.0.0-scidocs.test
       scores:
         - nDCG@10: 0.2172
     - topic_key: fever
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-fever.test.txt
+      eval_key: beir-v1.0.0-fever.test
       scores:
         - nDCG@10: 0.8620
     - topic_key: climate-fever
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-climate-fever.test.txt
+      eval_key: beir-v1.0.0-climate-fever.test
       scores:
         - nDCG@10: 0.3117
     - topic_key: scifact
-      eval_key: tools/topics-and-qrels/qrels.beir-v1.0.0-scifact.test.txt
+      eval_key: beir-v1.0.0-scifact.test
       scores:
         - nDCG@10: 0.7408
