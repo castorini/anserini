@@ -44,7 +44,7 @@ java -cp anserini-0.36.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-pas
 
 See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.36.0.md) for the current fatjar release of Anserini (v0.36.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
 
-<!-- We also have [forthcoming instructions](docs/fatjar-regressions/fatjar-regressions-v0.36.1-SNAPSHOT.md) for the next release (v0.36.1-SNAPSHOT) if you're interested. -->
+We also have [forthcoming instructions](docs/fatjar-regressions/fatjar-regressions-v0.36.1-SNAPSHOT.md) for the next release (v0.36.1-SNAPSHOT) if you're interested.
 
 <details>
 <summary>Older instructions</summary>
