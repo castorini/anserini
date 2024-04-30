@@ -10,7 +10,7 @@ const SearchBar: React.FC = () => {
   const fetchResults = async (query: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/query/${query}`);
+      const response = await fetch(`/api/search?query=${query}`);
       const data: QueryResult[] = await response.json();
       setResults(data);
     } catch (error) {
