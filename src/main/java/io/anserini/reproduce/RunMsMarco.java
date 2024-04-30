@@ -16,167 +16,80 @@
 
 package io.anserini.reproduce;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
-import io.anserini.reproduce.RunMsMarco.Topic;
-import io.anserini.reproduce.RunMsMarco.TrecEvalMetricDefinitions;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.io.File;
-import java.security.ProtectionDomain;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+
+import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
 
 public class RunMsMarco {
-  // ANSI escape code for red text
-  private static final String RED = "\u001B[31m";
-  // ANSI escape code to reset to the default text color
-  private static final String RESET = "\u001B[0m";
+  public static class Args {
+    @Option(name = "-options", usage = "Print information about options.")
+    public Boolean options = false;
+    @Option(name = "-v", metaVar = "[int]", usage = "MsMarco Version (1/2), where 2 is for V2.1. Default 1.")
+    public int MsMarcoVersion = 1;
+  }
 
-  private static final String FAIL = RED + "[FAIL]" + RESET;
-
-  private static final String COLLECTION = "msmarco-v1-passage";
- 
   public static void main(String[] args) throws Exception {
 
-    if (!new File("runs").exists()) {
-      new File("runs").mkdir();
+    // check for cmd option
+    String COLLECTION = "msmarco-v1-passage";
+    Args MsMarcoArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(MsMarcoArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      if (MsMarcoArgs.options) {
+        System.err.printf("Options for %s:\n\n", RunMsMarco.class.getSimpleName());
+        parser.printUsage(System.err);
+
+        List<String> required = new ArrayList<>();
+        parser.getOptions().forEach((option) -> {
+          if (option.option.required()) {
+            required.add(option.option.toString());
+          }
+        });
+
+        System.err.printf("\nRequired options are %s\n", required);
+      } else {
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
+      }
+
+      return;
+    }
+    switch (MsMarcoArgs.MsMarcoVersion) {
+        case 2:
+            COLLECTION = "msmarco-v2.1-doc";
+            break;
+        default: // MsMarcoVersion == 1
+            COLLECTION = "msmarco-v1-passage";
+            break;
     }
 
-    String fatjarPath = new File(RunMsMarco.class.getProtectionDomain()
-                                .getCodeSource().getLocation().toURI()).getPath();
-
-    final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    try (InputStream inputStream = RunMsMarco.class.getClassLoader()
-        .getResourceAsStream("reproduce/msmarco-v1-passage.yaml")) {
-      if (inputStream == null) {
-        throw new FileNotFoundException("Resource file not found. Please check the file path.");
-      }
-      Config config = mapper.readValue(inputStream, Config.class);
-      TrecEvalMetricDefinitions metricDefinitions = new TrecEvalMetricDefinitions();
-  
-      for (Condition condition : config.conditions) {
-        System.out.println(String.format("# Running condition \"%s\": %s \n", condition.name, condition.display));
-        for (Topic topic : condition.topics) {
-          System.out.println("  - topic_key: " + topic.topic_key + "\n");
-  
-          final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name, topic.topic_key);
-  
-          final String command = condition.command
-              .replace("$fatjar", fatjarPath)
-              .replace("$threads", "16")
-              .replace("$topics", topic.topic_key)
-              .replace("$output", output);
-  
-          System.out.println("    Running retrieval command: " + command);
-  
-          ProcessBuilder pb = new ProcessBuilder(command.split(" "));
-          Process process = pb.start();
-          int resultCode = process.waitFor();
-          if (resultCode == 0) {
-            System.out.println("    Run successfully completed!");
-          } else {
-            System.out.println("    Run failed!");
-          }
-          System.out.println("");
-  
-          // running the evaluation command
-          Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions().get(COLLECTION);
-          InputStream stdout = null;
-  
-          for (Map<String, Double> expected : topic.scores) {
-            for (String metric : expected.keySet()) {
-              String evalKey = topic.eval_key;
-              String evalCmd = "java -cp $fatjarPath trec_eval $metric $evalKey $output"
-                  .replace("$fatjarPath", fatjarPath)
-                  .replace("$metric", evalCommands.get(evalKey).get(metric))
-                  .replace("$evalKey", evalKey)
-                  .replace("$output", output);
-              
-              pb = new ProcessBuilder(evalCmd.split(" "));
-              process = pb.start();
-  
-              resultCode = process.waitFor();
-              stdout = process.getInputStream();
-              if (resultCode == 0) {
-                String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-                Double score = Double.parseDouble(scoreString);
-                Double delta = Math.abs(score - expected.get(metric));
-  
-                if (delta > 0.00005) {
-                  System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL, expected.get(metric)));
-                } else {
-                  System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
-                }
-              } else {
-                System.out.println("Evaluation command failed for metric: " + metric);
-              }
-            }
-            System.out.println("");
-          }
-        }
-      }
-    }
+    RunRepro repro = new RunRepro(COLLECTION, new MsMarcoMetricDefinitions());
+    repro.run();
   }
 
-  public static class Config {
-    @JsonProperty
-    public List<Condition> conditions;
-  }
-
-  public static class Condition {
-    @JsonProperty
-    public String name;
-
-    @JsonProperty
-    public String display;
-
-    @JsonProperty
-    public String display_html;
-
-    @JsonProperty
-    public String display_row;
-
-    @JsonProperty
-    public String command;
-
-    @JsonProperty
-    public List<Topic> topics;
-  }
-
-  public static class Topic {
-    @JsonProperty
-    public String topic_key;
-
-    @JsonProperty
-    public String eval_key;
-
-    @JsonProperty
-    public List<Map<String, Double>> scores;
-  }
-
-  public static class TrecEvalMetricDefinitions {
-    public Map<String, Map<String, Map<String, String>>> metricDefinitions;
-
-    public TrecEvalMetricDefinitions() {
-      metricDefinitions = new HashMap<>();
+  public static class MsMarcoMetricDefinitions extends TrecEvalMetricDefinitions {
+    public MsMarcoMetricDefinitions() {
+      super();
 
       Map<String, Map<String, String>> msmarcoV1Passage = new HashMap<>();
-
+  
       // msmarco-v1-passage definitions
       Map<String, String> msmarcoDevSubsetMetrics = new HashMap<>();
       msmarcoDevSubsetMetrics.put("MRR@10", "-c -M 10 -m recip_rank");
       msmarcoDevSubsetMetrics.put("R@1K", "-c -m recall.1000");
       msmarcoV1Passage.put("msmarco-passage.dev-subset",
           msmarcoDevSubsetMetrics);
-
+  
       Map<String, String> dl19PassageMetrics = new HashMap<>();
       dl19PassageMetrics.put("MAP", "-c -l 2 -m map");
       dl19PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
@@ -190,10 +103,46 @@ public class RunMsMarco {
       msmarcoV1Passage.put("dl20-passage", dl20PassageMetrics);
 
       metricDefinitions.put("msmarco-v1-passage", msmarcoV1Passage);
-    }
-
-    public Map<String, Map<String, Map<String, String>>> getMetricDefinitions() {
-      return metricDefinitions;
+  
+      Map<String, Map<String, String>> msmarcoV2Passage = new HashMap<>();
+  
+      // msmarco-v2.1-doc definitions
+      Map<String, String> msmarco2Dev1Metrics = new HashMap<>();
+      msmarco2Dev1Metrics.put("MRR@10", "-c -M 100 -m recip_rank");
+      msmarcoV2Passage.put("msmarco-v2.1-doc.dev",
+          msmarco2Dev1Metrics);
+      
+      Map<String, String> msmarco2Dev2Metrics = new HashMap<>();
+      msmarco2Dev2Metrics.put("MRR@10", "-c -M 100 -m recip_rank");
+      msmarcoV2Passage.put("msmarco-v2.1-doc.dev2",
+          msmarco2Dev2Metrics);
+  
+      Map<String, String> dl21PassageMetrics = new HashMap<>();
+      dl21PassageMetrics.put("MAP", "-c -M 100 -m map");
+      dl21PassageMetrics.put("MRR@10", "-c -M 100 -m recip_rank");
+      dl21PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
+      dl21PassageMetrics.put("R@100", "-c -m recall.100");
+      dl21PassageMetrics.put("R@1K", "-c -m recall.1000");
+      msmarcoV2Passage.put("dl21-doc-msmarco-v2.1", dl21PassageMetrics);
+  
+      Map<String, String> dl22PassageMetrics = new HashMap<>();
+      dl22PassageMetrics.put("MAP", "-c -M 100 -m map");
+      dl22PassageMetrics.put("MRR@10", "-c -M 100 -m recip_rank");
+      dl22PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
+      dl22PassageMetrics.put("R@100", "-c -m recall.100");
+      dl22PassageMetrics.put("R@1K", "-c -m recall.1000");
+      msmarcoV2Passage.put("dl22-doc-msmarco-v2.1", dl22PassageMetrics);
+  
+      Map<String, String> dl23PassageMetrics = new HashMap<>();
+      dl23PassageMetrics.put("MAP", "-c -M 100 -m map");
+      dl23PassageMetrics.put("MRR@10", "-c -M 100 -m recip_rank");
+      dl23PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
+      dl23PassageMetrics.put("R@100", "-c -m recall.100");
+      dl23PassageMetrics.put("R@1K", "-c -m recall.1000");
+      msmarcoV2Passage.put("dl23-doc-msmarco-v2.1", dl23PassageMetrics);
+  
+      metricDefinitions.put("msmarco-v2.1-doc", msmarcoV2Passage);
     }
   }
+
 }
