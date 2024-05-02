@@ -43,7 +43,11 @@ public class SearchService {
               String jsonString = searcher.doc_raw(result.lucene_docid);
               ObjectMapper mapper = new ObjectMapper();
               JsonNode jsonNode = mapper.readTree(jsonString);
-              String content = jsonNode.get("contents").asText();
+              String content;
+              if (jsonNode.get("contents") != null) content = jsonNode.get("contents").asText();
+              else if (jsonNode.get("text") != null) content = jsonNode.get("text").asText();
+              else if (jsonNode.get("passage") != null) content = jsonNode.get("passage").asText();
+              else content = jsonNode.toString();
               return new QueryResult(result.docid, content, result.score);
             } catch (Exception e) {
               e.printStackTrace();

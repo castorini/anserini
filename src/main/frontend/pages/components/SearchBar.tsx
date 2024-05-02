@@ -3,14 +3,19 @@ import React, { useState } from 'react';
 import { QueryResult } from '../../types/QueryResult';
 
 const SearchBar: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [results, setResults] = useState<QueryResult[]>([]);
+  const [query, setQuery] = useState<string>('');
+  const [collection, setCollection] = useState<string>('');
 
-  const fetchResults = async (query: string) => {
+  const fetchResults = async (query: string, collection: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/search?query=${query}`);
+      let endpoint = '/api';
+      if (collection != '') endpoint += `/collection/${collection}`;
+      endpoint += `/search?query=${query}`;
+      
+      const response = await fetch(endpoint);
       const data: QueryResult[] = await response.json();
       setResults(data);
     } catch (error) {
@@ -23,7 +28,7 @@ const SearchBar: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchResults(query);
+    fetchResults(query, collection);
   };
 
   return (
@@ -37,6 +42,16 @@ const SearchBar: React.FC = () => {
           className="search-input"
           onChange={(e) => setQuery(e.target.value)}
         />
+        <select
+          value={collection}
+          onChange={(e) => setCollection(e.target.value)}
+          className="collection-dropdown"
+        >
+          <option value="msmarco-v1-passage" selected>msmarco-v1-passage</option>
+          <option value="msmarco-v2-passage">msmarco-v2-passage</option>
+          <option value="msmarco-v2.1-doc">msmarco-v2.1-doc</option>
+          <option value="beir-v1.0.0-nfcorpus.flat">beir-v1.0.0-nfcorpus.flat</option>
+        </select>
         <button className="search-button" type="submit" disabled={loading}>Search</button>
       </form>
     </div>
