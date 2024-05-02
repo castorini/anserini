@@ -117,12 +117,11 @@ public class RunRepro {
               else {
                 System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
               }
-            }
-            else {
+            } else {
               System.out.println("Evaluation command failed for metric: " + metric);
             }
-            System.out.println("");
           }
+          System.out.println("");
         }
       }
     }
