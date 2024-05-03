@@ -86,20 +86,15 @@ public class RunMsMarco {
       // msmarco-v1-passage definitions
       Map<String, String> msmarcoDevSubsetMetrics = new HashMap<>();
       msmarcoDevSubsetMetrics.put("MRR@10", "-c -M 10 -m recip_rank");
-      msmarcoDevSubsetMetrics.put("R@1K", "-c -m recall.1000");
       msmarcoV1Passage.put("msmarco-passage.dev-subset",
           msmarcoDevSubsetMetrics);
   
       Map<String, String> dl19PassageMetrics = new HashMap<>();
-      dl19PassageMetrics.put("MAP", "-c -l 2 -m map");
       dl19PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
-      dl19PassageMetrics.put("R@1K", "-c -l 2 -m recall.1000");
       msmarcoV1Passage.put("dl19-passage", dl19PassageMetrics);
 
       Map<String, String> dl20PassageMetrics = new HashMap<>();
-      dl20PassageMetrics.put("MAP", "-c -l 2 -m map");
       dl20PassageMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
-      dl20PassageMetrics.put("R@1K", "-c -l 2 -m recall.1000");
       msmarcoV1Passage.put("dl20-passage", dl20PassageMetrics);
 
       metricDefinitions.put("msmarco-v1-passage", msmarcoV1Passage);
