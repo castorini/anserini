@@ -19,7 +19,6 @@ body {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: #f7f7f7;
   color: #333;
-  line-height: 1.6;
 }
 
 /* All containers */
@@ -43,6 +42,7 @@ body {
 /* Style for the search bar container */
 .search-bar {
   display: flex;
+  min-width: 480px;
   flex-direction: column;
   gap: 1rem;
   background: #ffffff;
@@ -53,27 +53,11 @@ body {
   margin: 3rem auto;
 }
 
-/* Style for the dropdown container */
-.dropdown-container {
+/* Style for */
+.search-buttons {
   display: flex;
   gap: 0.5rem;
-  align-items: center;
-}
-
-/* Style for the dropdowns */
-.group-dropdown,
-.collection-dropdown {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  width: 50%;
-}
-
-/* Style for the search bar container */
-.searchbar-container {
-  display: flex;
-  gap: 0.5rem;
+  justify-content: space-between;
 }
 
 /* Style for the search input */
@@ -140,4 +124,66 @@ ul {
 /* Style for the search results list item's p */
 .query-card > p {
   margin-bottom: 0.5rem;
+}
+
+/* Add these styles to your existing CSS */
+
+/* Style for the dropdown button */
+.dropdown-button {
+  padding: 0.5rem 1rem;
+  background-color: #0070f3;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Change background color slightly on hover for the dropdown button */
+.dropdown-button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  width: max-content;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the dropdown items */
+.dropdown-item {
+  width: 100%;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 0;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Change background color slightly on hover for dropdown items */
+.dropdown-item:hover {
+  background-color: #f7f7f7;
+}
+
+/* Style for sub-dropdown menus */
+.sub-dropdown-menu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: max-content;
+  background: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+}
+
+/* Style for dropdown content */
+.dropdown-content {
+  position: relative;
+  width: 100%;
 }
