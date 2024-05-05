@@ -5,7 +5,6 @@ interface Props {
 }
 
 const Dropdown: React.FC<Props> = ({ onSelect }) => {
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const [selectedCorpus, setSelectedCorpus] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<string | null>(null);
@@ -34,6 +33,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
         'msmarco-v2.1-doc-segmented',
       ],
     },
+    'BEIR': {}
   });
 
   // Generate collections for BEIR
@@ -71,7 +71,6 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
     ];
     const generatedMap = collections;
     
-    generatedMap['BEIR'] = {};
     keys.forEach(key => {
       generatedMap['BEIR'][key] = [
         `${key}.flat`,
@@ -85,72 +84,36 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
     console.log('collections', collections);
   }, []);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowDropdown(false);
-        setSelectedCollection(null);
-        setSelectedCorpus(null);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div ref={dropdownRef} className="dropdown">
-      <button className="dropdown-button"
-      onClick={() => setShowDropdown(!showDropdown)}>
-        {selectedIndex || 'Select index'}
-      </button>
-      {showDropdown && (
-        <div className="dropdown-menu">
-          {Object.keys(collections).map((collection) => (
-            <div key={collection} className="dropdown-content">
-              <button className="dropdown-item" 
-                onClick={() => setSelectedCollection(selectedCollection==collection ? null : collection)}
-              >
-                {collection}
-              </button>
-              <div className="sub-dropdown-menu">
-              {selectedCollection === collection &&
-                Object.keys(collections[collection]).map((corpus) => (
-                  <div key={corpus} className="dropdown-content">
-                    <button className="dropdown-item" 
-                      onClick={() => setSelectedCorpus(selectedCorpus==corpus ? null : corpus)}
-                    >
-                      {corpus}
-                    </button>
-                    {selectedCorpus === corpus && 
-                    <div className="sub-dropdown-menu">
-                      {collections[collection][corpus].map((index) => (
-                        <div key={index} className="dropdown-content">
-                          <button className="dropdown-item"
-                          onClick={() => {
-                            setSelectedIndex(index);
-                            onSelect(index);
-                            onSelect(index);
-                            setShowDropdown(false);
-                            setSelectedCollection(null);
-                            setSelectedCorpus(null);
-                          }}>
-                            {index}
-                          </button>
-                        </div>
-                      ))}
-                    </div>}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="dropdowns">
+      <select className="dropdown-button" onChange={(e) => {
+        setSelectedCollection(e.target.value);
+        setSelectedCorpus(null);
+        setSelectedIndex(null);
+      }}>
+        <option value="" className="dropdown-item">Select Collection</option>
+        {Object.keys(collections).map((collection) => (
+          <option className="dropdown-item" key={collection} value={collection}>{collection}</option>
+        ))}
+      </select>
+      <select className="dropdown-button" onChange={(e) => {
+        setSelectedCorpus(e.target.value);
+        setSelectedIndex(null);
+      }}>
+        <option value="" className="dropdown-item">Select Corpus</option>
+        {selectedCollection && collections[selectedCollection] && Object.keys(collections[selectedCollection]).map((corpus) => (
+          <option className="dropdown-item" key={corpus} value={corpus}>{corpus}</option>
+        ))}
+      </select>
+      <select className="dropdown-button" onChange={(e) => {
+        setSelectedIndex(e.target.value);
+        onSelect(e.target.value)}}
+      >
+        <option value="" className="dropdown-item">Select Index</option>
+        {selectedCollection && selectedCorpus && collections[selectedCollection][selectedCorpus].map((index) => (
+          <option className="dropdown-item" key={index} value={index}>{index}</option>
+        ))}
+      </select>
     </div>
   );
 };

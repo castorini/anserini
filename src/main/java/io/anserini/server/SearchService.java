@@ -47,6 +47,8 @@ public class SearchService {
               if (jsonNode.get("contents") != null) content = jsonNode.get("contents").asText();
               else if (jsonNode.get("text") != null) content = jsonNode.get("text").asText();
               else if (jsonNode.get("passage") != null) content = jsonNode.get("passage").asText();
+              else if (jsonNode.get("body") != null) content = jsonNode.get("body").asText();
+              else if (jsonNode.get("segment") != null) content = jsonNode.get("segment").asText();
               else content = jsonNode.toString();
               return new QueryResult(result.docid, content, result.score);
             } catch (Exception e) {

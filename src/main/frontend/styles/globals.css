@@ -23,7 +23,6 @@ body {
 
 /* All containers */
 .container {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -31,7 +30,6 @@ body {
 
 /* Container for centering the search bar in the page */
 .search-container {
-  max-width: 800px;
   margin: 0 auto;
   text-align: center;
   display: flex;
@@ -49,12 +47,11 @@ body {
   border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
-  max-width: 720px;
   margin: 3rem auto;
 }
 
-/* Style for */
-.search-buttons {
+/* Style for the search input container */
+.search-input-container {
   display: flex;
   gap: 0.5rem;
   justify-content: space-between;
@@ -126,37 +123,28 @@ ul {
   margin-bottom: 0.5rem;
 }
 
-/* Add these styles to your existing CSS */
+/* Style for the dropdowns */
+.dropdowns {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
 
 /* Style for the dropdown button */
 .dropdown-button {
   padding: 0.5rem 1rem;
-  background-color: #0070f3;
-  color: #ffffff;
-  border: none;
+  background-color: #ffffff;
+  color: #333333;
+  border-color: #cccccc;
   border-radius: 0.5rem;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-/* Change background color slightly on hover for the dropdown button */
-.dropdown-button:hover {
-  background-color: #0056b3;
-}
-
-/* Style for the dropdown menu */
-.dropdown-menu {
-  position: absolute;
-  width: max-content;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 /* Style for the dropdown items */
 .dropdown-item {
   width: 100%;
-  padding: 1rem;
   background-color: #ffffff;
   border-radius: 0;
   border: none;
@@ -168,22 +156,4 @@ ul {
 /* Change background color slightly on hover for dropdown items */
 .dropdown-item:hover {
   background-color: #f7f7f7;
-}
-
-/* Style for sub-dropdown menus */
-.sub-dropdown-menu {
-  position: absolute;
-  top: 0;
-  left: 100%;
-  width: max-content;
-  background: #ffffff;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 0;
-}
-
-/* Style for dropdown content */
-.dropdown-content {
-  position: relative;
-  width: 100%;
 }

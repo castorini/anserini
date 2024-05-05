@@ -36,15 +36,15 @@ const SearchBar: React.FC = () => {
     <>
     <div className="search-container">
       <form className="search-bar" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          placeholder="Search..."
-          className="search-input"
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <div className="search-buttons">
-          <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
+        <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
+        <div className="search-input-container">
+          <input
+            type="text"
+            value={query}
+            placeholder="Search..."
+            className="search-input"
+            onChange={(e) => setQuery(e.target.value)}
+          />
           <button className="search-button" type="submit" disabled={loading}>Search</button>
         </div>
       </form>
