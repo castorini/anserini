@@ -66,14 +66,14 @@ public class RunMsMarco {
     }
     switch (MsMarcoArgs.MsMarcoVersion) {
         case 2:
-            COLLECTION = "msmarco-v2.1-doc";
+            COLLECTION = "msmarco-v2.1";
             break;
         default: // MsMarcoVersion == 1
             COLLECTION = "msmarco-v1-passage";
             break;
     }
 
-    RunRepro repro = new RunRepro(COLLECTION, new MsMarcoMetricDefinitions());
+    RunRepro repro = new RunRepro(COLLECTION, new MsMarcoMetricDefinitions(), true);
     repro.run();
   }
 
@@ -136,7 +136,7 @@ public class RunMsMarco {
       dl23PassageMetrics.put("R@1K", "-c -m recall.1000");
       msmarcoV2Passage.put("dl23-doc-msmarco-v2.1", dl23PassageMetrics);
   
-      metricDefinitions.put("msmarco-v2.1-doc", msmarcoV2Passage);
+      metricDefinitions.put("msmarco-v2.1", msmarcoV2Passage);
     }
   }
 

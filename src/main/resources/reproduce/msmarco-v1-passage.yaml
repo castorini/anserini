@@ -9,14 +9,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.1840
+            R@1K: 0.8526
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.5058
+          - MAP: 0.3013
+            nDCG@10: 0.5058
+            R@1K: 0.7501
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.4796
+          - MAP: 0.2856
+            nDCG@10: 0.4796
+            R@1K: 0.7863
   - name: splade-pp-ed.cached_q
     display: "SPLADE++ EnsembleDistil (cached queries)"
     display_html: "SPLADE++ EnsembleDistil (cached queries)"
@@ -27,14 +32,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3830
+            R@1K: 0.9831
       - topic_key: dl19-passage.splade-pp-ed
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7317
+          - MAP: 0.5053
+            nDCG@10: 0.7317
+            R@1K: 0.8726
       - topic_key: dl20-passage.splade-pp-ed
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.7198
+          - MAP: 0.5001
+            nDCG@10: 0.7198
+            R@1K: 0.8995
   - name: splade-pp-ed.onnx
     display: "SPLADE++ EnsembleDistil (ONNX)"
     display_html: "SPLADE++ EnsembleDistil (ONNX)"
@@ -45,14 +55,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3828
+            R@1K: 0.9831
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7308
+          - MAP: 0.5050
+            nDCG@10: 0.7308
+            R@1K: 0.8728
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.7197
+          - MAP: 0.4999
+            nDCG@10: 0.7197
+            R@1K: 0.8998
   - name: cos-dpr-distil.fp32.cached_q
     display: "cosDPR-distil w/ HNSW fp32 (cached queries)"
     display_html: "cosDPR-distil w/ HNSW fp32 (cached queries)"
@@ -63,14 +78,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3887
+            R@1K: 0.9764
       - topic_key: dl19-passage.cos-dpr-distil
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7250
+          - MAP: 0.4660
+            nDCG@10: 0.7250
+            R@1K: 0.8222
       - topic_key: dl20-passage.cos-dpr-distil
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.7025
+          - MAP: 0.4876
+            nDCG@10: 0.7025
+            R@1K: 0.8540
   - name: cos-dpr-distil.fp32.onnx
     display: "cosDPR-distil w/ HNSW fp32 (ONNX)"
     display_html: "cosDPR-distil w/ HNSW fp32 (ONNX)"
@@ -81,14 +101,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3887
+            R@1K: 0.9765
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7250
+          - MAP: 0.4660
+            nDCG@10: 0.7250
+            R@1K: 0.8222
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.7025
+          - MAP: 0.4876
+            nDCG@10: 0.7025
+            R@1K: 0.8540
   - name: cos-dpr-distil.int8.cached_q
     display: "cosDPR-distil w/ HNSW int8 (cached queries)"
     display_html: "cosDPR-distil w/ HNSW int8 (cached queries)"
@@ -99,14 +124,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3897
+            R@1K: 0.9764
       - topic_key: dl19-passage.cos-dpr-distil
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7240
+          - MAP: 0.4662
+            nDCG@10: 0.7240
+            R@1K: 0.8219
       - topic_key: dl20-passage.cos-dpr-distil
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.7004
+          - MAP: 0.4872
+            nDCG@10: 0.7004
+            R@1K: 0.8538
   - name: cos-dpr-distil.int8.onnx
     display: "cosDPR-distil w/ HNSW int8 (ONNX)"
     display_html: "cosDPR-distil w/ HNSW int8 (ONNX)"
@@ -117,14 +147,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3899
+            R@1K: 0.9764
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7247
+          - MAP: 0.4664
+            nDCG@10: 0.7247
+            R@1K: 0.8218
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.6996
+          - MAP: 0.4871
+            nDCG@10: 0.6996
+            R@1K: 0.8538
   - name: bge-base-en-15.fp32.cached_q
     display: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
@@ -135,14 +170,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3574
+            R@1K: 0.9788
       - topic_key: dl19-passage.bge-base-en-v1.5
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7065
+          - MAP: 0.4436
+            nDCG@10: 0.7065
+            R@1K: 0.8481
       - topic_key: dl20-passage.bge-base-en-v1.5
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.6780
+          - MAP: 0.4648
+            nDCG@10: 0.6780
+            R@1K: 0.8483
   - name: bge-base-en-15.fp32.onnx
     display: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
@@ -153,14 +193,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3575
+            R@1K: 0.9788
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7016
+          - MAP: 0.4486
+            nDCG@10: 0.7016
+            R@1K: 0.8441
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.6768
+          - MAP: 0.4626
+            nDCG@10: 0.6768
+            R@1K: 0.8526
   - name: bge-base-en-15.int8.cached_q
     display: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
@@ -171,14 +216,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3572
+            R@1K: 0.9774
       - topic_key: dl19-passage.bge-base-en-v1.5
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7016
+          - MAP: 0.4400
+            nDCG@10: 0.7016
+            R@1K: 0.8481
       - topic_key: dl20-passage.bge-base-en-v1.5
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.6738
+          - MAP: 0.4623
+            nDCG@10: 0.6738
+            R@1K: 0.8420
   - name: bge-base-en-15.int8.onnx
     display: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
@@ -189,14 +239,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3575
+            R@1K: 0.9772
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.7017
+          - MAP: 0.4454
+            nDCG@10: 0.7017
+            R@1K: 0.8436
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.6767
+          - MAP: 0.4596
+            nDCG@10: 0.6767
+            R@1K: 0.8468
   - name: cohere-embed-english-v3.0.fp32.cached_q
     display: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
     display_html: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
@@ -207,14 +262,19 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3647
+            R@1K: 0.9751
       - topic_key: dl19-passage.cohere-embed-english-v3.0
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.6956
+          - MAP: 0.4883
+            nDCG@10: 0.6956
+            R@1K: 0.8612
       - topic_key: dl20-passage.cohere-embed-english-v3.0
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.7245
+          - MAP: 0.5068
+            nDCG@10: 0.7245
+            R@1K: 0.8682
   - name: cohere-embed-english-v3.0.int8.cached_q
     display: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
     display_html: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
@@ -225,11 +285,16 @@ conditions:
         eval_key: msmarco-passage.dev-subset
         scores:
           - MRR@10: 0.3656
+            R@1K: 0.9752
       - topic_key: dl19-passage.cohere-embed-english-v3.0
         eval_key: dl19-passage
         scores:
-          - nDCG@10: 0.6955
+          - MAP: 0.4888
+            nDCG@10: 0.6955
+            R@1K: 0.8643
       - topic_key: dl20-passage.cohere-embed-english-v3.0
         eval_key: dl20-passage
         scores:
-          - nDCG@10: 0.7262
+          - MAP: 0.5052
+            nDCG@10: 0.7262
+            R@1K: 0.8616
