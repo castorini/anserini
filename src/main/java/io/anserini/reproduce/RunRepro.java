@@ -70,8 +70,7 @@ public class RunRepro {
         if (sortByCondition) {
           output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name,
           topic.topic_key);
-        }
-        else {
+        } else {
           output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, topic.topic_key,
           condition.name);
         }
@@ -125,8 +124,7 @@ public class RunRepro {
               if (delta > 0.00005) {
                 System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL,
                     expected.get(metric)));
-              }
-              else {
+              } else {
                 System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
               }
             } else {

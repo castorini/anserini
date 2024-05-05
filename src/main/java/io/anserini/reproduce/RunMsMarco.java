@@ -17,9 +17,12 @@
 package io.anserini.reproduce;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -32,14 +35,13 @@ public class RunMsMarco {
   public static class Args {
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
-    @Option(name = "-v", metaVar = "[int]", usage = "MsMarco Version (1/2), where 2 is for V2.1. Default 1.")
-    public int MsMarcoVersion = 1;
+    @Option(name = "-v", usage = "MsMarco Version (msmarco-v2.1 / msmarco-v1-passage). Default: msmarco-v1-passage.")
+    public String MsMarcoVersion = "msmarco-v1-passage";
   }
 
   public static void main(String[] args) throws Exception {
 
     // check for cmd option
-    String COLLECTION = "msmarco-v1-passage";
     Args MsMarcoArgs = new Args();
     CmdLineParser parser = new CmdLineParser(MsMarcoArgs, ParserProperties.defaults().withUsageWidth(120));
 
@@ -64,16 +66,14 @@ public class RunMsMarco {
 
       return;
     }
-    switch (MsMarcoArgs.MsMarcoVersion) {
-        case 2:
-            COLLECTION = "msmarco-v2.1";
-            break;
-        default: // MsMarcoVersion == 1
-            COLLECTION = "msmarco-v1-passage";
-            break;
+
+    Set<String> allowedVersions = new HashSet<>(Arrays.asList("msmarco-v2.1", "msmarco-v1-passage"));
+    if (!allowedVersions.contains(MsMarcoArgs.MsMarcoVersion)) {
+        System.err.println("Invalid MsMarco version: " + MsMarcoArgs.MsMarcoVersion);
+        System.exit(1);
     }
 
-    RunRepro repro = new RunRepro(COLLECTION, new MsMarcoMetricDefinitions(), true);
+    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(), true);
     repro.run();
   }
 
