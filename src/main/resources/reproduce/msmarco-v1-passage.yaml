@@ -1,5 +1,5 @@
 conditions:
-  - name: bm25-default
+  - name: bm25
     display: "BM25 (k1=0.9, b=0.4)"
     display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""

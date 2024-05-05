@@ -40,7 +40,7 @@ public class GenerateReproductionDocsTest {
   public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_row_v1.template";
   public final static String COLLECTION = "msmarco-v1-passage";
   public final static String[] MODELS = {
-      "bm25-default",
+      "bm25",
       "splade-pp-ed.cached_q",
       "splade-pp-ed.onnx",
       "cos-dpr-distil.fp32.cached_q",

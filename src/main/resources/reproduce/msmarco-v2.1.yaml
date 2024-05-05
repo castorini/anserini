@@ -1,5 +1,5 @@
 conditions:
-  - name: bm25
+  - name: doc
     display: "BM25 doc (k1=0.9, b=0.4)"
     display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
@@ -37,7 +37,7 @@ conditions:
             nDCG@10: 0.2914
             R@100: 0.2604
             R@1K: 0.5383
-  - name: bm25-segmented
+  - name: doc-segmented
     display: "BM25 segmented doc (k1=0.9, b=0.4)"
     display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""

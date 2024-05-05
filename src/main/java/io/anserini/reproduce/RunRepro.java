@@ -40,11 +40,13 @@ public class RunRepro {
 
   private String COLLECTION;
   private TrecEvalMetricDefinitions metricDefinitions;
+  private boolean sortByCondition;
 
-  public RunRepro(String collection, TrecEvalMetricDefinitions metrics)
+  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean sortCondition)
       throws IOException, InterruptedException {
     COLLECTION = collection;
     metricDefinitions = metrics;
+    sortByCondition = sortCondition;
   }
 
   public void run() throws StreamReadException, DatabindException, IOException, InterruptedException, URISyntaxException {
@@ -64,8 +66,14 @@ public class RunRepro {
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name,
-            topic.topic_key);
+        final String output;
+        if (sortByCondition) {
+          output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name,
+          topic.topic_key);
+        } else {
+          output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, topic.topic_key,
+          condition.name);
+        }
 
         final String command = condition.command
             .replace("$fatjar", fatjarPath)
@@ -93,6 +101,9 @@ public class RunRepro {
         for (Map<String, Double> expected : topic.scores) {
           for (String metric : expected.keySet()) {
             String evalKey = topic.eval_key;
+            if (!evalCommands.get(evalKey).containsKey(metric)) {
+              continue; // skip metric unintended to test
+            }
             String evalCmd = "java -cp $fatjarPath trec_eval $metric $evalKey $output"
             .replace("$fatjarPath", fatjarPath)
             .replace("$metric", evalCommands.get(evalKey).get(metric))
@@ -113,8 +124,7 @@ public class RunRepro {
               if (delta > 0.00005) {
                 System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL,
                     expected.get(metric)));
-              }
-              else {
+              } else {
                 System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
               }
             } else {
