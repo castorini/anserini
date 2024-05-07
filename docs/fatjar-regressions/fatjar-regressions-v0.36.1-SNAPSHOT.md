@@ -229,7 +229,34 @@ Currently, Anserini provides support for the following models:
 + bge-base-en-v1.5: cached queries and ONNX query encoding
 + cohere-embed-english-v3.0: cached queries and ONNX query encoding
 
-The following snippet will generate the complete set of results for MS MARCO V1 Passage:
+The table below reports the effectiveness of the models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
+
+|                                                              |    dev |   DL19 |   DL20 |
+|:-------------------------------------------------------------|-------:|-------:|-------:|
+| BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
+| SPLADE++ EnsembleDistil (cached queries)                     | 0.3830 | 0.7317 | 0.7198 |
+| SPLADE++ EnsembleDistil (ONNX)                               | 0.3828 | 0.7308 | 0.7197 |
+| cosDPR-distil w/ HNSW fp32 (cached queries)                  | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil w/ HNSW fp32 (ONNX)                            | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil w/ HNSW int8 (cached queries)                  | 0.3897 | 0.7240 | 0.7004 |
+| cosDPR-distil w/ HNSW int8 (ONNX)                            | 0.3899 | 0.7247 | 0.6996 |
+| bge-base-en-v1.5 w/ HNSW fp32 (cached queries)               | 0.3574 | 0.7065 | 0.6780 |
+| bge-base-en-v1.5 w/ HNSW fp32 (ONNX)                         | 0.3575 | 0.7016 | 0.6768 |
+| bge-base-en-v1.5 w/ HNSW int8 (cached queries)               | 0.3572 | 0.7016 | 0.6738 |
+| bge-base-en-v1.5 w/ HNSW int8 (ONNX)                         | 0.3575 | 0.7017 | 0.6767 |
+| cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)      | 0.3647 | 0.6956 | 0.7245 |
+| cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)      | 0.3656 | 0.6955 | 0.7262 |
+
+The follow command will reproduce the above experiments:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -v msmarco-v1-passage
+```
+
+<details>
+<summary>Manual runs and evaluation</summary>
+
+The following snippet will generate the complete set of results that corresponds to the above table:
 
 ```bash
 # BM25
@@ -281,28 +308,7 @@ do
     # Using int8 index, cached queries
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.quantized -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.int8.cached_q.${t}.txt -threads 16 -efSearch 1000
 done
-
 ```
-Here are the expected scores (dev using MRR@10, DL19 and DL20 using nDCG@10):
-
-|                                                         |    dev |   DL19 |   DL20 |
-|:--------------------------------------------------------|-------:|-------:|-------:|
-| BM25                                                    | 0.1840 | 0.5058 | 0.4796 |
-| SPLADE++ ED (cached queries)                            | 0.3830 | 0.7317 | 0.7198 |
-| SPLADE++ ED (ONNX)                                      | 0.3828 | 0.7308 | 0.7197 |
-| cosDPR-distil w/ HNSW fp32 (cached queries)             | 0.3887 | 0.7250 | 0.7025 |
-| cosDPR-distil w/ HNSW fp32 (ONNX)                       | 0.3887 | 0.7250 | 0.7025 |
-| cosDPR-distil w/ HNSW int8 (cached queries)             | 0.3897 | 0.7240 | 0.7004 |
-| cosDPR-distil w/ HNSW int8 (ONNX)                       | 0.3899 | 0.7247 | 0.6996 |
-| bge-base-en-v1.5 w/ HNSW fp32 (cached queries)          | 0.3574 | 0.7065 | 0.6780 |
-| bge-base-en-v1.5 w/ HNSW fp32 (ONNX)                    | 0.3575 | 0.7016 | 0.6768 |
-| bge-base-en-v1.5 w/ HNSW int8 (cached queries)          | 0.3572 | 0.7016 | 0.6738 |
-| bge-base-en-v1.5 w/ HNSW int8 (ONNX)                    | 0.3575 | 0.7017 | 0.6767 |
-| cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries) | 0.3647 | 0.6956 | 0.7245 |
-| cohere-embed-english-v3.0 w/ HNSW int8 (cached queries) | 0.3656 | 0.6955 | 0.7262 |
-
-<details>
-<summary>Evaluation</summary>
 
 And here's the snippet of code to perform the evaluation (which will yield the results above):
 
@@ -377,27 +383,7 @@ Currently, Anserini provides support for the following models:
   + cached queries (Dp)
   + ONNX query encoding (Do)
 
-The following snippet will generate the complete set of results for BEIR:
-
-```bash
-CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
-do
-    # "flat" indexes
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.flat -topics beir-${c} -output $OUTPUT_DIR/run.beir.${c}.flat.txt -bm25 -removeQuery
-    # "multifield" indexes
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.multifield -topics beir-${c} -output $OUTPUT_DIR/run.beir.${c}.multifield.txt -bm25 -removeQuery -fields contents=1.0 title=1.0
-    # SPLADE++ ED, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output $OUTPUT_DIR/run.beir.${c}.splade-pp-ed.cached_q.txt -impact -pretokenized -removeQuery
-    # SPLADE++ ED, ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output $OUTPUT_DIR/run.beir.${c}.splade-pp-ed.onnx.txt -impact -pretokenized -removeQuery
-    # BGE-base-en-v1.5, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.${c}.bge.cached_q.txt -threads 16 -efSearch 1000 -removeQuery
-    # BGE-base-en-v1.5, ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.${c}.bge.onnx.txt -threads 16 -efSearch 1000 -removeQuery
-done
-```
-
-Here are the expected nDCG@10 scores:
+The table below reports the effectiveness of the models (nDCG@10):
 
 | Corpus                     |   Flat |     MF |     Sp |     So |     Dp |     Do |
 |:---------------------------|-------:|-------:|-------:|-------:|-------:|-------:|
@@ -431,8 +417,34 @@ Here are the expected nDCG@10 scores:
 | `climate-fever`            | 0.1651 | 0.2129 | 0.2297 | 0.2298 | 0.3119 | 0.3117 |
 | `scifact`                  | 0.6789 | 0.6647 | 0.7041 | 0.7036 | 0.7408 | 0.7408 |
 
+The follow command will reproduce the above experiments:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir
+```
+
 <details>
-<summary>Evaluation</summary>
+<summary>Manual runs and evaluation</summary>
+
+The following snippet will generate the complete set of results that corresponds to the above table:
+
+```bash
+CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
+do
+    # "flat" indexes
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.flat -topics beir-${c} -output $OUTPUT_DIR/run.beir.${c}.flat.txt -bm25 -removeQuery
+    # "multifield" indexes
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.multifield -topics beir-${c} -output $OUTPUT_DIR/run.beir.${c}.multifield.txt -bm25 -removeQuery -fields contents=1.0 title=1.0
+    # SPLADE++ ED, cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output $OUTPUT_DIR/run.beir.${c}.splade-pp-ed.cached_q.txt -impact -pretokenized -removeQuery
+    # SPLADE++ ED, ONNX
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output $OUTPUT_DIR/run.beir.${c}.splade-pp-ed.onnx.txt -impact -pretokenized -removeQuery
+    # BGE-base-en-v1.5, cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.${c}.bge.cached_q.txt -threads 16 -efSearch 1000 -removeQuery
+    # BGE-base-en-v1.5, ONNX
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.${c}.bge.onnx.txt -threads 16 -efSearch 1000 -removeQuery
+done
+```
 
 And here's the snippet of code to perform the evaluation (which will yield the results above):
 

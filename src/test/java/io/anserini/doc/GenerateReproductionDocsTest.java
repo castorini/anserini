@@ -50,7 +50,9 @@ public class GenerateReproductionDocsTest {
       "bge-base-en-15.fp32.cached_q",
       "bge-base-en-15.fp32.onnx",
       "bge-base-en-15.int8.cached_q",
-      "bge-base-en-15.int8.onnx"
+      "bge-base-en-15.int8.onnx",
+      "cohere-embed-english-v3.0.fp32.cached_q",
+      "cohere-embed-english-v3.0.int8.cached_q"
   };
 
   public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {
