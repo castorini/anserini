@@ -269,7 +269,7 @@ done
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t}.splade-pp-ed -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.${t}.txt -threads 16 -impact -pretokenized
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t}.splade-pp-ed -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.${t}.splade-pp-ed.txt -threads 16 -impact -pretokenized
     # Using ONNX
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t} -encoder SpladePlusPlusEnsembleDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.${t}.txt -threads 16 -impact -pretokenized
 done
@@ -278,11 +278,11 @@ done
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using fp32 index, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil -topics ${t}.cos-dpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.fp32.cached_q.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil -topics ${t}.cos-dpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.fp32.cached_q.${t}.cos-dpr-distil.txt -threads 16 -efSearch 1000
     # Using fp32 index, ONNX
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.fp32.onnx.${t}.txt -threads 16 -efSearch 1000
     # Using int8 index, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil.quantized -topics ${t}.cos-dpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.int8.cached_q.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil.quantized -topics ${t}.cos-dpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.int8.cached_q.${t}.cos-dpr-distil.txt -threads 16 -efSearch 1000
     # Using int8 index, ONNX
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cos-dpr-distil.quantized -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.int8.onnx.${t}.txt -threads 16 -efSearch 1000
 done
@@ -291,11 +291,11 @@ done
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using fp32 index, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5 -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.fp32.cached_q.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5 -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.fp32.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
     # Using fp32 index, ONNX
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5 -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.fp32.onnx.${t}.txt -threads 16 -efSearch 1000
     # Using int8 index, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.int8.cached_q.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.int8.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
     # Using int8 index, ONNX
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.int8.onnx.${t}.txt -threads 16 -efSearch 1000
 done
@@ -304,9 +304,9 @@ done
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using fp32 index, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0 -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.fp32.cached_q.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0 -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.fp32.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
     # Using int8 index, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.quantized -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.int8.cached_q.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.quantized -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.int8.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
 done
 ```
 

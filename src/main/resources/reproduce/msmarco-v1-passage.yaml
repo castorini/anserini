@@ -160,7 +160,7 @@ conditions:
           - MAP: 0.4871
             nDCG@10: 0.6996
             R@1K: 0.8538
-  - name: bge-base-en-15.fp32.cached_q
+  - name: bge-base-en-v1.5.fp32.cached_q
     display: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_row: ""
@@ -183,7 +183,7 @@ conditions:
           - MAP: 0.4648
             nDCG@10: 0.6780
             R@1K: 0.8483
-  - name: bge-base-en-15.fp32.onnx
+  - name: bge-base-en-v1.5.fp32.onnx
     display: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_row: ""
@@ -206,7 +206,7 @@ conditions:
           - MAP: 0.4626
             nDCG@10: 0.6768
             R@1K: 0.8526
-  - name: bge-base-en-15.int8.cached_q
+  - name: bge-base-en-v1.5.int8.cached_q
     display: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_row: ""
@@ -229,7 +229,7 @@ conditions:
           - MAP: 0.4623
             nDCG@10: 0.6738
             R@1K: 0.8420
-  - name: bge-base-en-15.int8.onnx
+  - name: bge-base-en-v1.5.int8.onnx
     display: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_row: ""
