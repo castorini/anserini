@@ -216,7 +216,7 @@ Remember from the [start here](start-here.md
 The final ingredient is a metric, i.e., how to quantify the "quality" of a ranked list.
 Here, we're using a metric called MRR, or mean reciprocal rank.
 The idea is quite simple:
-We look at where the relevant `docid` appears.
+We look at the rank position of the first relevant `docid`.
 If it appears at rank 1, the system gets a score of one.
 If it appears at rank 2, the system gets a score of 1/2.
 If it appears at rank 3, the system gets a score of 1/3.
