@@ -38,15 +38,12 @@ public class RunRepro {
 
   private static final String FAIL = RED + "[FAIL]" + RESET;
 
-  private String COLLECTION;
-  private TrecEvalMetricDefinitions metricDefinitions;
-  private boolean sortByCondition;
+  private final String COLLECTION;
+  private final TrecEvalMetricDefinitions metricDefinitions;
 
-  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean sortCondition)
-      throws IOException, InterruptedException {
+  public RunRepro(String collection, TrecEvalMetricDefinitions metrics) {
     COLLECTION = collection;
     metricDefinitions = metrics;
-    sortByCondition = sortCondition;
   }
 
   public void run() throws StreamReadException, DatabindException, IOException, InterruptedException, URISyntaxException {
@@ -66,14 +63,7 @@ public class RunRepro {
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output;
-        if (sortByCondition) {
-          output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name,
-          topic.topic_key);
-        } else {
-          output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, topic.topic_key,
-          condition.name);
-        }
+        final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name, topic.topic_key);
 
         final String command = condition.command
             .replace("$fatjar", fatjarPath)

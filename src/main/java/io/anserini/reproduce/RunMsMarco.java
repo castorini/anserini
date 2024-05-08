@@ -73,7 +73,7 @@ public class RunMsMarco {
         System.exit(1);
     }
 
-    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(), true);
+    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions());
     repro.run();
   }
 

@@ -121,7 +121,7 @@ conditions:
         eval_key: beir-v1.0.0-scifact.test
         scores:
           - nDCG@10: 0.6789
-  - name: MF
+  - name: multifield
     display: "BM25, multifield bag-of-words baseline"
     display_html: "BM25, multifield bag-of-words baseline"
     display_row: ""
@@ -243,7 +243,7 @@ conditions:
         eval_key: beir-v1.0.0-scifact.test
         scores:
           - nDCG@10: 0.6647
-  - name: Sp
+  - name: splade-pp-ed.cached_q
     display: "SPLADE++ cached queries"
     display_html: "SPLADE++ cached queries"
     display_row: ""
@@ -365,7 +365,7 @@ conditions:
       eval_key: beir-v1.0.0-scifact.test
       scores:
         - nDCG@10: 0.7041
-  - name: So
+  - name: splade-pp-ed.onnx
     display: "SPLADE++ ONNX query encoding"
     display_html: "SPLADE++ ONNX query encoding"
     display_row: ""
@@ -487,7 +487,7 @@ conditions:
       eval_key: beir-v1.0.0-scifact.test
       scores:
         - nDCG@10: 0.7036
-  - name: Dp
+  - name: bge-base-en-v1.5.cached_q
     display: "bge-base-en-v1.5 cached queries"
     display_html: "bge-base-en-v1.5 cached queries"
     display_row: ""
@@ -609,7 +609,7 @@ conditions:
       eval_key: beir-v1.0.0-scifact.test
       scores:
         - nDCG@10: 0.7408
-  - name: Do
+  - name: bge-base-en-v1.5.onnx
     display: "bge-base-en-v1.5 ONNX query encoding"
     display_html: "bge-base-en-v1.5 ONNX query encoding"
     display_row: ""
