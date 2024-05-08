@@ -27,14 +27,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
-import org.apache.commons.lang3.LocaleUtils;
+import org.apache.commons.lang3.NotImplementedException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -102,6 +99,17 @@ class FusedRunOutputWriter implements Closeable {
   }
 }
 
+// Used to hold the score and the rank of a document
+class DocScore{
+  public Double score;
+  public int initialRank; 
+
+  public DocScore(Double score, int initialRank) {
+    this.score = score;
+    this.initialRank = initialRank;
+  }
+}
+
 public class FuseRuns {
 
   public static class Args {
@@ -117,97 +125,47 @@ public class FuseRuns {
     @Option(name = "-runtag", metaVar = "[runtag]", usage = "Run tag for the fusion")
     public String runtag = "fused";
 
-    // Currently useless, will eventually be needed to match pyserini's fusion implementation
-    // @Option(name = "-method", metaVar = "[method]", required = false, usage = "Specify fusionm method")
-    // public String method = "default";
-    //
-    // @Option(name = "-rrf_k", metaVar = "[rrf_k]", required = false, usage = "Parameter k needed for reciprocal rank fusion.")
-    // public int rrf_k = 60;
-    //
-    // @Option(name = "-alpha", required = false, usage = "Alpha value used for interpolation.")
-    // public double alpha = 0.5;
-    //
-    // @Option(name = "-k", required = false, usage = "Alpha value used for interpolation")
-    // public int k = 1000;
-    //
-    // @Option (name = "-resort", usage="We Resort the Trec run files or not")
-    // public boolean resort = false;
-    //
+    @Option(name = "-method", metaVar = "[method]", required = false, usage = "Specify fusion method")
+    public String method = "default";
+
+    @Option(name = "-rrf_k", metaVar = "[rrf_k]", required = false, usage = "Parameter k needed for reciprocal rank fusion.")
+    public double rrf_k = 60;
+
+    @Option(name = "-alpha", required = false, usage = "Alpha value used for interpolation.")
+    public double alpha = 0.5;
+
+    @Option(name = "-k", required = false, usage = "number of documents to output for topic")
+    public int k = 1000;
+
+    @Option(name = "-depth", required = false, usage = "Pool depth per topic.")
+    public int depth = 1000;
+
+    @Option (name = "-resort", usage="We Resort the Trec run files or not")
+    public boolean resort = false;
+
 
   }
 
-  public static TreeMap<String,HashMap<String,Double>> createRunMap(String filename){
-    TreeMap<String, HashMap<String, Double>> twoTierHashMap = new TreeMap<>();
+  public static TreeMap<String, HashMap<String,DocScore>> createRunMap(String filename) throws FileNotFoundException, IOException {
+    TreeMap<String, HashMap<String, DocScore>> twoTierHashMap = new TreeMap<>();
     try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
       String line;
       while ((line = br.readLine()) != null) {
         String[] data = line.split(" ");
-        HashMap<String, Double> innerHashMap = new HashMap<String,Double>();
-        HashMap<String, Double> innerHashMap_ = twoTierHashMap.putIfAbsent(data[0], innerHashMap);
+        HashMap<String, DocScore> innerHashMap = new HashMap<String,DocScore>();
+        HashMap<String, DocScore> innerHashMap_ = twoTierHashMap.putIfAbsent(data[0], innerHashMap);
         if (innerHashMap_ != null){
           innerHashMap = innerHashMap_;
         }
-        innerHashMap.put(data[2], Double.valueOf(data[4]));
+        innerHashMap.put(data[2], new DocScore(Double.valueOf(data[4]), Integer.parseInt(data[3])));
       }
     } catch (FileNotFoundException ex){
-      System.out.println(ex);
+      throw ex;
     } catch (IOException ex){
-      System.out.println(ex);
+      throw ex;
     }
     return twoTierHashMap;
   }
-
-  public static void normalize_min_max(TreeMap<String, HashMap<String, Double>> hashMap) {
-    for (String outerKey : hashMap.keySet()) {
-      Map<String, Double> innerHashMap = hashMap.get(outerKey);
-      Double min = Double.MAX_VALUE;
-      Double max = -1.0;
-      for (String innerKey : innerHashMap.keySet()) {
-        Double innerValue = innerHashMap.get(innerKey);
-        if (innerValue < min) {
-          min = innerValue;
-        } 
-        if (innerValue > max) {
-          max = innerValue;
-        }
-      }
-      for (String innerKey : innerHashMap.keySet()) {
-          Double innerValue = innerHashMap.get(innerKey);
-          Double newValue = (innerValue - min) / (max-min);
-          innerHashMap.replace(innerKey,innerValue,newValue);
-      }
-    }
-  }    
-
-  public static HashMap<String,Double> aggregateQuery(HashMap<String, Double> hashMap1, HashMap<String, Double> hashMap2) {
-    HashMap<String,Double> mergedHashMap = new HashMap<String,Double>();
-    for (String key : hashMap1.keySet()) {
-      mergedHashMap.put(key, hashMap1.get(key));
-    }
-    for (String key : hashMap2.keySet()) {
-      Double existingValue = mergedHashMap.getOrDefault(key,0.0);
-      mergedHashMap.put(key, hashMap2.get(key) + existingValue);
-    }
-    return mergedHashMap;
-  }    
-
-  public static TreeMap<String,HashMap<String, Double>> aggregateHashMap(TreeMap<String,HashMap<String, Double>> hashMap1, TreeMap<String,HashMap<String, Double>> hashMap2) {
-    Set<String> queries = new HashSet<String>();
-    TreeMap<String,HashMap<String, Double>> finalHashMap = new TreeMap<String,HashMap<String, Double>>();
-    for (String key : hashMap1.keySet()) {
-      queries.add(key);
-    }
-    for (String key : hashMap2.keySet()) {
-      queries.add(key);
-    }
-    Iterator<String> queryIterator = queries.iterator();
-    while(queryIterator.hasNext()) {
-      String query = queryIterator.next();
-      HashMap<String,Double> aggregated = aggregateQuery(hashMap1.getOrDefault(query,new HashMap<String,Double>()), hashMap2.getOrDefault(query,new HashMap<String,Double>()));
-      finalHashMap.put(query,aggregated);
-    }
-    return finalHashMap;
-  }    
 
   public static void main(String[] args) {
     Args fuseArgs = new Args();
@@ -216,9 +174,13 @@ public class FuseRuns {
     // parse argumens
     try {
       parser.parseArgument(args);
+      // TODO: THESE CONSTRUCTORS ARE DEPRECATED
       if(fuseArgs.runs.length != 2) {
-        // TODO: THIS CONSTRUCTOR IS DEPRECATED
-        throw new CmdLineException(parser, "Expects exactly 2 run files"); 
+        throw new CmdLineException(parser, "Option run expects exactly 2 files"); 
+      } else if (fuseArgs.depth <= 0) {
+        throw new CmdLineException(parser, "Option depth must be greater than 0"); 
+      } else if (fuseArgs.k <= 0) {
+        throw new CmdLineException(parser, "Option k must be greater than 0"); 
       }
     } catch (CmdLineException e) {
       if (fuseArgs.options) {
@@ -242,12 +204,21 @@ public class FuseRuns {
 
 
     try {
-      TreeMap<String,HashMap<String, Double>> runA = createRunMap(fuseArgs.runs[0]);
-      TreeMap<String,HashMap<String, Double>> runB = createRunMap(fuseArgs.runs[1]);
-      normalize_min_max(runA);
-      normalize_min_max(runB);
+      // TreeMap<docid, HashMap<topic,score>> 
+      TreeMap<String,HashMap<String, DocScore>> runA = createRunMap(fuseArgs.runs[0]);
+      TreeMap<String,HashMap<String, DocScore>> runB = createRunMap(fuseArgs.runs[1]);
       
-      TreeMap<String, HashMap<String, Double>> finalRun = aggregateHashMap(runA, runB);
+      TreeMap<String, HashMap<String, Double>> finalRun;
+
+      if (fuseArgs.method.equals(FusionMethods.AVERAGE)) {
+        finalRun = FusionMethods.average(runA, runB, fuseArgs.depth, fuseArgs.k);
+      } else if (fuseArgs.method.equals(FusionMethods.RRF)) {
+        finalRun = FusionMethods.reciprocal_rank_fusion(runA, runB, fuseArgs.rrf_k, fuseArgs.depth, fuseArgs.k);
+      } else if (fuseArgs.method.equals(FusionMethods.INTERPOLATION)) {
+        finalRun = FusionMethods.interpolation(runA, runB, fuseArgs.alpha, fuseArgs.depth, fuseArgs.k);
+      } else {
+        throw new NotImplementedException("This method has not yet been implemented: " + fuseArgs.method);
+      }
 
       FusedRunOutputWriter out = new FusedRunOutputWriter(fuseArgs.output, "trec", fuseArgs.runtag);
       for (String key : finalRun.keySet()) {
@@ -257,9 +228,10 @@ public class FuseRuns {
       System.out.println("File " + fuseArgs.output + " was succesfully created");
 
     } catch (IOException e) {
-      System.out.println("Error occured: " + e.getMessage());
+      System.err.println("Error occured: " + e.getMessage());
+    } catch (NotImplementedException e) {
+      System.err.println("Error occured: " + e.getMessage());
     }
-
   }
 }
 
