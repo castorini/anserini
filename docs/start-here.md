@@ -20,8 +20,8 @@ What's the problem we're trying to solve?
 
 This is the definition I typically give:
 
-> Given an information need expressed as a query _q_, the text retrieval task is to return a ranked list of _k_ texts {_d<sub>1</sub>_, _d<sub>2</sub>_ ... _d<sub>k</sub>_} from an arbitrarily large but finite collection
-of texts _C_ = {_d<sub>i</sub>_} that maximizes a metric of interest, for example, nDCG, AP, etc.
+> Given an information need expressed as a query _q_, the text retrieval task is to return a ranked list of _k_ texts {_d`<sub>`1`</sub>`_, _d`<sub>`2`</sub>`_ ... _d`<sub>`k`</sub>`_} from an arbitrarily large but finite collection
+> of texts _C_ = {_d`<sub>`i`</sub>`_} that maximizes a metric of interest, for example, nDCG, AP, etc.
 
 This problem has been given various names, e.g., the search problem, the information retrieval problem, the text ranking problem, the top-_k_ document retrieval problem, etc.
 In most contexts, "ranking" and "retrieval" are used interchangeably.
@@ -112,7 +112,7 @@ It simply means: of the top 10 documents, what fraction are relevant according t
 For a query, if five of them are relevant, you get a score of 0.5; if nine of them are relevant, you get a score of 0.9.
 You compute P@10 per query, and then average across all queries.
 
-Information retrieval researchers have dozens of metrics, but a detailed explanation of each isn't important right now... 
+Information retrieval researchers have dozens of metrics, but a detailed explanation of each isn't important right now...
 just recognize that _all_ metrics are imperfect, but they try to capture different aspects of the quality of a ranked list in terms of containing relevant documents.
 For nearly all metrics, though, higher is better.
 
@@ -129,8 +129,7 @@ Well, that's the story for another day...
 <summary>Additional readings...</summary>
 
 This is a very high-level summary of core concepts in information retrieval.
-More nuanced explanations are presented in our book [Pretrained Transformers for Text Ranking: BERT and Beyond](
-https://link.springer.com/book/10.1007/978-3-031-02181-7).
+More nuanced explanations are presented in our book [Pretrained Transformers for Text Ranking: BERT and Beyond](https://link.springer.com/book/10.1007/978-3-031-02181-7).
 If you can access the book (e.g., via your university), then please do, since it helps get our page views up.
 However, if you're paywalled, a pre-publication version is available [on arXiv](https://arxiv.org/abs/2010.06467) for free.
 
@@ -140,6 +139,7 @@ When should you do these readings?
 That's a good question:
 If you absolutely want to know more _right now_, then go for it.
 Otherwise, I think it's probably okay to continue along the onboarding path... although you'll need to circle back and get a deeper understanding of these concepts if you want to get into information retrieval research "more seriously".
+
 </details>
 
 ## A Tour of MS MARCO
@@ -153,6 +153,7 @@ Bringing together everything we've discussed so far, a test collection consists 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
 If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
+
 ```bash
 git clone https://github.com/castorini/anserini.git
 cd anserini
@@ -217,7 +218,7 @@ As an aside, data munging along these lines is a very common data preparation op
 Collections rarely come in _exactly_ the format that your tools expect, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
 
 Similarly, we'll also have to do a bit of data munging of the queries and the qrels.
-We're going to retain only the queries that are in the qrels file: 
+We're going to retain only the queries that are in the qrels file:
 
 ```bash
 python tools/scripts/msmarco/filter_queries.py \
@@ -284,7 +285,7 @@ For those, we have 7437 relevance judgments:
 ```bash
 $ wc collections/msmarco-passage/qrels.dev.small.tsv  
 7437   29748  143300 collections/msmarco-passage/qrels.dev.small.tsv
-````
+```
 
 This means that we have only about one relevance judgments per query.
 We call these **sparse judgments**, i.e., where we have relatively few relevance judgments per query (here, just about one relevance judgment per query).
@@ -295,7 +296,7 @@ This is just looking at the development set.
 Now let's look at the training set:
 
 ```bash
-$ wc collections/msmarco-passage/qrels.train.tsv               
+$ wc collections/msmarco-passage/qrels.train.tsv             
 532761 2131044 10589532 collections/msmarco-passage/qrels.train.tsv
 ```
 
@@ -381,3 +382,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@emadahmed19](https://github.com/emadahmed19) on 2024-04-28 (commit [`a4064a6`](https://github.com/castorini/anserini/commit/a4064a6fcf6adc7a2cdb5f94e2959f6e3904d916))
 + Results reproduced by [@CheranMahalingam](https://github.com/CheranMahalingam) on 2024-05-05 (commit [`2331882`](https://github.com/castorini/anserini/commit/23318820f3134425cdf32be80a0e8afb1adaf237))
 + Results reproduced by [@billycz8](https://github.com/billycz8) on 2024-05-08 (commit [`8e18867`](https://github.com/castorini/anserini/commit/8e188670e038c79782302ee3596828ea688250e0))
++ Results reproduced by [@KenWuqianhao](https://github.com/KenWuqianghao) on 2024-05-08 (commit [`0558bf4`](https://github.com/castorini/anserini/commit/0558bf416ea3f955af683f23c75a5170539076e6))
