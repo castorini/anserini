@@ -87,7 +87,7 @@ public class RunMsMarco {
       Map<String, String> msmarcoDevSubsetMetrics = new HashMap<>();
       msmarcoDevSubsetMetrics.put("MRR@10", "-c -M 10 -m recip_rank");
       msmarcoDevSubsetMetrics.put("R@1K", "-c -m recall.1000");
-      msmarcoV1Passage.put("msmarco-passage.dev-subset", msmarcoDevSubsetMetrics);
+      msmarcoV1Passage.put("msmarco-passage.dev", msmarcoDevSubsetMetrics);
   
       Map<String, String> dl19PassageMetrics = new HashMap<>();
       dl19PassageMetrics.put("MAP", "-c -l 2 -m map");

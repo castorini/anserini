@@ -38,31 +38,19 @@ public class TopicsTest {
   }
 
   @Test
-  public void testAliases() {
+  public void testSymbols() {
     // Not practical to exhaustively test all aliases, just spot checks.
     assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-passage-dev"));
     assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-v1-passage-dev"));
     assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-v1-passage.dev"));
 
-    assertEquals(TREC2019_DL_PASSAGE, Topics.getByName("trec2019-dl-passage"));
-    assertEquals(TREC2019_DL_PASSAGE, Topics.getByName("dl19-passage"));
-
-    // Note: dashes vs. dots
-    assertEquals(TREC2019_DL_PASSAGE_SPLADE_PP_ED, Topics.getByName("trec2019-dl-passage-splade-pp-ed"));
-    assertEquals(TREC2019_DL_PASSAGE_SPLADE_PP_ED, Topics.getByName("dl19-passage-splade-pp-ed"));
-    assertEquals(TREC2019_DL_PASSAGE_SPLADE_PP_ED, Topics.getByName("trec2019-dl-passage.splade-pp-ed"));
-    assertEquals(TREC2019_DL_PASSAGE_SPLADE_PP_ED, Topics.getByName("dl19-passage.splade-pp-ed"));
-
-    assertEquals(TREC2020_DL, Topics.getByName("trec2020-dl-passage"));
-    assertEquals(TREC2020_DL, Topics.getByName("trec2020-dl"));
     assertEquals(TREC2020_DL, Topics.getByName("dl20-passage"));
-
-    // Note: dashes vs. dots
-    assertEquals(TREC2020_DL_COHERE_EMBED_ENGLISH_30, Topics.getByName("trec2020-dl-passage-cohere-embed-english-v3.0"));
-    assertEquals(TREC2020_DL_COHERE_EMBED_ENGLISH_30, Topics.getByName("trec2020-dl-cohere-embed-english-v3.0"));
-    assertEquals(TREC2020_DL_COHERE_EMBED_ENGLISH_30, Topics.getByName("dl20-passage-cohere-embed-english-v3.0"));
-    assertEquals(TREC2020_DL_COHERE_EMBED_ENGLISH_30, Topics.getByName("trec2020-dl-passage.cohere-embed-english-v3.0"));
-    assertEquals(TREC2020_DL_COHERE_EMBED_ENGLISH_30, Topics.getByName("trec2020-dl.cohere-embed-english-v3.0"));
-    assertEquals(TREC2020_DL_COHERE_EMBED_ENGLISH_30, Topics.getByName("dl20-passage.cohere-embed-english-v3.0"));
+    assertEquals(TREC2020_DL, Topics.getByName("dl20-doc"));
+    assertEquals(TREC2021_DL, Topics.getByName("dl21-passage"));
+    assertEquals(TREC2021_DL, Topics.getByName("dl21-doc"));
+    assertEquals(TREC2022_DL, Topics.getByName("dl22-passage"));
+    assertEquals(TREC2022_DL, Topics.getByName("dl22-doc"));
+    assertEquals(TREC2023_DL, Topics.getByName("dl23-passage"));
+    assertEquals(TREC2023_DL, Topics.getByName("dl23-doc"));
   }
 }

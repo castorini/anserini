@@ -47,13 +47,13 @@ The following snippet will generate the complete set of results that corresponds
 
 ```bash
 # doc condition
-TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl rag24-raggy-dev); for t in "${TOPICS[@]}"
+TOPICS=(msmarco-v2-doc.dev msmarco-v2-doc.dev2 dl21-doc dl22-doc dl23-doc rag24.raggy-dev); for t in "${TOPICS[@]}"
 do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v2.1-doc -topics $t -output $OUTPUT_DIR/run.msmarco-v2.1.doc.${t}.txt -threads 16 -bm25
 done
 
 # doc-segmented condition
-TOPICS=(msmarco-v2-doc-dev msmarco-v2-doc-dev2 trec2021-dl trec2022-dl trec2023-dl rag24-raggy-dev); for t in "${TOPICS[@]}"
+TOPICS=(msmarco-v2-doc.dev msmarco-v2-doc.dev2 dl21-doc dl22-doc dl23-doc rag24.raggy-dev); for t in "${TOPICS[@]}"
 do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v2.1-doc-segmented -topics $t -output $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.${t}.txt -threads 16 -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 done
@@ -81,10 +81,10 @@ java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-
 java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1.doc.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1.doc.trec2023-dl.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc.rag24-raggy-dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc.rag24-raggy-dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc.rag24-raggy-dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc.rag24.raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc.rag24.raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc.rag24.raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc.rag24.raggy-dev.txt
 
 # doc-segmented condition
 java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.msmarco-v2-doc-dev.txt
@@ -105,10 +105,10 @@ java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-
 java -cp $ANSERINI_JAR trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.trec2023-dl.txt
 java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.trec2023-dl.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.rag24-raggy-dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.rag24-raggy-dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.rag24-raggy-dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.rag24-raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m map rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.rag24.raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.rag24.raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.rag24.raggy-dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 rag24.raggy-dev $OUTPUT_DIR/run.msmarco-v2.1.doc-segmented.rag24.raggy-dev.txt
 ```
 
 And these are the complete set of expected scores:
