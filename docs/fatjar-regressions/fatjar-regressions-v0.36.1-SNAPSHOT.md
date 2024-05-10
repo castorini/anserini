@@ -29,7 +29,7 @@ For the TREC 2024 RAG track, we have thus far only implemented BM25 baselines on
 Current results are based existing qrels that have been "projected" over from MS MARCO V2.0 passage judgments.
 The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy in terms of nDCG@10):
 
-|                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGGy |
+|                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
 |:---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|-------:|
 | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)           | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
 | BM25 doc-segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
@@ -61,7 +61,7 @@ done
 
 And here's the snippet of code to perform the evaluation (which will yield the results above):
 
-```
+```bash
 # doc condition
 java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev $OUTPUT_DIR/run.msmarco-v2.1.doc.msmarco-v2-doc-dev.txt
 java -cp $ANSERINI_JAR trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 $OUTPUT_DIR/run.msmarco-v2.1.doc.msmarco-v2-doc-dev2.txt
@@ -314,7 +314,7 @@ do
 done
 ```
 
-And here's the snippet of code to perform the evaluation (which will yield the results above):
+And here's the snippet of code to perform the evaluation (which will yield the scores above):
 
 ```bash
 java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset $OUTPUT_DIR/run.msmarco-v1-passage.bm25.msmarco-v1-passage.dev.txt
@@ -450,7 +450,7 @@ do
 done
 ```
 
-And here's the snippet of code to perform the evaluation (which will yield the results above):
+And here's the snippet of code to perform the evaluation (which will yield the scores above):
 
 ```bash
 CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
