@@ -4,10 +4,12 @@ This page contains instructions for running BM25 baselines on the [MS MARCO *pas
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
 This exercise will require a machine with >8 GB RAM and >15 GB free disk space .
 
-If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md).
+If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
+).
 In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
 that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 Instead, really try to understand what's going on.
+
 
 **Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
@@ -30,7 +32,8 @@ That is, most things done with Anserini can be "translated" into Elasticsearch q
 ## Data Prep
 
 In this guide, we're just going through the mechanical steps of data prep.
-To better understand what you're actually doing, go through the [start here](start-here.md) guide.
+To better understand what you're actually doing, go through the [start here](start-here.md
+) guide.
 The guide contains the same exact instructions, but provide more detailed explanations.
 
 We're going to use the repository's root directory as the working directory.
@@ -104,6 +107,7 @@ In this case, Lucene creates what is known as an **inverted index**.
 Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
 
+
 ## Retrieval
 
 In the above step, we've built the inverted index.
@@ -173,7 +177,8 @@ $ grep 7187158 collections/msmarco-passage/collection.tsv
 In this case, the document (hit) seems relevant.
 That is, it contains information that addresses the information need.
 So here, the retrieval system "did well".
-Remember that this document was indeed marked relevant in the qrels, as we saw in the [start here](start-here.md) guide.
+Remember that this document was indeed marked relevant in the qrels, as we saw in the [start here](start-here.md
+) guide.
 
 As an additional sanity check, run the following:
 
@@ -187,7 +192,7 @@ Since the first column indicates the `qid`, it means that the file contains rank
 
 ## Evaluation
 
-Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script:
+Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
@@ -205,7 +210,8 @@ QueriesRanked: 6980
 
 (Yea, the number of digits of precision is a bit... excessive)
 
-Remember from the [start here](start-here.md) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
+Remember from the [start here](start-here.md
+) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
 
 The final ingredient is a metric, i.e., how to quantify the "quality" of a ranked list.
 Here, we're using a metric called MRR, or mean reciprocal rank.
@@ -224,7 +230,7 @@ We take the average of the scores across all queries (6980 in this case), and we
 You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
 So you've just reproduced (part of) a leaderboard submission!
 
-We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10.
+We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
 For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
@@ -316,8 +322,8 @@ It turns out that optimizing for MRR@10 and MAP yields the same settings.
 
 Here's the comparison between the Anserini default and optimized parameters:
 
-| Setting                                             | MRR@10 |    MAP | Recall@1000 |
-| :-------------------------------------------------- | -----: | -----: | ----------: |
+| Setting                                         | MRR@10 |    MAP | Recall@1000 |
+|:------------------------------------------------|-------:|-------:|------------:|
 | Default (`k1=0.9`, `b=0.4`)                     | 0.1840 | 0.1926 |      0.8526 |
 | Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 |      0.8573 |
 | Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 |      0.8555 |
@@ -329,7 +335,7 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 
 + Results reproduced by [@ronakice](https://github.com/ronakice) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
 + Results reproduced by [@MathBunny](https://github.com/MathBunny) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
-+ Results reproduced by [@JMMackenzie](https://github.com/JMMackenzie) on 2020-01-08 (commit [`f63cd22`](https://github.com/castorini/anserini/commit/f63cd2275fa5a9d4da2d17e5f983a3308e8b50ce))
++ Results reproduced by [@JMMackenzie](https://github.com/JMMackenzie) on 2020-01-08 (commit [`f63cd22`](https://github.com/castorini/anserini/commit/f63cd2275fa5a9d4da2d17e5f983a3308e8b50ce ))
 + Results reproduced by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-08 (commit [`5cc923d`](https://github.com/castorini/anserini/commit/5cc923d5c02777d8b25df32ff2e2a59be5badfdd))
 + Results reproduced by [@LuKuuu](https://github.com/LuKuuu) on 2020-01-15 (commit [`f21137b`](https://github.com/castorini/anserini/commit/f21137b44f1115d25d1ff8ecaf7780c36498c5de))
 + Results reproduced by [@kevinxyc1](https://github.com/kevinxyc1) on 2020-01-18 (commit [`f21137b`](https://github.com/castorini/anserini/commit/f21137b44f1115d25d1ff8ecaf7780c36498c5de))
@@ -478,4 +484,3 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@emadahmed19](https://github.com/emadahmed19) on 2024-04-28 (commit [`a4064a6`](https://github.com/castorini/anserini/commit/a4064a6fcf6adc7a2cdb5f94e2959f6e3904d916))
 + Results reproduced by [@CheranMahalingam](https://github.com/CheranMahalingam) on 2024-05-05 (commit [`2331882`](https://github.com/castorini/anserini/commit/23318820f3134425cdf32be80a0e8afb1adaf237))
 + Results reproduced by [@billycz8](https://github.com/billycz8) on 2024-05-08 (commit [`8e18867`](https://github.com/castorini/anserini/commit/8e188670e038c79782302ee3596828ea688250e0))
-+ Results reproduced by [@KenWuqianhao](https://github.com/KenWuqianghao) on 2024-05-08 (commit [`0558bf4`](https://github.com/castorini/anserini/commit/0558bf416ea3f955af683f23c75a5170539076e6))
