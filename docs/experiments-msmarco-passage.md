@@ -89,7 +89,7 @@ On the other hand, retrieval needs to be fast, i.e., low latency, high throughpu
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
 
-If you haven't built Anserini already, build it now using the instructions in [anserini#-getting-started](https://github.com/castorini/anserini#-getting-started).
+If you haven't built Anserini already, build it now using the instructions in [anserini#-installation](https://github.com/castorini/anserini?tab=readme-ov-file#-installation).
 
 We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
@@ -484,3 +484,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@emadahmed19](https://github.com/emadahmed19) on 2024-04-28 (commit [`a4064a6`](https://github.com/castorini/anserini/commit/a4064a6fcf6adc7a2cdb5f94e2959f6e3904d916))
 + Results reproduced by [@CheranMahalingam](https://github.com/CheranMahalingam) on 2024-05-05 (commit [`2331882`](https://github.com/castorini/anserini/commit/23318820f3134425cdf32be80a0e8afb1adaf237))
 + Results reproduced by [@billycz8](https://github.com/billycz8) on 2024-05-08 (commit [`8e18867`](https://github.com/castorini/anserini/commit/8e188670e038c79782302ee3596828ea688250e0))
++ Results reproduced by [@KenWuqianhao](https://github.com/KenWuqianghao) on 2024-05-08 (commit [`0558bf4`](https://github.com/castorini/anserini/commit/0558bf416ea3f955af683f23c75a5170539076e6))
