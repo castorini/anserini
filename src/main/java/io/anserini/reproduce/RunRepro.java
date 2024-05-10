@@ -81,11 +81,10 @@ public class RunRepro {
         } else {
           System.out.println("    Run failed!");
         }
-        System.out.println("");
+        System.out.println();
 
         // running the evaluation command
-        Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions()
-            .get(COLLECTION);
+        Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions().get(COLLECTION);
         InputStream stdout = null;
 
         for (Map<String, Double> expected : topic.scores) {
@@ -94,11 +93,12 @@ public class RunRepro {
             if (!evalCommands.get(evalKey).containsKey(metric)) {
               continue; // skip metric unintended to test
             }
+
             String evalCmd = "java -cp $fatjarPath trec_eval $metric $evalKey $output"
-            .replace("$fatjarPath", fatjarPath)
-            .replace("$metric", evalCommands.get(evalKey).get(metric))
-            .replace("$evalKey", evalKey)
-            .replace("$output", output);
+                .replace("$fatjarPath", fatjarPath)
+                .replace("$metric", evalCommands.get(evalKey).get(metric))
+                .replace("$evalKey", evalKey)
+                .replace("$output", output);
 
             pb = new ProcessBuilder(evalCmd.split(" "));
             process = pb.start();
@@ -106,14 +106,12 @@ public class RunRepro {
             resultCode = process.waitFor();
             stdout = process.getInputStream();
             if (resultCode == 0) {
-              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1")
-                  .trim();
-              Double score = Double.parseDouble(scoreString);
-              Double delta = Math.abs(score - expected.get(metric));
+              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
+              double score = Double.parseDouble(scoreString);
+              double delta = Math.abs(score - expected.get(metric));
 
               if (delta > 0.00005) {
-                System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL,
-                    expected.get(metric)));
+                System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL, expected.get(metric)));
               } else {
                 System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
               }
@@ -121,7 +119,7 @@ public class RunRepro {
               System.out.println("Evaluation command failed for metric: " + metric);
             }
           }
-          System.out.println("");
+          System.out.println();
         }
       }
     }
