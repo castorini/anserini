@@ -89,7 +89,7 @@ On the other hand, retrieval needs to be fast, i.e., low latency, high throughpu
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
 
-If you haven't built Anserini already, build it now using the instructions in [anserini#-getting-started](https://github.com/castorini/anserini#-getting-started).
+If you haven't built Anserini already, build it now using the instructions in [anserini#-installation](https://github.com/castorini/anserini?tab=readme-ov-file#-installation).
 
 We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
