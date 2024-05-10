@@ -37,7 +37,7 @@ The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy i
 The follow command will reproduce the above experiments:
 
 ```bash
-java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -v msmarco-v2.1
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1
 ```
 
 <details>
@@ -254,7 +254,7 @@ The table below reports the effectiveness of the models (dev in terms of RR@10, 
 The follow command will reproduce the above experiments:
 
 ```bash
-java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -v msmarco-v1-passage
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-passage
 ```
 
 <details>
