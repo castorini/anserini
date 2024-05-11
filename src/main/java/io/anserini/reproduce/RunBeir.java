@@ -24,7 +24,7 @@ import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
 public class RunBeir {
 
   public static void main(String[] args) throws Exception {
-    RunRepro repro = new RunRepro("beir", new BeirMetricDefinitions());
+    RunRepro repro = new RunRepro("beir", new BeirMetricDefinitions(), false);
     repro.run();
   }
 
