@@ -251,7 +251,7 @@
         <artifactId>frontend-maven-plugin</artifactId>
         <version>1.15.0</version>
         <configuration>
-          <nodeVersion>v18.11.0</nodeVersion>
+          <nodeVersion>v20.13.1</nodeVersion>
           <yarnVersion>v1.22.19</yarnVersion>
           <workingDirectory>${frontend.basedir}</workingDirectory>
           <installDirectory>${project.build.directory}</installDirectory>
@@ -279,7 +279,7 @@
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <arguments>export</arguments>
+              <arguments>build</arguments>
             </configuration>
           </execution>
         </executions>
