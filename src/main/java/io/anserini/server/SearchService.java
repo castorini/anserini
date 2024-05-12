@@ -24,8 +24,6 @@ public class SearchService {
     try {
       handler.download();
       indexDir = handler.decompressIndex();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
