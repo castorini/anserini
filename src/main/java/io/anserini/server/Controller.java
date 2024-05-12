@@ -15,8 +15,7 @@ public class Controller {
   private static final String DEFAULT_COLLECTION = "msmarco-v1-passage";
 
   @RequestMapping(method = RequestMethod.GET, path = {"/collection/{collection}/search", "/search"})
-  public List<QueryResult> search(
-      @PathVariable(value = "collection", required = false) String collection, 
+  public List<QueryResult> search(@PathVariable(value = "collection", required = false) String collection,
       @RequestParam("query") String query) {
 
     if (collection == null) {
