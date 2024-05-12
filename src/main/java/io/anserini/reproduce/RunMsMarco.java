@@ -35,7 +35,7 @@ public class RunMsMarco {
   public static class Args {
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
-    @Option(name = "-v", usage = "MsMarco Version (msmarco-v2.1 / msmarco-v1-passage). Default: msmarco-v1-passage.")
+    @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v2.1'}.")
     public String MsMarcoVersion = "msmarco-v1-passage";
   }
 
@@ -69,11 +69,11 @@ public class RunMsMarco {
 
     Set<String> allowedVersions = new HashSet<>(Arrays.asList("msmarco-v2.1", "msmarco-v1-passage"));
     if (!allowedVersions.contains(MsMarcoArgs.MsMarcoVersion)) {
-        System.err.println("Invalid MsMarco version: " + MsMarcoArgs.MsMarcoVersion);
+        System.err.println("Invalid MS MARCO version: " + MsMarcoArgs.MsMarcoVersion);
         System.exit(1);
     }
 
-    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(), true);
+    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions());
     repro.run();
   }
 
@@ -87,8 +87,7 @@ public class RunMsMarco {
       Map<String, String> msmarcoDevSubsetMetrics = new HashMap<>();
       msmarcoDevSubsetMetrics.put("MRR@10", "-c -M 10 -m recip_rank");
       msmarcoDevSubsetMetrics.put("R@1K", "-c -m recall.1000");
-      msmarcoV1Passage.put("msmarco-passage.dev-subset",
-          msmarcoDevSubsetMetrics);
+      msmarcoV1Passage.put("msmarco-passage.dev", msmarcoDevSubsetMetrics);
   
       Map<String, String> dl19PassageMetrics = new HashMap<>();
       dl19PassageMetrics.put("MAP", "-c -l 2 -m map");
@@ -109,13 +108,11 @@ public class RunMsMarco {
       // msmarco-v2.1-doc definitions
       Map<String, String> msmarco2Dev1Metrics = new HashMap<>();
       msmarco2Dev1Metrics.put("MRR@10", "-c -M 100 -m recip_rank");
-      msmarcoV2Passage.put("msmarco-v2.1-doc.dev",
-          msmarco2Dev1Metrics);
+      msmarcoV2Passage.put("msmarco-v2.1-doc.dev", msmarco2Dev1Metrics);
       
       Map<String, String> msmarco2Dev2Metrics = new HashMap<>();
       msmarco2Dev2Metrics.put("MRR@10", "-c -M 100 -m recip_rank");
-      msmarcoV2Passage.put("msmarco-v2.1-doc.dev2",
-          msmarco2Dev2Metrics);
+      msmarcoV2Passage.put("msmarco-v2.1-doc.dev2", msmarco2Dev2Metrics);
   
       Map<String, String> dl21PassageMetrics = new HashMap<>();
       dl21PassageMetrics.put("MAP", "-c -M 100 -m map");
@@ -140,7 +137,15 @@ public class RunMsMarco {
       dl23PassageMetrics.put("R@100", "-c -m recall.100");
       dl23PassageMetrics.put("R@1K", "-c -m recall.1000");
       msmarcoV2Passage.put("dl23-doc-msmarco-v2.1", dl23PassageMetrics);
-  
+
+      Map<String, String> rag24RaggyMetrics = new HashMap<>();
+      rag24RaggyMetrics.put("MAP", "-c -M 100 -m map");
+      rag24RaggyMetrics.put("MRR@10", "-c -M 100 -m recip_rank");
+      rag24RaggyMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
+      rag24RaggyMetrics.put("R@100", "-c -m recall.100");
+      rag24RaggyMetrics.put("R@1K", "-c -m recall.1000");
+      msmarcoV2Passage.put("rag24.raggy-dev", rag24RaggyMetrics);
+
       metricDefinitions.put("msmarco-v2.1", msmarcoV2Passage);
     }
   }
