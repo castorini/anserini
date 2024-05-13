@@ -40,17 +40,19 @@ public class GenerateReproductionDocsTest {
   public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_row_v1.template";
   public final static String COLLECTION = "msmarco-v1-passage";
   public final static String[] MODELS = {
-      "bm25-default",
+      "bm25",
       "splade-pp-ed.cached_q",
       "splade-pp-ed.onnx",
       "cos-dpr-distil.fp32.cached_q",
       "cos-dpr-distil.fp32.onnx",
       "cos-dpr-distil.int8.cached_q",
       "cos-dpr-distil.int8.onnx",
-      "bge-base-en-15.fp32.cached_q",
-      "bge-base-en-15.fp32.onnx",
-      "bge-base-en-15.int8.cached_q",
-      "bge-base-en-15.int8.onnx"
+      "bge-base-en-v1.5.fp32.cached_q",
+      "bge-base-en-v1.5.fp32.onnx",
+      "bge-base-en-v1.5.int8.cached_q",
+      "bge-base-en-v1.5.int8.onnx",
+      "cohere-embed-english-v3.0.fp32.cached_q",
+      "cohere-embed-english-v3.0.int8.cached_q"
   };
 
   public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {
