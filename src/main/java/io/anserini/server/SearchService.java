@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.server;
 
 import io.anserini.search.ScoredDoc;
@@ -24,8 +40,6 @@ public class SearchService {
     try {
       handler.download();
       indexDir = handler.decompressIndex();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -43,7 +57,13 @@ public class SearchService {
               String jsonString = searcher.doc_raw(result.lucene_docid);
               ObjectMapper mapper = new ObjectMapper();
               JsonNode jsonNode = mapper.readTree(jsonString);
-              String content = jsonNode.get("contents").asText();
+              String content;
+              if (jsonNode.get("contents") != null) content = jsonNode.get("contents").asText();
+              else if (jsonNode.get("text") != null) content = jsonNode.get("text").asText();
+              else if (jsonNode.get("passage") != null) content = jsonNode.get("passage").asText();
+              else if (jsonNode.get("body") != null) content = jsonNode.get("body").asText();
+              else if (jsonNode.get("segment") != null) content = jsonNode.get("segment").asText();
+              else content = jsonNode.toString();
               return new QueryResult(result.docid, content, result.score);
             } catch (Exception e) {
               e.printStackTrace();
