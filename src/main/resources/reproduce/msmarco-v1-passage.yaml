@@ -6,7 +6,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.1840
             R@1K: 0.8526
@@ -29,7 +29,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.splade-pp-ed
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3830
             R@1K: 0.9831
@@ -52,7 +52,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil
     topics:
       - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3828
             R@1K: 0.9831
@@ -75,7 +75,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.cos-dpr-distil
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3887
             R@1K: 0.9764
@@ -98,7 +98,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
     topics:
       - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3887
             R@1K: 0.9765
@@ -121,7 +121,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil.quantized -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.cos-dpr-distil
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3897
             R@1K: 0.9764
@@ -144,7 +144,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cos-dpr-distil.quantized -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
     topics:
       - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3899
             R@1K: 0.9764
@@ -160,14 +160,14 @@ conditions:
           - MAP: 0.4871
             nDCG@10: 0.6996
             R@1K: 0.8538
-  - name: bge-base-en-15.fp32.cached_q
+  - name: bge-base-en-v1.5.fp32.cached_q
     display: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_row: ""
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.bge-base-en-v1.5
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3574
             R@1K: 0.9788
@@ -183,14 +183,14 @@ conditions:
           - MAP: 0.4648
             nDCG@10: 0.6780
             R@1K: 0.8483
-  - name: bge-base-en-15.fp32.onnx
+  - name: bge-base-en-v1.5.fp32.onnx
     display: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_row: ""
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
       - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3575
             R@1K: 0.9788
@@ -206,14 +206,14 @@ conditions:
           - MAP: 0.4626
             nDCG@10: 0.6768
             R@1K: 0.8526
-  - name: bge-base-en-15.int8.cached_q
+  - name: bge-base-en-v1.5.int8.cached_q
     display: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_row: ""
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.bge-base-en-v1.5
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3572
             R@1K: 0.9774
@@ -229,14 +229,14 @@ conditions:
           - MAP: 0.4623
             nDCG@10: 0.6738
             R@1K: 0.8420
-  - name: bge-base-en-15.int8.onnx
+  - name: bge-base-en-v1.5.int8.onnx
     display: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_row: ""
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.quantized -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
       - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3575
             R@1K: 0.9772
@@ -259,7 +259,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.cohere-embed-english-v3.0
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3647
             R@1K: 0.9751
@@ -282,7 +282,7 @@ conditions:
     command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0.quantized -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.cohere-embed-english-v3.0
-        eval_key: msmarco-passage.dev-subset
+        eval_key: msmarco-passage.dev
         scores:
           - MRR@10: 0.3656
             R@1K: 0.9752

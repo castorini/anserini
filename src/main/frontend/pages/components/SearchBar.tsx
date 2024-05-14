@@ -1,16 +1,37 @@
-// components/SearchBar.tsx
-import React, { useState } from 'react';
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import React, { useEffect, useState } from 'react';
 import { QueryResult } from '../../types/QueryResult';
+import Dropdown from './Dropdown';
 
 const SearchBar: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [results, setResults] = useState<QueryResult[]>([]);
+  const [query, setQuery] = useState<string>('');
+  const [index, setIndex] = useState<string>('');
 
-  const fetchResults = async (query: string) => {
+  const fetchResults = async (query: string, collection: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/query/${query}`);
+      let endpoint = '/api';
+      if (collection != '') endpoint += `/collection/${collection}`;
+      endpoint += `/search?query=${query}`;
+      
+      const response = await fetch(endpoint);
       const data: QueryResult[] = await response.json();
       setResults(data);
     } catch (error) {
@@ -23,21 +44,24 @@ const SearchBar: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchResults(query);
+    fetchResults(query, index);
   };
 
   return (
     <>
     <div className="search-container">
       <form className="search-bar" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          placeholder="Search..."
-          className="search-input"
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button className="search-button" type="submit" disabled={loading}>Search</button>
+        <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
+        <div className="search-input-container">
+          <input
+            type="text"
+            value={query}
+            placeholder="Search..."
+            className="search-input"
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button className="search-button" type="submit" disabled={loading}>Search</button>
+        </div>
       </form>
     </div>
     {loading && <p>Loading...</p>}
