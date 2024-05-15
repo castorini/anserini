@@ -91,8 +91,6 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
       ];
     });
     setCollections(generatedMap);
-
-    console.log('collections', collections);
   }, []);
 
   return (

@@ -17,6 +17,8 @@
 package io.anserini.server;
 
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,15 +33,23 @@ public class Controller {
   private static final String DEFAULT_COLLECTION = "msmarco-v1-passage";
 
   @RequestMapping(method = RequestMethod.GET, path = {"/collection/{collection}/search", "/search"})
-  public List<QueryResult> search(@PathVariable(value = "collection", required = false) String collection,
-      @RequestParam("query") String query) {
+  public Map<String, Object> search(@PathVariable(value = "collection", required = false) String collection,
+      @RequestParam("query") String query,
+      @RequestParam(value = "hits", defaultValue = "10") int hits,
+      @RequestParam(value = "qid", defaultValue = "") String qid) {
 
     if (collection == null) {
       collection = DEFAULT_COLLECTION;
     }
-
+    
     SearchService searchService = new SearchService(collection);
-    return searchService.search(query, 10);
+    List<Map<String, Object>> candidates = searchService.search(query, hits);
+
+    Map<String, Object> queryMap = new LinkedHashMap<>();
+    queryMap.put("query", new LinkedHashMap<>(Map.of("qid", qid, "text", query)));
+    queryMap.put("candidates", candidates);
+
+    return queryMap;
   }
 
 }

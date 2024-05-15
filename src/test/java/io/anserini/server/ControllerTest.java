@@ -18,10 +18,13 @@ package io.anserini.server;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 public class ControllerTest {
 
@@ -29,10 +32,14 @@ public class ControllerTest {
   public void testSearch() throws Exception {
     Controller controller = new Controller();
 
-    List<QueryResult> results = controller.search(null, "Albert Einstein");
+    Map<String, Object> results = controller.search(null, "Albert Einstein", 10, "");
+    assertNotNull(results);
+    assertTrue(results.get("candidates") instanceof List);
 
-    assertEquals(results.size(), 10);
-    assertEquals(results.get(0).getDocid(), "3553430");
+    @SuppressWarnings("unchecked")
+    List<Map<String, Object>> candidates = (List<Map<String, Object>>) results.get("candidates");
+    assertEquals(10, candidates.size());
+    assertEquals("3553430", candidates.get(0).get("docid"));
   }
 
   @Test
@@ -40,7 +47,7 @@ public class ControllerTest {
     Controller controller = new Controller();
 
     assertThrows(RuntimeException.class, () -> {
-      List<QueryResult> results = controller.search("nonexistent-index", "Albert Einstein");
+      Map<String, Object> results = controller.search("nonexistent-index", "Albert Einstein", 10, "");
     });
   }
 
