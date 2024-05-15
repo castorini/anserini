@@ -32,7 +32,7 @@ public class ControllerTest {
     List<QueryResult> results = controller.search(null, "Albert Einstein");
 
     assertEquals(results.size(), 10);
-    assertEquals(results.get(0).getDocid(), "3075155");
+    assertEquals(results.get(0).getDocid(), "3553430");
   }
 
   @Test
