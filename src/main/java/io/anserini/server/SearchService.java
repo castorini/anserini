@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
 public class SearchService {
 
   final private String indexDir;
-  final private float k1 = 0.82f;
-  final private float b = 0.68f;
+  final private float k1 = 0.9f;
+  final private float b = 0.4f;
 
   public SearchService(String prebuiltIndex) {
     PrebuiltIndexHandler handler = new PrebuiltIndexHandler(prebuiltIndex);
