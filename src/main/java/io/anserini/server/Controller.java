@@ -41,7 +41,7 @@ public class Controller {
     if (collection == null) {
       collection = DEFAULT_COLLECTION;
     }
-    
+
     SearchService searchService = new SearchService(collection);
     List<Map<String, Object>> candidates = searchService.search(query, hits);
 
