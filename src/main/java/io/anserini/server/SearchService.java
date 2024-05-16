@@ -16,6 +16,7 @@
 
 package io.anserini.server;
 
+import io.anserini.index.Constants;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 import io.anserini.util.PrebuiltIndexHandler;
@@ -24,15 +25,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SearchService {
 
-  final private String indexDir;
-  final private float k1 = 0.9f;
-  final private float b = 0.4f;
+  private final String indexDir;
+  private final float k1 = 0.9f;
+  private final float b = 0.4f;
+  private final ObjectMapper mapper = new ObjectMapper();
 
   public SearchService(String prebuiltIndex) {
     PrebuiltIndexHandler handler = new PrebuiltIndexHandler(prebuiltIndex);
@@ -45,37 +50,28 @@ public class SearchService {
     }
   }
 
-  public List<QueryResult> search(String query, int hits) {
+  public List<Map<String, Object>> search(String query, int hits) {
     try {
-      // index, k1, b, hits
       SimpleSearcher searcher = new SimpleSearcher(indexDir);
       searcher.set_bm25(k1, b);
       ScoredDoc[] results = searcher.search(query, hits);
-      List<QueryResult> resultStrings = List.of(results).stream()
-          .map(result -> {
-            try {
-              String jsonString = searcher.doc_raw(result.lucene_docid);
-              ObjectMapper mapper = new ObjectMapper();
-              JsonNode jsonNode = mapper.readTree(jsonString);
-              String content;
-              if (jsonNode.get("contents") != null) content = jsonNode.get("contents").asText();
-              else if (jsonNode.get("text") != null) content = jsonNode.get("text").asText();
-              else if (jsonNode.get("passage") != null) content = jsonNode.get("passage").asText();
-              else if (jsonNode.get("body") != null) content = jsonNode.get("body").asText();
-              else if (jsonNode.get("segment") != null) content = jsonNode.get("segment").asText();
-              else content = jsonNode.toString();
-              return new QueryResult(result.docid, content, result.score);
-            } catch (Exception e) {
-              e.printStackTrace();
-              return null;
-            }
-          }).filter(Objects::nonNull).collect(Collectors.toList());
-      searcher.close();
-      return resultStrings;
+      List<Map<String, Object>> candidates = new ArrayList<>();
+      for (ScoredDoc r : results) {
+        String raw = r.lucene_document.get(Constants.RAW);
+        JsonNode rootNode = mapper.readTree(raw);
+        Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+        content.remove("docid");
+        Map<String, Object> candidate = new LinkedHashMap<>();
+        candidate.put("docid", r.docid);
+        candidate.put("score", r.score);
+        candidate.put("doc", content);
+        candidates.add(candidate);
+      }
+      return candidates;
     } catch (Exception e) {
-      // Consume exception and return empty list
       e.printStackTrace();
       return List.of();
     }
   }
+
 }
