@@ -15,12 +15,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { QueryResult } from '../../types/QueryResult';
 import Dropdown from './Dropdown';
 
 const SearchBar: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [results, setResults] = useState<QueryResult[]>([]);
+  const [results, setResults] = useState<Array<any>>([]);
   const [query, setQuery] = useState<string>('');
   const [index, setIndex] = useState<string>('');
 
@@ -32,8 +31,8 @@ const SearchBar: React.FC = () => {
       endpoint += `/search?query=${query}`;
       
       const response = await fetch(endpoint);
-      const data: QueryResult[] = await response.json();
-      setResults(data);
+      const data = await response.json();
+      setResults(data.candidates);
     } catch (error) {
       console.error("Failed to fetch data: ", error);
       setResults([]);
@@ -66,10 +65,14 @@ const SearchBar: React.FC = () => {
     </div>
     {loading && <p>Loading...</p>}
     <ul>
-      {results.map((result) => (
-        <div className="query-card" key={result.docid}>
+      {results.map((result, index) => (
+        <div className="query-card" key={index}>
           <h3>Document ID: {result.docid} <span>Score: {result.score}</span></h3>
-          <p>{result.content}</p>
+          {Object.entries(result.doc).map(([key, value]) => (
+            <p key={key}>
+              <strong>{key}:</strong> {value as React.ReactNode}
+            </p>
+          ))}
         </div>
       ))}
     </ul>
