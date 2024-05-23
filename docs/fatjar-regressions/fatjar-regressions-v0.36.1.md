@@ -3,8 +3,7 @@
 Fetch the fatjar:
 
 ```bash
-# Update once artifact has been published
-wget https://repo1.maven.org/maven2/io/anserini/anserini/0.36.0/anserini-0.36.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.36.1/anserini-0.36.1-fatjar.jar
 ```
 
 Note that prebuilt indexes will be downloaded to `~/.cache/pyserini/indexes/`.
@@ -14,8 +13,8 @@ If you want to change the download location, the current workaround is to use sy
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR=`ls target/*-fatjar.jar`
-export OUTPUT_DIR="runs"
+export ANSERINI_JAR="anserini-0.36.1-fatjar.jar"
+export OUTPUT_DIR="."
 ```
 
 ## TREC 2024 RAG
