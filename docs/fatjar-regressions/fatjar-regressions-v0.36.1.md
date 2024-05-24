@@ -28,7 +28,7 @@ java -cp $ANSERINI_JAR io.anserini.server.Application --server.port=8081
 
 And then navigate to [`http://localhost:8081/`](http://localhost:8081/) in your browser.
 
-Here's a specific example of using the REST API to issue the query "How does the process of digestion and metabolism of carbohydrates start":
+Here's a specific example of using the REST API to issue the query "How does the process of digestion and metabolism of carbohydrates start" to `msmarco-v2.1-doc`:
 
 ```bash
 curl -X GET "http://localhost:8081/api/collection/msmarco-v2.1-doc/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start" 
