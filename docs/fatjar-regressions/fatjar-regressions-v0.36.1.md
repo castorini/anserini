@@ -1,10 +1,9 @@
-# Anserini Fatjar Regresions (v0.36.1-SNAPSHOT)
+# Anserini Fatjar Regresions (v0.36.1)
 
 Fetch the fatjar:
 
 ```bash
-# Update once artifact has been published
-wget https://repo1.maven.org/maven2/io/anserini/anserini/0.36.0/anserini-0.36.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.36.1/anserini-0.36.1-fatjar.jar
 ```
 
 Note that prebuilt indexes will be downloaded to `~/.cache/pyserini/indexes/`.
@@ -14,9 +13,29 @@ If you want to change the download location, the current workaround is to use sy
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR=`ls target/*-fatjar.jar`
-export OUTPUT_DIR="runs"
+export ANSERINI_JAR="anserini-0.36.1-fatjar.jar"
+export OUTPUT_DIR="."
 ```
+
+## Webapp and REST API
+
+Anserini has a built-in webapp for interactive querying along with a REST API that can be used by other applications.
+To start the REST API:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.server.Application --server.port=8081
+```
+
+And then navigate to [`http://localhost:8081/`](http://localhost:8081/) in your browser.
+
+Here's a specific example of using the REST API to issue the query "How does the process of digestion and metabolism of carbohydrates start" to `msmarco-v2.1-doc`:
+
+```bash
+curl -X GET "http://localhost:8081/api/collection/msmarco-v2.1-doc/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start" 
+```
+
+The json results are the same as the output of the `-outputRerankerRequests` option in `SearchCollection`, described below for TREC 2024 RAG.
+Use the `hits` parameter to specify the number of hits to return, e.g., `hits=1000` to return the top 1000 hits.
 
 ## TREC 2024 RAG
 
