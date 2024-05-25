@@ -23,11 +23,11 @@ const SearchBar: React.FC = () => {
   const [query, setQuery] = useState<string>('');
   const [index, setIndex] = useState<string>('');
 
-  const fetchResults = async (query: string, collection: string) => {
+  const fetchResults = async (query: string, index: string) => {
     setLoading(true);
     try {
       let endpoint = '/api';
-      if (collection != '') endpoint += `/collection/${collection}`;
+      if (index != '') endpoint += `/index/${index}`;
       endpoint += `/search?query=${query}`;
       
       const response = await fetch(endpoint);
