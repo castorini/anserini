@@ -30,19 +30,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api")
 public class Controller {
 
-  private static final String DEFAULT_COLLECTION = "msmarco-v1-passage";
+  private static final String DEFAULT_INDEX = "msmarco-v1-passage";
 
-  @RequestMapping(method = RequestMethod.GET, path = {"/collection/{collection}/search", "/search"})
-  public Map<String, Object> search(@PathVariable(value = "collection", required = false) String collection,
+  @RequestMapping(method = RequestMethod.GET, path = {"/index/{index}/search", "/search"})
+  public Map<String, Object> search(@PathVariable(value = "index", required = false) String index,
       @RequestParam("query") String query,
       @RequestParam(value = "hits", defaultValue = "10") int hits,
       @RequestParam(value = "qid", defaultValue = "") String qid) {
 
-    if (collection == null) {
-      collection = DEFAULT_COLLECTION;
+    if (index == null) {
+      index = DEFAULT_INDEX;
     }
 
-    SearchService searchService = new SearchService(collection);
+    SearchService searchService = new SearchService(index);
     List<Map<String, Object>> candidates = searchService.search(query, hits);
 
     Map<String, Object> queryMap = new LinkedHashMap<>();
