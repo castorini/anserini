@@ -35,7 +35,7 @@ Sample indexing command, building HNSW indexes:
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-bge-base-en-v1.5 \
-  -generator HnswDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.beir-v1.0.0-bioasq-bge-base-en-v1.5/ \
   -threads 16 -M 16 -efC 500 -noMerge \
   >& logs/log.beir-v1.0.0-bge-base-en-v1.5 &
