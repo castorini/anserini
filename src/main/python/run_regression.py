@@ -209,8 +209,10 @@ def evaluate_and_verify(yaml_data, dry_run):
                 actual = round(float(eval_out), metric['metric_precision'])
 
                 using_hnsw = True \
-                    if 'VectorQueryGenerator' in model['params'] or \
+                    if ('VectorQueryGenerator' in model['params'] and '-efSearch' in model['params']) or \
                        ('-encoder' in model['params'] and ('SpladePlusPlusEnsembleDistil' not in model['params'] and 'SpladePlusPlusSelfDistil' not in model['params'])) else False
+                # The first part of the clause is janky; VectorQueryGenerator tells us we're doing dense,
+                # except with flat, we *don't* use -efSearch
 
                 # For HNSW, we only print to third digit
                 if using_hnsw:
