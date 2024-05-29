@@ -19,14 +19,12 @@ package io.anserini.index;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.codecs.AnseriniFlatVectorFormat;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
 import org.apache.lucene.codecs.lucene99.Lucene99Codec;
-import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -74,7 +72,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
       final IndexWriterConfig config;
 
       if (args.quantizeInt8) {
-        throw new NotImplementedException("Quantization not currently implemented.");
+        throw new UnsupportedOperationException("Quantization not currently implemented.");
       } else {
         config = new IndexWriterConfig().setCodec(
             new Lucene99Codec() {
@@ -92,7 +90,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
       this.writer = new IndexWriter(dir, config);
     } catch (Exception e) {
-      throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
+      throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s", e.getMessage()));
     }
 
     LOG.info("FlatDenseVector settings:");
