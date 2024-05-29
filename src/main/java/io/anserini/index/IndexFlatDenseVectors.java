@@ -19,13 +19,19 @@ package io.anserini.index;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.codecs.AnseriniFlatVectorFormat;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
+import org.apache.lucene.codecs.KnnVectorsReader;
+import org.apache.lucene.codecs.KnnVectorsWriter;
 import org.apache.lucene.codecs.lucene99.Lucene99Codec;
+import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.SegmentReadState;
+import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -33,6 +39,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,13 +49,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
   public static final class Args extends AbstractIndexer.Args {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
-    public String generatorClass = "HnswDenseVectorDocumentGenerator";
-
-    @Option(name = "-M", metaVar = "[num]", usage = "HNSW parameters M")
-    public int M = 16;
-
-    @Option(name = "-efC", metaVar = "[num]", usage = "HNSW parameters ef Construction")
-    public int efC = 100;
+    public String generatorClass = "DenseVectorDocumentGenerator";
 
     @Option(name = "-quantize.int8", usage = "Quantize vectors into int8.")
     public boolean quantizeInt8 = false;
@@ -73,19 +74,13 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
       final IndexWriterConfig config;
 
       if (args.quantizeInt8) {
-        config = new IndexWriterConfig().setCodec(
-            new Lucene99Codec() {
-              @Override
-              public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new AnseriniFlatVectorFormat();
-              }
-            });
+        throw new NotImplementedException("Quantization not currently implemented.");
       } else {
         config = new IndexWriterConfig().setCodec(
             new Lucene99Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new AnseriniFlatVectorFormat();
+                return new DelegatingKnnVectorsFormat(new AnseriniFlatVectorFormat(), 4096);
               }
             });
       }
@@ -104,6 +99,35 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + Store document vectors? " + args.storeVectors);
     LOG.info(" + Int8 quantization? " + args.quantizeInt8);
+  }
+
+  // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
+  // This class exists because Lucene95HnswVectorsFormat's getMaxDimensions method is final and we
+  // need to workaround that constraint to allow more than the default number of dimensions.
+  private static final class DelegatingKnnVectorsFormat extends KnnVectorsFormat {
+    private final KnnVectorsFormat delegate;
+    private final int maxDimensions;
+
+    public DelegatingKnnVectorsFormat(KnnVectorsFormat delegate, int maxDimensions) {
+      super(delegate.getName());
+      this.delegate = delegate;
+      this.maxDimensions = maxDimensions;
+    }
+
+    @Override
+    public KnnVectorsWriter fieldsWriter(SegmentWriteState state) throws IOException {
+      return delegate.fieldsWriter(state);
+    }
+
+    @Override
+    public KnnVectorsReader fieldsReader(SegmentReadState state) throws IOException {
+      return delegate.fieldsReader(state);
+    }
+
+    @Override
+    public int getMaxDimensions(String fieldName) {
+      return maxDimensions;
+    }
   }
 
   public static void main(String[] args) throws Exception {
