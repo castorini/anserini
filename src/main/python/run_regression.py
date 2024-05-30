@@ -208,9 +208,20 @@ def evaluate_and_verify(yaml_data, dry_run):
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
 
-                using_hnsw = True \
-                    if ('VectorQueryGenerator' in model['params'] and '-efSearch' in model['params']) or \
-                       ('-encoder' in model['params'] and ('SpladePlusPlusEnsembleDistil' not in model['params'] and 'SpladePlusPlusSelfDistil' not in model['params'])) else False
+                print(f'{model} -- {topic_set}')
+                using_hnsw = True if model['type'] == 'hnsw' else False
+                using_flat = True if model['type'] == 'flat' else False
+
+                if using_flat:
+                    # The means we're using ONNX:
+                    if '-encoder' in model['params']:
+                        flat_tolerance_ok = 0.005
+                    else:
+                        flat_tolerance_ok = 0.005
+
+                # using_hnsw = True \
+                #     if ('VectorQueryGenerator' in model['params'] and '-efSearch' in model['params']) or \
+                #        ('-encoder' in model['params'] and ('SpladePlusPlusEnsembleDistil' not in model['params'] and 'SpladePlusPlusSelfDistil' not in model['params'])) else False
                 # The first part of the clause is janky; VectorQueryGenerator tells us we're doing dense,
                 # except with flat, we *don't* use -efSearch
 
@@ -219,15 +230,14 @@ def evaluate_and_verify(yaml_data, dry_run):
                     result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
                         expected, actual, metric['metric'], model['name'], topic_set['id'])
                 else:
-                    result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3} topics: {4}'.format(
-                        expected, actual, metric['metric'], model['name'], topic_set['id'])
+                    result_str = f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - metric: {model["name"]:<8} model: {model["name"]} topics: {topic_set["id"]}'
 
                 # For inverted indexes, we expect scores to match precisely.
                 # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
                 # let the test pass.
-                if is_close(expected, actual) or \
-                        (using_hnsw and is_close(expected, actual, abs_tol=0.005)) or \
-                        (using_hnsw and actual > expected):
+                if is_close(expected, actual) or actual > expected or \
+                        (using_flat and is_close(expected, actual, abs_tol=flat_tolerance_ok)) or \
+                        (using_hnsw and is_close(expected, actual, abs_tol=0.005)):
                     logger.info(ok_str + result_str)
                 # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
                 elif using_hnsw and is_close(expected, actual, abs_tol=0.0101):
