@@ -17,7 +17,7 @@
 package io.anserini.index;
 
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.codecs.AnseriniFlatVectorFormat;
+import io.anserini.index.codecs.AnseriniLucene99FlatVectorFormat;
 import io.anserini.index.codecs.AnseriniLucene99ScalarQuantizedVectorsFormat;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
@@ -85,7 +85,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
             new Lucene99Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new DelegatingKnnVectorsFormat(new AnseriniFlatVectorFormat(), 4096);
+                return new DelegatingKnnVectorsFormat(new AnseriniLucene99FlatVectorFormat(), 4096);
               }
             });
       }

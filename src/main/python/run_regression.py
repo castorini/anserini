@@ -213,11 +213,17 @@ def evaluate_and_verify(yaml_data, dry_run):
                 using_flat = True if model['type'] == 'flat' else False
 
                 if using_flat:
-                    # The means we're using ONNX:
-                    if '-encoder' in model['params']:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        print('tolerence setting for int8, ONNX')
                         flat_tolerance_ok = 0.005
+                    elif model['name'].endswith('-flat-int8'):
+                        print('tolerence setting for int8')
+                        flat_tolerance_ok = 0.001
+                    elif model['name'].endswith('-flat-onnx'):
+                        print('tolerence setting for ONNX')
+                        flat_tolerance_ok = 0.002
                     else:
-                        flat_tolerance_ok = 0.005
+                        flat_tolerance_ok = 1e-9
 
                 # using_hnsw = True \
                 #     if ('VectorQueryGenerator' in model['params'] and '-efSearch' in model['params']) or \
