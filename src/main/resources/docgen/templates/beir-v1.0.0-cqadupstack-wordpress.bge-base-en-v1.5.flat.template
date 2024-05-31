@@ -58,5 +58,5 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-Note that since we're running brute-force search, the results should be reproducibly _exactly_.
 
+Note that since we're running brute-force search, the results should be reproducibly _exactly_.
