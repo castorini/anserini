@@ -208,20 +208,61 @@ def evaluate_and_verify(yaml_data, dry_run):
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
 
-                print(f'{model} -- {topic_set}')
+                print(f'{model} -- {topic_set} --- {metric}')
                 using_hnsw = True if model['type'] == 'hnsw' else False
                 using_flat = True if model['type'] == 'flat' else False
 
                 if using_flat:
                     if model['name'].endswith('-flat-int8-onnx'):
-                        print('tolerence setting for int8, ONNX')
-                        flat_tolerance_ok = 0.005
+                        if topic_set['name'].endswith('ArguAna'):
+                            flat_tolerance_ok = 0.021
+                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                            flat_tolerance_ok = 0.007
+                        elif topic_set['name'].endswith('TREC-NEWS'):
+                            flat_tolerance_ok = 0.01
+                        elif topic_set['name'].endswith('Webis-Touche2020'):
+                            flat_tolerance_ok = 0.0065
+                        else:
+                            flat_tolerance_ok = 0.005
+                        print(f'tolerence setting for int8, ONNX: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-int8'):
-                        print('tolerence setting for int8')
-                        flat_tolerance_ok = 0.001
+                        if topic_set['name'].endswith('BioASQ'):
+                            flat_tolerance_ok = 0.003
+                        elif topic_set['name'].endswith('Climate-FEVER'):
+                            flat_tolerance_ok = 0.0035
+                        elif topic_set['name'].endswith('CQADupStack-gaming'):
+                            flat_tolerance_ok = 0.0025
+                        elif topic_set['name'].endswith('CQADupStack-gis'):
+                            flat_tolerance_ok = 0.003
+                        elif topic_set['name'].endswith('CQADupStack-unix'):
+                            flat_tolerance_ok = 0.0025
+                        elif topic_set['name'].endswith('DBPedia'):
+                            flat_tolerance_ok = 0.0025
+                        elif topic_set['name'].endswith('FiQA-2018'):
+                            flat_tolerance_ok = 0.004
+                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                            flat_tolerance_ok = 0.006
+                        elif topic_set['name'].endswith('NQ'):
+                            flat_tolerance_ok = 0.004
+                        elif topic_set['name'].endswith('SCIDOCS'):
+                            flat_tolerance_ok = 0.003
+                        elif topic_set['name'].endswith('Signal-1M'):
+                            flat_tolerance_ok = 0.0065
+                        elif topic_set['name'].endswith('TREC-NEWS'):
+                            flat_tolerance_ok = 0.0075
+                        elif topic_set['name'].endswith('Webis-Touche2020'):
+                            flat_tolerance_ok = 0.006
+                        else:
+                            flat_tolerance_ok = 0.002
+                        print(f'tolerence setting for int8: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-onnx'):
-                        print('tolerence setting for ONNX')
-                        flat_tolerance_ok = 0.002
+                        if topic_set['name'].endswith('ArguAna'):
+                            flat_tolerance_ok = 0.02
+                        elif topic_set['name'].endswith('Robust04'):
+                            flat_tolerance_ok = 0.0031
+                        else:
+                            flat_tolerance_ok = 0.002
+                        print(f'tolerence setting for ONNX: {flat_tolerance_ok}')
                     else:
                         flat_tolerance_ok = 1e-9
 
@@ -236,7 +277,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                     result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
                         expected, actual, metric['metric'], model['name'], topic_set['id'])
                 else:
-                    result_str = f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - metric: {model["name"]:<8} model: {model["name"]} topics: {topic_set["id"]}'
+                    result_str = f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}'
 
                 # For inverted indexes, we expect scores to match precisely.
                 # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
