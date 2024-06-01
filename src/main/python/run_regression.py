@@ -224,7 +224,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.007
                         else:
                             flat_tolerance_ok = 0.005
-                        print(f'tolerence setting for int8, ONNX: {flat_tolerance_ok}')
+                        #print(f'tolerance setting for int8, ONNX: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-int8'):
                         if topic_set['name'].endswith('BioASQ'):
                             flat_tolerance_ok = 0.005
@@ -238,7 +238,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.007
                         else:
                             flat_tolerance_ok = 0.004
-                        print(f'tolerence setting for int8: {flat_tolerance_ok}')
+                        #print(f'tolerance setting for int8: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-onnx'):
                         if topic_set['name'].endswith('ArguAna'):
                             flat_tolerance_ok = 0.02
@@ -246,7 +246,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.004
                         else:
                             flat_tolerance_ok = 0.002
-                        print(f'tolerence setting for ONNX: {flat_tolerance_ok}')
+                        #print(f'tolerance setting for ONNX: {flat_tolerance_ok}')
                     else:
                         flat_tolerance_ok = 1e-9
 
