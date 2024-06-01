@@ -29,7 +29,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building quantized HNSW indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
