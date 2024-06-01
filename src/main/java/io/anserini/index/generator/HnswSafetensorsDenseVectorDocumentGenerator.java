@@ -64,7 +64,11 @@ public class HnswSafetensorsDenseVectorDocumentGenerator<T extends SourceDocumen
 
             // Create the Lucene document
             String id = src.id();
-            int index = idxToDocid.entrySet().stream().filter(entry -> entry.getValue().equals(id)).findFirst().orElseThrow().getKey();
+            Integer indexObj = idxToDocid.entrySet().stream().filter(entry -> entry.getValue().equals(id)).findFirst().orElse(null).getKey();
+            if (indexObj == null) {
+                throw new InvalidDocumentException();
+            }
+            int index = indexObj;
             float[] contents = new float[vectors[index].length];
             for (int i = 0; i < contents.length; i++) {
                 contents[i] = (float) vectors[index][i];
@@ -123,6 +127,7 @@ public class HnswSafetensorsDenseVectorDocumentGenerator<T extends SourceDocumen
     }
 
     private int[] extractDocidIndices(byte[] data, Map<String, Object> header) {
+        @SuppressWarnings("unchecked")
         Map<String, Object> docidsInfo = (Map<String, Object>) header.get("docids");
         String dtype = (String) docidsInfo.get("dtype");
 

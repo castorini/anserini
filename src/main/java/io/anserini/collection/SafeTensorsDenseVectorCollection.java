@@ -41,6 +41,8 @@ public class SafeTensorsDenseVectorCollection extends DocumentCollection<SafeTen
    * A file in a SafeTensors collection, typically containing multiple documents.
    */
   public static class Segment<T extends SafeTensorsDenseVectorCollection.SafeTensorsDocument> extends FileSegment<T> {
+    private boolean hasRead = false;
+
     public Segment(Path path) throws IOException {
       super(Files.newBufferedReader(path));
     }
@@ -48,8 +50,12 @@ public class SafeTensorsDenseVectorCollection extends DocumentCollection<SafeTen
     @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws NoSuchElementException {
+      if (hasRead) {
+        atEOF = true;
+        return;
+      }
       // No-op: Document creation and reading are handled in the generator
-      atEOF = true;
+      hasRead = true;
     }
 
     protected SafeTensorsDenseVectorCollection.SafeTensorsDocument createNewDocument(String id, double[] vector, String raw) {
