@@ -40,7 +40,7 @@ import java.io.IOException;
 
 public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
-  static final String NAME = "AnseriniFlatVectorFormat";
+  static final String NAME = "AnseriniLucene99FlatVectorFormat";
 
   private final FlatVectorsFormat format = new Lucene99FlatVectorsFormat();
 
