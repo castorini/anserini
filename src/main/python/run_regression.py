@@ -209,8 +209,8 @@ def evaluate_and_verify(yaml_data, dry_run):
                 actual = round(float(eval_out), metric['metric_precision'])
 
                 #print(f'{model} -- {topic_set} --- {metric}')
-                using_hnsw = True if model['type'] == 'hnsw' else False
-                using_flat = True if model['type'] == 'flat' else False
+                using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
+                using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
                 if using_flat:
                     if model['name'].endswith('-flat-int8-onnx'):
