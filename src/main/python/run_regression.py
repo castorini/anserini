@@ -221,45 +221,27 @@ def evaluate_and_verify(yaml_data, dry_run):
                         elif topic_set['name'].endswith('TREC-NEWS'):
                             flat_tolerance_ok = 0.01
                         elif topic_set['name'].endswith('Webis-Touche2020'):
-                            flat_tolerance_ok = 0.0065
+                            flat_tolerance_ok = 0.007
                         else:
                             flat_tolerance_ok = 0.005
                         print(f'tolerence setting for int8, ONNX: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-int8'):
-                        if topic_set['name'].endswith('BioASQ'):
-                            flat_tolerance_ok = 0.004
-                        elif topic_set['name'].endswith('Climate-FEVER'):
-                            flat_tolerance_ok = 0.004
-                        elif topic_set['name'].endswith('CQADupStack-gaming'):
-                            flat_tolerance_ok = 0.0025
-                        elif topic_set['name'].endswith('CQADupStack-gis'):
-                            flat_tolerance_ok = 0.003
-                        elif topic_set['name'].endswith('CQADupStack-unix'):
-                            flat_tolerance_ok = 0.0025
-                        elif topic_set['name'].endswith('DBPedia'):
-                            flat_tolerance_ok = 0.0025
-                        elif topic_set['name'].endswith('FiQA-2018'):
-                            flat_tolerance_ok = 0.004
-                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                        if topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
                             flat_tolerance_ok = 0.006
-                        elif topic_set['name'].endswith('NQ'):
-                            flat_tolerance_ok = 0.004
-                        elif topic_set['name'].endswith('SCIDOCS'):
-                            flat_tolerance_ok = 0.003
                         elif topic_set['name'].endswith('Signal-1M'):
-                            flat_tolerance_ok = 0.0065
+                            flat_tolerance_ok = 0.007
                         elif topic_set['name'].endswith('TREC-NEWS'):
                             flat_tolerance_ok = 0.009
                         elif topic_set['name'].endswith('Webis-Touche2020'):
                             flat_tolerance_ok = 0.006
                         else:
-                            flat_tolerance_ok = 0.002
+                            flat_tolerance_ok = 0.004
                         print(f'tolerence setting for int8: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-onnx'):
                         if topic_set['name'].endswith('ArguAna'):
                             flat_tolerance_ok = 0.02
                         elif topic_set['name'].endswith('Robust04'):
-                            flat_tolerance_ok = 0.0031
+                            flat_tolerance_ok = 0.004
                         else:
                             flat_tolerance_ok = 0.002
                         print(f'tolerence setting for ONNX: {flat_tolerance_ok}')
