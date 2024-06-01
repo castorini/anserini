@@ -78,4 +78,4 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): BioASQ                                                                                        | 0.8059    |
 
-Note that since we're running brute-force search, the results should be reproducibly _exactly_.
+Note that since we're running brute-force search, the results should be reproducible _exactly_.

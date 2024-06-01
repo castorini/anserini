@@ -382,7 +382,7 @@ For the other models, modify the above commands as follows:
 | MF  | `corpus`           | `faefd5281b662c72ce03d22021e4ff6b` | `multifield`            |
 | U1  | `unicoil-noexp`    | `4fd04d2af816a6637fc12922cccc8a83` | `unicoil-noexp`         |
 | S1  | `splade-pp-ed`     | `9c7de5b444a788c9e74c340bf833173b` | `splade-pp-ed`          |
-| D1  | `bge-base-en-v1.5` | `e4e8324ba3da3b46e715297407a24f00` | `bge-base-en-v1.5-hnsw` |
+| BGE | `bge-base-en-v1.5` | `e4e8324ba3da3b46e715297407a24f00` | `bge-base-en-v1.5-hnsw` |
 
 The "Corpus" above should be substituted into the full file name `beir-v1.0.0-${corpus}.tar`, e.g., `beir-v1.0.0-bge-base-en-v1.5.tar`.
 
