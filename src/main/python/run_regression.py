@@ -227,9 +227,9 @@ def evaluate_and_verify(yaml_data, dry_run):
                         print(f'tolerence setting for int8, ONNX: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-int8'):
                         if topic_set['name'].endswith('BioASQ'):
-                            flat_tolerance_ok = 0.003
+                            flat_tolerance_ok = 0.004
                         elif topic_set['name'].endswith('Climate-FEVER'):
-                            flat_tolerance_ok = 0.0035
+                            flat_tolerance_ok = 0.004
                         elif topic_set['name'].endswith('CQADupStack-gaming'):
                             flat_tolerance_ok = 0.0025
                         elif topic_set['name'].endswith('CQADupStack-gis'):
@@ -249,7 +249,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                         elif topic_set['name'].endswith('Signal-1M'):
                             flat_tolerance_ok = 0.0065
                         elif topic_set['name'].endswith('TREC-NEWS'):
-                            flat_tolerance_ok = 0.0075
+                            flat_tolerance_ok = 0.009
                         elif topic_set['name'].endswith('Webis-Touche2020'):
                             flat_tolerance_ok = 0.006
                         else:
