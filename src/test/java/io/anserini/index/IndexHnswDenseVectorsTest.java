@@ -109,7 +109,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
-        "-generator", "FakeHnswDenseVectorDocumentGenerator",
+        "-generator", "FakeDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -128,7 +128,7 @@ public class IndexHnswDenseVectorsTest {
     };
 
     IndexHnswDenseVectors.main(indexArgs);
-    // If this succeeded, then the default -generator of HnswDenseVectorDocumentGenerator must have worked.
+    // If this succeeded, then the default -generator of DenseVectorDocumentGenerator must have worked.
   }
 
   @Test
@@ -138,7 +138,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -160,7 +160,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100", "-quantize.int8"
     };
