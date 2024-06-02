@@ -2,6 +2,7 @@ package io.anserini.index;
 
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.generator.HnswJsonWithSafeTensorsDenseVectorDocumentGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.ImpactSimilarity;
 import org.apache.commons.io.FileUtils;
@@ -23,7 +24,6 @@ import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public final class SafeTensorsIndexCollection extends AbstractIndexer {
 
     @Option(name = "-generator", metaVar = "[class]",
         usage = "Document generator class in package 'io.anserini.index.generator'.")
-    public String generatorClass = "HnswSafetensorsDenseVectorDocumentGenerator";
+    public String generatorClass = "HnswJsonWithSafeTensorsDenseVectorDocumentGenerator";
 
     @Option(name = "-fields", handler = StringArrayOptionHandler.class,
         usage = "List of fields to index (space separated), in addition to the default 'contents' field.")
@@ -95,11 +95,16 @@ public final class SafeTensorsIndexCollection extends AbstractIndexer {
         usage = "File containing list of docids, one per line; only these docids will be indexed.")
     public String whitelist = null;
 
-    public URI docidsPath;
+    @Option(name = "-vectorsDirectory", usage = "Directory containing vectors SafeTensors files.")
+    public String vectorsDirectory;
 
-    public URI vectorsPath;
+    @Option(name = "-docidsDirectory", usage = "Directory containing docids SafeTensors files.")
+    public String docidsDirectory;
 
-    public URI docidToIdxPath;
+    @Option(name = "-docidToIdxDirectory", usage = "Directory containing docid_to_idx JSON files.")
+    public String docidToIdxDirectory;
+
+    public String currentJsonlFile;
   }
 
   private final Set<String> whitelistDocids;
@@ -152,6 +157,9 @@ public final class SafeTensorsIndexCollection extends AbstractIndexer {
     LOG.info(" + Additional fields to index: " + Arrays.toString(args.fields));
     LOG.info(" + Whitelist: " + args.whitelist);
     LOG.info(" + Pretokenized?: " + args.pretokenized);
+    LOG.info(" + Vectors directory: " + args.vectorsDirectory);
+    LOG.info(" + Docids directory: " + args.docidsDirectory);
+    LOG.info(" + DocidToIdx directory: " + args.docidToIdxDirectory);
   }
 
   private Analyzer getAnalyzer() {
@@ -161,10 +169,16 @@ public final class SafeTensorsIndexCollection extends AbstractIndexer {
   protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
     segmentPaths.forEach((segmentPath) -> {
       try {
+        // Update the current JSONL file
+        String currentJsonlFile = segmentPath.getFileName().toString();
+
         // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
         @SuppressWarnings("unchecked")
         LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
                 generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
+
+        // Set the current JSONL file in the generator instance
+        ((HnswJsonWithSafeTensorsDenseVectorDocumentGenerator) generator).setCurrentJsonlFile(currentJsonlFile);
 
         executor.execute(new AbstractIndexer.IndexerThread(segmentPath, generator, whitelistDocids));
       } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
