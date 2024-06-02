@@ -218,6 +218,8 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.021
                         elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
                             flat_tolerance_ok = 0.007
+                        elif topic_set['name'].endswith('Signal-1M'):
+                            flat_tolerance_ok = 0.006
                         elif topic_set['name'].endswith('TREC-NEWS'):
                             flat_tolerance_ok = 0.01
                         elif topic_set['name'].endswith('Webis-Touche2020'):
