@@ -17,7 +17,7 @@ os.makedirs(docid_to_idx_directory, exist_ok=True)
 
 # Process all JSONL files in the input directory
 for input_filename in os.listdir(input_directory):
-    if input_filename.endswith('.jsonl'):
+    if input_filename.endswith('.json'):
         input_file_path = os.path.join(input_directory, input_filename)
         
         # Extract the base name (e.g., "vectors.part00" from "vectors.part00.jsonl")
