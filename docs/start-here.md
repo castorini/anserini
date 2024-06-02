@@ -190,7 +190,7 @@ the first column contains a unique identifier for the passage (called the `docid
 Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line):
 
 ```bash
-python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+python3 tools/scripts/msmarco/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -220,7 +220,7 @@ Similarly, we'll also have to do a bit of data munging of the queries and the qr
 We're going to retain only the queries that are in the qrels file: 
 
 ```bash
-python tools/scripts/msmarco/filter_queries.py \
+python3 tools/scripts/msmarco/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
@@ -388,3 +388,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@RohanNankani](https://github.com/RohanNankani) on 2024-05-17 (commit [`a6ea614`](https://github.com/castorini/anserini/commit/a6ea6147fa68bca2a8f869479dee28d620d93dbd))
 + Results reproduced by [@IR3KT4FUNZ](https://github.com/IR3KT4FUNZ) on 2024-05-19 (commit [`97c39f`](https://github.com/castorini/anserini/commit/97c39fd35f2ed1c95a425812d719083d9b088583))
 + Results reproduced by [@bilet-13](https://github.com/bilet-13) on 2024-05-26 (commit [`97c39fd`](https://github.com/castorini/anserini/commit/97c39fd35f2ed1c95a425812d719083d9b088583))
++ Results reproduced by [@moosakhan2](https://github.com/moosakhan2) on 2024-06-01 (commit [``]())
