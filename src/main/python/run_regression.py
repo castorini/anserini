@@ -208,7 +208,6 @@ def evaluate_and_verify(yaml_data, dry_run):
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
 
-                #print(f'{model} -- {topic_set} --- {metric}')
                 using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
                 using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
@@ -226,7 +225,6 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.007
                         else:
                             flat_tolerance_ok = 0.005
-                        #print(f'tolerance setting for int8, ONNX: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-int8'):
                         if topic_set['name'].endswith('BioASQ'):
                             flat_tolerance_ok = 0.005
@@ -240,7 +238,6 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.007
                         else:
                             flat_tolerance_ok = 0.004
-                        #print(f'tolerance setting for int8: {flat_tolerance_ok}')
                     elif model['name'].endswith('-flat-onnx'):
                         if topic_set['name'].endswith('ArguAna'):
                             flat_tolerance_ok = 0.02
@@ -248,31 +245,25 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.004
                         else:
                             flat_tolerance_ok = 0.002
-                        #print(f'tolerance setting for ONNX: {flat_tolerance_ok}')
                     else:
                         flat_tolerance_ok = 1e-9
 
-                # using_hnsw = True \
-                #     if ('VectorQueryGenerator' in model['params'] and '-efSearch' in model['params']) or \
-                #        ('-encoder' in model['params'] and ('SpladePlusPlusEnsembleDistil' not in model['params'] and 'SpladePlusPlusSelfDistil' not in model['params'])) else False
-                # The first part of the clause is janky; VectorQueryGenerator tells us we're doing dense,
-                # except with flat, we *don't* use -efSearch
-
-                # For HNSW, we only print to third digit
+                # For HNSW, only print out score to third digit
                 if using_hnsw:
                     result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
                         expected, actual, metric['metric'], model['name'], topic_set['id'])
                 else:
                     result_str = f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}'
 
-                # For inverted indexes, we expect scores to match precisely.
-                # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
-                # let the test pass.
+                # - For inverted indexes, we expect scores to match precisely.
+                # - For flat indexes (on dense vectors), use the tolerance values set above.
+                # - For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
+                #   let the test pass.
                 if is_close(expected, actual) or actual > expected or \
                         (using_flat and is_close(expected, actual, abs_tol=flat_tolerance_ok)) or \
                         (using_hnsw and is_close(expected, actual, abs_tol=0.005)):
                     logger.info(ok_str + result_str)
-                # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
+                # For ONNX runs with HNSW, increase tolerance a bit because we observe minor differences across OSes.
                 elif using_hnsw and is_close(expected, actual, abs_tol=0.0101):
                     logger.info(okish_str + result_str)
                     okish = True
