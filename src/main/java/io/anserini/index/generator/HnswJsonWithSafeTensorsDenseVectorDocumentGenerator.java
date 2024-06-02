@@ -43,7 +43,7 @@ public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends Sourc
     public Document createDocument(T src) throws InvalidDocumentException {
         try {
             // Determine the corresponding SafeTensors files based on the current JSONL file
-            String baseFilename = currentJsonlFile.replace(".jsonl", "");
+            String baseFilename = currentJsonlFile.replace(".json", "");
             String vectorsFilePath = Paths.get(args.vectorsDirectory, baseFilename + "_vectors.safetensors").toString();
             String docidsFilePath = Paths.get(args.docidsDirectory, baseFilename + "_docids.safetensors").toString();
             String docidToIdxFilePath = Paths.get(args.docidToIdxDirectory, baseFilename + "_docid_to_idx.json").toString();
