@@ -52,7 +52,7 @@ Sample indexing command, building HNSW indexes:
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5 \
-  -generator HnswDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
   -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
   >& logs/log.msmarco-passage-bge-base-en-v1.5 &
