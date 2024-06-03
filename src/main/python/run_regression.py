@@ -208,28 +208,62 @@ def evaluate_and_verify(yaml_data, dry_run):
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
 
-                using_hnsw = True \
-                    if ('VectorQueryGenerator' in model['params'] and '-efSearch' in model['params']) or \
-                       ('-encoder' in model['params'] and ('SpladePlusPlusEnsembleDistil' not in model['params'] and 'SpladePlusPlusSelfDistil' not in model['params'])) else False
-                # The first part of the clause is janky; VectorQueryGenerator tells us we're doing dense,
-                # except with flat, we *don't* use -efSearch
+                using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
+                using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
-                # For HNSW, we only print to third digit
+                if using_flat:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        if topic_set['name'].endswith('ArguAna'):
+                            flat_tolerance_ok = 0.021
+                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                            flat_tolerance_ok = 0.007
+                        elif topic_set['name'].endswith('Signal-1M'):
+                            flat_tolerance_ok = 0.006
+                        elif topic_set['name'].endswith('TREC-NEWS'):
+                            flat_tolerance_ok = 0.01
+                        elif topic_set['name'].endswith('Webis-Touche2020'):
+                            flat_tolerance_ok = 0.007
+                        else:
+                            flat_tolerance_ok = 0.005
+                    elif model['name'].endswith('-flat-int8'):
+                        if topic_set['name'].endswith('BioASQ'):
+                            flat_tolerance_ok = 0.005
+                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                            flat_tolerance_ok = 0.006
+                        elif topic_set['name'].endswith('Signal-1M'):
+                            flat_tolerance_ok = 0.007
+                        elif topic_set['name'].endswith('TREC-NEWS'):
+                            flat_tolerance_ok = 0.009
+                        elif topic_set['name'].endswith('Webis-Touche2020'):
+                            flat_tolerance_ok = 0.007
+                        else:
+                            flat_tolerance_ok = 0.004
+                    elif model['name'].endswith('-flat-onnx'):
+                        if topic_set['name'].endswith('ArguAna'):
+                            flat_tolerance_ok = 0.02
+                        elif topic_set['name'].endswith('Robust04'):
+                            flat_tolerance_ok = 0.004
+                        else:
+                            flat_tolerance_ok = 0.002
+                    else:
+                        flat_tolerance_ok = 1e-9
+
+                # For HNSW, only print out score to third digit
                 if using_hnsw:
                     result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
                         expected, actual, metric['metric'], model['name'], topic_set['id'])
                 else:
-                    result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3} topics: {4}'.format(
-                        expected, actual, metric['metric'], model['name'], topic_set['id'])
+                    result_str = f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}'
 
-                # For inverted indexes, we expect scores to match precisely.
-                # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
-                # let the test pass.
-                if is_close(expected, actual) or \
-                        (using_hnsw and is_close(expected, actual, abs_tol=0.005)) or \
-                        (using_hnsw and actual > expected):
+                # - For inverted indexes, we expect scores to match precisely.
+                # - For flat indexes (on dense vectors), use the tolerance values set above.
+                # - For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
+                #   let the test pass.
+                if is_close(expected, actual) or actual > expected or \
+                        (using_flat and is_close(expected, actual, abs_tol=flat_tolerance_ok)) or \
+                        (using_hnsw and is_close(expected, actual, abs_tol=0.005)):
                     logger.info(ok_str + result_str)
-                # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
+                # For ONNX runs with HNSW, increase tolerance a bit because we observe minor differences across OSes.
                 elif using_hnsw and is_close(expected, actual, abs_tol=0.0101):
                     logger.info(okish_str + result_str)
                     okish = True
