@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-arguana-flat
+corpus: beir-v1.0.0-arguana.flat
 corpus_path: collections/beir-v1.0.0/corpus/arguana/
 
-index_path: indexes/lucene-index.beir-v1.0.0-arguana-flat/
+index_path: indexes/lucene-index.beir-v1.0.0-arguana.flat/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

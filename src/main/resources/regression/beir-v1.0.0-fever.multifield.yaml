@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-fever-multifield
+corpus: beir-v1.0.0-fever.multifield
 corpus_path: collections/beir-v1.0.0/corpus/fever/
 
-index_path: indexes/lucene-index.beir-v1.0.0-fever-multifield/
+index_path: indexes/lucene-index.beir-v1.0.0-fever.multifield/
 collection_class: BeirMultifieldCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-robust04-unicoil-noexp
+corpus: beir-v1.0.0-robust04.unicoil-noexp
 corpus_path: collections/beir-v1.0.0/unicoil-noexp/robust04
 
-index_path: indexes/lucene-index.beir-v1.0.0-robust04-unicoil-noexp/
+index_path: indexes/lucene-index.beir-v1.0.0-robust04.unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

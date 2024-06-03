@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-hotpotqa-flat
+corpus: beir-v1.0.0-hotpotqa.flat
 corpus_path: collections/beir-v1.0.0/corpus/hotpotqa/
 
-index_path: indexes/lucene-index.beir-v1.0.0-hotpotqa-flat/
+index_path: indexes/lucene-index.beir-v1.0.0-hotpotqa.flat/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

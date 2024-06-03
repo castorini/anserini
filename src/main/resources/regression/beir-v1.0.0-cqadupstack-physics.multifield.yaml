@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-cqadupstack-physics-multifield
+corpus: beir-v1.0.0-cqadupstack-physics.multifield
 corpus_path: collections/beir-v1.0.0/corpus/cqadupstack-physics/
 
-index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-physics-multifield/
+index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-physics.multifield/
 collection_class: BeirMultifieldCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-cqadupstack-stats-unicoil-noexp
+corpus: beir-v1.0.0-cqadupstack-stats.unicoil-noexp
 corpus_path: collections/beir-v1.0.0/unicoil-noexp/cqadupstack-stats
 
-index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-stats-unicoil-noexp/
+index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-stats.unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

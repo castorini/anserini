@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-climate-fever-unicoil-noexp
+corpus: beir-v1.0.0-climate-fever.unicoil-noexp
 corpus_path: collections/beir-v1.0.0/unicoil-noexp/climate-fever
 
-index_path: indexes/lucene-index.beir-v1.0.0-climate-fever-unicoil-noexp/
+index_path: indexes/lucene-index.beir-v1.0.0-climate-fever.unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

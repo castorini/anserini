@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-cqadupstack-programmers-splade-pp-ed
+corpus: beir-v1.0.0-cqadupstack-programmers.splade-pp-ed
 corpus_path: collections/beir-v1.0.0/splade-pp-ed/cqadupstack-programmers
 
-index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-programmers-splade-pp-ed/
+index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -43,7 +43,7 @@ topics:
     qrel: qrels.beir-v1.0.0-cqadupstack-programmers.test.txt
 
 models:
-  - name: splade-pp-ed
+  - name: splade-pp-ed-cached
     display: SPLADE++ (CoCondenser-EnsembleDistil)
     params: -impact -pretokenized -removeQuery -hits 1000
     results:

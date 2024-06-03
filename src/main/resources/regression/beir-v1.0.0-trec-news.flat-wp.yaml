@@ -1,8 +1,8 @@
 ---
-corpus: beir-v1.0.0-trec-news-flat-wp
+corpus: beir-v1.0.0-trec-news.flat-wp
 corpus_path: collections/beir-v1.0.0/wp/trec-news/
 
-index_path: indexes/lucene-index.beir-v1.0.0-trec-news-flat-wp/
+index_path: indexes/lucene-index.beir-v1.0.0-trec-news.flat-wp/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
