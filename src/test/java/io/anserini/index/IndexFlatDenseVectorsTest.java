@@ -77,10 +77,11 @@ public class IndexFlatDenseVectorsTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidCollection() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "FakeJsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
@@ -90,10 +91,11 @@ public class IndexFlatDenseVectorsTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testCollectionPath() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_fake_path",
-        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
@@ -103,10 +105,11 @@ public class IndexFlatDenseVectorsTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidGenerator() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-index", indexPath,
         "-generator", "FakeDenseVectorDocumentGenerator",
         "-threads", "1"
     };
@@ -116,10 +119,11 @@ public class IndexFlatDenseVectorsTest {
 
   @Test
   public void testDefaultGenerator() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-index", indexPath,
         "-threads", "1"
     };
 
@@ -129,7 +133,7 @@ public class IndexFlatDenseVectorsTest {
 
   @Test
   public void test1() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -148,9 +152,9 @@ public class IndexFlatDenseVectorsTest {
     assertEquals(100, results.get("documents"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testQuantizedInt8() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",

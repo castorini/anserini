@@ -366,6 +366,49 @@ public class SearchHnswDenseVectorsTest {
 
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
+  public void testBasicCosDprQuantized() throws Exception {
+    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100", "-quantize.int8"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    String runfile = "target/run-" + System.currentTimeMillis();
+    String[] searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.jsonl",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5"};
+    SearchHnswDenseVectors.main(searchArgs);
+
+    TestUtils.checkRunFileApproximate(runfile, new String[] {
+        "2 Q0 224 1 0.579050 Anserini",
+        "2 Q0 208 2 0.577672 Anserini",
+        "2 Q0 384 3 0.572705 Anserini",
+        "2 Q0 136 4 0.572389 Anserini",
+        "2 Q0 720 5 0.568491 Anserini",
+        "1048585 Q0 624 1 0.569788 Anserini",
+        "1048585 Q0 120 2 0.564118 Anserini",
+        "1048585 Q0 320 3 0.559633 Anserini",
+        "1048585 Q0 328 4 0.550906 Anserini",
+        "1048585 Q0 232 5 0.550473 Anserini"
+    });
+
+    new File(runfile).delete();
+  }
+
+  @Test
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicCosDprSpecifyTopicsAsSymbol() throws Exception {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
