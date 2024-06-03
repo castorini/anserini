@@ -1,5 +1,5 @@
 ---
-corpus: beir-v1.0.0-bge-base-en-v1.5
+corpus: beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5
 corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/cqadupstack-stats
 
 index_path: indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5/
