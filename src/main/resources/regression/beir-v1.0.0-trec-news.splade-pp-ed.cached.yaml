@@ -2,7 +2,7 @@
 corpus: beir-v1.0.0-trec-news.splade-pp-ed
 corpus_path: collections/beir-v1.0.0/splade-pp-ed/trec-news
 
-index_path: indexes/lucene-index.beir-v1.0.0-trec-news.splade-pp-ed/
+index_path: indexes/lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

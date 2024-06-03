@@ -2,7 +2,7 @@
 corpus: beir-v1.0.0-arguana.multifield
 corpus_path: collections/beir-v1.0.0/corpus/arguana/
 
-index_path: indexes/lucene-index.beir-v1.0.0-arguana.multifield/
+index_path: indexes/lucene-inverted.beir-v1.0.0-arguana.multifield/
 collection_class: BeirMultifieldCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

@@ -2,7 +2,7 @@
 corpus: beir-v1.0.0-cqadupstack-english.flat
 corpus_path: collections/beir-v1.0.0/corpus/cqadupstack-english/
 
-index_path: indexes/lucene-index.beir-v1.0.0-cqadupstack-english.flat/
+index_path: indexes/lucene-inverted.beir-v1.0.0-cqadupstack-english.flat/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

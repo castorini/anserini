@@ -34,14 +34,14 @@ Sample indexing command, building HNSW indexes:
 ```
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
-  -input /path/to/beir-v1.0.0-bge-base-en-v1.5 \
+  -input /path/to/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
-  -index indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5/ \
+  -index indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/ \
   -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge \
-  >& logs/log.beir-v1.0.0-bge-base-en-v1.5 &
+  >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5 &
 ```
 
-The path `/path/to/beir-v1.0.0-bge-base-en-v1.5/` should point to the corpus downloaded above.
+The path `/path/to/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/` should point to the corpus downloaded above.
 Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
 This is because merging index segments is a costly operation and not worthwhile given our query set.
 
@@ -53,19 +53,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
-  -index indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5/ \
+  -index indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
-  -output runs/run.beir-v1.0.0-bge-base-en-v1.5.bge-hnsw.topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.txt \
+  -output runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-bge-base-en-v1.5.bge-hnsw.topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-bge-base-en-v1.5.bge-hnsw.topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-bge-base-en-v1.5.bge-hnsw.topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.txt
 ```
 
 ## Effectiveness

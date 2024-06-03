@@ -30,11 +30,11 @@ Typical indexing command:
 ```
 bin/run.sh io.anserini.index.IndexCollection \
   -collection BeirFlatCollection \
-  -input /path/to/beir-v1.0.0-bioasq-flat-wp \
+  -input /path/to/beir-v1.0.0-bioasq.flat-wp \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.beir-v1.0.0-bioasq-flat-wp/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-bioasq.flat-wp/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw -pretokenized \
-  >& logs/log.beir-v1.0.0-bioasq-flat-wp &
+  >& logs/log.beir-v1.0.0-bioasq.flat-wp &
 ```
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
@@ -47,19 +47,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.beir-v1.0.0-bioasq-flat-wp/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-bioasq.flat-wp/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-bioasq.test.wp.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-bioasq-flat-wp.bm25.topics.beir-v1.0.0-bioasq.test.wp.txt \
+  -output runs/run.beir-v1.0.0-bioasq.flat-wp.bm25.topics.beir-v1.0.0-bioasq.test.wp.txt \
   -bm25 -removeQuery -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-flat-wp.bm25.topics.beir-v1.0.0-bioasq.test.wp.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-flat-wp.bm25.topics.beir-v1.0.0-bioasq.test.wp.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq-flat-wp.bm25.topics.beir-v1.0.0-bioasq.test.wp.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq.flat-wp.bm25.topics.beir-v1.0.0-bioasq.test.wp.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq.flat-wp.bm25.topics.beir-v1.0.0-bioasq.test.wp.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.test.txt runs/run.beir-v1.0.0-bioasq.flat-wp.bm25.topics.beir-v1.0.0-bioasq.test.wp.txt
 ```
 
 ## Effectiveness

@@ -2,7 +2,7 @@
 corpus: beir-v1.0.0-signal1m.unicoil-noexp
 corpus_path: collections/beir-v1.0.0/unicoil-noexp/signal1m
 
-index_path: indexes/lucene-index.beir-v1.0.0-signal1m.unicoil-noexp/
+index_path: indexes/lucene-inverted.beir-v1.0.0-signal1m.unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -43,7 +43,7 @@ topics:
     qrel: qrels.beir-v1.0.0-signal1m.test.txt
 
 models:
-  - name: unicoil-noexp
+  - name: unicoil-noexp-cached
     display: uniCOIL no expansion
     params: -impact -pretokenized -removeQuery -hits 1000
     results:

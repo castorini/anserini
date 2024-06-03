@@ -33,11 +33,11 @@ Typical indexing command:
 ```
 bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
-  -input /path/to/beir-v1.0.0-webis-touche2020-unicoil-noexp \
+  -input /path/to/beir-v1.0.0-webis-touche2020.unicoil-noexp \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.beir-v1.0.0-webis-touche2020-unicoil-noexp/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-webis-touche2020.unicoil-noexp/ \
   -threads 16 -impact -pretokenized \
-  >& logs/log.beir-v1.0.0-webis-touche2020-unicoil-noexp &
+  >& logs/log.beir-v1.0.0-webis-touche2020.unicoil-noexp &
 ```
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
@@ -50,19 +50,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.beir-v1.0.0-webis-touche2020-unicoil-noexp/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-webis-touche2020.unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-webis-touche2020-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.txt \
+  -output runs/run.beir-v1.0.0-webis-touche2020.unicoil-noexp.unicoil-noexp-cached.topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.txt \
   -impact -pretokenized -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020-unicoil-noexp.unicoil-noexp.topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020.unicoil-noexp.unicoil-noexp-cached.topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020.unicoil-noexp.unicoil-noexp-cached.topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020.unicoil-noexp.unicoil-noexp-cached.topics.beir-v1.0.0-webis-touche2020.test.unicoil-noexp.txt
 ```
 
 ## Effectiveness

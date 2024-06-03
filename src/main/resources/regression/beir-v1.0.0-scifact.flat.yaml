@@ -2,7 +2,7 @@
 corpus: beir-v1.0.0-scifact.flat
 corpus_path: collections/beir-v1.0.0/corpus/scifact/
 
-index_path: indexes/lucene-index.beir-v1.0.0-scifact.flat/
+index_path: indexes/lucene-inverted.beir-v1.0.0-scifact.flat/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

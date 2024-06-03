@@ -36,11 +36,11 @@ Sample indexing command:
 ```
 bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
-  -input /path/to/beir-v1.0.0-hotpotqa-splade-pp-ed \
+  -input /path/to/beir-v1.0.0-hotpotqa.splade-pp-ed \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.beir-v1.0.0-hotpotqa-splade-pp-ed/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed/ \
   -threads 16 -impact -pretokenized \
-  >& logs/log.beir-v1.0.0-hotpotqa-splade-pp-ed &
+  >& logs/log.beir-v1.0.0-hotpotqa.splade-pp-ed &
 ```
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
@@ -54,19 +54,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.beir-v1.0.0-hotpotqa-splade-pp-ed/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-hotpotqa.test.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-hotpotqa-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-hotpotqa.test.txt \
+  -output runs/run.beir-v1.0.0-hotpotqa.splade-pp-ed.splade-pp-ed-onnx.topics.beir-v1.0.0-hotpotqa.test.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladePlusPlusEnsembleDistil &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt runs/run.beir-v1.0.0-hotpotqa-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-hotpotqa.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt runs/run.beir-v1.0.0-hotpotqa-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-hotpotqa.test.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt runs/run.beir-v1.0.0-hotpotqa-splade-pp-ed.splade-pp-ed.topics.beir-v1.0.0-hotpotqa.test.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt runs/run.beir-v1.0.0-hotpotqa.splade-pp-ed.splade-pp-ed-onnx.topics.beir-v1.0.0-hotpotqa.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt runs/run.beir-v1.0.0-hotpotqa.splade-pp-ed.splade-pp-ed-onnx.topics.beir-v1.0.0-hotpotqa.test.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-hotpotqa.test.txt runs/run.beir-v1.0.0-hotpotqa.splade-pp-ed.splade-pp-ed-onnx.topics.beir-v1.0.0-hotpotqa.test.txt
 ```
 
 ## Effectiveness

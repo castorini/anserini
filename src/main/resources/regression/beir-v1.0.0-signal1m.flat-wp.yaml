@@ -2,7 +2,7 @@
 corpus: beir-v1.0.0-signal1m.flat-wp
 corpus_path: collections/beir-v1.0.0/wp/signal1m/
 
-index_path: indexes/lucene-index.beir-v1.0.0-signal1m.flat-wp/
+index_path: indexes/lucene-inverted.beir-v1.0.0-signal1m.flat-wp/
 collection_class: BeirFlatCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

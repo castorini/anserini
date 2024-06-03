@@ -29,11 +29,11 @@ Typical indexing command:
 ```
 bin/run.sh io.anserini.index.IndexCollection \
   -collection BeirFlatCollection \
-  -input /path/to/beir-v1.0.0-trec-news-flat \
+  -input /path/to/beir-v1.0.0-trec-news.flat \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.beir-v1.0.0-trec-news-flat/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-trec-news.flat/ \
   -threads 1 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.beir-v1.0.0-trec-news-flat &
+  >& logs/log.beir-v1.0.0-trec-news.flat &
 ```
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
@@ -46,19 +46,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.beir-v1.0.0-trec-news-flat/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-trec-news.flat/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-trec-news.test.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-trec-news-flat.bm25.topics.beir-v1.0.0-trec-news.test.txt \
+  -output runs/run.beir-v1.0.0-trec-news.flat.bm25.topics.beir-v1.0.0-trec-news.test.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt runs/run.beir-v1.0.0-trec-news-flat.bm25.topics.beir-v1.0.0-trec-news.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt runs/run.beir-v1.0.0-trec-news-flat.bm25.topics.beir-v1.0.0-trec-news.test.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt runs/run.beir-v1.0.0-trec-news-flat.bm25.topics.beir-v1.0.0-trec-news.test.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt runs/run.beir-v1.0.0-trec-news.flat.bm25.topics.beir-v1.0.0-trec-news.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt runs/run.beir-v1.0.0-trec-news.flat.bm25.topics.beir-v1.0.0-trec-news.test.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-news.test.txt runs/run.beir-v1.0.0-trec-news.flat.bm25.topics.beir-v1.0.0-trec-news.test.txt
 ```
 
 ## Effectiveness
