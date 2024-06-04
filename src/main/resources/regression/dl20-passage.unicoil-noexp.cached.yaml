@@ -1,11 +1,11 @@
 ---
-corpus: msmarco-passage-unicoil
-corpus_path: collections/msmarco/msmarco-passage-unicoil/
+corpus: msmarco-passage-unicoil-noexp
+corpus_path: collections/msmarco/msmarco-passage-unicoil-noexp/
 
-download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil.tar
-download_checksum: 78eef752c78c8691f7d61600ceed306f
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-unicoil-noexp.tar
+download_checksum: f17ddd8c7c00ff121c3c3b147d2e17d8
 
-index_path: indexes/lucene-inverted.msmarco-v1-passage.unicoil/
+index_path: indexes/lucene-inverted.msmarco-v1-passage.unicoil-noexp/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -13,7 +13,7 @@ index_options: -impact -pretokenized -storeDocvectors
 index_stats:
   documents: 8841823
   documents (non-empty): 8841823
-  total terms: 44495093768
+  total terms: 26468530021
 
 metrics:
   - metric: AP@1000
@@ -47,45 +47,47 @@ metrics:
 
 topic_reader: TsvInt
 topics:
-  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)"
-    id: dl19
-    path: topics.dl19-passage.unicoil.0shot.tsv.gz
-    qrel: qrels.dl19-passage.txt
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20
+    path: topics.dl20.unicoil-noexp.0shot.tsv.gz
+    qrel: qrels.dl20-passage.txt
 
 models:
-  - name: unicoil-cached_q
-    display: uniCOIL (with doc2query-T5 expansions)
+  - name: unicoil-noexp-cached
+    display: uniCOIL (no expansions)
     params: -impact -pretokenized
     results:
       AP@1000:
-        - 0.4612
+        - 0.4021
       nDCG@10:
-        - 0.7024
+        - 0.6523
+      MRR:
+        - 0.7566
       R@100:
-        - 0.6054
+        - 0.6658
       R@1000:
-        - 0.8292
-  - name: unicoil-cached_q+rm3
+        - 0.7861
+  - name: unicoil-noexp-cached+rm3
     display: +RM3
     params: -impact -pretokenized -rm3
     results:
       AP@1000:
-        - 0.4641
+        - 0.4231
       nDCG@10:
-        - 0.6761
+        - 0.6587
       R@100:
-        - 0.6207
+        - 0.6629
       R@1000:
-        - 0.8598
-  - name: unicoil-cached_q+rocchio
+        - 0.8091
+  - name: unicoil-noexp-cached+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio
     results:
       AP@1000:
-        - 0.4603
+        - 0.4319
       nDCG@10:
-        - 0.6658
+        - 0.6519
       R@100:
-        - 0.6211
+        - 0.6807
       R@1000:
-        - 0.8515
+        - 0.8196
