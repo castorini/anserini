@@ -55,51 +55,51 @@ metrics:
 
 topic_reader: TsvInt
 topics:
-  - name: "[DL22 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
-    id: dl22
-    path: topics.dl22.splade-pp-ed.tsv.gz
-    qrel: qrels.dl22-passage.txt
+  - name: "[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    id: dl21
+    path: topics.dl21.splade-pp-ed.tsv.gz
+    qrel: qrels.dl21-passage.txt
 
 models:
-  - name: splade-pp-ed-cached_q
+  - name: splade-pp-ed-cached
     display: SPLADE++ CoCondenser-EnsembleDistil
     params: -parallelism 16 -impact -pretokenized
     results:
       MAP@100:
-        - 0.1846
+        - 0.3328
       MRR@100:
-        - 0.7005
+        - 0.8289
       nDCG@10:
-        - 0.5705
+        - 0.6846
       R@100:
-        - 0.3742
+        - 0.5619
       R@1000:
-        - 0.6629
-  - name: splade-pp-ed-cached_q+rm3
+        - 0.8586
+  - name: splade-pp-ed-cached+rm3
     display: +RM3
     params: -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection
     results:
       MAP@100:
-        - 0.1930
+        - 0.3338
       MRR@100:
-        - 0.7161
+        - 0.7961
       nDCG@10:
-        - 0.5711
+        - 0.6712
       R@100:
-        - 0.3561
+        - 0.5693
       R@1000:
-        - 0.6367
-  - name: splade-pp-ed-cached_q+rocchio
+        - 0.8705
+  - name: splade-pp-ed-cached+rocchio
     display: +Rocchio
     params: -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection
     results:
       MAP@100:
-        - 0.1968
+        - 0.3458
       MRR@100:
-        - 0.6938
+        - 0.8471
       nDCG@10:
-        - 0.5897
+        - 0.7002
       R@100:
-        - 0.3822
+        - 0.5572
       R@1000:
-        - 0.6778
+        - 0.8964

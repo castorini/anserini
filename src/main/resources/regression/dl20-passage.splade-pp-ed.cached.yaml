@@ -1,11 +1,11 @@
 ---
-corpus: msmarco-passage-splade-pp-sd
-corpus_path: collections/msmarco/msmarco-passage-splade-pp-sd
+corpus: msmarco-passage-splade-pp-ed
+corpus_path: collections/msmarco/msmarco-passage-splade-pp-ed
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar
-download_checksum: cb7e264222f2bf2221dd2c9d28190be1
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar
+download_checksum: e489133bdc54ee1e7c62a32aa582bc77
 
-index_path: indexes/lucene-inverted.msmarco-v1-passage.splade-pp-sd/
+index_path: indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -13,7 +13,7 @@ index_options: -impact -pretokenized -storeDocvectors
 index_stats:
   documents: 8841823
   documents (non-empty): 8841823
-  total terms: 55456660129
+  total terms: 52376261130
 
 metrics:
   - metric: AP@1000
@@ -49,43 +49,43 @@ topic_reader: TsvInt
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
-    path: topics.dl20.splade-pp-sd.tsv.gz
+    path: topics.dl20.splade-pp-ed.tsv.gz
     qrel: qrels.dl20-passage.txt
 
 models:
-  - name: splade-pp-sd-cached_q
-    display: SPLADE++ CoCondenser-SelfDistil
+  - name: splade-pp-ed-cached
+    display: SPLADE++ CoCondenser-EnsembleDistil
     params: -impact -pretokenized
     results:
       AP@1000:
-        - 0.5140
+        - 0.5001
       nDCG@10:
-        - 0.7285
+        - 0.7198
       R@100:
-        - 0.7512
+        - 0.7653
       R@1000:
-        - 0.9023
-  - name: splade-pp-sd-cached_q+rm3
+        - 0.8995
+  - name: splade-pp-ed-cached+rm3
     display: +RM3
     params: -impact -pretokenized -rm3
     results:
       AP@1000:
-        - 0.5261
+        - 0.5096
       nDCG@10:
-        - 0.7199
+        - 0.7131
       R@100:
-        - 0.7631
+        - 0.7553
       R@1000:
-        - 0.9174
-  - name: splade-pp-sd-cached_q+rocchio
+        - 0.9046
+  - name: splade-pp-ed-cached+rocchio
     display: +Rocchio
     params: -impact -pretokenized -rocchio
     results:
       AP@1000:
-        - 0.5296
+        - 0.5084
       nDCG@10:
-        - 0.7364
+        - 0.7280
       R@100:
-        - 0.7656
+        - 0.7704
       R@1000:
-        - 0.9122
+        - 0.9069

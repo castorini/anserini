@@ -18,28 +18,28 @@ index_stats:
 metrics:
   - metric: AP@1000
     command: bin/trec_eval
-    params: -m map -c -l 2
+    params: -c -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
-  - metric: nDCG@10
+  - metric: RR@10
     command: bin/trec_eval
-    params: -m ndcg_cut.10 -c
+    params: -c -M 10 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@100
     command: bin/trec_eval
-    params: -m recall.100 -c -l 2
+    params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@1000
     command: bin/trec_eval
-    params: -m recall.1000 -c -l 2
+    params: -c -m recall.1000
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -47,45 +47,48 @@ metrics:
 
 topic_reader: TsvInt
 topics:
-  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl20
-    path: topics.dl20.splade-pp-ed.tsv.gz
-    qrel: qrels.dl20-passage.txt
+  - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
+    id: dev
+    path: topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz
+    qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: splade-pp-ed-cached_q
+  - name: splade-pp-ed-cached
     display: SPLADE++ CoCondenser-EnsembleDistil
     params: -impact -pretokenized
     results:
       AP@1000:
-        - 0.5001
-      nDCG@10:
-        - 0.7198
+        - 0.3884
+      RR@10:
+        - 0.3830
       R@100:
-        - 0.7653
+        - 0.9095
       R@1000:
-        - 0.8995
-  - name: splade-pp-ed-cached_q+rm3
-    display: +RM3
-    params: -impact -pretokenized -rm3
-    results:
-      AP@1000:
-        - 0.5096
-      nDCG@10:
-        - 0.7131
-      R@100:
-        - 0.7553
-      R@1000:
-        - 0.9046
-  - name: splade-pp-ed-cached_q+rocchio
-    display: +Rocchio
-    params: -impact -pretokenized -rocchio
-    results:
-      AP@1000:
-        - 0.5084
-      nDCG@10:
-        - 0.7280
-      R@100:
-        - 0.7704
-      R@1000:
-        - 0.9069
+        - 0.9831
+# PRF regressions are no longer maintained for sparse judgments to reduce running times.
+# (commenting out instead of removing; in case these numbers are needed, just uncomment and rerun.)
+#
+#  - name: splade-pp-ed-cached+rm3
+#    display: +RM3
+#    params: -impact -pretokenized -rm3
+#    results:
+#      AP@1000:
+#        - 0.2967
+#      RR@10:
+#        - 0.2882
+#      R@100:
+#        - 0.8728
+#      R@1000:
+#        - 0.9744
+#  - name: splade-pp-ed-cached+rocchio
+#    display: +Rocchio
+#    params: -impact -pretokenized -rocchio
+#    results:
+#      AP@1000:
+#        - 0.3365
+#      RR@10:
+#        - 0.3293
+#      R@100:
+#        - 0.8967
+#      R@1000:
+#        - 0.9811

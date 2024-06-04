@@ -1,16 +1,16 @@
 ---
-corpus: msmarco-passage-cos-dpr-distil
-corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
+corpus: msmarco-passage-bge-base-en-v1.5
+corpus_path: collections/msmarco/msmarco-passage-bge-base-en-v1.5/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
-download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar
+download_checksum: 353d2c9e72e858897ad479cca4ea0db1
 
-index_path: indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/
+index_path: indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
+index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
 
 metrics:
   - metric: AP@1000
@@ -44,22 +44,22 @@ metrics:
 
 topic_reader: JsonIntVector
 topics:
-  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl20
-    path: topics.dl20.cos-dpr-distil.jsonl.gz
-    qrel: qrels.dl20-passage.txt
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl19
+    path: topics.dl19-passage.bge-base-en-v1.5.jsonl.gz
+    qrel: qrels.dl19-passage.txt
 
 models:
-  - name: cos-dpr-distil-hnsw-cached_q
-    display: cosDPR-distil
+  - name: bge-hnsw-cached
+    display: BGE-base-en-v1.5
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
     results:
       AP@1000:
-        - 0.482
+        - 0.442
       nDCG@10:
-        - 0.701
+        - 0.706
       R@100:
-        - 0.712
+        - 0.616
       R@1000:
-        - 0.843
+        - 0.842
