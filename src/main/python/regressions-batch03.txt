@@ -2,14 +2,14 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented > logs/log.msmarco-v2.1-doc-segmented.txt 2>&1
 
 # MS MARCO V1 passage
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw > logs/log.msmarco-v1-passage.openai-ada2.hnsw.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw-int8 > logs/log.msmarco-v1-passage.openai-ada2.hnsw-int8.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw.cached > logs/log.msmarco-v1-passage.openai-ada2.hnsw.cached.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw-int8.cached > logs/log.msmarco-v1-passage.openai-ada2.hnsw-int8.cached.txt 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-ed.cached > logs/log.msmarco-v1-passage.splade-pp-ed.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-sd.cached > logs/log.msmarco-v1-passage.splade-pp-sd.cached.txt 2>&1
@@ -23,11 +23,11 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.wp-ca > logs/log.msmarco-v1-passage.wp-ca.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.doc2query > logs/log.msmarco-v1-passage.doc2query.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.docTTTTTquery > logs/log.msmarco-v1-passage.docTTTTTquery.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.deepimpact > logs/log.msmarco-v1-passage.deepimpact.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.deepimpact.cached > logs/log.msmarco-v1-passage.deepimpact.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil.cached > logs/log.msmarco-v1-passage.unicoil.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil-noexp.cached > logs/log.msmarco-v1-passage.unicoil-noexp.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil-tilde-expansion.cached > logs/log.msmarco-v1-passage.unicoil-tilde-expansion.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.distill-splade-max > logs/log.msmarco-v1-passage.distill-splade-max.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.distill-splade-max.cached > logs/log.msmarco-v1-passage.distill-splade-max.cached.txt 2>&1
 
 # MS MARCO V2.1
 python src/main/python/run_regression.py --verify --search --regression dl21-doc-msmarco-v2.1 > logs/log.dl21-doc-msmarco-v2.1.txt 2>&1
@@ -106,10 +106,10 @@ python src/main/python/run_regression.py --search --regression dl19-passage.cos-
 python src/main/python/run_regression.py --search --regression dl19-passage.cos-dpr-distil.hnsw-int8.cached > logs/log.dl19-passage.cos-dpr-distil.hnsw-int8.cached.txt 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage.cos-dpr-distil.fw > logs/log.dl19-passage.cos-dpr-distil.fw.txt 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage.cos-dpr-distil.lexlsh > logs/log.dl19-passage.cos-dpr-distil.lexlsh.txt 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage.openai-ada2.hnsw > logs/log.dl19-passage.openai-ada2.hnsw.txt 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage.openai-ada2.hnsw-int8 > logs/log.dl19-passage.openai-ada2.hnsw-int8.txt 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage.cohere-embed-english-v3.0.hnsw > logs/log.dl19-passage.cohere-embed-english-v3.0.hnsw.txt 2>&1
-python src/main/python/run_regression.py --search --regression dl19-passage.cohere-embed-english-v3.0.hnsw-int8 > logs/log.dl19-passage.cohere-embed-english-v3.0.hnsw-int8.txt 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage.openai-ada2.hnsw.cached > logs/log.dl19-passage.openai-ada2.hnsw.cached.txt 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage.openai-ada2.hnsw-int8.cached > logs/log.dl19-passage.openai-ada2.hnsw-int8.cached.txt 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage.cohere-embed-english-v3.0.hnsw.cached > logs/log.dl19-passage.cohere-embed-english-v3.0.hnsw.cached.txt 2>&1
+python src/main/python/run_regression.py --search --regression dl19-passage.cohere-embed-english-v3.0.hnsw-int8.cached > logs/log.dl19-passage.cohere-embed-english-v3.0.hnsw-int8.cached.txt 2>&1
 
 python src/main/python/run_regression.py --search --regression dl19-passage.unicoil.cached > logs/log.dl19-passage.unicoil.cached.txt 2>&1
 python src/main/python/run_regression.py --search --regression dl19-passage.unicoil-noexp.cached > logs/log.dl19-passage.unicoil-noexp.cached.txt 2>&1
@@ -151,10 +151,10 @@ python src/main/python/run_regression.py --search --regression dl20-passage.cos-
 python src/main/python/run_regression.py --search --regression dl20-passage.cos-dpr-distil.hnsw-int8.cached > logs/log.dl20-passage.cos-dpr-distil.hnsw-int8.cached.txt 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage.cos-dpr-distil.fw > logs/log.dl20-passage.cos-dpr-distil.fw.txt 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage.cos-dpr-distil.lexlsh > logs/log.dl20-passage.cos-dpr-distil.lexlsh.txt 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage.openai-ada2.hnsw > logs/log.dl20-passage.openai-ada2.hnsw.txt 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage.openai-ada2.hnsw-int8 > logs/log.dl20-passage.openai-ada2.hnsw-int8.txt 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw > logs/log.dl20-passage.cohere-embed-english-v3.0.hnsw.txt 2>&1
-python src/main/python/run_regression.py --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw-int8 > logs/log.dl20-passage.cohere-embed-english-v3.0.hnsw-int8.txt 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage.openai-ada2.hnsw.cached > logs/log.dl20-passage.openai-ada2.hnsw.cached.txt 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage.openai-ada2.hnsw-int8.cached > logs/log.dl20-passage.openai-ada2.hnsw-int8.cached.txt 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.hnsw.cached.txt 2>&1
+python src/main/python/run_regression.py --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw-int8.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.hnsw-int8.cached.txt 2>&1
 
 python src/main/python/run_regression.py --search --regression dl20-passage.unicoil.cached > logs/log.dl20-passage.unicoil.cached.txt 2>&1
 python src/main/python/run_regression.py --search --regression dl20-passage.unicoil-noexp.cached > logs/log.dl20-passage.unicoil-noexp.cached.txt 2>&1
